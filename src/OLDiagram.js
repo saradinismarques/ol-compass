@@ -1,6 +1,6 @@
 // src/WaveButtonCanvas.js
 import React from 'react';
-import { Stage, Layer, Text, Group, Shape } from 'react-konva';
+import { Stage, Layer, Text, Group, Shape, Circle } from 'react-konva';
 
 const OLDiagram = () => {
     const waveButtonDims = {
@@ -9,7 +9,7 @@ const OLDiagram = () => {
         "Perspectives": { Width: 170, Height: 110, CornerRadius: 40, Color: "99f6be" }
     };
 
-    function drawWaveButton(x, y, context, shape, width, height, cornerRadius) {
+    function drawWaveButton(x, y, mainText, idText, context, shape, width, height, cornerRadius) {
         const halfWidth = width / 2;
         const halfHeight = height / 2;
             
@@ -26,7 +26,20 @@ const OLDiagram = () => {
         context.closePath();
         context.fillStrokeShape(shape); 
 
-        return [context, shape];
+        // Draw main text
+        context.fillStyle = 'white';
+        context.font = '500 20px Calibri';
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.fillText(mainText, x, y);
+    
+         // Draw identifier
+        context.fillStyle = 'white';
+        
+        context.font = '100 16px Calibri';
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        context.fillText(idText, x, y - height / 4);
     }
 
     const handleClick = (e) => {
@@ -52,12 +65,6 @@ const OLDiagram = () => {
         const p6 = { x: x + halfWidth + margin, y: y + halfHeight + margin };
         const p7 = { x: x, y: y + height + 2 * margin };
 
-        const arr = [0, 1, 2, 3, 4, 5, 6]; //MUDARRRRR
-        const refPoints = [p1, p2, p3, p4, p5, p6, p7];
-        const mainTexts = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-        const idTexts = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7'];
-        const infoTexts = ['a', 'b', 'c', 'd', 'e', 'f', 'g'];
-
         return [  
             { IdText: 'P1', XRefPoint: p1['x'], YRefPoint: p1['y'], MainText: 'A', infoText: 'a',},
             { IdText: 'P2', XRefPoint: p2['x'], YRefPoint: p2['y'], MainText: 'B', infoText: 'b',},
@@ -77,14 +84,23 @@ const OLDiagram = () => {
             {principles.map((p, i) => (
             <Group key={p.IdText}>
                 <Shape
-                sceneFunc={(context, shape) => {
-                    drawWaveButton(p.XRefPoint, p.YRefPoint, context, shape, waveButtonDims.Principles['Width'], waveButtonDims.Principles['Height'], waveButtonDims.Principles['CornerRadius'])
-                }}
-                id={i.toString()}
-                fill={waveButtonDims.Principles['Color']}
-                onClick={handleClick}
+                    sceneFunc={(context, shape) => {
+                        drawWaveButton(p.XRefPoint, p.YRefPoint, p.MainText, p.IdText, context, shape, 
+                            waveButtonDims.Principles['Width'], 
+                            waveButtonDims.Principles['Height'], 
+                            waveButtonDims.Principles['CornerRadius'])
+                    }}
+                    id={i.toString()}
+                    fill={waveButtonDims.Principles['Color']}
+                    onClick={handleClick}
                 />
-                <Text fontSize={20} text={p.MainText} align="center" x={p.XRefPoint} y={p.YRefPoint}/>
+                {/* <Text 
+                    fontSize={20} 
+                    text={p.MainText} 
+                    text-align="center"
+                    x={p.XRefPoint} 
+                    y={p.YRefPoint}
+                /> */}
             </Group>
             ))}
             </Layer>   
