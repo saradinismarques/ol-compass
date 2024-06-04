@@ -1,12 +1,12 @@
 // src/App.js
 import React from 'react';
-import Principles from './Principles';
+import OLDiagram from './OLDiagram';
 import WaveButton from './WaveButton';
 
 function App() {
   return (
     <div>
-      <Principles />
+      <OLDiagram />
     </div>
   );
 }
