@@ -1,17 +1,12 @@
 // src/App.js
 import React from 'react';
-import WaveButton from './WaveButton';
 import Principles from './Principles';
+import WaveButton from './WaveButton';
 
 function App() {
-  const handleClick = () => {
-    alert('Diamond button clicked!');
-  };
-
   return (
     <div>
-      <Principles
-      />
+      <Principles />
     </div>
   );
 }
