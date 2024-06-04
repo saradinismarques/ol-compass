@@ -4,7 +4,7 @@ import { Stage, Layer, Text, Group, Shape, Circle } from 'react-konva';
 
 const OLDiagram = () => {
     const waveButtonDims = {
-        "Principles": { Width: 170, Height: 110, CornerRadius: 40, Color: "#99f6be" },
+        "Principles": { Width: 170, Height: 110, CornerRadius: 30, Color: "#99f6be" },
         "Dimensions": { Width: 170, Height: 110, CornerRadius: 40, Color: "99f6be" },
         "Perspectives": { Width: 170, Height: 110, CornerRadius: 40, Color: "99f6be" }
     };
@@ -28,7 +28,7 @@ const OLDiagram = () => {
 
         // Draw main text
         context.fillStyle = 'white';
-        context.font = '500 20px Calibri';
+        context.font = '500 18px Calibri';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         context.fillText(mainText, x, y);
@@ -48,14 +48,14 @@ const OLDiagram = () => {
       }
 
     function getPrinciples() {
-        const x = 200;
-        const y = 200;
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
     
         const width = waveButtonDims.Principles['Width'];
         const height = waveButtonDims.Principles['Height'];
         const halfWidth = width / 2;
         const halfHeight = height / 2;
-        const margin = 3;
+        const margin = 4;
     
         const p1 = { x: x, y: y };
         const p2 = { x: x - halfWidth - margin, y: y - halfHeight - margin };
@@ -66,13 +66,13 @@ const OLDiagram = () => {
         const p7 = { x: x, y: y + height + 2 * margin };
 
         return [  
-            { IdText: 'P1', XRefPoint: p1['x'], YRefPoint: p1['y'], MainText: 'A', infoText: 'a',},
-            { IdText: 'P2', XRefPoint: p2['x'], YRefPoint: p2['y'], MainText: 'B', infoText: 'b',},
-            { IdText: 'P3', XRefPoint: p3['x'], YRefPoint: p3['y'], MainText: 'C', infoText: 'c',},
-            { IdText: 'P4', XRefPoint: p4['x'], YRefPoint: p4['y'], MainText: 'D', infoText: 'd',},
-            { IdText: 'P5', XRefPoint: p5['x'], YRefPoint: p5['y'], MainText: 'E', infoText: 'e',},
-            { IdText: 'P6', XRefPoint: p6['x'], YRefPoint: p6['y'], MainText: 'F', infoText: 'f',},
-            { IdText: 'P7', XRefPoint: p7['x'], YRefPoint: p7['y'], MainText: 'G', infoText: 'g',},
+            { IdText: 'P1', XRefPoint: p1['x'], YRefPoint: p1['y'], MainText: 'ONE BIG', infoText: 'The Earth has one big ocean with many features' },
+            { IdText: 'P2', XRefPoint: p2['x'], YRefPoint: p2['y'], MainText: 'EARTH-SHAPER', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
+            { IdText: 'P3', XRefPoint: p3['x'], YRefPoint: p3['y'], MainText: 'CLI-WEA INFLUENCER', infoText: 'The ocean is a major influence on weather and climate' },
+            { IdText: 'P4', XRefPoint: p4['x'], YRefPoint: p4['y'], MainText: 'LIFE-ENABLER', infoText: 'The ocean makes the Earth habitable' },
+            { IdText: 'P5', XRefPoint: p5['x'], YRefPoint: p5['y'], MainText: 'GREATLY DIVERSE', infoText: 'The ocean supports a great diversity of life and ecosystems' },
+            { IdText: 'P6', XRefPoint: p6['x'], YRefPoint: p6['y'], MainText: 'INTERCONNECTED WITH HUMANS', infoText: 'The ocean and humans are inextricably interconnected' },
+            { IdText: 'P7', XRefPoint: p7['x'], YRefPoint: p7['y'], MainText: 'LARGELY UNEXPLORED', infoText: 'The ocean is largely unexplored' },
         ]
     }
 
