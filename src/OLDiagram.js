@@ -1,6 +1,6 @@
 // src/WaveButtonCanvas.js
 import React from 'react';
-import { Stage, Layer, Text, Group, Shape, Circle } from 'react-konva';
+import { Stage, Layer, Group, Shape } from 'react-konva';
 
 const OLDiagram = () => {
     const waveButtonDims = {
@@ -31,11 +31,18 @@ const OLDiagram = () => {
         context.font = '500 18px Calibri';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
-        context.fillText(mainText, x, y);
+        //context.fillText(mainText, x, y);
+
+        const lines = mainText.split('\n');
+        if(lines.length === 1)
+            context.fillText(mainText, x, y);
+        else{
+            context.fillText(lines[0], x, y - 10);
+            context.fillText(lines[1], x, y + 10);
+        }
     
          // Draw identifier
         context.fillStyle = 'white';
-        
         context.font = '100 16px Calibri';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
@@ -66,13 +73,13 @@ const OLDiagram = () => {
         const p7 = { x: x, y: y + height + 2 * margin };
 
         return [  
-            { IdText: 'P1', XRefPoint: p1['x'], YRefPoint: p1['y'], MainText: 'ONE BIG', infoText: 'The Earth has one big ocean with many features' },
-            { IdText: 'P2', XRefPoint: p2['x'], YRefPoint: p2['y'], MainText: 'EARTH-SHAPER', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
-            { IdText: 'P3', XRefPoint: p3['x'], YRefPoint: p3['y'], MainText: 'CLI-WEA INFLUENCER', infoText: 'The ocean is a major influence on weather and climate' },
+            { IdText: 'P1', XRefPoint: p1['x'], YRefPoint: p1['y'], MainText: 'ONE', infoText: 'The Earth has one big ocean with many features' },
+            { IdText: 'P2', XRefPoint: p2['x'], YRefPoint: p2['y'], MainText: 'EARTH\nSHAPER', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
+            { IdText: 'P3', XRefPoint: p3['x'], YRefPoint: p3['y'], MainText: 'CLIMATE\nREGULATOR', infoText: 'The ocean is a major influence on weather and climate' },
             { IdText: 'P4', XRefPoint: p4['x'], YRefPoint: p4['y'], MainText: 'LIFE-ENABLER', infoText: 'The ocean makes the Earth habitable' },
-            { IdText: 'P5', XRefPoint: p5['x'], YRefPoint: p5['y'], MainText: 'GREATLY DIVERSE', infoText: 'The ocean supports a great diversity of life and ecosystems' },
-            { IdText: 'P6', XRefPoint: p6['x'], YRefPoint: p6['y'], MainText: 'INTERCONNECTED WITH HUMANS', infoText: 'The ocean and humans are inextricably interconnected' },
-            { IdText: 'P7', XRefPoint: p7['x'], YRefPoint: p7['y'], MainText: 'LARGELY UNEXPLORED', infoText: 'The ocean is largely unexplored' },
+            { IdText: 'P5', XRefPoint: p5['x'], YRefPoint: p5['y'], MainText: 'GREATLY\nDIVERSE', infoText: 'The ocean supports a great diversity of life and ecosystems' },
+            { IdText: 'P6', XRefPoint: p6['x'], YRefPoint: p6['y'], MainText: 'INTERLINKED\nWITH HUMANS', infoText: 'The ocean and humans are inextricably interconnected' },
+            { IdText: 'P7', XRefPoint: p7['x'], YRefPoint: p7['y'], MainText: 'LARGELY\nUNKNOWN', infoText: 'The ocean is largely unexplored' },
         ]
     }
 
