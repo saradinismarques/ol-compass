@@ -5,8 +5,8 @@ import { Stage, Layer, Group, Shape } from 'react-konva';
 const OLDiagram = () => {
     let waveButtonDims = {
         "Principles": { Width: 130, Height: 90, CornerRadius: 20, Color: "#99f6be" },
-        "Perspectives": { Width: 165, Height: 60, CornerRadius: 60, Color: "#85d68d" },
-        "Dimensions": { Width: 170, Height: 110, CornerRadius: 40, Color: "99f6be" }
+        "Perspectives": { Width: 165, Height: 70, CornerRadius: 60, Color: "#85d68d" },
+        "Dimensions": { Width: 155, Height: 75, CornerRadius: 60, Color: "#77bcd4" }
     };
 
     function drawWaveButton(x, y, angle, mainText, idText, context, shape, width, height, cornerRadius) { 
@@ -127,8 +127,32 @@ const OLDiagram = () => {
         ]
     }
 
+    function getDimensions() {
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+        const radius = 255;
+        const numButtons = 10;
+        
+        const pos = calculateButtonPositions(x, y, radius, numButtons);
+        
+        return [  
+            { IdText: 'D1', XRefPoint: pos[0].x, YRefPoint: pos[0].y, Angle: pos[0].rotation, MainText: 'KNOWLEDGE', infoText: 'The Earth has one big ocean with many features' },
+            { IdText: 'D2', XRefPoint: pos[1].x, YRefPoint: pos[1].y, Angle: pos[1].rotation, MainText: 'COMMUNICATION', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
+            { IdText: 'D3', XRefPoint: pos[2].x, YRefPoint: pos[2].y, Angle: pos[2].rotation, MainText: 'BEHAVIOUR', infoText: 'The ocean is a major influence on weather and climate' },
+            { IdText: 'D4', XRefPoint: pos[3].x, YRefPoint: pos[3].y, Angle: pos[3].rotation, MainText: 'ATTITUDE', infoText: 'The ocean makes the Earth habitable' },
+            { IdText: 'D5', XRefPoint: pos[4].x, YRefPoint: pos[4].y, Angle: pos[4].rotation, MainText: 'AWARENESS', infoText: 'The ocean supports a great diversity of life and ecosystems' },
+            { IdText: 'D6', XRefPoint: pos[5].x, YRefPoint: pos[5].y, Angle: pos[5].rotation, MainText: 'ACTIVISM', infoText: 'The ocean and humans are inextricably interconnected' },
+            { IdText: 'D7', XRefPoint: pos[6].x, YRefPoint: pos[6].y, Angle: pos[6].rotation, MainText: 'EMOCEANS', infoText: 'The ocean is largely unexplored' },
+            { IdText: 'D8', XRefPoint: pos[7].x, YRefPoint: pos[7].y, Angle: pos[7].rotation, MainText: 'EXPERIENCE', infoText: 'The ocean is largely unexplored' },
+            { IdText: 'D9', XRefPoint: pos[8].x, YRefPoint: pos[8].y, Angle: pos[8].rotation, MainText: 'ADAPTIVE CAPACITY', infoText: 'The ocean is largely unexplored' },
+            { IdText: 'D10', XRefPoint: pos[9].x, YRefPoint: pos[9].y, Angle: pos[9].rotation, MainText: 'TRANSPARENCY', infoText: 'The ocean is largely unexplored' },
+        ]
+    }
+
     let principles = getPrinciples();
     let perspectives = getPerspectives();
+    let dimensions = getDimensions();
+
     return (
         <Stage width={window.innerWidth} height={window.innerHeight}>
             <Layer>
@@ -159,6 +183,22 @@ const OLDiagram = () => {
                     }}
                     id={i.toString()}
                     fill={waveButtonDims.Perspectives['Color']}
+                    onClick={handleClick}
+                />
+            </Group>
+            ))}
+
+            {dimensions.map((d, i) => (
+            <Group key={d.IdText}>
+                <Shape
+                    sceneFunc={(context, shape) => {
+                        drawWaveButton(d.XRefPoint, d.YRefPoint, d.Angle, d.MainText, d.IdText, context, shape, 
+                            waveButtonDims.Dimensions['Width'], 
+                            waveButtonDims.Dimensions['Height'], 
+                            waveButtonDims.Dimensions['CornerRadius'])
+                    }}
+                    id={i.toString()}
+                    fill={waveButtonDims.Dimensions['Color']}
                     onClick={handleClick}
                 />
             </Group>
