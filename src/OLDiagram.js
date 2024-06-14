@@ -50,7 +50,7 @@ const OLDiagram = () => {
     
          // Draw identifier
         context.fillStyle = 'white';
-        context.font = '100 13px Calibri';
+        context.font = '100 11px Calibri';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         context.fillText(idText, 0, - height / 4);
@@ -97,7 +97,7 @@ const OLDiagram = () => {
         const angleStep = (2 * Math.PI) / numberOfButtons;
     
         for (let i = 0; i < numberOfButtons; i++) {
-          const angle = i * angleStep;
+          const angle = i * angleStep + Math.PI;
           const x = centerX + radius * Math.cos(angle);
           const y = centerY + radius * Math.sin(angle);
           const rotation = angle + Math.PI / 2;
@@ -144,7 +144,7 @@ const OLDiagram = () => {
             { IdText: 'D6', XRefPoint: pos[5].x, YRefPoint: pos[5].y, Angle: pos[5].rotation, MainText: 'ACTIVISM', infoText: 'The ocean and humans are inextricably interconnected' },
             { IdText: 'D7', XRefPoint: pos[6].x, YRefPoint: pos[6].y, Angle: pos[6].rotation, MainText: 'EMOCEANS', infoText: 'The ocean is largely unexplored' },
             { IdText: 'D8', XRefPoint: pos[7].x, YRefPoint: pos[7].y, Angle: pos[7].rotation, MainText: 'EXPERIENCE', infoText: 'The ocean is largely unexplored' },
-            { IdText: 'D9', XRefPoint: pos[8].x, YRefPoint: pos[8].y, Angle: pos[8].rotation, MainText: 'ADAPTIVE CAPACITY', infoText: 'The ocean is largely unexplored' },
+            { IdText: 'D9', XRefPoint: pos[8].x, YRefPoint: pos[8].y, Angle: pos[8].rotation, MainText: 'ADAPTIVE\nCAPACITY', infoText: 'The ocean is largely unexplored' },
             { IdText: 'D10', XRefPoint: pos[9].x, YRefPoint: pos[9].y, Angle: pos[9].rotation, MainText: 'TRANSPARENCY', infoText: 'The ocean is largely unexplored' },
         ]
     }
