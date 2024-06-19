@@ -95,14 +95,15 @@ const OLDiagram = () => {
     const calculateButtonPositions = (centerX, centerY, radius, numberOfButtons) => {
         const positions = [];
         const angleStep = (2 * Math.PI) / numberOfButtons;
-    
+        const randomStartAngle = Math.random() * 2 * Math.PI;
+        
         for (let i = 0; i < numberOfButtons; i++) {
-          const angle = i * angleStep + Math.PI;
+          const angle = i * angleStep + randomStartAngle;
           const x = centerX + radius * Math.cos(angle);
           const y = centerY + radius * Math.sin(angle);
           const rotation = angle + Math.PI / 2;
           console.log(i, rotation * 180 / Math.PI)
-          positions.push({ x, y, rotation});
+          positions.push({ x, y, rotation });
         }
     
         return positions;
