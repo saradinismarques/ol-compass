@@ -56,9 +56,9 @@ const OLDiagram = () => {
         context.fillText(idText, 0, - height / 4);
     }
 
-    const handleClick = (e) => {
+    const handleClick = (arr) => (e) => {
         const id = e.target.id();
-        alert(principles[id].infoText)
+        alert(arr[id].infoText)
       }
 
     function getPrinciples() {
@@ -168,7 +168,7 @@ const OLDiagram = () => {
                     }}
                     id={i.toString()}
                     fill={waveButtonDims.Principles['Color']}
-                    onClick={handleClick}
+                    onClick={handleClick(principles)}
                 />
             </Group>
             ))}
@@ -184,7 +184,7 @@ const OLDiagram = () => {
                     }}
                     id={i.toString()}
                     fill={waveButtonDims.Perspectives['Color']}
-                    onClick={handleClick}
+                    onClick={handleClick(perspectives)}
                 />
             </Group>
             ))}
@@ -200,7 +200,7 @@ const OLDiagram = () => {
                     }}
                     id={i.toString()}
                     fill={waveButtonDims.Dimensions['Color']}
-                    onClick={handleClick}
+                    onClick={handleClick(dimensions)}
                 />
             </Group>
             ))}
