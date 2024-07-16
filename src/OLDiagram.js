@@ -34,6 +34,12 @@ const OLDiagram = () => {
         context.closePath();
         context.fillStrokeShape(shape); 
 
+        // Set the stroke style and stroke the shape
+        // context.strokeStyle = 'red';
+        // context.lineWidth = 2; // Set the line width as needed
+        // context.stroke();
+
+
         // Draw main text
         context.fillStyle = 'white';
         context.font = '500 14px Calibri';
