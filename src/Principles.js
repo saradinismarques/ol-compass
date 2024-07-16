@@ -9,6 +9,26 @@ const OLDiagram = () => {
         "Dimensions": { Width: 155, Height: 75, CornerRadius: 60, Color: "#77bcd4" }
     };
 
+    function drawCircle(x, y, numConcepts, number, context, shape, width, height, cornerRadius) {    
+              // Save the current state of the canvas
+              context.save();
+              // Translate to the position where you want to draw the button
+              context.translate(x, y);
+              const innerHeight = height / numConcepts;
+        const centerConcept = (numConcepts + 1)/2;
+        const centerDistance = Math.round(Math.abs(number-centerConcept));
+        let topAngle, bottomAngle;
+        topAngle = cornerRadius + Math.abs((centerDistance-Math.floor(numConcepts/2))) * innerHeight;
+
+        context.beginPath();
+        context.arc(0, 0, topAngle, 0, 2 * Math.PI); // Radius of 5, adjust as needed
+        context.fillStyle = 'blue'; // Color of the circle, adjust as needed
+        context.fill();
+        context.closePath();
+        context.fillStrokeShape(shape); 
+
+    }
+
     function drawWaveButton(x, y, numConcepts, number, context, shape, width, height, cornerRadius) { 
 
         // Save the current state of the canvas
@@ -20,7 +40,7 @@ const OLDiagram = () => {
         const halfHeight = height / 2; 
         const innerHeight = height / numConcepts;
         const centerConcept = (numConcepts + 1)/2;
-        const centerDistance = Math.floor(Math.abs(number-centerConcept));
+        const centerDistance = Math.round(Math.abs(number-centerConcept));
         let topAngle, bottomAngle;
         
         const top = { x: 0, y: -halfHeight };
@@ -32,87 +52,71 @@ const OLDiagram = () => {
         context.moveTo(left.x, left.y);
 
         if(numConcepts % 2 !== 0 && number == centerConcept){
-            topAngle = bottomAngle = cornerRadius+innerHeight*(numConcepts/2);
+            topAngle = bottomAngle = cornerRadius+(numConcepts/2)*innerHeight;
             // draw middle part
+            console.log("MIDDLE")
             context.arcTo(top.x, top.y+innerHeight, right.x, right.y, topAngle);
             context.lineTo(right.x, right.y);
             context.arcTo(bottom.x, bottom.y-innerHeight, left.x, left.y, bottomAngle);
         }
 
+        else if(numConcepts % 2 == 0 && centerConcept-number == 0.5){
+            topAngle = cornerRadius+(numConcepts/2-1)*innerHeight;
+            // draw middle part
+            console.log("MIDDLE 2")
+            context.arcTo(top.x, top.y+innerHeight, right.x, right.y, topAngle);
+            context.lineTo(right.x, right.y);
+        }
+        else if(numConcepts % 2 == 0 && centerConcept-number == -0.5){
+            console.log("MIDDLE 3")
+            bottomAngle = cornerRadius+(numConcepts/2-1)*innerHeight;
+            // draw middle part
+            console.log("MIDDLE 2")
+            context.arcTo(bottom.x, bottom.y-innerHeight, right.x, right.y, bottomAngle);
+            context.lineTo(right.x, right.y)
+        }
+
         else if(number <= numConcepts / 2) {
-            topAngle = cornerRadius + centerDistance * innerHeight;
-            bottomAngle = cornerRadius + centerDistance * (innerHeight + 1);
+            topAngle = cornerRadius + Math.abs((centerDistance-Math.floor(numConcepts/2))) * innerHeight;
+            bottomAngle = cornerRadius +  (Math.abs(centerDistance-Math.floor(numConcepts/2))+1) * innerHeight;
             // draw top part
+            console.log("TOP")
+            console.log(Math.abs((centerDistance-Math.floor(numConcepts/2))))
+            console.log((Math.abs(centerDistance-Math.floor(numConcepts/2))+1))
+
             context.arcTo(top.x, top.y, right.x, right.y, topAngle);
             context.lineTo(right.x, right.y);
             context.arcTo(top.x, top.y+innerHeight, left.x, left.y, bottomAngle);
         }
         else if(number > numConcepts / 2) {
-            topAngle = cornerRadius + centerDistance * (innerHeight+1);
-            bottomAngle = cornerRadius + centerDistance * innerHeight;
+            topAngle = cornerRadius + Math.abs((centerDistance-Math.floor(numConcepts/2))+1) * innerHeight;
+            bottomAngle = cornerRadius + Math.abs((centerDistance-Math.floor(numConcepts/2))) * innerHeight;
             // draw bottom part
-            context.arcTo(bottom.x, bottom.y, right.x, right.y, topAngle);
-            context.lineTo(left.x, left.y);
-            context.arcTo(bottom.x, bottom.y-innerHeight, left.x, left.y, bottomAngle);
+            console.log("BOTTOM")
+            context.arcTo(bottom.x, bottom.y-innerHeight, right.x, right.y, topAngle);
+            context.lineTo(right.x, right.y);
+            context.arcTo(bottom.x, bottom.y, left.x, left.y, bottomAngle);
         }
-
-
-
-        // LOWER PART
-        // context.beginPath();
-        // context.moveTo(right.x, right.y);
-        // context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
-        // context.lineTo(left.x, left.y);
-        // context.arcTo(bottom.x, bottom.y-innerHeight, right.x, right.y, cornerRadius+innerHeight);
-
-        // //context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
-        // context.closePath();
-        // context.fillStrokeShape(shape); 
-
-        // MIDDLE PART
-        // context.beginPath();
-        // context.moveTo(right.x, right.y);
-        // context.arcTo(bottom.x, bottom.y-innerHeight, left.x, left.y, cornerRadius+innerHeight);
-        // context.lineTo(left.x, left.y);
-        // context.arcTo(top.x, top.y+innerHeight, right.x, right.y, cornerRadius+innerHeight);
-
-        // //context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
-        // context.closePath();
-        // context.fillStrokeShape(shape); 
-
-        // TOP PART
-        // context.beginPath();
-        // context.moveTo(right.x, right.y);
-        // context.arcTo(top.x, top.y, left.x, left.y, cornerRadius);
-        // context.lineTo(left.x, left.y);
-        // context.arcTo(top.x, top.y+innerHeight, right.x, right.y, cornerRadius+innerHeight);
-
-        // //context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
         context.closePath();
         context.fillStrokeShape(shape); 
 
+        context.beginPath();
+        context.arc(top.x, top.y, 3, 0, 2 * Math.PI); // Radius of 5, adjust as needed
+        context.fillStyle = 'red'; // Color of the circle, adjust as needed
+        context.fill();
+        context.closePath();
 
-        // Draw a small circle at (right.x, right.y)
-        // context.beginPath();
-        // context.arc(right.x, right.y, 3, 0, 2 * Math.PI); // Radius of 5, adjust as needed
-        // context.fillStyle = 'blue'; // Color of the circle, adjust as needed
-        // context.fill();
-
-        // context.beginPath();
-        // context.arc(0, 0, cornerRadius, 0, 2 * Math.PI); // Radius of 5, adjust as needed
-        // context.fillStyle = 'blue'; // Color of the circle, adjust as needed
-        // context.fill();
 
         //Set the stroke style and stroke the shape
-        context.strokeStyle = 'red';
-        context.lineWidth = 2; // Set the line width as needed
+        context.strokeStyle = 'white';
+        context.lineWidth = 0.8; // Set the line width as needed
         context.stroke();
     }
 
     const handleClick = (arr) => (e) => {
         const id = e.target.id();
         alert(arr[id].infoText)
-      }
+    }
 
     function getPrinciples() {
         const x = window.innerWidth / 2;
@@ -146,13 +150,35 @@ const OLDiagram = () => {
     }
 
     let principles = getPrinciples();
-
+    const numConcepts = 5;
     return (
         <Stage width={window.innerWidth} height={window.innerHeight}>
             <Layer>
+                {/* <Shape  
+                    sceneFunc={(context, shape) => {
+                        drawWaveButton(principles[0].XRefPoint, principles[0].YRefPoint, numConcepts, 1, context, shape, 
+                            waveButtonDims.Principles['Width'], 
+                            waveButtonDims.Principles['Height'], 
+                            waveButtonDims.Principles['CornerRadius'])
+                    }}
+                    id={principles[0].IdText}
+                    fill={waveButtonDims.Principles['Color']}
+                    onClick={handleClick(principles)}
+                ></Shape> */}
+                {/* <Shape  
+                    sceneFunc={(context, shape) => {
+                        drawCircle(principles[0].XRefPoint, principles[0].YRefPoint, numConcepts, 2, context, shape, 
+                            waveButtonDims.Principles['Width'], 
+                            waveButtonDims.Principles['Height'], 
+                            waveButtonDims.Principles['CornerRadius'])
+                    }}
+                    id={principles[0].IdText}
+                    onClick={handleClick(principles)}
+                ></Shape> */}
+
                 <Shape  
                     sceneFunc={(context, shape) => {
-                        drawWaveButton(principles[0].XRefPoint, principles[0].YRefPoint, 3, 1, context, shape, 
+                        drawWaveButton(principles[0].XRefPoint, principles[0].YRefPoint, numConcepts, 2, context, shape, 
                             waveButtonDims.Principles['Width'], 
                             waveButtonDims.Principles['Height'], 
                             waveButtonDims.Principles['CornerRadius'])
@@ -164,19 +190,7 @@ const OLDiagram = () => {
 
                 {/* <Shape  
                     sceneFunc={(context, shape) => {
-                        drawWaveButton(principles[0].XRefPoint, principles[0].YRefPoint, 3, 2, context, shape, 
-                            waveButtonDims.Principles['Width'], 
-                            waveButtonDims.Principles['Height'], 
-                            waveButtonDims.Principles['CornerRadius'])
-                    }}
-                    id={principles[0].IdText}
-                    fill={waveButtonDims.Principles['Color']}
-                    onClick={handleClick(principles)}
-                ></Shape> */}
-
-                <Shape  
-                    sceneFunc={(context, shape) => {
-                        drawWaveButton(principles[0].XRefPoint, principles[0].YRefPoint, 3, 3, context, shape, 
+                        drawWaveButton(principles[0].XRefPoint, principles[0].YRefPoint, numConcepts, 3, context, shape, 
                             waveButtonDims.Principles['Width'], 
                             waveButtonDims.Principles['Height'], 
                             waveButtonDims.Principles['CornerRadius'])
@@ -185,6 +199,31 @@ const OLDiagram = () => {
                     fill={waveButtonDims.Principles['Color']}
                     onClick={handleClick(principles)}
                 ></Shape>
+
+                <Shape  
+                    sceneFunc={(context, shape) => {
+                        drawWaveButton(principles[0].XRefPoint, principles[0].YRefPoint, numConcepts, 4, context, shape, 
+                            waveButtonDims.Principles['Width'], 
+                            waveButtonDims.Principles['Height'], 
+                            waveButtonDims.Principles['CornerRadius'])
+                    }}
+                    id={principles[0].IdText}
+                    fill={waveButtonDims.Principles['Color']}
+                    onClick={handleClick(principles)}
+                ></Shape>
+
+                <Shape  
+                    sceneFunc={(context, shape) => {
+                        drawWaveButton(principles[0].XRefPoint, principles[0].YRefPoint, numConcepts, 5, context, shape, 
+                            waveButtonDims.Principles['Width'], 
+                            waveButtonDims.Principles['Height'], 
+                            waveButtonDims.Principles['CornerRadius'])
+                    }}
+                    id={principles[0].IdText}
+                    fill={waveButtonDims.Principles['Color']}
+                    onClick={handleClick(principles)}
+                ></Shape> */}
+                
             </Layer>
         </Stage>
     );

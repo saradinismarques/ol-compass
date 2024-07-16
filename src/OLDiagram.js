@@ -26,13 +26,21 @@ const OLDiagram = () => {
         const bottom = { x: 0, y: halfHeight };
         const left = { x: -halfWidth, y: 0 };
 
+        // context.beginPath();
+        // context.moveTo(right.x, right.y);
+        // context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
+        // context.lineTo(left.x, left.y);
+        // context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
+        // context.closePath();
+        // context.fillStrokeShape(shape); 
+
         context.beginPath();
-        context.moveTo(right.x, right.y);
-        context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
-        context.lineTo(left.x, left.y);
+        context.moveTo(left.x, left.y);
         context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
+        context.lineTo(right.x, right.y);
+        context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
         context.closePath();
-        context.fillStrokeShape(shape); 
+        context.fillStrokeShape(shape);
 
         // Set the stroke style and stroke the shape
         // context.strokeStyle = 'red';
