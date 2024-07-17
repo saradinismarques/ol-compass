@@ -29,6 +29,8 @@ const OLDiagram = () => {
 
     }
 
+    
+
     function drawWaveButton(x, y, numConcepts, number, context, shape, width, height, cornerRadius) { 
 
         // Save the current state of the canvas
@@ -84,9 +86,9 @@ const OLDiagram = () => {
             console.log(Math.abs((centerDistance-Math.floor(numConcepts/2))))
             console.log((Math.abs(centerDistance-Math.floor(numConcepts/2))+1))
 
-            context.arcTo(top.x, top.y, right.x, right.y, topAngle);
+            context.arcTo(top.x, top.y, right.x, right.y, 0);
             context.lineTo(right.x, right.y);
-            context.arcTo(top.x, top.y+innerHeight, left.x, left.y, bottomAngle);
+            context.arcTo(top.x, top.y+innerHeight, left.x, left.y, 0);
         }
         else if(number > numConcepts / 2) {
             topAngle = cornerRadius + Math.abs((centerDistance-Math.floor(numConcepts/2))+1) * innerHeight;
@@ -101,16 +103,22 @@ const OLDiagram = () => {
         context.fillStrokeShape(shape); 
 
         context.beginPath();
-        context.arc(top.x, top.y, 3, 0, 2 * Math.PI); // Radius of 5, adjust as needed
+        context.arc(top.x, top.y, 1, 0, 2 * Math.PI); // Radius of 5, adjust as needed
         context.fillStyle = 'red'; // Color of the circle, adjust as needed
         context.fill();
         context.closePath();
 
+        context.beginPath();
+        context.arc(top.x, top.y+innerHeight, 1, 0, 2 * Math.PI); // Radius of 5, adjust as needed
+        context.fillStyle = 'red'; // Color of the circle, adjust as needed
+        context.fill();
+        context.closePath();
 
-        //Set the stroke style and stroke the shape
-        context.strokeStyle = 'white';
-        context.lineWidth = 0.8; // Set the line width as needed
-        context.stroke();
+        // DEVE SER SUBTRAIR A ALTURA NOS PRIMEIROS CONTROL POINTS
+        // //Set the stroke style and stroke the shape
+        // context.strokeStyle = 'white';
+        // context.lineWidth = 0.8; // Set the line width as needed
+        // context.stroke();
     }
 
     const handleClick = (arr) => (e) => {
