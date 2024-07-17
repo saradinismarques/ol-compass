@@ -10,7 +10,7 @@ body, html {
     justify-content: flex-end;
     align-items: center;
 }
-
+  
 /* Style for text-container */
 .text-container {
     font-family: Arial, sans-serif;
@@ -21,7 +21,7 @@ body, html {
     max-width: 300px;
     padding: 20px;
 }
-
+  
 /* Style for h2 */
 .text-container h2 {
     font-size: 1.2em; /* Smaller size for h2 */
@@ -29,7 +29,7 @@ body, html {
     color: white; /* Green color */
     margin-bottom: 10px;
 }
-
+  
 /* Style for h1 */
 .text-container h1 {
     font-size: 1.5em; /* Larger size for h1 */
@@ -39,11 +39,33 @@ body, html {
     margin-bottom: 20px;
 }
 
+
 /* Style for paragraph */
-.text-container p {
+.text-container .text-content {
     font-size: 1em;
-    line-height: 1.5;
-    color: black;
+    line-height: 1.6;
+    color: black; /* Medium gray text color */
     padding-left: 30px;
-    margin-bottom: 20px;
+    overflow-y: hidden; /* Hide overflow initially */
+  }
+  
+  /* Expanded state for text content */
+  .text-container .text-content.expanded {
+    overflow-y: auto; /* Enable vertical scroll */
+    max-height: 365px; /* Show full content when expanded */
+  }
+
+  .show-more-button {
+    padding-left: 30px;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(78, 75, 75);
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+.show-more-button:hover {
+    color: #32e1b8;
 }
