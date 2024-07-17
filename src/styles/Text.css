@@ -1,0 +1,49 @@
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.gradient-background {
+    background: linear-gradient(to right, #ffffff 35%, #41ffc9 90%);
+    height: 100vh;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Style for text-container */
+.text-container {
+    font-family: Arial, sans-serif;
+    position: absolute;
+    top: 45%; /* Position item 50% from the top */
+    right: 10%; /* Position item 50% from the left */
+    transform: translate(-50%, -50%); /* Center the item */
+    max-width: 300px;
+    padding: 20px;
+}
+
+/* Style for h2 */
+.text-container h2 {
+    font-size: 1.2em; /* Smaller size for h2 */
+    font-weight: 40;
+    color: white; /* Green color */
+    margin-bottom: 10px;
+}
+
+/* Style for h1 */
+.text-container h1 {
+    font-size: 1.5em; /* Larger size for h1 */
+    font-weight: 100;
+    color: white; /* White color */
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+/* Style for paragraph */
+.text-container p {
+    font-size: 1em;
+    line-height: 1.5;
+    color: black;
+    padding-left: 30px;
+    margin-bottom: 20px;
+}
