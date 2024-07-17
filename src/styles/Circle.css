@@ -1,0 +1,22 @@
+.circle {
+    width: 500px;
+    height: 500px;
+    background-color: #99f6be;
+    border-radius: 50%;
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .circle.left {
+    position: absolute;
+    top: 45%; /* Adjust this value as needed */
+    left: 15%; /* Distance from the left edge of the viewport */
+    transform: translateY(-50%);
+  }
+  
+  .circle.active {
+    display: block; /* Show when active */
+  }
+  

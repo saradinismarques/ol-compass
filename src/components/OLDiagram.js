@@ -1,4 +1,5 @@
-// src/WaveButtonCanvas.js
+// src/components/OLDiagram.js
+
 import React from 'react';
 import { Stage, Layer, Group, Shape } from 'react-konva';
 

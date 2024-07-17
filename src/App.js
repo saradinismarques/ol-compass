@@ -1,16 +1,28 @@
 // src/App.js
 import React from 'react';
-import OLDiagram from './components/OLDiagram';
-import Principles from './components/Principles'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import LearnPage from './pages/LearnPage';
 
+import Menu from './components/Menu'
+
+import './styles/App.css';
+ 
 //<OLDiagram size="600" />
 //<Principles />
 function App() {
   return (
-    <div>
-      <OLDiagram />
-      
-    </div>
+    <Router>
+      <div className="App">
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/learn" element={<LearnPage />} />
+          </Routes>
+        </main>
+        <Menu />
+      </div>
+    </Router>
   );
 }
 

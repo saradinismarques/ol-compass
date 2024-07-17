@@ -1,0 +1,37 @@
+/* src/components/BottomMenu.css */
+
+.bottom-menu {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    background-color: white;
+    padding: 50px 0;
+  }
+  
+  .menu-button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    border: 2px solid black;
+    border-radius: 20px;
+    background-color: white;
+    cursor: pointer;
+    text-decoration: none; /* Ensure links have no underline */
+    font-family: 'Arial';
+    font-size: 10px;
+    color: black;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .menu-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .menu-button:active {
+    background-color: #e0e0e0;
+  }
+  
