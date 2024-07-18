@@ -2,15 +2,24 @@
 
 import React from 'react';
 import { Stage, Layer, Group, Shape } from 'react-konva';
+import { getDataFromJson } from '../Data.js'; 
 
 const OLDiagram = () => {
-    let waveButtonDims = {
+    const waveDims = {
         "Principles": { Width: 130, Height: 90, CornerRadius: 20, Color: "#99f6be" },
         "Perspectives": { Width: 165, Height: 70, CornerRadius: 60, Color: "#85d68d" },
         "Dimensions": { Width: 155, Height: 75, CornerRadius: 60, Color: "#77bcd4" }
     };
 
-    function drawWaveButton(x, y, angle, mainText, idText, context, shape, width, height, cornerRadius) { 
+    function drawWave(component, componentPosition, componentDims, context, shape) { 
+
+        const x = componentPosition.x;
+        const y = componentPosition.y;
+        const angle = componentPosition.angle;
+        const width = componentDims.Width;
+        const height = componentDims.Height;
+        const cornerRadius = componentDims.CornerRadius;
+        const color = componentDims.Color;
 
         // Save the current state of the canvas
         context.save();
@@ -19,21 +28,13 @@ const OLDiagram = () => {
         // Rotate the canvas context to the calculated angle (in radians)
         context.rotate(angle);
 
-        const halfWidth = width / 2;
-        const halfHeight = height / 2; 
+        const halfWidth =  width / 2;
+        const halfHeight =  height / 2;
 
         const top = { x: 0, y: -halfHeight };
         const right = { x: halfWidth, y: 0 };
         const bottom = { x: 0, y: halfHeight };
         const left = { x: -halfWidth, y: 0 };
-
-        // context.beginPath();
-        // context.moveTo(right.x, right.y);
-        // context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
-        // context.lineTo(left.x, left.y);
-        // context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
-        // context.closePath();
-        // context.fillStrokeShape(shape); 
 
         context.beginPath();
         context.moveTo(left.x, left.y);
@@ -48,19 +49,23 @@ const OLDiagram = () => {
         // context.lineWidth = 2; // Set the line width as needed
         // context.stroke();
 
-
         // Draw main text
         context.fillStyle = 'white';
-        context.font = '500 14px Calibri';
+        context.font = '500 13px Calibri';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
 
-        const lines = mainText.split('\n');
-        if(lines.length === 1)
-            context.fillText(mainText, 0, 0);
+        // Find the index of the first space
+        const firstIndex = component.Label.indexOf(' ');
+        // Split the string into two parts based on the first space
+        const firstPart = component.Label.substring(0, firstIndex);
+        const secondPart = component.Label.substring(firstIndex + 1);
+
+        if(firstPart.length < 5)
+            context.fillText(component.Label, 0, 0);
         else{
-            context.fillText(lines[0], 0, 0 - 8);
-            context.fillText(lines[1], 0, 0 + 8);
+            context.fillText(firstPart, 0, -8);
+            context.fillText(secondPart, 0, 8);
         }
     
          // Draw identifier
@@ -68,43 +73,37 @@ const OLDiagram = () => {
         context.font = '100 11px Calibri';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
-        context.fillText(idText, 0, - height / 4);
+        context.fillText(component.Code, 0, - height / 4);
     }
 
     const handleClick = (arr) => (e) => {
         const id = e.target.id();
-        alert(arr[id].infoText)
+        alert(arr[id].Headline)
       }
 
-    function getPrinciples() {
+    function getPrinciplePosition(principle) {
         const x = window.innerWidth / 2;
         const y = window.innerHeight / 2;
     
-        const width = waveButtonDims.Principles['Width'];
-        const height = waveButtonDims.Principles['Height'];
+        const width = waveDims.Principles['Width'];
+        const height = waveDims.Principles['Height'];
         const halfWidth = width / 2;
         const halfHeight = height / 2;
         const margin = 4;
-    
-        const p1 = { x: x, y: y };
-        const p2 = { x: x - halfWidth - margin, y: y - halfHeight - margin };
-        const p3 = { x: x + halfWidth + margin, y: y - halfHeight - margin };
-        const p4 = { x: x, y: y - height - 2 * margin };
-        const p5 = { x: x - halfWidth - margin, y: y + halfHeight + margin };
-        const p6 = { x: x + halfWidth + margin, y: y + halfHeight + margin };
-        const p7 = { x: x, y: y + height + 2 * margin };
-
         const angle = 0;
+    
+        // Define positions for each principle
+        const positions = {
+            "P1": { x: x, y: y, angle: angle },
+            "P2": { x: x - halfWidth - margin, y: y - halfHeight - margin, angle: angle },
+            "P3": { x: x + halfWidth + margin, y: y - halfHeight - margin, angle: angle },
+            "P4": { x: x, y: y - height - 2 * margin, angle: angle },
+            "P5": { x: x - halfWidth - margin, y: y + halfHeight + margin, angle: angle },
+            "P6": { x: x + halfWidth + margin, y: y + halfHeight + margin, angle: angle },
+            "P7": { x: x, y: y + height + 2 * margin, angle: angle }
+        };
 
-        return [  
-            { IdText: 'P1', XRefPoint: p1['x'], YRefPoint: p1['y'], Angle: angle, MainText: 'ONE', infoText: 'The Earth has one big ocean with many features' },
-            { IdText: 'P2', XRefPoint: p2['x'], YRefPoint: p2['y'], Angle: angle, MainText: 'EARTH\nSHAPER', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
-            { IdText: 'P3', XRefPoint: p3['x'], YRefPoint: p3['y'], Angle: angle, MainText: 'CLIMATE\nREGULATOR', infoText: 'The ocean is a major influence on weather and climate' },
-            { IdText: 'P4', XRefPoint: p4['x'], YRefPoint: p4['y'], Angle: angle, MainText: 'LIFE-ENABLER', infoText: 'The ocean makes the Earth habitable' },
-            { IdText: 'P5', XRefPoint: p5['x'], YRefPoint: p5['y'], Angle: angle, MainText: 'GREATLY\nDIVERSE', infoText: 'The ocean supports a great diversity of life and ecosystems' },
-            { IdText: 'P6', XRefPoint: p6['x'], YRefPoint: p6['y'], Angle: angle, MainText: 'INTERLINKED\nWITH HUMANS', infoText: 'The ocean and humans are inextricably interconnected' },
-            { IdText: 'P7', XRefPoint: p7['x'], YRefPoint: p7['y'], Angle: angle, MainText: 'LARGELY\nUNKNOWN', infoText: 'The ocean is largely unexplored' },
-        ]
+        return positions[principle.Code];
     }
 
     const calculateButtonPositions = (centerX, centerY, radius, numberOfButtons) => {
@@ -165,7 +164,9 @@ const OLDiagram = () => {
         ]
     }
 
-    let principles = getPrinciples();
+    let principles = getDataFromJson();
+    console.log("AAAAAAAAAAAAAAA")
+    console.log(principles)
     let perspectives = getPerspectives();
     let dimensions = getDimensions();
 
@@ -176,29 +177,26 @@ const OLDiagram = () => {
             <Group key={p.IdText}>
                 <Shape
                     sceneFunc={(context, shape) => {
-                        drawWaveButton(p.XRefPoint, p.YRefPoint, p.Angle, p.MainText, p.IdText, context, shape, 
-                            waveButtonDims.Principles['Width'], 
-                            waveButtonDims.Principles['Height'], 
-                            waveButtonDims.Principles['CornerRadius'])
+                        drawWave(p, getPrinciplePosition(p), waveDims.Principles, context, shape)
                     }}
                     id={i.toString()}
-                    fill={waveButtonDims.Principles['Color']}
+                    fill={waveDims.Principles['Color']}
                     onClick={handleClick(principles)}
                 />
             </Group>
             ))}
 
-            {perspectives.map((p, i) => (
+            {/* {perspectives.map((p, i) => (
             <Group key={p.IdText}>
                 <Shape
                     sceneFunc={(context, shape) => {
-                        drawWaveButton(p.XRefPoint, p.YRefPoint, p.Angle, p.MainText, p.IdText, context, shape, 
-                            waveButtonDims.Perspectives['Width'], 
-                            waveButtonDims.Perspectives['Height'], 
-                            waveButtonDims.Perspectives['CornerRadius'])
+                        drawWave(p.XRefPoint, p.YRefPoint, p.Angle, p.MainText, p.IdText, context, shape, 
+                            waveDims.Perspectives['Width'], 
+                            waveDims.Perspectives['Height'], 
+                            waveDims.Perspectives['CornerRadius'])
                     }}
                     id={i.toString()}
-                    fill={waveButtonDims.Perspectives['Color']}
+                    fill={waveDims.Perspectives['Color']}
                     onClick={handleClick(perspectives)}
                 />
             </Group>
@@ -208,17 +206,17 @@ const OLDiagram = () => {
             <Group key={d.IdText}>
                 <Shape
                     sceneFunc={(context, shape) => {
-                        drawWaveButton(d.XRefPoint, d.YRefPoint, d.Angle, d.MainText, d.IdText, context, shape, 
-                            waveButtonDims.Dimensions['Width'], 
-                            waveButtonDims.Dimensions['Height'], 
-                            waveButtonDims.Dimensions['CornerRadius'])
+                        drawWave(d.XRefPoint, d.YRefPoint, d.Angle, d.MainText, d.IdText, context, shape, 
+                            waveDims.Dimensions['Width'], 
+                            waveDims.Dimensions['Height'], 
+                            waveDims.Dimensions['CornerRadius'])
                     }}
                     id={i.toString()}
-                    fill={waveButtonDims.Dimensions['Color']}
+                    fill={waveDims.Dimensions['Color']}
                     onClick={handleClick(dimensions)}
                 />
             </Group>
-            ))}
+            ))} */}
 
             </Layer>   
     </Stage>

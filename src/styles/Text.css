@@ -1,16 +1,9 @@
-body, html {
+body {
     height: 100%;
     margin: 0;
 }
 
-.gradient-background {
-    background: linear-gradient(to right, #ffffff 35%, #41ffc9 90%);
-    height: 100vh;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-  
+
 /* Style for text-container */
 .text-container {
     font-family: Arial, sans-serif;
@@ -38,7 +31,6 @@ body, html {
     margin-top: 0;
     margin-bottom: 20px;
 }
-
 
 /* Style for paragraph */
 .text-container .text-content {
