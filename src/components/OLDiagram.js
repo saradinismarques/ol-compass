@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Stage, Layer, Group, Shape } from 'react-konva';
-import { getDataFromJson } from '../Data.js'; 
+import { getPrinciples, getPerspectives } from '../Data.js'; 
 
 const OLDiagram = () => {
     const waveDims = {
@@ -19,7 +19,6 @@ const OLDiagram = () => {
         const width = componentDims.Width;
         const height = componentDims.Height;
         const cornerRadius = componentDims.CornerRadius;
-        const color = componentDims.Color;
 
         // Save the current state of the canvas
         context.save();
@@ -42,16 +41,12 @@ const OLDiagram = () => {
         context.lineTo(right.x, right.y);
         context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
         context.closePath();
+        context.fillStyle = 'blue';  // Change fill color here
         context.fillStrokeShape(shape);
-
-        // Set the stroke style and stroke the shape
-        // context.strokeStyle = 'red';
-        // context.lineWidth = 2; // Set the line width as needed
-        // context.stroke();
 
         // Draw main text
         context.fillStyle = 'white';
-        context.font = '500 13px Calibri';
+        context.font = '500 12.5px Calibri';
         context.textAlign = 'center';
         context.textBaseline = 'middle';
 
@@ -104,71 +99,64 @@ const OLDiagram = () => {
         };
 
         return positions[principle.Code];
-    }
+    };
 
-    const calculateButtonPositions = (centerX, centerY, radius, numberOfButtons) => {
+    function calculateAroundCirclePositions(centerX, centerY, radius, numberOfButtons) {
         const positions = [];
         const angleStep = (2 * Math.PI) / numberOfButtons;
         const randomStartAngle = Math.random() * 2 * Math.PI;
         
         for (let i = 0; i < numberOfButtons; i++) {
-          const angle = i * angleStep + randomStartAngle;
+          let angle = i * angleStep + randomStartAngle;
           const x = centerX + radius * Math.cos(angle);
           const y = centerY + radius * Math.sin(angle);
-          const rotation = angle + Math.PI / 2;
-          console.log(i, rotation * 180 / Math.PI)
-          positions.push({ x, y, rotation });
+          angle = angle + Math.PI / 2;
+
+          const code = `Pe${i + 1}`;
+          positions[code] = { x, y, angle };
         }
     
         return positions;
-      };
+    };
 
-    function getPerspectives() {
+    function getPerspectivePositions() {
         const x = window.innerWidth / 2;
         const y = window.innerHeight / 2;
         const radius = 180;
         const numButtons = 7;
+        const positions = calculateAroundCirclePositions(x, y, radius, numButtons);
         
-        const pos = calculateButtonPositions(x, y, radius, numButtons);
-        
-        return [  
-            { IdText: 'Pe1', XRefPoint: pos[0].x, YRefPoint: pos[0].y, Angle: pos[0].rotation, MainText: 'SCIENTIFIC', infoText: 'The Earth has one big ocean with many features' },
-            { IdText: 'Pe2', XRefPoint: pos[1].x, YRefPoint: pos[1].y, Angle: pos[1].rotation, MainText: 'HISTORICAL', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
-            { IdText: 'Pe3', XRefPoint: pos[2].x, YRefPoint: pos[2].y, Angle: pos[2].rotation, MainText: 'GEOGRAPHICAL', infoText: 'The ocean is a major influence on weather and climate' },
-            { IdText: 'Pe4', XRefPoint: pos[3].x, YRefPoint: pos[3].y, Angle: pos[3].rotation, MainText: 'GENDER EQUALITY', infoText: 'The ocean makes the Earth habitable' },
-            { IdText: 'Pe5', XRefPoint: pos[4].x, YRefPoint: pos[4].y, Angle: pos[4].rotation, MainText: 'VALUE', infoText: 'The ocean supports a great diversity of life and ecosystems' },
-            { IdText: 'Pe6', XRefPoint: pos[5].x, YRefPoint: pos[5].y, Angle: pos[5].rotation, MainText: 'CULTURAL', infoText: 'The ocean and humans are inextricably interconnected' },
-            { IdText: 'Pe7', XRefPoint: pos[6].x, YRefPoint: pos[6].y, Angle: pos[6].rotation, MainText: 'ECOLOGICAL', infoText: 'The ocean is largely unexplored' },
-        ]
+        return positions;
     }
 
-    function getDimensions() {
-        const x = window.innerWidth / 2;
-        const y = window.innerHeight / 2;
-        const radius = 255;
-        const numButtons = 10;
+    // function getDimensions() {
+    //     const x = window.innerWidth / 2;
+    //     const y = window.innerHeight / 2;
+    //     const radius = 255;
+    //     const numButtons = 10;
         
-        const pos = calculateButtonPositions(x, y, radius, numButtons);
+    //     const pos = calculateButtonPositions(x, y, radius, numButtons);
         
-        return [  
-            { IdText: 'D1', XRefPoint: pos[0].x, YRefPoint: pos[0].y, Angle: pos[0].rotation, MainText: 'KNOWLEDGE', infoText: 'The Earth has one big ocean with many features' },
-            { IdText: 'D2', XRefPoint: pos[1].x, YRefPoint: pos[1].y, Angle: pos[1].rotation, MainText: 'COMMUNICATION', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
-            { IdText: 'D3', XRefPoint: pos[2].x, YRefPoint: pos[2].y, Angle: pos[2].rotation, MainText: 'BEHAVIOUR', infoText: 'The ocean is a major influence on weather and climate' },
-            { IdText: 'D4', XRefPoint: pos[3].x, YRefPoint: pos[3].y, Angle: pos[3].rotation, MainText: 'ATTITUDE', infoText: 'The ocean makes the Earth habitable' },
-            { IdText: 'D5', XRefPoint: pos[4].x, YRefPoint: pos[4].y, Angle: pos[4].rotation, MainText: 'AWARENESS', infoText: 'The ocean supports a great diversity of life and ecosystems' },
-            { IdText: 'D6', XRefPoint: pos[5].x, YRefPoint: pos[5].y, Angle: pos[5].rotation, MainText: 'ACTIVISM', infoText: 'The ocean and humans are inextricably interconnected' },
-            { IdText: 'D7', XRefPoint: pos[6].x, YRefPoint: pos[6].y, Angle: pos[6].rotation, MainText: 'EMOCEANS', infoText: 'The ocean is largely unexplored' },
-            { IdText: 'D8', XRefPoint: pos[7].x, YRefPoint: pos[7].y, Angle: pos[7].rotation, MainText: 'EXPERIENCE', infoText: 'The ocean is largely unexplored' },
-            { IdText: 'D9', XRefPoint: pos[8].x, YRefPoint: pos[8].y, Angle: pos[8].rotation, MainText: 'ADAPTIVE\nCAPACITY', infoText: 'The ocean is largely unexplored' },
-            { IdText: 'D10', XRefPoint: pos[9].x, YRefPoint: pos[9].y, Angle: pos[9].rotation, MainText: 'TRANSPARENCY', infoText: 'The ocean is largely unexplored' },
-        ]
-    }
+    //     return [  
+    //         { IdText: 'D1', XRefPoint: pos[0].x, YRefPoint: pos[0].y, Angle: pos[0].rotation, MainText: 'KNOWLEDGE', infoText: 'The Earth has one big ocean with many features' },
+    //         { IdText: 'D2', XRefPoint: pos[1].x, YRefPoint: pos[1].y, Angle: pos[1].rotation, MainText: 'COMMUNICATION', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
+    //         { IdText: 'D3', XRefPoint: pos[2].x, YRefPoint: pos[2].y, Angle: pos[2].rotation, MainText: 'BEHAVIOUR', infoText: 'The ocean is a major influence on weather and climate' },
+    //         { IdText: 'D4', XRefPoint: pos[3].x, YRefPoint: pos[3].y, Angle: pos[3].rotation, MainText: 'ATTITUDE', infoText: 'The ocean makes the Earth habitable' },
+    //         { IdText: 'D5', XRefPoint: pos[4].x, YRefPoint: pos[4].y, Angle: pos[4].rotation, MainText: 'AWARENESS', infoText: 'The ocean supports a great diversity of life and ecosystems' },
+    //         { IdText: 'D6', XRefPoint: pos[5].x, YRefPoint: pos[5].y, Angle: pos[5].rotation, MainText: 'ACTIVISM', infoText: 'The ocean and humans are inextricably interconnected' },
+    //         { IdText: 'D7', XRefPoint: pos[6].x, YRefPoint: pos[6].y, Angle: pos[6].rotation, MainText: 'EMOCEANS', infoText: 'The ocean is largely unexplored' },
+    //         { IdText: 'D8', XRefPoint: pos[7].x, YRefPoint: pos[7].y, Angle: pos[7].rotation, MainText: 'EXPERIENCE', infoText: 'The ocean is largely unexplored' },
+    //         { IdText: 'D9', XRefPoint: pos[8].x, YRefPoint: pos[8].y, Angle: pos[8].rotation, MainText: 'ADAPTIVE\nCAPACITY', infoText: 'The ocean is largely unexplored' },
+    //         { IdText: 'D10', XRefPoint: pos[9].x, YRefPoint: pos[9].y, Angle: pos[9].rotation, MainText: 'TRANSPARENCY', infoText: 'The ocean is largely unexplored' },
+    //     ]
+    // }
 
-    let principles = getDataFromJson();
-    console.log("AAAAAAAAAAAAAAA")
-    console.log(principles)
-    let perspectives = getPerspectives();
-    let dimensions = getDimensions();
+    const principles = getPrinciples();
+    const perspectives = getPerspectives();
+    //const dimensions = getDimensions();
+
+    const perspectivesPositions = getPerspectivePositions();
+
 
     return (
         <Stage width={window.innerWidth} height={window.innerHeight}>
@@ -186,14 +174,11 @@ const OLDiagram = () => {
             </Group>
             ))}
 
-            {/* {perspectives.map((p, i) => (
+            {perspectives.map((p, i) => (
             <Group key={p.IdText}>
                 <Shape
                     sceneFunc={(context, shape) => {
-                        drawWave(p.XRefPoint, p.YRefPoint, p.Angle, p.MainText, p.IdText, context, shape, 
-                            waveDims.Perspectives['Width'], 
-                            waveDims.Perspectives['Height'], 
-                            waveDims.Perspectives['CornerRadius'])
+                        drawWave(p, perspectivesPositions[p.Code], waveDims.Perspectives, context, shape) 
                     }}
                     id={i.toString()}
                     fill={waveDims.Perspectives['Color']}
@@ -202,7 +187,7 @@ const OLDiagram = () => {
             </Group>
             ))}
 
-            {dimensions.map((d, i) => (
+            {/* {dimensions.map((d, i) => (
             <Group key={d.IdText}>
                 <Shape
                     sceneFunc={(context, shape) => {
@@ -216,7 +201,7 @@ const OLDiagram = () => {
                     onClick={handleClick(dimensions)}
                 />
             </Group>
-            ))} */}
+            ))}  */}
 
             </Layer>   
     </Stage>

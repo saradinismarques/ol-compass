@@ -1,9 +1,10 @@
 import principlesData from './data/principles.json';
+import perspectivesData from './data/perspectives.json';
 
-export function getDataFromJson() {
+function getDataFromJson(data) {
     try {
         // Process the JSON data
-        const result = principlesData.map(item => ({
+        const result = data.map(item => ({
             Code: item["#code"],
             Label: item["#label"],
             Headline: item["#headline"],
@@ -18,4 +19,12 @@ export function getDataFromJson() {
         console.error("Error processing JSON:", error);
         throw error;
     }
+}
+
+export function getPrinciples() {
+    return getDataFromJson(principlesData)
+}
+
+export function getPerspectives() {
+    return getDataFromJson(perspectivesData)
 }
