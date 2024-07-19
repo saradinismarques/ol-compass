@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Stage, Layer, Group, Shape } from 'react-konva';
-import { getPrinciples, getPerspectives } from '../Data.js'; 
+import { getPrinciples, getPerspectives, getDimensions } from '../Data.js'; 
 
 const OLDiagram = () => {
     const waveDims = {
@@ -16,6 +16,7 @@ const OLDiagram = () => {
         const x = componentPosition.x;
         const y = componentPosition.y;
         const angle = componentPosition.angle;
+
         const width = componentDims.Width;
         const height = componentDims.Height;
         const cornerRadius = componentDims.CornerRadius;
@@ -101,18 +102,18 @@ const OLDiagram = () => {
         return positions[principle.Code];
     };
 
-    function calculateAroundCirclePositions(centerX, centerY, radius, numberOfButtons) {
+    function calculateAroundCirclePositions(centerX, centerY, radius, numberOfComponents, codeId) {
         const positions = [];
-        const angleStep = (2 * Math.PI) / numberOfButtons;
-        const randomStartAngle = Math.random() * 2 * Math.PI;
+        const angleStep = (2 * Math.PI) / numberOfComponents;
+        const StartAngle = -Math.PI/2;
         
-        for (let i = 0; i < numberOfButtons; i++) {
-          let angle = i * angleStep + randomStartAngle;
+        for (let i = 0; i < numberOfComponents; i++) {
+          let angle = i * angleStep + StartAngle;
           const x = centerX + radius * Math.cos(angle);
           const y = centerY + radius * Math.sin(angle);
           angle = angle + Math.PI / 2;
 
-          const code = `Pe${i + 1}`;
+          const code = codeId+`${i + 1}`;
           positions[code] = { x, y, angle };
         }
     
@@ -123,39 +124,33 @@ const OLDiagram = () => {
         const x = window.innerWidth / 2;
         const y = window.innerHeight / 2;
         const radius = 180;
-        const numButtons = 7;
-        const positions = calculateAroundCirclePositions(x, y, radius, numButtons);
+        const numComponents = 7;
+        const codeId = "Pe"
+
+        const positions = calculateAroundCirclePositions(x, y, radius, numComponents, codeId);
         
         return positions;
     }
 
-    // function getDimensions() {
-    //     const x = window.innerWidth / 2;
-    //     const y = window.innerHeight / 2;
-    //     const radius = 255;
-    //     const numButtons = 10;
+    function getDimensionPositions() {
+        const x = window.innerWidth / 2;
+        const y = window.innerHeight / 2;
+        const radius = 255;
+        const numComponents = 10;
+        const codeId = "D"
+
+        const positions = calculateAroundCirclePositions(x, y, radius, numComponents, codeId);
         
-    //     const pos = calculateButtonPositions(x, y, radius, numButtons);
-        
-    //     return [  
-    //         { IdText: 'D1', XRefPoint: pos[0].x, YRefPoint: pos[0].y, Angle: pos[0].rotation, MainText: 'KNOWLEDGE', infoText: 'The Earth has one big ocean with many features' },
-    //         { IdText: 'D2', XRefPoint: pos[1].x, YRefPoint: pos[1].y, Angle: pos[1].rotation, MainText: 'COMMUNICATION', infoText: 'The ocean and life in the ocean shape the features of the Earth' },
-    //         { IdText: 'D3', XRefPoint: pos[2].x, YRefPoint: pos[2].y, Angle: pos[2].rotation, MainText: 'BEHAVIOUR', infoText: 'The ocean is a major influence on weather and climate' },
-    //         { IdText: 'D4', XRefPoint: pos[3].x, YRefPoint: pos[3].y, Angle: pos[3].rotation, MainText: 'ATTITUDE', infoText: 'The ocean makes the Earth habitable' },
-    //         { IdText: 'D5', XRefPoint: pos[4].x, YRefPoint: pos[4].y, Angle: pos[4].rotation, MainText: 'AWARENESS', infoText: 'The ocean supports a great diversity of life and ecosystems' },
-    //         { IdText: 'D6', XRefPoint: pos[5].x, YRefPoint: pos[5].y, Angle: pos[5].rotation, MainText: 'ACTIVISM', infoText: 'The ocean and humans are inextricably interconnected' },
-    //         { IdText: 'D7', XRefPoint: pos[6].x, YRefPoint: pos[6].y, Angle: pos[6].rotation, MainText: 'EMOCEANS', infoText: 'The ocean is largely unexplored' },
-    //         { IdText: 'D8', XRefPoint: pos[7].x, YRefPoint: pos[7].y, Angle: pos[7].rotation, MainText: 'EXPERIENCE', infoText: 'The ocean is largely unexplored' },
-    //         { IdText: 'D9', XRefPoint: pos[8].x, YRefPoint: pos[8].y, Angle: pos[8].rotation, MainText: 'ADAPTIVE\nCAPACITY', infoText: 'The ocean is largely unexplored' },
-    //         { IdText: 'D10', XRefPoint: pos[9].x, YRefPoint: pos[9].y, Angle: pos[9].rotation, MainText: 'TRANSPARENCY', infoText: 'The ocean is largely unexplored' },
-    //     ]
-    // }
+        return positions;
+    }
+
 
     const principles = getPrinciples();
     const perspectives = getPerspectives();
-    //const dimensions = getDimensions();
+    const dimensions = getDimensions();
 
     const perspectivesPositions = getPerspectivePositions();
+    const dimensionsPositions = getDimensionPositions();
 
 
     return (
@@ -187,21 +182,18 @@ const OLDiagram = () => {
             </Group>
             ))}
 
-            {/* {dimensions.map((d, i) => (
+            {dimensions.map((d, i) => (
             <Group key={d.IdText}>
                 <Shape
                     sceneFunc={(context, shape) => {
-                        drawWave(d.XRefPoint, d.YRefPoint, d.Angle, d.MainText, d.IdText, context, shape, 
-                            waveDims.Dimensions['Width'], 
-                            waveDims.Dimensions['Height'], 
-                            waveDims.Dimensions['CornerRadius'])
+                        drawWave(d, dimensionsPositions[d.Code], waveDims.Dimensions, context, shape) 
                     }}
                     id={i.toString()}
                     fill={waveDims.Dimensions['Color']}
                     onClick={handleClick(dimensions)}
                 />
             </Group>
-            ))}  */}
+            ))}  
 
             </Layer>   
     </Stage>

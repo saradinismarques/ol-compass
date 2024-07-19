@@ -1,5 +1,6 @@
 import principlesData from './data/principles.json';
 import perspectivesData from './data/perspectives.json';
+import dimensionsData from './data/dimensions.json';
 
 function getDataFromJson(data) {
     try {
@@ -27,4 +28,8 @@ export function getPrinciples() {
 
 export function getPerspectives() {
     return getDataFromJson(perspectivesData)
+}
+
+export function getDimensions() {
+    return getDataFromJson(dimensionsData)
 }
