@@ -12,7 +12,7 @@ import './styles/App.css';
 function App() {
   return (
     <div>
-    <OLDiagram size="510"/>
+    <OLDiagram size="450" position="left"/>
     </div>
   );
 }

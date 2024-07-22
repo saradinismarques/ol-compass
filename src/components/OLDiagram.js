@@ -3,8 +3,9 @@
 import React from 'react';
 import { Stage, Layer, Group, Shape } from 'react-konva';
 import { getPrinciples, getPerspectives, getDimensions } from '../Data.js'; 
+import '../styles/OLDiagram.css'; 
 
-const OLDiagram = ({size}) => {
+const OLDiagram = ({size, position}) => {
     const waveDims = {
         "Principles": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25.5, Color: "#99f6be" },
         "Perspectives": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5, Color: "#85d68d" },
@@ -156,8 +157,12 @@ const OLDiagram = ({size}) => {
     const perspectivesPositions = getPerspectivePositions();
     const dimensionsPositions = getDimensionPositions();
 
+    // Determine class names based on props
+    const classNames = ['diagram'];
+    if (position === 'left') classNames.push('left');
 
     return (
+        <div className={classNames.join(' ')}>
         <Stage width={window.innerWidth} height={window.innerHeight}>
             <Layer>
             {principles.map((p, i) => (
@@ -201,6 +206,7 @@ const OLDiagram = ({size}) => {
 
             </Layer>   
     </Stage>
+    </div>
     );
 };
 
