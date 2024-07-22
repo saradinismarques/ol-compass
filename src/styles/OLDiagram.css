@@ -9,7 +9,7 @@
   .diagram.left {
     position: absolute;
     top: 45%; /* Adjust this value as needed */
-    left: 30%; /* Distance from the left edge of the viewport */
+    left: 35%; /* Distance from the left edge of the viewport */
   }
   
   .diagram.active {

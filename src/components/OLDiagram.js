@@ -5,7 +5,7 @@ import { Stage, Layer, Group, Shape } from 'react-konva';
 import { getPrinciples, getPerspectives, getDimensions } from '../Data.js'; 
 import '../styles/OLDiagram.css'; 
 
-const OLDiagram = ({size, position}) => {
+const OLDiagram = ({size, position, onButtonClick}) => {
     const waveDims = {
         "Principles": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25.5, Color: "#99f6be" },
         "Perspectives": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5, Color: "#85d68d" },
@@ -77,10 +77,42 @@ const OLDiagram = ({size, position}) => {
         context.fillText(component.Code, 0, - height / 4);
     }
 
+    function convertLabel(label) {
+        // Define a mapping of prefixes to their corresponding full names
+        const prefixMap = {
+            "D": "Dimension",
+            "Pe": "Perspective",
+            "P": "Principle"
+        };
+    
+        // Use a regular expression to capture the prefix and the number
+        const regex = /^([A-Za-z]+)(\d+)$/;
+        const match = label.match(regex);
+    
+        if (match) {
+            const prefix = match[1];
+            const number = match[2];
+    
+            // Find the corresponding full name for the prefix
+            const fullName = prefixMap[prefix];
+    
+            if (fullName) {
+                return `${fullName} ${number}`;
+            }
+        }
+    
+        // If the label doesn't match the expected pattern, return it unchanged
+        return label;
+    }
+    
+    // Updated handleClick to call onButtonClick
     const handleClick = (arr) => (e) => {
         const id = e.target.id();
-        alert(arr[id].Headline)
-      }
+        const title = convertLabel(arr[id].Code)
+        if (onButtonClick) {
+            onButtonClick(title, arr[id].Headline, arr[id].Paragraph);
+        }
+    };
 
     function getPrinciplePosition(principle) {
         const x = window.innerWidth / 2;

@@ -11,9 +11,17 @@ import './styles/App.css';
  
 function App() {
   return (
-    <div>
-    <OLDiagram size="450" position="left"/>
-    </div>
+    <Router>
+       <div className="App">
+         <main>
+           <Routes>
+             <Route path="/" element={<HomePage />} />
+             <Route path="/learn" element={<LearnPage />} />
+           </Routes>
+         </main>
+         <Menu />
+       </div>
+    </Router>
   );
 }
 

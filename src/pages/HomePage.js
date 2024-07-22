@@ -1,12 +1,10 @@
-// src/components/pages/HomePage.js
-
 import React from 'react';
-import '../styles/Circle.css'
+import OLDiagram from '../components/OLDiagram'
 
 const HomePage = () => {
   return (
     <div>
-        <div className="circle"></div>
+      <OLDiagram size="450"/>
     </div>
   );
 };

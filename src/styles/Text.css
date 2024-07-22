@@ -15,21 +15,30 @@ body {
     padding: 20px;
 }
   
-/* Style for h2 */
-.text-container h2 {
-    font-size: 1.2em; /* Smaller size for h2 */
-    font-weight: 40;
-    color: white; /* Green color */
-    margin-bottom: 10px;
-}
-  
 /* Style for h1 */
 .text-container h1 {
     font-size: 1.5em; /* Larger size for h1 */
     font-weight: 100;
-    color: white; /* White color */
+    color: black; /* White color */
+    text-transform: uppercase;
     margin-top: 0;
     margin-bottom: 20px;
+}
+
+/* Style for h2 */
+.text-container h2 {
+    font-size: 1.2em; /* Smaller size for h2 */
+    font-weight: 40;
+    color: black; /* Green color */
+    margin-bottom: 10px;
+}
+  
+/* Style for h3 */
+.text-container h3 {
+    font-size: 1.2em; /* Smaller size for h2 */
+    font-weight: bold;
+    color: #eb3799;
+    margin-bottom: 10px;
 }
 
 /* Style for paragraph */
