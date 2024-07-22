@@ -49,7 +49,7 @@ const OLDiagram = ({size, position, onButtonClick}) => {
         // Draw main text
 
         // Calculate font size based on dimension
-        const fontSize = size / 40; // Adjust as needed
+        const fontSize = size / 41; // Adjust as needed
         context.fillStyle = 'white';
         context.font = `500 ${fontSize}px Calibri`;
         context.textAlign = 'center';
@@ -64,12 +64,12 @@ const OLDiagram = ({size, position, onButtonClick}) => {
         if(firstPart.length < 5)
             context.fillText(component.Label, 0, 0);
         else{
-            context.fillText(firstPart, 0, -size/63.8);
-            context.fillText(secondPart, 0, size/63.8);
+            context.fillText(firstPart, 0, -height/11);
+            context.fillText(secondPart, 0, height/11);
         }
     
-         // Draw identifier
-        const LabelFontSize = size / 40; // Adjust as needed
+        // Draw identifier
+        const LabelFontSize = size / 45; // Adjust as needed
         context.fillStyle = 'white';
         context.font = `500 ${LabelFontSize}px Calibri`;
         context.textAlign = 'center';
