@@ -108,7 +108,9 @@ const OLDiagram = ({size, position, onButtonClick}) => {
     // Updated handleClick to call onButtonClick
     const handleClick = (arr) => (e) => {
         const id = e.target.id();
-        const title = convertLabel(arr[id].Code)
+        const title = convertLabel(arr[id].Code);
+        console.log("/"+title+"/");
+        console.log("/"+arr[id].Headline+"/");
         if (onButtonClick) {
             onButtonClick(title, arr[id].Headline, arr[id].Paragraph);
         }

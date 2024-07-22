@@ -8,7 +8,7 @@ body {
 .text-container {
     position: absolute;
     top: 20%; /* Position item 50% from the top */
-    right: 19%; /* Position item 50% from the left */
+    left: 55%; /* Position item 50% from the left */
     max-width: 350px;
     padding: 20px;
 }
