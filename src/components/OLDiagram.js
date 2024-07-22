@@ -4,11 +4,11 @@ import React from 'react';
 import { Stage, Layer, Group, Shape } from 'react-konva';
 import { getPrinciples, getPerspectives, getDimensions } from '../Data.js'; 
 
-const OLDiagram = () => {
+const OLDiagram = ({size}) => {
     const waveDims = {
-        "Principles": { Width: 130, Height: 90, CornerRadius: 20, Color: "#99f6be" },
-        "Perspectives": { Width: 165, Height: 70, CornerRadius: 60, Color: "#85d68d" },
-        "Dimensions": { Width: 155, Height: 75, CornerRadius: 60, Color: "#77bcd4" }
+        "Principles": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25.5, Color: "#99f6be" },
+        "Perspectives": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5, Color: "#85d68d" },
+        "Dimensions": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5, Color: "#77bcd4" }
     };
 
     function drawWave(component, componentPosition, componentDims, context, shape) { 
@@ -46,8 +46,11 @@ const OLDiagram = () => {
         context.fillStrokeShape(shape);
 
         // Draw main text
+
+        // Calculate font size based on dimension
+        const fontSize = size / 40; // Adjust as needed
         context.fillStyle = 'white';
-        context.font = '500 12.5px Calibri';
+        context.font = `500 ${fontSize}px Calibri`;
         context.textAlign = 'center';
         context.textBaseline = 'middle';
 
@@ -60,13 +63,14 @@ const OLDiagram = () => {
         if(firstPart.length < 5)
             context.fillText(component.Label, 0, 0);
         else{
-            context.fillText(firstPart, 0, -8);
-            context.fillText(secondPart, 0, 8);
+            context.fillText(firstPart, 0, -size/63.8);
+            context.fillText(secondPart, 0, size/63.8);
         }
     
          // Draw identifier
+        const LabelFontSize = size / 40; // Adjust as needed
         context.fillStyle = 'white';
-        context.font = '100 11px Calibri';
+        context.font = `500 ${LabelFontSize}px Calibri`;
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         context.fillText(component.Code, 0, - height / 4);
@@ -123,7 +127,7 @@ const OLDiagram = () => {
     function getPerspectivePositions() {
         const x = window.innerWidth / 2;
         const y = window.innerHeight / 2;
-        const radius = 180;
+        const radius = size/2.8;
         const numComponents = 7;
         const codeId = "Pe"
 
@@ -135,7 +139,7 @@ const OLDiagram = () => {
     function getDimensionPositions() {
         const x = window.innerWidth / 2;
         const y = window.innerHeight / 2;
-        const radius = 255;
+        const radius = size/2;
         const numComponents = 10;
         const codeId = "D"
 

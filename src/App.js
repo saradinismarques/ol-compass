@@ -11,7 +11,9 @@ import './styles/App.css';
  
 function App() {
   return (
-    <OLDiagram />
+    <div>
+    <OLDiagram size="510"/>
+    </div>
   );
 }
 
