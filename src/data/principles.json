@@ -2,7 +2,7 @@
   {
     "#code": "P1",
     "#label": "ONE BIG",
-    "#headline": "The Earth has one big Ocean with many features",
+    "#headline": "The Earth has one big Ocean\nwith many features",
     "#paragraph": "",
     "#showmoretext": "/",
     "#prompt": "",
@@ -29,7 +29,7 @@
   {
     "#code": "P4",
     "#label": "LIFE-ENABLER",
-    "#headline": "The Ocean makes the Earth habitable",
+    "#headline": "The Ocean makes\nthe Earth habitable",
     "#paragraph": "",
     "#showmoretext": "/",
     "#prompt": "",
@@ -56,7 +56,7 @@
   {
     "#code": "P7",
     "#label": "LARGELY UNEXPLORED",
-    "#headline": "The Ocean is largely unexplored",
+    "#headline": "The Ocean is\nlargely unexplored",
     "#paragraph": "",
     "#showmoretext": "/",
     "#prompt": "",
