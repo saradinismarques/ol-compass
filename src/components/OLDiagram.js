@@ -56,6 +56,9 @@ const OLDiagram = ({size, position, onButtonClick}) => {
 
         // Memoized handleMouseEnter
         const handleMouseEnter = useCallback((e) => {
+            const stage = e.target.getStage();
+             stage.container().style.cursor = 'pointer';
+
             const id = parseInt(e.target.id(), 10);
             console.log(`Mouse Enter ID: ${id}`); // Debugging
             setHoveredId(id);
