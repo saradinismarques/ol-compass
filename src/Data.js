@@ -22,14 +22,14 @@ function getDataFromJson(data) {
     }
 }
 
-export function getPrinciples() {
+export function getPrinciplesData() {
     return getDataFromJson(principlesData)
 }
 
-export function getPerspectives() {
+export function getPerspectivesData() {
     return getDataFromJson(perspectivesData)
 }
 
-export function getDimensions() {
+export function getDimensionsData() {
     return getDataFromJson(dimensionsData)
 }

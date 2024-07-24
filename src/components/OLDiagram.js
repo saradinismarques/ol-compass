@@ -1,7 +1,7 @@
 // src/components/OLDiagram.js
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Stage, Layer, Group, Shape } from 'react-konva';
-import { getPrinciples, getPerspectives, getDimensions } from '../Data.js'; 
+import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../Data.js'; 
 import '../styles/OLDiagram.css'; 
 
 const OLDiagram = ({size, position, onButtonClick}) => {
@@ -12,137 +12,37 @@ const OLDiagram = ({size, position, onButtonClick}) => {
     };
 
     
-    const principles = getPrinciples();
-    const perspectivesContent = getPerspectives();
-    const dimensions = getDimensions();
+    const perspectivesData = getPerspectivesData();
 
-    const [perspectivesPositions, setPerspectivesPositions] = React.useState(getPerspectivePositions());
-    const dimensionsPositions = getDimensionPositions();
-
-    // Memoized handleClick
-    const handleClick = useCallback((arr) => (e) => {
-        console.log("CLICKED");
+    const perspectives = getPerspectives(perspectivesData, size);
+;
+    const handleClick = (arr) => (e) => {
+        
         const id = e.target.id();
-        const title = convertLabel(arr[id].Code);
-        if (onButtonClick) {
-            onButtonClick(title, arr[id].Headline, arr[id].Paragraph);
-        }
-    }, [onButtonClick]);
+        const match = id.match(/\d+/); // This regex matches one or more digits in the string
+        const code = parseInt(match[0], 10) - 1;  
 
-    // const handleMouseEnter = useCallback((e) => {
-    //     const stage = e.target.getStage();
-    //     stage.container().style.cursor = 'pointer';
-    
-    //     const id = parseInt(e.target.id());
-    //     console.log(id);
-    //     setPerspectivesPositions((prevPositions) =>
-    //       prevPositions.map((pos, i) =>
-    //         i === id ? { ...pos, isHovered: true } : pos
-    //       )
-    //     );
-    // }, [setPerspectivesPositions]);
-    
-    //   const handleMouseLeave = () => (e) => {
-    //     console.log("AAAAAAAAAAAAAAAAAAAA");
-    //     const id = parseInt(e.target.id());
-    //     console.log(id);
-    //     setPerspectivesPositions((prevPositions) =>
-    //       prevPositions.map((pos, i) =>
-    //         i === id ? { ...pos, isHovered: true } : pos
-    //       )
-    //     );
-    //   };
+        console.log(code);
+        const title = convertLabel(arr[code].Code);
+        if (onButtonClick) {
+            onButtonClick(title, arr[code].Headline, arr[code].Paragraph);
+        }
+    }
+      
     const [hoveredId, setHoveredId] = useState(null);
 
         // Memoized handleMouseEnter
-        const handleMouseEnter = useCallback((e) => {
+        const handleMouseEnter = (e) => {
             const stage = e.target.getStage();
-             stage.container().style.cursor = 'pointer';
+            stage.container().style.cursor = 'pointer';
 
-            const id = parseInt(e.target.id(), 10);
+            const id = e.target.id();
             console.log(`Mouse Enter ID: ${id}`); // Debugging
             setHoveredId(id);
-        }, []);
-    
-        // Memoized handleMouseLeave
-        const handleMouseLeave = useCallback(() => {
-            console.log(`Mouse Leave ID: ${hoveredId}`); // Debugging
-            setHoveredId(null);
-        }, [hoveredId]);
-      
-    function getPrinciplePosition(principle) {
-        const x = window.innerWidth / 2;
-        const y = window.innerHeight / 2;
-    
-        const width = waveDims.Principles['Width'];
-        const height = waveDims.Principles['Height'];
-        const halfWidth = width / 2;
-        const halfHeight = height / 2;
-        const margin = 4;
-        const angle = 0;
-    
-        // Define positions for each principle
-        const positions = {
-            "P1": { x: x, y: y, angle: angle, isHovered: false },
-            "P2": { x: x - halfWidth - margin, y: y - halfHeight - margin, angle: angle, isHovered: false },
-            "P3": { x: x + halfWidth + margin, y: y - halfHeight - margin, angle: angle, isHovered: false },
-            "P4": { x: x, y: y - height - 2 * margin, angle: angle, isHovered: false },
-            "P5": { x: x - halfWidth - margin, y: y + halfHeight + margin, angle: angle, isHovered: false },
-            "P6": { x: x + halfWidth + margin, y: y + halfHeight + margin, angle: angle, isHovered: false },
-            "P7": { x: x, y: y + height + 2 * margin, angle: angle, isHovered: false }
         };
 
-        return positions[principle.Code];
-    };
-
-    function calculateAroundCirclePositions(centerX, centerY, radius, numberOfComponents, codeId) {
-        const positions = [];
-        const angleStep = (2 * Math.PI) / numberOfComponents;
-        const StartAngle = -Math.PI/2;
-        const isHovered = false;
-        
-        for (let i = 0; i < numberOfComponents; i++) {
-          let angle = i * angleStep + StartAngle;
-          const x = centerX + radius * Math.cos(angle);
-          const y = centerY + radius * Math.sin(angle);
-          angle = angle + Math.PI / 2;
-
-          const code = codeId+`${i + 1}`;
-          positions.push({ code, x, y, angle, isHovered });
-        }
-    
-        return positions;
-    };
-
-    function getPerspectivePositions() {
-        const x = window.innerWidth / 2;
-        const y = window.innerHeight / 2;
-        const radius = size/2.8;
-        const numComponents = 7;
-        const codeId = "Pe"
-
-        const positions = calculateAroundCirclePositions(x, y, radius, numComponents, codeId);
-        
-        return positions;
-    }
-
-    function getDimensionPositions() {
-        const x = window.innerWidth / 2;
-        const y = window.innerHeight / 2;
-        const radius = size/2;
-        const numComponents = 10;
-        const codeId = "D"
-
-        const positions = calculateAroundCirclePositions(x, y, radius, numComponents, codeId);
-        
-        return positions;
-    }
 
 
-    React.useEffect(() => {
-        console.log("Updated perspectivePositions:", perspectivesPositions);
-      }, [perspectivesPositions]);
-    
     // Determine class names based on props
     const classNames = ['diagram'];
     if (position === 'left') classNames.push('left');
@@ -151,51 +51,21 @@ const OLDiagram = ({size, position, onButtonClick}) => {
         <div className={classNames.join(' ')}>
         <Stage width={window.innerWidth} height={window.innerHeight}>
             <Layer>
-            {/* {principles.map((p, i) => (
-            <Group key={p.Code}>
-                <Shape
-                    sceneFunc={(context, shape) => {
-                        drawWaveButton(p, getPrinciplePosition(p), waveDims.Principles, context, shape)
-                    }}
-                    id={i.toString()} // Assign a unique ID
-                    fill={waveDims.Principles['Color']}
-                    onClick={handleClick(principles)}
-                />
-            </Group>
-            ))} */}
-
-
-
-            {perspectivesPositions.map((p, i) => (
-            <Group key={p.code + (p.isHovered ? 'hovered' : 'normal')}>
+            {perspectives.map((p, i) => (
             <Shape
-                key={p.code + (p.isHovered ? 'hovered' : 'normal')}
+                key={p.Code + (p.isHovered ? 'hovered' : 'normal')}
                 sceneFunc={(context, shape) => {
-                drawWaveButton(size, perspectivesContent[i], perspectivesPositions[i], waveDims.Perspectives, context, shape);
+                drawWaveButton(p, size, waveDims.Perspectives, context, shape);
                 }}
-                id={i.toString()}
+                id={p.Code}
                 fill={waveDims.Perspectives['Color']}
-                onClick={handleClick(perspectivesContent)}
-                onMouseEnter={handleMouseEnter}
                 stroke="white" // Add border for debugging
-                opacity={hoveredId === i ? 0.5 : 1} // Set opacity based on hovered state
+                onClick={handleClick(perspectives)}
+                onMouseEnter={handleMouseEnter}
+                opacity={hoveredId === p.Code ? 0.5 : 1} // Set opacity based on hovered state
 
                 />
-            </Group>
             ))} 
-            
-            {/* {dimensions.map((d, i) => (
-            <Group key={d.Code}>
-                <Shape
-                    sceneFunc={(context, shape) => {
-                        drawWaveButton(d, dimensionsPositions[d.Code], waveDims.Dimensions, context, shape) 
-                    }}
-                    id={i.toString()}
-                    fill={waveDims.Dimensions['Color']}
-                    onClick={handleClick(dimensions)}
-                />
-            </Group>
-            ))}   */}
 
             </Layer>   
     </Stage>
@@ -203,10 +73,10 @@ const OLDiagram = ({size, position, onButtonClick}) => {
     );
 };
 
-function drawWaveButton(size, component, componentPosition, componentDims, context, shape) { 
-    const x = componentPosition.x;
-    const y = componentPosition.y;
-    const angle = componentPosition.angle;
+function drawWaveButton(component, size, componentDims, context, shape) { 
+    const x = component.x;
+    const y = component.y;
+    const angle = component.angle;
 
     const width = componentDims.Width;
     const height = componentDims.Height;
@@ -233,15 +103,9 @@ function drawWaveButton(size, component, componentPosition, componentDims, conte
     context.lineTo(right.x, right.y);
     context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
     context.closePath();
-    // if(componentPosition.isHovered)
-    //     context.globalAlpha = 0.5;
-    // else
-    //     context.globalAlpha = 1;
-
     context.fillStrokeShape(shape);
 
     // Draw main text
-
     // Calculate font size based on dimension
     const fontSize = size / 41; // Adjust as needed
     context.fillStyle = 'white';
@@ -299,5 +163,34 @@ function convertLabel(label) {
     return label;
 }
 
+function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfComponents) {
+    const angleStep = (2 * Math.PI) / numberOfComponents;
+    const StartAngle = -Math.PI/2;
+    
+    for (let i = 0; i < numberOfComponents; i++) {
+      let angle = i * angleStep + StartAngle;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+      angle = angle + Math.PI / 2;
+
+      arr[i]["x"] = x;
+      arr[i]["y"] = y;
+      arr[i]["angle"] = angle;
+      arr[i]["isHovered"] = false;
+    }
+
+    return arr;
+};
+
+function getPerspectives(perspectivesData, size) {
+    const x = window.innerWidth / 2;
+    const y = window.innerHeight / 2;
+    const radius = size/2.8;
+    const numComponents = 7;
+
+    const perspectives = calculateAroundCirclePositions(perspectivesData, x, y, radius, numComponents);
+    
+    return perspectives;
+}
 
 export default OLDiagram;
