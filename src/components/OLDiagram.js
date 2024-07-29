@@ -11,14 +11,16 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
         "Dimensions": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5, Color: "#77bcd4" }
     };
 
-    const perspectivesData = getPerspectivesData();
-    const perspectives = getPerspectives(perspectivesData, size);
+    const principles = getPrinciples(getPrinciplesData(), waveDims.Principles);
+    const perspectives = getPerspectives(getPerspectivesData(), size);
+    const dimensions = getDimensions(getDimensionsData(), size);
 
     const [hoveredId, setHoveredId] = useState(null);
     const [clickedId, setClickedId] = useState(null);
 ;
     const handleClick = (arr, index) => (e) => {
         if (!buttonsActive) return;
+
         const id = e.target.id();
         setClickedId(id);
 
@@ -30,20 +32,20 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
       
     const handleMouseEnter = (e) => {
         if (!buttonsActive) return;
+
         const stage = e.target.getStage();
         stage.container().style.cursor = 'pointer';
 
         const id = e.target.id();
-        console.log(`Mouse Enter ID: ${id}`); // Debugging
         setHoveredId(id);
     };
 
     const handleMouseLeave = (e) => {
         if (!buttonsActive) return;
+
         const stage = e.target.getStage();
         stage.container().style.cursor = 'default';
 
-        console.log(`Mouse Leave ID: ${hoveredId}`); // Debugging
         setHoveredId(null);
     };
 
@@ -55,34 +57,119 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
         <div className={classNames.join(' ')}>
         <Stage width={window.innerWidth} height={window.innerHeight}>
             <Layer>
-            {perspectives.map((p, i) => (
-                <Shape
-                    key={p.Code}
-                    sceneFunc={(context, shape) => {
-                    drawWaveButton(p, size, waveDims.Perspectives, context, shape);
-                    }}
-                    id={p.Code}
-                    fill={waveDims.Perspectives['Color']}
-                    stroke="white" // Add border for debugging
-                    onClick={handleClick(perspectives, i)}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
-                    opacity={
-                        clickedId === p.Code
-                            ? 1
-                            : hoveredId === p.Code
-                                ? 0.8
-                                : clickedId === null
-                                    ? 1
-                                    : 0.5
-                    }
-                />
-            ))} 
+                {principles.map((p, i) => (
+                    <Shape
+                        key={p.Code}
+                        sceneFunc={(context, shape) => {
+                        drawWaveButton(p, size, waveDims.Principles, context, shape);
+                        }}
+                        id={p.Code}
+                        fill={waveDims.Principles['Color']}
+                        stroke="white" // Add border for debugging
+                        onClick={handleClick(principles, i)}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        opacity={calculateOpacity(clickedId, hoveredId, p.Code)}
+                    />
+                ))} 
+
+                {perspectives.map((p, i) => (
+                    <Shape
+                        key={p.Code}
+                        sceneFunc={(context, shape) => {
+                        drawWaveButton(p, size, waveDims.Perspectives, context, shape);
+                        }}
+                        id={p.Code}
+                        fill={waveDims.Perspectives['Color']}
+                        stroke="white" // Add border for debugging
+                        onClick={handleClick(perspectives, i)}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        opacity={calculateOpacity(clickedId, hoveredId, p.Code)}
+                    />
+                ))} 
+
+                {dimensions.map((d, i) => (
+                    <Shape
+                        key={d.Code}
+                        sceneFunc={(context, shape) => {
+                        drawWaveButton(d, size, waveDims.Dimensions, context, shape);
+                        }}
+                        id={d.Code}
+                        fill={waveDims.Dimensions['Color']}
+                        stroke="white" // Add border for debugging
+                        onClick={handleClick(dimensions, i)}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                        opacity={calculateOpacity(clickedId, hoveredId, d.Code)}
+                    />
+                ))} 
 
             </Layer>   
     </Stage>
     </div>
     );
+};
+function getPrinciples(principlesData, dims) {
+    const x = window.innerWidth / 2;
+    const y = window.innerHeight / 2;
+
+    const width = dims['Width'];
+    const height = dims['Height'];
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+    const margin = 1;
+    const angle = 0;
+
+    principlesData[0] = { ...principlesData[0], x: x, y: y, angle: angle };
+    principlesData[1] = { ...principlesData[1], x: x - halfWidth - margin, y: y - halfHeight - margin, angle: angle };
+    principlesData[2] = { ...principlesData[2], x: x + halfWidth + margin, y: y - halfHeight - margin, angle: angle };
+    principlesData[3] = { ...principlesData[3], x: x, y: y - height - 2 * margin, angle: angle };
+    principlesData[4] = { ...principlesData[4], x: x - halfWidth - margin, y: y + halfHeight + margin, angle: angle };
+    principlesData[5] = { ...principlesData[5], x: x + halfWidth + margin, y: y + halfHeight + margin, angle: angle };
+    principlesData[6] = { ...principlesData[6], x: x, y: y + height + 2 * margin, angle: angle };
+
+    return principlesData;
+}
+
+function getPerspectives(perspectivesData, size) {
+    const x = window.innerWidth / 2;
+    const y = window.innerHeight / 2;
+    const radius = size/2.8;
+    const numComponents = 7;
+
+    const perspectives = calculateAroundCirclePositions(perspectivesData, x, y, radius, numComponents);
+    
+    return perspectives;
+}
+
+function getDimensions(dimensionsData, size) {
+    const x = window.innerWidth / 2;
+    const y = window.innerHeight / 2;
+    const radius = size/2;
+    const numComponents = 10;
+
+    const positions = calculateAroundCirclePositions(dimensionsData, x, y, radius, numComponents);
+       
+    return positions;
+}
+
+function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfComponents) {
+    const angleStep = (2 * Math.PI) / numberOfComponents;
+    const StartAngle = -Math.PI/2;
+    
+    for (let i = 0; i < numberOfComponents; i++) {
+      let angle = i * angleStep + StartAngle;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+      angle = angle + Math.PI / 2;
+
+      arr[i]["x"] = x;
+      arr[i]["y"] = y;
+      arr[i]["angle"] = angle;
+    }
+
+    return arr;
 };
 
 function drawWaveButton(component, size, componentDims, context, shape) { 
@@ -147,6 +234,20 @@ function drawWaveButton(component, size, componentDims, context, shape) {
     context.fillText(component.Code, 0, - height / 4);
 }
 
+const calculateOpacity = (clickedId, hoveredId, currentId) => {
+    if (clickedId === currentId) {
+        return 1;
+    }
+    if (hoveredId === currentId) {
+        return 0.8;
+    }
+    if (clickedId === null) {
+        return 1;
+    }
+    return 0.5;
+};
+
+
 function convertLabel(label) {
     // Define a mapping of prefixes to their corresponding full names
     const prefixMap = {
@@ -173,36 +274,6 @@ function convertLabel(label) {
 
     // If the label doesn't match the expected pattern, return it unchanged
     return label;
-}
-
-function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfComponents) {
-    const angleStep = (2 * Math.PI) / numberOfComponents;
-    const StartAngle = -Math.PI/2;
-    
-    for (let i = 0; i < numberOfComponents; i++) {
-      let angle = i * angleStep + StartAngle;
-      const x = centerX + radius * Math.cos(angle);
-      const y = centerY + radius * Math.sin(angle);
-      angle = angle + Math.PI / 2;
-
-      arr[i]["x"] = x;
-      arr[i]["y"] = y;
-      arr[i]["angle"] = angle;
-      arr[i]["isHovered"] = false;
-    }
-
-    return arr;
-};
-
-function getPerspectives(perspectivesData, size) {
-    const x = window.innerWidth / 2;
-    const y = window.innerHeight / 2;
-    const radius = size/2.8;
-    const numComponents = 7;
-
-    const perspectives = calculateAroundCirclePositions(perspectivesData, x, y, radius, numComponents);
-    
-    return perspectives;
 }
 
 export default OLDiagram;
