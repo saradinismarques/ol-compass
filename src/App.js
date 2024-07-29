@@ -24,20 +24,4 @@ function App() {
   );
 }
 
-// function App() {
-//   return (
-//     <Router>
-//       <div className="App">
-//         <main>
-//           <Routes>
-//             <Route path="/" element={<HomePage />} />
-//             <Route path="/learn" element={<LearnPage />} />
-//           </Routes>
-//         </main>
-//         <Menu />
-//       </div>
-//     </Router>
-//   );
-// }
-
 export default App;

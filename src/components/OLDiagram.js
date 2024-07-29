@@ -6,9 +6,9 @@ import '../styles/OLDiagram.css';
 
 const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
     const waveDims = {
-        "Principles": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25.5, Color: "#99f6be" },
-        "Perspectives": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5, Color: "#85d68d" },
-        "Dimensions": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5, Color: "#77bcd4" }
+        "Principles": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25, Color: "#41ffc9" },
+        "Perspectives": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5, Color: "#41e092" },
+        "Dimensions": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5, Color: "#41c4e0" }
     };
 
     const principles = getPrinciples(getPrinciplesData(), waveDims.Principles);
@@ -17,8 +17,8 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
 
     const [hoveredId, setHoveredId] = useState(null);
     const [clickedId, setClickedId] = useState(null);
-;
-    const handleClick = (arr, index) => (e) => {
+
+    const handleClick = (arr, index, gradientColor) => (e) => {
         if (!buttonsActive) return;
 
         const id = e.target.id();
@@ -26,7 +26,7 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
 
         const title = convertLabel(arr[index].Code);
         if (onButtonClick) {
-            onButtonClick(title, arr[index].Headline, arr[index].Paragraph, arr[index].ShowMoreText);
+            onButtonClick(title, arr[index].Headline, arr[index].Paragraph, arr[index].ShowMoreText, gradientColor);
         }
     }
       
@@ -69,64 +69,65 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
 
     return (
         <div className={classNames.join(' ')}>
-        <Stage width={window.innerWidth} height={window.innerHeight}>
-            <Layer>
-                {principles.map((p, i) => (
-                    <Shape
-                        key={p.Code}
-                        sceneFunc={(context, shape) => {
-                        drawWaveButton(p, size, waveDims.Principles, context, shape);
-                        }}
-                        id={p.Code}
-                        fill={waveDims.Principles['Color']}
-                        stroke={waveDims.Principles['Color']}
-                        strokeWidth={0.01}
-                        onClick={handleClick(principles, i)}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        opacity={calculateOpacity(clickedId, hoveredId, p.Code)}
-                    />
-                ))} 
+            <Stage width={window.innerWidth} height={window.innerHeight}>
+                <Layer>
+                    {principles.map((p, i) => (
+                        <Shape
+                            key={p.Code}
+                            sceneFunc={(context, shape) => {
+                            drawWaveButton(p, size, waveDims.Principles, context, shape);
+                            }}
+                            id={p.Code}
+                            fill={waveDims.Principles['Color']}
+                            stroke={waveDims.Principles['Color']}
+                            strokeWidth={0.01}
+                            onClick={handleClick(principles, i, waveDims.Principles['Color'])}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            opacity={calculateOpacity(clickedId, hoveredId, p.Code)}
+                        />
+                    ))} 
 
-                {perspectives.map((p, i) => (
-                    <Shape
-                        key={p.Code}
-                        sceneFunc={(context, shape) => {
-                        drawWaveButton(p, size, waveDims.Perspectives, context, shape);
-                        }}
-                        id={p.Code}
-                        fill={waveDims.Perspectives['Color']}
-                        stroke={waveDims.Perspectives['Color']} 
-                        strokeWidth={0.01}
-                        onClick={handleClick(perspectives, i)}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        opacity={calculateOpacity(clickedId, hoveredId, p.Code)}
-                    />
-                ))} 
+                    {perspectives.map((p, i) => (
+                        <Shape
+                            key={p.Code}
+                            sceneFunc={(context, shape) => {
+                            drawWaveButton(p, size, waveDims.Perspectives, context, shape);
+                            }}
+                            id={p.Code}
+                            fill={waveDims.Perspectives['Color']}
+                            stroke={waveDims.Perspectives['Color']} 
+                            strokeWidth={0.01}
+                            onClick={handleClick(perspectives, i, waveDims.Perspectives['Color'])}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            opacity={calculateOpacity(clickedId, hoveredId, p.Code)}
+                        />
+                    ))} 
 
-                {dimensions.map((d, i) => (
-                    <Shape
-                        key={d.Code}
-                        sceneFunc={(context, shape) => {
-                        drawWaveButton(d, size, waveDims.Dimensions, context, shape);
-                        }}
-                        id={d.Code}
-                        fill={waveDims.Dimensions['Color']}
-                        stroke={waveDims.Dimensions['Color']} 
-                        strokeWidth={0.01}
-                        onClick={handleClick(dimensions, i)}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                        opacity={calculateOpacity(clickedId, hoveredId, d.Code)}
-                    />
-                ))} 
+                    {dimensions.map((d, i) => (
+                        <Shape
+                            key={d.Code}
+                            sceneFunc={(context, shape) => {
+                            drawWaveButton(d, size, waveDims.Dimensions, context, shape);
+                            }}
+                            id={d.Code}
+                            fill={waveDims.Dimensions['Color']}
+                            stroke={waveDims.Dimensions['Color']} 
+                            strokeWidth={0.01}
+                            onClick={handleClick(dimensions, i, waveDims.Dimensions['Color'])}
+                            onMouseEnter={handleMouseEnter}
+                            onMouseLeave={handleMouseLeave}
+                            opacity={calculateOpacity(clickedId, hoveredId, d.Code)}
+                        />
+                    ))} 
 
-            </Layer>   
-    </Stage>
+                </Layer>   
+        </Stage>
     </div>
     );
 };
+
 function getPrinciples(principlesData, dims) {
     const x = window.innerWidth / 2;
     const y = window.innerHeight / 2;
@@ -135,7 +136,7 @@ function getPrinciples(principlesData, dims) {
     const height = dims['Height'];
     const halfWidth = width / 2;
     const halfHeight = height / 2;
-    const margin = 1;
+    const margin = 0.7;
     const angle = 0;
 
     principlesData[0] = { ...principlesData[0], x: x, y: y, angle: angle };

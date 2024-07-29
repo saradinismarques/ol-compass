@@ -1,27 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/Text.css';
 import '../styles/App.css';
 import OLDiagram from '../components/OLDiagram';
 
 const LearnPage = () => {
-  const initialState = {
+  // Memoize the initialState object
+  const initialState = useMemo(() => ({
     title: `What's it for?`,
     headline: 'Explore the fundamentals of OL, one by one!',
     paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     instruction: 'Click on any element',
     showMore: false,
     showMoreText: '',
-    showMoreButton: false,
-    clickedId: null,
-  };
+    initialState: true,
+    gradientColor: null
+  }), []);
 
   const [state, setState] = useState(initialState);
 
-  const resetState = () => {
+  const resetState = useCallback(() => {
     setState(initialState);
-  };
+  }, [initialState]);
 
-  const handleDiagramClick = (title, headline, paragraph, showMoreText) => {
+  const handleDiagramClick = (title, headline, paragraph, showMoreText, gradientColor) => {
     setState((prevState) => ({
       ...prevState,
       title,
@@ -30,7 +31,8 @@ const LearnPage = () => {
       showMoreText,
       instruction: '',
       showMore: false,
-      showMoreButton: true,
+      initialState: false,
+      gradientColor
     }));
   };
 
@@ -41,28 +43,37 @@ const LearnPage = () => {
     }));
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape') {
       resetState();
     }
-  };
+  }, [resetState]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
-
-    // Cleanup event listener on component unmount
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+}, [handleKeyDown]);
+
 
   return (
-    <div>
+    <div className='gradient-background'
+      style={{
+        background: state.initialState
+          ? 'none'
+          : `linear-gradient(to right, #ffffff 35%, ${state.gradientColor} 80%)`
+      }}
+    >
       <OLDiagram size="450" position="left" onButtonClick={handleDiagramClick} />
       <div className="text-container">
-        <h1>{state.title}</h1>
-        <h2>{state.headline}</h2>
-        <div className={state.showMore ? 'text-content expanded' : 'text-content'}>
+        <h1 className={state.initialState ? 'h1-initial' : 'h1-default'}>
+          {state.title}
+        </h1>
+        <h2 className={state.initialState ? 'h2-initial' : 'h2-default'}>
+          {state.headline}
+        </h2>
+        <div className={`${state.initialState ? 'p-initial' : (state.showMore ? 'p-default expanded' : 'p-default')}`}>
           <p>{state.paragraph}</p>
           {state.showMore && (
             <>
@@ -71,7 +82,7 @@ const LearnPage = () => {
           )}
         </div>
 
-        {state.showMoreButton && (
+        {!state.initialState && (
           <>
             <button onClick={toggleShowMore} className="show-more-button">
               {state.showMore ? 'Show less' : 'Show more'}
