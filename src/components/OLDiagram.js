@@ -1,47 +1,51 @@
 // src/components/OLDiagram.js
 import React, { useState } from 'react';
-import { Stage, Layer, Group, Shape } from 'react-konva';
+import { Stage, Layer, Shape } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../Data.js'; 
 import '../styles/OLDiagram.css'; 
 
-const OLDiagram = ({size, position, onButtonClick}) => {
+const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
     const waveDims = {
         "Principles": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25.5, Color: "#99f6be" },
         "Perspectives": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5, Color: "#85d68d" },
         "Dimensions": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5, Color: "#77bcd4" }
     };
 
-    
     const perspectivesData = getPerspectivesData();
-
     const perspectives = getPerspectives(perspectivesData, size);
-;
-    const handleClick = (arr) => (e) => {
-        
-        const id = e.target.id();
-        const match = id.match(/\d+/); // This regex matches one or more digits in the string
-        const code = parseInt(match[0], 10) - 1;  
 
-        console.log(code);
-        const title = convertLabel(arr[code].Code);
+    const [hoveredId, setHoveredId] = useState(null);
+    const [clickedId, setClickedId] = useState(null);
+;
+    const handleClick = (arr, index) => (e) => {
+        if (!buttonsActive) return;
+        const id = e.target.id();
+        setClickedId(id);
+
+        const title = convertLabel(arr[index].Code);
         if (onButtonClick) {
-            onButtonClick(title, arr[code].Headline, arr[code].Paragraph);
+            onButtonClick(title, arr[index].Headline, arr[index].Paragraph);
         }
     }
       
-    const [hoveredId, setHoveredId] = useState(null);
+    const handleMouseEnter = (e) => {
+        if (!buttonsActive) return;
+        const stage = e.target.getStage();
+        stage.container().style.cursor = 'pointer';
 
-        // Memoized handleMouseEnter
-        const handleMouseEnter = (e) => {
-            const stage = e.target.getStage();
-            stage.container().style.cursor = 'pointer';
+        const id = e.target.id();
+        console.log(`Mouse Enter ID: ${id}`); // Debugging
+        setHoveredId(id);
+    };
 
-            const id = e.target.id();
-            console.log(`Mouse Enter ID: ${id}`); // Debugging
-            setHoveredId(id);
-        };
+    const handleMouseLeave = (e) => {
+        if (!buttonsActive) return;
+        const stage = e.target.getStage();
+        stage.container().style.cursor = 'default';
 
-
+        console.log(`Mouse Leave ID: ${hoveredId}`); // Debugging
+        setHoveredId(null);
+    };
 
     // Determine class names based on props
     const classNames = ['diagram'];
@@ -52,18 +56,26 @@ const OLDiagram = ({size, position, onButtonClick}) => {
         <Stage width={window.innerWidth} height={window.innerHeight}>
             <Layer>
             {perspectives.map((p, i) => (
-            <Shape
-                key={p.Code + (p.isHovered ? 'hovered' : 'normal')}
-                sceneFunc={(context, shape) => {
-                drawWaveButton(p, size, waveDims.Perspectives, context, shape);
-                }}
-                id={p.Code}
-                fill={waveDims.Perspectives['Color']}
-                stroke="white" // Add border for debugging
-                onClick={handleClick(perspectives)}
-                onMouseEnter={handleMouseEnter}
-                opacity={hoveredId === p.Code ? 0.5 : 1} // Set opacity based on hovered state
-
+                <Shape
+                    key={p.Code}
+                    sceneFunc={(context, shape) => {
+                    drawWaveButton(p, size, waveDims.Perspectives, context, shape);
+                    }}
+                    id={p.Code}
+                    fill={waveDims.Perspectives['Color']}
+                    stroke="white" // Add border for debugging
+                    onClick={handleClick(perspectives, i)}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    opacity={
+                        clickedId === p.Code
+                            ? 1
+                            : hoveredId === p.Code
+                                ? 0.8
+                                : clickedId === null
+                                    ? 1
+                                    : 0.5
+                    }
                 />
             ))} 
 

@@ -5,7 +5,6 @@ import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
 
 import Menu from './components/Menu'
-import OLDiagram from './components/OLDiagram'
 
 import './styles/App.css';
  

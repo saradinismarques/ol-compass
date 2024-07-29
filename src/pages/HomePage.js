@@ -4,7 +4,7 @@ import OLDiagram from '../components/OLDiagram'
 const HomePage = () => {
   return (
     <div>
-      <OLDiagram size="450"/>
+      <OLDiagram size="450" buttonsActive={false}/>
     </div>
   );
 };
