@@ -62,7 +62,7 @@ const LearnPage = () => {
       style={{
         background: state.initialState
           ? 'none'
-          : `linear-gradient(to right, #ffffff 35%, ${state.gradientColor} 80%)`
+          : `linear-gradient(to right, #ffffff 40%, ${state.gradientColor} 85%)`
       }}
     >
       <OLDiagram size="450" position="left" onButtonClick={handleDiagramClick} />

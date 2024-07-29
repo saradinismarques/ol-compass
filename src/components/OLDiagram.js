@@ -84,7 +84,7 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                             onClick={handleClick(principles, i, waveDims.Principles['Color'])}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={calculateOpacity(clickedId, hoveredId, p.Code)}
+                            opacity={getOpacity(clickedId, hoveredId, p.Code)}
                         />
                     ))} 
 
@@ -95,13 +95,15 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                             drawWaveButton(p, size, waveDims.Perspectives, context, shape);
                             }}
                             id={p.Code}
-                            fill={waveDims.Perspectives['Color']}
+                            fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims.Dimensions['Height']/1.5 }}
+                            fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveDims.Dimensions['Height']/1.5 }}
+                            fillLinearGradientColorStops={getGradientColor(p.Code, waveDims)}
                             stroke={waveDims.Perspectives['Color']} 
                             strokeWidth={0.01}
                             onClick={handleClick(perspectives, i, waveDims.Perspectives['Color'])}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={calculateOpacity(clickedId, hoveredId, p.Code)}
+                            opacity={getOpacity(clickedId, hoveredId, p.Code)}
                         />
                     ))} 
 
@@ -112,13 +114,15 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                             drawWaveButton(d, size, waveDims.Dimensions, context, shape);
                             }}
                             id={d.Code}
-                            fill={waveDims.Dimensions['Color']}
+                            fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims.Dimensions['Height']/1.5 }}
+                            fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveDims.Dimensions['Height']/1.5 }}
+                            fillLinearGradientColorStops={getGradientColor(d.Code, waveDims)}
                             stroke={waveDims.Dimensions['Color']} 
                             strokeWidth={0.01}
                             onClick={handleClick(dimensions, i, waveDims.Dimensions['Color'])}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={calculateOpacity(clickedId, hoveredId, d.Code)}
+                            opacity={getOpacity(clickedId, hoveredId, d.Code)}
                         />
                     ))} 
 
@@ -195,6 +199,7 @@ function drawWaveButton(component, size, componentDims, context, shape) {
     const y = component.y;
     const angle = component.angle;
 
+
     const width = componentDims.Width;
     const height = componentDims.Height;
     const cornerRadius = componentDims.CornerRadius;
@@ -252,18 +257,26 @@ function drawWaveButton(component, size, componentDims, context, shape) {
     context.fillText(component.Code, 0, - height / 4);
 }
 
-const calculateOpacity = (clickedId, hoveredId, currentId) => {
-    if (clickedId === currentId) {
+const getOpacity = (clickedId, hoveredId, currentId) => {
+    if (clickedId === currentId) 
         return 1;
-    }
-    if (hoveredId === currentId) {
+    if (hoveredId === currentId) 
         return 0.8;
-    }
-    if (clickedId === null) {
+    if (clickedId === null) 
         return 1;
-    }
     return 0.5;
 };
+
+const getGradientColor = (code, waveDims) => {
+    if (code === 'Pe1')
+        return [0, waveDims.Perspectives.Color, 1, waveDims.Principles.Color];
+    else if(code === 'D1')
+        return [0, waveDims.Dimensions.Color, 1, waveDims.Perspectives.Color];
+    else if (code[0] === 'P')
+        return [0, waveDims.Perspectives.Color, 1, waveDims.Perspectives.Color];   
+    else if (code[0] === 'D')
+        return [0, waveDims.Dimensions.Color, 1, waveDims.Dimensions.Color];   
+}
 
 
 function convertLabel(label) {
