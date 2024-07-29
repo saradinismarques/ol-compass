@@ -1,5 +1,5 @@
 // src/components/OLDiagram.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Stage, Layer, Shape } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../Data.js'; 
 import '../styles/OLDiagram.css'; 
@@ -26,7 +26,7 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
 
         const title = convertLabel(arr[index].Code);
         if (onButtonClick) {
-            onButtonClick(title, arr[index].Headline, arr[index].Paragraph);
+            onButtonClick(title, arr[index].Headline, arr[index].Paragraph, arr[index].ShowMoreText);
         }
     }
       
@@ -49,6 +49,20 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
         setHoveredId(null);
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Escape') {
+            setClickedId(null);
+            setHoveredId(null);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []);
+
     // Determine class names based on props
     const classNames = ['diagram'];
     if (position === 'left') classNames.push('left');
@@ -65,7 +79,8 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                         }}
                         id={p.Code}
                         fill={waveDims.Principles['Color']}
-                        stroke="white" // Add border for debugging
+                        stroke={waveDims.Principles['Color']}
+                        strokeWidth={0.01}
                         onClick={handleClick(principles, i)}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
@@ -81,7 +96,8 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                         }}
                         id={p.Code}
                         fill={waveDims.Perspectives['Color']}
-                        stroke="white" // Add border for debugging
+                        stroke={waveDims.Perspectives['Color']} 
+                        strokeWidth={0.01}
                         onClick={handleClick(perspectives, i)}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
@@ -97,7 +113,8 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                         }}
                         id={d.Code}
                         fill={waveDims.Dimensions['Color']}
-                        stroke="white" // Add border for debugging
+                        stroke={waveDims.Dimensions['Color']} 
+                        strokeWidth={0.01}
                         onClick={handleClick(dimensions, i)}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
