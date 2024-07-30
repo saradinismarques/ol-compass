@@ -17,6 +17,7 @@ function App() {
            <Routes>
              <Route path="/" element={<HomePage />} />
              <Route path="/learn" element={<LearnPage />} />
+             <Route path="/get-inspired" element={<GetInspiredPage />} />
            </Routes>
          </main>
          <Menu />

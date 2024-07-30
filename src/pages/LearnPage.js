@@ -76,18 +76,18 @@ const LearnPage = () => {
       <div className="text-container">
         {state.initialState && (
           <>
-            <h1 className='h1-initial'>{initialText.title}</h1>
-            <h2 className='h2-initial'>{initialText.headline}</h2>
-            <p className='p-initial'>{initialText.paragraph}</p>
-            <h3 className='h3-initial'>{initialText.instruction}</h3>
+            <h1 className='title-initial'>{initialText.title}</h1>
+            <h2 className='headline-initial'>{initialText.headline}</h2>
+            <p className='text-initial'>{initialText.paragraph}</p>
+            <p className='instruction'>{initialText.instruction}</p>
           </>
         )}
 
         {!state.initialState && (
           <>
-            <h1 className='h1-learn'>{state.title}</h1>
-            <h2 className='h2-learn'>{state.headline}</h2>
-            <div className={state.showMore ? 'p-learn expanded' : 'p-learn'}>
+            <h1 className='title-learn'>{state.title}</h1>
+            <h2 className='headline-learn'>{state.headline}</h2>
+            <div className={state.showMore ? 'text-learn expanded' : 'text-learn'}>
               <p>{state.paragraph}</p>
               {state.showMore && (
                 <>

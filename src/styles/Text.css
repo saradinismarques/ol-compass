@@ -1,6 +1,7 @@
 body {
     height: 100%;
     margin: 0;
+    font-family: 'Manrope', sans-serif;
 }
 
 
@@ -13,7 +14,7 @@ body {
 }
   
 /* Style for h1 */
-.h1-initial {
+.title-initial {
     font-size: 1.4em; /* Larger size for h1 */
     font-weight: 300;
     color: rgb(219,219,219);
@@ -22,7 +23,7 @@ body {
 }
 
 /* Style for h1 */
-.h1-learn {
+.title-learn {
     font-size: 1.5em; /* Larger size for h1 */
     font-weight: 300;
     color: rgb(255, 255, 255); 
@@ -31,7 +32,7 @@ body {
 }
 
 /* Style for h2 */
-.h2-initial {
+.headline-initial {
     font-size: 1.4em; /* Smaller size for h2 */
     font-weight: 500;
     color: rgb(0, 0, 0); 
@@ -39,7 +40,7 @@ body {
 }
 
 /* Style for h2 */
-.h2-learn {
+.headline-learn {
     font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
     text-transform: uppercase;
@@ -48,15 +49,16 @@ body {
 }
 
 /* Style for h3 */
-.h3-initial {
+.instruction {
     font-size: 1.05em; /* Smaller size for h2 */
     font-weight: 500;
     color: rgb(255, 72, 172);
     margin-top: 10px;
+    max-width: 250px;
 }
 
 /* Style for paragraph */
-.p-initial {
+.text-initial {
     font-size: 1.1em;
     font-weight: 300;
     color: rgb(211, 211, 210); 
@@ -66,7 +68,7 @@ body {
 }
   
 /* Style for paragraph */
-.p-learn {
+.text-learn {
     font-size: 1.1em;
     font-weight: 300;
     color: rgb(0, 0, 0); 
@@ -76,7 +78,7 @@ body {
 }
 
  /* Expanded state for text content */
- .p-learn.expanded {
+ .text-learn.expanded {
     overflow-y: auto; /* Enable vertical scroll */
     max-height: 300px; /* Show full content when expanded */
     margin-top: -30px;
@@ -109,3 +111,62 @@ body {
     stroke-width: 2; /* Adjust the stroke width as needed */
 }
   
+/* Style for text-container */
+.card-text-container {
+    position: absolute;
+    top: 14%; /* Position item 50% from the top */
+    left: 60%; /* Position item 50% from the left */
+    max-width: 280px;
+    display: flex;
+    flex-direction: column; /* Arrange items in a column */
+    align-items: center;   /* Center items horizontally */
+}
+
+.card-container {
+    width: 280px;
+    height: 280px;
+    padding: 15px;
+    padding-left: 20px;
+    border-radius: 20px;
+    background: linear-gradient(to bottom right, #9494ad 30%, #aeaec1 60%, #f5f4f4 95%);
+    overflow: hidden;
+}
+
+.title-get-inspired {
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-top: 0px;
+    color: white;
+}
+
+.description-get-inspired {
+    font-size: 1em;
+    font-weight: 400;
+    margin-top: 25px;
+    color: white;
+  }
+  
+.credits-get-inspired {
+    font-size: 0.9em;
+    font-weight: 200;
+    position: absolute;  /* Absolute positioning within the container */
+    bottom: 50px;        
+    color: white;
+}
+
+.results-get-inspired {
+    margin-bottom: 30px;
+    font-weight: 200;
+}
+
+.bold-text {
+    font-weight: 500;
+}
+
+.show-more-button.get-inspired {
+    font-weight: 200;
+    color: white;
+    position: absolute;
+    padding-left: 0;
+    bottom: 25px;        
+}
