@@ -39,12 +39,23 @@ const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) 
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
                 : [...prevClickedIds, id] // Add ID if not already clicked
             );
-            setLinePoints(prevLinePoints => 
-                prevLinePoints.length === 0
-                ? [arr[index].x, arr[index].y] // Remove ID if already clicked
-                : [...prevLinePoints, arr[index].x, arr[index].y] // Add ID if not already clicked
-            );
-            console.log(linePoints);
+            const pointX = arr[index].x;
+            const pointY = arr[index].y;
+
+            setLinePoints(prevLinePoints => {
+                // Check if the point already exists in the array
+                const pointIndex = prevLinePoints.findIndex((point, idx) => {
+                    return idx % 2 === 0 && prevLinePoints[idx] === pointX && prevLinePoints[idx + 1] === pointY;
+                });
+
+                if (pointIndex !== -1) {
+                    // Point exists, remove it
+                    return prevLinePoints.filter((_, idx) => idx !== pointIndex && idx !== pointIndex + 1);
+                } else {
+                    // Point does not exist, add it
+                    return [...prevLinePoints, pointX, pointY];
+                }
+            });
         }
     }
       
