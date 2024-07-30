@@ -32,4 +32,9 @@
 .menu-button:active {
     background-color: #e0e0e0;
 }
-  
+
+.menu-button.active {
+    background-color: black; /* Active state background color */
+    color: white; /* Active state text color */
+    border: 2px solid black; /* Border remains black to match the background */
+}
