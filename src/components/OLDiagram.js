@@ -1,7 +1,7 @@
 // src/components/OLDiagram.js
 import React, { useState, useEffect } from 'react';
 import { Stage, Layer, Shape } from 'react-konva';
-import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../Data.js'; 
+import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import '../styles/OLDiagram.css'; 
 
 const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {

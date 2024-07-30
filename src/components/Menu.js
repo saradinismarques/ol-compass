@@ -7,7 +7,7 @@ const Menu = () => {
     <div className="bottom-menu">
       <Link to="/" className="menu-button">HOME</Link>
       <Link to="/learn" className="menu-button">LEARN</Link>
-      <Link to="/" className="menu-button">GET INSPIRED</Link>
+      <Link to="/get-inspired" className="menu-button">GET INSPIRED</Link>
       <Link to="/" className="menu-button">CONTEXTUALIZE</Link>
       <Link to="/" className="menu-button">ANALYZE</Link>
       <Link to="/" className="menu-button">IDEATE</Link>

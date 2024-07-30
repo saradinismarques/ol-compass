@@ -2,14 +2,22 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/Text.css';
 import '../styles/App.css';
 import OLDiagram from '../components/OLDiagram';
+import ArrowIcon from '../assets/arrow-icon.svg'; 
 
 const LearnPage = () => {
-  // Memoize the initialState object
-  const initialState = useMemo(() => ({
+  const initialText = {
     title: `What's it for?`,
     headline: 'Explore the fundamentals of OL, one by one!',
     paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    instruction: 'Click on any element',
+    instruction: 'Click on any element'
+  };
+
+  // Memoize the initialState object
+  const initialState = useMemo(() => ({
+    title: '',
+    headline: '',
+    paragraph: '',
+    instruction: '',
     showMore: false,
     showMoreText: '',
     initialState: true,
@@ -29,7 +37,6 @@ const LearnPage = () => {
       headline,
       paragraph,
       showMoreText,
-      instruction: '',
       showMore: false,
       initialState: false,
       gradientColor
@@ -67,31 +74,33 @@ const LearnPage = () => {
     >
       <OLDiagram size="450" position="left" onButtonClick={handleDiagramClick} />
       <div className="text-container">
-        <h1 className={state.initialState ? 'h1-initial' : 'h1-default'}>
-          {state.title}
-        </h1>
-        <h2 className={state.initialState ? 'h2-initial' : 'h2-default'}>
-          {state.headline}
-        </h2>
-        <div className={`${state.initialState ? 'p-initial' : (state.showMore ? 'p-default expanded' : 'p-default')}`}>
-          <p>{state.paragraph}</p>
-          {state.showMore && (
-            <>
-              <p>{state.showMoreText}</p>
-            </>
-          )}
-        </div>
-
-        {!state.initialState && (
+        {state.initialState && (
           <>
-            <button onClick={toggleShowMore} className="show-more-button">
-              {state.showMore ? 'Show less' : 'Show more'}
-            </button>
+            <h1 className='h1-initial'>{initialText.title}</h1>
+            <h2 className='h2-initial'>{initialText.headline}</h2>
+            <p className='p-initial'>{initialText.paragraph}</p>
+            <h3 className='h3-initial'>{initialText.instruction}</h3>
           </>
         )}
 
-        <h3>{state.instruction}</h3>
-      </div>
+        {!state.initialState && (
+          <>
+            <h1 className='h1-learn'>{state.title}</h1>
+            <h2 className='h2-learn'>{state.headline}</h2>
+            <div className={state.showMore ? 'p-learn expanded' : 'p-learn'}>
+              <p>{state.paragraph}</p>
+              {state.showMore && (
+                <>
+                  <p>{state.showMoreText}</p>
+                </>
+              )}
+            </div>
+              <button onClick={toggleShowMore} className="show-more-button">
+                {state.showMore ? 'Show less' : 'Show more'}
+              </button>
+            </>
+        )}
+      </div>      
     </div>
   );
 };

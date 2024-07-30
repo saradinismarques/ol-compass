@@ -1,6 +1,6 @@
-import principlesData from './data/principles.json';
-import perspectivesData from './data/perspectives.json';
-import dimensionsData from './data/dimensions.json';
+import principlesData from '../data/principles.json';
+import perspectivesData from '../data/perspectives.json';
+import dimensionsData from '../data/dimensions.json';
 
 function getDataFromJson(data) {
     try {
