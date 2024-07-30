@@ -17,7 +17,6 @@ const LearnPage = () => {
     title: '',
     headline: '',
     paragraph: '',
-    instruction: '',
     showMore: false,
     showMoreText: '',
     initialState: true,
@@ -72,7 +71,7 @@ const LearnPage = () => {
           : `linear-gradient(to right, #ffffff 40%, ${state.gradientColor} 85%)`
       }}
     >
-      <OLDiagram size="450" position="left" onButtonClick={handleDiagramClick} />
+      <OLDiagram size="450" position="left" action="learn" onButtonClick={handleDiagramClick} />
       <div className="text-container">
         {state.initialState && (
           <>

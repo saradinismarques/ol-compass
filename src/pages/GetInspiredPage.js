@@ -12,14 +12,9 @@ const GetInspiredPage = () => {
 
   // Memoize the initialState object
   const initialState = useMemo(() => ({
-    title: '',
-    headline: '',
-    paragraph: '',
-    instruction: '',
+    text: [], 
     showMore: false,
-    showMoreText: '',
     initialState: true,
-    gradientColor: null
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -28,16 +23,16 @@ const GetInspiredPage = () => {
     setState(initialState);
   }, [initialState]);
 
-  const handleDiagramClick = (title, headline, paragraph, showMoreText, gradientColor) => {
+  const handleEnterClick = (components) => {
+    const text = components.join('\n');
+
     setState((prevState) => ({
-      ...prevState,
-      title,
-      headline,
-      paragraph,
-      showMoreText,
-      showMore: false,
-      initialState: false,
+        ...prevState,
+        text,
+        showMore: false,
+        initialState: false,
     }));
+    console.log(state.components);
   };
 
   const toggleShowMore = () => {
@@ -63,7 +58,7 @@ const GetInspiredPage = () => {
 
   return (
     <div>
-      <OLDiagram size="450" position="left" onButtonClick={handleDiagramClick} />
+      <OLDiagram size="450" position="left" action="get-inspired" onButtonClick={handleEnterClick} />
         {state.initialState && (
         <>
         <div className='text-container'>
@@ -85,6 +80,7 @@ const GetInspiredPage = () => {
         <div className="card-container">
             <h1 className="title-get-inspired">[Title XXX]</h1>
             <p className="description-get-inspired">[Short Description]</p>
+            <p className="description-get-inspired">{state.text}</p>
             <p className="credits-get-inspired">Credits: [Lorem Ipsum]</p>
             <button onClick={toggleShowMore} className="show-more-button get-inspired">
                 {state.showMore ? 'Show less' : 'Show more'}

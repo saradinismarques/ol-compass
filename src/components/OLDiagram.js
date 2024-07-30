@@ -1,10 +1,10 @@
 // src/components/OLDiagram.js
-import React, { useState, useEffect } from 'react';
-import { Stage, Layer, Shape } from 'react-konva';
+import React, { useState, useEffect, useRef } from 'react';
+import { Stage, Layer, Shape, Line } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import '../styles/OLDiagram.css'; 
 
-const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
+const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) => {
     const waveDims = {
         "Principles": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25, Color: "#41ffc9" },
         "Perspectives": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5, Color: "#41e092" },
@@ -16,17 +16,35 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
     const dimensions = getDimensions(getDimensionsData(), size);
 
     const [hoveredId, setHoveredId] = useState(null);
-    const [clickedId, setClickedId] = useState(null);
+    const [clickedIds, setClickedIds] = useState([]);
+    const [linePoints, setLinePoints] = useState([]);
+    const clickedIdsRef = useRef(clickedIds);
 
     const handleClick = (arr, index, gradientColor) => (e) => {
         if (!buttonsActive) return;
-
         const id = e.target.id();
-        setClickedId(id);
 
-        const title = convertLabel(arr[index].Code);
-        if (onButtonClick) {
-            onButtonClick(title, arr[index].Headline, arr[index].Paragraph, arr[index].ShowMoreText, gradientColor);
+        if(action === "learn") {
+            setClickedIds([id]);
+            const title = convertLabel(arr[index].Code);
+
+            if (onButtonClick) {
+                onButtonClick(title, arr[index].Headline, arr[index].Paragraph, arr[index].ShowMoreText, gradientColor);
+            }
+        }
+
+        if(action === "get-inspired") {
+            setClickedIds(prevClickedIds => 
+                prevClickedIds.includes(id)
+                ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
+                : [...prevClickedIds, id] // Add ID if not already clicked
+            );
+            setLinePoints(prevLinePoints => 
+                prevLinePoints.length === 0
+                ? [arr[index].x, arr[index].y] // Remove ID if already clicked
+                : [...prevLinePoints, arr[index].x, arr[index].y] // Add ID if not already clicked
+            );
+            console.log(linePoints);
         }
     }
       
@@ -51,8 +69,14 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
 
     const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
-            setClickedId(null);
+            setClickedIds([]);
+            setLinePoints([]);
             setHoveredId(null);
+        } 
+        else if (action === "get-inspired" && e.key === 'Enter') {
+            if (onButtonClick) {
+                onButtonClick(clickedIdsRef.current);
+            }
         }
     };
 
@@ -62,6 +86,11 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, []);
+
+    // Update the ref whenever clickedIds changes
+    useEffect(() => {
+        clickedIdsRef.current = clickedIds;
+    }, [clickedIds]);
 
     // Determine class names based on props
     const classNames = ['diagram'];
@@ -84,7 +113,7 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                             onClick={handleClick(principles, i, waveDims.Principles['Color'])}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedId, hoveredId, p.Code)}
+                            opacity={getOpacity(clickedIds, hoveredId, p.Code)}
                         />
                     ))} 
 
@@ -103,7 +132,7 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                             onClick={handleClick(perspectives, i, waveDims.Perspectives['Color'])}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedId, hoveredId, p.Code)}
+                            opacity={getOpacity(clickedIds, hoveredId, p.Code)}
                         />
                     ))} 
 
@@ -122,9 +151,18 @@ const OLDiagram = ({size, position, buttonsActive=true, onButtonClick}) => {
                             onClick={handleClick(dimensions, i, waveDims.Dimensions['Color'])}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedId, hoveredId, d.Code)}
+                            opacity={getOpacity(clickedIds, hoveredId, d.Code)}
                         />
                     ))} 
+
+                    {action === "get-inspired" && (
+                        <Line
+                            points={linePoints}
+                            stroke="red"
+                            strokeWidth={1}
+                            dash={[2, 2]}  // This makes the line dotted
+                        />
+                    )}
 
                 </Layer>   
         </Stage>
@@ -257,14 +295,14 @@ function drawWaveButton(component, size, componentDims, context, shape) {
     context.fillText(component.Code, 0, - height / 4);
 }
 
-const getOpacity = (clickedId, hoveredId, currentId) => {
-    if (clickedId === currentId) 
+const getOpacity = (clickedIds, hoveredId, currentId) => {
+    if (clickedIds.includes(currentId)) 
         return 1;
     if (hoveredId === currentId) 
         return 0.8;
-    if (clickedId === null) 
+    if (clickedIds.length === 0) 
         return 1;
-    return 0.5;
+    return 0.4;
 };
 
 const getGradientColor = (code, waveDims) => {
