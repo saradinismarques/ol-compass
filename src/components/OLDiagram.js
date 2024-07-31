@@ -1,26 +1,25 @@
 // src/components/OLDiagram.js
 import React, { useState, useEffect, useRef } from 'react';
-import { Stage, Layer, Shape, Line } from 'react-konva';
+import { Stage, Layer, Shape } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import '../styles/OLDiagram.css'; 
 
-const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) => {
+const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButtonClick}) => {
     const waveDims = {
-        "Principles": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25, Color: "#41ffc9" },
-        "Perspectives": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5, Color: "#41e092" },
-        "Dimensions": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5, Color: "#41c4e0" }
+        "Principle": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25 },
+        "Perspective": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5 },
+        "Dimension": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5 }
     };
 
-    const principles = getPrinciples(getPrinciplesData(), waveDims.Principles);
+    const principles = getPrinciples(getPrinciplesData(), waveDims.Principle);
     const perspectives = getPerspectives(getPerspectivesData(), size);
     const dimensions = getDimensions(getDimensionsData(), size);
 
     const [hoveredId, setHoveredId] = useState(null);
     const [clickedIds, setClickedIds] = useState([]);
-    const [linePoints, setLinePoints] = useState([]);
     const clickedIdsRef = useRef(clickedIds);
 
-    const handleClick = (arr, index, gradientColor) => (e) => {
+    const handleClick = (arr, index) => (e) => {
         if (!buttonsActive) return;
         const id = e.target.id();
 
@@ -29,7 +28,7 @@ const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) 
             const title = convertLabel(arr[index].Code);
 
             if (onButtonClick) {
-                onButtonClick(title, arr[index].Headline, arr[index].Paragraph, arr[index].ShowMoreText, gradientColor);
+                onButtonClick(title, arr[index].Headline, arr[index].Paragraph, arr[index].ShowMoreText, arr[index].Type);
             }
         }
 
@@ -39,23 +38,6 @@ const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) 
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
                 : [...prevClickedIds, id] // Add ID if not already clicked
             );
-            const pointX = arr[index].x;
-            const pointY = arr[index].y;
-
-            setLinePoints(prevLinePoints => {
-                // Check if the point already exists in the array
-                const pointIndex = prevLinePoints.findIndex((point, idx) => {
-                    return idx % 2 === 0 && prevLinePoints[idx] === pointX && prevLinePoints[idx + 1] === pointY;
-                });
-
-                if (pointIndex !== -1) {
-                    // Point exists, remove it
-                    return prevLinePoints.filter((_, idx) => idx !== pointIndex && idx !== pointIndex + 1);
-                } else {
-                    // Point does not exist, add it
-                    return [...prevLinePoints, pointX, pointY];
-                }
-            });
         }
     }
       
@@ -81,7 +63,6 @@ const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) 
     const handleKeyDown = (e) => {
         if (e.key === 'Escape') {
             setClickedIds([]);
-            setLinePoints([]);
             setHoveredId(null);
         } 
         else if (action === "get-inspired" && e.key === 'Enter') {
@@ -103,25 +84,21 @@ const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) 
         clickedIdsRef.current = clickedIds;
     }, [clickedIds]);
 
-    // Determine class names based on props
-    const classNames = ['diagram'];
-    if (position === 'left') classNames.push('left');
-
     return (
-        <div className={classNames.join(' ')}>
+        <div className={position}>
             <Stage width={window.innerWidth} height={window.innerHeight}>
                 <Layer>
                     {principles.map((p, i) => (
                         <Shape
                             key={p.Code}
                             sceneFunc={(context, shape) => {
-                            drawWaveButton(p, size, waveDims.Principles, context, shape);
+                            drawWaveButton(p, size, waveDims.Principle, context, shape);
                             }}
                             id={p.Code}
-                            fill={waveDims.Principles['Color']}
-                            stroke={waveDims.Principles['Color']}
+                            fill={colors.Principle}
+                            stroke={colors.Principle}
                             strokeWidth={0.01}
-                            onClick={handleClick(principles, i, waveDims.Principles['Color'])}
+                            onClick={handleClick(principles, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                             opacity={getOpacity(clickedIds, hoveredId, p.Code)}
@@ -132,15 +109,15 @@ const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) 
                         <Shape
                             key={p.Code}
                             sceneFunc={(context, shape) => {
-                            drawWaveButton(p, size, waveDims.Perspectives, context, shape);
+                            drawWaveButton(p, size, waveDims.Perspective, context, shape);
                             }}
                             id={p.Code}
-                            fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims.Dimensions['Height']/1.5 }}
-                            fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveDims.Dimensions['Height']/1.5 }}
-                            fillLinearGradientColorStops={getGradientColor(p.Code, waveDims)}
-                            stroke={waveDims.Perspectives['Color']} 
+                            fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims.Dimension['Height']/1.5 }}
+                            fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveDims.Dimension['Height']/1.5 }}
+                            fillLinearGradientColorStops={getGradientColor(p.Code, colors)}
+                            stroke={colors.Perspective} 
                             strokeWidth={0.01}
-                            onClick={handleClick(perspectives, i, waveDims.Perspectives['Color'])}
+                            onClick={handleClick(perspectives, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                             opacity={getOpacity(clickedIds, hoveredId, p.Code)}
@@ -151,30 +128,20 @@ const OLDiagram = ({size, position, action, buttonsActive=true, onButtonClick}) 
                         <Shape
                             key={d.Code}
                             sceneFunc={(context, shape) => {
-                            drawWaveButton(d, size, waveDims.Dimensions, context, shape);
+                            drawWaveButton(d, size, waveDims.Dimension, context, shape);
                             }}
                             id={d.Code}
-                            fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims.Dimensions['Height']/1.5 }}
-                            fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveDims.Dimensions['Height']/1.5 }}
-                            fillLinearGradientColorStops={getGradientColor(d.Code, waveDims)}
-                            stroke={waveDims.Dimensions['Color']} 
+                            fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims.Dimension['Height']/1.5 }}
+                            fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveDims.Dimension['Height']/1.5 }}
+                            fillLinearGradientColorStops={getGradientColor(d.Code, colors)}
+                            stroke={colors.Dimension} 
                             strokeWidth={0.01}
-                            onClick={handleClick(dimensions, i, waveDims.Dimensions['Color'])}
+                            onClick={handleClick(dimensions, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
                             opacity={getOpacity(clickedIds, hoveredId, d.Code)}
                         />
                     ))} 
-
-                    {action === "get-inspired" && (
-                        <Line
-                            points={linePoints}
-                            stroke="red"
-                            strokeWidth={1}
-                            dash={[2, 2]}  // This makes the line dotted
-                        />
-                    )}
-
                 </Layer>   
         </Stage>
     </div>
@@ -276,11 +243,21 @@ function drawWaveButton(component, size, componentDims, context, shape) {
     context.closePath();
     context.fillStrokeShape(shape);
 
+    let color;
+    if(component.Type === "Principle")
+        color = '#21b185';
+    else
+        color = 'white';
+
+    const flippedTexts = ['Pe3', 'Pe4', 'Pe5', 'Pe6', 'D4', 'D5', 'D6', 'D7', 'D8'];
+    
+    if(flippedTexts.includes(component.Code))
+        context.rotate(Math.PI);
     // Draw main text
     // Calculate font size based on dimension
     const fontSize = size / 41; // Adjust as needed
-    context.fillStyle = 'white';
     context.font = `500 ${fontSize}px Calibri`;
+    context.fillStyle = color;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
 
@@ -299,8 +276,8 @@ function drawWaveButton(component, size, componentDims, context, shape) {
 
     // Draw identifier
     const LabelFontSize = size / 45; // Adjust as needed
-    context.fillStyle = 'white';
-    context.font = `500 ${LabelFontSize}px Calibri`;
+    context.fillStyle = color;
+    context.font = `400 ${LabelFontSize}px Calibri`;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(component.Code, 0, - height / 4);
@@ -316,15 +293,15 @@ const getOpacity = (clickedIds, hoveredId, currentId) => {
     return 0.4;
 };
 
-const getGradientColor = (code, waveDims) => {
+const getGradientColor = (code, colors) => {
     if (code === 'Pe1')
-        return [0, waveDims.Perspectives.Color, 1, waveDims.Principles.Color];
+        return [0, colors.Perspective, 1, colors.Principle];
     else if(code === 'D1')
-        return [0, waveDims.Dimensions.Color, 1, waveDims.Perspectives.Color];
+        return [0, colors.Dimension, 1, colors.Perspective];
     else if (code[0] === 'P')
-        return [0, waveDims.Perspectives.Color, 1, waveDims.Perspectives.Color];   
+        return [0, colors.Perspective, 1, colors.Perspective];   
     else if (code[0] === 'D')
-        return [0, waveDims.Dimensions.Color, 1, waveDims.Dimensions.Color];   
+        return [0, colors.Dimension, 1, colors.Dimension];   
 }
 
 

@@ -12,7 +12,7 @@ const Menu = () => {
   return (
     <div className="bottom-menu">
       <Link 
-        to="/" 
+        to="/home" 
         className={`menu-button ${activeButton === 'home' ? 'active' : ''}`} 
         onClick={() => handleClick('home')}
       >

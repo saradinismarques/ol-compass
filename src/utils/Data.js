@@ -2,7 +2,7 @@ import principlesData from '../data/principles.json';
 import perspectivesData from '../data/perspectives.json';
 import dimensionsData from '../data/dimensions.json';
 
-function getDataFromJson(data) {
+function getDataFromJson(data, type) {
     try {
         // Process the JSON data
         const result = data.map(item => ({
@@ -13,6 +13,7 @@ function getDataFromJson(data) {
             ShowMoreText: item["#showmoretext"],
             Prompt: item["#prompt"],
             Credits: item["#credits"],
+            Type: type
         }));
 
         return result;
@@ -23,13 +24,13 @@ function getDataFromJson(data) {
 }
 
 export function getPrinciplesData() {
-    return getDataFromJson(principlesData)
+    return getDataFromJson(principlesData, "Principle")
 }
 
 export function getPerspectivesData() {
-    return getDataFromJson(perspectivesData)
+    return getDataFromJson(perspectivesData, "Perspective")
 }
 
 export function getDimensionsData() {
-    return getDataFromJson(dimensionsData)
+    return getDataFromJson(dimensionsData, "Dimension")
 }

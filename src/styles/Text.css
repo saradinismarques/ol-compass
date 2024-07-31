@@ -4,7 +4,6 @@ body {
     font-family: 'Manrope', sans-serif;
 }
 
-
 /* Style for text-container */
 .text-container {
     position: absolute;
@@ -14,7 +13,7 @@ body {
 }
   
 /* Style for h1 */
-.title-initial {
+.title-explanation {
     font-size: 1.4em; /* Larger size for h1 */
     font-weight: 300;
     color: rgb(219,219,219);
@@ -32,7 +31,7 @@ body {
 }
 
 /* Style for h2 */
-.headline-initial {
+.headline-explanation {
     font-size: 1.4em; /* Smaller size for h2 */
     font-weight: 500;
     color: rgb(0, 0, 0); 
@@ -58,7 +57,7 @@ body {
 }
 
 /* Style for paragraph */
-.text-initial {
+.text-explanation {
     font-size: 1.1em;
     font-weight: 300;
     color: rgb(211, 211, 210); 
@@ -74,6 +73,7 @@ body {
     color: rgb(0, 0, 0); 
     padding-left: 20px;
     margin-top: -30px;
+    margin-bottom: -5px;
     overflow-y: hidden; /* Hide overflow initially */
 }
 
@@ -99,16 +99,6 @@ body {
 
 .show-more-button:hover {
     color: rgb(203, 202, 202);
-}
-
-.arrow-icon {
-    width: 16px; /* Adjust size as needed */
-    height: auto;
-    margin-right: 5px; /* Add some space between the arrow and the text */
-    vertical-align: middle; /* Align the arrow with the text */
-    fill:  rgb(255, 72, 172);; /* Change this to your desired color */
-    stroke:  rgb(255, 72, 172);; /* Change this to your desired color */
-    stroke-width: 2; /* Adjust the stroke width as needed */
 }
   
 /* Style for text-container */
@@ -170,3 +160,13 @@ body {
     padding-left: 0;
     bottom: 25px;        
 }
+
+.title-initial {
+    position: absolute;
+    top: 50%; /* Position item 50% from the top */
+    left: 50%; 
+    font-size: 3em;
+    font-weight: 500;
+    color: rgb(0,40,112);
+}
+

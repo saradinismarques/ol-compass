@@ -2,10 +2,9 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/Text.css';
 import '../styles/App.css';
 import OLDiagram from '../components/OLDiagram';
-import ArrowIcon from '../assets/arrow-icon.svg'; 
 
-const LearnPage = () => {
-  const initialText = {
+const LearnPage = ({colors}) => {
+  const explanationText = {
     title: `What's it for?`,
     headline: 'Explore the fundamentals of OL, one by one!',
     paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
@@ -29,7 +28,7 @@ const LearnPage = () => {
     setState(initialState);
   }, [initialState]);
 
-  const handleDiagramClick = (title, headline, paragraph, showMoreText, gradientColor) => {
+  const handleDiagramClick = (title, headline, paragraph, showMoreText, Type) => {
     setState((prevState) => ({
       ...prevState,
       title,
@@ -38,7 +37,7 @@ const LearnPage = () => {
       showMoreText,
       showMore: false,
       initialState: false,
-      gradientColor
+      gradientColor: colors[Type]
     }));
   };
 
@@ -71,14 +70,14 @@ const LearnPage = () => {
           : `linear-gradient(to right, #ffffff 40%, ${state.gradientColor} 85%)`
       }}
     >
-      <OLDiagram size="450" position="left" action="learn" onButtonClick={handleDiagramClick} />
+      <OLDiagram size="450" colors={colors} position="left" action="learn" onButtonClick={handleDiagramClick} />
       <div className="text-container">
         {state.initialState && (
           <>
-            <h1 className='title-initial'>{initialText.title}</h1>
-            <h2 className='headline-initial'>{initialText.headline}</h2>
-            <p className='text-initial'>{initialText.paragraph}</p>
-            <p className='instruction'>{initialText.instruction}</p>
+            <h1 className='title-explanation'>{explanationText.title}</h1>
+            <h2 className='headline-explanation'>{explanationText.headline}</h2>
+            <p className='text-explanation'>{explanationText.paragraph}</p>
+            <p className='instruction'>{explanationText.instruction}</p>
           </>
         )}
 

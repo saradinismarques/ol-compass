@@ -1,10 +1,10 @@
 import React from 'react';
 import OLDiagram from '../components/OLDiagram'
 
-const HomePage = () => {
+const HomePage = ({colors}) => {
   return (
     <div>
-      <OLDiagram size="450" buttonsActive={false}/>
+      <OLDiagram size="450" colors={colors} position="center-top" buttonsActive={false}/>
     </div>
   );
 };
