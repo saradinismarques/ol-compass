@@ -1,5 +1,5 @@
 // src/components/OLDiagram.js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Stage, Layer, Shape } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import '../styles/OLDiagram.css'; 
@@ -60,7 +60,8 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
         setHoveredId(null);
     };
 
-    const handleKeyDown = (e) => {
+     // Memoize handleKeyDown to avoid creating a new reference on each render
+     const handleKeyDown = useCallback((e) => {
         if (e.key === 'Escape') {
             setClickedIds([]);
             setHoveredId(null);
@@ -70,14 +71,14 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
                 onButtonClick(clickedIdsRef.current);
             }
         }
-    };
+    }, [action, onButtonClick]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
         };
-    }, []);
+    }, [handleKeyDown]); // Dependency array includes handleKeyDown
 
     // Update the ref whenever clickedIds changes
     useEffect(() => {
@@ -92,7 +93,7 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
                         <Shape
                             key={p.Code}
                             sceneFunc={(context, shape) => {
-                            drawWaveButton(p, size, waveDims.Principle, context, shape);
+                            drawWaveButton(p, size, waveDims.Principle, action, context, shape);
                             }}
                             id={p.Code}
                             fill={colors.Principle}
@@ -101,7 +102,7 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
                             onClick={handleClick(principles, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedIds, hoveredId, p.Code)}
+                            opacity={getOpacity(clickedIds, hoveredId, p.Code, p.Type, action)}
                         />
                     ))} 
 
@@ -109,7 +110,7 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
                         <Shape
                             key={p.Code}
                             sceneFunc={(context, shape) => {
-                            drawWaveButton(p, size, waveDims.Perspective, context, shape);
+                            drawWaveButton(p, size, waveDims.Perspective, action, context, shape);
                             }}
                             id={p.Code}
                             fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims.Dimension['Height']/1.5 }}
@@ -120,7 +121,7 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
                             onClick={handleClick(perspectives, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedIds, hoveredId, p.Code)}
+                            opacity={getOpacity(clickedIds, hoveredId, p.Code, p.Type, action)}
                         />
                     ))} 
 
@@ -128,7 +129,7 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
                         <Shape
                             key={d.Code}
                             sceneFunc={(context, shape) => {
-                            drawWaveButton(d, size, waveDims.Dimension, context, shape);
+                            drawWaveButton(d, size, waveDims.Dimension, action, context, shape);
                             }}
                             id={d.Code}
                             fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims.Dimension['Height']/1.5 }}
@@ -139,7 +140,7 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
                             onClick={handleClick(dimensions, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedIds, hoveredId, d.Code)}
+                            opacity={getOpacity(clickedIds, hoveredId, d.Code, d.Type, action)}
                         />
                     ))} 
                 </Layer>   
@@ -210,7 +211,7 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
     return arr;
 };
 
-function drawWaveButton(component, size, componentDims, context, shape) { 
+function drawWaveButton(component, size, componentDims, action, context, shape) { 
     const x = component.x;
     const y = component.y;
     const angle = component.angle;
@@ -243,6 +244,9 @@ function drawWaveButton(component, size, componentDims, context, shape) {
     context.closePath();
     context.fillStrokeShape(shape);
 
+    const prefix = 'initial';
+    if (action.startsWith(prefix))
+        return
     let color;
     if(component.Type === "Principle")
         color = '#21b185';
@@ -283,13 +287,29 @@ function drawWaveButton(component, size, componentDims, context, shape) {
     context.fillText(component.Code, 0, - height / 4);
 }
 
-const getOpacity = (clickedIds, hoveredId, currentId) => {
+const getOpacity = (clickedIds, hoveredId, currentId, type, action) => {
+    if (action === "initial-0" || action === "initial-1")
+        return 0.4
+    else if (action === "initial-2" || action === "initial-3")
+        if(type === "Principle")
+            return 1
+        else 
+            return 0.4
+    else if (action === "initial-4")
+        if(type === "Dimension")
+            return 0.4
+        else
+            return 1
+    else if (action === "initial-5")
+        return 1
+
     if (clickedIds.includes(currentId)) 
         return 1;
     if (hoveredId === currentId) 
         return 0.8;
     if (clickedIds.length === 0) 
-        return 1;
+        return 1;  
+
     return 0.4;
 };
 
