@@ -1,5 +1,5 @@
 // src/components/OLDiagram.js
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, act } from 'react';
 import { Stage, Layer, Shape } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import '../styles/OLDiagram.css'; 
@@ -10,6 +10,8 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
         "Perspective": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5 },
         "Dimension": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5 }
     };
+    console.log(action === "initial-4");
+
 
     const principles = getPrinciples(getPrinciplesData(), waveDims.Principle);
     const perspectives = getPerspectives(getPerspectivesData(), size);
@@ -244,9 +246,16 @@ function drawWaveButton(component, size, componentDims, action, context, shape) 
     context.closePath();
     context.fillStrokeShape(shape);
 
-    const prefix = 'initial';
-    if (action.startsWith(prefix))
+    if (action === "initial-0" || action === "initial-1") {
         return
+    } else if (action === "initial-2" || action === "initial-3") {
+        if(component.Type !== "Principle")
+            return
+    } else if (action === "initial-4") {
+        if(component.Type === "Dimension")
+            return 
+    }
+
     let color;
     if(component.Type === "Principle")
         color = '#21b185';
@@ -288,19 +297,19 @@ function drawWaveButton(component, size, componentDims, action, context, shape) 
 }
 
 const getOpacity = (clickedIds, hoveredId, currentId, type, action) => {
-    if (action === "initial-0" || action === "initial-1")
+    if (action === "initial-0" || action === "initial-1") {
         return 0.4
-    else if (action === "initial-2" || action === "initial-3")
+    } else if (action === "initial-2" || action === "initial-3") {
         if(type === "Principle")
             return 1
         else 
             return 0.4
-    else if (action === "initial-4")
+    } else if (action === "initial-4") {
         if(type === "Dimension")
             return 0.4
         else
             return 1
-    else if (action === "initial-5")
+    } else if (action === "initial-5")
         return 1
 
     if (clickedIds.includes(currentId)) 

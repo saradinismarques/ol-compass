@@ -161,12 +161,12 @@ body {
     bottom: 25px;        
 }
 
-.initial-container {
+.initial-title-container {
     position: absolute;
     top: 50%; /* Position item 50% from the top */
     left: 50%; 
     transform: translate(-50%, -50%);
-    max-width: 300px;
+    max-width: 220px;
     text-align: center; /* Center the text inside the element */
     color: rgb(0,40,112);    
 }
@@ -186,4 +186,32 @@ body {
     font-weight: 400;
     color: rgb(0,40,112);    
 }
+
+.explanation-initial {
+    font-size: 1.3em;
+    font-weight: 500;
+    line-height: 130%;
+}
+
+.initial-text-container {
+    position: absolute;
+    top: 27%;
+    left: 70%;
+    max-width: 190px;
+    color: black;
+    font-size: 1.2em;
+    font-weight: 300;
+}
+
+.text-initial {
+    margin: 0;
+    padding: 0;
+}
+
+
+
+
+
+
+
 

@@ -8,36 +8,37 @@ const InitialPage = ({ colors }) => {
         title: 'THE',
         title2: 'OL-in-One Compass',
         explanation: 'Ocean Literacy (OL) is the understanding of the Ocean-humanity mutual influence.',
-        textPrinciples: 'OL is based on ',
-        textPrinciplesColored: '7 principles',
+        textPrinciples: 'OL is based on',
+        textPrinciples2: '7 principles',
         textConcepts: ' which summarize ',
-        textConceptsColored: '45 scientific concepts',
-        textConcepts2: '.',
-        textPerspectives: ' Science is just one of the ',
-        textPerspectivesColored: '7 Perspectives',
-        textPerspectives2: ' from which OL can be expressed.',
+        textConcepts2: '45 scientific concepts',
+        textConcepts3: '.',
+        textPerspectives: 'Science is just one of the ',
+        textPerspectives2: '7 Perspectives',
+        textPerspectives3: ' from which OL can be expressed.',
         textDimensions: ' As Knowledge is one of the ',
-        textDimensionsColored: '10 Dimensions',
-        textDimensions2: ' through which OL can be pursued.'
+        textDimensions2: '10 Dimensions',
+        textDimensions3: ' through which OL can be pursued.'
     };
 
     const [state, setState] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
 
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
-    const handleKeyPress = useCallback(() => {
-        setState((prevState) => prevState + 1);
+    const handleKeyDown = useCallback((e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
+            setState((prevState) => prevState + 1);
     }, []);
 
     useEffect(() => {
         // Add the event listener when the component mounts
-        window.addEventListener('keydown', handleKeyPress);
+        window.addEventListener('keydown', handleKeyDown);
 
         // Remove the event listener when the component unmounts
         return () => {
-            window.removeEventListener('keydown', handleKeyPress);
+            window.removeEventListener('keydown', handleKeyDown);
         };
-    }, [handleKeyPress]); // Add handleKeyPress to the dependency array
+    }, [handleKeyDown]); // Add handleKeyPress to the dependency array
 
     useEffect(() => {
         if (state === 6) {
@@ -59,13 +60,126 @@ const InitialPage = ({ colors }) => {
     // Determine the action based on the current state
     const action = actionMap[state];
 
+    // Determine the text to display based on the current state
+    const getDisplayText = () => {
+        if (state === 0) {
+            return (
+                <>
+                <p className='title-deter-initial'>THE</p>
+                <div className='initial-title-container'>
+                    <p className='title-initial'>OL-in-One Compass</p>
+                </div>
+                </>
+            );
+        } else if (state === 1) {
+            return (
+                <>
+                <div className='initial-title-container'>
+                    <p className='explanation-initial'>
+                        Ocean Literacy (OL) is the understanding of the Ocean-humanity mutual influence.
+                    </p>
+                </div>
+                </>
+            );
+        } else if (state === 2) {
+            return (
+                <>
+                <div className='initial-text-container'>
+                    <p className='text-initial'>OL is based on&nbsp;</p>
+                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        7 principles
+                    </span>
+                </div>
+                </>
+            );
+        } else if (state === 3) {
+            return (
+                <>
+                <div className='initial-text-container'>
+                    <p className='text-initial'>OL is based on&nbsp;</p>
+                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        7 principles
+                    </span>
+                    <p className='text-initial'>which summarize&nbsp;</p>
+                    <p className='text-initial'>
+                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        45 scientific concepts
+                    </span>
+                    .
+                    </p>
+                </div>
+                </>
+            );
+        } else if (state === 4) {
+            return (
+                <>
+                <div className='initial-text-container'>
+                    <p className='text-initial'>OL is based on&nbsp;</p>
+                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        7 principles
+                    </span>
+                    <p className='text-initial'>which summarize&nbsp;</p>
+                    <p className='text-initial'>
+                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        45 scientific concepts
+                    </span>
+                    .
+                    </p>
+                    <p className='text-initial'>
+                        Science is just one of the&nbsp;
+                    <span className='text-initial' style={{color: colors.Perspective, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        7 Perspectives
+                    </span>
+                    </p>
+                    <p className='text-initial'>
+                        from which OL can be expressed.
+                    </p>
+                </div>
+                </>
+            );
+        } else if (state === 5) {
+            return (
+                <>
+                <div className='initial-text-container'>
+                    <p className='text-initial'>OL is based on&nbsp;</p>
+                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        7 principles
+                    </span>
+                    <p className='text-initial'>which summarize&nbsp;</p>
+                    <p className='text-initial'>
+                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        45 scientific concepts
+                    </span>
+                    .
+                    </p>
+                    <p className='text-initial'>
+                        Science is just one of the&nbsp;
+                    <span className='text-initial' style={{color: colors.Perspective, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        7 Perspectives
+                    </span>
+                    </p>
+                    <p className='text-initial'>
+                        from which OL can be expressed.
+                    </p>
+                    <p className='text-initial'>
+                        As Knowledge is one of the&nbsp;
+                    <span className='text-initial' style={{color: colors.Dimension, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                        10 Dimensions
+                    </span>
+                    </p>
+                    <p className='text-initial'>x
+                        through which OL can be pursued.
+                    </p>
+                </div>
+                </>
+            );
+        }
+    };
+
     return (
         <div>
             <OLDiagram size="450" colors={colors} position="center" action={action} buttonsActive={false} />
-            <p className='title-deter-initial'>{texts.title}</p>
-            <div className='initial-container'>
-                <p className='title-initial'>{texts.title2}</p>
-            </div>
+            {getDisplayText()}    
         </div>
     );
 };
