@@ -1,17 +1,15 @@
 // src/components/OLDiagram.js
-import React, { useState, useEffect, useRef, useCallback, act } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Stage, Layer, Shape } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import '../styles/OLDiagram.css'; 
 
-const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButtonClick}) => {
+const OLDiagram = ({size, colors, action, onButtonClick}) => {
     const waveDims = {
         "Principle": { Width: size/3.9, Height: size/5.7, CornerRadius: size/25 },
         "Perspective": { Width: size/3.0, Height: size/7.3, CornerRadius: size/8.5 },
         "Dimension": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5 }
     };
-    console.log(action === "initial-4");
-
 
     const principles = getPrinciples(getPrinciplesData(), waveDims.Principle);
     const perspectives = getPerspectives(getPerspectivesData(), size);
@@ -22,7 +20,9 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
     const clickedIdsRef = useRef(clickedIds);
 
     const handleClick = (arr, index) => (e) => {
-        if (!buttonsActive) return;
+        if (action === "initial" || action === "home")
+            return;
+        
         const id = e.target.id();
 
         if(action === "learn") {
@@ -44,7 +44,9 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
     }
       
     const handleMouseEnter = (e) => {
-        if (!buttonsActive) return;
+        const prefix = "initial";
+        if (action.startsWith(prefix) || action === "home")
+            return;
 
         const stage = e.target.getStage();
         stage.container().style.cursor = 'pointer';
@@ -54,7 +56,8 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
     };
 
     const handleMouseLeave = (e) => {
-        if (!buttonsActive) return;
+        if (action === "initial" || action === "home")
+            return;
 
         const stage = e.target.getStage();
         stage.container().style.cursor = 'default';
@@ -86,6 +89,16 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
     useEffect(() => {
         clickedIdsRef.current = clickedIds;
     }, [clickedIds]);
+
+    let position;
+    const prefix = "initial"
+
+    if(action.startsWith(prefix))
+        position = "center";
+    else if(action === "home")
+        position = "center-top";
+    else
+        position = "left"
 
     return (
         <div className={position}>

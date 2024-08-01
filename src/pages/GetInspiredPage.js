@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import '../styles/Text.css';
+import '../styles/GetInspiredPage.css';
 import OLDiagram from '../components/OLDiagram';
 
 const GetInspiredPage = ({colors}) => {
@@ -51,17 +51,17 @@ const GetInspiredPage = ({colors}) => {
 
   return (
     <div>
-      <OLDiagram size="450" colors={colors} position="left" action="get-inspired" onButtonClick={handleEnterClick} />
+      <OLDiagram size="450" colors={colors} action="get-inspired" onButtonClick={handleEnterClick} />
         {state.initialState && (
         <>
         <div className='text-container'>
-            <p className='title-explanation'>
+            <p className='question'>
               What's it for?
             </p>
-            <p className='headline-explanation'>
+            <p className='headline'>
               Browse inspiring application cases
             </p>
-            <p className='text-explanation'>
+            <p className='text'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
             <p className='instruction'>
@@ -73,17 +73,17 @@ const GetInspiredPage = ({colors}) => {
 
         {!state.initialState && (
         <>
-        <div className='card-text-container'>
-        <p className='results-get-inspired'>
+        <div className='gi-text-container'>
+        <p className='gi-results'>
             <span className='bold-text'>16 </span>
             results | Relevance
         </p>
-        <div className="card-container">
-            <h1 className="title-get-inspired">[Title XXX]</h1>
-            <p className="description-get-inspired">[Short Description]</p>
-            <p className="description-get-inspired">{state.text}</p>
-            <p className="credits-get-inspired">Credits: [Lorem Ipsum]</p>
-            <button onClick={toggleShowMore} className="show-more-button get-inspired">
+        <div className="gi-card-container">
+            <h1 className="gi-title">[Title XXX]</h1>
+            <p className="gi-description">[Short Description]</p>
+            <p className="gi-description">{state.text}</p>
+            <p className="gi-credits">Credits: [Lorem Ipsum]</p>
+            <button onClick={toggleShowMore} className="gi-show-more-button">
                 {state.showMore ? 'Show less' : 'Show more'}
             </button>
         </div>

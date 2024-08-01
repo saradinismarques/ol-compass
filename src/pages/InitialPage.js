@@ -1,26 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLDiagram from '../components/OLDiagram';
-import '../styles/Text.css';
+import '../styles/InitialPage.css';
 
 const InitialPage = ({ colors }) => {
-    const texts = {
-        title: 'THE',
-        title2: 'OL-in-One Compass',
-        explanation: 'Ocean Literacy (OL) is the understanding of the Ocean-humanity mutual influence.',
-        textPrinciples: 'OL is based on',
-        textPrinciples2: '7 principles',
-        textConcepts: ' which summarize ',
-        textConcepts2: '45 scientific concepts',
-        textConcepts3: '.',
-        textPerspectives: 'Science is just one of the ',
-        textPerspectives2: '7 Perspectives',
-        textPerspectives3: ' from which OL can be expressed.',
-        textDimensions: ' As Knowledge is one of the ',
-        textDimensions2: '10 Dimensions',
-        textDimensions3: ' through which OL can be pursued.'
-    };
-
     const [state, setState] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
 
@@ -67,17 +50,17 @@ const InitialPage = ({ colors }) => {
         if (state === 0) {
             return (
                 <>
-                <p className='title-deter-initial'>THE</p>
-                <div className='initial-title-container'>
-                    <p className='title-initial'>OL-in-One Compass</p>
+                <p className='i-deter'>THE</p>
+                <div className='i-title-container'>
+                    <p className='i-title'>OL-in-One Compass</p>
                 </div>
                 </>
             );
         } else if (state === 1) {
             return (
                 <>
-                <div className='initial-title-container'>
-                    <p className='explanation-initial'>
+                <div className='i-title-container'>
+                    <p className='i-explanation'>
                         Ocean Literacy (OL) is the understanding of the Ocean-humanity mutual influence.
                     </p>
                 </div>
@@ -86,10 +69,10 @@ const InitialPage = ({ colors }) => {
         } else if (state === 2) {
             return (
                 <>
-                <div className='initial-text-container'>
-                    <p className='text-initial'>OL is based on&nbsp;</p>
-                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
-                        7 principles
+                <div className='i-text-container'>
+                    <p className='i-text'>OL is based on&nbsp;</p>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        7 Principles
                     </span>
                 </div>
                 </>
@@ -97,14 +80,14 @@ const InitialPage = ({ colors }) => {
         } else if (state === 3) {
             return (
                 <>
-                <div className='initial-text-container'>
-                    <p className='text-initial'>OL is based on&nbsp;</p>
-                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
-                        7 principles
+                <div className='i-text-container'>
+                    <p className='i-text'>OL is based on&nbsp;</p>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        7 Principles
                     </span>
-                    <p className='text-initial'>which summarize&nbsp;</p>
-                    <p className='text-initial'>
-                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    <p className='i-text'>which summarize&nbsp;</p>
+                    <p className='i-text'>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
                         45 scientific concepts
                     </span>
                     .
@@ -115,25 +98,25 @@ const InitialPage = ({ colors }) => {
         } else if (state === 4) {
             return (
                 <>
-                <div className='initial-text-container'>
-                    <p className='text-initial'>OL is based on&nbsp;</p>
-                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                <div className='i-text-container'>
+                    <p className='i-text'>OL is based on&nbsp;</p>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
                         7 Principles
                     </span>
-                    <p className='text-initial'>which summarize&nbsp;</p>
-                    <p className='text-initial'>
-                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    <p className='i-text'>which summarize&nbsp;</p>
+                    <p className='i-text'>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
                         45 scientific concepts
                     </span>
                     .
                     </p>
-                    <p className='text-initial'>
+                    <p className='i-text'>
                         Science is just one of the&nbsp;
-                    <span className='text-initial' style={{color: colors.Perspective, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
                         7 Perspectives
                     </span>
                     </p>
-                    <p className='text-initial'>
+                    <p className='i-text'>
                         from which OL can be expressed.
                     </p>
                 </div>
@@ -142,34 +125,34 @@ const InitialPage = ({ colors }) => {
         } else if (state === 5) {
             return (
                 <>
-                <div className='initial-text-container'>
-                    <p className='text-initial'>OL is based on&nbsp;</p>
-                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
-                        7 principles
+                <div className='i-text-container'>
+                    <p className='i-text'>OL is based on&nbsp;</p>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        7 Principles
                     </span>
-                    <p className='text-initial'>which summarize&nbsp;</p>
-                    <p className='text-initial'>
-                    <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    <p className='i-text'>which summarize&nbsp;</p>
+                    <p className='i-text'>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
                         45 scientific concepts
                     </span>
                     .
                     </p>
-                    <p className='text-initial'>
+                    <p className='i-text'>
                         Science is just one of the&nbsp;
-                    <span className='text-initial' style={{color: colors.Perspective, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
                         7 Perspectives
                     </span>
                     </p>
-                    <p className='text-initial'>
+                    <p className='i-text'>
                         from which OL can be expressed.
                     </p>
-                    <p className='text-initial'>
+                    <p className='i-text'>
                         As Knowledge is one of the&nbsp;
-                    <span className='text-initial' style={{color: colors.Dimension, fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    <span className='i-text colored' style={{color: colors.Dimension}}>
                         10 Dimensions
                     </span>
                     </p>
-                    <p className='text-initial'>x
+                    <p className='i-text'>
                         through which OL can be pursued.
                     </p>
                 </div>
@@ -180,7 +163,7 @@ const InitialPage = ({ colors }) => {
 
     return (
         <div>
-            <OLDiagram size="450" colors={colors} position="center" action={action} buttonsActive={false} />
+            <OLDiagram size="450" colors={colors} action={action} />
             {getDisplayText()}    
         </div>
     );

@@ -1,0 +1,129 @@
+.a-start-analysis-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.05em; /* Smaller size for h2 */
+    font-weight: 500;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(255, 72, 172);
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+    max-width: 250px;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+.a-start-analysis-button:hover {
+    color: rgb(203, 202, 202);
+}
+
+.a-input-container {
+    position: absolute;
+    top: 13%; /* Position item 50% from the top */
+    left: 60%; /* Position item 50% from the left */
+    width: 350px;
+    text-align: center;
+  }
+
+.a-title input,
+.a-description textarea,
+.a-insert-sources input {
+    font-family: 'Manrope', sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(210, 210, 210);
+    border: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+    color: #ffffff; /* Set placeholder color to white */
+}
+  
+.a-placeholder::placeholder {
+    opacity: 1; /* Remove transparency */
+}
+
+.a-title input {
+    font-size: 1.4em;
+}
+
+.a-description textarea {
+    font-size: 1.2em;
+    height: 150px;
+    resize: none;
+}
+
+.a-insert-sources input {
+    font-size: 1.2em;
+}
+
+.a-text {
+    padding-left: 15px;
+    text-align: left;
+}
+ 
+.a-small-instruction {
+    font-size: 1.2em;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: -15px;
+    color: #5c5c5b;
+}
+
+.a-instruction-container {
+    margin-bottom: 20px;
+    color: #80807f;
+}
+
+.a-instruction {
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: -15px;
+}
+
+.a-question-container {
+    margin-bottom: 25px;
+    color: #acabab;
+}
+
+.a-question {
+    font-size: 0.9em;
+    font-weight: 200;
+    margin-bottom: -15px;
+}
+
+.a-upload-picture-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.2em;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(210, 210, 210);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: underline;
+}
+
+.a-upload-picture-button:hover {
+    background-color: rgb(236, 234, 234);
+}
+
+.a-preview-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.05em;
+    font-weight: 200;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(131, 131, 131);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+.a-preview-button:hover {
+    color: rgb(203, 202, 202);
+}
+   

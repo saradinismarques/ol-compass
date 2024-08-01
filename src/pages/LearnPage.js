@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import '../styles/Text.css';
-import '../styles/App.css';
+import '../styles/LearnPage.css';
 import OLDiagram from '../components/OLDiagram';
 
 const LearnPage = ({colors}) => {
@@ -56,24 +55,24 @@ const LearnPage = ({colors}) => {
 
 
   return (
-    <div className='gradient-background'
+    <div className='l-gradient-background'
       style={{
         background: state.initialState
           ? 'none'
           : `linear-gradient(to right, #ffffff 30%, ${state.gradientColor} 85%)`
       }}
     >
-      <OLDiagram size="450" colors={colors} position="left" action="learn" onButtonClick={handleDiagramClick} />
+      <OLDiagram size="450" colors={colors} action="learn" onButtonClick={handleDiagramClick} />
       <div className="text-container">
         {state.initialState && (
           <>
-            <p className='title-explanation'>
+            <p className='question'>
               What's it for?
             </p>
-            <p className='headline-explanation'>
+            <p className='headline'>
               Explore the fundamentals of OL, one by one!
               </p>
-            <p className='text-explanation'>
+            <p className='text'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
             <p className='instruction'>
@@ -84,9 +83,9 @@ const LearnPage = ({colors}) => {
 
         {!state.initialState && (
           <>
-            <h1 className='title-learn'>{state.title}</h1>
-            <h2 className='headline-learn'>{state.headline}</h2>
-            <div className={state.showMore ? 'text-learn expanded' : 'text-learn'}>
+            <h1 className='l-title'>{state.title}</h1>
+            <h2 className='l-headline'>{state.headline}</h2>
+            <div className={state.showMore ? 'l-text expanded' : 'l-text'}>
               <p>{state.paragraph}</p>
               {state.showMore && (
                 <>
@@ -94,7 +93,7 @@ const LearnPage = ({colors}) => {
                 </>
               )}
             </div>
-              <button onClick={toggleShowMore} className="show-more-button">
+              <button onClick={toggleShowMore} className="l-show-more-button">
                 {state.showMore ? 'Show less' : 'Show more'}
               </button>
             </>

@@ -1,0 +1,66 @@
+/* Style for text-container */
+.gi-text-container {
+    position: absolute;
+    top: 14%; /* Position item 50% from the top */
+    left: 60%; /* Position item 50% from the left */
+    max-width: 280px;
+    display: flex;
+    flex-direction: column; /* Arrange items in a column */
+    align-items: center;   /* Center items horizontally */
+}
+
+.gi-card-container {
+    width: 280px;
+    height: 280px;
+    padding: 15px;
+    padding-left: 20px;
+    border-radius: 20px;
+    background: linear-gradient(to bottom right, #9494ad 30%, #aeaec1 60%, #f5f4f4 95%);
+    overflow: hidden;
+}
+
+.gi-title{
+    font-size: 1.3em;
+    font-weight: 500;
+    margin-top: 0px;
+    color: white;
+}
+
+.gi-description {
+    font-size: 1em;
+    font-weight: 400;
+    margin-top: 25px;
+    color: white;
+  }
+  
+.gi-credits {
+    font-size: 0.9em;
+    font-weight: 200;
+    position: absolute;  /* Absolute positioning within the container */
+    bottom: 50px;        
+    color: white;
+}
+
+.gi-results {
+    margin-bottom: 30px;
+    font-weight: 200;
+}
+
+.gi-show-more-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.05em;
+    font-weight: 200;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: white;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    padding-left: 0;
+    bottom: 25px;     
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+.gi-show-more-button:hover {
+    color: rgb(203, 202, 202);
+}

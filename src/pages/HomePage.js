@@ -4,7 +4,7 @@ import OLDiagram from '../components/OLDiagram'
 const HomePage = ({colors}) => {
   return (
     <div>
-      <OLDiagram size="450" colors={colors} position="center-top" action="home" buttonsActive={false}/>
+      <OLDiagram size="450" colors={colors} action="home"/>
     </div>
   );
 };
