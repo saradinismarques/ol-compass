@@ -28,6 +28,8 @@ const InitialPage = ({ colors }) => {
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
             setState((prevState) => prevState + 1);
+        else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
+            setState((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
     }, []);
 
     useEffect(() => {
@@ -116,7 +118,7 @@ const InitialPage = ({ colors }) => {
                 <div className='initial-text-container'>
                     <p className='text-initial'>OL is based on&nbsp;</p>
                     <span className='text-initial' style={{color: colors.Principle, fontWeight: 600, whiteSpace: 'nowrap' }}>
-                        7 principles
+                        7 Principles
                     </span>
                     <p className='text-initial'>which summarize&nbsp;</p>
                     <p className='text-initial'>

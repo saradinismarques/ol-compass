@@ -34,7 +34,7 @@ const OLDiagram = ({size, colors, position, action, buttonsActive=true, onButton
             }
         }
 
-        if(action === "get-inspired") {
+        if(action === "get-inspired" || action === "analyze") {
             setClickedIds(prevClickedIds => 
                 prevClickedIds.includes(id)
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked

@@ -4,13 +4,6 @@ import '../styles/App.css';
 import OLDiagram from '../components/OLDiagram';
 
 const LearnPage = ({colors}) => {
-  const explanationText = {
-    title: `What's it for?`,
-    headline: 'Explore the fundamentals of OL, one by one!',
-    paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    instruction: 'Click on any element'
-  };
-
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -67,17 +60,25 @@ const LearnPage = ({colors}) => {
       style={{
         background: state.initialState
           ? 'none'
-          : `linear-gradient(to right, #ffffff 40%, ${state.gradientColor} 85%)`
+          : `linear-gradient(to right, #ffffff 30%, ${state.gradientColor} 85%)`
       }}
     >
       <OLDiagram size="450" colors={colors} position="left" action="learn" onButtonClick={handleDiagramClick} />
       <div className="text-container">
         {state.initialState && (
           <>
-            <h1 className='title-explanation'>{explanationText.title}</h1>
-            <h2 className='headline-explanation'>{explanationText.headline}</h2>
-            <p className='text-explanation'>{explanationText.paragraph}</p>
-            <p className='instruction'>{explanationText.instruction}</p>
+            <p className='title-explanation'>
+              What's it for?
+            </p>
+            <p className='headline-explanation'>
+              Explore the fundamentals of OL, one by one!
+              </p>
+            <p className='text-explanation'>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p className='instruction'>
+              Click on any element
+            </p>
           </>
         )}
 

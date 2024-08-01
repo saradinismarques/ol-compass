@@ -40,7 +40,7 @@ const Menu = () => {
         CONTEXTUALIZE
       </Link>
       <Link 
-        to="/" 
+        to="/analyze" 
         className={`menu-button ${activeButton === 'analyze' ? 'active' : ''}`} 
         onClick={() => handleClick('analyze')}
       >

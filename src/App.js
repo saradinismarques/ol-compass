@@ -5,6 +5,7 @@ import InitialPage from './pages/InitialPage';
 import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
 import GetInspiredPage from './pages/GetInspiredPage';
+import AnalyzePage from './pages/AnalyzePage';
 
 import Menu from './components/Menu'
 
@@ -28,6 +29,7 @@ function App() {
           <Route path="/home" element={<HomePage colors={colors}/>} />
           <Route path="/learn" element={<LearnPage colors={colors}/>} />
           <Route path="/get-inspired" element={<GetInspiredPage colors={colors}/>} />
+          <Route path="/analyze" element={<AnalyzePage colors={colors}/>} />
         </Routes>
       </main>
       {!isInitialPage && <Menu />}

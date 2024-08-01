@@ -3,13 +3,6 @@ import '../styles/Text.css';
 import OLDiagram from '../components/OLDiagram';
 
 const GetInspiredPage = ({colors}) => {
-  const explanationText = {
-    title: `What's it for?`,
-    headline: 'Browse inspiring application cases',
-    paragraph: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    instruction: 'Select as many elements as you like to filter examples'
-  };
-
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     text: [], 
@@ -62,10 +55,18 @@ const GetInspiredPage = ({colors}) => {
         {state.initialState && (
         <>
         <div className='text-container'>
-            <h1 className='title-explanation'>{explanationText.title}</h1>
-            <h2 className='headline-explanation'>{explanationText.headline}</h2>
-            <p className='text-explanation'>{explanationText.paragraph}</p>
-            <h3 className='instruction'>{explanationText.instruction}</h3>
+            <p className='title-explanation'>
+              What's it for?
+            </p>
+            <p className='headline-explanation'>
+              Browse inspiring application cases
+            </p>
+            <p className='text-explanation'>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </p>
+            <p className='instruction'>
+              Select as many elements as you like to filter examples
+            </p>
         </div>
         </>
         )} 

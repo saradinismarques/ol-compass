@@ -4,14 +4,17 @@ body {
     font-family: 'Manrope', sans-serif;
 }
 
+/* ----------------------- DEFAULT CONTAINER ----------------------- */
+
 /* Style for text-container */
 .text-container {
     position: absolute;
     top: 16%; /* Position item 50% from the top */
-    left: 57%; /* Position item 50% from the left */
+    left: 60%; /* Position item 50% from the left */
     max-width: 360px;
 }
   
+/* ----------------------- EXPLANATION TEXT ----------------------- */
 /* Style for h1 */
 .title-explanation {
     font-size: 1.4em; /* Larger size for h1 */
@@ -21,29 +24,11 @@ body {
     margin: 0;
 }
 
-/* Style for h1 */
-.title-learn {
-    font-size: 1.5em; /* Larger size for h1 */
-    font-weight: 300;
-    color: rgb(255, 255, 255); 
-    text-transform: uppercase;
-    margin: 0;
-}
-
 /* Style for h2 */
 .headline-explanation {
     font-size: 1.4em; /* Smaller size for h2 */
     font-weight: 500;
     color: rgb(0, 0, 0); 
-    margin-top: 3px;
-}
-
-/* Style for h2 */
-.headline-learn {
-    font-size: 1.8em; /* Smaller size for h2 */
-    font-weight: 500;
-    text-transform: uppercase;
-    color: rgb(255, 255, 255);
     margin-top: 3px;
 }
 
@@ -65,6 +50,26 @@ body {
     margin-top: -10px;
     overflow-y: hidden; /* Hide overflow initially */
 }
+
+/* ----------------------- LEARN ----------------------- */
+
+/* Style for h1 */
+.title-learn {
+    font-size: 1.5em; /* Larger size for h1 */
+    font-weight: 300;
+    color: rgb(255, 255, 255); 
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Style for h2 */
+.headline-learn {
+    font-size: 1.8em; /* Smaller size for h2 */
+    font-weight: 500;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    margin-top: 3px;
+}
   
 /* Style for paragraph */
 .text-learn {
@@ -77,8 +82,8 @@ body {
     overflow-y: hidden; /* Hide overflow initially */
 }
 
- /* Expanded state for text content */
- .text-learn.expanded {
+/* Expanded state for text content */
+.text-learn.expanded {
     overflow-y: auto; /* Enable vertical scroll */
     max-height: 300px; /* Show full content when expanded */
     margin-top: -30px;
@@ -86,6 +91,7 @@ body {
 }
 
 .show-more-button {
+    font-family: 'Manrope', sans-serif;
     font-size: 1.05em;
     font-weight: 200;
     background-color: transparent; /* Use 'transparent' instead of 'none' */
@@ -101,6 +107,7 @@ body {
     color: rgb(203, 202, 202);
 }
   
+/* ----------------------- GET INSPIRED ----------------------- */
 /* Style for text-container */
 .card-text-container {
     position: absolute;
@@ -161,6 +168,139 @@ body {
     bottom: 25px;        
 }
 
+/* ----------------------- ANALYZE ----------------------- */
+.start-analysis-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.05em; /* Smaller size for h2 */
+    font-weight: 500;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(255, 72, 172);
+    border: none;
+    cursor: pointer;
+    margin-top: 5px;
+    max-width: 250px;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+.start-analysis-button:hover {
+    color: rgb(203, 202, 202);
+}
+
+.input-container {
+    position: absolute;
+    top: 13%; /* Position item 50% from the top */
+    left: 60%; /* Position item 50% from the left */
+    width: 350px;
+    text-align: center;
+  }
+
+.title input,
+.description textarea,
+.insert-sources input {
+    font-family: 'Manrope', sans-serif;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(210, 210, 210);
+    border: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+    color: #ffffff; /* Set placeholder color to white */
+}
+
+  
+.font-placeholder::placeholder {
+    opacity: 1; /* Remove transparency */
+}
+
+.title input {
+    font-size: 1.4em;
+}
+
+.description textarea {
+    font-size: 1.2em;
+    height: 150px;
+    resize: none;
+}
+
+.insert-sources input {
+    font-size: 1.2em;
+}
+  
+.upload-picture-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.2em;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgb(210, 210, 210);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: underline;
+}
+
+.upload-picture-button:hover {
+    background-color: rgb(236, 234, 234);
+}
+
+.preview-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.05em;
+    font-weight: 200;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(131, 131, 131);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+.preview-button:hover {
+    color: rgb(203, 202, 202);
+}
+    
+.select-text {
+    padding-left: 15px;
+    font-size: 1.2em;
+    font-weight: 400;
+    margin-top: 0px;
+    margin-bottom: -15px;
+    color: #5c5c5b;
+    text-align: left;
+}
+
+.instruction-container {
+    padding-left: 15px;
+    margin-bottom: 20px;
+    color: #80807f;
+    text-align: left;
+}
+
+.instruction-text {
+    font-size: 1em;
+    font-weight: 300;
+    margin-bottom: -15px;
+}
+
+.questions-container {
+    padding-left: 15px;
+    margin-bottom: 25px;
+    color: #acabab;
+    text-align: left;
+}
+
+.question-text {
+    font-size: 0.9em;
+    font-weight: 200;
+    margin-bottom: -15px;
+}
+
+/* ----------------------- INITIAL PAGE ----------------------- */
 .initial-title-container {
     position: absolute;
     top: 50%; /* Position item 50% from the top */
