@@ -4,8 +4,13 @@ import { BrowserRouter as Router, Route, Routes, useLocation  } from 'react-rout
 import InitialPage from './pages/InitialPage';
 import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
+import ContextualizePage from './pages/ContextualizePage';
 import GetInspiredPage from './pages/GetInspiredPage';
 import AnalyzePage from './pages/AnalyzePage';
+import IdeatePage from './pages/IdeatePage';
+import ComparePage from './pages/ComparePage';
+import EvaluatePage from './pages/EvaluatePage';
+import MakeYoursPage from './pages/MakeYoursPage';
 
 import Menu from './components/Menu'
 
@@ -29,7 +34,12 @@ function App() {
           <Route path="/home" element={<HomePage colors={colors}/>} />
           <Route path="/learn" element={<LearnPage colors={colors}/>} />
           <Route path="/get-inspired" element={<GetInspiredPage colors={colors}/>} />
+          <Route path="/contextualize" element={<ContextualizePage colors={colors}/>} />
           <Route path="/analyze" element={<AnalyzePage colors={colors}/>} />
+          <Route path="/ideate" element={<IdeatePage colors={colors}/>} />
+          <Route path="/compare" element={<ComparePage colors={colors}/>} />
+          <Route path="/evaluate" element={<EvaluatePage colors={colors}/>} />
+          <Route path="/make-yours" element={<MakeYoursPage colors={colors}/>} />
         </Routes>
       </main>
       {!isInitialPage && <Menu />}

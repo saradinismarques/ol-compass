@@ -41,6 +41,32 @@ body {
     font-weight: 500;
     color: rgb(255, 72, 172);
     margin-top: 10px;
+    max-width: 300px;
+}
+
+.start-new-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1.05em; /* Smaller size for h2 */
+    font-weight: 500;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(255, 72, 172);
+    border: none;
+    cursor: pointer;
+    margin-top: -2px;
+    max-width: 250px;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+.start-new-button:hover {
+    color: rgb(203, 202, 202);
+}
+
+.not-available {
+    font-size: 1.em; /* Smaller size for h2 */
+    font-weight: 500;
+    color: #841321;
+    margin-top: 10px;
     max-width: 250px;
 }
 

@@ -1,26 +1,8 @@
-.a-start-analysis-button {
-    font-family: 'Manrope', sans-serif;
-    font-size: 1.05em; /* Smaller size for h2 */
-    font-weight: 500;
-    background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: rgb(255, 72, 172);
-    border: none;
-    cursor: pointer;
-    margin-top: 5px;
-    max-width: 250px;
-    outline: none; /* Optional: Remove outline on focus */
-    text-decoration: underline;
-}
-
-.a-start-analysis-button:hover {
-    color: rgb(203, 202, 202);
-}
-
-.a-input-container {
+.a-text-container {
     position: absolute;
     top: 13%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
-    width: 350px;
+    width: 320px;
     text-align: center;
   }
 
@@ -31,7 +13,7 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: rgb(210, 210, 210);
+    background-color: #e0e0e0;
     border: none;
     border-radius: 10px;
     box-sizing: border-box;
@@ -97,7 +79,7 @@
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: rgb(210, 210, 210);
+    background-color: #e0e0e0;
     color: white;
     border: none;
     border-radius: 10px;

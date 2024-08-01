@@ -33,7 +33,7 @@ const Menu = () => {
         GET INSPIRED
       </Link>
       <Link 
-        to="/" 
+        to="/contextualize" 
         className={`menu-button ${activeButton === 'contextualize' ? 'active' : ''}`} 
         onClick={() => handleClick('contextualize')}
       >
@@ -47,21 +47,35 @@ const Menu = () => {
         ANALYZE
       </Link>
       <Link 
-        to="/" 
+        to="/ideate" 
         className={`menu-button ${activeButton === 'ideate' ? 'active' : ''}`} 
         onClick={() => handleClick('ideate')}
       >
         IDEATE
       </Link>
       <Link 
-        to="/" 
+        to="/compare" 
         className={`menu-button ${activeButton === 'compare' ? 'active' : ''}`} 
         onClick={() => handleClick('compare')}
       >
         COMPARE
       </Link>
       <Link 
-        to="/" 
+        to="/evaluate" 
+        className={`menu-button ${activeButton === 'evaluate' ? 'active' : ''}`} 
+        onClick={() => handleClick('evaluate')}
+      >
+        EVALUATE
+      </Link>
+      <Link 
+        to="/make-yours" 
+        className={`menu-button ${activeButton === 'make-yours' ? 'active' : ''}`} 
+        onClick={() => handleClick('make-yours')}
+      >
+        MAKE YOURS
+      </Link>
+      <Link 
+        to="/home" 
         className={`menu-button ${activeButton === 'plus' ? 'active' : ''}`} 
         onClick={() => handleClick('plus')}
       >
