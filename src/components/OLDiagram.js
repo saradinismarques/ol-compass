@@ -109,7 +109,7 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
             setClickedIds([]);
             setHoveredId(null);
             setCurrentLine([]);
-            setColorIndex(0);
+            setCurrentLineIds([]);
         } 
         else if (action === "get-inspired" && e.key === 'Enter') {
             if (onButtonClick) {
@@ -124,8 +124,6 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
             if (currentLine.length > 0) {
                 setLines(prevLines => [...prevLines, { points: currentLine, color: lineColors[colorIndex] }]);
                 setCurrentLine([]);
-    
-                // Update color index to the next color, cycling back to the start if at the end
                 setColorIndex((prevIndex) => (prevIndex + 1) % lineColors.length);
                 setLineIds(prevLineIds => [...prevLineIds, ...currentLineIds]);
                 setCurrentLineIds([])
@@ -156,6 +154,33 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
     useEffect(() => {
         currentLineIdsRef.current = currentLineIds;
     }, [currentLineIds]);
+
+    //const [isInside, setIsInside] = useState(false);
+    const circleRef = useRef({
+        x: window.innerWidth *0.35, // Example center x
+        y: window.innerHeight *0.45, // Example center y
+        radius: size/2 + waveDims.Dimension.Height/2// Example radius
+    });
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            const { x, y, radius } = circleRef.current;
+
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+
+            const distance = Math.sqrt(
+                Math.pow(mouseX - x, 2) + Math.pow(mouseY - y, 2)
+            );
+
+            if (action === "ideate" && distance > radius) {
+                alert("OUTSIDE");
+            } 
+        };
+
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [action]);
 
     let position;
     const prefix = "initial"
@@ -281,6 +306,7 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
                 </Layer>   
         </Stage>
     </div>
+    
     );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo }  from 'react';
 import OLDiagram from '../components/OLDiagram';
+import CircleComponent from '../components/Circle';
 
 const IdeatePage = ({colors}) => {
   // Memoize the initialState object
