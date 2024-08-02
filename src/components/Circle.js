@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import '../styles/PostIt.css'; 
+import Draggable from 'react-draggable';
 
 const PostIt = () => {
   const [text, setText] = useState(''); // State to manage the text content
@@ -12,14 +13,16 @@ const PostIt = () => {
   };
 
   return (
-    <div className="postit">
-      <textarea
-        value={text}
-        onChange={handleChange}
-        placeholder="Write your note here..."
-        className="postit-textarea"
-      />
-    </div>
+    <Draggable>
+        <div className="postit">
+        <textarea
+            value={text}
+            onChange={handleChange}
+            placeholder="Write your note here..."
+            className="postit-textarea"
+        />
+        </div>
+    </Draggable>
   );
 };
 

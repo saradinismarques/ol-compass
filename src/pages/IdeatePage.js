@@ -37,7 +37,7 @@ const IdeatePage = ({colors}) => {
   return (
     <div>
       <OLDiagram size="450" colors={colors} action="ideate" />
-      <PostIt />
+      {/* <PostIt /> */}
         {state.initialState && (
         <>
         <div className='text-container'>

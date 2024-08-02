@@ -11,9 +11,20 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
         "Dimension": { Width: size/3.3, Height: size/6.8, CornerRadius: size/8.5 }
     };
 
-    const principles = getPrinciples(getPrinciplesData(), waveDims.Principle);
-    const perspectives = getPerspectives(getPerspectivesData(), size);
-    const dimensions = getDimensions(getDimensionsData(), size);
+    let centerOfCompass;
+    const prefix = "initial"
+
+    if(action.startsWith(prefix))
+        centerOfCompass = {x:window.innerWidth/2, y: window.innerHeight/2 }
+    else if(action === "home")
+        centerOfCompass = {x:window.innerWidth/2, y: window.innerHeight*0.45 }
+    else
+        centerOfCompass = {x:window.innerWidth*0.35, y: window.innerHeight*0.45 }
+
+
+    const principles = getPrinciples(getPrinciplesData(), centerOfCompass, waveDims.Principle);
+    const perspectives = getPerspectives(getPerspectivesData(), centerOfCompass, size);
+    const dimensions = getDimensions(getDimensionsData(), centerOfCompass, size);
 
     const [hoveredId, setHoveredId] = useState(null);
     const [clickedIds, setClickedIds] = useState([]);
@@ -28,6 +39,7 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
     const currentLineRef = useRef(currentLine);
     const colorIndexRef = useRef(colorIndex);
     const currentLineIdsRef = useRef(lineIds);
+    const linesRef = useRef(lines);
 
     const handleClick = (arr, index) => (e) => {
         if (action === "initial" || action === "home")
@@ -94,7 +106,8 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
     };
 
     const handleMouseLeave = (e) => {
-        if (action === "initial" || action === "home")
+        // on ideate it should not return but see if inside or outside the circle
+        if (action === "initial" || action === "home" || action === "ideate")
             return;
 
         const stage = e.target.getStage();
@@ -116,19 +129,6 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
                 onButtonClick(clickedIdsRef.current);
             }
         }
-        else if(action === "ideate" && e.key === ' ') {
-            const currentLine = currentLineRef.current;
-            const colorIndex = colorIndexRef.current;
-            const currentLineIds = currentLineIdsRef.current;
-
-            if (currentLine.length > 0) {
-                setLines(prevLines => [...prevLines, { points: currentLine, color: lineColors[colorIndex] }]);
-                setCurrentLine([]);
-                setColorIndex((prevIndex) => (prevIndex + 1) % lineColors.length);
-                setLineIds(prevLineIds => [...prevLineIds, ...currentLineIds]);
-                setCurrentLineIds([])
-            }
-        }
     }, [action, onButtonClick, lineColors]);
     
     useEffect(() => {
@@ -144,6 +144,7 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
     }, [clickedIds]);
 
     useEffect(() => {
+        console.log(currentLine);
         currentLineRef.current = currentLine;
     }, [currentLine]);
 
@@ -155,14 +156,42 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
         currentLineIdsRef.current = currentLineIds;
     }, [currentLineIds]);
 
-    //const [isInside, setIsInside] = useState(false);
+    useEffect(() => {
+        linesRef.current = lines;
+        console.log(linesRef.current);
+    }, [lines]);
+
+    const [isInside, setIsInside] = useState(false);
     const circleRef = useRef({
-        x: window.innerWidth *0.35, // Example center x
-        y: window.innerHeight *0.45, // Example center y
+        x: centerOfCompass.x, // Example center x
+        y: centerOfCompass.y, // Example center y
         radius: size/2 + waveDims.Dimension.Height/2// Example radius
     });
 
     useEffect(() => {
+        const handleMouseMove = (event) => {
+            const { x, y, radius } = circleRef.current;
+
+            const mouseX = event.clientX;
+            const mouseY = event.clientY;
+
+            const distance = Math.sqrt(
+                Math.pow(mouseX - x, 2) + Math.pow(mouseY - y, 2)
+            );
+
+            const currentLine = currentLineRef.current;
+
+            if (action === "ideate" && distance > radius && mouseY <= window.innerHeight - 130) {
+                if (currentLine.length > 0) {
+                    console.log("POINTER");
+                    document.body.style.cursor = 'pointer';
+                } else {
+                    console.log("DEFAULT");
+                    document.body.style.cursor = 'default';
+                }
+            }
+        };
+
         const handleClickOutside = (event) => {
             const { x, y, radius } = circleRef.current;
 
@@ -173,27 +202,33 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
                 Math.pow(mouseX - x, 2) + Math.pow(mouseY - y, 2)
             );
 
-            // if (action === "ideate" && distance > radius) {
-            //     alert("OUTSIDE");
-            // } 
+            if (action === "ideate" && distance > radius && mouseY <= window.innerHeight - 130) {
+                
+                const currentLine = currentLineRef.current;
+                const colorIndex = colorIndexRef.current;
+                const currentLineIds = currentLineIdsRef.current;
+
+                if (currentLine.length > 0) {
+                    setLines(prevLines => [...prevLines, { points: [...currentLine, mouseX, mouseY], color: lineColors[colorIndex] }]);
+                    setCurrentLine([]);
+                    setColorIndex((prevIndex) => (prevIndex + 1) % lineColors.length);
+                    setLineIds(prevLineIds => [...prevLineIds, ...currentLineIds]);
+                    setCurrentLineIds([])
+                }
+            } 
         };
 
+        document.addEventListener('mousemove', handleMouseMove);
         document.addEventListener('click', handleClickOutside);
-        return () => document.removeEventListener('click', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('click', handleClickOutside);
+        };
     }, [action]);
 
-    let position;
-    const prefix = "initial"
-
-    if(action.startsWith(prefix))
-        position = "center";
-    else if(action === "home")
-        position = "center-top";
-    else
-        position = "left"
-
     return (
-        <div className={position}>
+        //<div className={position}>
             <Stage width={window.innerWidth} height={window.innerHeight}>
                 <Layer>
                     {principles.map((p, i) => (
@@ -305,14 +340,14 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
                     )}
                 </Layer>   
         </Stage>
-    </div>
+    //</div>
     
     );
 };
 
-function getPrinciples(principlesData, dims) {
-    const x = window.innerWidth / 2;
-    const y = window.innerHeight / 2;
+function getPrinciples(principlesData, centerOfCompass, dims) {
+    const x = centerOfCompass.x;
+    const y = centerOfCompass.y;
 
     const width = dims['Width'];
     const height = dims['Height'];
@@ -332,9 +367,9 @@ function getPrinciples(principlesData, dims) {
     return principlesData;
 }
 
-function getPerspectives(perspectivesData, size) {
-    const x = window.innerWidth / 2;
-    const y = window.innerHeight / 2;
+function getPerspectives(perspectivesData, centerOfCompass, size) {
+    const x = centerOfCompass.x;
+    const y = centerOfCompass.y;
     const radius = size/2.8;
     const numComponents = 7;
 
@@ -343,9 +378,9 @@ function getPerspectives(perspectivesData, size) {
     return perspectives;
 }
 
-function getDimensions(dimensionsData, size) {
-    const x = window.innerWidth / 2;
-    const y = window.innerHeight / 2;
+function getDimensions(dimensionsData, centerOfCompass, size) {
+    const x = centerOfCompass.x;
+    const y = centerOfCompass.y;
     const radius = size/2;
     const numComponents = 10;
 
