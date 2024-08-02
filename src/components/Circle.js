@@ -1,23 +1,26 @@
-import React from 'react';
-import { Stage, Layer, Shape, Group, Line, Circle } from 'react-konva';
- // Assuming you're using react-konva
+// PostIt.js
 
-// Define the CircleComponent class
-const CircleComponent = () => {
-    return (
-        <Stage width={window.innerWidth} height={window.innerHeight}>
-            <Layer>
-                <Circle
-                    x={window.innerWidth*0.35}
-                    y={window.innerHeight*0.45}
-                    radius={450/2}
-                    fill="transparent" // Make the circle fill transparent
-                    stroke="red"    // Set the stroke color
-                    strokeWidth={2} // Set the stroke width
-                />
-        </Layer>
-    </Stage>
-    );
+import React, { useState } from 'react';
+import '../styles/PostIt.css'; 
+
+const PostIt = () => {
+  const [text, setText] = useState(''); // State to manage the text content
+
+  // Handle change in text input
+  const handleChange = (event) => {
+    setText(event.target.value);
+  };
+
+  return (
+    <div className="postit">
+      <textarea
+        value={text}
+        onChange={handleChange}
+        placeholder="Write your note here..."
+        className="postit-textarea"
+      />
+    </div>
+  );
 };
 
-export default CircleComponent;
+export default PostIt;

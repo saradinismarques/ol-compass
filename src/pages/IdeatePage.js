@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo }  from 'react';
 import OLDiagram from '../components/OLDiagram';
-import CircleComponent from '../components/Circle';
+import PostIt from '../components/Circle';
 
 const IdeatePage = ({colors}) => {
   // Memoize the initialState object
@@ -37,6 +37,7 @@ const IdeatePage = ({colors}) => {
   return (
     <div>
       <OLDiagram size="450" colors={colors} action="ideate" />
+      <PostIt />
         {state.initialState && (
         <>
         <div className='text-container'>

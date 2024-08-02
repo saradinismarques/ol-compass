@@ -173,9 +173,9 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
                 Math.pow(mouseX - x, 2) + Math.pow(mouseY - y, 2)
             );
 
-            if (action === "ideate" && distance > radius) {
-                alert("OUTSIDE");
-            } 
+            // if (action === "ideate" && distance > radius) {
+            //     alert("OUTSIDE");
+            // } 
         };
 
         document.addEventListener('click', handleClickOutside);
