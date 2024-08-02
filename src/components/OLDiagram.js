@@ -1,6 +1,6 @@
 // src/components/OLDiagram.js
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Stage, Layer, Shape } from 'react-konva';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { Stage, Layer, Shape, Group, Line, Circle } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import '../styles/OLDiagram.css'; 
 
@@ -17,7 +17,17 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
 
     const [hoveredId, setHoveredId] = useState(null);
     const [clickedIds, setClickedIds] = useState([]);
+    const [lines, setLines] = useState([]);  // Array of lines, each line is an array of points
+    const [currentLine, setCurrentLine] = useState([]);  // Points for the current line being drawn
+    const lineColors = useMemo(() => ['#f5b24e', '#f34be6', '#996dab', '#b2d260', '#b2d260'], []);  // Memoize lineColors
+    const [colorIndex, setColorIndex] = useState(0);  // Index to track the current color
+    const [lineIds, setLineIds] = useState([]);  // Index to track the current color
+    const [currentLineIds, setCurrentLineIds] = useState([]);  // Index to track the current color
+
     const clickedIdsRef = useRef(clickedIds);
+    const currentLineRef = useRef(currentLine);
+    const colorIndexRef = useRef(colorIndex);
+    const currentLineIdsRef = useRef(lineIds);
 
     const handleClick = (arr, index) => (e) => {
         if (action === "initial" || action === "home")
@@ -34,14 +44,42 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
             }
         }
 
-        if(action === "get-inspired" || action === "analyze") {
+        else if(action === "get-inspired" || action === "analyze" || action === "ideate") {
             setClickedIds(prevClickedIds => 
                 prevClickedIds.includes(id)
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
                 : [...prevClickedIds, id] // Add ID if not already clicked
             );
         }
-    }
+        if(action === "ideate") {
+            let pointX = arr[index].x;
+            let pointY = arr[index].y;
+            
+            setCurrentLine(prevLinePoints => {
+                // Check if the point already exists in the array
+                const pointIndex = prevLinePoints.findIndex((_, idx) => {
+                    return idx % 2 === 0 && prevLinePoints[idx] === pointX && prevLinePoints[idx + 1] === pointY;
+                });
+
+                if (pointIndex !== -1) {
+                    return prevLinePoints.filter((_, idx) => idx !== pointIndex && idx !== pointIndex + 1);
+                } else {
+                    // Point does not exist, add it
+                    return [...prevLinePoints, pointX, pointY];
+                }
+            });
+            setCurrentLineIds(prev => {
+                // Check if the ID is already in the array
+                if (prev.includes(id)) {
+                    // Remove the ID if it already exists
+                    return prev.filter(existingId => existingId !== id);
+                } else {
+                    // Add the ID if it does not exist
+                    return [...prev, id];
+                }
+            });
+        }
+    };
       
     const handleMouseEnter = (e) => {
         const prefix = "initial";
@@ -70,14 +108,31 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
         if (e.key === 'Escape') {
             setClickedIds([]);
             setHoveredId(null);
+            setCurrentLine([]);
+            setColorIndex(0);
         } 
         else if (action === "get-inspired" && e.key === 'Enter') {
             if (onButtonClick) {
                 onButtonClick(clickedIdsRef.current);
             }
         }
-    }, [action, onButtonClick]);
+        else if(action === "ideate" && e.key === ' ') {
+            const currentLine = currentLineRef.current;
+            const colorIndex = colorIndexRef.current;
+            const currentLineIds = currentLineIdsRef.current;
 
+            if (currentLine.length > 0) {
+                setLines(prevLines => [...prevLines, { points: currentLine, color: lineColors[colorIndex] }]);
+                setCurrentLine([]);
+    
+                // Update color index to the next color, cycling back to the start if at the end
+                setColorIndex((prevIndex) => (prevIndex + 1) % lineColors.length);
+                setLineIds(prevLineIds => [...prevLineIds, ...currentLineIds]);
+                setCurrentLineIds([])
+            }
+        }
+    }, [action, onButtonClick, lineColors]);
+    
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
         return () => {
@@ -89,6 +144,18 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
     useEffect(() => {
         clickedIdsRef.current = clickedIds;
     }, [clickedIds]);
+
+    useEffect(() => {
+        currentLineRef.current = currentLine;
+    }, [currentLine]);
+
+    useEffect(() => {
+        colorIndexRef.current = colorIndex;
+    }, [colorIndex]);
+
+    useEffect(() => {
+        currentLineIdsRef.current = currentLineIds;
+    }, [currentLineIds]);
 
     let position;
     const prefix = "initial"
@@ -117,7 +184,7 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
                             onClick={handleClick(principles, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedIds, hoveredId, p.Code, p.Type, action)}
+                            opacity={getOpacity(clickedIds, lineIds, hoveredId, p.Code, p.Type, action)}
                         />
                     ))} 
 
@@ -136,7 +203,7 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
                             onClick={handleClick(perspectives, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedIds, hoveredId, p.Code, p.Type, action)}
+                            opacity={getOpacity(clickedIds, lineIds, hoveredId, p.Code, p.Type, action)}
                         />
                     ))} 
 
@@ -155,9 +222,62 @@ const OLDiagram = ({size, colors, action, onButtonClick}) => {
                             onClick={handleClick(dimensions, i)}
                             onMouseEnter={handleMouseEnter}
                             onMouseLeave={handleMouseLeave}
-                            opacity={getOpacity(clickedIds, hoveredId, d.Code, d.Type, action)}
+                            opacity={getOpacity(clickedIds, lineIds, hoveredId, d.Code, d.Type, action)}
                         />
                     ))} 
+
+                    {action === "ideate" && (
+                        <Group>
+                        {lines.map((line, index) => (
+                        <Group key={index}>
+                            <Line
+                                key={index}
+                                points={line.points}
+                                stroke={line.color}  // Use corresponding color
+                                strokeWidth={2}
+                            />
+                            {line.points.map((_, pointIndex) => {
+                                if (pointIndex % 2 === 0) {
+                                    return (
+                                        <Circle
+                                            key={`${index}-${pointIndex}`}
+                                            x={line.points[pointIndex]}
+                                            y={line.points[pointIndex + 1]}
+                                            radius={5}
+                                            fill={line.color}  // Use corresponding color
+                                        />
+                                    );
+                                }
+                                return null;
+                            })}
+                        </Group>
+                        ))}
+                        {currentLine.length > 0 && (
+                        <Group>
+                            <Line
+                                key={'current'}
+                                points={currentLine}
+                                stroke={lineColors[colorIndex]}  // Use the current color
+                                strokeWidth={2}
+                            />
+                            {currentLine.map((_, pointIndex) => {
+                                if (pointIndex % 2 === 0) {
+                                    return (
+                                        <Circle
+                                            key={`current-${pointIndex}`}
+                                            x={currentLine[pointIndex]}
+                                            y={currentLine[pointIndex + 1]}
+                                            radius={5}
+                                            fill={lineColors[colorIndex]}  // Use the current color
+                                        />
+                                    );
+                                }
+                                return null;
+                            })}
+                        </Group>
+                        )}
+                        </Group>
+                    )}
                 </Layer>   
         </Stage>
     </div>
@@ -309,7 +429,7 @@ function drawWaveButton(component, size, componentDims, action, context, shape) 
     context.fillText(component.Code, 0, - height / 4);
 }
 
-const getOpacity = (clickedIds, hoveredId, currentId, type, action) => {
+const getOpacity = (clickedIds, lineIds, hoveredId, currentId, type, action) => {
     if (action === "initial-0" || action === "initial-1") {
         return 0.4
     } else if (action === "initial-2" || action === "initial-3") {
@@ -325,13 +445,14 @@ const getOpacity = (clickedIds, hoveredId, currentId, type, action) => {
     } else if (action === "initial-5")
         return 1
 
-    if (clickedIds.includes(currentId)) 
+    if (clickedIds.includes(currentId) || lineIds.includes(currentId)) 
         return 1;
     if (hoveredId === currentId) 
         return 0.8;
-    if (clickedIds.length === 0) 
-        return 1;  
-
+    if (action ==="ideate" && clickedIds.length === 0) 
+        return 0.4;  
+    if(clickedIds.length === 0)
+        return 1;
     return 0.4;
 };
 
