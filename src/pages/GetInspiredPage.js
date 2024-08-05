@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/GetInspiredPage.css';
-import OLDiagram from '../components/OLDiagram';
+import OLCompass from '../components/OLCompass';
 
 const GetInspiredPage = ({colors}) => {
   // Memoize the initialState object
@@ -25,7 +25,6 @@ const GetInspiredPage = ({colors}) => {
         showMore: false,
         initialState: false,
     }));
-    console.log(state.components);
   };
 
   const toggleShowMore = () => {
@@ -51,7 +50,7 @@ const GetInspiredPage = ({colors}) => {
 
   return (
     <div>
-      <OLDiagram size="450" colors={colors} action="get-inspired" onButtonClick={handleEnterClick} />
+      <OLCompass colors={colors} action="get-inspired" onButtonClick={handleEnterClick} />
         {state.initialState && (
         <>
         <div className='text-container'>

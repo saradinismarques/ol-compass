@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/AnalyzePage.css';
-import OLDiagram from '../components/OLDiagram';
+import OLCompass from '../components/OLCompass';
 
 const GetInspiredPage = ({colors}) => {
   // Memoize the initialState object
@@ -36,7 +36,7 @@ const GetInspiredPage = ({colors}) => {
 
   return (
     <div>
-      <OLDiagram size="450" colors={colors} position="left" action="analyze" />
+      <OLCompass colors={colors} position="left" action="analyze" />
         {state.initialState && (
         <>
         <div className='text-container'>

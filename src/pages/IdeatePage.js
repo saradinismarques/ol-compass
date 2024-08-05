@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo }  from 'react';
-import OLDiagram from '../components/OLDiagram';
-import PostIt from '../components/Circle';
+import OLCompass from '../components/OLCompass';
 
 const IdeatePage = ({colors}) => {
   // Memoize the initialState object
@@ -36,7 +35,7 @@ const IdeatePage = ({colors}) => {
 
   return (
     <div>
-      <OLDiagram size="450" colors={colors} action="ideate" />
+      <OLCompass colors={colors} action="ideate" />
       {/* <PostIt /> */}
         {state.initialState && (
         <>

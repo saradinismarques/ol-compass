@@ -1,10 +1,10 @@
 import React from 'react';
-import OLDiagram from '../components/OLDiagram'
+import OLCompass from '../components/OLCompass'
 
 const HomePage = ({colors}) => {
   return (
     <div>
-      <OLDiagram size="450" colors={colors} action="home"/>
+      <OLCompass colors={colors} action="home"/>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/LearnPage.css';
-import OLDiagram from '../components/OLDiagram';
+import OLCompass from '../components/OLCompass';
 
 const LearnPage = ({colors}) => {
   // Memoize the initialState object
@@ -62,7 +62,7 @@ const LearnPage = ({colors}) => {
           : `linear-gradient(to right, #ffffff 30%, ${state.gradientColor} 85%)`
       }}
     >
-      <OLDiagram size="450" colors={colors} action="learn" onButtonClick={handleDiagramClick} />
+      <OLCompass colors={colors} action="learn" onButtonClick={handleDiagramClick} />
       <div className="text-container">
         {state.initialState && (
           <>

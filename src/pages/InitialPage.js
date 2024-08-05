@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OLDiagram from '../components/OLDiagram';
+import OLCompass from '../components/OLCompass';
 import '../styles/InitialPage.css';
 
 const InitialPage = ({ colors }) => {
@@ -163,7 +163,7 @@ const InitialPage = ({ colors }) => {
 
     return (
         <div>
-            <OLDiagram size="450" colors={colors} action={action} />
+            <OLCompass colors={colors} action={action} />
             {getDisplayText()}    
         </div>
     );
