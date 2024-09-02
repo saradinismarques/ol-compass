@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/PostIt.css'; 
 import Draggable from 'react-draggable';
 
-const PostIt = ({ position, isInitialPostIt }) => {
+const PostIt = ({ position, isInitialPostIt, onDragStart }) => {
   const [text, setText] = useState(''); // State to manage the text content
   const [isDragging, setIsDragging] = useState(false); // State to manage dragging status
   const [isHovered, setIsHovered] = useState(false); // State to manage hover status
@@ -15,6 +15,9 @@ const PostIt = ({ position, isInitialPostIt }) => {
   // Event handlers for dragging
   const handleStart = () => {
     setIsDragging(true);
+    if (onDragStart) {
+      onDragStart();
+    }
   };
 
   // Event handlers for hover

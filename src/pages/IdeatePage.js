@@ -1,26 +1,22 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import '../styles/IdeatePage.css';
 import OLCompass from '../components/OLCompass';
 import PostIt from '../components/PostIt';
 
 const IdeatePage = ({ colors }) => {
-  const initialState = useMemo(() => ({
-    initialState: true,
-    postItPositions: [],
-  }), []);
-
-  const [state, setState] = useState(initialState);
-
-  const resetState = useCallback(() => {
-    setState(initialState);
-  }, [initialState]);
+  const [postItPositions, setPostItPositions] = useState([]); // For PostIts created by clicking outside
+  const [initialState, setInitialState] = useState(true); // Initial state of the ideation page
+  const [initialPostIts, setInitialPostIts] = useState([{ id: 0 }]); // Tracks all initial PostIts created
 
   const toggleInitialState = () => {
-    setState((prevState) => ({
-      ...prevState,
-      initialState: false,
-    }));
+    setInitialState(false);
   };
+
+  const resetState = useCallback(() => {
+    setPostItPositions([]);
+    setInitialState(true);
+    setInitialPostIts([{ id: 0 }]); // Reset initial PostIts
+  }, []);
 
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape') {
@@ -35,16 +31,23 @@ const IdeatePage = ({ colors }) => {
     };
   }, [handleKeyDown]);
 
+  // Handle click outside compass to create new PostIt
   const handleClickOutside = (coords) => {
-    setState(prevState => ({
-      ...prevState,
-      postItPositions: [...prevState.postItPositions, { x: coords.x + 5, y: coords.y - 55 }]
-    }));
+    setPostItPositions([...postItPositions, { x: coords.x + 5, y: coords.y - 55 }]);
+  };
+
+  // Handle dragging the initial PostIt to trigger new PostIt creation
+  const handlePostItDragStart = (id) => {
+    // Check if the dragged PostIt is the initial one and create a new initial PostIt
+    if (id === initialPostIts[initialPostIts.length - 1].id) {
+      const newId = id + 1;
+      setInitialPostIts([...initialPostIts, { id: newId }]);
+    }
   };
 
   return (
     <div>
-      {!state.initialState && (
+      {!initialState && (
         <>
           <div className="circle-container">
             <div className="circle circle-left"></div>
@@ -60,19 +63,27 @@ const IdeatePage = ({ colors }) => {
             </div>
           </div>
 
-          {/* Fixed-position PostIt */}
-          <PostIt isInitialPostIt />
+          {/* Render all initial PostIts */}
+          {initialPostIts.map((postIt) => (
+            <PostIt
+              key={postIt.id}
+              isInitialPostIt
+              onDragStart={() => handlePostItDragStart(postIt.id)}
+            />
+          ))}
 
-          {state.postItPositions.map((position, index) => (
+          {/* Render PostIts created by clicking outside the compass */}
+          {postItPositions.map((position, index) => (
             <PostIt key={index} position={position} />
           ))}
+
           <OLCompass colors={colors} action="ideate" onClickOutside={handleClickOutside} />
         </>
       )}
-      {state.initialState && (
+      {initialState && (
         <>
           <OLCompass colors={colors} action="default-left" />
-          <div className='text-container'>
+          <div className="text-container">
             <p className='question'>
               What's it for?
             </p>
