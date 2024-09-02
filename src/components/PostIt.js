@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import '../styles/PostIt.css'; 
 import Draggable from 'react-draggable';
 
-const PostIt = () => {
+const PostIt = ({ position, isInitialPostIt }) => {
   const [text, setText] = useState(''); // State to manage the text content
   const [isDragging, setIsDragging] = useState(false); // State to manage dragging status
-  const [hasBeenDragged, setHasBeenDragged] = useState(false); // State to manage drag status
+  const [isHovered, setIsHovered] = useState(false); // State to manage hover status
 
   // Handle change in text input
   const handleChange = (event) => {
@@ -17,14 +17,29 @@ const PostIt = () => {
     setIsDragging(true);
   };
 
-  const handleStop = () => {
-    setIsDragging(false);
-    setHasBeenDragged(true); // Mark as dragged
+  // Event handlers for hover
+  const handleMouseEnter = () => {
+    setIsHovered(true);
   };
 
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  // Determine opacity based on drag and hover status
+  const opacity = isInitialPostIt ? (isHovered || isDragging ? 1 : 0.5) : 1;
+
   return (
-    <Draggable onStart={handleStart} onStop={handleStop}>
-      <div className={`postit ${isDragging || hasBeenDragged ? 'dragging' : ''}`}>
+    <Draggable
+      position={isInitialPostIt ? undefined : { x: position.x, y: position.y }}
+      onStart={handleStart}
+    >
+      <div
+        className={`postit ${isInitialPostIt ? 'postit-initial' : ''} ${isDragging ? 'dragging' : ''}`}
+        style={{ opacity }}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <textarea
           value={text}
           onChange={handleChange}

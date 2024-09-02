@@ -74,25 +74,25 @@ const Menu = () => {
       </Link>
       <Link
         to="/compare"
-        className={`menu-button ${activeButton === 'compare' ? 'active' : ''}`}
+        className={`menu-button ${activeButton === 'compare' ? 'active' : 'disabled'}`}
       >
         COMPARE
       </Link>
       <Link
         to="/evaluate"
-        className={`menu-button ${activeButton === 'evaluate' ? 'active' : ''}`}
+        className={`menu-button ${activeButton === 'evaluate' ? 'active' : 'disabled'}`}
       >
         EVALUATE
       </Link>
       <Link
         to="/make-yours"
-        className={`menu-button ${activeButton === 'make-yours' ? 'active' : ''}`}
+        className={`menu-button ${activeButton === 'make-yours' ? 'active' : 'disabled'}`}
       >
         MAKE YOURS
       </Link>
       <Link
         to="/some-other-path"
-        className={`menu-button ${activeButton === 'plus' ? 'active' : ''}`}
+        className={`menu-button ${activeButton === 'plus' ? 'active' : 'disabled'}`}
       >
         +
       </Link>

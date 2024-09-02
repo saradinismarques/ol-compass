@@ -24,7 +24,7 @@ const getCenter = (action) => {
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick}) => {
+const OLCompass = ({colors, action, onButtonClick, onClickOutside }) => {
     const center = getCenter(action);
 
     // Dictionary with all information
@@ -205,7 +205,6 @@ const OLCompass = ({colors, action, onButtonClick}) => {
 
             if (distance > radius && mouseY <= window.innerHeight - menuArea) {
                 if(currentLine.length > 0)  {
-                    console.log("AAA");
                     document.body.style.cursor = 'pointer';
                 }
                 setIsInside(false);
@@ -230,6 +229,10 @@ const OLCompass = ({colors, action, onButtonClick}) => {
             );
 
             if (distance > radius && mouseY <= window.innerHeight - menuArea) {
+                if (onClickOutside) {
+                    onClickOutside({ x: mouseX, y: mouseY });
+                }
+                
                 const currentLine = currentLineRef.current;
                 const colorIndex = colorIndexRef.current;
                 const currentLineIds = currentLineIdsRef.current;
@@ -249,7 +252,7 @@ const OLCompass = ({colors, action, onButtonClick}) => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('click', handleClickOutside);
         };
-    }, [action, lineColors]);
+    }, [action, lineColors, onClickOutside]);
 
     return (
         <Stage width={window.innerWidth} height={window.innerHeight}>

@@ -7,23 +7,20 @@
   width: 100px; /* Fixed width */
   height: 100px; /* Fixed height */
   position: absolute; /* Positioning context for the sticky note effect */
-  top: 38%;
-  right: 10%;
   z-index: 5; /* Ensure PostIt is above other elements */
   cursor: grab; /* Cursor indicating draggable content */
-  opacity: 0.5; /* Initial transparency */
+}
+
+.postit-initial {
+  position: absolute; /* Positioning context for the sticky note effect */
+  top: 38%;
+  right: 10%;
   transition: opacity 0.3s ease; /* Smooth transition for opacity changes */
-  transform: rotate(deg) !important; /* Initial slight rotation */
+  opacity: 0.5; /* Initial transparency */
 }
 
 .postit.dragging { 
   opacity: 1; /* Full opacity when dragging */ 
-  transform: rotate(0deg); /* Straighten out when dragging */
-}
-
-.postit.dragging.dragged {
-  opacity: 1; /* Keep full opacity after dragging */
-  transform: rotate(0deg); /* Straighten out when dragging */
 }
 
 .postit:active {
