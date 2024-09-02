@@ -1,83 +1,98 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import '../styles/Menu.css';
-import { Link } from 'react-router-dom';
 
 const Menu = () => {
-  const [activeButton, setActiveButton] = useState(null);
+  const location = useLocation();
+  const currentPath = location.pathname;
 
-  const handleClick = (buttonId) => {
-    setActiveButton(buttonId);
+  // Determine the active button based on the current path
+  const getActiveButton = (path) => {
+    switch (path) {
+      case '/home':
+        return 'home';
+      case '/learn':
+        return 'learn';
+      case '/get-inspired':
+        return 'get-inspired';
+      case '/contextualize':
+        return 'contextualize';
+      case '/analyze':
+        return 'analyze';
+      case '/ideate':
+        return 'ideate';
+      case '/compare':
+        return 'compare';
+      case '/evaluate':
+        return 'evaluate';
+      case '/make-yours':
+        return 'make-yours';
+      default:
+        return null;
+    }
   };
+
+  const activeButton = getActiveButton(currentPath);
 
   return (
     <div className="bottom-menu">
-      <Link 
-        to="/home" 
-        className={`menu-button ${activeButton === 'home' ? 'active' : ''}`} 
-        onClick={() => handleClick('home')}
+      <Link
+        to="/home"
+        className={`menu-button ${activeButton === 'home' ? 'active' : ''}`}
       >
         HOME
       </Link>
-      <Link 
-        to="/learn" 
-        className={`menu-button ${activeButton === 'learn' ? 'active' : ''}`} 
-        onClick={() => handleClick('learn')}
+      <Link
+        to="/learn"
+        className={`menu-button ${activeButton === 'learn' ? 'active' : ''}`}
       >
         LEARN
       </Link>
-      <Link 
-        to="/get-inspired" 
-        className={`menu-button ${activeButton === 'get-inspired' ? 'active' : ''}`} 
-        onClick={() => handleClick('get-inspired')}
+      <Link
+        to="/get-inspired"
+        className={`menu-button ${activeButton === 'get-inspired' ? 'active' : ''}`}
       >
         GET INSPIRED
       </Link>
-      <Link 
-        to="/contextualize" 
-        className={`menu-button ${activeButton === 'contextualize' ? 'active' : ''}`} 
-        onClick={() => handleClick('contextualize')}
+      <Link
+        to="/contextualize"
+        className={`menu-button ${activeButton === 'contextualize' ? 'active' : ''}`}
       >
         CONTEXTUALIZE
       </Link>
-      <Link 
-        to="/analyze" 
-        className={`menu-button ${activeButton === 'analyze' ? 'active' : ''}`} 
-        onClick={() => handleClick('analyze')}
+      <Link
+        to="/analyze"
+        className={`menu-button ${activeButton === 'analyze' ? 'active' : ''}`}
       >
         ANALYZE
       </Link>
-      <Link 
-        to="/ideate" 
-        className={`menu-button ${activeButton === 'ideate' ? 'active' : ''}`} 
-        onClick={() => handleClick('ideate')}
+      <Link
+        to="/ideate"
+        className={`menu-button ${activeButton === 'ideate' ? 'active' : ''}`}
       >
         IDEATE
       </Link>
-      <Link 
-        to="/compare" 
-        className={`menu-button ${activeButton === 'compare' ? 'active' : ''}`} 
-        onClick={() => handleClick('compare')}
+      <Link
+        to="/compare"
+        className={`menu-button ${activeButton === 'compare' ? 'active' : ''}`}
       >
         COMPARE
       </Link>
-      <Link 
-        to="/evaluate" 
-        className={`menu-button ${activeButton === 'evaluate' ? 'active' : ''}`} 
-        onClick={() => handleClick('evaluate')}
+      <Link
+        to="/evaluate"
+        className={`menu-button ${activeButton === 'evaluate' ? 'active' : ''}`}
       >
         EVALUATE
       </Link>
-      <Link 
-        to="/make-yours" 
-        className={`menu-button ${activeButton === 'make-yours' ? 'active' : ''}`} 
-        onClick={() => handleClick('make-yours')}
+      <Link
+        to="/make-yours"
+        className={`menu-button ${activeButton === 'make-yours' ? 'active' : ''}`}
       >
         MAKE YOURS
       </Link>
-      <Link 
-        to="/home" 
-        className={`menu-button ${activeButton === 'plus' ? 'active' : ''}`} 
-        onClick={() => handleClick('plus')}
+      <Link
+        to="/some-other-path"
+        className={`menu-button ${activeButton === 'plus' ? 'active' : ''}`}
       >
         +
       </Link>

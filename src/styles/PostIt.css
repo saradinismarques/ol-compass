@@ -1,23 +1,45 @@
 /* PostIt.css */
 
 .postit {
-    background-color: #fefaa0; /* Light yellow color typical of Post-Its */
-    border: 1px solid #d8d8d8; /* Light gray border */
-    border-radius: 5px; /* Rounded corners */
-    padding: 10px;
-    width: 200px; /* Fixed width */
-    height: 200px; /* Fixed height */
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Shadow for depth */
-    position: relative; /* Positioning context for the sticky note effect */
-  }
+  background-color: #f9f4cf; /* Light yellow color typical of Post-Its */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px;
+  width: 100px; /* Fixed width */
+  height: 100px; /* Fixed height */
+  position: absolute; /* Positioning context for the sticky note effect */
+  top: 38%;
+  right: 10%;
+  z-index: 5; /* Ensure PostIt is above other elements */
+  cursor: grab; /* Cursor indicating draggable content */
+  opacity: 0.5; /* Initial transparency */
+  transition: opacity 0.3s ease; /* Smooth transition for opacity changes */
+  transform: rotate(deg) !important; /* Initial slight rotation */
+}
+
+.postit.dragging { 
+  opacity: 1; /* Full opacity when dragging */ 
+  transform: rotate(0deg); /* Straighten out when dragging */
+}
+
+.postit.dragging.dragged {
+  opacity: 1; /* Keep full opacity after dragging */
+  transform: rotate(0deg); /* Straighten out when dragging */
+}
+
+.postit:active {
+  cursor: grabbing; /* Change cursor when dragging */
+}
   
-  .postit-textarea {
-    width: 100%;
-    height: 100%;
-    border: none;
-    background: transparent;
-    font-size: 14px;
-    resize: none; /* Disable resizing */
-    overflow: auto;
-  }
+.postit-textarea {
+  width: 90%;
+  height: 90%;
+  border: none;
+  padding: 5px;
+  background: transparent;
+  font-family: 'Manrope', sans-serif;
+  font-size: 12px;
+  resize: none; /* Disable resizing */
+  overflow: auto;
+  outline: none;
+}
   

@@ -15,7 +15,7 @@ const waveDims = {
 const getCenter = (action) => {
     if (action.startsWith("initial")) {
         return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    } else if (action === "home") {
+    } else if (action === "default-center") {
         return { x: window.innerWidth / 2, y: window.innerHeight * 0.45 };
     } else {
         return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.45 };
@@ -90,7 +90,7 @@ const OLCompass = ({colors, action, onButtonClick}) => {
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
         
-        if (action.startsWith("initial") || action === "home")
+        if (action.startsWith("initial") || action.startsWith("default"))
             return;
         
         else if(action === "learn") {
@@ -139,7 +139,7 @@ const OLCompass = ({colors, action, onButtonClick}) => {
     };
 
     const handleMouseEnter = (e) => {
-        if (action.startsWith("initial") || action === "home")
+        if (action.startsWith("initial") || action.startsWith("default"))
             return;
 
         const stage = e.target.getStage();
@@ -151,7 +151,7 @@ const OLCompass = ({colors, action, onButtonClick}) => {
 
     const handleMouseLeave = (e) => {
         //const isInside = isInsideRef.current;
-        if (action.startsWith("initial") || action === "home")
+        if (action.startsWith("initial") || action.startsWith("default"))
             return;
         else if(action === "ideate" && !isInside) 
             return;
