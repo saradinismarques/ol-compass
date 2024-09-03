@@ -18,6 +18,7 @@ const LearnPage = ({colors}) => {
   const [state, setState] = useState(initialState);
 
   const resetState = useCallback(() => {
+    console.log("LEarn");
     setState(initialState);
   }, [initialState]);
 
@@ -41,20 +42,6 @@ const LearnPage = ({colors}) => {
     }));
   };
 
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === 'Escape') {
-      resetState();
-    }
-  }, [resetState]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-    };
-}, [handleKeyDown]);
-
-
   return (
     <div className='l-gradient-background'
       style={{
@@ -63,27 +50,36 @@ const LearnPage = ({colors}) => {
           : `linear-gradient(to right, #ffffff 30%, ${state.gradientColor} 85%)`
       }}
     >
-      <OLCompass colors={colors} action="learn" onButtonClick={handleDiagramClick} />
-      <div className="text-container">
-        {state.initialState && (
+      <OLCompass 
+        colors={colors} 
+        action="learn" 
+        onButtonClick={handleDiagramClick} 
+        resetState={resetState}  // Passing resetState to OLCompass
+      />
+
+      {state.initialState && (
           <>
-            <p className='question'>
-              What's it for?
-            </p>
-            <p className='headline'>
-              Explore the fundamentals of OL, one by one!
+          <div className="text-container">
+              <p className='question'>
+                What's it for?
               </p>
-            <p className='text'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-            </p>
-            <p className='instruction'>
-              Click on any element
-            </p>
+              <p className='headline'>
+                Explore the fundamentals of OL, one by one!
+                </p>
+              <p className='text'>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </p>
+              <p className='instruction'>
+                Click on any element
+              </p>
+            </div>
           </>
+
         )}
 
         {!state.initialState && (
           <>
+          <div className="text-container">
             <h1 className='l-title'>{state.title}</h1>
             <h2 className='l-headline'>{state.headline}</h2>
             <div className={state.showMore ? 'l-text expanded' : 'l-text'}>
@@ -97,9 +93,9 @@ const LearnPage = ({colors}) => {
               <button onClick={toggleShowMore} className="l-show-more-button">
                 {state.showMore ? 'Show less' : 'Show more'}
               </button>
+              </div>
             </>
-        )}
-      </div>  
+        )} 
       <Menu />    
     </div>
   );

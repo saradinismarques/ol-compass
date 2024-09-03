@@ -15,13 +15,21 @@ const InitialPage = ({ colors }) => {
             setState((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
     }, []);
 
+    // useCallback ensures handleClick doesn't change unless its dependencies do
+    const handleClick = useCallback((e) => {
+        // You can customize this logic as needed
+        setState((prevState) => prevState + 1);
+    }, []);
+
     useEffect(() => {
         // Add the event listener when the component mounts
         window.addEventListener('keydown', handleKeyDown);
-
+        window.addEventListener('click', handleClick);
         // Remove the event listener when the component unmounts
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('click', handleClick);
+
         };
     }, [handleKeyDown]); // Add handleKeyPress to the dependency array
 

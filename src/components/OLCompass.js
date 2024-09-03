@@ -24,7 +24,7 @@ const getCenter = (action) => {
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick, onClickOutside }) => {
+const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState }) => {
     const center = getCenter(action);
 
     // Dictionary with all information
@@ -94,6 +94,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside }) => {
             return;
         
         else if(action === "learn") {
+            console.log(clickedIdsRef.current);
             setClickedIds([id]);
             const title = convertLabel(components[id].Code);
 
@@ -163,22 +164,20 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside }) => {
 
     // Memoize handleKeyDown to avoid creating a new reference on each render
     const handleKeyDown = useCallback((e) => {
-        if (e.key === 'Escape') {
+    if (e.key === 'Escape') {
             setClickedIds([]);
             setHoveredId(null);
             setCurrentLine([]);
             setCurrentLineIds([]);
-        } 
-        else if (e.key === 'Enter' && action === "get-inspired") {
+            if(resetState)
+                resetState();
+        } else if (e.key === 'Enter' && action === "get-inspired") {
             if (onButtonClick) {
-                let codes = [];
-                clickedIdsRef.current.forEach(id => {
-                    codes.push(components[id].Code);
-                });
+                let codes = clickedIdsRef.current.map(id => components[id].Code);
                 onButtonClick(codes);
             }
         }
-    }, [action, onButtonClick, components]);
+    }, [action, onButtonClick, resetState, components]);
     
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
