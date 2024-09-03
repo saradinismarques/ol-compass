@@ -50,7 +50,7 @@ const Menu = () => {
       </Link>
       <Link
         to="/ol-compass/get-inspired"
-        className={`menu-button ${activeButton === 'get-inspired' ? 'active' : 'disabled'}`}
+        className={`menu-button ${activeButton === 'get-inspired' ? 'active' : ''}`}
       >
         GET INSPIRED
       </Link>
@@ -62,13 +62,13 @@ const Menu = () => {
       </Link>
       <Link
         to="/ol-compass/analyze"
-        className={`menu-button ${activeButton === 'analyze' ? 'active' : 'disabled'}`}
+        className={`menu-button ${activeButton === 'analyze' ? 'active' : ''}`}
       >
         ANALYZE
       </Link>
       <Link
         to="/ol-compass/ideate"
-        className={`menu-button ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
+        className={`menu-button ${activeButton === 'ideate' ? 'active' : ''}`}
       >
         IDEATE
       </Link>
