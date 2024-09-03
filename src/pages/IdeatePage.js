@@ -8,6 +8,11 @@ const IdeatePage = ({ colors }) => {
   const [postItPositions, setPostItPositions] = useState([]); // For PostIts created by clicking outside
   const [initialState, setInitialState] = useState(true); // Initial state of the ideation page
   const [initialPostIts, setInitialPostIts] = useState([{ id: 0 }]); // Tracks all initial PostIts created
+  const [dropPoints, setDropPoints] = useState([]);
+
+  const handlePostItDrop = ({ x, y, id }) => {
+    setDropPoints(prevPoints => [...prevPoints, { x, y, id }]);
+  };
 
   const toggleInitialState = () => {
     setInitialState(false);
@@ -34,7 +39,7 @@ const IdeatePage = ({ colors }) => {
 
   // Handle click outside compass to create new PostIt
   const handleClickOutside = (coords) => {
-    setPostItPositions([...postItPositions, { x: coords.x + 5, y: coords.y - 55 }]);
+    setPostItPositions([...postItPositions, { x: coords.x-5, y: coords.y-5 }]);
   };
 
   // Handle dragging the initial PostIt to trigger new PostIt creation
@@ -70,6 +75,7 @@ const IdeatePage = ({ colors }) => {
               key={postIt.id}
               isInitialPostIt
               onDragStart={() => handlePostItDragStart(postIt.id)}
+              onDrop={handlePostItDrop}
             />
           ))}
 
@@ -78,7 +84,7 @@ const IdeatePage = ({ colors }) => {
             <PostIt key={index} position={position} />
           ))}
 
-          <OLCompass colors={colors} action="ideate" onClickOutside={handleClickOutside} />
+          <OLCompass colors={colors} action="ideate" onClickOutside={handleClickOutside} dropPoints={dropPoints} />
         </>
       )}
       {initialState && (

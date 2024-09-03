@@ -24,7 +24,7 @@ const getCenter = (action) => {
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState }) => {
+const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, dropPoints }) => {
     const center = getCenter(action);
 
     // Dictionary with all information
@@ -41,7 +41,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState })
     // Only for the 'ideate' action
     const [lines, setLines] = useState([]);  // Array of lines, each line is an array of points
     const [currentLine, setCurrentLine] = useState([]);  // Points for the current line being drawn
-    const lineColors = useMemo(() => ['#f5b24e', '#f34be6', '#996dab', '#b2d260', '#b2d260'], []);  // Memoize lineColors
+    const lineColors = useMemo(() => ['#f5b24e', '#f34be6', '#996dab', '#b2d260'], []);  // Memoize lineColors
     const [colorIndex, setColorIndex] = useState(0);  // Index to track the current color
     const [lineIds, setLineIds] = useState([]);  // Keep which IDs are already part of some line
     const [currentLineIds, setCurrentLineIds] = useState([]);  // IDs used in the current line
@@ -94,7 +94,6 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState })
             return;
         
         else if(action === "learn") {
-            console.log(clickedIdsRef.current);
             setClickedIds([id]);
             const title = convertLabel(components[id].Code);
 
@@ -112,20 +111,28 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState })
         if(action === "ideate") {
             let x = components[id].x;
             let y = components[id].y;
-            
-            setCurrentLine(prevLinePoints => {
-                // Check if the point already exists in the array
-                const pointIndex = prevLinePoints.findIndex((_, idx) => {
-                    return idx % 2 === 0 && prevLinePoints[idx] === x && prevLinePoints[idx + 1] === y;
-                });
 
-                if (pointIndex !== -1) {
-                    return prevLinePoints.filter((_, idx) => idx !== pointIndex && idx !== pointIndex + 1);
+            setCurrentLine(prevLinePoints => {
+                // If currentLine is empty, add drop points and the clicked button's coordinates
+                if (prevLinePoints.length === 0 && dropPoints.length > 0) {
+                    const dropPoint = dropPoints[dropPoints.length - 1]; // Use the last dropped point
+                    return [dropPoint.x, dropPoint.y, x, y];
                 } else {
-                    // Point does not exist, add it
-                    return [...prevLinePoints, x, y];
+                    // Check if the point already exists in the array
+                    const pointIndex = prevLinePoints.findIndex((_, idx) => {
+                        return idx % 2 === 0 && prevLinePoints[idx] === x && prevLinePoints[idx + 1] === y;
+                    });
+    
+                    if (pointIndex !== -1) {
+                        // Point exists, remove it
+                        return prevLinePoints.filter((_, idx) => idx !== pointIndex && idx !== pointIndex + 1);
+                    } else {
+                        // Point does not exist, add it
+                        return [...prevLinePoints, x, y];
+                    }
                 }
             });
+
             setCurrentLineIds(prev => {
                 // Check if the ID is already in the array
                 if (prev.includes(id)) {

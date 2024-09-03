@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import '../styles/PostIt.css'; 
 import Draggable from 'react-draggable';
 
-const PostIt = ({ position, isInitialPostIt, onDragStart }) => {
+const PostIt = ({ position, isInitialPostIt, onDragStart, id, onDrop }) => {
   const [text, setText] = useState(''); // State to manage the text content
   const [isDragging, setIsDragging] = useState(false); // State to manage dragging status
   const [isHovered, setIsHovered] = useState(false); // State to manage hover status
@@ -20,6 +20,15 @@ const PostIt = ({ position, isInitialPostIt, onDragStart }) => {
     }
   };
 
+  const handleStop = (e) => {
+    const x = e.clientX;
+    const y = e.clientY;
+    
+    if (onDrop) {
+        onDrop({ x, y });
+    }
+};
+
   // Event handlers for hover
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -36,6 +45,7 @@ const PostIt = ({ position, isInitialPostIt, onDragStart }) => {
     <Draggable
       position={isInitialPostIt ? undefined : { x: position.x, y: position.y }}
       onStart={handleStart}
+      onStop={handleStop} 
     >
       <div
         className={`postit ${isInitialPostIt ? 'postit-initial' : ''} ${isDragging ? 'dragging' : ''}`}
@@ -46,7 +56,7 @@ const PostIt = ({ position, isInitialPostIt, onDragStart }) => {
         <textarea
           value={text}
           onChange={handleChange}
-          placeholder="Write your note here..."
+          placeholder="Write your idea here..."
           className="postit-textarea"
         />
       </div>
