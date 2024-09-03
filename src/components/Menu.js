@@ -9,23 +9,23 @@ const Menu = () => {
   // Determine the active button based on the current path
   const getActiveButton = (path) => {
     switch (path) {
-      case '/home':
+      case '/ol-compass/home':
         return 'home';
-      case '/learn':
+      case '/ol-compass/learn':
         return 'learn';
-      case '/get-inspired':
+      case '/ol-compass/get-inspired':
         return 'get-inspired';
-      case '/contextualize':
+      case '/ol-compass/contextualize':
         return 'contextualize';
-      case '/analyze':
+      case '/ol-compass/analyze':
         return 'analyze';
-      case '/ideate':
+      case '/ol-compass/ideate':
         return 'ideate';
-      case '/compare':
+      case '/ol-compass/compare':
         return 'compare';
-      case '/evaluate':
+      case '/ol-compass/evaluate':
         return 'evaluate';
-      case '/make-yours':
+      case '/ol-compass/make-yours':
         return 'make-yours';
       default:
         return null;
@@ -37,65 +37,65 @@ const Menu = () => {
   return (
     <div className="bottom-menu">
       <Link
-        to="/home"
+        to="/ol-compass/home"
         className={`menu-button ${activeButton === 'home' ? 'active' : ''}`}
       >
         HOME
       </Link>
       <Link
-        to="/learn"
+        to="/ol-compass/learn"
         className={`menu-button ${activeButton === 'learn' ? 'active' : ''}`}
       >
         LEARN
       </Link>
       <Link
-        to="/get-inspired"
-        className={`menu-button ${activeButton === 'get-inspired' ? 'active' : ''}`}
+        to="/ol-compass/get-inspired"
+        className={`menu-button ${activeButton === 'get-inspired' ? 'active' : 'disabled'}`}
       >
         GET INSPIRED
       </Link>
       <Link
-        to="/contextualize"
-        className={`menu-button ${activeButton === 'contextualize' ? 'active' : ''}`}
+        to="/ol-compass/contextualize"
+        className={`menu-button ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
       >
         CONTEXTUALIZE
       </Link>
       <Link
-        to="/analyze"
-        className={`menu-button ${activeButton === 'analyze' ? 'active' : ''}`}
+        to="/ol-compass/analyze"
+        className={`menu-button ${activeButton === 'analyze' ? 'active' : 'disabled'}`}
       >
         ANALYZE
       </Link>
       <Link
-        to="/ideate"
-        className={`menu-button ${activeButton === 'ideate' ? 'active' : ''}`}
+        to="/ol-compass/ideate"
+        className={`menu-button ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
       >
         IDEATE
       </Link>
       <Link
-        to="/compare"
+        to="/ol-compass/compare"
         className={`menu-button ${activeButton === 'compare' ? 'active' : 'disabled'}`}
       >
         COMPARE
       </Link>
       <Link
-        to="/evaluate"
+        to="/ol-compass/evaluate"
         className={`menu-button ${activeButton === 'evaluate' ? 'active' : 'disabled'}`}
       >
         EVALUATE
       </Link>
       <Link
-        to="/make-yours"
+        to="/ol-compass/make-yours"
         className={`menu-button ${activeButton === 'make-yours' ? 'active' : 'disabled'}`}
       >
         MAKE YOURS
       </Link>
-      <Link
+      {/* <Link
         to="/some-other-path"
         className={`menu-button ${activeButton === 'plus' ? 'active' : 'disabled'}`}
       >
         +
-      </Link>
+      </Link> */}
     </div>
   );
 };
