@@ -15,10 +15,12 @@ import MakeYoursPage from './pages/MakeYoursPage';
 import Menu from './components/Menu'
 
 import './styles/App.css';
+const basename = process.env.NODE_ENV === 'production' ? '/ol-compass' : '';
  
 function App() {
+
   const location = useLocation();
-  const isInitialPage = location.pathname === '/ol-compass';
+  const isInitialPage = location.pathname === '/' || location.pathname === '/ol-compass';
 
   const colors = {
     Principle: "#41ffc9",
@@ -49,7 +51,7 @@ function App() {
 
 function RouterWrapper() {
   return (
-    <Router>
+    <Router basename={basename}>
       <App />
     </Router>
   );

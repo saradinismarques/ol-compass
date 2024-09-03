@@ -1,0 +1,24 @@
+/* OLDiagram.css */
+.center-top {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+  
+.left {
+    position: absolute;
+    top: 45%; /* Adjust this value as needed */
+    left: 35%; /* Distance from the left edge of the viewport */
+    transform: translate(-50%, -50%);
+}
+
+.center {
+    position: absolute;
+    top: 50%; /* Adjust this value as needed */
+    left: 50%; 
+    transform: translate(-50%, -50%);
+}
+  
+
+  
