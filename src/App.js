@@ -12,16 +12,9 @@ import ComparePage from './pages/ComparePage';
 import EvaluatePage from './pages/EvaluatePage';
 import MakeYoursPage from './pages/MakeYoursPage';
 
-import Menu from './components/Menu'
-
 import './styles/App.css';
-const basename = process.env.NODE_ENV === 'production' ? '/ol-compass' : '';
  
 function App() {
-
-  const location = useLocation();
-  const isInitialPage = location.pathname === '/' || location.pathname === '/ol-compass';
-
   const colors = {
     Principle: "#41ffc9",
     Perspective: "#41e092",
@@ -44,14 +37,13 @@ function App() {
           <Route path="/ol-compass/make-yours" element={<MakeYoursPage colors={colors}/>} />
         </Routes>
       </main>
-      {!isInitialPage && <Menu />}
     </div>
   );
 }
 
 function RouterWrapper() {
   return (
-    <Router basename={basename}>
+    <Router>
       <App />
     </Router>
   );

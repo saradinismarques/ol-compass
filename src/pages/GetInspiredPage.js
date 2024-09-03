@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/GetInspiredPage.css';
 import OLCompass from '../components/OLCompass';
+import Menu from '../components/Menu';
 
 // const GetInspiredPage = ({colors}) => {
 //   // Memoize the initialState object
@@ -116,6 +117,7 @@ const GetInspiredPage = ({colors}) => {
               Not Available Yet
             </p>
         </div>
+        <Menu />
     </div>
   );
 };

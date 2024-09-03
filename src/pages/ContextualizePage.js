@@ -1,5 +1,6 @@
 import React from 'react';
 import OLCompass from '../components/OLCompass';
+import Menu from '../components/Menu';
 
 const ContextualizePage = ({colors}) => {
   return (
@@ -22,6 +23,7 @@ const ContextualizePage = ({colors}) => {
               Not Available Yet
             </p>
         </div>
+        <Menu />
     </div>
   );
 };

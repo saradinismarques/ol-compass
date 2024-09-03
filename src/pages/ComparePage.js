@@ -1,10 +1,11 @@
 import React from 'react';
 import OLCompass from '../components/OLCompass';
+import Menu from '../components/Menu';
 
 const ComparePage = ({colors}) => {
   return (
     <div>
-      <OLCompass colors={colors} action="compare" />
+      <OLCompass colors={colors} action="default-left" />
         <div className='text-container'>
             <p className='question'>
               What's it for?
@@ -19,6 +20,7 @@ const ComparePage = ({colors}) => {
                 Not Available Yet
             </p>
         </div>
+        <Menu />
     </div>
   );
 };

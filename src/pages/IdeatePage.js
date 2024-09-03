@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import '../styles/IdeatePage.css';
 import OLCompass from '../components/OLCompass';
 import PostIt from '../components/PostIt';
+import Menu from '../components/Menu';
 
 // const IdeatePage = ({ colors }) => {
 //   const [postItPositions, setPostItPositions] = useState([]); // For PostIts created by clicking outside
@@ -124,6 +125,7 @@ const IdeatePage = ({colors}) => {
               Not Available Yet
             </p>
         </div>
+        <Menu />
     </div>
   );
 };

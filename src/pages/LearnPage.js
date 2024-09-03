@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/LearnPage.css';
 import OLCompass from '../components/OLCompass';
+import Menu from '../components/Menu';
 
 const LearnPage = ({colors}) => {
   // Memoize the initialState object
@@ -98,7 +99,8 @@ const LearnPage = ({colors}) => {
               </button>
             </>
         )}
-      </div>      
+      </div>  
+      <Menu />    
     </div>
   );
 };

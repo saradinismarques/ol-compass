@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/AnalyzePage.css';
 import OLCompass from '../components/OLCompass';
+import Menu from '../components/Menu'
 
 // const AnalyzePage = ({colors}) => {
 //   // Memoize the initialState object
@@ -110,6 +111,7 @@ const AnalyzePage = ({colors}) => {
               Not Available Yet
             </p>
         </div>
+      <Menu />
     </div>
   );
 };
