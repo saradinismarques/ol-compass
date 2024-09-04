@@ -31,7 +31,7 @@ const InitialPage = ({ colors }) => {
             window.removeEventListener('click', handleClick);
 
         };
-    }, [handleKeyDown]); // Add handleKeyPress to the dependency array
+    }, [handleKeyDown, handleClick]); // Add handleKeyPress to the dependency array
 
     useEffect(() => {
         if (state === 6) {
