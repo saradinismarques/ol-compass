@@ -105,6 +105,7 @@ const IdeatePage = ({ colors }) => {
 };
 
 // const IdeatePage = ({colors}) => {
+  
 //   return (
 //     <div>
 //       <OLCompass colors={colors} action="default-left" />
