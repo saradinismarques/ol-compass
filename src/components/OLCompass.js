@@ -41,7 +41,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, i
     // Only for the 'ideate' action
     const [lines, setLines] = useState([]);  // Array of lines, each line is an array of points
     const [currentLine, setCurrentLine] = useState([]);  // Points for the current line being drawn
-    const lineColors = useMemo(() => ['#f5b24e', '#f34be6', '#996dab', '#b2d260'], []);  // Memoize lineColors
+    const lineColors = useMemo(() => ['#f5b24e', '#f34be6', '#996dab', '#b2d260', '#329dd1'], []);  // Memoize lineColors
     const [colorIndex, setColorIndex] = useState(0);  // Index to track the current color
     const [lineIds, setLineIds] = useState([]);  // Keep which IDs are already part of some line
     const [currentLineIds, setCurrentLineIds] = useState([]);  // IDs used in the current line

@@ -26,7 +26,7 @@ const IdeatePage = ({ colors }) => {
 
   // Handle click outside compass to create new PostIt
   const handleClickOutside = (coords) => {
-    setTheoryPostIts([...theoryPostIts, { x: coords.x-5, y: coords.y-5 }]);
+    setTheoryPostIts([...theoryPostIts, { x: coords.x-10, y: coords.y-10 }]);
   };
 
   // Handle dragging the initial PostIt to trigger new PostIt creation
@@ -60,7 +60,7 @@ const IdeatePage = ({ colors }) => {
           {intuitionPostIts.map((postIt) => (
             <PostIt
               key={postIt.id}
-              isInitialPostIt
+              isIntuitionPostIt
               onDragStart={() => handlePostItDragStart(postIt.id)}
               onDrop={handlePostItDrop}
             />
@@ -105,7 +105,7 @@ const IdeatePage = ({ colors }) => {
 };
 
 // const IdeatePage = ({colors}) => {
-  
+
 //   return (
 //     <div>
 //       <OLCompass colors={colors} action="default-left" />

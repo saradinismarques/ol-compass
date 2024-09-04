@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import '../styles/PostIt.css'; 
 import Draggable from 'react-draggable';
 
-const PostIt = ({ position, isInitialPostIt, onDragStart, id, onDrop }) => {
+const PostIt = ({ position, isIntuitionPostIt, onDragStart, id, onDrop }) => {
   const [text, setText] = useState(''); // State to manage the text content
   const [isDragging, setIsDragging] = useState(false); // State to manage dragging status
   const [isHovered, setIsHovered] = useState(false); // State to manage hover status
@@ -22,8 +22,8 @@ const PostIt = ({ position, isInitialPostIt, onDragStart, id, onDrop }) => {
   };
 
   const handleStop = (e) => {
-    const x = e.clientX+5;
-    const y = e.clientY+5;
+    const x = e.clientX+10;
+    const y = e.clientY+10;
     
     if (onDrop) {
         onDrop({ x, y });
@@ -40,19 +40,18 @@ const PostIt = ({ position, isInitialPostIt, onDragStart, id, onDrop }) => {
   };
 
   // Determine opacity based on drag and hover status
-  const opacity = isInitialPostIt ? (isHovered || isDragging ? 1 : 0.5) : 1;
+  const opacity = isIntuitionPostIt ? (isHovered || isDragging ? 1 : 0.5) : 1;
 
   return (
     <Draggable
       nodeRef={nodeRef} // Pass ref to Draggable
-      position={isInitialPostIt ? undefined : { x: position.x, y: position.y }}
+      position={isIntuitionPostIt ? undefined : { x: position.x, y: position.y }}
       onStart={handleStart}
       onStop={handleStop} 
-      animation={false}
     >
       <div
         ref={nodeRef} // Attach ref to the draggable element
-        className={`postit ${isInitialPostIt ? 'postit-initial' : ''} ${isDragging ? 'dragging' : ''}`}
+        className={`postit ${isIntuitionPostIt ? 'postit-initial' : ''} ${isDragging ? 'dragging' : ''}`}
         style={{ opacity }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
