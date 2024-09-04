@@ -1,17 +1,17 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import '../styles/IdeatePage.css';
 import OLCompass from '../components/OLCompass';
 import PostIt from '../components/PostIt';
 import Menu from '../components/Menu';
 
 const IdeatePage = ({ colors }) => {
-  const [postItPositions, setPostItPositions] = useState([]); // For PostIts created by clicking outside
   const [initialState, setInitialState] = useState(true); // Initial state of the ideation page
-  const [initialPostIts, setInitialPostIts] = useState([{ id: 0 }]); // Tracks all initial PostIts created
-  const [dropPoints, setDropPoints] = useState([]);
+  const [theoryPostIts, setTheoryPostIts] = useState([]); // For PostIts created by clicking outside
+  const [intuitionPostIts, setIntuitionPostIts] = useState([{ id: 0 }]); // Tracks all initial PostIts created
+  const [intuitionDropPoint, setIntuitionDropPoint] = useState([]);
 
   const handlePostItDrop = ({ x, y, id }) => {
-    setDropPoints(prevPoints => [...prevPoints, { x, y, id }]);
+    setIntuitionDropPoint(prevPoints => [...prevPoints, { x, y, id }]);
   };
 
   const toggleInitialState = () => {
@@ -19,36 +19,23 @@ const IdeatePage = ({ colors }) => {
   };
 
   const resetState = useCallback(() => {
-    setPostItPositions([]);
+    setTheoryPostIts([]);
     setInitialState(true);
-    setInitialPostIts([{ id: 0 }]); // Reset initial PostIts
+    setIntuitionPostIts([{ id: 0 }]); // Reset initial PostIts
   }, []);
-
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === 'Escape') {
-      resetState();
-    }
-  }, [resetState]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]);
 
   // Handle click outside compass to create new PostIt
   const handleClickOutside = (coords) => {
-    setPostItPositions([...postItPositions, { x: coords.x-5, y: coords.y-5 }]);
+    setTheoryPostIts([...theoryPostIts, { x: coords.x-5, y: coords.y-5 }]);
   };
 
   // Handle dragging the initial PostIt to trigger new PostIt creation
   const handlePostItDragStart = (id) => {
     // Check if the dragged PostIt is the initial one and create a new initial PostIt
-    if (id === initialPostIts[initialPostIts.length - 1].id) {
+   // if (id === initialPostIts[initialPostIts.length - 1].id) {
       const newId = id + 1;
-      setInitialPostIts([...initialPostIts, { id: newId }]);
-    }
+      setIntuitionPostIts([...intuitionPostIts, { id: newId }]);
+   // }
   };
 
   return (
@@ -70,7 +57,7 @@ const IdeatePage = ({ colors }) => {
           </div>
 
           {/* Render all initial PostIts */}
-          {initialPostIts.map((postIt) => (
+          {intuitionPostIts.map((postIt) => (
             <PostIt
               key={postIt.id}
               isInitialPostIt
@@ -80,11 +67,17 @@ const IdeatePage = ({ colors }) => {
           ))}
 
           {/* Render PostIts created by clicking outside the compass */}
-          {postItPositions.map((position, index) => (
+          {theoryPostIts.map((position, index) => (
             <PostIt key={index} position={position} />
           ))}
 
-          <OLCompass colors={colors} action="ideate" onClickOutside={handleClickOutside} dropPoints={dropPoints} />
+          <OLCompass 
+            colors={colors} 
+            action="ideate" 
+            onClickOutside={handleClickOutside} 
+            resetState={resetState}  
+            ideateDropPoint={intuitionDropPoint} 
+          />
         </>
       )}
       {initialState && (

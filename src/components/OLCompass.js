@@ -24,7 +24,7 @@ const getCenter = (action) => {
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, dropPoints }) => {
+const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, ideateDropPoint }) => {
     const center = getCenter(action);
 
     // Dictionary with all information
@@ -46,6 +46,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, d
     const [lineIds, setLineIds] = useState([]);  // Keep which IDs are already part of some line
     const [currentLineIds, setCurrentLineIds] = useState([]);  // IDs used in the current line
     const [isInside, setIsInside] = useState(false); // If is inside compass area
+    const [dropPoint, setDropPoint] = useState([]);
 
     // Compass area
     const circleRef = useRef({
@@ -87,6 +88,12 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, d
         isInsideRef.current = isInside;
     }, [isInside]);
 
+    useEffect(() => {
+        if (ideateDropPoint && ideateDropPoint.length > 0) {
+            setDropPoint(ideateDropPoint);
+        }
+    }, [ideateDropPoint]);
+
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
         
@@ -114,9 +121,9 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, d
 
             setCurrentLine(prevLinePoints => {
                 // If currentLine is empty, add drop points and the clicked button's coordinates
-                if (prevLinePoints.length === 0 && dropPoints.length > 0) {
-                    const dropPoint = dropPoints[dropPoints.length - 1]; // Use the last dropped point
-                    return [dropPoint.x, dropPoint.y, x, y];
+                if (prevLinePoints.length === 0 && dropPoint.length > 0) {
+                    const point = dropPoint[dropPoint.length - 1]; // Use the last dropped point
+                    return [point.x, point.y, x, y];
                 } else {
                     // Check if the point already exists in the array
                     const pointIndex = prevLinePoints.findIndex((_, idx) => {
@@ -183,8 +190,22 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, d
                 let codes = clickedIdsRef.current.map(id => components[id].Code);
                 onButtonClick(codes);
             }
+        } else if (e.key === 'Enter' && action === "ideate") {
+            // Finalize the current line
+            const currentLine = currentLineRef.current;
+            const colorIndex = colorIndexRef.current;
+            const currentLineIds = currentLineIdsRef.current;
+
+            if (currentLine.length > 0) {
+                setLines(prevLines => [...prevLines, { points: currentLine, color: lineColors[colorIndex] }]);
+                setCurrentLine([]);  // Reset the current line
+                setColorIndex((prevIndex) => (prevIndex + 1) % lineColors.length);
+                setLineIds(prevLineIds => [...prevLineIds, ...currentLineIds]);
+                setCurrentLineIds([]);
+                setDropPoint([]); 
+            }
         }
-    }, [action, onButtonClick, resetState, components]);
+    }, [action, onButtonClick, lineColors, resetState, components]);
     
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
