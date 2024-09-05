@@ -18,11 +18,10 @@ const LearnPage = ({colors}) => {
   const [state, setState] = useState(initialState);
 
   const resetState = useCallback(() => {
-    console.log("LEarn");
     setState(initialState);
   }, [initialState]);
 
-  const handleDiagramClick = (title, headline, paragraph, showMoreText, Type) => {
+  const handleDiagramClick = (title, headline, paragraph, showMoreText, type) => {
     setState((prevState) => ({
       ...prevState,
       title,
@@ -31,7 +30,7 @@ const LearnPage = ({colors}) => {
       showMoreText,
       showMore: false,
       initialState: false,
-      gradientColor: colors[Type]
+      gradientColor: colors[type]
     }));
   };
 

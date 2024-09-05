@@ -1,0 +1,63 @@
+.c-search-container {
+    position: absolute;
+    top: 78%;
+    left: 25%;
+    display: flex; /* Use flexbox to align items horizontally */
+    align-items: center; /* Align vertically */
+}
+
+.c-search-bar {
+    padding: 5px 12px;
+    border: 2px solid #41ffc9;
+    border-radius: 20px;
+    font-family: 'Arial';
+    font-size: 20px;
+    color: #478cc9;
+    width: 280px;
+    outline: none;
+}
+
+.c-search-button {
+    padding:2px 2px; /* Add some padding to the button */
+    position: absolute;
+    left: 89%;
+    background-color: #34d399;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    font-size: 19px;
+}
+
+.c-search-button:hover {
+    background-color: #2fa77f; /* Darken the button on hover */
+}
+
+.c-title {
+    font-size: 1.5em; /* Larger size for h1 */
+    font-weight: 300;
+    color: rgb(255, 255, 255); 
+    text-transform: uppercase;
+    margin: 0;
+}
+
+/* Style for h2 */
+.c-headline {
+    font-size: 1.8em; /* Smaller size for h2 */
+    font-weight: 500;
+    text-transform: uppercase;
+    color: rgb(255, 255, 255);
+    margin-top: 3px;
+}
+
+.c-text {
+    font-size: 1.1em;
+    font-weight: 300;
+    color: rgb(0, 0, 0); 
+    padding-left: 20px;
+    margin-top: -30px;
+    margin-bottom: -5px;
+    overflow-y: hidden; /* Hide overflow initially */
+}
+
+

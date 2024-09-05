@@ -17,6 +17,8 @@ const getCenter = (action) => {
         return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     } else if (action === "default-center") {
         return { x: window.innerWidth / 2, y: window.innerHeight * 0.45 };
+    } else if(action === "contextualize") {
+        return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.40 };
     } else {
         return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.45 };
     }
@@ -102,7 +104,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, i
         
         else if(action === "learn") {
             setClickedIds([id]);
-            const title = convertLabel(components[id].Code);
+            const title = convertLabel(components[id].Code, components[id].Type);
 
             if (onButtonClick) {
                 onButtonClick(title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].Type);
@@ -113,8 +115,15 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, i
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
                 : [...prevClickedIds, id] // Add ID if not already clicked
             );
-        } 
-        
+        } else if(action === "contextualize") {
+            setClickedIds([id]);
+            const title = convertLabel(components[id].Code, components[id].Type);
+            
+            if (onButtonClick) {
+                onButtonClick(title, components[id].Label, components[id].Type);
+            }
+        }
+    
         if(action === "ideate") {
             let x = components[id].x;
             let y = components[id].y;
@@ -503,32 +512,13 @@ const getGradientColor = (code, type, colors) => {
     
 }
 
-function convertLabel(label) {
-    // Define a mapping of prefixes to their corresponding full names
-    const prefixMap = {
-        "D": "Dimension",
-        "Pe": "Perspective",
-        "P": "Principle"
-    };
-
+function convertLabel(label, type) {
     // Use a regular expression to capture the prefix and the number
     const regex = /^([A-Za-z]+)(\d+)$/;
     const match = label.match(regex);
+    const number = match[2];
 
-    if (match) {
-        const prefix = match[1];
-        const number = match[2];
-
-        // Find the corresponding full name for the prefix
-        const fullName = prefixMap[prefix];
-
-        if (fullName) {
-            return `${fullName} ${number}`;
-        }
-    }
-
-    // If the label doesn't match the expected pattern, return it unchanged
-    return label;
+    return `${type} ${number}`;
 }
 
 export default OLCompass;
