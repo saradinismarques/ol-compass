@@ -1,8 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
+import { getAIResponse } from '../utils/AI.js';
 
 const ContextualizePage = ({colors}) => {
+  const [prompt, setPrompt] = useState('');
+  const [response, setResponse] = useState('');
+
+  const handlePromtChange = (e) => {
+    setPrompt(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    const aiResponse = await getAIResponse(prompt);
+    setResponse(aiResponse);
+  }
+
   return (
     <div>
       <OLCompass colors={colors} action="default-left" />
@@ -19,9 +32,11 @@ const ContextualizePage = ({colors}) => {
             <p className='instruction'>
               Search the name of any body of water
             </p>
-            <p className='not-available'>
-              Not Available Yet
-            </p>
+            <div>
+              <input type="text" value={prompt} placeholder={'Ex. Mediterranean Sea'} onChange={handlePromtChange}/>
+              <button onClick={handleSubmit}>Ask AI</button>
+              <p>AI Response: {response}</p>
+            </div>
         </div>
         <Menu />
     </div>

@@ -56,7 +56,7 @@ const Menu = () => {
       </Link>
       <Link
         to="/ol-compass/contextualize"
-        className={`menu-button ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
+        className={`menu-button ${activeButton === 'contextualize' ? 'active' : ''}`}
       >
         CONTEXTUALIZE
       </Link>
