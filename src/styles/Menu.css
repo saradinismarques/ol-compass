@@ -2,12 +2,12 @@
 
 .bottom-menu {
     position: fixed;
-    bottom: 0;
+    bottom: 7%;
     left: 0;
     right: 0;
     display: flex;
     justify-content: center;
-    padding: 65px 0;
+    z-index: 10; /* Adjust the z-index */
 }
 
 .menu-button {

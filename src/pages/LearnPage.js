@@ -70,7 +70,7 @@ const LearnPage = ({colors}) => {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
               </p>
               <p className='instruction'>
-                Click on any element!!
+                Click on any element
               </p>
             </div>
           </>
@@ -82,7 +82,7 @@ const LearnPage = ({colors}) => {
           <div className="l-text-container">
             <h1 className='l-title'>{state.title}</h1>
             <h2 className='l-headline'>{state.headline}</h2>
-            <div className={state.showMore ? 'l-text expanded' : 'l-text'}>
+            <div className={state.showMore ? 'l-text expanded scroller' : 'l-text scroller'}>
               <p>{state.paragraph}</p>
               {state.showMore && (
                 <>
@@ -96,7 +96,7 @@ const LearnPage = ({colors}) => {
               </div>
             </>
         )} 
-      <Menu />    
+        <Menu />
     </div>
   );
 };

@@ -396,7 +396,7 @@ function drawWaveButton(component, action, context, shape) {
 
     let color;
     if(component.Type === "Principle")
-        color = '#21b185';
+        color = '#269c76';
     else
         color = 'white';
 
@@ -407,7 +407,7 @@ function drawWaveButton(component, action, context, shape) {
     // Draw main text
     // Calculate font size based on dimension
     const fontSize = size / 39; // Adjust as needed
-    context.font = `600 ${fontSize}px Manrope`;
+    context.font = `500 ${fontSize}px Manrope`;
     context.fillStyle = color;
     context.textAlign = 'center';
     context.textBaseline = 'middle';

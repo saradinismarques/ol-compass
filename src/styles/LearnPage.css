@@ -1,45 +1,15 @@
 .l-text-container {
     position: absolute;
-    top: 16%; /* Position item 50% from the top */
+    top: 15%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
-    max-width: 310px;
-
-    /* Firefox Scrollbar */
-    scrollbar-width: thin; /* Minimalist thin scrollbar */
-    scrollbar-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.05); /* Transparent thumb and track */
-}
-
-.l-text-container:hover {
-    scrollbar-color: rgba(0, 0, 0, 0.5) rgba(0, 0, 0, 0.05); /* Darker thumb on hover */
-}
-
-/* For Chrome, Edge, and Safari */
-.l-text-container::-webkit-scrollbar {
-    width: 5px; /* Very narrow scrollbar */
-}
-
-.l-text-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.05); /* Very light transparent track */
-    border-radius: 10px; /* Rounded track */
-}
-
-.l-text-container::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.3); /* More transparent thumb */
-    border-radius: 10px; /* Fully rounded edges */
-}
-
-.l-text-container::-webkit-scrollbar-thumb:hover {
-    background-color: rgba(0, 0, 0, 0.5); /* Slightly darker on hover */
-}
-
-/* Hide the scrollbar arrows in Chrome, Edge, and Safari */
-.l-text-container::-webkit-scrollbar-button {
-    display: none; /* This removes the top and bottom arrows */
+    max-width: 335px;
+    padding: 0px;
+    margin: 0px;
 }
 
 /* Style for h1 */
 .l-title {
-    font-size: 1.5em; /* Larger size for h1 */
+    font-size: 1.4em; /* Larger size for h1 */
     font-weight: 300;
     color: rgb(255, 255, 255); 
     text-transform: uppercase;
@@ -48,7 +18,7 @@
 
 /* Style for h2 */
 .l-headline {
-    font-size: 1.8em; /* Smaller size for h2 */
+    font-size: 1.7em; /* Smaller size for h2 */
     font-weight: 500;
     text-transform: uppercase;
     color: rgb(255, 255, 255);
@@ -61,34 +31,54 @@
     font-weight: 300;
     color: rgb(0, 0, 0); 
     padding-left: 20px;
-    margin-top: -30px;
-    margin-bottom: -5px;
+    margin-top: -15px;
+    padding-bottom: -5px;
+    padding-right: 20px;
     overflow-y: hidden; /* Hide overflow initially */
+    display: block;
 }
 
 /* Expanded state for text content */
 .l-text.expanded {
     overflow-y: auto; /* Enable vertical scroll */
-    max-height: 300px; /* Show full content when expanded */
-    margin-top: -30px;
-    margin-bottom: 5px;
+    max-height: 330px; /* Show full content when expanded */
+    margin-top: -15px;
+    margin-bottom: 17px;
+    padding-right: 15px;
 }
 
+.scroller{
+    overflow:auto;
+    display: block;
+}
+    
+.scroller::-webkit-scrollbar{
+    width:5px;
+    background-color:transparent;
+}
+        
+.scroller::-webkit-scrollbar-thumb{
+    background:rgb(102, 102, 102);
+    border-radius: 10px;
+}
+  
 .l-show-more-button {
+    position: relative;
     font-family: 'Manrope', sans-serif;
     font-size: 1.05em;
     font-weight: 200;
     background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: rgb(131, 131, 131);
+    color: rgb(85, 85, 85);
     border: none;
     cursor: pointer;
     padding-left: 20px;
     outline: none; /* Optional: Remove outline on focus */
     text-decoration: underline;
+    z-index: 20; /* Adjust the z-index */
 }
 
 .l-show-more-button:hover {
-    color: rgb(203, 202, 202);
+    color: rgb(117, 117, 117);
 }
   
 .l-gradient-background {
