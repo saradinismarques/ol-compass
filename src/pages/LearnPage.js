@@ -81,7 +81,7 @@ const LearnPage = ({colors}) => {
           <>
           <div className="l-text-container">
             <h1 className='l-title'>{state.title}</h1>
-            <h2 className='l-headline'>{state.headline}</h2>
+            <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
             <div className={state.showMore ? 'l-text expanded scroller' : 'l-text scroller'}>
               <p>{state.paragraph}</p>
               {state.showMore && (

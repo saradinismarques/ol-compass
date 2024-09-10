@@ -13,6 +13,7 @@ const waveDims = {
 };
 
 const getCenter = (action) => {
+    console.log(window.innerHeight);
     if (action.startsWith("initial")) {
         return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     } else if (action === "default-center") {

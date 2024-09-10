@@ -2,7 +2,7 @@
     position: absolute;
     top: 15%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
-    max-width: 350px;
+    max-width: 349px;
     padding: 0px;
     margin: 0px;
 }
@@ -41,9 +41,9 @@
 /* Expanded state for text content */
 .l-text.expanded {
     overflow-y: auto; /* Enable vertical scroll */
-    max-height: 305px; /* Show full content when expanded */
+    max-height: 328px; /* Show full content when expanded */
     margin-top: -15px;
-    margin-bottom: 18px;
+    margin-bottom: 19px;
     padding-right: 15px;
 }
 
@@ -58,7 +58,7 @@
 }
         
 .scroller::-webkit-scrollbar-thumb{
-    background:rgb(102, 102, 102);
+    background: white;
     border-radius: 10px;
 }
   
