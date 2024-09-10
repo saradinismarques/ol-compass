@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/ol-compass/static/css/main.a876fd6c.css",
+    "main.css": "/ol-compass/static/css/main.ed9c0482.css",
     "main.js": "/ol-compass/static/js/main.6485c3ff.js",
     "index.html": "/ol-compass/index.html",
-    "main.a876fd6c.css.map": "/ol-compass/static/css/main.a876fd6c.css.map",
+    "main.ed9c0482.css.map": "/ol-compass/static/css/main.ed9c0482.css.map",
     "main.6485c3ff.js.map": "/ol-compass/static/js/main.6485c3ff.js.map"
   },
   "entrypoints": [
-    "static/css/main.a876fd6c.css",
+    "static/css/main.ed9c0482.css",
     "static/js/main.6485c3ff.js"
   ]
 }
