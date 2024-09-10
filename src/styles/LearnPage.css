@@ -2,7 +2,7 @@
     position: absolute;
     top: 15%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
-    max-width: 335px;
+    max-width: 350px;
     padding: 0px;
     margin: 0px;
 }
@@ -18,7 +18,7 @@
 
 /* Style for h2 */
 .l-headline {
-    font-size: 1.7em; /* Smaller size for h2 */
+    font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
     text-transform: uppercase;
     color: rgb(255, 255, 255);
@@ -41,9 +41,9 @@
 /* Expanded state for text content */
 .l-text.expanded {
     overflow-y: auto; /* Enable vertical scroll */
-    max-height: 330px; /* Show full content when expanded */
+    max-height: 305px; /* Show full content when expanded */
     margin-top: -15px;
-    margin-bottom: 17px;
+    margin-bottom: 18px;
     padding-right: 15px;
 }
 
