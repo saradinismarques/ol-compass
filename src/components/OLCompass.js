@@ -5,11 +5,11 @@ import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../ut
 import Lines from '../components/Lines';
 
 // Sizes and positions 
-const size = 450;
+const size = window.innerHeight / 1.59;
 const waveDims = {
-    "Principle": { Width: size / 3.9, Height: size / 5.7, CornerRadius: size / 25 },
-    "Perspective": { Width: size / 3.0, Height: size / 7.3, CornerRadius: size / 8.5 },
-    "Dimension": { Width: size / 3.3, Height: size / 6.8, CornerRadius: size / 8.5 }
+    "Principle": { Width: size / 3.78, Height: size / 5.3, CornerRadius: size / 18 },
+    "Perspective": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 },
+    "Dimension": { Width: size / 3.2, Height: size / 6.6, CornerRadius: size / 9.2 }
 };
 
 const getCenter = (action) => {
@@ -312,7 +312,7 @@ function getPrinciples(principlesData, center) {
 function getPerspectives(perspectivesData, center) {
     const x = center.x;
     const y = center.y;
-    const radius = size/2.8;
+    const radius = size/2.77;
     const numPerspectives = 7;
 
     const perspectives = calculateAroundCirclePositions(perspectivesData, x, y, radius, numPerspectives);
@@ -406,8 +406,8 @@ function drawWaveButton(component, action, context, shape) {
         context.rotate(Math.PI);
     // Draw main text
     // Calculate font size based on dimension
-    const fontSize = size / 41; // Adjust as needed
-    context.font = `500 ${fontSize}px Calibri`;
+    const fontSize = size / 39; // Adjust as needed
+    context.font = `600 ${fontSize}px Manrope`;
     context.fillStyle = color;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
@@ -421,17 +421,25 @@ function drawWaveButton(component, action, context, shape) {
     if(firstPart.length < 5)
         context.fillText(component.Label, 0, 0);
     else{
-        context.fillText(firstPart, 0, -height/11);
-        context.fillText(secondPart, 0, height/11);
+        context.fillText(firstPart, 0, -6);
+        context.fillText(secondPart, 0, 6);
     }
 
+    let topSpace;
+    if(component.Type === "Principle")
+        topSpace = -22;
+    else if(component.Type === "Perspective")
+        topSpace = -16;
+    else if(component.Type === "Dimension")
+        topSpace = -18;
+
     // Draw identifier
-    const LabelFontSize = size / 45; // Adjust as needed
+    const LabelFontSize = size / 50; // Adjust as needed
     context.fillStyle = color;
-    context.font = `400 ${LabelFontSize}px Calibri`;
+    context.font = `200 ${LabelFontSize}px Manrope`;
     context.textAlign = 'center';
     context.textBaseline = 'middle';
-    context.fillText(component.Code, 0, - height / 4);
+    context.fillText(component.Code, 0, topSpace);
 }
 
 const getOpacity = (clickedIds, lineIds, hoveredId, currentId, type, action) => {

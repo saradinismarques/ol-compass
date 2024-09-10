@@ -9,13 +9,12 @@ body {
     top: 16%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
     max-width: 360px;
-    color: red;
 }
 
 .question {
     font-size: 1.4em; /* Larger size for h1 */
     font-weight: 300;
-    color: rgb(219,219,219);
+    color: rgb(151, 151, 150);
     text-transform: uppercase;
     margin: 0;
 }
@@ -30,7 +29,7 @@ body {
 .text {
     font-size: 1.1em;
     font-weight: 300;
-    color: rgb(211, 211, 210); 
+    color: rgb(151, 151, 150); 
     padding-left: 20px;
     margin-top: -10px;
     overflow-y: hidden; /* Hide overflow initially */

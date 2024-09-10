@@ -79,7 +79,7 @@ const LearnPage = ({colors}) => {
 
         {!state.initialState && (
           <>
-          <div className="text-container">
+          <div className="l-text-container">
             <h1 className='l-title'>{state.title}</h1>
             <h2 className='l-headline'>{state.headline}</h2>
             <div className={state.showMore ? 'l-text expanded' : 'l-text'}>
