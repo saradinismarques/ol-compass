@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/LearnPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
-import BookmarkIcon from '../assets/bookmark-svgrepo-com.svg';
 
 const LearnPage = ({colors}) => {
   // Memoize the initialState object

@@ -46,7 +46,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const [lineIds, setLineIds] = useState([]);  // Keep which IDs are already part of some line
     const [currentLineIds, setCurrentLineIds] = useState([]);  // IDs used in the current line
     const [isInside, setIsInside] = useState(false); // If is inside compass area
-
+    const [initialState, setInitialState] = useState(true);
     // Compass area
     const circleRef = useRef({
         x: center.x, // Example center x
@@ -94,6 +94,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             return;
         
         else if(action === "learn") {
+            setInitialState(false);
             setClickedIds([id]);
             const title = convertLabel(components[id].Code);
 
@@ -168,6 +169,8 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             setHoveredId(null);
             setCurrentLine([]);
             setCurrentLineIds([]);
+            setInitialState(true);
+            
             if(resetState)
                 resetState();
         } else if (e.key === 'Enter' && action === "get-inspired") {
@@ -259,7 +262,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                     <Shape
                         key={String(i)}
                         sceneFunc={(context, shape) => {
-                        drawWaveButton(c, action, context, shape, savedComponents);
+                        drawWaveButton(c, action, context, shape, savedComponents, initialState);
                         }}
                         id={String(i)}
                         fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims[c.Type].Height/1.5 }}
@@ -348,7 +351,7 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
     return arr;
 };
 
-function drawWaveButton(component, action, context, shape, savedComponents) { 
+function drawWaveButton(component, action, context, shape, savedComponents, initialState) { 
     const x = component.x;
     const y = component.y;
     const angle = component.angle;
@@ -385,7 +388,7 @@ function drawWaveButton(component, action, context, shape, savedComponents) {
     drawText(component, action, context);
     
     // Check if this component has been saved (exists in savedComponents)
-    if(action === "learn" && savedComponents.includes(component.Code)) {    
+    if(action === "learn" && !initialState && savedComponents.includes(component.Code)) {    
         // Draw a circle around the component or at its position
         context.beginPath();
         context.arc(-halfWidth+20, 0, 6, 0, 2 * Math.PI);  // Adjust the radius (30) as needed
