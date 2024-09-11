@@ -7,6 +7,56 @@
     margin: 0px;
 }
 
+.l-bookmark-container {
+    position: absolute;
+    top: 11%;
+    left: 60%;
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center them vertically */
+}
+
+.l-white-line {
+    width: 290px;
+    height: 0.5px;
+    background-color: white;
+}
+  
+.l-bookmark-button {
+    background-color: transparent;
+    border:2px solid white;
+    border-radius: 50%;
+    padding: 7px;
+    margin-left: 10px; /* Add space between the line and the button */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+.l-bookmark-button:hover {
+    border-color: #fff; /* Change border color on hover */
+    background-color:  rgba(255, 255, 255, 0.2);
+}
+  
+.l-bookmark-button:active {
+    border-color: #d8d8d8; /* Lighter border on click */
+    background-color:  rgba(199, 181, 181, 0.2);
+}
+
+.l-bookmark-button.active {
+    background-color: #da398f; /* Active state background color */
+    color: white; /* Active state text color */
+}
+  
+.l-bookmark-icon {
+    width: 24px;
+    height: 24px;
+    fill: white; /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: white;
+    stroke-width: 1px;
+}
+  
 /* Style for h1 */
 .l-title {
     font-size: 1.4em; /* Larger size for h1 */

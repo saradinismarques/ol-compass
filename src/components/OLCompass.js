@@ -13,7 +13,6 @@ const waveDims = {
 };
 
 const getCenter = (action) => {
-    console.log(window.innerHeight);
     if (action.startsWith("initial")) {
         return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
     } else if (action === "default-center") {
@@ -25,7 +24,7 @@ const getCenter = (action) => {
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState }) => {
+const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, savedComponents }) => {
     const center = getCenter(action);
 
     // Dictionary with all information
@@ -95,12 +94,11 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState })
             return;
         
         else if(action === "learn") {
-            console.log(clickedIdsRef.current);
             setClickedIds([id]);
             const title = convertLabel(components[id].Code);
 
             if (onButtonClick) {
-                onButtonClick(title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].Type);
+                onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].Type);
             }
         } else if(action === "get-inspired" || action === "analyze" || action === "ideate") {
             setClickedIds(prevClickedIds => 
@@ -261,7 +259,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState })
                     <Shape
                         key={String(i)}
                         sceneFunc={(context, shape) => {
-                        drawWaveButton(c, action, context, shape);
+                        drawWaveButton(c, action, context, shape, savedComponents);
                         }}
                         id={String(i)}
                         fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims[c.Type].Height/1.5 }}
@@ -350,7 +348,7 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
     return arr;
 };
 
-function drawWaveButton(component, action, context, shape) { 
+function drawWaveButton(component, action, context, shape, savedComponents) { 
     const x = component.x;
     const y = component.y;
     const angle = component.angle;
@@ -384,6 +382,19 @@ function drawWaveButton(component, action, context, shape) {
     context.closePath();
     context.fillStrokeShape(shape);
 
+    drawText(component, action, context);
+    
+    // Check if this component has been saved (exists in savedComponents)
+    if(action === "learn" && savedComponents.includes(component.Code)) {    
+        // Draw a circle around the component or at its position
+        context.beginPath();
+        context.arc(-halfWidth+20, 0, 6, 0, 2 * Math.PI);  // Adjust the radius (30) as needed
+        context.fillStyle = '#b93179';  // Color of the circle (can adjust)
+        context.fill();  
+    }
+}
+
+function drawText(component, action, context) {
     // Text
     if (action === "initial-0" || action === "initial-1") {
         return
@@ -441,6 +452,7 @@ function drawWaveButton(component, action, context, shape) {
     context.textAlign = 'center';
     context.textBaseline = 'middle';
     context.fillText(component.Code, 0, topSpace);
+    
 }
 
 const getOpacity = (clickedIds, lineIds, hoveredId, currentId, type, action) => {
