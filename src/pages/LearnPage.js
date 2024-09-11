@@ -16,10 +16,10 @@ const LearnPage = ({colors}) => {
     initialState: true,
     gradientColor: null,
     bookmark: false,
-    savedComponents: []
   }), []);
 
   const [state, setState] = useState(initialState);
+  const [savedComponents, setSavedComponents] = useState([]);
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -47,23 +47,16 @@ const LearnPage = ({colors}) => {
   };
 
   const toggleBookmark = () => {
-    setState((prevState) => {
-      // Only add the title if it's not already in the array
-      if (!prevState.savedComponents.includes(prevState.title)) {
-        return {
-          ...prevState,
-          savedComponents: [...prevState.savedComponents, prevState.code] // Add the new title to savedComponents array
-        };
+    setSavedComponents((prevSavedComponents) => {
+      // If the current title is already in the array, remove it
+      if (prevSavedComponents.includes(state.code)) {
+        return prevSavedComponents.filter(item => item !== state.code);
       }
-      
-      // If it's already bookmarked, we don't do anything special for now
-      return {
-        ...prevState,
-      };
+      // Otherwise, add it to the array
+      return [...prevSavedComponents, state.code];
     });
   };
   
-
   return (
     <div className='l-gradient-background'
       style={{
@@ -77,7 +70,7 @@ const LearnPage = ({colors}) => {
         action="learn" 
         onButtonClick={handleCompassClick} 
         resetState={resetState}  // Passing resetState to OLCompass
-        savedComponents={state.savedComponents}
+        savedComponents={savedComponents}
       />
 
       {state.initialState && (
