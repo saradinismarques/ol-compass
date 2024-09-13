@@ -13,6 +13,7 @@ function getDataFromJson(data, type) {
             ShowMoreText: item["#showmoretext"],
             Prompt: item["#prompt"],
             Credits: item["#credits"],
+            Tooltip: item["#tooltip"],
             Type: type
         }));
 

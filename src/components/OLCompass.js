@@ -1,6 +1,6 @@
 // src/components/OLCompass.js
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Stage, Layer, Shape } from 'react-konva';
+import { Stage, Layer, Shape, Label, Text,Tag } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import Lines from '../components/Lines';
 
@@ -47,6 +47,10 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const [currentLineIds, setCurrentLineIds] = useState([]);  // IDs used in the current line
     const [isInside, setIsInside] = useState(false); // If is inside compass area
     const [initialState, setInitialState] = useState(true);
+    const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+    const [tooltipVisible, setTooltipVisible] = useState(false);
+    const [tooltipText, setTooltipText] = useState('');
+    
     // Compass area
     const circleRef = useRef({
         x: center.x, // Example center x
@@ -148,6 +152,16 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
         const id = parseInt(e.target.id(), 10);
         setHoveredId(id);
+
+        if(action === "learn") {
+            const mousePos = stage.getPointerPosition();
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+
+            setTooltipPos({ x: mousePos.x, y: mousePos.y });
+            setTooltipText(components[id].Tooltip); // Add a tooltipText property to the component object
+            setTooltipVisible(true);
+        }
     };
 
     const handleMouseLeave = (e) => {
@@ -160,6 +174,10 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
         stage.container().style.cursor = 'default';
 
         setHoveredId(null);
+
+        if(action === "learn") {
+            setTooltipVisible(false);
+        }
     };
 
     // Memoize handleKeyDown to avoid creating a new reference on each render
@@ -276,6 +294,26 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                         onMouseLeave={handleMouseLeave}
                     />
                 ))} 
+
+                {/* Tooltip */}
+                {action ==="learn" && tooltipVisible && (
+                <Label x={tooltipPos.x} y={tooltipPos.y} opacity={0.75}>
+                    <Tag
+                        fill="black" // Background color for the tooltip
+                        pointerDirection="down" // Direction of the pointer triangle
+                        pointerWidth={10} // Width of the pointer triangle
+                        pointerHeight={10} // Height of the pointer triangle
+                        cornerRadius={5} // Rounded corners for the tooltip box
+                    />
+                    <Text
+                        text={tooltipText}
+                        fontSize={18}
+                        padding={10} // Adding some padding inside the tooltip
+                        fill="white" // Text color
+                    />
+                </Label>
+                )}
+
                 {action === "ideate" &&
                  <Lines
                     lines={lines}
