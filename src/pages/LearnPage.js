@@ -10,11 +10,14 @@ const LearnPage = ({colors}) => {
     title: '',
     headline: '',
     paragraph: '',
-    showMore: false,
     showMoreText: '',
+    designPrompt: '',
+    type: null,
     initialState: true,
+    showMore: false,
     gradientColor: null,
     bookmark: false,
+    showDesignPrompt: false
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -24,7 +27,7 @@ const LearnPage = ({colors}) => {
     setState(initialState);
   }, [initialState]);
 
-  const handleCompassClick = (code, title, headline, paragraph, showMoreText, Type) => {
+  const handleCompassClick = (code, title, headline, paragraph, showMoreText, designPrompt, type) => {
     setState((prevState) => ({
       ...prevState,
       code,
@@ -32,9 +35,12 @@ const LearnPage = ({colors}) => {
       headline,
       paragraph,
       showMoreText,
-      showMore: false,
+      designPrompt,
+      type,
       initialState: false,
-      gradientColor: colors[Type]
+      showMore: false,
+      showDesignPrompt: false,
+      gradientColor: colors[type]
     }));
   };
 
@@ -42,6 +48,13 @@ const LearnPage = ({colors}) => {
     setState((prevState) => ({
       ...prevState,
       showMore: !prevState.showMore,
+    }));
+  };
+
+  const toggleShowDesignPrompt = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showDesignPrompt: true,
     }));
   };
 
@@ -112,19 +125,30 @@ const LearnPage = ({colors}) => {
           <div className="l-text-container">
             <h1 className='l-title'>{state.title}</h1>
             <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
-            <div className={state.showMore ? 'l-text expanded scroller' : 'l-text scroller'}>
-              <p>{state.paragraph}</p>
-              {state.showMore && (
+            <div className="l-text expanded scroller">
+              <p dangerouslySetInnerHTML={{__html: state.paragraph.replace(/\*(.*?)\*/g, '<b>$1</b>')}}></p>
+              {/* {state.showMore && (
                 <>
                   <p>{state.showMoreText}</p>
                 </>
-              )}
+              )} */}
             </div>
-              <button onClick={toggleShowMore} className="l-show-more-button">
+            {state.type != "Principle" && (
+              <>
+              {state.showDesignPrompt ? (
+                <p className='l-design-prompt'>{state.designPrompt}</p>
+              ) : (
+                <button onClick={toggleShowDesignPrompt} className="l-show-more-button">
+                  Design Prompt
+                </button>
+              )}
+              </>
+            )}
+              {/* <button onClick={toggleShowMore} className="l-show-more-button">
                 {state.showMore ? 'Show less' : 'Show more'}
-              </button>
-              </div>
-            </>
+              </button> */}
+          </div>
+          </>
         )} 
         <Menu />
     </div>

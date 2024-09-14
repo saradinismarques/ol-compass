@@ -11,9 +11,9 @@ function getDataFromJson(data, type) {
             Headline: item["#headline"],
             Paragraph: item["#paragraph"],
             ShowMoreText: item["#showmoretext"],
-            Prompt: item["#prompt"],
+            DesignPrompt: item["#design prompt"],
             Credits: item["#credits"],
-            Tooltip: item["#tooltip"],
+            //Tooltip: item["#tooltip"],
             Type: type
         }));
 

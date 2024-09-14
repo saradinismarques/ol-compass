@@ -103,7 +103,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             const title = convertLabel(components[id].Code);
 
             if (onButtonClick) {
-                onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].Type);
+                onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type);
             }
         } else if(action === "get-inspired" || action === "analyze" || action === "ideate") {
             setClickedIds(prevClickedIds => 
@@ -296,7 +296,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                 ))} 
 
                 {/* Tooltip */}
-                {action ==="learn" && tooltipVisible && (
+                {/* {action ==="learn" && tooltipVisible && (
                 <Label x={tooltipPos.x} y={tooltipPos.y} opacity={0.75}>
                     <Tag
                         fill="black" // Background color for the tooltip
@@ -307,12 +307,13 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                     />
                     <Text
                         text={tooltipText}
-                        fontSize={18}
+                        fontFamily='Manrope'
+                        fontSize={16}
                         padding={10} // Adding some padding inside the tooltip
                         fill="white" // Text color
                     />
                 </Label>
-                )}
+                )} */}
 
                 {action === "ideate" &&
                  <Lines
@@ -426,13 +427,13 @@ function drawWaveButton(component, action, context, shape, savedComponents, init
     drawText(component, action, context);
     
     // Check if this component has been saved (exists in savedComponents)
-    if(action === "learn" && !initialState && savedComponents.includes(component.Code)) {    
-        // Draw a circle around the component or at its position
-        context.beginPath();
-        context.arc(-halfWidth+20, 0, 6, 0, 2 * Math.PI);  // Adjust the radius (30) as needed
-        context.fillStyle = '#b93179';  // Color of the circle (can adjust)
-        context.fill();  
-    }
+    // if(action === "learn" && !initialState && savedComponents.includes(component.Code)) {    
+    //     // Draw a circle around the component or at its position
+    //     context.beginPath();
+    //     context.arc(-halfWidth+20, 0, 6, 0, 2 * Math.PI);  // Adjust the radius (30) as needed
+    //     context.fillStyle = '#b93179';  // Color of the circle (can adjust)
+    //     context.fill();  
+    // }
 }
 
 function drawText(component, action, context) {
