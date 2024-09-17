@@ -274,7 +274,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     }, [action, lineColors, onClickOutside]);
 
     return (
-        <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Stage width={window.innerWidth} height={window.innerHeight} style={{ zIndex: 30 }}>
             <Layer>
                 {components.map((c, i) => (
                     <Shape
@@ -468,9 +468,17 @@ function drawText(component, action, context) {
 
     // Find the index of the first space
     const firstIndex = component.Label.indexOf(' ');
-    // Split the string into two parts based on the first space
-    const firstPart = component.Label.substring(0, firstIndex);
-    const secondPart = component.Label.substring(firstIndex + 1);
+    const lastIndex = component.Label.lastIndexOf(' ');
+
+    let firstPart, secondPart;
+    if(component.Code === "P1") {
+        firstPart = component.Label.substring(0, lastIndex);
+        secondPart = component.Label.substring(lastIndex + 1);
+    } else {
+        // Split the string into two parts based on the first space
+        firstPart = component.Label.substring(0, firstIndex);
+        secondPart = component.Label.substring(firstIndex + 1);
+    }
 
     if(firstPart.length < 5)
         context.fillText(component.Label, 0, 0);
