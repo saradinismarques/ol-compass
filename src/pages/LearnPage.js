@@ -94,7 +94,7 @@ const LearnPage = ({colors}) => {
         style={{
           background: state.initialState
             ? 'none'
-            : `linear-gradient(to right, transparent 30%, ${state.gradientColor} 81%)`
+            : `linear-gradient(to right, transparent 30%, ${state.gradientColor} 70%)`
         }}
       >
         <OLCompass 

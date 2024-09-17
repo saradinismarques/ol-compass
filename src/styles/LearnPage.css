@@ -160,10 +160,8 @@
   
 .l-image-container {
     position: absolute;
-    height: 100vh; /* Adjust as needed */
-    width: 100%;
     overflow: hidden; /* To prevent any overflow issues */
-    left: 64.5%;
-    top: 6%;
+    left: 54%;
+    top: 9%;
     z-index: 10;
 }
