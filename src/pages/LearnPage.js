@@ -176,7 +176,12 @@ const LearnPage = ({colors}) => {
       {/* Conditionally render the image if an image source is set */}
       {imageSrc && (
         <div className="l-image-container">
-          <img src={imageSrc} alt="Background P1" className="l-principles-image" />
+          <img src={imageSrc} alt={`Background ${state.code}`} className="l-principles-image" />
+        </div>
+      )}
+      {imageSrc === null && (
+        <div className="l-image-container">
+          <img src={imageSrc} alt={`Background ${state.code}`} className="l-other-components-image" />
         </div>
       )}
     </div>

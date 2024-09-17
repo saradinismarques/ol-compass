@@ -1,6 +1,6 @@
 // src/components/OLCompass.js
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Stage, Layer, Shape, Label, Text,Tag } from 'react-konva';
+import { Stage, Layer, Shape, Label, Text, Tag } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
 import Lines from '../components/Lines';
 
