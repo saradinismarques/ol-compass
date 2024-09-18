@@ -10,15 +10,21 @@ const InitialPage = ({ colors }) => {
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
-            setState((prevState) => prevState + 1);
+            setState((prevState) => (prevState + 1 <= 6 ? prevState + 1 : 6));
         else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
             setState((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
     }, []);
 
     // useCallback ensures handleClick doesn't change unless its dependencies do
     const handleClick = useCallback((e) => {
-        // You can customize this logic as needed
-        setState((prevState) => prevState + 1);
+        const screenWidth = window.innerWidth;
+        const clickPositionX = e.clientX;
+
+        if (clickPositionX > screenWidth / 2) {
+            setState((prevState) => (prevState + 1 <= 6 ? prevState + 1 : 6));
+        } else {
+            setState((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
+        }
     }, []);
 
     useEffect(() => {
