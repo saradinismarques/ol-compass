@@ -4,36 +4,40 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import { getCaseStudies } from '../utils/Data.js'; 
 
-const GetInspiredPage = ({colors}) => {
-  // Memoize the initialState object
+const GetInspiredPage = ({ colors }) => {
   const initialState = useMemo(() => ({
     title: '', 
     shortDescription: '',
     credits: '',
     source: '',
     showMore: false,
+    bookmark: false,
     initialState: true,
   }), []);
 
   const [state, setState] = useState(initialState);
+  const [caseStudies, setCaseStudies] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [savedCaseStudies, setSavedCaseStudies] = useState([]);
 
   const resetState = useCallback(() => {
     setState(initialState);
   }, [initialState]);
 
   const handleEnterClick = (components) => {
-    console.log(components);
-    const caseStudies = getCaseStudies(components);
-    console.log(caseStudies);
+    const fetchedCaseStudies = getCaseStudies(components);
+    setCaseStudies(fetchedCaseStudies);
 
-    setState((prevState) => ({
-        ...prevState,
-        title: caseStudies[0].Title,
-        shortDescription: caseStudies[0].ShortDescription,
-        credits: caseStudies[0].Credits,
+    if (fetchedCaseStudies.length > 0) {
+      setState({
+        title: fetchedCaseStudies[0].Title,
+        shortDescription: fetchedCaseStudies[0].ShortDescription,
+        credits: fetchedCaseStudies[0].Credits,
         showMore: false,
         initialState: false,
-    }));
+      });
+      setCurrentIndex(0); // Reset to first case study
+    }
   };
 
   const toggleShowMore = () => {
@@ -43,26 +47,76 @@ const GetInspiredPage = ({colors}) => {
     }));
   };
 
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === 'Escape') {
-      resetState();
+  const handleNext = () => {
+    if (currentIndex < caseStudies.length - 1) {
+      const nextIndex = currentIndex + 1;
+      setCurrentIndex(nextIndex);
+
+      let bookmark;
+      if(savedCaseStudies.includes(caseStudies[nextIndex].Title)) 
+        bookmark = true;
+
+      else
+        bookmark = false;
+
+      setState({
+        ...state,
+        title: caseStudies[nextIndex].Title,
+        shortDescription: caseStudies[nextIndex].ShortDescription,
+        credits: caseStudies[nextIndex].Credits,
+        showMore: false,
+        bookmark: bookmark,
+        initialState: false,
+      });
     }
-  }, [resetState]);
+  };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-    };
-}, [handleKeyDown]);
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      const prevIndex = currentIndex - 1;
+      setCurrentIndex(prevIndex);
 
+      let bookmark;
+      if(savedCaseStudies.includes(caseStudies[prevIndex].Title)) 
+        bookmark = true;
+
+      else
+        bookmark = false;
+
+      setState({
+        ...state,
+        title: caseStudies[prevIndex].Title,
+        shortDescription: caseStudies[prevIndex].ShortDescription,
+        credits: caseStudies[prevIndex].Credits,
+        showMore: false,
+        bookmark: bookmark,
+        initialState: false,
+      });
+    }
+  };
+
+  const toggleBookmark = () => {
+    setSavedCaseStudies((prevSavedComponents) => {
+      // If the current title is already in the array, remove it
+      if (prevSavedComponents.includes(state.title)) {
+        return prevSavedComponents.filter(item => item !== state.title);
+      }
+      // Otherwise, add it to the array
+      return [...prevSavedComponents, state.title];
+    });
+  };
 
   return (
     <div>
-      <OLCompass colors={colors} action="get-inspired" onButtonClick={handleEnterClick} />
-        {state.initialState && (
+      <OLCompass 
+        colors={colors} 
+        action="get-inspired" 
+        onButtonClick={handleEnterClick} 
+        resetState={resetState} // Passing resetState to OLCompass
+      />
+      {state.initialState && (
         <>
-        <div className='text-container'>
+          <div className='text-container'>
             <p className='question'>
               What's it for?
             </p>
@@ -75,33 +129,73 @@ const GetInspiredPage = ({colors}) => {
             <p className='instruction'>
               Select as many elements as you like to filter examples
             </p>
-        </div>
+          </div>
         </>
-        )} 
+      )} 
 
-        {!state.initialState && (
+      {!state.initialState && (
         <>
-        <div className='gi-text-container'>
-          {/* <p className='gi-results'>
-              <span className='bold-text'>16 </span>
-              results | Relevance
-          </p> */}
-          <div className="gi-card-container">
+          <div className='gi-text-container'>
+            {/* <p className='gi-results'>
+                <span className='bold-text'>16 </span>
+                results | Relevance
+            </p> */}
+            <div className="gi-card-container">
+              <button onClick={toggleBookmark} className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}>
+                <svg 
+                  className="gi-bookmark-icon" 
+                  fill="currentcolor" 
+                  viewBox="0 0 32 32" 
+                  version="1.1" 
+                  xmlns="http://www.w3.org/2000/svg"
+                  stroke="currentcolor" /* Adds stroke color */
+                >
+                  <path d="M26 1.25h-20c-0.414 0-0.75 0.336-0.75 0.75v0 28.178c0 0 0 0 0 0.001 0 0.414 0.336 0.749 0.749 0.749 0.181 0 0.347-0.064 0.476-0.171l-0.001 0.001 9.53-7.793 9.526 7.621c0.127 0.102 0.29 0.164 0.468 0.164 0.414 0 0.75-0.336 0.751-0.75v-28c-0-0.414-0.336-0.75-0.75-0.75v0zM25.25 28.439l-8.781-7.025c-0.127-0.102-0.29-0.164-0.468-0.164-0.181 0-0.347 0.064-0.477 0.171l0.001-0.001-8.775 7.176v-25.846h18.5z"></path>
+                </svg>
+              </button>   
+
               <h1 className="gi-title">{state.title}</h1>
               <p className="gi-description">{state.shortDescription}</p>
               <p className="gi-credits">{state.credits}</p>
-              <button onClick={toggleShowMore} className="gi-show-more-button">
+              {/* <button onClick={toggleShowMore} className="gi-show-more-button">
                   {state.showMore ? 'Show less' : 'Show more'}
-              </button>
+              </button> */}
+
+              {/* Navigation Arrows */}
+              {currentIndex > 0 && (
+                <button className="gi-arrow-button left" onClick={handlePrev}>
+                  <svg
+                    className="gi-arrow-icon"
+                    fill="currentcolor"
+                    viewBox="0 0 123.959 123.959" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    stroke="currentcolor"
+                  >
+                    <path d="M66.18,29.742c-2.301-2.3-6.101-2.3-8.401,0l-56,56c-3.8,3.801-1.1,10.2,4.2,10.2h112c5.3,0,8-6.399,4.2-10.2L66.18,29.742	z"/>           
+                  </svg>
+                </button>
+              )}
+            
+              {currentIndex < caseStudies.length - 1 && (
+                <button className="gi-arrow-button right" onClick={handleNext}>
+                  <svg
+                    className="gi-arrow-icon"
+                    fill="currentcolor"
+                    viewBox="0 0 123.959 123.959" 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    stroke="currentcolor"
+                  >
+                    <path d="M66.18,29.742c-2.301-2.3-6.101-2.3-8.401,0l-56,56c-3.8,3.801-1.1,10.2,4.2,10.2h112c5.3,0,8-6.399,4.2-10.2L66.18,29.742	z"/>           
+                  </svg>
+                </button>
+              )}
+            </div> 
           </div>
-        </div>
         </>
-        )}    
-        <Menu />
+      )}    
+      <Menu />
     </div>
   );
 };
-
-
 
 export default GetInspiredPage;

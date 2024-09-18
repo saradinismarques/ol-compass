@@ -188,6 +188,8 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             setCurrentLine([]);
             setCurrentLineIds([]);
             setInitialState(true);
+
+            console.log("reset");
             
             if(resetState)
                 resetState();

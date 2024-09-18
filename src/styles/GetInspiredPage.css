@@ -14,6 +14,7 @@
     height: 400px;
     padding: 15px;
     padding-left: 20px;
+    padding-right: 20px;
     border-radius: 20px;
     background: linear-gradient(to bottom right, #9494ad 30%, #aeaec1 60%, #f5f4f4 95%);
     overflow: hidden;
@@ -64,3 +65,85 @@
 .gi-show-more-button:hover {
     color: rgb(203, 202, 202);
 }
+
+.gi-bookmark-button {
+    background-color: transparent;
+    border:2px solid white;
+    border-radius: 50%;
+    padding: 5px;
+    position: absolute;
+    right: -4%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+ 
+.gi-bookmark-button:hover {
+    border-color: #fff; /* Change border color on hover */
+    background-color:  rgba(255, 255, 255, 0.2);
+}
+
+.gi-bookmark-button:active {
+    border-color: #d8d8d8; /* Lighter border on click */
+    background-color:  rgba(199, 181, 181, 0.2);
+}
+
+
+.gi-bookmark-button.active {
+    background-color: #da398f; /* Active state background color */
+    color: white; /* Active state text color */
+}
+ 
+.gi-bookmark-icon {
+    width: 17px;
+    height: 17px;
+    fill: white; /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: white;
+    stroke-width: 1px;
+}
+
+/* General button styles (applies to both left and right buttons) */
+.gi-arrow-button {
+    background-color: transparent;
+    border: 2px solid transparent; /* Set initial border to transparent */
+    position: absolute;
+    top: 47%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Right arrow button (default position) */
+.gi-arrow-button.right {
+    rotate: 90deg; /* Rotate the arrow for left button */
+    right: -20%;
+}
+
+/* Left arrow button */
+.gi-arrow-button.left {
+    left: -20%;
+    rotate: -90deg; /* Rotate the arrow for left button */
+}
+
+/* Change icon color on hover */
+.gi-arrow-button:hover .gi-arrow-icon {
+    fill: #d8d8d8; /* Change fill color on hover */
+}
+
+.gi-arrow-button:hover .gi-arrow-icon {
+    fill: #b8b8b8; /* Change fill color on hover */
+}
+
+ 
+.gi-arrow-icon {
+    width: 17px;
+    height: 17px;
+    fill: rgb(115, 114, 114); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: rgb(145, 144, 144);
+    stroke-width: 0px;
+}
+
