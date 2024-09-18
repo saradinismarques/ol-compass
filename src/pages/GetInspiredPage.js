@@ -77,9 +77,10 @@ const GetInspiredPage = ({ colors }) => {
       setCurrentIndex(prevIndex);
 
       let bookmark;
+
+      console.log(savedCaseStudies);
       if(savedCaseStudies.includes(caseStudies[prevIndex].Title)) 
         bookmark = true;
-
       else
         bookmark = false;
 
@@ -103,6 +104,11 @@ const GetInspiredPage = ({ colors }) => {
       }
       // Otherwise, add it to the array
       return [...prevSavedComponents, state.title];
+    });
+
+    setState({
+      ...state,
+      bookmark: !state.bookmark,
     });
   };
 
