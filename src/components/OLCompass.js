@@ -153,10 +153,9 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
         const id = parseInt(e.target.id(), 10);
         setHoveredId(id);
 
-        if(action === "learn") {
+        if(action === "learn" && components[id].Type === "Principle") {
+            console.log("Principle");
             const mousePos = stage.getPointerPosition();
-            const mouseX = e.clientX;
-            const mouseY = e.clientY;
 
             setTooltipPos({ x: mousePos.x, y: mousePos.y });
             setTooltipText(components[id].Tooltip); // Add a tooltipText property to the component object
@@ -298,10 +297,10 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                 ))} 
 
                 {/* Tooltip */}
-                {/* {action ==="learn" && tooltipVisible && (
-                <Label x={tooltipPos.x} y={tooltipPos.y} opacity={0.75}>
+                {action ==="learn" && tooltipVisible && (
+                <Label x={tooltipPos.x} y={tooltipPos.y} opacity={0.9}>
                     <Tag
-                        fill="black" // Background color for the tooltip
+                        fill="#acaaaa" // Background color for the tooltip
                         pointerDirection="down" // Direction of the pointer triangle
                         pointerWidth={10} // Width of the pointer triangle
                         pointerHeight={10} // Height of the pointer triangle
@@ -310,12 +309,12 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                     <Text
                         text={tooltipText}
                         fontFamily='Manrope'
-                        fontSize={16}
+                        fontSize={15}
                         padding={10} // Adding some padding inside the tooltip
                         fill="white" // Text color
                     />
                 </Label>
-                )} */}
+                )}
 
                 {action === "ideate" &&
                  <Lines

@@ -49,8 +49,6 @@ const LearnPage = ({colors}) => {
       showDesignPrompt: false,
       gradientColor: colors[type]
     }));
-
-    console.log(imageSrc);
   };
 
   const toggleShowMore = () => {

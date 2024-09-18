@@ -14,7 +14,7 @@ function getComponentsDataFromJson(data, type) {
             ShowMoreText: item["#showmoretext"],
             DesignPrompt: item["#design prompt"],
             Credits: item["#credits"],
-            //Tooltip: item["#tooltip"],
+            Tooltip: item["#headline"],
             Type: type
         }));
 
