@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React from 'react';
 import '../styles/IdeatePage.css';
 import OLCompass from '../components/OLCompass';
-import PostIt from '../components/PostIt';
+//import PostIt from '../components/PostIt';
 import Menu from '../components/Menu';
 
 // const IdeatePage = ({ colors }) => {

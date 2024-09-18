@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React from 'react';
 import '../styles/AnalyzePage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'

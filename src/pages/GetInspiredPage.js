@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import '../styles/GetInspiredPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
@@ -46,12 +46,12 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
     }
   };
 
-  const toggleShowMore = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMore: !prevState.showMore,
-    }));
-  };
+  // const toggleShowMore = () => {
+  //   setState((prevState) => ({
+  //     ...prevState,
+  //     showMore: !prevState.showMore,
+  //   }));
+  // };
 
   const handleNext = () => {
     if (currentIndex < caseStudies.length - 1) {
@@ -74,14 +74,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
     if (currentIndex > 0) {
       const prevIndex = currentIndex - 1;
       setCurrentIndex(prevIndex);
-
-      let bookmark;
-
-      console.log(savedCaseStudies);
-      if(savedCaseStudies.includes(caseStudies[prevIndex].Title)) 
-        bookmark = true;
-      else
-        bookmark = false;
 
       setState({
         ...state,

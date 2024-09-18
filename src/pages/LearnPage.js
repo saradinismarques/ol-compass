@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import '../styles/LearnPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
@@ -51,12 +51,12 @@ const LearnPage = ({colors}) => {
     }));
   };
 
-  const toggleShowMore = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMore: !prevState.showMore,
-    }));
-  };
+  // const toggleShowMore = () => {
+  //   setState((prevState) => ({
+  //     ...prevState,
+  //     showMore: !prevState.showMore,
+  //   }));
+  // };
 
   const toggleShowDesignPrompt = () => {
     setState((prevState) => ({
@@ -152,7 +152,7 @@ const LearnPage = ({colors}) => {
                   </>
                 )} */}
               </div>
-              {state.type != "Principle" && (
+              {state.type !== "Principle" && (
                 <>
                 {state.showDesignPrompt ? (
                   <p className='l-design-prompt'>{state.designPrompt}</p>
