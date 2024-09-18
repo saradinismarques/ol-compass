@@ -4,25 +4,30 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import { getCaseStudies } from '../utils/Data.js'; 
 
-const GetInspiredPage = ({ colors }) => {
+const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
   const initialState = useMemo(() => ({
     title: '', 
     shortDescription: '',
     credits: '',
     source: '',
     showMore: false,
-    bookmark: false,
     initialState: true,
   }), []);
 
   const [state, setState] = useState(initialState);
   const [caseStudies, setCaseStudies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [savedCaseStudies, setSavedCaseStudies] = useState([]);
 
   const resetState = useCallback(() => {
     setState(initialState);
   }, [initialState]);
+
+  function getBookmarkState(title) {
+    if(savedCaseStudies.length !== 0 && savedCaseStudies.includes(title)) 
+      return true;
+    else
+      return false;
+  }
 
   const handleEnterClick = (components) => {
     const fetchedCaseStudies = getCaseStudies(components);
@@ -34,6 +39,7 @@ const GetInspiredPage = ({ colors }) => {
         shortDescription: fetchedCaseStudies[0].ShortDescription,
         credits: fetchedCaseStudies[0].Credits,
         showMore: false,
+        bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
         initialState: false,
       });
       setCurrentIndex(0); // Reset to first case study
@@ -52,20 +58,13 @@ const GetInspiredPage = ({ colors }) => {
       const nextIndex = currentIndex + 1;
       setCurrentIndex(nextIndex);
 
-      let bookmark;
-      if(savedCaseStudies.includes(caseStudies[nextIndex].Title)) 
-        bookmark = true;
-
-      else
-        bookmark = false;
-
       setState({
         ...state,
         title: caseStudies[nextIndex].Title,
         shortDescription: caseStudies[nextIndex].ShortDescription,
         credits: caseStudies[nextIndex].Credits,
         showMore: false,
-        bookmark: bookmark,
+        bookmark: getBookmarkState(caseStudies[nextIndex].Title),
         initialState: false,
       });
     }
@@ -90,7 +89,7 @@ const GetInspiredPage = ({ colors }) => {
         shortDescription: caseStudies[prevIndex].ShortDescription,
         credits: caseStudies[prevIndex].Credits,
         showMore: false,
-        bookmark: bookmark,
+        bookmark: getBookmarkState(caseStudies[prevIndex].Title),
         initialState: false,
       });
     }
