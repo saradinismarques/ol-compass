@@ -123,9 +123,19 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
             <p className='text'>
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
             </p>
-            <p className='instruction'>
-              Select as many elements as you like to filter examples
-            </p>
+            <div className="instruction-container">
+              <svg 
+                className='arrow-icon two-lines'
+                fill="currentcolor" 
+                viewBox="0 0 20 20" 
+                xmlns="http://www.w3.org/2000/svg">
+               <polygon points="3.828 9 9.899 2.929 8.485 1.515 0 10 .707 10.707 8.485 18.485 9.899 17.071 3.828 11 20 11 20 9 3.828 9"/>
+              </svg>
+                    
+              <p className="instruction">
+                Select as many elements as you like to filter examples
+              </p>
+            </div>
           </div>
         </>
       )} 

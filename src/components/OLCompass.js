@@ -296,6 +296,15 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                     />
                 ))} 
 
+                {/* Bookmarks */}
+                {components.map((c, i) => (
+                    <Shape
+                        key={String(i)}
+                        sceneFunc={(context, shape) => drawBookmarkFilled(c, context, shape, action, savedComponents, initialState)}
+                        id={String(i)}
+                    />
+                ))} 
+
                 {/* Tooltip */}
                 {action ==="learn" && tooltipVisible && (
                 <Label x={tooltipPos.x} y={tooltipPos.y} opacity={0.9}>
@@ -386,12 +395,14 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
       arr[i]["x"] = x;
       arr[i]["y"] = y;
       arr[i]["angle"] = angle;
+
+      console.log(angle*180/Math.PI);
     }
 
     return arr;
 };
 
-function drawWaveButton(component, action, context, shape, savedComponents, initialState) { 
+function drawWaveButton(component, action, context, shape) { 
     const x = component.x;
     const y = component.y;
     const angle = component.angle;
@@ -428,14 +439,72 @@ function drawWaveButton(component, action, context, shape, savedComponents, init
     drawText(component, action, context);
     
     // Check if this component has been saved (exists in savedComponents)
-    // if(action === "learn" && !initialState && savedComponents.includes(component.Code)) {    
-    //     // Draw a circle around the component or at its position
+  //  if(action === "learn" && !initialState && savedComponents.includes(component.Code)) {    
+        // Draw a circle around the component or at its position
+        // context.beginPath();
+        // context.arc(-halfWidth+20, 0, 6, 0, 2 * Math.PI);  // Adjust the radius (30) as needed
+        // context.fillStyle = '#b93179';  // Color of the circle (can adjust)
+        // context.fill();  
+
     //     context.beginPath();
-    //     context.arc(-halfWidth+20, 0, 6, 0, 2 * Math.PI);  // Adjust the radius (30) as needed
-    //     context.fillStyle = '#b93179';  // Color of the circle (can adjust)
-    //     context.fill();  
+    //     context.moveTo(26, 1.25); // Start point
+    //     // Add the rest of the path commands based on the SVG path data
+    //     const path = new Path2D("M26 1.25h-20c-0.414 0-0.75 0.336-0.75 0.75v0 28.178c0 0 0 0 0 0.001 0 0.414 0.336 0.749 0.749 0.749 0.181 0 0.347-0.064 0.476-0.171l-0.001 0.001 9.53-7.793 9.526 7.621c0.127 0.102 0.29 0.164 0.468 0.164 0.414 0 0.75-0.336 0.751-0.75v-28c-0-0.414-0.336-0.75-0.75-0.75v0z");
+    //     context.fill(path);
+    //     context.strokeShape(shape);
     // }
 }
+
+
+// SVG Path drawing function
+const drawBookmarkFilled = (component, context, shape, action, savedComponents, initialState) => {
+    if(action === "learn" && !initialState && savedComponents.includes(component.Code)) {    
+        const x = component.x;
+        const y = component.y;
+        const angle = component.angle;
+
+        const dims = waveDims[component.Type];
+        const width = dims.Width;
+        const height = dims.Height;
+
+        const halfWidth =  width / 2;
+        const halfHeight =  height / 2;
+    
+        const bottom = { x: 0, y: halfHeight };
+        const left = { x: -halfWidth, y: 0 };
+
+        const rotation = Math.atan((bottom.y)/(left.x)) + Math.PI/2;
+    
+        context.beginPath();
+
+        if(component.Type === "Principle")
+            context.translate(x - width/2.9, y + height/7); // Start point
+        else if (component.Type === "Perspective") {
+            context.translate(x, y); // Start point
+            context.rotate(angle);
+            context.translate(- width/2.9, height/7); // Start point
+        } else if (component.Type === "Dimension") {
+            context.translate(x, y); // Start point
+            context.rotate(angle);
+            context.translate(- width/2.9, height/7); // Start point
+        }
+
+        context.rotate(-rotation+ Math.PI/2);
+        // Start point
+
+        const scaleX = 0.6; // Scale factor for width (1.5 means 150% size)
+        const scaleY = 0.6; // Scale factor for height (1.5 means 150% size)
+        context.scale(scaleX, scaleY); // Scale the context
+    
+        // Add the rest of the path commands based on the SVG path data
+        const path = new Path2D("M26 1.25h-20c-0.414 0-0.75 0.336-0.75 0.75v0 28.178c0 0 0 0 0 0.001 0 0.414 0.336 0.749 0.749 0.749 0.181 0 0.347-0.064 0.476-0.171l-0.001 0.001 9.53-7.793 9.526 7.621c0.127 0.102 0.29 0.164 0.468 0.164 0.414 0 0.75-0.336 0.751-0.75v-28c-0-0.414-0.336-0.75-0.75-0.75v0z");
+        context.fillStyle = "#da398f";
+        context.fill(path);
+        context.closePath();
+        
+        context.fillStrokeShape(shape);
+    }
+};
 
 function drawText(component, action, context) {
     // Text
