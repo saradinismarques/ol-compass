@@ -38,17 +38,6 @@ body {
     overflow-y: hidden; /* Hide overflow initially */
 }
 
-.text-icon {
-    width: 1.3em;
-    height: 1.3em;
-    fill: rgb(115, 114, 114); /* Set default color for the bookmark */
-    transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: rgb(145, 144, 144);
-    stroke-width: 0px;
-    margin-left: 1px;
-    margin-right: 1px;
-}
-
 .instruction-container {
     display: flex;
     align-items: center;
@@ -125,6 +114,135 @@ body {
 
 .bold-text {
     font-weight: 500;
+}
+
+.message-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px; /* Adjust width as needed */
+    padding: 60px;
+    margin: 0;
+    background-color: white;
+    border-radius: 15px;
+    border: 1px solid #bcbcbc; /* Add a light grey border */
+    text-align: center;
+    z-index: 100;
+}
+
+.message-text {
+   font-size: 14px;
+   margin: 0;
+   color: #333;
+}
+
+.got-it-button {
+    position: absolute;
+    transform: translate(-50%);
+    padding-top: 10px;
+    font-size: 0.9em;
+    font-weight: 100;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: #cdcdcc;
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+/* Blurred Background Overlay */
+.blur-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    filter: blur(3px); /* Adjust the blur intensity */
+    z-index: 50; /* Ensure it stays on top */
+}
+  
+
+.question-button {
+    position: absolute;
+    top: 5%;
+    left: 3%;
+    background-color: transparent;
+    border:2px solid #bcbcbc;
+    border-radius: 50%;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.question-circle {
+    position: absolute;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border:2px solid #bcbcbc;
+    border-radius: 50%;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Change icon color on hover */
+.question-button:hover .question-icon {
+    fill: #dcdcdc; /* Change fill color on hover */
+}
+
+.question-button:hover {
+    border:2px solid #dcdcdc;
+}
+
+/* Change icon color on hover */
+.question-button:active .question-icon {
+    fill: #dcdcdc; /* Change fill color on hover */
+}
+
+.question-button:active {
+    border:2px solid #dcdcdc;
+}
+
+.question-icon {
+    width: 20px;
+    height: 20px;
+    fill: #bcbcbc; /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: #bcbcbc;
+    stroke-width: 0px;
+}
+
+.message-icon {
+    width: 18px;
+    height: 18px;
+    fill: rgb(115, 114, 114); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: rgb(145, 144, 144);
+    stroke-width: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.message-icon.smaller {
+    width: 12px;
+    height: 12px;
+}
+
+.text-icon {
+    width: 1.3em;
+    height: 1.3em;
+    fill: rgb(115, 114, 114); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: rgb(145, 144, 144);
+    stroke-width: 0px;
+    margin-left: 1px;
+    margin-right: 1px;
 }
 
 

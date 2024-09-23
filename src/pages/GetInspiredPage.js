@@ -13,6 +13,8 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
     components: '',
     showMore: false,
     initialState: true,
+    firstClick: true,
+    showMessage: false
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -32,14 +34,55 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
   }, [savedCaseStudies]);
 
 
-  const handleClick = useCallback(() => {
+  // const handleClick = useCallback(() => {
+  //   if(state.firstClick) {
+  //     setState((prevState) => ({
+  //       ...prevState,
+  //       firstClick: false,
+  //       showMessage: true,
+  //     }));
+  //   }
+
+  //   if (!state.initialState) return;
+
+  //   const fetchedCaseStudies = getCaseStudies();
+  //   setCaseStudies(fetchedCaseStudies);
+
+  //   if (fetchedCaseStudies.length > 0) {
+  //     setState((prevState) => ({
+  //       ...prevState,
+  //       title: fetchedCaseStudies[0].Title,
+  //       shortDescription: fetchedCaseStudies[0].ShortDescription,
+  //       credits: fetchedCaseStudies[0].Credits,
+  //       components: fetchedCaseStudies[0].Components,
+  //       showMore: false,
+  //       bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
+  //       initialState: false,
+  //     }));
+  //     setCurrentIndex(0); // Reset to first case study
+  //   }
+
+  // }, [state.initialState, state.firstClick, getBookmarkState]);
+
+  const handleKeyDown = useCallback((e) => {
+    if(e.key !== 'Enter') return;
+
+    if(state.firstClick) {
+      setState((prevState) => ({
+        ...prevState,
+        firstClick: false,
+        showMessage: true,
+      }));
+    }
+
     if (!state.initialState) return;
 
     const fetchedCaseStudies = getCaseStudies();
     setCaseStudies(fetchedCaseStudies);
 
     if (fetchedCaseStudies.length > 0) {
-      setState({
+      setState((prevState) => ({
+        ...prevState,
         title: fetchedCaseStudies[0].Title,
         shortDescription: fetchedCaseStudies[0].ShortDescription,
         credits: fetchedCaseStudies[0].Credits,
@@ -47,24 +90,34 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
         showMore: false,
         bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
         initialState: false,
-      });
+      }));
       setCurrentIndex(0); // Reset to first case study
     }
-  }, [state.initialState, getBookmarkState]);
+
+  }, [state.initialState, state.firstClick, getBookmarkState]);
+
+
+  // useEffect(() => {
+  //   // Attach the click event listener to the specific area instead of the entire window
+  //   const clickableArea = clickableAreaRef.current;
+  //   if (clickableArea) {
+  //     clickableArea.addEventListener('click', handleClick);
+  //   }
+  //   // Cleanup function to remove the event listener when the component unmounts
+  //   return () => {
+  //     if (clickableArea) {
+  //       clickableArea.removeEventListener('click', handleClick);
+  //     } 
+  //   };
+  // }, [handleClick]);
 
   useEffect(() => {
-    // Attach the click event listener to the specific area instead of the entire window
-    const clickableArea = clickableAreaRef.current;
-    if (clickableArea) {
-      clickableArea.addEventListener('click', handleClick);
-    }
-    // Cleanup function to remove the event listener when the component unmounts
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-      if (clickableArea) {
-        clickableArea.removeEventListener('click', handleClick);
-      } 
+        window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleClick]);
+}, [handleKeyDown]); // Dependency array includes handleKeyDown
+
 
   // const toggleShowMore = () => {
   //   setState((prevState) => ({
@@ -125,8 +178,23 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
     });
   };
 
+  const showMessage = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showMessage: true,
+    }));
+  };
+
+  const removeMessage = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showMessage: false,
+    }));
+  };
+
   return (
-    <div ref={clickableAreaRef}>
+    <div>
+    <div className={`${state.showMessage ? "blur-background" : ""}`} ref={clickableAreaRef}>
       <OLCompass 
         colors={colors} 
         action="get-inspired" 
@@ -167,6 +235,17 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
 
       {!state.initialState && (
         <>
+        <button onClick={showMessage} className="question-button">
+              <svg 
+                className="question-icon" 
+                fill="currentcolor" 
+                stroke="currentcolor" /* Adds stroke color */
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="-1 109 35 35"  
+                >
+                <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
+              </svg>
+            </button>
           <div className='gi-text-container'>
             {/* <p className='gi-results'>
                 <span className='bold-text'>16 </span>
@@ -225,6 +304,73 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
         </>
       )}    
       <Menu />
+    </div>
+    {!state.initialState && state.showMessage && (
+      <>
+      <div className="message-box">
+        <div className="question-circle">
+            <svg 
+                className="question-icon" 
+                fill="currentcolor" 
+                stroke="currentcolor" /* Adds stroke color */
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="-1 109 35 35"  
+              >
+              <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
+            </svg>
+          </div>
+        <p class="message-text">
+          By default, the search includes results that contain either of the
+          <svg 
+            id='wave'
+            className='message-icon'
+            fill="currentcolor"
+            stroke="currentcolor"
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="-1 -17.5 35 35"  >
+            <path class="cls-1" d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+          </svg> 
+          you selected. Thus, the more 
+          <svg 
+            id='wave'
+            className='message-icon'
+            fill="currentcolor"
+            stroke="currentcolor"
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="-1 -17.5 35 35"  >
+            <path class="cls-1" d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+          </svg>
+          you select, the more case-studies are shown.
+          <br></br>
+          Click on the 
+          <svg 
+            id='arrow'
+            className='message-icon smaller'
+            fill="currentcolor"
+            stroke="currentcolor"
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="8 57.8 17 17"  >
+            <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
+          </svg> 
+          to browse case-studies. 
+          You can order and further filter them from the two top-right drop-down menus. Click on 
+          <svg
+            id='bookmark'
+            className='message-icon smaller'
+            fill="currentcolor"
+            stroke="currentcolor"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="8 175.5 17 17"  >
+            <path d="m16.61,187.76c-1.55,1.27-3.06,2.51-4.57,3.74-.32.26-.61.55-.95.77-.18.11-.47.19-.65.12-.14-.05-.24-.36-.25-.55-.02-1.13-.01-2.27-.01-3.4,0-3.73,0-7.47,0-11.2,0-.84.08-.91.93-.91,3.68,0,7.36,0,11.04,0,.79,0,.88.09.88.91,0,4.79,0,9.59-.01,14.38,0,.28-.18.55-.28.83-.26-.1-.57-.14-.77-.31-1.78-1.43-3.54-2.88-5.36-4.37Z"/>
+          </svg> 
+          to mark relevant ones.
+        </p>
+        <button className="got-it-button" onClick={removeMessage}>
+          Ok, got it!
+        </button>
+      </div>
+      </>
+    )}
     </div>
   );
 };

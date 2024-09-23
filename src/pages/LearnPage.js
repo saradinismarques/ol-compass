@@ -249,20 +249,22 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
         <p class="message-text">
           For each element, you can browse in-depth information by clicking on the 
           <svg 
+            id='wave'
             className='message-icon'
             fill="currentcolor"
             stroke="currentcolor"
             xmlns="http://www.w3.org/2000/svg" 
-            viewBox="8.5 59 16 16"  >
-            <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
-          </svg>
+            viewBox="-1 -17.5 35 35"  >
+            <path class="cls-1" d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+          </svg> 
           icon (or on the underlined words). Mark relevant content by clicking on the 
           <svg
-            className='message-icon'
+            id='bookmark'
+            className='message-icon smaller'
             fill="currentcolor"
             stroke="currentcolor"
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="8 175.6 17 17"  >
+            viewBox="8 175.5 17 17"  >
             <path d="m16.61,187.76c-1.55,1.27-3.06,2.51-4.57,3.74-.32.26-.61.55-.95.77-.18.11-.47.19-.65.12-.14-.05-.24-.36-.25-.55-.02-1.13-.01-2.27-.01-3.4,0-3.73,0-7.47,0-11.2,0-.84.08-.91.93-.91,3.68,0,7.36,0,11.04,0,.79,0,.88.09.88.91,0,4.79,0,9.59-.01,14.38,0,.28-.18.55-.28.83-.26-.1-.57-.14-.77-.31-1.78-1.43-3.54-2.88-5.36-4.37Z"/>
           </svg> 
           icon.
