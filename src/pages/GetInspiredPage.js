@@ -193,28 +193,27 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
               {/* Navigation Arrows */}
               {currentIndex > 0 && (
                 <button className="gi-arrow-button left" onClick={handlePrev}>
-                  <svg
-                    className="gi-arrow-icon"
+                  <svg 
+                    className='gi-arrow-icon'
                     fill="currentcolor"
-                    viewBox="0 0 123.959 123.959" 
-                    xmlns="http://www.w3.org/2000/svg" 
                     stroke="currentcolor"
-                  >
-                    <path d="M66.18,29.742c-2.301-2.3-6.101-2.3-8.401,0l-56,56c-3.8,3.801-1.1,10.2,4.2,10.2h112c5.3,0,8-6.399,4.2-10.2L66.18,29.742	z"/>           
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="6 57 20 20"  >
+                    <path d="M22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
                   </svg>
+
                 </button>
               )}
             
               {currentIndex < caseStudies.length - 1 && (
                 <button className="gi-arrow-button right" onClick={handleNext}>
-                  <svg
-                    className="gi-arrow-icon"
+                  <svg 
+                    className='gi-arrow-icon'
                     fill="currentcolor"
-                    viewBox="0 0 123.959 123.959" 
-                    xmlns="http://www.w3.org/2000/svg" 
                     stroke="currentcolor"
-                  >
-                    <path d="M66.18,29.742c-2.301-2.3-6.101-2.3-8.401,0l-56,56c-3.8,3.801-1.1,10.2,4.2,10.2h112c5.3,0,8-6.399,4.2-10.2L66.18,29.742	z"/>           
+                    xmlns="http://www.w3.org/2000/svg" 
+                    viewBox="6 57 20 20"  >
+                    <path d="M22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
                   </svg>
                 </button>
               )}
