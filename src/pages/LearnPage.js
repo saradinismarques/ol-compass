@@ -21,6 +21,8 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
     designPrompt: '',
     type: null,
     initialState: true,
+    firstClick: true,
+    showMessage: false,
     showMore: false,
     gradientColor: null,
     bookmark: false,
@@ -34,6 +36,14 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
   }, [initialState]);
 
   const handleCompassClick = (code, title, headline, paragraph, showMoreText, designPrompt, type) => {
+    if(state.firstClick) {
+      setState((prevState) => ({
+        ...prevState,
+        firstClick: false,
+        showMessage: true
+      }));
+    }
+
     setState((prevState) => ({
       ...prevState,
       code,
@@ -74,6 +84,13 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
       return [...prevSavedComponents, state.code];
     });
   };
+
+  const toggleMessage = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showMessage: false,
+    }));
+  };
   
   // Dynamically choose image source based on state.code
   const imageSrc = state.code === 'P1' ? P1Image 
@@ -87,6 +104,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
 
   return (
     <div>
+    <div className={`container ${state.showMessage ? "blur-background" : ""}`}>
       <div className='l-gradient-background'
         style={{
           background: state.initialState
@@ -127,7 +145,6 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
                 </div>
               </div>
             </>
-
           )}
 
           {!state.initialState && (
@@ -190,6 +207,19 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
         </div>
       )}
     </div>
+    {!state.initialState && state.showMessage && (
+      <>
+      <div class="tooltip-box">
+        <p class="tooltip-text">
+          For each element, you can browse in-depth information by clicking on the [ARROW-I] icon (or on the underlined words). Mark relevant content by clicking on the [BOOKMARK-I] icon.
+        </p>
+        <button className="l-got-it-button" onClick={toggleMessage}>
+          Ok, got it!
+        </button>
+      </div>
+      </>
+)}
+</div>
   );
 };
 

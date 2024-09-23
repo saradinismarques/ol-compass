@@ -165,3 +165,50 @@
     top: 9%;
     z-index: 10;
 }
+
+.tooltip-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px; /* Adjust width as needed */
+    padding: 40px;
+    margin: 0;
+    background-color: white;
+    border-radius: 15px;
+    border: 1px solid #bcbcbc; /* Add a light grey border */
+    text-align: center;
+    z-index: 100;
+}
+
+.tooltip-text {
+   font-size: 14px;
+   margin: 0;
+   color: #333;
+}
+
+.l-got-it-button {
+    position: relative;
+    padding-top: 17px;
+    font-size: 1.05em;
+    font-weight: 200;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(85, 85, 85);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+/* Blurred Background Overlay */
+.blur-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    filter: blur(5px); /* Adjust the blur intensity */
+    z-index: 50; /* Ensure it stays on top */
+}
+
+  
