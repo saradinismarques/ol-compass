@@ -85,7 +85,14 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
     });
   };
 
-  const toggleMessage = () => {
+  const showMessage = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showMessage: true,
+    }));
+  };
+
+  const removeMessage = () => {
     setState((prevState) => ({
       ...prevState,
       showMessage: false,
@@ -130,25 +137,42 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
                   Explore the fundamentals of OL, one by one!
                   </p>
                 <p className='text'>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-                <div className="instruction-container">
+                  Are you new to Ocean Literacy, or need a refresher?
+                  <br></br>
+                  In the LEARN mode the Compass lets you familiarize with each OL Principle, Perspective and Dimension, with basic definitions, additional information and hints for reflection.
+                  <br></br>
+                  <br></br>
+                  Start by clicking on any wave (
                     <svg 
-                      className='arrow-icon'
-                      fill="currentcolor" 
-                      viewBox="0 0 20 20" 
-                      xmlns="http://www.w3.org/2000/svg">
-                      <polygon points="3.828 9 9.899 2.929 8.485 1.515 0 10 .707 10.707 8.485 18.485 9.899 17.071 3.828 11 20 11 20 9 3.828 9"/>
+                      className='text-icon'
+                      fill="currentcolor"
+                      stroke="currentcolor"
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="-1.5 -4 35 10"  >
+                      <path class="cls-1" d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
                     </svg>
-                    
-                    <p className="instruction">Click on any element</p>
-                </div>
+                  ).
+                </p>
+                
+                
               </div>
             </>
           )}
 
           {!state.initialState && (
             <>
+            <button onClick={showMessage} className="question-button">
+              <svg 
+                className="question-icon" 
+                fill="currentcolor" 
+                stroke="currentcolor" /* Adds stroke color */
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="-1 109 35 35"  
+                >
+                <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
+              </svg>
+            </button>
+
             <div className='l-bookmark-container'>
               <div className="l-white-line"></div>
               <button onClick={toggleBookmark} className={`l-bookmark-button ${state.bookmark ? '' : ''}`}>
@@ -207,18 +231,48 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
         </div>
       )}
     </div>
+    
     {!state.initialState && state.showMessage && (
       <>
-      <div class="tooltip-box">
-        <p class="tooltip-text">
-          For each element, you can browse in-depth information by clicking on the [ARROW-I] icon (or on the underlined words). Mark relevant content by clicking on the [BOOKMARK-I] icon.
+      <div class="message-box">
+        <div className="question-circle">
+            <svg 
+                className="question-icon" 
+                fill="currentcolor" 
+                stroke="currentcolor" /* Adds stroke color */
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="-1 109 35 35"  
+              >
+              <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
+            </svg>
+          </div>
+        <p class="message-text">
+          For each element, you can browse in-depth information by clicking on the 
+          <svg 
+            className='message-icon'
+            fill="currentcolor"
+            stroke="currentcolor"
+            xmlns="http://www.w3.org/2000/svg" 
+            viewBox="8.5 59 16 16"  >
+            <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
+          </svg>
+          icon (or on the underlined words). Mark relevant content by clicking on the 
+          <svg
+            className='message-icon'
+            fill="currentcolor"
+            stroke="currentcolor"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="8 175.6 17 17"  >
+            <path d="m16.61,187.76c-1.55,1.27-3.06,2.51-4.57,3.74-.32.26-.61.55-.95.77-.18.11-.47.19-.65.12-.14-.05-.24-.36-.25-.55-.02-1.13-.01-2.27-.01-3.4,0-3.73,0-7.47,0-11.2,0-.84.08-.91.93-.91,3.68,0,7.36,0,11.04,0,.79,0,.88.09.88.91,0,4.79,0,9.59-.01,14.38,0,.28-.18.55-.28.83-.26-.1-.57-.14-.77-.31-1.78-1.43-3.54-2.88-5.36-4.37Z"/>
+          </svg> 
+          icon.
         </p>
-        <button className="l-got-it-button" onClick={toggleMessage}>
+        <button className="got-it-button" onClick={removeMessage}>
           Ok, got it!
         </button>
       </div>
       </>
-)}
+    )}
 </div>
   );
 };

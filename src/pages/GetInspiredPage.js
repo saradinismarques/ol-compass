@@ -143,21 +143,24 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
               Browse inspiring application cases
             </p>
             <p className='text'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              You get OL theory, yet wonder how it works in practice?
+              <br></br>
+              In the GET INSPIRED mode the Compass gives you access to a variety of OL resources and initiatives, explained in terms of Principles, Perspectives and Dimensions addressed.
+              <br></br>
+              <br></br>
+              Select as many waves (
+                <svg 
+                  className='text-icon'
+                  fill="currentcolor"
+                  stroke="currentcolor"
+                  xmlns="http://www.w3.org/2000/svg" 
+                  viewBox="-1.5 -4 35 10"  >
+                  <path class="cls-1" d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+                </svg>
+              ) as you like and press 'Enter' to filter examples.
+              To see a carousel of popular OL examples just press 'Enter'.       
             </p>
-            <div className="instruction-container">
-              <svg 
-                className='arrow-icon two-lines'
-                fill="currentcolor" 
-                viewBox="0 0 20 20" 
-                xmlns="http://www.w3.org/2000/svg">
-               <polygon points="3.828 9 9.899 2.929 8.485 1.515 0 10 .707 10.707 8.485 18.485 9.899 17.071 3.828 11 20 11 20 9 3.828 9"/>
-              </svg>
-                    
-              <p className="instruction">
-                Click anywhere to start scrolling case studies
-              </p>
-            </div>
+
           </div>
         </>
       )} 
@@ -198,7 +201,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
                     fill="currentcolor"
                     stroke="currentcolor"
                     xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="6 57 20 20"  >
+                    viewBox="8.5 59 16 16"  >
                     <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
                   </svg>
 
@@ -212,7 +215,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
                     fill="currentcolor"
                     stroke="currentcolor"
                     xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="6 57 20 20"  >
+                    viewBox="8.5 59 16 16"  >
                     <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
                   </svg>
                 </button>

@@ -132,14 +132,13 @@
     fill: #d8d8d8; /* Change fill color on hover */
 }
 
-.gi-arrow-button:hover .gi-arrow-icon {
+.gi-arrow-button:active .gi-arrow-icon {
     fill: #b8b8b8; /* Change fill color on hover */
 }
-
  
 .gi-arrow-icon {
-    width: 25px;
-    height: 25px;
+    width: 20px;
+    height: 20px;
     fill: rgb(115, 114, 114); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: rgb(145, 144, 144);

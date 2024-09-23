@@ -38,6 +38,17 @@ body {
     overflow-y: hidden; /* Hide overflow initially */
 }
 
+.text-icon {
+    width: 1.3em;
+    height: 1.3em;
+    fill: rgb(115, 114, 114); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: rgb(145, 144, 144);
+    stroke-width: 0px;
+    margin-left: 1px;
+    margin-right: 1px;
+}
+
 .instruction-container {
     display: flex;
     align-items: center;
