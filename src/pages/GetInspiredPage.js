@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import '../styles/GetInspiredPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
@@ -10,6 +10,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
     shortDescription: '',
     credits: '',
     source: '',
+    components: '',
     showMore: false,
     initialState: true,
   }), []);
@@ -18,19 +19,23 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
   const [caseStudies, setCaseStudies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Reference for the specific container where clicks will be registered
+  const clickableAreaRef = useRef(null);
+
   const resetState = useCallback(() => {
     setState(initialState);
   }, [initialState]);
 
-  function getBookmarkState(title) {
-    if(savedCaseStudies.length !== 0 && savedCaseStudies.includes(title)) 
-      return true;
-    else
-      return false;
-  }
+  // Wrap getBookmarkState in useCallback
+  const getBookmarkState = useCallback((title) => {
+    return savedCaseStudies.length !== 0 && savedCaseStudies.includes(title);
+  }, [savedCaseStudies]);
 
-  const handleEnterClick = (components) => {
-    const fetchedCaseStudies = getCaseStudies(components);
+
+  const handleClick = useCallback(() => {
+    if (!state.initialState) return;
+
+    const fetchedCaseStudies = getCaseStudies();
     setCaseStudies(fetchedCaseStudies);
 
     if (fetchedCaseStudies.length > 0) {
@@ -38,13 +43,28 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
         title: fetchedCaseStudies[0].Title,
         shortDescription: fetchedCaseStudies[0].ShortDescription,
         credits: fetchedCaseStudies[0].Credits,
+        components: fetchedCaseStudies[0].Components,
         showMore: false,
         bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
         initialState: false,
       });
       setCurrentIndex(0); // Reset to first case study
     }
-  };
+  }, [state.initialState, getBookmarkState]);
+
+  useEffect(() => {
+    // Attach the click event listener to the specific area instead of the entire window
+    const clickableArea = clickableAreaRef.current;
+    if (clickableArea) {
+      clickableArea.addEventListener('click', handleClick);
+    }
+    // Cleanup function to remove the event listener when the component unmounts
+    return () => {
+      if (clickableArea) {
+        clickableArea.removeEventListener('click', handleClick);
+      } 
+    };
+  }, [handleClick]);
 
   // const toggleShowMore = () => {
   //   setState((prevState) => ({
@@ -63,6 +83,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
         title: caseStudies[nextIndex].Title,
         shortDescription: caseStudies[nextIndex].ShortDescription,
         credits: caseStudies[nextIndex].Credits,
+        components: caseStudies[nextIndex].Components,
         showMore: false,
         bookmark: getBookmarkState(caseStudies[nextIndex].Title),
         initialState: false,
@@ -80,6 +101,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
         title: caseStudies[prevIndex].Title,
         shortDescription: caseStudies[prevIndex].ShortDescription,
         credits: caseStudies[prevIndex].Credits,
+        components: caseStudies[prevIndex].Components,
         showMore: false,
         bookmark: getBookmarkState(caseStudies[prevIndex].Title),
         initialState: false,
@@ -104,12 +126,12 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
   };
 
   return (
-    <div>
+    <div ref={clickableAreaRef}>
       <OLCompass 
         colors={colors} 
         action="get-inspired" 
-        onButtonClick={handleEnterClick} 
         resetState={resetState} // Passing resetState to OLCompass
+        selectedComponents={state.components}
       />
       {state.initialState && (
         <>
@@ -133,7 +155,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
               </svg>
                     
               <p className="instruction">
-                Select as many elements as you like to filter examples
+                Click anywhere to start scrolling case studies
               </p>
             </div>
           </div>

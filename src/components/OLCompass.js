@@ -24,7 +24,7 @@ const getCenter = (action) => {
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, savedComponents }) => {
+const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents }) => {
     const center = getCenter(action);
 
     // Dictionary with all information
@@ -94,7 +94,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
         
-        if (action.startsWith("initial") || action.startsWith("default"))
+        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired")
             return;
         
         else if(action === "learn") {
@@ -105,7 +105,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             if (onButtonClick) {
                 onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type);
             }
-        } else if(action === "get-inspired" || action === "analyze" || action === "ideate") {
+        } else if(action === "analyze" || action === "ideate") {
             setClickedIds(prevClickedIds => 
                 prevClickedIds.includes(id)
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
@@ -144,7 +144,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     };
 
     const handleMouseEnter = (e) => {
-        if (action.startsWith("initial") || action.startsWith("default"))
+        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired")
             return;
 
         const stage = e.target.getStage();
@@ -154,7 +154,6 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
         setHoveredId(id);
 
         if(action === "learn" && components[id].Type === "Principle") {
-            console.log("Principle");
             const mousePos = stage.getPointerPosition();
 
             setTooltipPos({ x: mousePos.x, y: mousePos.y });
@@ -165,7 +164,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
     const handleMouseLeave = (e) => {
         //const isInside = isInsideRef.current;
-        if (action.startsWith("initial") || action.startsWith("default"))
+        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired")
             return;
         else if(action === "ideate" && !isInside) 
             return;
@@ -188,17 +187,10 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             setCurrentLineIds([]);
             setInitialState(true);
 
-            console.log("reset");
-            
             if(resetState)
                 resetState();
-        } else if (e.key === 'Enter' && action === "get-inspired") {
-            if (onButtonClick) {
-                let codes = clickedIdsRef.current.map(id => components[id].Code);
-                onButtonClick(codes);
-            }
-        }
-    }, [action, onButtonClick, resetState, components]);
+        } 
+    }, [resetState]);
     
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -289,7 +281,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                         fillLinearGradientColorStops={getGradientColor(c.Code, c.Type, colors)}
                         stroke={colors[c.Type]}
                         strokeWidth={0.01}
-                        opacity={getOpacity(clickedIds, lineIds, hoveredId, i, c.Type, action)}
+                        opacity={getOpacity(clickedIds, lineIds, hoveredId, i, c, action, selectedComponents)}
                         onClick={handleClick}
                         onMouseEnter={handleMouseEnter}
                         onMouseLeave={handleMouseLeave}
@@ -395,8 +387,6 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
       arr[i]["x"] = x;
       arr[i]["y"] = y;
       arr[i]["angle"] = angle;
-
-      console.log(angle*180/Math.PI);
     }
 
     return arr;
@@ -477,23 +467,17 @@ const drawBookmarkFilled = (component, context, shape, action, savedComponents, 
     
         context.beginPath();
 
-        if(component.Type === "Principle")
-            context.translate(x - width/2.9, y + height/7); // Start point
-        else if (component.Type === "Perspective") {
+        // Start point
+        if(component.Type !== "Principle") {
             context.translate(x, y); // Start point
             context.rotate(angle);
-            context.translate(- width/2.9, height/7); // Start point
-        } else if (component.Type === "Dimension") {
-            context.translate(x, y); // Start point
-            context.rotate(angle);
-            context.translate(- width/2.9, height/7); // Start point
         }
 
+        context.translate(- width/2.9, height/7); // Start point
         context.rotate(-rotation+ Math.PI/2);
-        // Start point
 
-        const scaleX = 0.6; // Scale factor for width (1.5 means 150% size)
-        const scaleY = 0.6; // Scale factor for height (1.5 means 150% size)
+        const scaleX = 0.5; // Scale factor for width (1.5 means 150% size)
+        const scaleY = 0.5; // Scale factor for height (1.5 means 150% size)
         context.scale(scaleX, scaleY); // Scale the context
     
         // Add the rest of the path commands based on the SVG path data
@@ -575,21 +559,28 @@ function drawText(component, action, context) {
     
 }
 
-const getOpacity = (clickedIds, lineIds, hoveredId, currentId, type, action) => {
+const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action, selectedComponents) => {
     if (action === "initial-0" || action === "initial-1") {
         return 0.4
     } else if (action === "initial-2" || action === "initial-3") {
-        if(type === "Principle")
+        if(component.type === "Principle")
             return 1
         else 
             return 0.4
     } else if (action === "initial-4") {
-        if(type === "Dimension")
+        if(component.type === "Dimension")
             return 0.4
         else
             return 1
     } else if (action === "initial-5")
         return 1
+
+    if(action ===  "get-inspired") {
+        if(selectedComponents.includes(component.Code) || selectedComponents.length === 0)
+            return 1;
+        else
+            return 0.4;
+    }
 
     if (clickedIds.includes(currentId) || lineIds.includes(currentId)) 
         return 1;

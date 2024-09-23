@@ -37,18 +37,10 @@ export function getDimensionsData() {
     return getComponentsDataFromJson(dimensionsData, "Dimension")
 }
 
-export function getCaseStudies(labels) {
+export function getCaseStudies() {
     try {
         // Process the JSON data
-        const result = caseStudies.filter(item => {
-            // Get all keys that are not metadata and have value "y"
-            const components = Object.keys(item).filter(key => !key.startsWith('#') && item[key] === 'y');
-
-            // Check if all labels are present in the components
-            const hasAllLabels = labels.every(label => components.includes(label));
-
-            return hasAllLabels;
-        }).map(item => ({
+        const result = caseStudies.map(item => ({
             Title: item["#title"],
             ShortDescription: item["#short-description"],
             Credits: item["#credits"],
