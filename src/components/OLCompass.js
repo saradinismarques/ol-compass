@@ -466,12 +466,11 @@ const drawBookmarkFilled = (component, context, shape, action, savedComponents, 
         const rotation = Math.atan((bottom.y)/(left.x)) + Math.PI/2;
     
         context.beginPath();
+        context.translate(x, y); // Start point
 
         // Start point
-        if(component.Type !== "Principle") {
-            context.translate(x, y); // Start point
+        if(component.Type !== "Principle") 
             context.rotate(angle);
-        }
 
         context.translate(- width/2.9, height/7); // Start point
         context.rotate(-rotation+ Math.PI/2);
