@@ -180,17 +180,22 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
     // Memoize handleKeyDown to avoid creating a new reference on each render
     const handleKeyDown = useCallback((e) => {
-    if (e.key === 'Escape') {
-            setClickedIds([]);
-            setHoveredId(null);
-            setCurrentLine([]);
-            setCurrentLineIds([]);
-            setInitialState(true);
+        if (e.key === 'Escape') {
+                setClickedIds([]);
+                setHoveredId(null);
+                setCurrentLine([]);
+                setCurrentLineIds([]);
+                setInitialState(true);
 
-            if(resetState)
-                resetState();
-        } 
-    }, [resetState]);
+                if(resetState)
+                    resetState();
+        } else if (e.key === 'Enter' && action === "analyze") {
+            if (onButtonClick) {
+                let codes = clickedIdsRef.current.map(id => components[id].Code);
+                onButtonClick(codes);
+            }
+        }
+    }, [resetState, action, components, onButtonClick]);
     
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);

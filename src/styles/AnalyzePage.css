@@ -16,11 +16,13 @@
     border: none;
     border-radius: 10px;
     box-sizing: border-box;
+    font-family: 'Manrope', sans-serif;
     color: #ffffff; /* Set placeholder color to white */
 }
   
 .a-placeholder::placeholder {
     opacity: 1; /* Remove transparency */
+    color: #ffffff; /* Set placeholder color to white */
 }
 
 .a-title input {

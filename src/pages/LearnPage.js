@@ -153,8 +153,6 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
                     </svg>
                   ).
                 </p>
-                
-                
               </div>
             </>
           )}
