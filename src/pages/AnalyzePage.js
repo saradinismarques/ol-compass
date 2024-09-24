@@ -9,7 +9,7 @@ const AnalyzePage = ({colors}) => {
     title: '',
     shortDescription: '',
     credits: '',
-    source: '',
+    sources: '',
     components: [], // Use an array to hold selected components
     initialState: true,
     firstClick: true,
@@ -24,14 +24,7 @@ const AnalyzePage = ({colors}) => {
 
   const handleKeyDown = useCallback((e) => {
     //for the initial state
-
-    if(e.key === 'a') {
-      console.log("Click on A");
-      loadJsonToLocalStorage();
-    }
-
     if(e.key !== 'Enter') return;
-
     if (!state.initialState) return;
 
     if(state.firstClick) {
@@ -57,48 +50,79 @@ const AnalyzePage = ({colors}) => {
     };
 }, [handleKeyDown]);
 
+
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+
+  setState((prevState) => ({
+    ...prevState,
+    [name]: value,
+  }));
+};
+
 const handleEnterClick = (components) => {
   // for the rest of the interaction
-  console.log(components);
-};
 
-const showMessage = () => {
-  setState((prevState) => ({
-    ...prevState,
-    showMessage: true,
-  }));
-};
-
-const removeMessage = () => {
-  setState((prevState) => ({
-    ...prevState,
-    showMessage: false,
-  }));
-};
-
-  // Function to fetch the JSON file and store it in localStorage
-  const loadJsonToLocalStorage = async () => {
-    try {
-      // Fetch the JSON file from src/data directory
-      const response = await fetch('../data/case_studies.json'); // adjust the path if needed
-      if (!response.ok) {
-        throw new Error('Failed to load JSON data');
-      }
-      const jsonData = await response.json();
-
-      // Store the JSON data into localStorage
-      localStorage.setItem('userData', JSON.stringify(jsonData));
-
-      // Retrieve and log the stored data from localStorage
-      const storedData = localStorage.getItem('userData');
-      console.log('Data loaded to localStorage:', JSON.parse(storedData));
-    } catch (error) {
-      console.error('Error loading JSON data:', error);
-    }
+  const keys = [
+    "P1", "P2", "P3", "P4", "P5", "P6", "P7",
+    "Pe1", "Pe2", "Pe3", "Pe4", "Pe5", "Pe6", "Pe7",
+    "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D10"
+  ];
+  
+  // Save the current state to local storage
+  const newuserInputData = {
+    "#title": state.title,
+    "#short-description": state.shortDescription,
+    "#credits": state.credits,
+    "#SOURCE [link]": state.sources,
   };
 
- 
+  keys.forEach(key => {
+    newuserInputData[key] = components.includes(key) ? "y" : "";
+});
 
+    // localStorage.setItem('userInputData', JSON.stringify(userInputData));
+    // const data = localStorage.getItem("userInputData");
+    // console.log('Data saved to localStorage:', data);
+
+    const existingData = localStorage.getItem('userInputData');
+    // Step 2: Parse existing data or create a new object if none exists
+    let userInputData = existingData ? JSON.parse(existingData) : {};
+    
+    console.log(userInputData);
+    // Step 3: Add new input data
+    // Assuming newInputData is an object, merge it with existing data
+    // userInputData = {
+    //     ...userInputData,
+    //     ...newuserInputData
+    // };
+    userInputData.push(newuserInputData);
+
+    console.log(userInputData);
+
+
+    // Step 4: Save the updated data back to localStorage
+    localStorage.setItem('userInputData', JSON.stringify(userInputData));
+
+    // Optional: Log the updated data
+    const updatedData = localStorage.getItem("userInputData");
+    //console.log('Updated data saved to localStorage:', JSON.parse(updatedData));
+  };
+
+
+  const showMessage = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showMessage: true,
+    }));
+};
+
+  const removeMessage = () => {
+    setState((prevState) => ({
+      ...prevState,
+      showMessage: false,
+    }));
+  };
 
   return (
     <div>
@@ -146,7 +170,13 @@ const removeMessage = () => {
             </button>
         <div className="a-text-container">
           <div className="a-title">
-              <input className="a-placeholder" type="text" placeholder="Insert Title" />
+              <input 
+                name="title"
+                className="a-placeholder" 
+                type="text" 
+                placeholder="Insert Title"   
+                onChange={handleInputChange}
+              />
           </div>
           <div className='a-text'>
               <p className='a-small-instruction'>Select all relevant elements</p>
@@ -161,13 +191,30 @@ const removeMessage = () => {
               </div>
           </div>
           <div className="a-description">
-              <textarea className="a-placeholder" placeholder="Insert Description"></textarea>
+              <textarea 
+                name="shortDescription"
+                className="a-placeholder" 
+                placeholder="Insert Description"
+                onChange={handleInputChange}
+              ></textarea>
           </div>
           <div className="a-insert-sources">
-              <input type="text" className="a-placeholder" placeholder="Insert Credits" />
+              <input 
+                name="credits"
+                type="text"
+                className="a-placeholder" 
+                placeholder="Insert Credits" 
+                onChange={handleInputChange}
+                />
           </div>
           <div className="a-insert-sources">
-              <input type="text" className="a-placeholder" placeholder="Insert Sources" />
+              <input 
+                name="sources"
+                type="text" 
+                className="a-placeholder" 
+                placeholder="Insert Sources" 
+                onChange={handleInputChange}
+                />
           </div>
           <button className="a-preview-button">Submit</button>
         </div>
