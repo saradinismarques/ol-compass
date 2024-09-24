@@ -1,0 +1,8 @@
+<svg 
+    id='wave'
+    fill="currentcolor"
+    stroke="currentcolor"
+    xmlns="http://www.w3.org/2000/svg" 
+    viewBox="-1 -17.5 35 35"  >
+    <path d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+</svg> 

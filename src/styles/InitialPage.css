@@ -3,7 +3,7 @@
     top: 50%; /* Position item 50% from the top */
     left: 50%; 
     transform: translate(-50%, -50%);
-    max-width: 220px;
+    max-width: 230px;
     text-align: center; /* Center the text inside the element */
     color: rgb(0,40,112);    
 }
@@ -16,7 +16,7 @@
 
 .i-deter {
     position: absolute;
-    top: 39%; /* Position item 50% from the top */
+    top: 38%; /* Position item 50% from the top */
     left: 50%; 
     transform: translate(-50%, -50%);
     font-size: 1.5em;

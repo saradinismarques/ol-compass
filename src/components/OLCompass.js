@@ -493,10 +493,10 @@ function drawText(component, action, context) {
     // Text
     if (action === "initial-0" || action === "initial-1") {
         return
-    } else if (action === "initial-2" || action === "initial-3") {
+    } else if (action === "initial-2") {
         if(component.Type !== "Principle")
             return
-    } else if (action === "initial-4") {
+    } else if (action === "initial-3") {
         if(component.Type === "Dimension")
             return 
     }
@@ -561,17 +561,19 @@ function drawText(component, action, context) {
 const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action, selectedComponents) => {
     if (action === "initial-0" || action === "initial-1") {
         return 0.4
-    } else if (action === "initial-2" || action === "initial-3") {
-        if(component.type === "Principle")
-            return 1
+    } else if (action === "initial-2") {
+        if(component.Type === "Principle") {
+        return 1
+
+        }
         else 
             return 0.4
-    } else if (action === "initial-4") {
-        if(component.type === "Dimension")
+    } else if (action === "initial-3") {
+        if(component.Type === "Dimension")
             return 0.4
         else
             return 1
-    } else if (action === "initial-5")
+    } else if (action === "initial-4")
         return 1
 
     if(action ===  "get-inspired") {

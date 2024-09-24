@@ -223,7 +223,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
                   stroke="currentcolor"
                   xmlns="http://www.w3.org/2000/svg" 
                   viewBox="-1.5 -4 35 10"  >
-                  <path class="cls-1" d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+                  <path d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
                 </svg>
               ) as you like and press 'Enter' to filter examples.
               To see a carousel of popular OL examples just press 'Enter'.       
@@ -319,7 +319,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
               <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
             </svg>
           </div>
-        <p class="message-text">
+        <p className="message-text">
           By default, the search includes results that contain either of the
           <svg 
             id='wave'
@@ -328,7 +328,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
             stroke="currentcolor"
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="-1 -17.5 35 35"  >
-            <path class="cls-1" d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+            <path d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
           </svg> 
           you selected. Thus, the more 
           <svg 
@@ -338,7 +338,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
             stroke="currentcolor"
             xmlns="http://www.w3.org/2000/svg" 
             viewBox="-1 -17.5 35 35"  >
-            <path class="cls-1" d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+            <path d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
           </svg>
           you select, the more case-studies are shown.
           <br></br>

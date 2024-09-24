@@ -10,7 +10,7 @@ const InitialPage = ({ colors }) => {
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
-            setState((prevState) => (prevState + 1 <= 6 ? prevState + 1 : 6));
+            setState((prevState) => (prevState + 1 <= 5 ? prevState + 1 : 5));
         else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
             setState((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
     }, []);
@@ -21,7 +21,7 @@ const InitialPage = ({ colors }) => {
         const clickPositionX = e.clientX;
 
         if (clickPositionX > screenWidth / 2) {
-            setState((prevState) => (prevState + 1 <= 6 ? prevState + 1 : 6));
+            setState((prevState) => (prevState + 1 <= 5 ? prevState + 1 : 5));
         } else {
             setState((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
         }
@@ -40,7 +40,7 @@ const InitialPage = ({ colors }) => {
     }, [handleKeyDown]); // Add handleKeyPress to the dependency array
 
     useEffect(() => {
-        if (state === 6) {
+        if (state === 5) {
             navigate('/ol-compass/home');
         }
     }, [state, navigate]); // Trigger navigation when state changes to 6
@@ -53,7 +53,6 @@ const InitialPage = ({ colors }) => {
         3: 'initial-3',
         4: 'initial-4',
         5: 'initial-5',
-        6: 'initial-6',
     };
 
     // Determine the action based on the current state
@@ -64,7 +63,7 @@ const InitialPage = ({ colors }) => {
         if (state === 0) {
             return (
                 <>
-                <p className='i-deter'>THE</p>
+                <p className='i-deter'>WELCOME TO THE</p>
                 <div className='i-title-container'>
                     <p className='i-title'>OL-in-One Compass</p>
                 </div>
@@ -75,7 +74,7 @@ const InitialPage = ({ colors }) => {
                 <>
                 <div className='i-title-container'>
                     <p className='i-explanation'>
-                        Ocean Literacy (OL) is the understanding of the Ocean-humanity mutual influence.
+                        Ocean Literacy (OL) is understanding our influence on the Ocean, and the Ocean's influence on us.
                     </p>
                 </div>
                 </>
@@ -88,6 +87,13 @@ const InitialPage = ({ colors }) => {
                     <span className='i-text colored' style={{color: colors.Principle}}>
                         7 Principles
                     </span>
+                    <p className='i-text'>which summarize&nbsp;</p>
+                    <p className='i-text'>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        45 scientific concepts
+                    </span>
+                    .
+                    </p>
                 </div>
                 </>
             );
@@ -105,6 +111,15 @@ const InitialPage = ({ colors }) => {
                         45 scientific concepts
                     </span>
                     .
+                    </p>
+                    <p className='i-text'>
+                        Science is just one of the&nbsp;
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                        7 Perspectives
+                    </span>
+                    </p>
+                    <p className='i-text'>
+                        from which OL can be seen.
                     </p>
                 </div>
                 </>
@@ -131,37 +146,10 @@ const InitialPage = ({ colors }) => {
                     </span>
                     </p>
                     <p className='i-text'>
-                        from which OL can be expressed.
-                    </p>
-                </div>
-                </>
-            );
-        } else if (state === 5) {
-            return (
-                <>
-                <div className='i-text-container'>
-                    <p className='i-text'>OL is based on&nbsp;</p>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 Principles
-                    </span>
-                    <p className='i-text'>which summarize&nbsp;</p>
-                    <p className='i-text'>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        45 scientific concepts
-                    </span>
-                    .
+                        from which OL can be seen.
                     </p>
                     <p className='i-text'>
-                        Science is just one of the&nbsp;
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
-                        7 Perspectives
-                    </span>
-                    </p>
-                    <p className='i-text'>
-                        from which OL can be expressed.
-                    </p>
-                    <p className='i-text'>
-                        As Knowledge is one of the&nbsp;
+                        Knowledge is just one of the&nbsp;
                     <span className='i-text colored' style={{color: colors.Dimension}}>
                         10 Dimensions
                     </span>
