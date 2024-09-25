@@ -62,7 +62,7 @@ const Menu = () => {
       </Link>
       <Link
         to="/ol-compass/analyze"
-        className={`menu-button ${activeButton === 'analyze' ? 'active' : ''}`}
+        className={`menu-button ${activeButton === 'analyze' ? 'active' : 'disabled'}`}
       >
         ANALYZE
       </Link>
