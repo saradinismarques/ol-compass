@@ -1,7 +1,7 @@
 // src/components/OLCompass.js
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Stage, Layer, Shape, Label, Text, Tag } from 'react-konva';
-import { getPrinciplesData, getPerspectivesData, getDimensionsData } from '../utils/Data.js'; 
+import { getPrinciplesData, getPerspectivesData, getDimensionsData, getConceptsData } from '../utils/Data.js'; 
 import Lines from '../components/Lines';
 
 // Sizes and positions 
@@ -33,7 +33,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const dimensions = getDimensions(getDimensionsData(), center);
 
     const components = principles.concat(perspectives, dimensions);
-
+    const concepts = getConceptsData();
     // State of clicks and hovers
     const [hoveredId, setHoveredId] = useState(null);
     const [clickedIds, setClickedIds] = useState([]);
@@ -105,8 +105,12 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             setClickedIds([id]);
             const title = convertLabel(components[id].Code);
 
+            let correspondingConcepts = null;
+            if(components[id].Type === "Principle")
+                correspondingConcepts = getCorrespondingConcepts(concepts, components[id].Code);
+            
             if (onButtonClick) {
-                onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type);
+                onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type, correspondingConcepts);
             }
         } else if(action === "analyze" || action === "ideate") {
             setClickedIds(prevClickedIds => 
@@ -656,6 +660,14 @@ function convertLabel(label) {
 
     // If the label doesn't match the expected pattern, return it unchanged
     return label;
+}
+
+function getCorrespondingConcepts(concepts, code) {
+    // Extract the number from the given tag (e.g. P1 -> 1, P2 -> 2)
+    const codeNumber = code.slice(1);
+
+    // Filter the array by matching the number in the `#code` (e.g., C1.a, C1.b... for P1)
+    return concepts.filter(c => c.Code.startsWith(`C${codeNumber}.`));
 }
 
 export default OLCompass;

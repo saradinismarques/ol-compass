@@ -1,0 +1,266 @@
+[
+  {
+    "#code": "C1.a",
+    "#label": "CONCEPT 1.a",
+    "#paragraph": "The Ocean is the defining physical feature on our planet Earth, covering approximately 70% of the planet’s surface. There is one Ocean with many Ocean basins, such as the North Pacific, South Pacific, North Atlantic, South Atlantic, Indian, Southern, and Arctic.",
+    "#linked-to": "single body of water"
+  },
+  {
+    "#code": "C1.b",
+    "#label": "CONCEPT 1.b",
+    "#paragraph": "Ocean basins are composed of the seafloor and its geological features (islands, trenches, mid-Ocean ridges, rift valleys, etc.) and vary in size, shape and features due to the movement of Earth’s crust (lithosphere). Earth’s highest peaks, deepest valleys and flattest plains are all in the Ocean.",
+    "#linked-to": "geologic basins"
+  },
+  {
+    "#code": "C1.c",
+    "#label": "CONCEPT 1.c",
+    "#paragraph": "The Ocean presents an interconnected circulation system - powered by wind, tides, Earth’s rotation (Coriolis effect), the Sun and water density differences - which moves water throughout the Ocean basins, thus carrying heat, matter, and organisms around. Its variations largely impact climatic and ecosystemic balances.",
+    "#linked-to": "interconnected circulation system"
+  },
+  {
+    "#code": "C1.d",
+    "#label": "CONCEPT 1.d",
+    "#paragraph": "Sea level is the average height of the Ocean relative to the land, considering the differences caused by tides. Sea level changes as plate tectonics cause the volume of Ocean basins and the height of the land to change; as ice caps on land melt or grow; as sea water expands and contracts when Ocean water warms and cools.",
+    "#linked-to": "changing sealevel"
+  },
+  {
+    "#code": "C1.e",
+    "#label": "CONCEPT 1.e",
+    "#paragraph": "The Ocean is the 97% of Earth's waters. Seawater has unique properties: it is salty, its freezing point is slightly lower than fresh water, its density is slightly higher, its conductivity is much higher, and it is slightly basic. Balance of pH is key for marine ecosystems' health and Ocean's carbon sequestration.",
+    "#linked-to": "seawater"
+  },
+  {
+    "#code": "C1.f",
+    "#label": "CONCEPT 1.f",
+    "#paragraph": "The Ocean is an integral part of the water cycle and is connected to all of Earth’s water reservoirs via evaporation and precipitation processes.",
+    "#linked-to": "part of the water cycle"
+  },
+  {
+    "#code": "C1.g",
+    "#label": "CONCEPT 1.g",
+    "#paragraph": "The Ocean is connected to major lakes, watersheds, and waterways because all major watersheds on Earth drain to the Ocean. Rivers and streams transport nutrients, salts, sediments, and pollutants from watersheds to coastal estuaries and to the Ocean.",
+    "#linked-to": "watersheds"
+  },
+  {
+    "#code": "C1.h",
+    "#label": "CONCEPT 1.h",
+    "#paragraph": "Although the Ocean is large, it is finite, and resources are limited.",
+    "#linked-to": "The Ocean and its resurces are vast but finite"
+  },
+  {
+    "#code": "C2.a",
+    "#label": "CONCEPT 2.a",
+    "#paragraph": "Many earth materials and biogeochemical cycles originate in the Ocean. Many of the sedimentary rocks now exposed on land were formed in the Ocean. Ocean life laid down the vast volume of siliceous and carbonate rocks.",
+    "#linked-to": "materials and biogeochemical cycles"
+  },
+  {
+    "#code": "C2.b",
+    "#label": "CONCEPT 2.b",
+    "#paragraph": "Sea level changes over time have expanded and contracted continental shelves, created and destroyed inland seas, and shaped the surface of land.",
+    "#linked-to": "Continental shelf morphology"
+  },
+  {
+    "#code": "C2.c",
+    "#label": "CONCEPT 2.c",
+    "#paragraph": "Erosion — the wearing away of rock, soil and other a/biotic materials — occurs by the action of wind, waves, currents and tectonic processes. Most beach sand is eroded from land sources and carried to the coast by rivers; the rest is eroded from coastal sources by crashing waves. Currents redistribute sand seasonally.",
+    "#linked-to": "erosion"
+  },
+  {
+    "#code": "C2.d",
+    "#label": "CONCEPT 2.d",
+    "#paragraph": "The Ocean is the largest reservoir of rapidly cycling carbon on Earth. Many organisms use carbon dissolved in the Ocean to form shells, other skeletal parts, and coral reefs.",
+    "#linked-to": "The Ocean is the largest carbon reservoir on Earth"
+  },
+  {
+    "#code": "C2.e",
+    "#label": "CONCEPT 2.e",
+    "#paragraph": "Tectonic activity, sea level changes, and the force of waves influence the physical structure and landforms of the coast.",
+    "#linked-to": "tectonic activity, waves and sea level change"
+  },
+  {
+    "#code": "C3.a",
+    "#label": "CONCEPT 3.a",
+    "#paragraph": "The interaction of Oceanic and atmospheric processes controls weather and climate by dominating the Earth’s energy, water, and carbon systems.",
+    "#linked-to": "regulating its energy, water, and carbon cycles"
+  },
+  {
+    "#code": "C3.b",
+    "#label": "CONCEPT 3.b",
+    "#paragraph": "The Ocean moderates global weather and climate by absorbing most of the solar radiation reaching Earth. Heat exchange between the Ocean and atmosphere drives the water cycle and Oceanic and atmospheric circulation.",
+    "#linked-to": "absorbs solar radiation"
+  },
+  {
+    "#code": "C3.c",
+    "#label": "CONCEPT 3.c",
+    "#paragraph": "Heat exchange between the Ocean and atmosphere can result in dramatic global and regional weather phenomena, impacting patterns of rain and drought. Exemplary are El Niño Southern Oscillation and La Niña, which change global weather patterns by altering the Pacific's sea surface temperature.",
+    "#linked-to": "influences weather patterns like El Niño"
+  },
+  {
+    "#code": "C3.d",
+    "#label": "CONCEPT 3.d",
+    "#paragraph": "Condensation of water that evaporated from warm seas provides the energy for hurricanes and cyclones. Most rain that falls on land originally evaporated from the tropical Ocean.",
+    "#linked-to": "drives atmospheric circulation"
+  },
+  {
+    "#code": "C3.e",
+    "#label": "CONCEPT 3.e",
+    "#paragraph": "The Ocean dominates Earth’s carbon cycle. Half of the primary productivity on Earth takes place in the sunlit layers of the Ocean. The Ocean absorbs roughly half of all carbon dioxide and methane that are added to the atmosphere.",
+    "#linked-to": "absorbs and stores almost half of greenhouse emissions"
+  },
+  {
+    "#code": "C3.f",
+    "#label": "CONCEPT 3.f",
+    "#paragraph": "The Ocean has had, and will continue to have, a significant influence on climate change by absorbing, storing, and moving heat, carbon, and water. Changes in the Ocean’s circulation have produced large, abrupt changes in climate during the last 50,000 years.",
+    "#linked-to": "have had"
+  },
+  {
+    "#code": "C3.g",
+    "#label": "CONCEPT 3.g",
+    "#paragraph": "Changes in the Ocean-atmosphere system can result in changes to the climate that in turn, cause further changes to the Ocean and atmosphere. These interactions have dramatic physical, chemical, biological, economic, and social consequences.",
+    "#linked-to": "significant influence on climate change, with far-reaching consequences"
+  },
+  {
+    "#code": "C4.a",
+    "#label": "CONCEPT 4.a",
+    "#paragraph": "Most of the oxygen in the atmosphere originally came from the activities of photosynthetic organisms in the Ocean. This accumulation of oxygen in Earth’s atmosphere was necessary for life to develop and be sustained on land.",
+    "#linked-to": "Primordial photosynthetic organisms in the Ocean produced most of the oxygen in the atmosphere"
+  },
+  {
+    "#code": "C4.b",
+    "#label": "CONCEPT 4.b",
+    "#paragraph": "The Ocean is the cradle of life; the earliest evidence of life is found in the Ocean. The millions of different species of organisms on Earth today are related by descent from common ancestors that evolved in the Ocean and continue to evolve today.",
+    "#linked-to": "Life originated in the Ocean"
+  },
+  {
+    "#code": "C4.c",
+    "#label": "CONCEPT 4.c",
+    "#paragraph": "The Ocean provided and continues to provide water, oxygen, and nutrients, and moderates the climate needed for life to exist on Earth (See also Principles 1, 3, and 5).",
+    "#linked-to": "water, oxygen, nutrients and climate regulation"
+  },
+  {
+    "#code": "C5.a",
+    "#label": "CONCEPT 5.a",
+    "#paragraph": "Ocean life ranges in size from the smallest living things, microbes, to the largest animal on Earth, blue whales.",
+    "#linked-to": "extremely diverse"
+  },
+  {
+    "#code": "C5.b",
+    "#label": "CONCEPT 5.b",
+    "#paragraph": "Most of the organisms and biomass in the Ocean are microbes, which are the basis of all Ocean food webs: they are key primary producers, have extremely fast growth rates and life cycles, and produce a huge amount of the carbon and oxygen on Earth.",
+    "#linked-to": "Phytoplankton"
+  },
+  {
+    "#code": "C5.c",
+    "#label": "CONCEPTS 5.c-d",
+    "#paragraph": "Most of the major groups that exist on Earth are found exclusively in the Ocean and the diversity of major groups of organisms is much greater in the Ocean than on land.\nOcean biology provides many unique examples of life cycles, adaptations, and important relationships among organisms (symbiosis, predator-prey dynamics, and energy transfer) that do not occur on land.",
+    "#linked-to": "unique"
+  },
+  {
+    "#code": "C5.e",
+    "#label": "CONCEPT 5.e",
+    "#paragraph": "The Ocean provides a vast living space with diverse and unique ecosystems from the surface through the water column and down to, and below, the seafloor. Most of the living space on Earth is in the Ocean.",
+    "#linked-to": "abundant"
+  },
+  {
+    "#code": "C5.f",
+    "#label": "CONCEPT 5.f",
+    "#paragraph": "Ocean life distribution varies in time and space based on abiotic factors (oxygen, salinity, temperature, pH, light, nutrients, pressure, substrate, circulation). A few Ocean regions host the most abundant life on Earth, while most of the Ocean does not support much life.",
+    "#linked-to": "not evenly distributed"
+  },
+  {
+    "#code": "C5.g",
+    "#label": "CONCEPT 5.g",
+    "#paragraph": "There are deep Ocean ecosystems that are independent of energy from sunlight and photosynthetic organisms. Hydrothermal vents, submarine hot springs, and methane cold seeps, rely only on chemical energy and chemosynthetic organisms to support life.",
+    "#linked-to": "deep sea"
+  },
+  {
+    "#code": "C5.h",
+    "#label": "CONCEPT 5.h",
+    "#paragraph": "Tides, waves, predation, substrate, and other factors cause vertical zonation patterns along the coast; density, pressure, and light levels cause vertical zonation patterns in the open Ocean. Zonation patterns influence organisms’ distribution and diversity.",
+    "#linked-to": "Zonation patters"
+  },
+  {
+    "#code": "C5.i",
+    "#label": "CONCEPT 5.i",
+    "#paragraph": "Estuaries provide important and productive nursery areas for many marine and aquatic species.",
+    "#linked-to": "Estuaries"
+  },
+  {
+    "#code": "C6.a",
+    "#label": "CONCEPT 6.a",
+    "#paragraph": "The Ocean affects every human life. It supplies freshwater (most rain comes from the Ocean) and 50% of Earth’s oxygen. It moderates the Earth’s climate, influences our weather, and affects human health.",
+    "#linked-to": "key ecosystemic services"
+  },
+  {
+    "#code": "C6.b",
+    "#label": "CONCEPT 6.b",
+    "#paragraph": "The Ocean provides food, medicines, and mineral and energy resources. It supports jobs and national economies, serves as a highway for transporting goods and people, and plays a role in national security.",
+    "#linked-to": "socio-economic"
+  },
+  {
+    "#code": "C6.c",
+    "#label": "CONCEPT 6.c",
+    "#paragraph": "The Ocean is a source of inspiration, recreation, rejuvenation, and discovery. It is also an important element in the heritage of many cultures.",
+    "#linked-to": "cultural"
+  },
+  {
+    "#code": "C6.d",
+    "#label": "CONCEPT 6.d",
+    "#paragraph": "Humans deeply affect the Ocean. Laws and resource management affect what is taken out and put into the Ocean. Human activity leads to pollution, changes to Ocean chemistry (Ocean acidification), and physical modifications (changes to shores, rivers). Humans have caused the extinction of most large marine vertebrates.",
+    "#linked-to": "Most Ocean issues are human-caused"
+  },
+  {
+    "#code": "C6.e",
+    "#label": "CONCEPT 6.e",
+    "#paragraph": "Changes in Ocean temperature and pH due to human activities can affect the survival of some organisms and impact biological diversity (coral bleaching due to increased temperature and inhibition of shell formation due to Ocean acidification).",
+    "#linked-to": "unprecedented biodiversity depletion"
+  },
+  {
+    "#code": "C6.f",
+    "#label": "CONCEPT 6.f",
+    "#paragraph": "Much of the world’s population lives in coastal areas. Coastal regions are susceptible to natural hazards (sea level rise, tsunamis, hurricanes, cyclones, storms).",
+    "#linked-to": "coastal zones"
+  },
+  {
+    "#code": "C6.g",
+    "#label": "CONCEPT 6.g",
+    "#paragraph": "Taking care of the Ocean is everyone's responsibility. The Ocean sustains life on Earth and humans must live in ways that sustain the Ocean. Individual and collective actions are needed to effectively manage Ocean resources for all.",
+    "#linked-to": "everyone's right and duty"
+  },
+  {
+    "#code": "C7.a",
+    "#label": "CONCEPT 7.a",
+    "#paragraph": "The Ocean is mostly unknown: less than 20% has been mapped and less than 5% has been physically explored. Explorers and researchers have great opportunities for discovery, innovation, and investigation.",
+    "#linked-to": "Less than the 20% of the Ocean is known"
+  },
+  {
+    "#code": "C7.b",
+    "#label": "CONCEPT 7.b",
+    "#paragraph": "Understanding the Ocean is more than a matter of curiosity. Exploration, experimentation, and discovery are required to better understand Ocean systems and processes. Our very survival hinges upon it.",
+    "#linked-to": "full understanding"
+  },
+  {
+    "#code": "C7.c",
+    "#label": "CONCEPT 7.c",
+    "#paragraph": "Over the last 50 years, use of Ocean resources has increased significantly; the future sustainability of Ocean resources depends on our understanding of those resources and their potential.",
+    "#linked-to": "truly sustainable relationship"
+  },
+  {
+    "#code": "C7.d",
+    "#label": "CONCEPT 7.d",
+    "#paragraph": "New technologies, sensors, and tools are expanding our ability to explore the Ocean. Scientists are relying more and more on satellites, drifters, buoys, subsea observatories, and unmanned submersibles.",
+    "#linked-to": "New technologies"
+  },
+  {
+    "#code": "C7.e",
+    "#label": "CONCEPT 7.e",
+    "#paragraph": "Use of mathematical models is an essential part of understanding the Ocean system. Models help us understand the complexity of the Ocean and its interactions with Earth’s interior, atmosphere, climate, and land masses.",
+    "#linked-to": "mathematical models"
+  },
+  {
+    "#code": "C7.f",
+    "#label": "CONCEPT 7.f",
+    "#paragraph": "Ocean exploration is truly interdisciplinary. It requires close collaboration among biologists, chemists, climatologists, computer programmers, engineers, geologists, meteorologists, physicists, animators, and illustrators. And these interactions foster new ideas and new perspectives for inquiries.",
+    "#linked-to": "interdisciplinary collaborations"
+  }
+]

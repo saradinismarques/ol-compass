@@ -3,63 +3,49 @@
     "#code": "P1",
     "#label": "ONE BIG OCEAN",
     "#headline": "The Earth has one big Ocean\nwith many features",
-    "#paragraph": "The Ocean is one *body of water* made of diverse ocean basins overall covering the *70% of the Earth's surface*. Each ocean basin presents a peculiar set of *geological features*. The Ocean's *interconnected circulation system* affects climate and ecosystems. *Sea level* varies with temperature changes and tectonic activity. *Seawater is 97% of the Earth’s hydrosphere*, and *its pH balance vital* for marine life and carbon sequestration. *The Ocean is part of the water cycle* through evaporation and precipitation processes. It is connected with all major watersheds, thus exchanges with them nutrients and pollutants. Despite its vastness, *the Ocean is finite*.",
-    "#showmoretext": "",
-    "#design prompt": "",
-    "#credits": ""
+    "#paragraph": "The Ocean is a single body of water covering the 70% of the Earth. It presents five major geologic basins, an interconnected circulation system, and a changing sealevel. Seawater is 97% of the Earth’s hydrosphere and its pH balance is vital for life preservation. It is part of the water cycle via evaporation-precipitation phenomena and physical connection to watersheds. The Ocean and its resurces are vast but finite.",
+    "#long-version": "The Ocean is one body of water made of diverse ocean basins overall covering the 70% of the Earth's surface. Each ocean basin presents a peculiar set of geological features. The Ocean's interconnected circulation system affects climate and ecosystems. Sea level varies with temperature changes and tectonic activity. Seawater is 97% of the Earth’s hydrosphere, and its pH balance vital for marine life and carbon sequestration. The Ocean is part of the water cycle through evaporation and precipitation processes. It is connected with all major watersheds, thus exchanges with them nutrients and pollutants. Despite its vastness, the Ocean is finite."
   },
   {
     "#code": "P2",
     "#label": "EARTH-SHAPER",
     "#headline": "The Ocean and its life shape the features of the Earth",
-    "#paragraph": "Many *Earth's materials and biogeochemical cycles* originate in the Ocean. *Sea level changes over time have* expanded and contracted continental shelves, created and destroyed inland seas, and *shaped our inner and coastal lands*. Together with wind and tectonic processes, *waves and currents determine erosion*. *Most beach sand is eroded from land sources* and carried to the coast by rivers; *currents redistribute sand seasonally*. The Ocean is *the largest reservoir of carbon* on Earth. Many organisms use carbon dissolved in the Ocean to form shells, other skeletal parts, and coral reefs.",
-    "#showmoretext": "",
-    "#design prompt": "",
-    "#credits": ""
+    "#paragraph": "The Ocean is the source of many Earth's materials and biogeochemical cycles. Continental shelf morphology was determined by sea level changes over time. Waves and currents contribute to erosion, which in turn constantly reshapes seashores. The Ocean is the largest carbon reservoir on Earth. The conformation of the Earth derives from the combined action of tectonic activity, waves and sea level change.",
+    "#long-version": "Many Earth's materials and biogeochemical cycles originate in the Ocean. Sea level changes over time have expanded and contracted continental shelves, created and destroyed inland seas, and shaped our inner and coastal lands. Together with wind and tectonic processes, waves and currents determine erosion. Most beach sand is eroded from land sources and carried to the coast by rivers; currents redistribute sand seasonally. The Ocean is the largest reservoir of carbon on Earth. Many organisms use carbon dissolved in the Ocean to form shells, other skeletal parts, and coral reefs."
   },
   {
     "#code": "P3",
     "#label": "CLIMATE REGULATOR",
     "#headline": "The Ocean is a key weather and climate regulator",
-    "#paragraph": "The *Ocean-atmosphere interactions* regulate the Earth’s energy, water, and carbon systems. By absorbing most of the solar radiation reaching Earth, the Ocean moderates global weather and climate. Changes in the Ocean’s circulation produced abrupt *changes in climate* in the last 50,000 years. Most *rain* that falls on land originally evaporated from the tropical Ocean. Condensation of warm evaporated water fuels *hurricanes and cyclones*.  The Ocean absorbs roughly half of all *carbon dioxide and methane emissions*. Changes in the Ocean-atmosphere system can endanger the climate balance. that in turn cause further changes to the Ocean and atmosphere, resulting in a *vicious cycle with dramatic* geochemical, biological, economic, and social *consequences*.",
-    "#showmoretext": "/",
-    "#design prompt": "",
-    "#credits": ""
+    "#paragraph": "The Ocean plays a crucial role in Earth's climate, regulating its energy, water, and carbon cycles. It absorbs solar radiation, drives atmospheric circulation, influences weather patterns like El Niño and absorbs and stores almost half of greenhouse emissions. Changes in the Ocean-atmosphere system have had, are having and will continue to have, a significant influence on climate change, with with far-reaching consequences.",
+    "#long-version": "The Ocean-atmosphere interactions regulate the Earth’s energy, water, and carbon systems. By absorbing most of the solar radiation reaching Earth, the Ocean moderates global weather and climate. Changes in the Ocean’s circulation produced abrupt changes in climate in the last 50,000 years. Most rain that falls on land originally evaporated from the tropical Ocean. Condensation of warm evaporated water fuels hurricanes and cyclones.  The Ocean absorbs roughly half of all carbon dioxide and methane emissions. Changes in the Ocean-atmosphere system can endanger the climate balance. that in turn cause further changes to the Ocean and atmosphere, resulting in a vicious cycle with dramatic geochemical, biological, economic, and social consequences."
   },
   {
     "#code": "P4",
     "#label": "LIFE-ENABLER",
     "#headline": "The Ocean makes\nthe Earth habitable",
-    "#paragraph": "*Most of the oxygen in the atmosphere* originated from the activities of photosynthetic organisms in the Ocean. This accumulation of oxygen in Earth’s atmosphere was necessary for sustaining life on land. The *earliest evidence of life* is found in the Ocean. The millions of different species of organisms on Earth today have *common oceanic ancestors*. The Ocean provided and continues to provide *water, oxygen, nutrients* and the *climatic conditions* needed for life to exist on Earth (P1, P3, P5).",
-    "#showmoretext": "/",
-    "#design prompt": "",
-    "#credits": ""
+    "#paragraph": "Primordial photosynthetic organisms in the Ocean produced most of the oxygen in the atmosphere, thus enabling life on land. Life originated in the Ocean and nowadays' species on Earth have common oceanic ancestors. Without the water, oxygen, nutrients and climate regulation provided by the Ocean, life on Earth wound not be possible.",
+    "#long-version": "Most of the oxygen in the atmosphere originated from the activities of photosynthetic organisms in the Ocean. This accumulation of oxygen in Earth’s atmosphere was necessary for sustaining life on land. The earliest evidence of life is found in the Ocean. The millions of different species of organisms on Earth today have common oceanic ancestors. The Ocean provided and continues to provide water, oxygen, nutrients and the climatic conditions needed for life to exist on Earth (P1, P3, P5)."
   },
   {
     "#code": "P5",
     "#label": "GREATLY DIVERSE",
     "#headline": "The Ocean hosts very diverse species and ecosystems",
-    "#paragraph": "Ocean life ranges in size *from microbes to blue whales*. Microbes are the basis of the Earth's *food web* and *oxygen production*. *Oceanic life is way more diverse than life on land*. The Ocean offers *many unique examples* of life cycles, adaptations and interdependent organisms. Most of the *living space* on Earth is in the Ocean, diversely distributed from its surface down to (and below) its seafloor. *A few Ocean regions host the most abundant life on Earth*, while most of the Ocean does not support much life. Some *deep Ocean ecosystems* are bioluminescent. *Zonation patterns* influence organisms’ distribution and diversity. *Estuaries* provide important and productive nursery areas for many marine species.",
-    "#showmoretext": "",
-    "#design prompt": "",
-    "#credits": ""
+    "#paragraph": "Oceanic life is extremely diverse, unique, abundant and not evenly distributed. Phytoplankton is its cornerstone. Zonation patters are determined by a variety of factors, from tides and waves to light and pressure. The deep sea is vastly different than shallow waters. Estuaries are prime nurseries for marine life.",
+    "#long-version": "Ocean life ranges in size from microbes to blue whales. Microbes are the basis of the Earth's food web and oxygen production. Oceanic life is way more diverse than life on land. The Ocean offers many unique examples of life cycles, adaptations and interdependent organisms. Most of the living space on Earth is in the Ocean, diversely distributed from its surface down to (and below) its seafloor. A few Ocean regions host the most abundant life on Earth, while most of the Ocean does not support much life. Some deep Ocean ecosystems are bioluminescent. Zonation patterns influence organisms’ distribution and diversity. Estuaries provide important and productive nursery areas for many marine species."
   },
   {
     "#code": "P6",
     "#label": "INTERLINKED WITH HUMANS",
     "#headline": "The Ocean and humans are inextricably interconnected",
-    "#paragraph": "The Ocean supplies *freshwater*, the 50% of Earth’s *oxygen, climate regulation* and conditions for an *healthy lifestyle*. It is a means of *livelihood, economic development, transport* and *security*. It is a source of inspiration, recreation and *cultural heritage*. *Humans are largely responsible* for ocean acidification, pollution, shores erosion and marine species depletion. Human-caused changes in Ocean temperature and pH threaten the survival of some organisms, hence *reducing biological diversity*. Much of the world’s population lives in *coastal areas* which are susceptible to *natural hazards*. Taking care of the Ocean is *everyone's responsibility* and requires both individual and collective action.",
-    "#showmoretext": "",
-    "#design prompt": "",
-    "#credits": ""
+    "#paragraph": "The Ocean is a source of key ecosystemic services, including socio-economic and cultural ones. Most Ocean issues are human-caused and are leading to unprecedented biodiversity depletion. Coastal zones - inhabited by 1/4 of the global population - present unparalleled benefits as well as risks. An healthy Ocean is everyone's right and duty.",
+    "#long-version": "The Ocean supplies freshwater, the 50% of Earth’s oxygen, climate regulation and conditions for an healthy lifestyle. It is a means of livelihood, economic development, transport and security. It is a source of inspiration, recreation and cultural heritage. Humans are largely responsible for ocean acidification, pollution, shores erosion and marine species depletion. Human-caused changes in Ocean temperature and pH threaten the survival of some organisms, hence reducing biological diversity. Much of the world’s population lives in coastal areas which are susceptible to natural hazards. Taking care of the Ocean is everyone's responsibility and requires both individual and collective action."
   },
   {
     "#code": "P7",
     "#label": "LARGELY UNEXPLORED",
     "#headline": "The Ocean is\nlargely unexplored",
-    "#paragraph": "The Ocean is *mostly unknown*, which represents a great opportunity for explorers and researchers. *Exploration is key to fully understand* Ocean systems and processes. The more we know our Ocean, the *more sustainably* we can benefit from its ecosystemic services. New *technologies* are expanding our ability to explore the Ocean. *Mathematical models* of the Ocean are essential to get its complex features and interactions with the Earth’s interior, lands, atmosphere and climate. Ocean exploration is truly *interdisciplinary*: new ideas and new perspectives for inquiries derive from exchanges among diverse professionals.",
-    "#showmoretext": "/",
-    "#design prompt": "",
-    "#credits": ""
+    "#paragraph": "Less than the 20% of the Ocean is known. Our lack of knowledge hinders the full understanding of the Ocean and undermines the establishment of a truly sustainable relationship with oceanic life. New technologies, mathematical models and interdisciplinary collaborations are enhancing Ocean exploration.",
+    "#long-version": "Less than the 20% of the Ocean has been mapped, and less than 5% has been visited. We need to explore the Ocean to fully understand its processes. Knowing the Ocean is key to access its resources sustainably. New technologies are accellerating Ocean exploration. Mathematical models of the Ocean are essential to get its complexity. Ocean exploration is inherently interdisciplinary."
   }
 ]

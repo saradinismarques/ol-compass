@@ -1,6 +1,7 @@
 import principlesData from '../data/principles.json';
 import perspectivesData from '../data/perspectives.json';
 import dimensionsData from '../data/dimensions.json';
+import conceptsData from '../data/concepts.json';
 import caseStudies from '../data/case_studies.json'
 
 function getComponentsDataFromJson(data, type) {
@@ -35,6 +36,24 @@ export function getPerspectivesData() {
 
 export function getDimensionsData() {
     return getComponentsDataFromJson(dimensionsData, "Dimension")
+}
+
+export function getConceptsData() {
+    try {
+        // Process the JSON data
+        const result = conceptsData.map(item => ({
+            Code: item["#code"],
+            Label: item["#label"],
+            Paragraph: item["#paragraph"],
+            LinkedTo: item["#linked-to"],
+            Type: "Concept"
+        }));
+
+        return result;
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
 }
 
 export function getCaseStudies() {

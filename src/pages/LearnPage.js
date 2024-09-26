@@ -13,12 +13,12 @@ import P7Image from '../images/P7.png';
 const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
-    code: '',
     title: '',
     headline: '',
     paragraph: '',
     showMoreText: '',
     designPrompt: '',
+    concepts: '',
     type: null,
     initialState: true,
     firstClick: true,
@@ -29,13 +29,22 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
     showDesignPrompt: false
   }), []);
 
+  const initialConcept = useMemo(() => ({
+    code: '',
+    label: '',
+    paragraph: '',
+    linkedTo: '',
+    index: null,
+  }), []);
+
   const [state, setState] = useState(initialState);
+  const [concept, setConcept] = useState(initialConcept);
 
   const resetState = useCallback(() => {
     setState(initialState);
   }, [initialState]);
 
-  const handleCompassClick = (code, title, headline, paragraph, showMoreText, designPrompt, type) => {
+  const handleCompassClick = (code, title, headline, paragraph, showMoreText, designPrompt, type, concepts) => {
     if(state.firstClick) {
       setState((prevState) => ({
         ...prevState,
@@ -43,6 +52,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
         showMessage: true
       }));
     }
+
 
     setState((prevState) => ({
       ...prevState,
@@ -52,12 +62,24 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
       paragraph,
       showMoreText,
       designPrompt,
+      concepts,
       type,
       initialState: false,
       showMore: false,
       showDesignPrompt: false,
       gradientColor: colors[type]
     }));
+
+    if(concepts !== null) {
+      setConcept((prevState) => ({
+        ...prevState,
+        code: concepts[0].Code,
+        label: concepts[0].Label,
+        paragraph: concepts[0].Paragraph,
+        linkedTo: concepts[0].LinkedTo,
+        index: null,
+      }));
+    }
   };
 
   // const toggleShowMore = () => {
@@ -97,6 +119,36 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
       ...prevState,
       showMessage: false,
     }));
+  };
+
+  const handleNext = () => {
+    if (concept.index < state.concepts.length - 1) {
+      const nextIndex = concept.index + 1;
+      
+      setConcept((prevState) => ({
+        ...prevState,
+        code: state.concepts[nextIndex].Code,
+        label: state.concepts[nextIndex].Label,
+        paragraph: state.concepts[nextIndex].Paragraph,
+        linkedTo: state.concepts[nextIndex].LinkedTo,
+        index: nextIndex,
+      }));
+    }
+  };
+
+  const handlePrev = () => {
+    if (concept.index > 0) {
+      const prevIndex = concept.index - 1;
+      
+      setConcept((prevState) => ({
+        ...prevState,
+        code: state.concepts[prevIndex].Code,
+        label: state.concepts[prevIndex].Label,
+        paragraph: state.concepts[prevIndex].Paragraph,
+        linkedTo: state.concepts[prevIndex].LinkedTo,
+        index: prevIndex,
+      }));
+    }
   };
   
   // Dynamically choose image source based on state.code
@@ -192,12 +244,46 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
               <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
               <div className="l-text expanded scroller">
                 <p dangerouslySetInnerHTML={{__html: state.paragraph.replace(/\*(.*?)\*/g, '<b>$1</b>')}}></p>
-                {/* {state.showMore && (
-                  <>
-                    <p>{state.showMoreText}</p>
-                  </>
-                )} */}
               </div>
+              {state.type === "Principle" && (
+                <>
+                <div className='l-concepts-container'>
+                  {/* Navigation Arrows */}
+                  {concept.index > 0 && (
+                  <button className="l-arrow-button left" onClick={handlePrev}>
+                    <svg 
+                      className='l-arrow-icon'
+                      fill="currentcolor"
+                      stroke="currentcolor"
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="8.5 59 16 16"  >
+                      <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
+                    </svg>
+                  </button>
+                  )}
+
+                  <h1 className='l-title-concepts'>{concept.label}</h1>
+                  
+
+                  {/* Navigation Arrows */}
+                  {concept.index < state.concepts.length - 1 && (
+                  <button className="l-arrow-button right" onClick={handleNext}>
+                    <svg 
+                      className='l-arrow-icon'
+                      fill="currentcolor"
+                      stroke="currentcolor"
+                      xmlns="http://www.w3.org/2000/svg" 
+                      viewBox="8.5 59 16 16"  >
+                      <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
+                    </svg>
+                  </button>
+                  )}
+                </div>
+                  <div className="l-text-concepts expanded scroller">
+                    <p>{concept.paragraph}</p>
+                  </div>
+                </>
+              )}
               {state.type !== "Principle" && (
                 <>
                 {state.showDesignPrompt ? (
@@ -209,9 +295,6 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
                 )}
                 </>
               )}
-                {/* <button onClick={toggleShowMore} className="l-show-more-button">
-                  {state.showMore ? 'Show less' : 'Show more'}
-                </button> */}
             </div>
             </>
           )} 
