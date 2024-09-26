@@ -248,23 +248,8 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
               {state.type === "Principle" && (
                 <>
                 <div className='l-concepts-container'>
-                  {/* Navigation Arrows */}
-                  {concept.index > 0 && (
-                  <button className="l-arrow-button left" onClick={handlePrev}>
-                    <svg 
-                      className='l-arrow-icon'
-                      fill="currentcolor"
-                      stroke="currentcolor"
-                      xmlns="http://www.w3.org/2000/svg" 
-                      viewBox="8.5 59 16 16"  >
-                      <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
-                    </svg>
-                  </button>
-                  )}
-
                   <h1 className='l-title-concepts'>{concept.label}</h1>
                   
-
                   {/* Navigation Arrows */}
                   {concept.index < state.concepts.length - 1 && (
                   <button className="l-arrow-button right" onClick={handleNext}>
