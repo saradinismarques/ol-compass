@@ -232,7 +232,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
     
     {!state.initialState && state.showMessage && (
       <>
-      <div className="message-box">
+      <div className="message-box" style={{ width: 200 }}>
         <div className="question-circle">
             <svg 
                 className="question-icon" 
@@ -247,13 +247,13 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
         <p className="message-text">
           For each element, you can browse in-depth information by clicking on the 
           <svg 
-            id='wave'
-            className='message-icon'
+            id='arrow'
+            className='message-icon smaller'
             fill="currentcolor"
             stroke="currentcolor"
             xmlns="http://www.w3.org/2000/svg" 
-            viewBox="-1 -17.5 35 35"  >
-            <path d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
+            viewBox="8 57.8 17 17"  >
+            <path d="m22.74,68.05l-11.42,6.59c-.57.33-1.28-.08-1.28-.74v-13.18c0-.66.71-1.06,1.28-.74l11.42,6.59c.57.33.57,1.15,0,1.47Z"/>
           </svg> 
           icon (or on the underlined words). Mark relevant content by clicking on the 
           <svg

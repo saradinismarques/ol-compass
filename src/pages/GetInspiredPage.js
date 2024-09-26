@@ -307,7 +307,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
     </div>
     {!state.initialState && state.showMessage && (
       <>
-      <div className="message-box">
+      <div className="message-box" style={{ width: 290 }}>
         <div className="question-circle">
             <svg 
                 className="question-icon" 
