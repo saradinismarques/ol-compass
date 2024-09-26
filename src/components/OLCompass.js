@@ -51,6 +51,9 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const [tooltipVisible, setTooltipVisible] = useState(false);
     const [tooltipText, setTooltipText] = useState('');
     
+    // Declare a timeout variable to store the reference to the timeout
+    let tooltipTimeout = null;
+
     // Compass area
     const circleRef = useRef({
         x: center.x, // Example center x
@@ -152,13 +155,21 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
         const id = parseInt(e.target.id(), 10);
         setHoveredId(id);
+        hoveredIdRef.current = id; 
 
         if(action === "learn" && components[id].Type === "Principle") {
-            const mousePos = stage.getPointerPosition();
+            // Clear any existing timeout to avoid overlaps
+            clearTimeout(tooltipTimeout);
 
-            setTooltipPos({ x: mousePos.x, y: mousePos.y });
-            setTooltipText(components[id].Tooltip); // Add a tooltipText property to the component object
-            setTooltipVisible(true);
+            // Set a timeout to delay the appearance of the tooltip by 1 second
+            tooltipTimeout = setTimeout(() => {
+                if (hoveredIdRef.current === id) {  // Check if the tooltip was not cancelled
+                    const mousePos = stage.getPointerPosition();
+                    setTooltipPos({ x: mousePos.x, y: mousePos.y });
+                    setTooltipText(components[id].Tooltip);
+                    setTooltipVisible(true);
+                }
+            }, 1000); // 1-second delay
         }
     };
 
@@ -173,8 +184,13 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
         setHoveredId(null);
 
+        // Clear the tooltip timeout to prevent it from showing if mouse leaves
+        clearTimeout(tooltipTimeout);
+
         if(action === "learn") {
+             // Set the cancellation flag to prevent tooltip from showing
             setTooltipVisible(false);
+            setTooltipText(""); // Clear the tooltip text
         }
     };
 
@@ -318,6 +334,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                         fontSize={15}
                         padding={10} // Adding some padding inside the tooltip
                         fill="white" // Text color
+                        width={tooltipText.length*4.8} // Define a maximum width for the text
                     />
                 </Label>
                 )}

@@ -3,7 +3,7 @@
     top: 50%; /* Position item 50% from the top */
     left: 50%; 
     transform: translate(-50%, -50%);
-    max-width: 230px;
+    max-width: 250px;
     text-align: center; /* Center the text inside the element */
     color: rgb(0,40,112);    
 }
