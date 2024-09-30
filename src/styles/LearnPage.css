@@ -2,7 +2,7 @@
     position: absolute;
     top: 13%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
-    max-width: 370px;
+    max-width: 385px;
     padding: 0px;
     margin: 0px;
     z-index: 30;
@@ -86,6 +86,18 @@
     margin-top: -25px;
     overflow-y: hidden; /* Hide overflow initially */
     display: block;
+}
+
+.l-text button {
+    border: none;
+    background: none;
+    text-decoration: underline;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    margin: 0;
+    font-weight: inherit;
 }
 
 /* Expanded state for text content */

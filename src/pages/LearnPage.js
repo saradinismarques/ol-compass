@@ -142,17 +142,9 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
       const button = document.createElement('button');
 
       button.textContent = underline.textContent;
-      button.style.border = 'none';
-      button.style.background = 'none';
-      button.style.textDecoration = 'underline';
-      button.style.color = 'inherit';
-      button.style.cursor = 'pointer';
-      button.style.font = 'inherit';              // Inherit font properties (size, weight, etc.)
-      button.style.padding = '0';     
-      button.style.margin = '0';
-
+    
       // Make the button bold if it matches the current concept
-      if (currentConcept.linkedTo === button.textContent) {
+      if (currentConcept.linkedTo.toLowerCase().includes(button.textContent.toLowerCase())) {
         button.style.fontWeight = 500; // Apply bold style
       }
 
@@ -175,7 +167,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
   
       const handleButtonClick = (buttonText) => {
 
-        const matchingIndex = state.concepts.findIndex(concept => concept.LinkedTo === buttonText);
+        const matchingIndex = state.concepts.findIndex(concept => concept.LinkedTo.toLowerCase().includes(buttonText.toLowerCase()));
         // Check if a matching concept was found
         if (matchingIndex !== -1) {
           const matchingConcept = state.concepts[matchingIndex];
