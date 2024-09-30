@@ -200,7 +200,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
       };
     }, [text]); // Run this effect when `text` changes
     return (
-      <div className="l-text expanded scroller">
+      <div className="l-text">
         <p dangerouslySetInnerHTML={{ __html: replaceUnderlinesWithButtons(text, currentConcept) }}></p>
       </div>
     );
@@ -296,12 +296,13 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
 
             <div className="l-text-container" style={{
               maxWidth: state.code === 'P7' ? '393px': 
-                        state.code === 'P3'? '384.5px': '385px'}}>
+                        state.code === 'P3'? '384.5px': 
+                        state.code === 'P1' ? '382px' : '385px'}}>
               <h1 className='l-title'>{state.title}</h1>
               <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
-              <DynamicText text={state.paragraph} currentConcept={concept} />
               {state.type === "Principle" && (
                 <>
+                <DynamicText text={state.paragraph} currentConcept={concept} />
                 <div className='l-concepts-container'>
                   <h1 className='l-title-concepts'>{concept.label}</h1>
                   
@@ -326,6 +327,9 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
               )}
               {state.type !== "Principle" && (
                 <>
+                <div className="l-text">
+                  <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
+                </div>
                 {state.showDesignPrompt ? (
                   <p className='l-design-prompt'>{state.designPrompt}</p>
                 ) : (

@@ -83,7 +83,8 @@
     color: rgb(0, 0, 0); 
     padding-left: 20px;
     margin-top: -25px;
-    overflow-y: hidden; /* Hide overflow initially */
+    overflow-y: auto; /* Hide overflow initially */
+    padding-right: 15px;
     display: block;
 }
 
@@ -97,14 +98,6 @@
     padding: 0;
     margin: 0;
     font-weight: inherit;
-}
-
-/* Expanded state for text content */
-.l-text.expanded {
-    overflow-y: auto; /* Enable vertical scroll */
-    max-height: 280px; /* Show full content when expanded */
-    margin-top: -15px;
-    padding-right: 15px;
 }
 
 .scroller{
