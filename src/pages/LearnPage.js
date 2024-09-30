@@ -294,7 +294,9 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
               </button>
             </div>
 
-            <div className="l-text-container" style={{maxWidth: state.code === 'P7' ? '393px' : '385px'}}>
+            <div className="l-text-container" style={{
+              maxWidth: state.code === 'P7' ? '393px': 
+                        state.code === 'P3'? '384.5px': '385px'}}>
               <h1 className='l-title'>{state.title}</h1>
               <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
               <DynamicText text={state.paragraph} currentConcept={concept} />
