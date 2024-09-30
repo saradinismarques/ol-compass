@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/LearnPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
@@ -18,7 +18,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
     paragraph: '',
     showMoreText: '',
     designPrompt: '',
-    concepts: '',
+    concepts: [],
     type: null,
     initialState: true,
     firstClick: true,
@@ -77,17 +77,10 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
         label: concepts[0].Label,
         paragraph: concepts[0].Paragraph,
         linkedTo: concepts[0].LinkedTo,
-        index: null,
+        index: 0,
       }));
     }
   };
-
-  // const toggleShowMore = () => {
-  //   setState((prevState) => ({
-  //     ...prevState,
-  //     showMore: !prevState.showMore,
-  //   }));
-  // };
 
   const toggleShowDesignPrompt = () => {
     setState((prevState) => ({
@@ -136,19 +129,89 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
     }
   };
 
-  const handlePrev = () => {
-    if (concept.index > 0) {
-      const prevIndex = concept.index - 1;
-      
-      setConcept((prevState) => ({
-        ...prevState,
-        code: state.concepts[prevIndex].Code,
-        label: state.concepts[prevIndex].Label,
-        paragraph: state.concepts[prevIndex].Paragraph,
-        linkedTo: state.concepts[prevIndex].LinkedTo,
-        index: prevIndex,
-      }));
-    }
+  const replaceUnderlinesWithButtons = (text, currentConcept) => {
+    // Create a temporary container element to manipulate the HTML
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = text.trim(); // Trim any unwanted white space
+  
+    // Find all <u> elements inside the text
+    const underlines = tempDiv.querySelectorAll('u');
+
+    // Replace each <u> with a <button>
+    underlines.forEach((underline, index) => {
+      const button = document.createElement('button');
+
+      button.textContent = underline.textContent;
+      button.style.border = 'none';
+      button.style.background = 'none';
+      button.style.textDecoration = 'underline';
+      button.style.color = 'inherit';
+      button.style.cursor = 'pointer';
+      button.style.font = 'inherit';              // Inherit font properties (size, weight, etc.)
+      button.style.padding = '0';     
+      button.style.margin = '0';
+
+      // Make the button bold if it matches the current concept
+      if (currentConcept.linkedTo === button.textContent) {
+        button.style.fontWeight = 500; // Apply bold style
+      }
+
+      // Add a data attribute for identifying buttons later
+      button.setAttribute('data-index', index);
+        // Replace the <u> tag with the <button>
+        underline.replaceWith(button);
+      });
+
+    // Return the modified HTML as a string
+    return tempDiv.innerHTML;
+  };
+
+  const DynamicText = ({ text, currentConcept }) => {
+    // Use `useEffect` to add event listeners after the component is mounted
+    
+    useEffect(() => {
+      // Find all buttons added by `replaceUnderlinesWithButtons`
+      const buttons = document.querySelectorAll('.l-text button');
+  
+      const handleButtonClick = (buttonText) => {
+
+        const matchingIndex = state.concepts.findIndex(concept => concept.LinkedTo === buttonText);
+        // Check if a matching concept was found
+        if (matchingIndex !== -1) {
+          const matchingConcept = state.concepts[matchingIndex];
+          setConcept({
+            code: matchingConcept.Code,
+            label: matchingConcept.Label,
+            paragraph: matchingConcept.Paragraph,
+            linkedTo: matchingConcept.LinkedTo,
+            index: matchingIndex, // Set the index of the found concept
+          });
+        } else {
+          setConcept(initialConcept); // Reset to initial concept if no match found
+        }
+      };
+
+      // Attach click event to each button
+      buttons.forEach((button) => {
+        button.addEventListener('click', (e) => {
+          const buttonText = e.target.textContent;
+          handleButtonClick(buttonText);
+        });
+      });
+
+  
+      // Cleanup event listeners on component unmount (good practice)
+      return () => {
+        buttons.forEach((button) => {
+          button.removeEventListener('click', () => {});
+        });
+      };
+    }, [text]); // Run this effect when `text` changes
+    return (
+      <div className="l-text expanded scroller">
+        <p dangerouslySetInnerHTML={{ __html: replaceUnderlinesWithButtons(text, currentConcept) }}></p>
+      </div>
+    );
   };
   
   // Dynamically choose image source based on state.code
@@ -242,9 +305,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
             <div className="l-text-container">
               <h1 className='l-title'>{state.title}</h1>
               <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
-              <div className="l-text expanded scroller">
-                <p dangerouslySetInnerHTML={{__html: state.paragraph.replace(/\*(.*?)\*/g, '<b>$1</b>')}}></p>
-              </div>
+              <DynamicText text={state.paragraph} currentConcept={concept} />
               {state.type === "Principle" && (
                 <>
                 <div className='l-concepts-container'>
