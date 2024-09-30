@@ -2,7 +2,6 @@
     position: absolute;
     top: 13%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
-    max-width: 385px;
     padding: 0px;
     margin: 0px;
     z-index: 30;
