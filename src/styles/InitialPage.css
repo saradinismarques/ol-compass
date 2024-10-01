@@ -1,5 +1,15 @@
 .i-title-container {
     position: absolute;
+    top: 51.5%; /* Position item 50% from the top */
+    left: 50%; 
+    transform: translate(-50%, -50%);
+    max-width: 250px;
+    text-align: center; /* Center the text inside the element */
+    color: rgb(0,40,112);    
+}
+
+.i-explanation-container {
+    position: absolute;
     top: 50%; /* Position item 50% from the top */
     left: 50%; 
     transform: translate(-50%, -50%);
@@ -8,20 +18,16 @@
     color: rgb(0,40,112);    
 }
 
-.i-title {
-    font-size: 2.8em;
-    font-weight: 500;
-    line-height: 110%;
+.i-welcome {
+    font-size: 1.3em;
+    font-weight: 400;
 }
 
-.i-deter {
-    position: absolute;
-    top: 38%; /* Position item 50% from the top */
-    left: 50%; 
-    transform: translate(-50%, -50%);
-    font-size: 1.5em;
-    font-weight: 400;
-    color: rgb(0,40,112);    
+.i-title {
+    margin-top: -25px;
+    font-size: 2.8em;
+    font-weight: 500;
+    line-height: 1.2;
 }
 
 .i-explanation {

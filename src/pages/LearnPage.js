@@ -241,14 +241,13 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
                   What's it for?
                 </p>
                 <p className='headline'>
-                  Explore the fundamentals of OL, one by one!
+                  Explore the OL fundamentals, one by one
                   </p>
                 <p className='text'>
                   Are you new to Ocean Literacy, or need a refresher?
                   <br></br>
                   In the LEARN mode the Compass lets you familiarize with each OL Principle, Perspective and Dimension, with basic definitions, additional information and hints for reflection.
-                  <br></br>
-                  <br></br>
+                  <p className='instruction'>
                   Start by clicking on any wave (
                     <svg 
                       className='text-icon'
@@ -259,6 +258,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
                       <path d="m32.54,8.56l-11.43,7.13c-3.07,1.92-6.61,1.92-9.68,0L0,8.56,11.43,1.44c3.07-1.92,6.61-1.92,9.68,0l11.43,7.13Z"/>
                     </svg>
                   ).
+                  </p>
                 </p>
               </div>
             </>

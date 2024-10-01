@@ -63,8 +63,8 @@ const InitialPage = ({ colors }) => {
         if (state === 0) {
             return (
                 <>
-                <p className='i-deter'>WELCOME TO THE</p>
                 <div className='i-title-container'>
+                    <p className='i-welcome'>WELCOME TO THE</p>
                     <p className='i-title'>OL-in-One Compass</p>
                 </div>
                 </>
@@ -72,9 +72,17 @@ const InitialPage = ({ colors }) => {
         } else if (state === 1) {
             return (
                 <>
-                <div className='i-title-container'>
+                <div className='i-explanation-container'>
                     <p className='i-explanation'>
-                        Ocean Literacy (OL) is understanding our influence on the Ocean, and the Ocean's influence on us.
+                        Ocean Literacy (OL) 
+                        <br></br>
+                        is understanding our
+                        <br></br>
+                        influence on the Ocean, 
+                        <br></br>
+                        and the Ocean's 
+                        <br></br>
+                        influence on us.
                     </p>
                 </div>
                 </>

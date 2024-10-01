@@ -11,10 +11,7 @@ const MakeYoursPage = ({colors}) => {
               What's it for?
             </p>
             <p className='headline'>
-              Customize the compass, tailor it, hack it!
-            </p>
-            <p className='text'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              Customize the Compass, tailor it, hack it!
             </p>
             <div className="not-available-container">
               <svg 

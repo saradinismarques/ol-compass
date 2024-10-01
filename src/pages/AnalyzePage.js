@@ -260,27 +260,16 @@ const AnalyzePage = ({colors}) => {
               What's it for?
             </p>
             <p className='headline'>
-              Scan an OL practice or resource you developed!
+              Understand and share your own OL practice
             </p>
             <p className='text'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              You want to make sense of an OL resource/experience you developed?
+              <br></br>
+              In the ANALYSE mode the Compass provides you with a structured way to see and record your own OL contents or initiatives, for future personal or public use.
+              <p className='instruction'>
+                Press 'Enter' to start the analysis.
+              </p>
             </p>
-            
-            <div className="instruction-container">
-              <svg 
-                className='plus-icon'
-                fill="currentcolor" 
-                stroke="currentcolor"
-                viewBox="0 0 512 512" 
-                version="1.1" 
-                xmlns="http://www.w3.org/2000/svg" 
-              >
-              <path d="M213.333333,1.42108547e-14 L213.333,170.666 L384,170.666667 L384,213.333333 L213.333,213.333 L213.333333,384 L170.666667,384 L170.666,213.333 L1.42108547e-14,213.333333 L1.42108547e-14,170.666667 L170.666,170.666 L170.666667,1.42108547e-14 L213.333333,1.42108547e-14 Z"></path>
-              </svg>
-              <button className='start-new-button'>
-                Start New Analysis
-              </button>
-            </div>
             
             <div className="not-available-container">
                 <svg 

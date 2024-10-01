@@ -214,8 +214,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
               You get OL theory, yet wonder how it works in practice?
               <br></br>
               In the GET INSPIRED mode the Compass gives you access to a variety of OL resources and initiatives, explained in terms of Principles, Perspectives and Dimensions addressed.
-              <br></br>
-              <br></br>
+              <p className='instruction'>
               Select as many waves (
                 <svg 
                   className='text-icon'
@@ -227,6 +226,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
                 </svg>
               ) as you like and press 'Enter' to filter examples.
               To see a carousel of popular OL examples just press 'Enter'.       
+              </p>
             </p>
 
           </div>

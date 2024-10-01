@@ -559,11 +559,15 @@ function drawText(component, action, context) {
         secondPart = component.Label.substring(firstIndex + 1);
     }
 
+    let vPosition = -6;
+    if(component.Code === 'Pe4')
+        vPosition = -4;
+
     if(firstPart.length < 5)
         context.fillText(component.Label, 0, 0);
     else{
-        context.fillText(firstPart, 0, -6);
-        context.fillText(secondPart, 0, 6);
+        context.fillText(firstPart, 0, vPosition);
+        context.fillText(secondPart, 0, vPosition+12);
     }
 
     let topSpace;

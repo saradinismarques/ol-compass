@@ -182,7 +182,7 @@
 .l-concepts-container {
     display: flex;
     padding-left: 20px;
-    padding-top: 15px;
+    padding-top: 10px;
 }
 
 /* Style for paragraph */
@@ -191,7 +191,6 @@
     font-weight: 200;
     color: rgb(0, 0, 0); 
     padding-left: 20px;
-    margin-top: -25px;
     overflow-y: hidden; /* Hide overflow initially */
     display: block;
 }
@@ -199,6 +198,7 @@
 /* Expanded state for text content */
 .l-text-concepts.expanded {
     overflow-y: auto; /* Enable vertical scroll */
+    height: 100vh;
     max-height: 90px; /* Show full content when expanded */
     margin-top: 0px;
     padding-right: 15px;
