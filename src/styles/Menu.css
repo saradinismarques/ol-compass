@@ -11,10 +11,11 @@
 }
 
 .menu-button {
-    margin: 0 10px;
-    padding: 6px 22px;
+    margin: 0 17px;
+    width: 115px;
+    height: 30px;
     border: 2px solid black;
-    border-radius: 20px;
+    border-radius: 100px;
     cursor: pointer;
     text-decoration: none; /* Ensure links have no underline */
     font-family: 'Manrope', sans-serif;
@@ -52,4 +53,23 @@
 
 .menu-button.disabled:active {
     background-color: #f5f5f5; /* No change on active for disabled button */
+}
+
+.menu-show-more-button {
+    margin: 0 17px;
+    margin-top: -5px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    font-weight: 200;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(85, 85, 85);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+    z-index: 20; /* Adjust the z-index */
+}
+
+.menu-show-more-button:hover {
+    color: rgb(117, 117, 117);
 }
