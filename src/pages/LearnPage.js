@@ -53,7 +53,6 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
       }));
     }
 
-
     setState((prevState) => ({
       ...prevState,
       code,
@@ -243,7 +242,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
                 <p className='headline'>
                   Explore the OL fundamentals, one by one
                   </p>
-                <p className='text'>
+                <div className='text'>
                   Are you new to Ocean Literacy, or need a refresher?
                   <br></br>
                   In the LEARN mode the Compass lets you familiarize with each OL Principle, Perspective and Dimension, with basic definitions, additional information and hints for reflection.
@@ -259,7 +258,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
                     </svg>
                   ).
                   </p>
-                </p>
+                </div>
               </div>
             </>
           )}

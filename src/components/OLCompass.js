@@ -24,7 +24,7 @@ const getCenter = (action) => {
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents }) => {
+const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick }) => {
     const center = getCenter(action);
 
     // Dictionary with all information
@@ -97,7 +97,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
         
-        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired")
+        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired-carousel")
             return;
         
         else if(action === "learn") {
@@ -112,12 +112,17 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             if (onButtonClick) {
                 onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type, correspondingConcepts);
             }
-        } else if(action === "analyze" || action === "ideate") {
+        } else if(action === "get-inspired" || action === "analyze" || action === "ideate") {
             setClickedIds(prevClickedIds => 
                 prevClickedIds.includes(id)
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
                 : [...prevClickedIds, id] // Add ID if not already clicked
             );
+
+            if(action === "get-inspired") {
+                if(onButtonClick)
+                    onButtonClick();
+            }
         } 
         
         if(action === "ideate") {
@@ -151,7 +156,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     };
 
     const handleMouseEnter = (e) => {
-        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired")
+        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired-carousel")
             return;
 
         const stage = e.target.getStage();
@@ -179,7 +184,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
     const handleMouseLeave = (e) => {
         //const isInside = isInsideRef.current;
-        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired")
+        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired-carousel")
             return;
         else if(action === "ideate" && !isInside) 
             return;
@@ -209,13 +214,13 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
                 if(resetState)
                     resetState();
-        } else if (e.key === 'Enter' && action === "analyze") {
-            if (onButtonClick) {
+        } else if (e.key === 'Enter' && (action === "analyze" || action === "get-inspired")) {
+            if (onEnterClick) {
                 let codes = clickedIdsRef.current.map(id => components[id].Code);
-                onButtonClick(codes);
+                onEnterClick(codes);
             }
         }
-    }, [resetState, action, components, onButtonClick]);
+    }, [resetState, action, components, onEnterClick]);
     
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -606,7 +611,7 @@ const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action
     } else if (action === "initial-4")
         return 1
 
-    if(action ===  "get-inspired") {
+    if(action ===  "get-inspired-carousel") {
         if(selectedComponents.includes(component.Code) || selectedComponents.length === 0)
             return 1;
         else

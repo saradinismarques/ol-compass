@@ -56,18 +56,30 @@ export function getConceptsData() {
     }
 }
 
-export function getCaseStudies() {
+export function getCaseStudies(labels) {
     try {
-        // Process the JSON data
-        const result = caseStudies.map(item => ({
-            Title: item["#title"],
-            ShortDescription: item["#short-description"],
-            Credits: item["#credits"],
+        // Function to extract components and return the case study object
+        const processCaseStudy = (item) => ({
+            Title: item["Title"],
+            ShortDescription: item["Description"],
+            Credits: item["Author, Country"],
             Source: item["#SOURCE [link]"],
-            Components: Object.keys(item).filter(key => !key.startsWith('#') && item[key] === 'y') // Get the components again for the result
-        }));
+            Components: Object.keys(item).filter(key => item[key] === 'Y')
+        });
 
-        return result;
+        // Process the JSON data
+        let filteredCaseStudies = caseStudies;
+
+        // If labels are provided, filter the case studies
+        if (labels !== null) {
+            filteredCaseStudies = caseStudies.filter(item => {
+                const components = Object.keys(item).filter(key => item[key] === 'Y');
+                return labels.every(label => components.includes(label));
+            });
+        }
+
+        // Map the case studies to the desired format
+        return filteredCaseStudies.map(processCaseStudy);
     } catch (error) {
         console.error("Error processing JSON:", error);
         throw error;

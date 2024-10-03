@@ -14,18 +14,33 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
     showMore: false,
     initialState: true,
     firstClick: true,
-    showMessage: false
+    showMessage: false,
   }), []);
 
   const [state, setState] = useState(initialState);
   const [caseStudies, setCaseStudies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [carouselMode, setCarouselMode] = useState(true);
+  const [action, setAction] = useState('get-inspired');
+  const carouselModeRef = useRef(carouselMode);
+  const actionRef = useRef(action);
 
-  // Reference for the specific container where clicks will be registered
-  const clickableAreaRef = useRef(null);
+  useEffect(() => {
+    carouselModeRef.current = carouselMode;
+}, [carouselMode]);
+
+useEffect(() => {
+  actionRef.current = action;
+}, [action]);
 
   const resetState = useCallback(() => {
     setState(initialState);
+    setCarouselMode(true);
+    carouselModeRef.current = true;
+
+    setAction('get-inspired');
+    actionRef.current = 'get-inspired';
+
   }, [initialState]);
 
   // Wrap getBookmarkState in useCallback
@@ -33,39 +48,30 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
     return savedCaseStudies.length !== 0 && savedCaseStudies.includes(title);
   }, [savedCaseStudies]);
 
+  const handleCompassClick = () => {
+    if(state.firstClick) {
+      setState((prevState) => ({
+        ...prevState,
+        firstClick: false,
+        showMessage: true
+      }));
+    }
 
-  // const handleClick = useCallback(() => {
-  //   if(state.firstClick) {
-  //     setState((prevState) => ({
-  //       ...prevState,
-  //       firstClick: false,
-  //       showMessage: true,
-  //     }));
-  //   }
+    setCarouselMode(false);
+    carouselModeRef.current = false;
 
-  //   if (!state.initialState) return;
+    setAction('get-inspired');
+    actionRef.current = 'get-inspired';
+    
+  };
 
-  //   const fetchedCaseStudies = getCaseStudies();
-  //   setCaseStudies(fetchedCaseStudies);
-
-  //   if (fetchedCaseStudies.length > 0) {
-  //     setState((prevState) => ({
-  //       ...prevState,
-  //       title: fetchedCaseStudies[0].Title,
-  //       shortDescription: fetchedCaseStudies[0].ShortDescription,
-  //       credits: fetchedCaseStudies[0].Credits,
-  //       components: fetchedCaseStudies[0].Components,
-  //       showMore: false,
-  //       bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
-  //       initialState: false,
-  //     }));
-  //     setCurrentIndex(0); // Reset to first case study
-  //   }
-
-  // }, [state.initialState, state.firstClick, getBookmarkState]);
-
-  const handleKeyDown = useCallback((e) => {
+  const carouselHandleEnterClick = useCallback((e) => {
     if(e.key !== 'Enter') return;
+
+    if(!carouselModeRef.current) return;
+
+    setCarouselMode(true);
+    carouselModeRef.current = true;
 
     if(state.firstClick) {
       setState((prevState) => ({
@@ -77,7 +83,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
 
     if (!state.initialState) return;
 
-    const fetchedCaseStudies = getCaseStudies();
+    const fetchedCaseStudies = getCaseStudies(null);
     setCaseStudies(fetchedCaseStudies);
 
     if (fetchedCaseStudies.length > 0) {
@@ -94,37 +100,47 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
       setCurrentIndex(0); // Reset to first case study
     }
 
+    setAction('get-inspired-carousel');
+    actionRef.current = 'get-inspired-carousel';
+
   }, [state.initialState, state.firstClick, getBookmarkState]);
 
-
-  // useEffect(() => {
-  //   // Attach the click event listener to the specific area instead of the entire window
-  //   const clickableArea = clickableAreaRef.current;
-  //   if (clickableArea) {
-  //     clickableArea.addEventListener('click', handleClick);
-  //   }
-  //   // Cleanup function to remove the event listener when the component unmounts
-  //   return () => {
-  //     if (clickableArea) {
-  //       clickableArea.removeEventListener('click', handleClick);
-  //     } 
-  //   };
-  // }, [handleClick]);
-
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', carouselHandleEnterClick);
     return () => {
-        window.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('keydown', carouselHandleEnterClick);
     };
-}, [handleKeyDown]); // Dependency array includes handleKeyDown
+}, [carouselHandleEnterClick]); // Dependency array includes carouselHandleEnterClick
 
+const defaultHandleEnterClick = (components) => {
+  if(carouselModeRef.current) return;
 
-  // const toggleShowMore = () => {
-  //   setState((prevState) => ({
-  //     ...prevState,
-  //     showMore: !prevState.showMore,
-  //   }));
-  // };
+  const fetchedCaseStudies = getCaseStudies(components);
+  setCaseStudies(fetchedCaseStudies);
+  console.log(fetchedCaseStudies);
+
+  if (fetchedCaseStudies.length > 0) {
+    setState((prevState) => ({
+      ...prevState,
+      title: fetchedCaseStudies[0].Title,
+      shortDescription: fetchedCaseStudies[0].ShortDescription,
+      credits: fetchedCaseStudies[0].Credits,
+      components: fetchedCaseStudies[0].Components,
+      showMore: false,
+      bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
+      initialState: false,
+    }));
+    setCurrentIndex(0); // Reset to first case study
+  }
+
+  if (fetchedCaseStudies.length === 0) {
+    setState((prevState) => ({
+      ...prevState,
+      title: "No cases found with those filters",
+      initialState: false,
+    }));
+  }
+};
 
   const handleNext = () => {
     if (currentIndex < caseStudies.length - 1) {
@@ -194,11 +210,13 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
 
   return (
     <div>
-    <div className={`${state.showMessage ? "blur-background" : ""}`} ref={clickableAreaRef}>
+    <div className={`${state.showMessage ? "blur-background" : ""}`}>
       <OLCompass 
         colors={colors} 
-        action="get-inspired" 
+        action={action}
         resetState={resetState} // Passing resetState to OLCompass
+        onEnterClick={defaultHandleEnterClick} 
+        onButtonClick={handleCompassClick}
         selectedComponents={state.components}
       />
       {state.initialState && (
@@ -210,7 +228,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
             <p className='headline'>
               Browse inspiring application cases
             </p>
-            <p className='text'>
+            <div className='text'>
               You get OL theory, yet wonder how it works in practice?
               <br></br>
               In the GET INSPIRED mode the Compass gives you access to a variety of OL resources and initiatives, explained in terms of Principles, Perspectives and Dimensions addressed.
@@ -227,7 +245,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
               ) as you like and press 'Enter' to filter examples.
               To see a carousel of popular OL examples just press 'Enter'.       
               </p>
-            </p>
+            </div>
 
           </div>
         </>
@@ -305,7 +323,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
       )}    
       <Menu />
     </div>
-    {!state.initialState && state.showMessage && (
+    {((!state.initialState && carouselMode) || !carouselMode) && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 290 }}>
         <div className="question-circle">

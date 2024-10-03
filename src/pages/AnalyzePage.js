@@ -262,14 +262,14 @@ const AnalyzePage = ({colors}) => {
             <p className='headline'>
               Understand and share your own OL practice
             </p>
-            <p className='text'>
+            <div className='text'>
               You want to make sense of an OL resource/experience you developed?
               <br></br>
               In the ANALYSE mode the Compass provides you with a structured way to see and record your own OL contents or initiatives, for future personal or public use.
               <p className='instruction'>
                 Press 'Enter' to start the analysis.
               </p>
-            </p>
+            </div>
             
             <div className="not-available-container">
                 <svg 

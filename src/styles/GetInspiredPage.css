@@ -12,7 +12,7 @@
 .gi-card-container {
     width: 300px;
     height: 400px;
-    padding: 15px;
+    padding: 20px;
     padding-left: 20px;
     padding-right: 20px;
     border-radius: 20px;
@@ -25,6 +25,7 @@
     font-weight: 500;
     margin-top: 0px;
     color: white;
+    max-width: 270px;
 }
 
 .gi-description {
@@ -38,7 +39,7 @@
     font-size: 0.9em;
     font-weight: 200;
     position: absolute;  /* Absolute positioning within the container */
-    bottom: 50px;        
+    bottom: 20px;        
     color: white;
 }
 
