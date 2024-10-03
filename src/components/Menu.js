@@ -29,18 +29,14 @@ const Menu = () => {
         return 'learn';
       case '/ol-compass/get-inspired':
         return 'get-inspired';
-      case '/ol-compass/contextualize':
-        return 'contextualize';
       case '/ol-compass/analyze':
         return 'analyze';
+      case '/ol-compass/contextualize':
+        return 'contextualize';
       case '/ol-compass/ideate':
         return 'ideate';
       case '/ol-compass/compare':
         return 'compare';
-      case '/ol-compass/evaluate':
-        return 'evaluate';
-      case '/ol-compass/make-yours':
-        return 'make-yours';
       default:
         return null;
     }
@@ -100,24 +96,6 @@ const Menu = () => {
       <button onClick={toggleShowMore} className="menu-show-more-button">
         {showMore ? 'Show less' : 'Show more'}
       </button>
-      {/* <Link
-        to="/ol-compass/evaluate"
-        className={`menu-button ${activeButton === 'evaluate' ? 'active' : 'disabled'}`}
-      >
-        EVALUATE
-      </Link> */}
-      {/* <Link
-        to="/ol-compass/make-yours"
-        className={`menu-button ${activeButton === 'make-yours' ? 'active' : 'disabled'}`}
-      >
-        MAKE YOURS
-      </Link> */}
-      {/* <Link
-        to="/some-other-path"
-        className={`menu-button ${activeButton === 'plus' ? 'active' : 'disabled'}`}
-      >
-        +
-      </Link> */}
     </div>
   );
 };
