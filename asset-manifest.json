@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ol-compass/static/css/main.b9c5e8cf.css",
-    "main.js": "/ol-compass/static/js/main.05eb20bc.js",
+    "main.js": "/ol-compass/static/js/main.5bf62702.js",
     "static/media/P3.png": "/ol-compass/static/media/P3.9f6df0d91bc7c82c1660.png",
     "static/media/P5.png": "/ol-compass/static/media/P5.c3ebdd793393cb08c731.png",
     "static/media/P6.png": "/ol-compass/static/media/P6.50d72ad2c01dea5cfe02.png",
@@ -9,12 +9,18 @@
     "static/media/P1.png": "/ol-compass/static/media/P1.f9d3402bb12558b85eae.png",
     "static/media/P7.png": "/ol-compass/static/media/P7.5c4ef21a78ff3bc7907c.png",
     "static/media/P4.png": "/ol-compass/static/media/P4.e41658274422967c81c6.png",
+    "static/media/question-icon.svg": "/ol-compass/static/media/question-icon.975f233fd21e0830e30a3fa74936ae8b.svg",
     "index.html": "/ol-compass/index.html",
+    "static/media/bookmark-icon.svg": "/ol-compass/static/media/bookmark-icon.7b9fd6141d9a017a673164ace104230d.svg",
+    "static/media/bookmark-filled-icon.svg": "/ol-compass/static/media/bookmark-filled-icon.9a12790c2bf1c7b827062c46c2bec3f4.svg",
+    "static/media/lock-icon.svg": "/ol-compass/static/media/lock-icon.b5a2e0fee8499941ec93fcf0f397bfe6.svg",
+    "static/media/arrow-icon.svg": "/ol-compass/static/media/arrow-icon.1f5acd6d92eb94971900eff54a74df42.svg",
+    "static/media/wave-icon.svg": "/ol-compass/static/media/wave-icon.55c898635b3f0b77022c6668633ff66f.svg",
     "main.b9c5e8cf.css.map": "/ol-compass/static/css/main.b9c5e8cf.css.map",
-    "main.05eb20bc.js.map": "/ol-compass/static/js/main.05eb20bc.js.map"
+    "main.5bf62702.js.map": "/ol-compass/static/js/main.5bf62702.js.map"
   },
   "entrypoints": [
     "static/css/main.b9c5e8cf.css",
-    "static/js/main.05eb20bc.js"
+    "static/js/main.5bf62702.js"
   ]
 }
