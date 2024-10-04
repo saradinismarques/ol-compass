@@ -458,22 +458,6 @@ function drawWaveButton(component, action, context, shape) {
     context.fillStrokeShape(shape);
 
     drawText(component, action, context);
-    
-    // Check if this component has been saved (exists in savedComponents)
-  //  if(action === "learn" && !initialState && savedComponents.includes(component.Code)) {    
-        // Draw a circle around the component or at its position
-        // context.beginPath();
-        // context.arc(-halfWidth+20, 0, 6, 0, 2 * Math.PI);  // Adjust the radius (30) as needed
-        // context.fillStyle = '#b93179';  // Color of the circle (can adjust)
-        // context.fill();  
-
-    //     context.beginPath();
-    //     context.moveTo(26, 1.25); // Start point
-    //     // Add the rest of the path commands based on the SVG path data
-    //     const path = new Path2D("M26 1.25h-20c-0.414 0-0.75 0.336-0.75 0.75v0 28.178c0 0 0 0 0 0.001 0 0.414 0.336 0.749 0.749 0.749 0.181 0 0.347-0.064 0.476-0.171l-0.001 0.001 9.53-7.793 9.526 7.621c0.127 0.102 0.29 0.164 0.468 0.164 0.414 0 0.75-0.336 0.751-0.75v-28c-0-0.414-0.336-0.75-0.75-0.75v0z");
-    //     context.fill(path);
-    //     context.strokeShape(shape);
-    // }
 }
 
 
@@ -503,15 +487,22 @@ const drawBookmarkFilled = (component, context, shape, action, savedComponents, 
         if(component.Type !== "Principle") 
             context.rotate(angle);
 
-        context.translate(- width/2.9, height/7); // Start point
+        if(component.Type === "Principle")
+            context.translate(width/2.3, -1.56*height); // Start point
+        else if(component.Type === "Perspective")
+            context.translate(width/20, -2.49*height); // Start point
+        else if(component.Type === "Dimension")
+            context.translate(width/8, -2.19*height); // Start point
+        
         context.rotate(-rotation+ Math.PI/2);
 
-        const scaleX = 0.5; // Scale factor for width (1.5 means 150% size)
-        const scaleY = 0.5; // Scale factor for height (1.5 means 150% size)
+        const scaleX = 1; // Scale factor for width (1.5 means 150% size)
+        const scaleY = 1; // Scale factor for height (1.5 means 150% size)
         context.scale(scaleX, scaleY); // Scale the context
     
         // Add the rest of the path commands based on the SVG path data
-        const path = new Path2D("M26 1.25h-20c-0.414 0-0.75 0.336-0.75 0.75v0 28.178c0 0 0 0 0 0.001 0 0.414 0.336 0.749 0.749 0.749 0.181 0 0.347-0.064 0.476-0.171l-0.001 0.001 9.53-7.793 9.526 7.621c0.127 0.102 0.29 0.164 0.468 0.164 0.414 0 0.75-0.336 0.751-0.75v-28c-0-0.414-0.336-0.75-0.75-0.75v0z");
+        const path = new Path2D("m16.61,187.76c-1.55,1.27-3.06,2.51-4.57,3.74-.32.26-.61.55-.95.77-.18.11-.47.19-.65.12-.14-.05-.24-.36-.25-.55-.02-1.13-.01-2.27-.01-3.4,0-3.73,0-7.47,0-11.2,0-.84.08-.91.93-.91,3.68,0,7.36,0,11.04,0,.79,0,.88.09.88.91,0,4.79,0,9.59-.01,14.38,0,.28-.18.55-.28.83-.26-.1-.57-.14-.77-.31-1.78-1.43-3.54-2.88-5.36-4.37Z");
+        //const path = new Path2D("M26 1.25h-20c-0.414 0-0.75 0.336-0.75 0.75v0 28.178c0 0 0 0 0 0.001 0 0.414 0.336 0.749 0.749 0.749 0.181 0 0.347-0.064 0.476-0.171l-0.001 0.001 9.53-7.793 9.526 7.621c0.127 0.102 0.29 0.164 0.468 0.164 0.414 0 0.75-0.336 0.751-0.75v-28c-0-0.414-0.336-0.75-0.75-0.75v0z");
         context.fillStyle = "#da398f";
         context.fill(path);
         context.closePath();

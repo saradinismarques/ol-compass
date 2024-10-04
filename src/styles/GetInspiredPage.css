@@ -1,7 +1,7 @@
 /* Style for text-container */
 .gi-text-container {
     position: absolute;
-    top: 18%; /* Position item 50% from the top */
+    top: 11%; /* Position item 50% from the top */
     left: 63%; /* Position item 50% from the left */
     max-width: 280px;
     display: flex;
@@ -44,7 +44,7 @@
 }
 
 .gi-results {
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     font-weight: 200;
 }
 

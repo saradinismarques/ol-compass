@@ -28,6 +28,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [carouselMode, setCarouselMode] = useState(true);
   const [action, setAction] = useState('get-inspired');
+  const [resultsNumber, setResultsNumber] = useState(0);
   const carouselModeRef = useRef(carouselMode);
   const actionRef = useRef(action);
 
@@ -91,6 +92,7 @@ useEffect(() => {
 
     const fetchedCaseStudies = getCaseStudies(null);
     setCaseStudies(fetchedCaseStudies);
+    setResultsNumber(fetchedCaseStudies.length);
 
     if (fetchedCaseStudies.length > 0) {
       setState((prevState) => ({
@@ -123,7 +125,7 @@ const defaultHandleEnterClick = (components) => {
 
   const fetchedCaseStudies = getCaseStudies(components);
   setCaseStudies(fetchedCaseStudies);
-  console.log(fetchedCaseStudies);
+  setResultsNumber(fetchedCaseStudies.length);
 
   if (fetchedCaseStudies.length > 0) {
     setState((prevState) => ({
@@ -264,10 +266,9 @@ const defaultHandleEnterClick = (components) => {
       {!state.initialState && (
         <>
           <div className='gi-text-container'>
-            {/* <p className='gi-results'>
-                <span className='bold-text'>16 </span>
-                results | Relevance
-            </p> */}
+            <p className='gi-results'>
+                <span className='bold-text'>{resultsNumber}</span> results 
+            </p> 
             <div className="gi-card-container">
               <button onClick={toggleBookmark} className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}>
                 <BookmarkIcon 
@@ -278,9 +279,6 @@ const defaultHandleEnterClick = (components) => {
               <h1 className="gi-title">{state.title}</h1>
               <p className="gi-description">{state.shortDescription}</p>
               <p className="gi-credits">{state.credits}</p>
-              {/* <button onClick={toggleShowMore} className="gi-show-more-button">
-                  {state.showMore ? 'Show less' : 'Show more'}
-              </button> */}
 
               {/* Navigation Arrows */}
               {currentIndex > 0 && (
@@ -314,7 +312,7 @@ const defaultHandleEnterClick = (components) => {
             />
           </div>
         <p className="message-text">
-          By default, the search includes results that contain either of the
+          By default, the search includes resultsNumber that contain either of the
           <WaveIcon 
             className='message-icon'
           /> 
