@@ -110,7 +110,7 @@
     background-color: transparent;
     border: 2px solid transparent; /* Set initial border to transparent */
     position: absolute;
-    top: 47%;
+    top: 51%;
     cursor: pointer;
     display: flex;
     align-items: center;

@@ -25,6 +25,17 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
     setState(initialState);
   }, [initialState]);
 
+  const handleCompassClick = () => {
+    if(state.firstClick) {
+      setState((prevState) => ({
+        ...prevState,
+        firstClick: false,
+        showMessage: true,
+        initialState: false
+      }));
+    }
+  };
+
   const handleKeyDown = useCallback((e) => {
     //for the initial state
     if(e.key !== 'Enter') return;
@@ -108,6 +119,7 @@ const handleSubmitClick = () => {
 const handleEnterClick = (components) => {
   // for the rest of the interaction
   // Process the case study data from the state
+  if (state.initialState) return;
 
   const newCaseStudy = {
     Title: state.title,
@@ -166,6 +178,7 @@ const handleEnterClick = (components) => {
         resetCompass={resetCompass}
         onSubmitClick={handleDataFromOLCompass}
         fetchData={fetchData} 
+        onButtonClick={handleCompassClick}
       />
         {state.initialState && (
         <>

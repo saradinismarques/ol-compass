@@ -138,7 +138,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                 : [...prevClickedIds, id] // Add ID if not already clicked
             );
 
-            if(action === "get-inspired") {
+            if(action === "get-inspired" || action ==="analyze") {
                 if(onButtonClick)
                     onButtonClick();
             }
