@@ -24,7 +24,7 @@ const getCenter = (action) => {
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick }) => {
+const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSubmitClick, fetchData }) => {
     const center = getCenter(action);
 
     // Dictionary with all information
@@ -93,6 +93,28 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     useEffect(() => {
         isInsideRef.current = isInside;
     }, [isInside]);
+
+    // Effect to handle reset
+    useEffect(() => {
+        if (resetCompass) {
+        // Clear the selected buttons or reset the state
+            setClickedIds([]);
+            setHoveredId(null);
+            setCurrentLine([]);
+            setCurrentLineIds([]);
+            setInitialState(true);
+        }
+    }, [resetCompass]);
+
+    useEffect(() => {
+        console.log("on submit click!!");
+        if (fetchData) {
+
+            let codes = clickedIdsRef.current.map(id => components[id].Code);
+            console.log(codes);
+            onSubmitClick(codes);
+        }
+    }, [fetchData, onSubmitClick]);
 
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
@@ -206,15 +228,16 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     // Memoize handleKeyDown to avoid creating a new reference on each render
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'Escape') {
-                setClickedIds([]);
-                setHoveredId(null);
-                setCurrentLine([]);
-                setCurrentLineIds([]);
-                setInitialState(true);
+            setClickedIds([]);
+            setHoveredId(null);
+            setCurrentLine([]);
+            setCurrentLineIds([]);
+            setInitialState(true);
 
-                if(resetState)
-                    resetState();
+            if(resetState)
+                resetState();
         } else if (e.key === 'Enter' && (action === "analyze" || action === "get-inspired")) {
+            console.log("ENTER");
             if (onEnterClick) {
                 let codes = clickedIdsRef.current.map(id => components[id].Code);
                 onEnterClick(codes);
@@ -502,7 +525,6 @@ const drawBookmarkFilled = (component, context, shape, action, savedComponents, 
     
         // Add the rest of the path commands based on the SVG path data
         const path = new Path2D("m16.61,187.76c-1.55,1.27-3.06,2.51-4.57,3.74-.32.26-.61.55-.95.77-.18.11-.47.19-.65.12-.14-.05-.24-.36-.25-.55-.02-1.13-.01-2.27-.01-3.4,0-3.73,0-7.47,0-11.2,0-.84.08-.91.93-.91,3.68,0,7.36,0,11.04,0,.79,0,.88.09.88.91,0,4.79,0,9.59-.01,14.38,0,.28-.18.55-.28.83-.26-.1-.57-.14-.77-.31-1.78-1.43-3.54-2.88-5.36-4.37Z");
-        //const path = new Path2D("M26 1.25h-20c-0.414 0-0.75 0.336-0.75 0.75v0 28.178c0 0 0 0 0 0.001 0 0.414 0.336 0.749 0.749 0.749 0.181 0 0.347-0.064 0.476-0.171l-0.001 0.001 9.53-7.793 9.526 7.621c0.127 0.102 0.29 0.164 0.468 0.164 0.414 0 0.75-0.336 0.751-0.75v-28c-0-0.414-0.336-0.75-0.75-0.75v0z");
         context.fillStyle = "#da398f";
         context.fill(path);
         context.closePath();

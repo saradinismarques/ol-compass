@@ -34,11 +34,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
 
   useEffect(() => {
     carouselModeRef.current = carouselMode;
-}, [carouselMode]);
+  }, [carouselMode]);
 
-useEffect(() => {
-  actionRef.current = action;
-}, [action]);
+  useEffect(() => {
+    actionRef.current = action;
+  }, [action]);
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -69,8 +69,37 @@ useEffect(() => {
 
     setAction('get-inspired');
     actionRef.current = 'get-inspired';
-    
   };
+
+  const searchCaseStudies = (components) => {
+    const fetchedCaseStudies = getCaseStudies(components);
+    setCaseStudies(fetchedCaseStudies);
+    setResultsNumber(fetchedCaseStudies.length);
+
+    if (fetchedCaseStudies.length > 0) {
+      setState((prevState) => ({
+        ...prevState,
+        title: fetchedCaseStudies[0].Title,
+        shortDescription: fetchedCaseStudies[0].ShortDescription,
+        credits: fetchedCaseStudies[0].Credits,
+        components: fetchedCaseStudies[0].Components,
+        showMore: false,
+        bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
+        initialState: false,
+      }));
+      setCurrentIndex(0); // Reset to first case study
+    }
+
+    if (fetchedCaseStudies.length === 0) {
+      setState((prevState) => ({
+        ...prevState,
+        title: "No cases found with those filters",
+        shortDescription: '',
+        credits: '',
+        initialState: false,
+      }));
+    }
+  }
 
   const carouselHandleEnterClick = useCallback((e) => {
     if(e.key !== 'Enter') return;
@@ -90,23 +119,7 @@ useEffect(() => {
 
     if (!state.initialState) return;
 
-    const fetchedCaseStudies = getCaseStudies(null);
-    setCaseStudies(fetchedCaseStudies);
-    setResultsNumber(fetchedCaseStudies.length);
-
-    if (fetchedCaseStudies.length > 0) {
-      setState((prevState) => ({
-        ...prevState,
-        title: fetchedCaseStudies[0].Title,
-        shortDescription: fetchedCaseStudies[0].ShortDescription,
-        credits: fetchedCaseStudies[0].Credits,
-        components: fetchedCaseStudies[0].Components,
-        showMore: false,
-        bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
-        initialState: false,
-      }));
-      setCurrentIndex(0); // Reset to first case study
-    }
+    searchCaseStudies(null);
 
     setAction('get-inspired-carousel');
     actionRef.current = 'get-inspired-carousel';
@@ -123,31 +136,8 @@ useEffect(() => {
 const defaultHandleEnterClick = (components) => {
   if(carouselModeRef.current) return;
 
-  const fetchedCaseStudies = getCaseStudies(components);
-  setCaseStudies(fetchedCaseStudies);
-  setResultsNumber(fetchedCaseStudies.length);
-
-  if (fetchedCaseStudies.length > 0) {
-    setState((prevState) => ({
-      ...prevState,
-      title: fetchedCaseStudies[0].Title,
-      shortDescription: fetchedCaseStudies[0].ShortDescription,
-      credits: fetchedCaseStudies[0].Credits,
-      components: fetchedCaseStudies[0].Components,
-      showMore: false,
-      bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
-      initialState: false,
-    }));
-    setCurrentIndex(0); // Reset to first case study
-  }
-
-  if (fetchedCaseStudies.length === 0) {
-    setState((prevState) => ({
-      ...prevState,
-      title: "No cases found with those filters",
-      initialState: false,
-    }));
-  }
+  searchCaseStudies(components);
+  
 };
 
   const handleNext = () => {
