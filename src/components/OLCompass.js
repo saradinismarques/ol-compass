@@ -111,7 +111,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             let codes = clickedIdsRef.current.map(id => components[id].Code);
             onSubmitClick(codes);
         }
-    }, [fetchData, onSubmitClick]);
+    }, [fetchData, onSubmitClick, components]);
 
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
@@ -234,7 +234,6 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             if(resetState)
                 resetState();
         } else if (e.key === 'Enter' && (action === "analyze" || action === "get-inspired")) {
-            console.log("ENTER");
             if (onEnterClick) {
                 let codes = clickedIdsRef.current.map(id => components[id].Code);
                 onEnterClick(codes);

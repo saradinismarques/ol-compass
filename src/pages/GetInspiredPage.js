@@ -71,7 +71,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     actionRef.current = 'get-inspired';
   };
 
-  const searchCaseStudies = (components) => {
+  const searchCaseStudies = useCallback((components) => {
     const fetchedCaseStudies = getCaseStudies(components);
     // Concatenate the fetched case studies with newCaseStudies
     const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
@@ -101,7 +101,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         initialState: false,
       }));
     }
-  }
+  }, [newCaseStudies, getBookmarkState]);
 
   const carouselHandleEnterClick = useCallback((e) => {
     if(e.key !== 'Enter') return;
@@ -126,7 +126,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setAction('get-inspired-carousel');
     actionRef.current = 'get-inspired-carousel';
 
-  }, [state.initialState, state.firstClick, getBookmarkState]);
+  }, [state.initialState, state.firstClick, searchCaseStudies ]);
 
   useEffect(() => {
     window.addEventListener('keydown', carouselHandleEnterClick);
