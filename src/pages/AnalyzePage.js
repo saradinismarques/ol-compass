@@ -19,7 +19,6 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
 
   const [state, setState] = useState(initialState);
   const [resetCompass, setResetCompass] = useState(false);
-  const [compassData, setCompassData] = useState(null);
   const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
 
   const resetState = useCallback(() => {
@@ -54,6 +53,10 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
     };
 }, [handleKeyDown]);
 
+useEffect(() => {
+  console.log(newCaseStudies);
+}, [newCaseStudies]);
+
 
 const handleInputChange = (e) => {
   const { name, value } = e.target;
@@ -66,20 +69,50 @@ const handleInputChange = (e) => {
 
 // Callback function to receive data from OLCompass
 const handleDataFromOLCompass  = useCallback((data) => {
-  setCompassData(data);
-  console.log("Data from OLCompass:", data);
+  // for the rest of the interaction
+  // Process the case study data from the state
+  const newCaseStudy = {
+    Title: state.title,
+    ShortDescription: state.shortDescription,
+    Credits: state.credits,
+    Source: state.sources,
+    Components: data // assuming this is an array you will populate based on user input
+  };
 
+  // Update the newCaseStudies array with the new entry
+  setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
+  setState((prevState) => ({
+    ...prevState,
+    title: '',
+    shortDescription: '',
+    credits: '',
+    sources: '',
+    components: [],
+    initialState: false,
+    firstClick: false,
+    showMessage: false
+  }));
+  // Trigger OLCompass reset
+  setResetCompass(true);
+
+  // Set it back to false after the reset
+  setTimeout(() => {
+    setResetCompass(false);
+  }, 0);
 }, []); // Empty dependency array to ensure it doesn't change
 
-const handleSubmit = () => {
+const handleSubmitClick = () => {
   // You can now use compassData or perform any action with it
   setFetchData(true);
-  console.log("Data from OLCompass:", compassData);
+
+  // Set it back to false after the reset
+  setTimeout(() => {
+    setFetchData(false);
+  }, 0);
 };
 
 const handleEnterClick = (components) => {
   // for the rest of the interaction
-  console.log(components);
   // Process the case study data from the state
   const newCaseStudy = {
     Title: state.title,
@@ -91,7 +124,6 @@ const handleEnterClick = (components) => {
 
   // Update the newCaseStudies array with the new entry
   setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
-  console.log("resart");
   setState((prevState) => ({
     ...prevState,
     title: '',
@@ -227,7 +259,7 @@ const handleEnterClick = (components) => {
                 onChange={handleInputChange}
                 />
           </div>
-          <button className="a-preview-button" onClick={handleSubmit}>
+          <button className="a-preview-button" onClick={handleSubmitClick}>
             Submit
           </button>
         </div>

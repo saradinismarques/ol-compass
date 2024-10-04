@@ -10,7 +10,7 @@ import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; //
 import { ReactComponent as BookmarkFilledIcon } from '../assets/bookmark-filled-icon.svg'; // Adjust the path as necessary
 
 
-const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
+const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies }) => {
   const initialState = useMemo(() => ({
     title: '', 
     shortDescription: '',
@@ -73,24 +73,27 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies }) => {
 
   const searchCaseStudies = (components) => {
     const fetchedCaseStudies = getCaseStudies(components);
-    setCaseStudies(fetchedCaseStudies);
-    setResultsNumber(fetchedCaseStudies.length);
+    // Concatenate the fetched case studies with newCaseStudies
+    const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
+    
+    setCaseStudies(allCaseStudies);
+    setResultsNumber(allCaseStudies.length);
 
-    if (fetchedCaseStudies.length > 0) {
+    if (allCaseStudies.length > 0) {
       setState((prevState) => ({
         ...prevState,
-        title: fetchedCaseStudies[0].Title,
-        shortDescription: fetchedCaseStudies[0].ShortDescription,
-        credits: fetchedCaseStudies[0].Credits,
-        components: fetchedCaseStudies[0].Components,
+        title: allCaseStudies[0].Title,
+        shortDescription: allCaseStudies[0].ShortDescription,
+        credits: allCaseStudies[0].Credits,
+        components: allCaseStudies[0].Components,
         showMore: false,
-        bookmark: getBookmarkState(fetchedCaseStudies[0].Title),
+        bookmark: getBookmarkState(allCaseStudies[0].Title),
         initialState: false,
       }));
       setCurrentIndex(0); // Reset to first case study
     }
 
-    if (fetchedCaseStudies.length === 0) {
+    if (allCaseStudies.length === 0) {
       setState((prevState) => ({
         ...prevState,
         title: "No cases found with those filters",
@@ -137,7 +140,6 @@ const defaultHandleEnterClick = (components) => {
   if(carouselModeRef.current) return;
 
   searchCaseStudies(components);
-  
 };
 
   const handleNext = () => {

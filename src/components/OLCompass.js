@@ -107,11 +107,8 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     }, [resetCompass]);
 
     useEffect(() => {
-        console.log("on submit click!!");
         if (fetchData) {
-
             let codes = clickedIdsRef.current.map(id => components[id].Code);
-            console.log(codes);
             onSubmitClick(codes);
         }
     }, [fetchData, onSubmitClick]);
