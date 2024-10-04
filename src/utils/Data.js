@@ -63,7 +63,6 @@ export function getCaseStudies(labels) {
             Title: item["Title"],
             ShortDescription: item["Description"],
             Credits: item["Author, Country"],
-            Source: item["#SOURCE [link]"],
             Components: Object.keys(item).filter(key => item[key] === 'Y')
         });
 

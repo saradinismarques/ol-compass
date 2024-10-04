@@ -75,7 +75,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     const fetchedCaseStudies = getCaseStudies(components);
     // Concatenate the fetched case studies with newCaseStudies
     const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
-    
     setCaseStudies(allCaseStudies);
     setResultsNumber(allCaseStudies.length);
 

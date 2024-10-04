@@ -1,6 +1,6 @@
 .a-text-container {
     position: absolute;
-    top: 13%; /* Position item 50% from the top */
+    top: 16%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
     width: 320px;
     text-align: center;
@@ -94,7 +94,7 @@
     background-color: rgb(236, 234, 234);
 }
 
-.a-preview-button {
+.a-submit-button {
     font-family: 'Manrope', sans-serif;
     font-size: 1.05em;
     font-weight: 200;
@@ -104,6 +104,7 @@
     cursor: pointer;
     outline: none; /* Optional: Remove outline on focus */
     text-decoration: underline;
+    margin-top: 15px;
 }
 
 .a-preview-button:hover {

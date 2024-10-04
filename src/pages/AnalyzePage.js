@@ -10,7 +10,6 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
     title: '',
     shortDescription: '',
     credits: '',
-    sources: '',
     components: [], // Use an array to hold selected components
     initialState: true,
     firstClick: true,
@@ -20,7 +19,8 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
   const [state, setState] = useState(initialState);
   const [resetCompass, setResetCompass] = useState(false);
   const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
-
+  const [selectedComponents, setSelectedComponents] = useState([]);
+  
   const resetState = useCallback(() => {
     setState(initialState);
   }, [initialState]);
@@ -53,11 +53,6 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
     };
 }, [handleKeyDown]);
 
-useEffect(() => {
-  console.log(newCaseStudies);
-}, [newCaseStudies]);
-
-
 const handleInputChange = (e) => {
   const { name, value } = e.target;
 
@@ -69,14 +64,24 @@ const handleInputChange = (e) => {
 
 // Callback function to receive data from OLCompass
 const handleDataFromOLCompass  = useCallback((data) => {
-  // for the rest of the interaction
+  setSelectedComponents(data);
+}, []); // Empty dependency array to ensure it doesn't change
+
+const handleSubmitClick = () => {
+  // You can now use compassData or perform any action with it
+  setFetchData(true);
+
+  // Set it back to false after the reset
+  setTimeout(() => {
+    setFetchData(false);
+  }, 0);
+
   // Process the case study data from the state
   const newCaseStudy = {
     Title: state.title,
     ShortDescription: state.shortDescription,
     Credits: state.credits,
-    Source: state.sources,
-    Components: data // assuming this is an array you will populate based on user input
+    Components: selectedComponents // assuming this is an array you will populate based on user input
   };
 
   // Update the newCaseStudies array with the new entry
@@ -86,7 +91,6 @@ const handleDataFromOLCompass  = useCallback((data) => {
     title: '',
     shortDescription: '',
     credits: '',
-    sources: '',
     components: [],
     initialState: false,
     firstClick: false,
@@ -99,37 +103,27 @@ const handleDataFromOLCompass  = useCallback((data) => {
   setTimeout(() => {
     setResetCompass(false);
   }, 0);
-}, []); // Empty dependency array to ensure it doesn't change
-
-const handleSubmitClick = () => {
-  // You can now use compassData or perform any action with it
-  setFetchData(true);
-
-  // Set it back to false after the reset
-  setTimeout(() => {
-    setFetchData(false);
-  }, 0);
 };
 
 const handleEnterClick = (components) => {
   // for the rest of the interaction
   // Process the case study data from the state
+
   const newCaseStudy = {
     Title: state.title,
     ShortDescription: state.shortDescription,
     Credits: state.credits,
-    Source: state.sources,
     Components: components // assuming this is an array you will populate based on user input
   };
 
   // Update the newCaseStudies array with the new entry
   setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
+
   setState((prevState) => ({
     ...prevState,
     title: '',
     shortDescription: '',
     credits: '',
-    sources: '',
     components: [],
     initialState: false,
     firstClick: false,
@@ -249,17 +243,7 @@ const handleEnterClick = (components) => {
                 onChange={handleInputChange}
                 />
           </div>
-          <div className="a-insert-sources">
-              <input 
-                name="sources"
-                type="text" 
-                className="a-placeholder" 
-                placeholder="Insert Sources" 
-                value={state.sources}
-                onChange={handleInputChange}
-                />
-          </div>
-          <button className="a-preview-button" onClick={handleSubmitClick}>
+          <button className="a-submit-button" onClick={handleSubmitClick}>
             Submit
           </button>
         </div>
