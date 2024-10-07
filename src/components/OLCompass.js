@@ -5,7 +5,8 @@ import { getPrinciplesData, getPerspectivesData, getDimensionsData, getConceptsD
 import Lines from '../components/Lines';
 
 // Sizes and positions 
-const size = window.innerHeight / 1.59;
+const size = 460;
+console.log(window.innerHeight);
 const waveDims = {
     "Principle": { Width: size / 3.78, Height: size / 5.3, CornerRadius: size / 18 },
     "Perspective": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 },

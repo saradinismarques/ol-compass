@@ -56,100 +56,75 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
 
   }, [state.initialState, state.firstClick]);
 
-
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
         window.removeEventListener('keydown', handleKeyDown);
     };
-}, [handleKeyDown]);
+  }, [handleKeyDown]);
 
-const handleInputChange = (e) => {
-  const { name, value } = e.target;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-  setState((prevState) => ({
-    ...prevState,
-    [name]: value,
-  }));
-};
-
-// Callback function to receive data from OLCompass
-const handleDataFromOLCompass  = useCallback((data) => {
-  setSelectedComponents(data);
-}, []); // Empty dependency array to ensure it doesn't change
-
-const handleSubmitClick = () => {
-  // You can now use compassData or perform any action with it
-  setFetchData(true);
-
-  // Set it back to false after the reset
-  setTimeout(() => {
-    setFetchData(false);
-  }, 0);
-
-  // Process the case study data from the state
-  const newCaseStudy = {
-    Title: state.title,
-    ShortDescription: state.shortDescription,
-    Credits: state.credits,
-    Components: selectedComponents // assuming this is an array you will populate based on user input
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  // Update the newCaseStudies array with the new entry
-  setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
-  setState((prevState) => ({
-    ...prevState,
-    title: '',
-    shortDescription: '',
-    credits: '',
-    components: [],
-    initialState: false,
-    firstClick: false,
-    showMessage: false
-  }));
-  // Trigger OLCompass reset
-  setResetCompass(true);
+  const addNewCaseStudy = (components) => {
+    // Process the case study data from the state
+    const newCaseStudy = {
+      Title: state.title,
+      ShortDescription: state.shortDescription,
+      Credits: state.credits,
+      Components: components // assuming this is an array you will populate based on user input
+    };
 
-  // Set it back to false after the reset
-  setTimeout(() => {
-    setResetCompass(false);
-  }, 0);
-};
+    // Update the newCaseStudies array with the new entry
+    setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
+    setState((prevState) => ({
+      ...prevState,
+      title: '',
+      shortDescription: '',
+      credits: '',
+      components: [],
+      initialState: false,
+      firstClick: false,
+      showMessage: false
+    }));
+    // Trigger OLCompass reset
+    setResetCompass(true);
 
-const handleEnterClick = (components) => {
-  // for the rest of the interaction
-  // Process the case study data from the state
-  if (state.initialState) return;
+    // Set it back to false after the reset
+    setTimeout(() => {
+      setResetCompass(false);
+    }, 0);
+  }
+  // Callback function to receive data from OLCompass
+  const handleDataFromOLCompass  = useCallback((data) => {
+    setSelectedComponents(data);
+  }, []); // Empty dependency array to ensure it doesn't change
 
-  const newCaseStudy = {
-    Title: state.title,
-    ShortDescription: state.shortDescription,
-    Credits: state.credits,
-    Components: components // assuming this is an array you will populate based on user input
+  const handleSubmitClick = () => {
+    // You can now use compassData or perform any action with it
+    setFetchData(true);
+
+    // Set it back to false after the reset
+    setTimeout(() => {
+      setFetchData(false);
+    }, 0);
+
+   addNewCaseStudy(selectedComponents);
   };
 
-  // Update the newCaseStudies array with the new entry
-  setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
+  const handleEnterClick = (components) => {
+    // for the rest of the interaction
+    // Process the case study data from the state
+    if (state.initialState) return;
 
-  setState((prevState) => ({
-    ...prevState,
-    title: '',
-    shortDescription: '',
-    credits: '',
-    components: [],
-    initialState: false,
-    firstClick: false,
-    showMessage: false
-  }));
-
-  // Trigger OLCompass reset
-  setResetCompass(true);
-
-  // Set it back to false after the reset
-  setTimeout(() => {
-    setResetCompass(false);
-  }, 0);
-};
+    addNewCaseStudy(components);
+  };
 
 
   const showMessage = () => {
