@@ -624,7 +624,7 @@ const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action
         return 1
 
     if(action === "get-inspired-carousel" || action === "get-inspired-search") {
-        if(selectedComponents.includes(component.Code) || selectedComponents.length === 0)
+        if(selectedComponents.includes(component.Code))
             return 1;
         else
             return 0.4;

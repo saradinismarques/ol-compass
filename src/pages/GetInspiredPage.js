@@ -78,7 +78,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setCaseStudies(allCaseStudies);
     setResultsNumber(allCaseStudies.length);
 
-    console.log(newCaseStudies);
     if (allCaseStudies.length > 0) {
       setState((prevState) => ({
         ...prevState,

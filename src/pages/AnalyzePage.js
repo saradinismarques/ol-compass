@@ -4,7 +4,7 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
 
 
-const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
+const AnalyzePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage}) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -21,18 +21,17 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
   const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
 
   // Process the case study data from the state
-  const newCSInitial = {
+  const initialNewCS = {
     Title: '',
     ShortDescription: '',
     Credits: '',
     Components: [] // assuming this is an array you will populate based on user input
   };
 
-  const [newCS, setNewCS] = useState(newCSInitial);
+  const [newCS, setNewCS] = useState(initialNewCS);
   const newCSRef = useRef(newCS);
 
   useEffect(() => {
-   // console.log(newCS);
     newCSRef.current = newCS;
 }, [newCS]);
 
@@ -41,14 +40,18 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
   }, [initialState]);
 
   const handleCompassClick = () => {
-    if(state.firstClick) {
+    if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
         firstClick: false,
         showMessage: true,
-        initialState: false
       }));
     }
+
+    setState((prevState) => ({
+      ...prevState,
+      initialState: false
+    }));
   };
 
   const handleKeyDown = useCallback((e) => {
@@ -56,7 +59,7 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
     if(e.key !== 'Enter') return;
     if (!state.initialState) return;
 
-    if(state.firstClick) {
+    if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
         firstClick: false,
@@ -77,109 +80,91 @@ const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
     return () => {
         window.removeEventListener('keydown', handleKeyDown);
     };
-}, [handleKeyDown]);
+  }, [handleKeyDown]);
 
-const handleInputChange = (e) => {
-  const { name, value } = e.target;
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
 
-  setState((prevState) => ({
-    ...prevState,
-    [name]: value,
-  }));
-};
-
-// Callback function to receive data from OLCompass
-const handleDataFromOLCompass  = useCallback((data) => {
-  
-  const newCaseStudy = {
-    Title: newCSRef.current.Title,
-    ShortDescription: newCSRef.current.ShortDescription,
-    Credits: newCSRef.current.Credits,
-    Components: data // assuming this is an array you will populate based on user input
-  };
-
-// Update the newCaseStudies array with the new entry
-setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
-setState((prevState) => ({
-  ...prevState,
-  title: '',
-  shortDescription: '',
-  credits: '',
-  components: [],
-  initialState: false,
-  firstClick: false,
-  showMessage: false
-}));
-// Trigger OLCompass reset
-setResetCompass(true);
-
-// Set it back to false after the reset
-setTimeout(() => {
-  setResetCompass(false);
-}, 0);
-
-}, []); // Empty dependency array to ensure it doesn't change
-
-const handleSubmitClick = () => {
-  // You can now use compassData or perform any action with it
-  setFetchData(true);
-
-  // Set it back to false after the reset
-  setTimeout(() => {
-    setFetchData(false);
-  }, 0);
-
-  setNewCS((prevState) => {
-    const updatedState = {
+    setState((prevState) => ({
       ...prevState,
-      Title: state.title,
-    ShortDescription: state.shortDescription,
-    Credits: state.credits,
-    };
-  
-    newCSRef.current = updatedState; // Update the ref immediately with the new state value
-  
-    return updatedState;
-  });
-  
-  
-};
-
-const handleEnterClick = (components) => {
-  // for the rest of the interaction
-  // Process the case study data from the state
-  if (state.initialState) return;
-
-  const newCaseStudy = {
-    Title: state.title,
-    ShortDescription: state.shortDescription,
-    Credits: state.credits,
-    Components: components // assuming this is an array you will populate based on user input
+      [name]: value,
+    }));
   };
 
-  // Update the newCaseStudies array with the new entry
-  setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
+  const resetStateAndCompass = () => {
+    setState((prevState) => ({
+      ...prevState,
+      title: '',
+      shortDescription: '',
+      credits: '',
+      components: [],
+      initialState: false,
+      firstClick: false,
+      showMessage: false
+    }));
+    // Trigger OLCompass reset
+    setResetCompass(true);
 
-  setState((prevState) => ({
-    ...prevState,
-    title: '',
-    shortDescription: '',
-    credits: '',
-    components: [],
-    initialState: false,
-    firstClick: false,
-    showMessage: false
-  }));
+    // Set it back to false after the reset
+    setTimeout(() => {
+      setResetCompass(false);
+    }, 0);
+  }
 
-  // Trigger OLCompass reset
-  setResetCompass(true);
+  // Callback function to receive data from OLCompass
+  const handleDataFromOLCompass  = useCallback((data) => {
+    const newCaseStudy = {
+      Title: newCSRef.current.Title,
+      ShortDescription: newCSRef.current.ShortDescription,
+      Credits: newCSRef.current.Credits,
+      Components: data // assuming this is an array you will populate based on user input
+    };
 
-  // Set it back to false after the reset
-  setTimeout(() => {
-    setResetCompass(false);
-  }, 0);
-};
+    // Update the newCaseStudies array with the new entry
+    setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
 
+    resetStateAndCompass();
+  }, []); // Empty dependency array to ensure it doesn't change
+
+  const handleSubmitClick = () => {
+    // You can now use compassData or perform any action with it
+    setFetchData(true);
+
+    // Set it back to false after the reset
+    setTimeout(() => {
+      setFetchData(false);
+    }, 0);
+
+    setNewCS((prevState) => {
+      const updatedState = {
+        ...prevState,
+        Title: state.title,
+      ShortDescription: state.shortDescription,
+      Credits: state.credits,
+      };
+    
+      newCSRef.current = updatedState; // Update the ref immediately with the new state value
+      return updatedState;
+    });
+  };
+
+  const handleEnterClick = (components) => {
+    // for the rest of the interaction
+    // Process the case study data from the state
+    if (state.initialState) return;
+
+    const newCaseStudy = {
+      Title: state.title,
+      ShortDescription: state.shortDescription,
+      Credits: state.credits,
+      Components: components // assuming this is an array you will populate based on user input
+    };
+
+    // Update the newCaseStudies array with the new entry
+    setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
+
+    resetStateAndCompass();
+  };
 
   const showMessage = () => {
     setState((prevState) => ({
@@ -193,6 +178,13 @@ const handleEnterClick = (components) => {
       ...prevState,
       showMessage: false,
     }));
+
+    if(firstMessage) {
+      setFirstMessage((prevState) => ({
+        ...prevState,
+        analyze: false,
+      }));
+    }
   };
 
   return (
