@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ol-compass/static/css/main.1aa25746.css",
-    "main.js": "/ol-compass/static/js/main.90f67b53.js",
+    "main.css": "/ol-compass/static/css/main.8d915d71.css",
+    "main.js": "/ol-compass/static/js/main.306e6dd4.js",
     "static/media/P3.png": "/ol-compass/static/media/P3.9f6df0d91bc7c82c1660.png",
     "static/media/P5.png": "/ol-compass/static/media/P5.c3ebdd793393cb08c731.png",
     "static/media/P6.png": "/ol-compass/static/media/P6.50d72ad2c01dea5cfe02.png",
@@ -11,16 +11,16 @@
     "static/media/P4.png": "/ol-compass/static/media/P4.e41658274422967c81c6.png",
     "static/media/question-icon.svg": "/ol-compass/static/media/question-icon.975f233fd21e0830e30a3fa74936ae8b.svg",
     "index.html": "/ol-compass/index.html",
-    "static/media/bookmark-icon.svg": "/ol-compass/static/media/bookmark-icon.7b9fd6141d9a017a673164ace104230d.svg",
-    "static/media/bookmark-filled-icon.svg": "/ol-compass/static/media/bookmark-filled-icon.9a12790c2bf1c7b827062c46c2bec3f4.svg",
+    "static/media/bookmark-icon.svg": "/ol-compass/static/media/bookmark-icon.2948df7cd7639b5d83ed581fe23b25d7.svg",
     "static/media/lock-icon.svg": "/ol-compass/static/media/lock-icon.b5a2e0fee8499941ec93fcf0f397bfe6.svg",
+    "static/media/home-icon.svg": "/ol-compass/static/media/home-icon.cb675561ea1c7aa0883eb56cfbe048b5.svg",
     "static/media/arrow-icon.svg": "/ol-compass/static/media/arrow-icon.1f5acd6d92eb94971900eff54a74df42.svg",
     "static/media/wave-icon.svg": "/ol-compass/static/media/wave-icon.55c898635b3f0b77022c6668633ff66f.svg",
-    "main.1aa25746.css.map": "/ol-compass/static/css/main.1aa25746.css.map",
-    "main.90f67b53.js.map": "/ol-compass/static/js/main.90f67b53.js.map"
+    "main.8d915d71.css.map": "/ol-compass/static/css/main.8d915d71.css.map",
+    "main.306e6dd4.js.map": "/ol-compass/static/js/main.306e6dd4.js.map"
   },
   "entrypoints": [
-    "static/css/main.1aa25746.css",
-    "static/js/main.90f67b53.js"
+    "static/css/main.8d915d71.css",
+    "static/js/main.306e6dd4.js"
   ]
 }
