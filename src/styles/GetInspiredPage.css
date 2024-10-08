@@ -99,10 +99,13 @@
 .gi-bookmark-icon {
     width: 17px;
     height: 17px;
-    fill: white; /* Set default color for the bookmark */
+    fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: white;
     stroke-width: 1px;
+    padding-left: 0.7px;
+    padding-top: 0.5px;
+
 }
 
 /* General button styles (applies to both left and right buttons) */

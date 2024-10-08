@@ -50,9 +50,9 @@
 }
   
 .l-bookmark-icon {
-    width: 24px;
-    height: 24px;
-    fill: white; /* Set default color for the bookmark */
+    width: 22px;
+    height: 22px;
+    fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: white;
     stroke-width: 1px;

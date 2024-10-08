@@ -6,7 +6,6 @@ import Lines from '../components/Lines';
 
 // Sizes and positions 
 const size = 460;
-console.log(window.innerHeight);
 const waveDims = {
     "Principle": { Width: size / 3.78, Height: size / 5.3, CornerRadius: size / 18 },
     "Perspective": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 },
@@ -621,7 +620,7 @@ const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action
     } else if (action === "initial-4")
         return 1
 
-    if(action ===  "get-inspired-carousel") {
+    if(action === "get-inspired-carousel") {
         if(selectedComponents.includes(component.Code) || selectedComponents.length === 0)
             return 1;
         else
@@ -636,6 +635,7 @@ const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action
         return 0.4;  
     if(clickedIds.length === 0)
         return 1;
+    
     return 0.4;
 };
 

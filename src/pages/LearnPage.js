@@ -13,7 +13,6 @@ import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust 
 import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as BookmarkFilledIcon } from '../assets/bookmark-filled-icon.svg'; // Adjust the path as necessary
 
 const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
   // Memoize the initialState object
@@ -352,7 +351,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
             className='message-icon smaller'
           /> 
           icon (or on the underlined words). Mark relevant content by clicking on the 
-          <BookmarkFilledIcon
+          <BookmarkIcon
             className='message-icon smaller'
           /> 
           icon.

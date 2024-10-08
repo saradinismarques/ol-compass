@@ -73,3 +73,29 @@
 .menu-show-more-button:hover {
     color: rgb(117, 117, 117);
 }
+
+.home-icon {
+    width: 13px;
+    height: 13px;
+    fill: none; /* Set default color for the bookmark */
+    stroke: black;
+    stroke-width: 2px;
+    padding-bottom: 1px;
+}
+
+.menu-button.home {
+    width: 30px;
+}
+
+/* Add this rule to style the icon when the button is active */
+.menu-button.active .home-icon {
+    stroke: #f5f5f5; /* Change the icon's stroke to white */
+}
+
+/* Add this rule to style the icon when the button is active */
+.menu-button.hover .home-icon {
+    stroke: #f5f5f5; /* Change the icon's stroke to white */
+}
+
+
+

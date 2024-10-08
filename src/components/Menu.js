@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Menu.css';
+import { ReactComponent as HomeIcon } from '../assets/home-icon.svg'; // Adjust the path as necessary
 
 const Menu = () => {
   const location = useLocation();
@@ -48,9 +49,11 @@ const Menu = () => {
     <div className="bottom-menu">
       <Link
         to="/ol-compass/home"
-        className={`menu-button ${activeButton === 'home' ? 'active' : ''}`}
+        className={`menu-button home ${activeButton === 'home' ? 'active' : ''}`}
       >
-        HOME
+        <HomeIcon 
+          className="home-icon" 
+        />
       </Link>
       <Link
         to="/ol-compass/learn"

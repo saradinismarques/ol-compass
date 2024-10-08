@@ -7,7 +7,6 @@ import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust 
 import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as BookmarkFilledIcon } from '../assets/bookmark-filled-icon.svg'; // Adjust the path as necessary
 
 
 const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies }) => {
@@ -78,6 +77,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setCaseStudies(allCaseStudies);
     setResultsNumber(allCaseStudies.length);
 
+    console.log(allCaseStudies[0].Components);
     if (allCaseStudies.length > 0) {
       setState((prevState) => ({
         ...prevState,
@@ -319,7 +319,7 @@ const defaultHandleEnterClick = (components) => {
           /> 
           to browse case-studies. 
           You can order and further filter them from the two top-right drop-down menus. Click on 
-          <BookmarkFilledIcon
+          <BookmarkIcon
             className='message-icon smaller'
           /> 
           to mark relevant ones.
