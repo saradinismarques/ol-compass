@@ -191,8 +191,9 @@
     font-weight: 200;
     color: rgb(0, 0, 0); 
     padding-left: 20px;
-    overflow-y: hidden; /* Hide overflow initially */
     display: block;
+    max-height: 90px; /* Set a max height for scrolling */
+    overflow-y: auto;
 }
 
 /* Expanded state for text content */

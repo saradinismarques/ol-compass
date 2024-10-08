@@ -2,14 +2,14 @@
   {
     "#code": "P1",
     "#label": "ONE BIG OCEAN",
-    "#headline": "The Earth has one big Ocean\nwith many features",
+    "#headline": "The Earth has one big Ocean with many features",
     "#paragraph": "The Ocean is a <u>single body of water</u> covering the 70% of the Earth. It presents five major <u>geologic basins</u>, an <u>interconnected circulation </u> <u>system</u>, and a <u>changing sealevel</u>. <u>Seawater</u> is 97% of the Earth’s hydrosphere and its pH balance is vital for life preservation. It is <u>part of</u> <u>the water cycle</u> via evaporation-precipitation phenomena and physical <u>connection to</u> <u>watersheds</u>. <u>The Ocean and its resurces are</u> <u>vast but finite</u>.",
     "#long-version": "The Ocean is one body of water made of diverse ocean basins overall covering the 70% of the Earth's surface. Each ocean basin presents a peculiar set of geological features. The Ocean's interconnected circulation system affects climate and ecosystems. Sea level varies with temperature changes and tectonic activity. Seawater is 97% of the Earth’s hydrosphere, and its pH balance vital for marine life and carbon sequestration. The Ocean is part of the water cycle through evaporation and precipitation processes. It is connected with all major watersheds, thus exchanges with them nutrients and pollutants. Despite its vastness, the Ocean is finite."
   },
   {
     "#code": "P2",
     "#label": "EARTH-SHAPER",
-    "#headline": "The Ocean and its life shape the features of the Earth",
+    "#headline": "The Ocean and its life shape the features<br> of the Earth",
     "#paragraph": "The Ocean is the source of many Earth's <u>materials and biogeochemical cycles</u>. <u>Continental shelf morphology</u> was determined by sea level changes over time. Waves and currents contribute to <u>erosion</u>, which in turn constantly reshapes seashores. <u>The Ocean is</u> <u>the largest carbon reservoir on Earth</u>. The conformation of the Earth derives from the combined action of <u>tectonic activity, waves and</u> <u>sea level change</u>.",
     "#long-version": "Many Earth's materials and biogeochemical cycles originate in the Ocean. Sea level changes over time have expanded and contracted continental shelves, created and destroyed inland seas, and shaped our inner and coastal lands. Together with wind and tectonic processes, waves and currents determine erosion. Most beach sand is eroded from land sources and carried to the coast by rivers; currents redistribute sand seasonally. The Ocean is the largest reservoir of carbon on Earth. Many organisms use carbon dissolved in the Ocean to form shells, other skeletal parts, and coral reefs."
   },
@@ -23,14 +23,14 @@
   {
     "#code": "P4",
     "#label": "LIFE-ENABLER",
-    "#headline": "The Ocean makes the Earth habitable",
+    "#headline": "The Ocean makes <br> the Earth habitable",
     "#paragraph": "<u>Primordial photosynthetic organisms in the</u> <u>Ocean produced most of the oxygen in the</u> <u>atmosphere</u>, thus enabling life on land. <u>Life</u> <u>originated in the Ocean</u> and nowadays' species on Earth have common oceanic ancestors. Without the <u>water, oxygen, nutrients and</u> <u>climate regulation</u> provided by the Ocean, life on Earth wound not be possible.",
     "#long-version": "Most of the oxygen in the atmosphere originated from the activities of photosynthetic organisms in the Ocean. This accumulation of oxygen in Earth’s atmosphere was necessary for sustaining life on land. The earliest evidence of life is found in the Ocean. The millions of different species of organisms on Earth today have common oceanic ancestors. The Ocean provided and continues to provide water, oxygen, nutrients and the climatic conditions needed for life to exist on Earth (P1, P3, P5)."
   },
   {
     "#code": "P5",
     "#label": "GREATLY DIVERSE",
-    "#headline": "The Ocean hosts very diverse species and ecosystems",
+    "#headline": "The Ocean hosts very diverse species <br> and ecosystems",
     "#paragraph": "Oceanic life is <u>extremely diverse</u>, <u>unique</u>, <u>abundant</u> and <u>not evenly distributed</u>. <u>Phytoplankton</u> is its cornerstone. <u>Zonation</u> <u>patters</u> are determined by a variety of factors, from tides and waves to light and pressure. The <u>deep sea</u> is vastly different than shallow waters. <u>Estuaries</u> are prime nurseries for marine life.",
     "#long-version": "Ocean life ranges in size from microbes to blue whales. Microbes are the basis of the Earth's food web and oxygen production. Oceanic life is way more diverse than life on land. The Ocean offers many unique examples of life cycles, adaptations and interdependent organisms. Most of the living space on Earth is in the Ocean, diversely distributed from its surface down to (and below) its seafloor. A few Ocean regions host the most abundant life on Earth, while most of the Ocean does not support much life. Some deep Ocean ecosystems are bioluminescent. Zonation patterns influence organisms’ distribution and diversity. Estuaries provide important and productive nursery areas for many marine species."
   },
