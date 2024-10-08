@@ -14,7 +14,7 @@ import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; //
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
-const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
+const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, setFirstMessage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -48,8 +48,8 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
     setState(initialState);
   }, [initialState]);
 
-  const handleCompassClick = (code, title, headline, paragraph, showMoreText, designPrompt, type, concepts) => {
-    if(state.firstClick) {
+  const handleCompassClick = (code, title, headline, paragraph, showMoreText, designPrompt, type, concepts, ) => {
+    if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
         firstClick: false,
@@ -115,6 +115,13 @@ const LearnPage = ({colors, savedComponents, setSavedComponents}) => {
       ...prevState,
       showMessage: false,
     }));
+
+    if(firstMessage) {
+      setFirstMessage((prevState) => ({
+        ...prevState,
+        learn: false,
+      }));
+    }
   };
 
   const handleNext = () => {

@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React, {useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import '../styles/AnalyzePage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
-import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; // Adjust the path as necessary
 
-const AnalyzePage = ({colors, setNewCaseStudies}) => {
+
+const AnalyzePage = ({colors, newCaseStudies, setNewCaseStudies}) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -19,8 +19,23 @@ const AnalyzePage = ({colors, setNewCaseStudies}) => {
   const [state, setState] = useState(initialState);
   const [resetCompass, setResetCompass] = useState(false);
   const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
-  const [selectedComponents, setSelectedComponents] = useState([]);
-  
+
+  // Process the case study data from the state
+  const newCSInitial = {
+    Title: '',
+    ShortDescription: '',
+    Credits: '',
+    Components: [] // assuming this is an array you will populate based on user input
+  };
+
+  const [newCS, setNewCS] = useState(newCSInitial);
+  const newCSRef = useRef(newCS);
+
+  useEffect(() => {
+   // console.log(newCS);
+    newCSRef.current = newCS;
+}, [newCS]);
+
   const resetState = useCallback(() => {
     setState(initialState);
   }, [initialState]);
@@ -56,75 +71,115 @@ const AnalyzePage = ({colors, setNewCaseStudies}) => {
 
   }, [state.initialState, state.firstClick]);
 
+
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
         window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleKeyDown]);
+}, [handleKeyDown]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
 
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  setState((prevState) => ({
+    ...prevState,
+    [name]: value,
+  }));
+};
+
+// Callback function to receive data from OLCompass
+const handleDataFromOLCompass  = useCallback((data) => {
+  
+  const newCaseStudy = {
+    Title: newCSRef.current.Title,
+    ShortDescription: newCSRef.current.ShortDescription,
+    Credits: newCSRef.current.Credits,
+    Components: data // assuming this is an array you will populate based on user input
   };
 
-  const addNewCaseStudy = (components) => {
-    // Process the case study data from the state
-    const newCaseStudy = {
+// Update the newCaseStudies array with the new entry
+setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
+setState((prevState) => ({
+  ...prevState,
+  title: '',
+  shortDescription: '',
+  credits: '',
+  components: [],
+  initialState: false,
+  firstClick: false,
+  showMessage: false
+}));
+// Trigger OLCompass reset
+setResetCompass(true);
+
+// Set it back to false after the reset
+setTimeout(() => {
+  setResetCompass(false);
+}, 0);
+
+}, []); // Empty dependency array to ensure it doesn't change
+
+const handleSubmitClick = () => {
+  // You can now use compassData or perform any action with it
+  setFetchData(true);
+
+  // Set it back to false after the reset
+  setTimeout(() => {
+    setFetchData(false);
+  }, 0);
+
+  setNewCS((prevState) => {
+    const updatedState = {
+      ...prevState,
       Title: state.title,
-      ShortDescription: state.shortDescription,
-      Credits: state.credits,
-      Components: components // assuming this is an array you will populate based on user input
+    ShortDescription: state.shortDescription,
+    Credits: state.credits,
     };
+  
+    newCSRef.current = updatedState; // Update the ref immediately with the new state value
+  
+    return updatedState;
+  });
+  
+  
+};
 
-    // Update the newCaseStudies array with the new entry
-    setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
-    setState((prevState) => ({
-      ...prevState,
-      title: '',
-      shortDescription: '',
-      credits: '',
-      components: [],
-      initialState: false,
-      firstClick: false,
-      showMessage: false
-    }));
-    // Trigger OLCompass reset
-    setResetCompass(true);
+const handleEnterClick = (components) => {
+  // for the rest of the interaction
+  // Process the case study data from the state
+  if (state.initialState) return;
 
-    // Set it back to false after the reset
-    setTimeout(() => {
-      setResetCompass(false);
-    }, 0);
-  }
-  // Callback function to receive data from OLCompass
-  const handleDataFromOLCompass  = useCallback((data) => {
-    setSelectedComponents(data);
-  }, []); // Empty dependency array to ensure it doesn't change
-
-  const handleSubmitClick = () => {
-    // You can now use compassData or perform any action with it
-    setFetchData(true);
-
-    // Set it back to false after the reset
-    setTimeout(() => {
-      setFetchData(false);
-    }, 0);
-
-   addNewCaseStudy(selectedComponents);
+  const newCaseStudy = {
+    Title: state.title,
+    ShortDescription: state.shortDescription,
+    Credits: state.credits,
+    Components: components // assuming this is an array you will populate based on user input
   };
 
-  const handleEnterClick = (components) => {
-    // for the rest of the interaction
-    // Process the case study data from the state
-    if (state.initialState) return;
+  // Update the newCaseStudies array with the new entry
+  setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
 
-    addNewCaseStudy(components);
-  };
+  setState((prevState) => ({
+    ...prevState,
+    title: '',
+    shortDescription: '',
+    credits: '',
+    components: [],
+    initialState: false,
+    firstClick: false,
+    showMessage: false
+  }));
+
+  // Trigger OLCompass reset
+  setResetCompass(true);
+
+  // Set it back to false after the reset
+  setTimeout(() => {
+    setResetCompass(false);
+  }, 0);
+};
+
 
   const showMessage = () => {
     setState((prevState) => ({
@@ -178,10 +233,16 @@ const AnalyzePage = ({colors, setNewCaseStudies}) => {
         {!state.initialState && (
         <>
         <button onClick={showMessage} className="question-button">
-          <QuestionIcon 
-            className="question-icon" 
-          />
-        </button>
+              <svg 
+                className="question-icon" 
+                fill="currentcolor" 
+                stroke="currentcolor" /* Adds stroke color */
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="-1 109 35 35"  
+                >
+                <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
+              </svg>
+            </button>
         <div className="a-text-container">
           <div className="a-title">
               <input 
@@ -236,9 +297,15 @@ const AnalyzePage = ({colors, setNewCaseStudies}) => {
       <>
       <div className="message-box" style={{ width: 290 }}>
         <div className="question-circle">
-            <QuestionIcon 
-              className="question-icon" 
-            />
+            <svg 
+                className="question-icon" 
+                fill="currentcolor" 
+                stroke="currentcolor" /* Adds stroke color */
+                xmlns="http://www.w3.org/2000/svg" 
+                viewBox="-1 109 35 35"  
+              >
+              <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
+            </svg>
           </div>
         <p className="message-text">
           Fill the form with information about your OL content/initiative, select all the Principles/Perspectives/Dimensions it addresses and press 'Enter' to save it.

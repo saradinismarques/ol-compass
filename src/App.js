@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
 import InitialPage from './pages/InitialPage';
 import HomePage from './pages/HomePage';
@@ -22,6 +22,12 @@ function App() {
   const [savedCaseStudies, setSavedCaseStudies] = useState([]);;
   const [savedComponents, setSavedComponents] = useState([]);
   const [newCaseStudies, setNewCaseStudies] = useState([]);
+  const initialfirstMessage = useMemo(() => ({
+    learn: true, 
+    getInspired: true,
+    analyze: true,
+  }), []);
+  const [firstMessage, setFirstMessage] = useState(initialfirstMessage);
 
   return (
     <div className="App">
@@ -29,9 +35,9 @@ function App() {
         <Routes>
           <Route path="/ol-compass" element={<InitialPage colors={colors}/>} />
           <Route path="/ol-compass/home" element={<HomePage colors={colors}/>} />
-          <Route path="/ol-compass/learn" element={<LearnPage colors={colors} savedComponents={savedComponents} setSavedComponents={setSavedComponents} />} />
-          <Route path="/ol-compass/get-inspired" element={<GetInspiredPage colors={colors} savedCaseStudies={savedCaseStudies} setSavedCaseStudies={setSavedCaseStudies} newCaseStudies={newCaseStudies} />} />
-          <Route path="/ol-compass/analyze" element={<AnalyzePage colors={colors} newCaseStudies={newCaseStudies} setNewCaseStudies={setNewCaseStudies}/>} />
+          <Route path="/ol-compass/learn" element={<LearnPage colors={colors} savedComponents={savedComponents} setSavedComponents={setSavedComponents} firstMessage={firstMessage.learn} setFirstMessage={setFirstMessage}/>} />
+          <Route path="/ol-compass/get-inspired" element={<GetInspiredPage colors={colors} savedCaseStudies={savedCaseStudies} setSavedCaseStudies={setSavedCaseStudies} newCaseStudies={newCaseStudies} firstMessage={firstMessage.getInspired} setFirstMessage={setFirstMessage} />} />
+          <Route path="/ol-compass/analyze" element={<AnalyzePage colors={colors} newCaseStudies={newCaseStudies} setNewCaseStudies={setNewCaseStudies} firstMessage={firstMessage.analyze} setFirstMessage={setFirstMessage}/>} />
           <Route path="/ol-compass/contextualize" element={<ContextualizePage colors={colors} />} />
           <Route path="/ol-compass/ideate" element={<IdeatePage colors={colors}/>} />
           <Route path="/ol-compass/compare" element={<ComparePage colors={colors}/>} />

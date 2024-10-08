@@ -9,7 +9,7 @@ import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjus
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
 
-const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies }) => {
+const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage }) => {
   const initialState = useMemo(() => ({
     title: '', 
     shortDescription: '',
@@ -55,7 +55,8 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
   }, [savedCaseStudies]);
 
   const handleCompassClick = () => {
-    if(state.firstClick) {
+
+    if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
         firstClick: false,
@@ -77,7 +78,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setCaseStudies(allCaseStudies);
     setResultsNumber(allCaseStudies.length);
 
-    console.log(allCaseStudies[0].Components);
+    console.log(newCaseStudies);
     if (allCaseStudies.length > 0) {
       setState((prevState) => ({
         ...prevState,
@@ -111,7 +112,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setCarouselMode(true);
     carouselModeRef.current = true;
 
-    if(state.firstClick) {
+    if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
         firstClick: false,
@@ -207,6 +208,13 @@ const defaultHandleEnterClick = (components) => {
       ...prevState,
       showMessage: false,
     }));
+
+    if(firstMessage) {
+      setFirstMessage((prevState) => ({
+        ...prevState,
+        getInspired: false,
+      }));
+    }
   };
 
   return (
