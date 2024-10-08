@@ -116,7 +116,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
         
-        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired-carousel")
+        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired-carousel" || action === "get-inspired-search")
             return;
         
         else if(action === "learn") {
@@ -175,10 +175,13 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     };
 
     const handleMouseEnter = (e) => {
-        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired-carousel")
-            return;
-
         const stage = e.target.getStage();
+        
+        if (action.startsWith("initial") || action.startsWith("default")  || action === "get-inspired-carousel" || action === "get-inspired-search") {
+            stage.container().style.cursor = 'default';
+            return; 
+        }
+
         stage.container().style.cursor = 'pointer';
 
         const id = parseInt(e.target.id(), 10);
@@ -620,7 +623,7 @@ const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action
     } else if (action === "initial-4")
         return 1
 
-    if(action === "get-inspired-carousel") {
+    if(action === "get-inspired-carousel" || action === "get-inspired-search") {
         if(selectedComponents.includes(component.Code) || selectedComponents.length === 0)
             return 1;
         else

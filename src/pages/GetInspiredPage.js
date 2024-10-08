@@ -138,6 +138,8 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
 const defaultHandleEnterClick = (components) => {
   if(carouselModeRef.current) return;
 
+  setAction('get-inspired-search');
+  actionRef.current = 'get-inspired-seatch';
   searchCaseStudies(components);
 };
 
