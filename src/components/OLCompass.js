@@ -7,9 +7,9 @@ import Lines from '../components/Lines';
 // Sizes and positions 
 const size = 460;
 const waveDims = {
-    "Principle": { Width: size / 3.78, Height: size / 5.3, CornerRadius: size / 18 },
+    "Principle": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 },
     "Perspective": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 },
-    "Dimension": { Width: size / 3.2, Height: size / 6.6, CornerRadius: size / 9.2 }
+    "Dimension": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 }
 };
 
 const getCenter = (action) => {
@@ -465,22 +465,152 @@ function drawWaveButton(component, action, context, shape) {
     const halfWidth =  width / 2;
     const halfHeight =  height / 2;
 
-    const top = { x: 0, y: -halfHeight };
-    const right = { x: halfWidth, y: 0 };
-    const bottom = { x: 0, y: halfHeight };
-    const left = { x: -halfWidth, y: 0 };
+    // const top = { x: 0, y: -halfHeight };
+    // const right = { x: halfWidth, y: 0 };
+    // const bottom = { x: 0, y: halfHeight };
+    // const left = { x: -halfWidth, y: 0 };
 
     // Shape 
+    // context.beginPath();
+    // context.moveTo(left.x, left.y);
+    // context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
+    // context.lineTo(right.x, right.y);
+    // context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
+    // context.closePath();
+    // context.fillStrokeShape(shape);
+
+
+    const left = { x: -halfWidth, y: 0 };
+    const aTopLeft = { x: -halfWidth/3, y: -halfHeight };
+    const lTopLeft = { x: 0, y: -(2/3)*halfHeight };
+    const lTopRight = { x: halfWidth/3, y: 0 };
+    const aTopRight = { x: (2/3)*halfWidth, y:(1/3)*halfHeight };
+    const right = { x: halfWidth, y: 0 };
+    const aBottomRight = { x: halfWidth/3, y: halfHeight };
+    const lBottomRight = { x: 0, y: (2/3)*halfHeight };
+    const lBottomLeft = { x: -halfWidth/3, y: 0 };
+    const aBottomLeft = { x: -(2/3)*halfWidth, y: -(1/3)*halfHeight };
+    
     context.beginPath();
     context.moveTo(left.x, left.y);
-    context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
-    context.lineTo(right.x, right.y);
-    context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
+    context.arcTo(aTopLeft.x, aTopLeft.y, lTopLeft.x, lTopLeft.y, cornerRadius/1.5);
+    context.lineTo(lTopRight.x, lTopRight.y);
+    context.arcTo(aTopRight.x, aTopRight.y, right.x, right.y, cornerRadius);
+    context.arcTo(aBottomRight.x, aBottomRight.y, lBottomRight.x, lBottomRight.y, cornerRadius);
+    context.lineTo(lBottomLeft.x, lBottomLeft.y);
+    context.arcTo(aBottomLeft.x, aBottomLeft.y, left.x, left.y, cornerRadius);
+
     context.closePath();
     context.fillStrokeShape(shape);
 
-    drawText(component, action, context);
+   // Points array
+    const points = [
+        left, aTopLeft, lTopLeft, lTopRight, aTopRight, right,
+        aBottomRight, lBottomRight, lBottomLeft, aBottomLeft
+    ];
+
+    // Colors array for each point
+    const colors = [
+        'red', 'blue', 'green', 'yellow', 'purple', 'orange',
+        'pink', 'cyan', 'brown', 'magenta'
+    ];
+
+    // Draw small circles at each point with different colors
+    const circleRadius = 2; // Adjust this value to change the circle size
+
+    points.forEach((point, index) => {
+        context.beginPath();
+        context.arc(point.x, point.y, circleRadius, 0, Math.PI * 2); // Draw a circle
+        context.fillStyle = colors[index]; // Set color based on index
+        context.fill(); // Fill the circle with the color
+        context.closePath();
+    });
+
+    // Define your points (pathPoints) based on your shapes
+ 
+    const leftT = { x: -halfWidth, y: 0};
+    const aTopLeftT = { x: -halfWidth/3, y: -halfHeight };
+    const lTopLeftT = { x: 0, y: -(2/3)*halfHeight };
+    const lTopRightT = { x: halfWidth/3, y: 0 };
+    const aTopRightT = { x: (2/3)*halfWidth, y:(1/3)*halfHeight };
+    const rightT = { x: halfWidth, y: 0 };
+
+    // Points array
+    const pointsT = [
+        leftT, aTopLeftT, lTopLeftT, lTopRightT, aTopRightT, rightT
+    ];
+
+    //drawText(component, action, context);
+    drawCurvedText(component.Label, pointsT, context);
 }
+
+function drawCurvedText(text, pathPoints, context, letterSpacingFactor = 1) {
+    let totalPathLength = 0;
+    let distances = [];
+
+    // Calculate the total length of the path and distance between points
+    for (let i = 0; i < pathPoints.length - 1; i++) {
+        let dx = pathPoints[i + 1].x - pathPoints[i].x;
+        let dy = pathPoints[i + 1].y - pathPoints[i].y;
+        let segmentLength = Math.sqrt(dx * dx + dy * dy);
+        distances.push(segmentLength);
+        totalPathLength += segmentLength;
+    }
+
+
+    let textLength = context.measureText(text).width * letterSpacingFactor; // Adjusted for letter spacing
+
+    // Center the text by calculating the starting text position
+    let textPosition = (size/2.98 - textLength)/1.6; // Center the text by subtracting half the text length from total path length
+
+    // Iterate over each character in the text
+    for (let charIndex = 0; charIndex < text.length; charIndex++) {
+        let char = text[charIndex];
+        let charWidth = context.measureText(char).width * letterSpacingFactor; // Apply letterSpacingFactor
+
+        // Find the position of the character along the path
+        let currentPathPosition = textPosition + (charWidth / 2); // Start centered on the middle of the path
+
+        let accumulatedDistance = 0;
+        let segmentIndex = 0;
+
+        // Find the segment in which the current character should be placed
+        while (segmentIndex < distances.length && accumulatedDistance + distances[segmentIndex] < currentPathPosition) {
+            accumulatedDistance += distances[segmentIndex];
+            segmentIndex++;
+        }
+
+        if (segmentIndex >= distances.length - 1) break; // Stop if we're out of bounds
+
+        let segmentStart = pathPoints[segmentIndex];
+        let segmentEnd = pathPoints[segmentIndex + 1];
+
+        let segmentLength = distances[segmentIndex];
+        let segmentProgress = (currentPathPosition - accumulatedDistance) / segmentLength;
+
+        // Calculate character's position along the segment
+        let charX = segmentStart.x + segmentProgress * (segmentEnd.x - segmentStart.x);
+        let charY = segmentStart.y + segmentProgress * (segmentEnd.y - segmentStart.y);
+
+        // Calculate the angle of the segment
+        let angle = Math.atan2(segmentEnd.y - segmentStart.y, segmentEnd.x - segmentStart.x);
+
+        // Save the context, translate and rotate to align with the curve
+        context.save();
+        context.translate(charX, charY);
+        context.rotate(angle);
+
+        // Draw the character at the calculated position
+        context.fillText(char, 0, 0);
+
+        // Restore the context
+        context.restore();
+
+        // Move to the next position for the next character
+        textPosition += charWidth;
+    }
+}
+
 
 
 // SVG Path drawing function
