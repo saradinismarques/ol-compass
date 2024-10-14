@@ -5,11 +5,11 @@ import { getPrinciplesData, getPerspectivesData, getDimensionsData, getConceptsD
 import Lines from '../components/Lines';
 
 // Sizes and positions 
-const size = 460;
+const size = 480;
 const waveDims = {
-    "Principle": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 },
-    "Perspective": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 },
-    "Dimension": { Width: size / 2.98, Height: size / 7.33, CornerRadius: size / 8.6 }
+    "Principle": { Width: size / 2.9, Height: size / 8, CornerRadius: size / 7 },
+    "Perspective": { Width: size / 2.9, Height: size / 8, CornerRadius: size / 7 },
+    "Dimension": { Width: size / 2.9, Height: size / 8, CornerRadius: size / 7 }
 };
 
 const getCenter = (action) => {
@@ -393,14 +393,19 @@ function getPrinciples(principlesData, center) {
     const halfHeight = height / 2;
     const margin = 0.7;
     const angle = 0;
+    const radius = size/4;
+    const numPrinciples = 7;
 
-    principlesData[0] = { ...principlesData[0], x: x, y: y, angle: angle };
-    principlesData[1] = { ...principlesData[1], x: x - halfWidth - margin, y: y - halfHeight - margin, angle: angle };
-    principlesData[2] = { ...principlesData[2], x: x + halfWidth + margin, y: y - halfHeight - margin, angle: angle };
-    principlesData[3] = { ...principlesData[3], x: x, y: y - height - 2 * margin, angle: angle };
-    principlesData[4] = { ...principlesData[4], x: x - halfWidth - margin, y: y + halfHeight + margin, angle: angle };
-    principlesData[5] = { ...principlesData[5], x: x + halfWidth + margin, y: y + halfHeight + margin, angle: angle };
-    principlesData[6] = { ...principlesData[6], x: x, y: y + height + 2 * margin, angle: angle };
+    const principles = calculateAroundCirclePositionsPrinciples(principlesData, x, y, radius, numPrinciples);
+
+
+    // principlesData[0] = { ...principlesData[0], x: x, y: y, angle: angle };
+    // principlesData[1] = { ...principlesData[1], x: x - halfWidth - margin, y: y - halfHeight - margin, angle: angle };
+    // principlesData[2] = { ...principlesData[2], x: x + halfWidth + margin, y: y - halfHeight - margin, angle: angle };
+    // principlesData[3] = { ...principlesData[3], x: x, y: y - height - 2 * margin, angle: angle };
+    // principlesData[4] = { ...principlesData[4], x: x - halfWidth - margin, y: y + halfHeight + margin, angle: angle };
+    // principlesData[5] = { ...principlesData[5], x: x + halfWidth + margin, y: y + halfHeight + margin, angle: angle };
+    // principlesData[6] = { ...principlesData[6], x: x, y: y + height + 2 * margin, angle: angle };
 
     return principlesData;
 }
@@ -428,6 +433,24 @@ function getDimensions(dimensionsData, center) {
 }
 
 function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfComponents) {
+    const angleStep = (2 * Math.PI) / numberOfComponents;
+    const StartAngle = -Math.PI/2;
+    
+    for (let i = 0; i < numberOfComponents; i++) {
+      let angle = i * angleStep + StartAngle;
+      const x = centerX + radius * Math.cos(angle);
+      const y = centerY + radius * Math.sin(angle);
+      angle = angle + Math.PI / 2;
+
+      arr[i]["x"] = x;
+      arr[i]["y"] = y;
+      arr[i]["angle"] = angle;
+    }
+
+    return arr;
+};
+
+function calculateAroundCirclePositionsPrinciples(arr, centerX, centerY, radius, numberOfComponents) {
     const angleStep = (2 * Math.PI) / numberOfComponents;
     const StartAngle = -Math.PI/2;
     
@@ -481,32 +504,52 @@ function drawWaveButton(component, action, context, shape) {
 
 
     const left = { x: -halfWidth, y: 0 };
-    const aTopLeft = { x: -halfWidth/3, y: -halfHeight };
-    const lTopLeft = { x: 0, y: -(2/3)*halfHeight };
-    const lTopRight = { x: halfWidth/3, y: 0 };
-    const aTopRight = { x: (2/3)*halfWidth, y:(1/3)*halfHeight };
     const right = { x: halfWidth, y: 0 };
+
+    const aTopLeft = { x: -halfWidth/3, y: -halfHeight };
+    const mTopLeft = { x: halfWidth/6, y: -(2/6)*halfHeight };
+    const aTopRight = { x: (2/3)*halfWidth, y:(1/3)*halfHeight };
     const aBottomRight = { x: halfWidth/3, y: halfHeight };
-    const lBottomRight = { x: 0, y: (2/3)*halfHeight };
-    const lBottomLeft = { x: -halfWidth/3, y: 0 };
-    const aBottomLeft = { x: -(2/3)*halfWidth, y: -(1/3)*halfHeight };
+    const mBottomLeft = { x: -halfWidth/6, y: (2/6)*halfHeight };
+    const aBottomLeft = { x: -(2/3)*halfWidth, y:-(1/3)*halfHeight };
+
+
+    const paTopLeft = { x: -(2/3)*halfWidth, y: (1/3)*halfHeight };
+    const pmTopLeft = { x: -halfWidth/6, y: -(2/6)*halfHeight };
+    const paTopRight = { x: halfWidth/3, y: -halfHeight };
+    const paBottomRight = { x: (2/3)*halfWidth, y: -(1/3)*halfHeight };
+    const pmBottomLeft = { x: halfWidth/6, y: (2/6)*halfHeight };
+    const paBottomLeft = { x: -halfWidth/3, y:  halfHeight};
     
     context.beginPath();
     context.moveTo(left.x, left.y);
-    context.arcTo(aTopLeft.x, aTopLeft.y, lTopLeft.x, lTopLeft.y, cornerRadius/1.5);
-    context.lineTo(lTopRight.x, lTopRight.y);
-    context.arcTo(aTopRight.x, aTopRight.y, right.x, right.y, cornerRadius);
-    context.arcTo(aBottomRight.x, aBottomRight.y, lBottomRight.x, lBottomRight.y, cornerRadius);
-    context.lineTo(lBottomLeft.x, lBottomLeft.y);
-    context.arcTo(aBottomLeft.x, aBottomLeft.y, left.x, left.y, cornerRadius);
+    if(component.Type === 'Principle') {
+        context.arcTo(paTopLeft.x, paTopLeft.y, pmTopLeft.x, pmTopLeft.y, cornerRadius);
+        context.arcTo(paTopRight.x, paTopRight.y, right.x, right.y, cornerRadius);
+        context.lineTo(right.x, right.y);
+        context.arcTo(paBottomRight.x, paBottomRight.y, pmBottomLeft.x, pmBottomLeft.y, cornerRadius);
+        context.arcTo(paBottomLeft.x, paBottomLeft.y, left.x, left.y, cornerRadius);
+    } else {
+        context.arcTo(aTopLeft.x, aTopLeft.y, mTopLeft.x, mTopLeft.y, cornerRadius);
+        context.arcTo(aTopRight.x, aTopRight.y, right.x, right.y, cornerRadius);
+        context.arcTo(aBottomRight.x, aBottomRight.y, mBottomLeft.x, mBottomLeft.y, cornerRadius);
+        context.arcTo(aBottomLeft.x, aBottomLeft.y, left.x, left.y, cornerRadius);
+    }
+    // const lTopLeft = { x: 0, y: -(2/3)*halfHeight };
+    // const lTopRight = { x: halfWidth/3, y: 0 };
+    // const lBottomRight = { x: 0, y: (2/3)*halfHeight };
+    // const lBottomLeft = { x: -halfWidth/3, y: 0 };
+    
+    // context.lineTo(lTopRight.x, lTopRight.y);
+    //context.lineTo(lBottomLeft.x, lBottomLeft.y);
 
     context.closePath();
     context.fillStrokeShape(shape);
 
    // Points array
     const points = [
-        left, aTopLeft, lTopLeft, lTopRight, aTopRight, right,
-        aBottomRight, lBottomRight, lBottomLeft, aBottomLeft
+        left, aTopLeft, mTopLeft, aTopRight, right,
+        aBottomRight, mBottomLeft, aBottomLeft
     ];
 
     // Colors array for each point
@@ -517,7 +560,7 @@ function drawWaveButton(component, action, context, shape) {
 
     // Draw small circles at each point with different colors
     const circleRadius = 2; // Adjust this value to change the circle size
-
+    
     points.forEach((point, index) => {
         context.beginPath();
         context.arc(point.x, point.y, circleRadius, 0, Math.PI * 2); // Draw a circle
@@ -529,10 +572,10 @@ function drawWaveButton(component, action, context, shape) {
     // Define your points (pathPoints) based on your shapes
  
     const leftT = { x: -halfWidth, y: 0};
-    const aTopLeftT = { x: -halfWidth/3, y: -halfHeight };
-    const lTopLeftT = { x: 0, y: -(2/3)*halfHeight };
-    const lTopRightT = { x: halfWidth/3, y: 0 };
-    const aTopRightT = { x: (2/3)*halfWidth, y:(1/3)*halfHeight };
+    const aTopLeftT = { x: -halfWidth/3, y: -halfHeight+halfHeight/2 };
+    const lTopLeftT = { x: 0, y: -(2/3)*halfHeight+halfHeight/2 };
+    const lTopRightT = { x: halfWidth/3, y: 0 +halfHeight/2};
+    const aTopRightT = { x: (2/3)*halfWidth, y:(1/3)*halfHeight+halfHeight/2 };
     const rightT = { x: halfWidth, y: 0 };
 
     // Points array
@@ -561,7 +604,7 @@ function drawCurvedText(text, pathPoints, context, letterSpacingFactor = 1) {
     let textLength = context.measureText(text).width * letterSpacingFactor; // Adjusted for letter spacing
 
     // Center the text by calculating the starting text position
-    let textPosition = (size/2.98 - textLength)/1.6; // Center the text by subtracting half the text length from total path length
+    let textPosition = (waveDims['Principle'].Width - textLength)/2; // Center the text by subtracting half the text length from total path length
 
     // Iterate over each character in the text
     for (let charIndex = 0; charIndex < text.length; charIndex++) {
@@ -598,8 +641,10 @@ function drawCurvedText(text, pathPoints, context, letterSpacingFactor = 1) {
         // Save the context, translate and rotate to align with the curve
         context.save();
         context.translate(charX, charY);
-        context.rotate(angle);
-
+        context.rotate(angle*0.7);
+        const fontSize = size / 50; // Adjust as needed
+        context.font = `500 ${fontSize}px Manrope`;
+        context.fillStyle = 'black';
         // Draw the character at the calculated position
         context.fillText(char, 0, 0);
 
