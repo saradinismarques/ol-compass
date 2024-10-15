@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { Stage, Layer, Shape, Label, Text, Tag } from 'react-konva';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData, getConceptsData } from '../utils/Data.js'; 
 import Lines from '../components/Lines';
+import * as d3 from 'd3';
 
 // Sizes and positions 
 const size = 480;
@@ -599,8 +600,67 @@ function drawWaveButton(component, action, context, shape) {
     // });
 
     //drawText(component, action, context);
-    drawCurvedText(component.Label, pointsT, context);
+    CustomTextAlongPath(component.Label, context, x, y, angle, halfWidth, halfHeight);
+    //drawCurvedText(component.Label, pointsT, context);
 }
+
+function CustomTextAlongPath(label, context, x, y, angle, halfWidth, halfHeight) {
+    // Define the SVG path using D3.js (You can customize the path string as needed)
+    const pathD = "M 0 50 Q 50 20, 100 50 T 200 50";
+    const pathKonva = new Path2D("M 0 50 Q 50 20, 100 50 T 200 50");
+
+    // Create an invisible SVG path element to use with D3
+    const svg = d3.create("svg").attr("width", 0).attr("height", 0);
+    const path = svg.append("path").attr("d", pathD);
+   // context.restore();
+    context.translate(-halfWidth, -1.3*halfHeight);
+    //context.rotate(angle);
+
+    //context.fillStyle = "black";
+    
+   // context.fill(pathKonva);
+    
+    const totalLength = path.node().getTotalLength();
+
+    let textLength = context.measureText(label).width; // Adjusted for letter spacing
+
+
+    // This controls the spacing between characters
+    let offset = (waveDims['Principle'].Width - textLength)/2; // Center the text by subtracting half the text length from total path length
+    //let offset = 0;
+
+    const fontSize = 11; // Adjust the font size as needed
+    context.font = `${fontSize}px Manrope`;
+    context.fillStyle = 'black';
+
+    // Iterate through each character in the label text
+    for (let i = 0; i < label.length; i++) {
+        const char = label[i];
+        const charWidth = context.measureText(char).width;
+
+        // Get the position and angle along the path at the current offset
+        const point = path.node().getPointAtLength(offset);
+        const nextPoint = path.node().getPointAtLength(offset + 1); // For angle calculation
+        
+        // Calculate the angle based on the tangent to the path
+        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
+
+        // Save context state, translate to the point on the path, and rotate to match the angle
+        context.save();
+        context.translate(point.x, point.y);
+        context.rotate(angle);
+
+        // Draw the character
+        context.fillText(char, 0, 0); // Adjust centering
+
+        // Restore the context state
+        context.restore();
+
+        // Update the offset for the next character
+        offset += charWidth;
+    }
+}
+
 
 function drawCurvedText(text, pathPoints, context, letterSpacingFactor = 1) {
     let totalPathLength = 0;
