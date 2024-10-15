@@ -121,16 +121,25 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             return;
         
         else if(action === "learn") {
-            setInitialState(false);
-            setClickedIds([id]);
-            const title = convertLabel(components[id].Code);
+            // Check if the clicked ID is already in clickedIds
+            if (clickedIds.includes(id)) {
+                // If it is, remove it and set clickedIds to null
+                setClickedIds([]);
 
-            let correspondingConcepts = null;
-            if(components[id].Type === "Principle")
-                correspondingConcepts = getCorrespondingConcepts(concepts, components[id].Code);
-            
-            if (onButtonClick) {
-                onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type, correspondingConcepts);
+                if(resetState)
+                    resetState();
+            } else {
+                setInitialState(false);
+                setClickedIds([id]);
+                const title = convertLabel(components[id].Code);
+
+                let correspondingConcepts = null;
+                if(components[id].Type === "Principle")
+                    correspondingConcepts = getCorrespondingConcepts(concepts, components[id].Code);
+                
+                if (onButtonClick) {
+                    onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type, correspondingConcepts);
+                }
             }
         } else if(action === "get-inspired" || action === "analyze" || action === "ideate") {
             setClickedIds(prevClickedIds => 
@@ -600,20 +609,29 @@ function drawWaveButton(component, action, context, shape) {
     // });
 
     //drawText(component, action, context);
-    CustomTextAlongPath(component.Label, context, x, y, angle, halfWidth, halfHeight);
+    CustomTextAlongPath(component.Label, context, x, y, angle, halfWidth, halfHeight, component.Type);
     //drawCurvedText(component.Label, pointsT, context);
 }
 
-function CustomTextAlongPath(label, context, x, y, angle, halfWidth, halfHeight) {
+function CustomTextAlongPath(label, context, x, y, angle, halfWidth, halfHeight, type) {
     // Define the SVG path using D3.js (You can customize the path string as needed)
-    const pathD = "M 0 50 Q 50 20, 100 50 T 200 50";
+    let pathD;
+    if(type === 'Principle')
+        pathD = "M 0 50 Q 50 80, 100 50 T 200 50";
+    else
+        pathD = "M 0 50 Q 50 20, 100 50 T 200 50";
+
     const pathKonva = new Path2D("M 0 50 Q 50 20, 100 50 T 200 50");
 
     // Create an invisible SVG path element to use with D3
     const svg = d3.create("svg").attr("width", 0).attr("height", 0);
     const path = svg.append("path").attr("d", pathD);
    // context.restore();
-    context.translate(-halfWidth, -1.3*halfHeight);
+   if(type === 'Principle')
+        context.translate(-halfWidth, -1.6*halfHeight);
+    else
+        context.translate(-halfWidth, -1.3*halfHeight);
+
     //context.rotate(angle);
 
     //context.fillStyle = "black";
