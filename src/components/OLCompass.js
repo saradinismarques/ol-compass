@@ -125,7 +125,9 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
             if (clickedIds.includes(id)) {
                 // If it is, remove it and set clickedIds to null
                 setClickedIds([]);
-
+                setHoveredId(null);
+                setInitialState(true);
+                
                 if(resetState)
                     resetState();
             } else {
