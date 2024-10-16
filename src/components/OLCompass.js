@@ -405,7 +405,7 @@ function getPrinciples(principlesData, center) {
     const halfHeight = height / 2;
     const margin = 0.7;
     const angle = 0;
-    const radius = size/5.7;
+    const radius = size/5.8;
     const numPrinciples = 7;
 
     const principles = calculateAroundCirclePositionsPrinciples(principlesData, x, y, radius, numPrinciples);
@@ -467,7 +467,7 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
 
 function calculateAroundCirclePositionsPrinciples(arr, centerX, centerY, radius, numberOfComponents) {
     const angleStep = (2 * Math.PI) / numberOfComponents;
-    const StartAngle = -Math.PI/1.6;
+    const StartAngle = -Math.PI/1.7;
     
     for (let i = 0; i < numberOfComponents; i++) {
       let angle = i * angleStep + StartAngle;
@@ -516,45 +516,62 @@ function drawWaveButton(component, action, context, shape) {
     // context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
     // context.closePath();
     // context.fillStrokeShape(shape);
-    // if(component.Label !== 'KNOWLEDGE')
+    // if(component.Label !== 'ONE BIG OCEAN')
     //     return;
 
     
     let left, lTop, aTopLeft, mTop, rTop, aTopRight, right, rBottom, aBottomRight, mBottom, lBottom, aBottomLeft;
 
-    // if(component.Type === 'Principle') {
-    //     aTopLeft = { x: -(2/3)*halfWidth, y: (1/3)*halfHeight };
-    //     mTopLeft = { x: -halfWidth/6, y: -(2/6)*halfHeight };
-    //     aTopRight = { x: halfWidth/3, y: -halfHeight };
-    //     aBottomRight = { x: (2/3)*halfWidth, y: -(1/3)*halfHeight };
-    //     mBottomLeft = { x: halfWidth/6, y: (2/6)*halfHeight };
-    //     aBottomLeft = { x: -halfWidth/3, y:  halfHeight};
-    // } else {
-
-    left = { x: -halfWidth+5, y: -5 };
-    lTop = { x: -(2/3)*halfWidth, y: -(2/3)*halfHeight+5 };
-    aTopLeft = { x: -halfWidth/3, y: -halfHeight-5 };
-    mTop = { x: 0, y: -(2/3)*halfHeight+5 };
-    rTop = { x: (1/3)*halfWidth, y: 0 };
-    aTopRight = { x: (2/3)*halfWidth, y:(1/3)*halfHeight+5 };
-    right = { x: halfWidth-5, y: 5 };
-    rBottom = { x: (2/3)*halfWidth, y: (2/3)*halfHeight-5 };
-    aBottomRight = { x: halfWidth/3, y: halfHeight+5 };
-    mBottom = { x: 0, y: (2/3)*halfHeight-5}
-    lBottom = { x: -(1/3)*halfWidth, y: 0 };
-    aBottomLeft = { x: -(2/3)*halfWidth, y:-(1/3)*halfHeight-5 };
-
-     
+    if(component.Type === 'Principle') {
+        left = { x: -halfWidth+5, y: 5 };
+        aTopLeft = { x: -(2/3)*halfWidth, y: (1/3)*halfHeight+5 };
+        lTop = { x: -(1/3)*halfWidth, y: 0 };
+        mTop = { x: 0, y: -(2/3)*halfHeight+5 };
+        aTopRight = { x: (1/3)*halfWidth, y: -halfHeight-5 };
+        rTop = { x: (2/3)*halfWidth, y: -(2/3)*halfHeight+5 };
+        right = { x: halfWidth-5, y: -5 };
+        aBottomRight = {x: (2/3)*halfWidth, y: -(1/3)*halfHeight-5 };
+        rBottom = { x: (1/3)*halfWidth, y: 0 };
+        mBottom = { x: 0, y: (2/3)*halfHeight-5}
+        aBottomLeft = { x: -(1/3)*halfWidth, y:  halfHeight+5 };
+        lBottom = { x: -(2/3)*halfWidth, y: (2/3)*halfHeight-5 };
+    } else {
+        left = { x: -halfWidth+5, y: -5 };
+        lTop = { x: -(2/3)*halfWidth, y: -(2/3)*halfHeight+5 };
+        aTopLeft = { x: -halfWidth/3, y: -halfHeight-5 };
+        mTop = { x: 0, y: -(2/3)*halfHeight+5 };
+        rTop = { x: (1/3)*halfWidth, y: 0 };
+        aTopRight = { x: (2/3)*halfWidth, y:(1/3)*halfHeight+5 };
+        right = { x: halfWidth-5, y: 5 };
+        rBottom = { x: (2/3)*halfWidth, y: (2/3)*halfHeight-5 };
+        aBottomRight = { x: halfWidth/3, y: halfHeight+5 };
+        mBottom = { x: 0, y: (2/3)*halfHeight-5}
+        lBottom = { x: -(1/3)*halfWidth, y: 0 };
+        aBottomLeft = { x: -(2/3)*halfWidth, y:-(1/3)*halfHeight-5 };
+    }
     context.beginPath();
-    context.moveTo(left.x, left.y);
-    //context.lineTo(lTop.x, lTop.y);
-    context.arcTo(aTopLeft.x, aTopLeft.y, mTop.x, mTop.y, cornerRadius);
-    context.lineTo(rTop.x, rTop.y);
-    context.arcTo(aTopRight.x, aTopRight.y, right.x, right.y, cornerRadius);
-    //context.lineTo(rBottom.x, rBottom.y);
-    context.arcTo(aBottomRight.x, aBottomRight.y, mBottom.x, mBottom.y, cornerRadius);
-    context.lineTo(lBottom.x, lBottom.y);
-    context.arcTo(aBottomLeft.x, aBottomLeft.y, left.x, left.y, cornerRadius);
+     
+    if(component.Type === 'Principle') {
+        context.moveTo(right.x, right.y);
+        //context.lineTo(lTop.x, lTop.y);
+        context.arcTo(aTopRight.x, aTopRight.y, mTop.x, mTop.y, cornerRadius);
+        context.lineTo(lTop.x, lTop.y);
+        context.arcTo(aTopLeft.x, aTopLeft.y, left.x, left.y, cornerRadius);
+        context.arcTo(aBottomLeft.x, aBottomLeft.y, mBottom.x, mBottom.y, cornerRadius);
+        context.lineTo(rBottom.x, rBottom.y);
+        context.arcTo(aBottomRight.x, aBottomRight.y, right.x, right.y, cornerRadius);
+    } else {
+        context.moveTo(left.x, left.y);
+        //context.lineTo(lTop.x, lTop.y);
+        context.arcTo(aTopLeft.x, aTopLeft.y, mTop.x, mTop.y, cornerRadius);
+        context.lineTo(rTop.x, rTop.y);
+        context.arcTo(aTopRight.x, aTopRight.y, right.x, right.y, cornerRadius);
+        //context.lineTo(rBottom.x, rBottom.y);
+        context.arcTo(aBottomRight.x, aBottomRight.y, mBottom.x, mBottom.y, cornerRadius);
+        context.lineTo(lBottom.x, lBottom.y);
+        context.arcTo(aBottomLeft.x, aBottomLeft.y, left.x, left.y, cornerRadius);
+    }
+    
     context.closePath();
     context.fillStrokeShape(shape);
 
