@@ -8,9 +8,9 @@ import * as d3 from 'd3';
 // Sizes and positions 
 const size = 480;
 const waveDims = {
-    "Principle": { Width: size / 2.8, Height: size / 6.5, CornerRadius: size / 12 },
-    "Perspective": { Width: size / 2.8, Height: size / 6.5, CornerRadius: size / 12 },
-    "Dimension": { Width: size / 2.8, Height: size / 6.5, CornerRadius: size / 12  }
+    "Principle": { Width: size / 2.77, Height: size / 6.5, CornerRadius: size / 12 },
+    "Perspective": { Width: size / 2.77, Height: size / 6.5, CornerRadius: size / 12 },
+    "Dimension": { Width: size / 2.77, Height: size / 6.5, CornerRadius: size / 12  }
 };
 
 const getCenter = (action) => {
@@ -405,7 +405,7 @@ function getPrinciples(principlesData, center) {
     const halfHeight = height / 2;
     const margin = 0.7;
     const angle = 0;
-    const radius = size/5.8;
+    const radius = size/6.3;
     const numPrinciples = 7;
 
     const principles = calculateAroundCirclePositionsPrinciples(principlesData, x, y, radius, numPrinciples);
@@ -425,7 +425,7 @@ function getPrinciples(principlesData, center) {
 function getPerspectives(perspectivesData, center) {
     const x = center.x;
     const y = center.y;
-    const radius = size/2.9;
+    const radius = size/3;
     const numPerspectives = 7;
 
     const perspectives = calculateAroundCirclePositions(perspectivesData, x, y, radius, numPerspectives);
@@ -436,7 +436,7 @@ function getPerspectives(perspectivesData, center) {
 function getDimensions(dimensionsData, center) {
     const x = center.x;
     const y = center.y;
-    const radius = size/2;
+    const radius = size/2.04;
     const numDimensions = 10;
 
     const positions = calculateAroundCirclePositions(dimensionsData, x, y, radius, numDimensions);
@@ -453,9 +453,9 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
       const x = centerX + radius * Math.cos(angle);
       const y = centerY + radius * Math.sin(angle);
       if(arr[i].Type === 'Perspective')  
-        angle = angle + Math.PI / 2 - Math.PI*0.01;
+        angle = angle + Math.PI / 2 - Math.PI*0.05;
       else 
-        angle = angle + Math.PI / 2 - Math.PI*0.07;
+        angle = angle + Math.PI / 2 - Math.PI*0.05;
 
       arr[i]["x"] = x;
       arr[i]["y"] = y;
@@ -467,13 +467,13 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
 
 function calculateAroundCirclePositionsPrinciples(arr, centerX, centerY, radius, numberOfComponents) {
     const angleStep = (2 * Math.PI) / numberOfComponents;
-    const StartAngle = -Math.PI/1.7;
+    const StartAngle = -Math.PI/1.65;
     
     for (let i = 0; i < numberOfComponents; i++) {
       let angle = i * angleStep + StartAngle;
       const x = centerX + radius * Math.cos(angle);
       const y = centerY + radius * Math.sin(angle);
-      angle = angle + 2*Math.PI / 2;
+      angle = angle + 2*Math.PI / 2 + Math.PI*0.01;
 
       arr[i]["x"] = x;
       arr[i]["y"] = y;
@@ -523,26 +523,26 @@ function drawWaveButton(component, action, context, shape) {
     let left, lTop, aTopLeft, mTop, rTop, aTopRight, right, rBottom, aBottomRight, mBottom, lBottom, aBottomLeft;
 
     if(component.Type === 'Principle') {
-        left = { x: -halfWidth+5, y: 5 };
+        left = { x: -halfWidth+20, y: 10 };
         aTopLeft = { x: -(2/3)*halfWidth, y: (1/3)*halfHeight+5 };
         lTop = { x: -(1/3)*halfWidth, y: 0 };
         mTop = { x: 0, y: -(2/3)*halfHeight+5 };
         aTopRight = { x: (1/3)*halfWidth, y: -halfHeight-5 };
         rTop = { x: (2/3)*halfWidth, y: -(2/3)*halfHeight+5 };
-        right = { x: halfWidth-5, y: -5 };
+        right = { x: halfWidth-20, y: -10 };
         aBottomRight = {x: (2/3)*halfWidth, y: -(1/3)*halfHeight-5 };
         rBottom = { x: (1/3)*halfWidth, y: 0 };
         mBottom = { x: 0, y: (2/3)*halfHeight-5}
         aBottomLeft = { x: -(1/3)*halfWidth, y:  halfHeight+5 };
         lBottom = { x: -(2/3)*halfWidth, y: (2/3)*halfHeight-5 };
     } else {
-        left = { x: -halfWidth+5, y: -5 };
+        left = { x: -halfWidth+10, y: -10 };
         lTop = { x: -(2/3)*halfWidth, y: -(2/3)*halfHeight+5 };
         aTopLeft = { x: -halfWidth/3, y: -halfHeight-5 };
         mTop = { x: 0, y: -(2/3)*halfHeight+5 };
         rTop = { x: (1/3)*halfWidth, y: 0 };
         aTopRight = { x: (2/3)*halfWidth, y:(1/3)*halfHeight+5 };
-        right = { x: halfWidth-5, y: 5 };
+        right = { x: halfWidth-2, y: 10 };
         rBottom = { x: (2/3)*halfWidth, y: (2/3)*halfHeight-5 };
         aBottomRight = { x: halfWidth/3, y: halfHeight+5 };
         mBottom = { x: 0, y: (2/3)*halfHeight-5}
@@ -630,146 +630,234 @@ function drawWaveButton(component, action, context, shape) {
     // });
 
     //drawText(component, action, context);
-    CustomTextAlongPath(component.Label, context, x, y, angle, halfWidth, halfHeight, component.Type);
+    drawTextAlongPath(component, context, halfWidth, halfHeight);
     //drawCurvedText(component.Label, pointsT, context);
 }
 
-function CustomTextAlongPath(label, context, x, y, angle, halfWidth, halfHeight, type) {
+function drawTextAlongPath(component, context, halfWidth, halfHeight) {
     // Define the SVG path using D3.js (You can customize the path string as needed)
     let pathD;
-    if(type === 'Principle')
+    if(component.Type === 'Principle')
         pathD = "M 0 50 Q 50 80, 100 50 T 200 50";
     else
         pathD = "M 0 50 Q 50 20, 100 50 T 200 50";
 
-    const pathKonva = new Path2D("M 0 50 Q 50 20, 100 50 T 200 50");
+
+    let pathKonva;
+    if(component.Type === 'Principle')
+        pathKonva = new Path2D("M 0 50 Q 50 80, 100 50 T 200 50");
+    else
+        pathKonva = new Path2D("M 0 50 Q 50 20, 100 50 T 200 50");
+
 
     // Create an invisible SVG path element to use with D3
     const svg = d3.create("svg").attr("width", 0).attr("height", 0);
     const path = svg.append("path").attr("d", pathD);
    // context.restore();
-   if(type === 'Principle')
-        context.translate(-halfWidth, -1.6*halfHeight);
+   if(component.Type === 'Principle')
+        context.translate(-halfWidth, -1.3*halfHeight);
     else
         context.translate(-halfWidth, -1.3*halfHeight);
 
+    const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'D4', 'D5', 'D6', 'D7', 'D8'];
+    
+    if(flippedTexts.includes(component.Code)) {
+        if(component.Type === 'Principle')
+            context.translate(170, 100);
+        else
+            context.translate(170, 90);
+
+        context.rotate(Math.PI);
+        //context.translate(component.x*0.3, component.y*0.25);
+
+    }
     //context.rotate(angle);
 
-    //context.fillStyle = "black";
-    
-   // context.fill(pathKonva);
+    // context.fillStyle = "black";
+    // context.fill(pathKonva);
     
     const totalLength = path.node().getTotalLength();
 
-    let textLength = context.measureText(label).width; // Adjusted for letter spacing
+    let textLength = context.measureText(component.Label).width; // Adjusted for letter spacing
 
 
     // This controls the spacing between characters
-    let offset = (waveDims['Principle'].Width - textLength)/2; // Center the text by subtracting half the text length from total path length
+    let offset = (2*halfWidth - textLength)/2; // Center the text by subtracting half the text length from total path length
     //let offset = 0;
 
     const fontSize = 11; // Adjust the font size as needed
     context.font = `${fontSize}px Manrope`;
     context.fillStyle = 'black';
 
-    // Iterate through each character in the label text
-    for (let i = 0; i < label.length; i++) {
-        const char = label[i];
-        const charWidth = context.measureText(char).width;
+     // Find the index of the first space
+     const firstIndex = component.Label.indexOf(' ');
+ 
+    let firstPart, secondPart;
+    if(component.Code === "P6") {
+        firstPart = component.Label.substring(0, firstIndex);
+        secondPart = component.Label.substring(firstIndex + 1);
 
-        // Get the position and angle along the path at the current offset
-        const point = path.node().getPointAtLength(offset);
-        const nextPoint = path.node().getPointAtLength(offset + 1); // For angle calculation
-        
-        // Calculate the angle based on the tangent to the path
-        const angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
-
-        // Save context state, translate to the point on the path, and rotate to match the angle
-        context.save();
-        context.translate(point.x, point.y);
-        context.rotate(angle);
-
-        // Draw the character
-        context.fillText(char, 0, 0); // Adjust centering
-
-        // Restore the context state
-        context.restore();
-
-        // Update the offset for the next character
-        offset += charWidth;
-    }
-}
+        let textLengthFirst = context.measureText(firstPart).width; // Adjusted for letter spacing
+        let textLengthSecond = context.measureText(secondPart).width; // Adjusted for letter spacing
+        let firstOffset = (2*halfWidth - textLengthFirst)/2; // Center the text by subtracting half the text length from total path length
+        let secontOffset = (2*halfWidth - textLengthSecond)/2; // Center the text by subtracting half the text length from total path length
 
 
-function drawCurvedText(text, pathPoints, context, letterSpacingFactor = 1) {
-    let totalPathLength = 0;
-    let distances = [];
+         // Iterate through each character in the label text
+         for (let i = 0; i < firstPart.length; i++) {
+            let char = firstPart[i];
+            let charWidth = context.measureText(char).width;
 
-    // Calculate the total length of the path and distance between points
-    for (let i = 0; i < pathPoints.length - 1; i++) {
-        let dx = pathPoints[i + 1].x - pathPoints[i].x;
-        let dy = pathPoints[i + 1].y - pathPoints[i].y;
-        let segmentLength = Math.sqrt(dx * dx + dy * dy);
-        distances.push(segmentLength);
-        totalPathLength += segmentLength;
-    }
+            // Get the position and angle along the path at the current offset
+            let point = path.node().getPointAtLength(firstOffset);
+            let nextPoint = path.node().getPointAtLength(firstOffset + 1); // For angle calculation
+            
+            // Calculate the angle based on the tangent to the path
+            let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
 
+            // Save context state, translate to the point on the path, and rotate to match the angle
+            context.save();
+            context.translate(point.x, point.y);
+            context.rotate(angle);
+            // Draw the character
+            context.fillText(char, 0, -6); // Adjust centering
 
-    let textLength = context.measureText(text).width * letterSpacingFactor; // Adjusted for letter spacing
+            // Restore the context state
+            context.restore();
 
-    // Center the text by calculating the starting text position
-    let textPosition = (waveDims['Principle'].Width - textLength)/2; // Center the text by subtracting half the text length from total path length
-
-    // Iterate over each character in the text
-    for (let charIndex = 0; charIndex < text.length; charIndex++) {
-        let char = text[charIndex];
-        let charWidth = context.measureText(char).width * letterSpacingFactor; // Apply letterSpacingFactor
-
-        // Find the position of the character along the path
-        let currentPathPosition = textPosition + (charWidth / 2); // Start centered on the middle of the path
-
-        let accumulatedDistance = 0;
-        let segmentIndex = 0;
-
-        // Find the segment in which the current character should be placed
-        while (segmentIndex < distances.length && accumulatedDistance + distances[segmentIndex] < currentPathPosition) {
-            accumulatedDistance += distances[segmentIndex];
-            segmentIndex++;
+            // Update the offset for the next character
+            firstOffset += charWidth;
         }
 
+              // Iterate through each character in the label text
+              for (let i = 0; i < secondPart.length; i++) {
+                let char = secondPart[i];
+                let charWidth = context.measureText(char).width;
+    
+                // Get the position and angle along the path at the current offset
+                let point = path.node().getPointAtLength(secontOffset);
+                let nextPoint = path.node().getPointAtLength(secontOffset + 1); // For angle calculation
+                
+                // Calculate the angle based on the tangent to the path
+                let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
+    
+                // Save context state, translate to the point on the path, and rotate to match the angle
+                context.save();
+                context.translate(point.x, point.y);
+                context.rotate(angle);
+                // Draw the character
+                context.fillText(char, 0, 6); // Adjust centering
+    
+                // Restore the context state
+                context.restore();
+    
+                // Update the offset for the next character
+                secontOffset += charWidth;
+            }
+        
+    
+    } else {
+        // Iterate through each character in the label text
+        for (let i = 0; i < component.Label.length; i++) {
+            let char = component.Label[i];
+            let charWidth = context.measureText(char).width;
 
-        let segmentStart = pathPoints[segmentIndex];
-        let segmentEnd = pathPoints[segmentIndex + 1];
+            // Get the position and angle along the path at the current offset
+            let point = path.node().getPointAtLength(offset);
+            let nextPoint = path.node().getPointAtLength(offset + 1); // For angle calculation
+            
+            // Calculate the angle based on the tangent to the path
+            let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
 
-        let segmentLength = distances[segmentIndex];
-        let segmentProgress = (currentPathPosition - accumulatedDistance) / segmentLength;
+            // Save context state, translate to the point on the path, and rotate to match the angle
+            context.save();
+            context.translate(point.x, point.y);
+            context.rotate(angle);
+            // Draw the character
+            context.fillText(char, 0, 0); // Adjust centering
 
-        // Calculate character's position along the segment
-        let charX = segmentStart.x + segmentProgress * (segmentEnd.x - segmentStart.x);
-        let charY = segmentStart.y + segmentProgress * (segmentEnd.y - segmentStart.y);
+            // Restore the context state
+            context.restore();
 
-        // Calculate the angle of the segment
-        let angle = Math.atan2(segmentEnd.y - segmentStart.y, segmentEnd.x - segmentStart.x);
-
-        // Save the context, translate and rotate to align with the curve
-        context.save();
-        context.translate(charX, charY);
-        context.rotate(angle);
-        const fontSize = size / 50; // Adjust as needed
-        context.font = `500 ${fontSize}px Manrope`;
-        context.fillStyle = 'black';
-        // Draw the character at the calculated position
-        context.fillText(char, 0, 0);
-
-        // Restore the context
-        context.restore();
-
-        // Move to the next position for the next character
-        textPosition += charWidth;
+            // Update the offset for the next character
+            offset += charWidth;
+        }
     }
 }
 
 
+// function drawText(component, action, context) {
+//     // Text
+//     if (action === "initial-0" || action === "initial-1") {
+//         return
+//     } else if (action === "initial-2") {
+//         if(component.Type !== "Principle")
+//             return
+//     } else if (action === "initial-3") {
+//         if(component.Type === "Dimension")
+//             return 
+//     }
+
+//     let color;
+//     if(component.Type === "Principle")
+//         color = '#269c76';
+//     else
+//         color = 'white';
+
+//     const flippedTexts = ['Pe3', 'Pe4', 'Pe5', 'Pe6', 'D4', 'D5', 'D6', 'D7', 'D8'];
+    
+//     if(flippedTexts.includes(component.Code))
+//         context.rotate(Math.PI);
+//     // Draw main text
+//     // Calculate font size based on dimension
+//     const fontSize = size / 39; // Adjust as needed
+//     context.font = `500 ${fontSize}px Manrope`;
+//     context.fillStyle = color;
+//     context.textAlign = 'center';
+//     context.textBaseline = 'middle';
+
+//     // Find the index of the first space
+//     const firstIndex = component.Label.indexOf(' ');
+//     const lastIndex = component.Label.lastIndexOf(' ');
+
+//     let firstPart, secondPart;
+//     if(component.Code === "P1") {
+//         firstPart = component.Label.substring(0, lastIndex);
+//         secondPart = component.Label.substring(lastIndex + 1);
+//     } else {
+//         // Split the string into two parts based on the first space
+//         firstPart = component.Label.substring(0, firstIndex);
+//         secondPart = component.Label.substring(firstIndex + 1);
+//     }
+
+//     let vPosition = -6;
+//     if(component.Code === 'Pe4')
+//         vPosition = -4;
+
+//     if(firstPart.length < 5)
+//         context.fillText(component.Label, 0, 0);
+//     else{
+//         context.fillText(firstPart, 0, vPosition);
+//         context.fillText(secondPart, 0, vPosition+12);
+//     }
+
+//     let topSpace;
+//     if(component.Type === "Principle")
+//         topSpace = -22;
+//     else if(component.Type === "Perspective")
+//         topSpace = -16;
+//     else if(component.Type === "Dimension")
+//         topSpace = -18;
+
+//     // Draw identifier
+//     const LabelFontSize = size / 50; // Adjust as needed
+//     context.fillStyle = color;
+//     context.font = `200 ${LabelFontSize}px Manrope`;
+//     context.textAlign = 'center';
+//     context.textBaseline = 'middle';
+//     context.fillText(component.Code, 0, topSpace);
+    
+// }
 
 // SVG Path drawing function
 const drawBookmarkFilled = (component, context, shape, action, savedComponents, initialState) => {
@@ -819,79 +907,6 @@ const drawBookmarkFilled = (component, context, shape, action, savedComponents, 
         context.fillStrokeShape(shape);
     }
 };
-
-function drawText(component, action, context) {
-    // Text
-    if (action === "initial-0" || action === "initial-1") {
-        return
-    } else if (action === "initial-2") {
-        if(component.Type !== "Principle")
-            return
-    } else if (action === "initial-3") {
-        if(component.Type === "Dimension")
-            return 
-    }
-
-    let color;
-    if(component.Type === "Principle")
-        color = '#269c76';
-    else
-        color = 'white';
-
-    const flippedTexts = ['Pe3', 'Pe4', 'Pe5', 'Pe6', 'D4', 'D5', 'D6', 'D7', 'D8'];
-    
-    if(flippedTexts.includes(component.Code))
-        context.rotate(Math.PI);
-    // Draw main text
-    // Calculate font size based on dimension
-    const fontSize = size / 39; // Adjust as needed
-    context.font = `500 ${fontSize}px Manrope`;
-    context.fillStyle = color;
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-
-    // Find the index of the first space
-    const firstIndex = component.Label.indexOf(' ');
-    const lastIndex = component.Label.lastIndexOf(' ');
-
-    let firstPart, secondPart;
-    if(component.Code === "P1") {
-        firstPart = component.Label.substring(0, lastIndex);
-        secondPart = component.Label.substring(lastIndex + 1);
-    } else {
-        // Split the string into two parts based on the first space
-        firstPart = component.Label.substring(0, firstIndex);
-        secondPart = component.Label.substring(firstIndex + 1);
-    }
-
-    let vPosition = -6;
-    if(component.Code === 'Pe4')
-        vPosition = -4;
-
-    if(firstPart.length < 5)
-        context.fillText(component.Label, 0, 0);
-    else{
-        context.fillText(firstPart, 0, vPosition);
-        context.fillText(secondPart, 0, vPosition+12);
-    }
-
-    let topSpace;
-    if(component.Type === "Principle")
-        topSpace = -22;
-    else if(component.Type === "Perspective")
-        topSpace = -16;
-    else if(component.Type === "Dimension")
-        topSpace = -18;
-
-    // Draw identifier
-    const LabelFontSize = size / 50; // Adjust as needed
-    context.fillStyle = color;
-    context.font = `200 ${LabelFontSize}px Manrope`;
-    context.textAlign = 'center';
-    context.textBaseline = 'middle';
-    context.fillText(component.Code, 0, topSpace);
-    
-}
 
 const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action, selectedComponents) => {
     if (action === "initial-0" || action === "initial-1") {
