@@ -182,7 +182,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     if(firstMessage) {
       setFirstMessage((prevState) => ({
         ...prevState,
-        analyze: false,
+        contribute: false,
       }));
     }
   };
@@ -193,7 +193,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
       <OLCompass 
         colors={colors} 
         position="left" 
-        action="analyze"
+        action="contribute"
         onEnterClick={handleEnterClick} 
         resetState={resetState} 
         resetCompass={resetCompass}

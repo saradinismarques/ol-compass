@@ -143,14 +143,14 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                     onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type, correspondingConcepts);
                 }
             }
-        } else if(action === "get-inspired" || action === "analyze" || action === "ideate") {
+        } else if(action === "get-inspired" || action === "contribute" || action === "ideate") {
             setClickedIds(prevClickedIds => 
                 prevClickedIds.includes(id)
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
                 : [...prevClickedIds, id] // Add ID if not already clicked
             );
 
-            if(action === "get-inspired" || action ==="analyze") {
+            if(action === "get-inspired" || action ==="contribute") {
                 if(onButtonClick)
                     onButtonClick();
             }
@@ -200,7 +200,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
         setHoveredId(id);
         hoveredIdRef.current = id; 
 
-        if(action === "learn" && components[id].Type === "Principle") {
+        if(components[id].Type === "Principle") {
             // Clear any existing timeout to avoid overlaps
             clearTimeout(tooltipTimeout);
 
@@ -212,7 +212,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                     setTooltipText(components[id].Tooltip);
                     setTooltipVisible(true);
                 }
-            }, 1000); // 1-second delay
+            }, 500); // 1-second delay
         }
     };
 
@@ -248,7 +248,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
             if(resetState)
                 resetState();
-        } else if (e.key === 'Enter' && (action === "analyze" || action === "get-inspired")) {
+        } else if (e.key === 'Enter' && (action === "contribute" || action === "get-inspired")) {
             if (onEnterClick) {
                 let codes = clickedIdsRef.current.map(id => components[id].Code);
                 onEnterClick(codes);
@@ -362,7 +362,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                 ))} 
 
                 {/* Tooltip */}
-                {action ==="learn" && tooltipVisible && (
+                {(action ==="learn" || action ==="contribute" || action ==="get-inspired") && tooltipVisible && (
                 <Label x={tooltipPos.x} y={tooltipPos.y} opacity={0.9}>
                     <Tag
                         fill="#acaaaa" // Background color for the tooltip
@@ -663,7 +663,6 @@ function putTextAlongPath(text, context, path, offset, y) {
 }
 
 function drawText(component, context, halfWidth, halfHeight, action) {
-
     if (action === "initial-0" || action === "initial-1") {
         return
     } else if (action === "initial-2") {
@@ -673,13 +672,19 @@ function drawText(component, context, halfWidth, halfHeight, action) {
             if(component.Type === "Dimension")
                 return 
     }
+
+    let color;
+    if(component.Type === "Principle")
+        color = 'black';
+    else
+        color = 'white';
+
     // Define the SVG path using D3.js (You can customize the path string as needed)
     let pathD;
     if(component.Type === 'Principle')
         pathD = "M 0 50 Q 50 80, 100 50 T 200 50";
     else
         pathD = "M 0 50 Q 50 20, 100 50 T 200 50";
-
 
     let pathKonva;
     if(component.Type === 'Principle')
@@ -711,11 +716,9 @@ function drawText(component, context, halfWidth, halfHeight, action) {
     
     const totalLength = path.node().getTotalLength();
 
-   
-
     const fontSize = 11; // Adjust the font size as needed
     context.font = `${fontSize}px Manrope`;
-    context.fillStyle = 'black';
+    context.fillStyle = color;
 
      // Find the index of the first space
  

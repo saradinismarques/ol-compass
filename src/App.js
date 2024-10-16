@@ -25,7 +25,7 @@ function App() {
   const initialfirstMessage = useMemo(() => ({
     learn: true, 
     getInspired: true,
-    analyze: true,
+    contribute: true,
   }), []);
   const [firstMessage, setFirstMessage] = useState(initialfirstMessage);
 
@@ -37,7 +37,7 @@ function App() {
           <Route path="/ol-compass/home" element={<HomePage colors={colors}/>} />
           <Route path="/ol-compass/learn" element={<LearnPage colors={colors} savedComponents={savedComponents} setSavedComponents={setSavedComponents} firstMessage={firstMessage.learn} setFirstMessage={setFirstMessage}/>} />
           <Route path="/ol-compass/get-inspired" element={<GetInspiredPage colors={colors} savedCaseStudies={savedCaseStudies} setSavedCaseStudies={setSavedCaseStudies} newCaseStudies={newCaseStudies} firstMessage={firstMessage.getInspired} setFirstMessage={setFirstMessage} />} />
-          <Route path="/ol-compass/contribute" element={<ContributePage colors={colors} newCaseStudies={newCaseStudies} setNewCaseStudies={setNewCaseStudies} firstMessage={firstMessage.analyze} setFirstMessage={setFirstMessage}/>} />
+          <Route path="/ol-compass/contribute" element={<ContributePage colors={colors} newCaseStudies={newCaseStudies} setNewCaseStudies={setNewCaseStudies} firstMessage={firstMessage.contribute} setFirstMessage={setFirstMessage}/>} />
           <Route path="/ol-compass/contextualize" element={<ContextualizePage colors={colors} />} />
           <Route path="/ol-compass/ideate" element={<IdeatePage colors={colors}/>} />
           <Route path="/ol-compass/compare" element={<ComparePage colors={colors}/>} />
