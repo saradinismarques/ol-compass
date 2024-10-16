@@ -230,7 +230,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
         // Clear the tooltip timeout to prevent it from showing if mouse leaves
         clearTimeout(tooltipTimeout);
 
-        if(action === "learn") {
+        if(action === "learn" || action === "contribute" || action === "get-inspired") {
              // Set the cancellation flag to prevent tooltip from showing
             setTooltipVisible(false);
             setTooltipText(""); // Clear the tooltip text
