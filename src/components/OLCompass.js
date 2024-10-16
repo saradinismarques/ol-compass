@@ -630,11 +630,49 @@ function drawWaveButton(component, action, context, shape) {
     // });
 
     //drawText(component, action, context);
-    drawTextAlongPath(component, context, halfWidth, halfHeight);
+    drawText(component, context, halfWidth, halfHeight, action);
     //drawCurvedText(component.Label, pointsT, context);
 }
 
-function drawTextAlongPath(component, context, halfWidth, halfHeight) {
+function putTextAlongPath(text, context, path, offset, y) {
+    // Iterate through each character in the label text
+    for (let i = 0; i < text.length; i++) {
+        let char = text[i];
+        let charWidth = context.measureText(char).width;
+
+        // Get the position and angle along the path at the current offset
+        let point = path.node().getPointAtLength(offset);
+        let nextPoint = path.node().getPointAtLength(offset + 1); // For angle calculation
+        
+        // Calculate the angle based on the tangent to the path
+        let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
+
+        // Save context state, translate to the point on the path, and rotate to match the angle
+        context.save();
+        context.translate(point.x, point.y);
+        context.rotate(angle);
+        // Draw the character
+        context.fillText(char, 0, y); // Adjust centering
+
+        // Restore the context state
+        context.restore();
+
+        // Update the offset for the next character
+        offset += charWidth;
+    }
+}
+
+function drawText(component, context, halfWidth, halfHeight, action) {
+
+    if (action === "initial-0" || action === "initial-1") {
+        return
+    } else if (action === "initial-2") {
+        if(component.Type !== "Principle")
+            return
+        } else if (action === "initial-3") {
+            if(component.Type === "Dimension")
+                return 
+    }
     // Define the SVG path using D3.js (You can customize the path string as needed)
     let pathD;
     if(component.Type === 'Principle')
@@ -649,12 +687,11 @@ function drawTextAlongPath(component, context, halfWidth, halfHeight) {
     else
         pathKonva = new Path2D("M 0 50 Q 50 20, 100 50 T 200 50");
 
-
     // Create an invisible SVG path element to use with D3
     const svg = d3.create("svg").attr("width", 0).attr("height", 0);
     const path = svg.append("path").attr("d", pathD);
-   // context.restore();
-   if(component.Type === 'Principle')
+
+    if(component.Type === 'Principle')
         context.translate(-halfWidth, -1.3*halfHeight);
     else
         context.translate(-halfWidth, -1.3*halfHeight);
@@ -668,120 +705,39 @@ function drawTextAlongPath(component, context, halfWidth, halfHeight) {
             context.translate(170, 90);
 
         context.rotate(Math.PI);
-        //context.translate(component.x*0.3, component.y*0.25);
-
     }
-    //context.rotate(angle);
-
     // context.fillStyle = "black";
     // context.fill(pathKonva);
     
     const totalLength = path.node().getTotalLength();
 
-    let textLength = context.measureText(component.Label).width; // Adjusted for letter spacing
-
-
-    // This controls the spacing between characters
-    let offset = (2*halfWidth - textLength)/2; // Center the text by subtracting half the text length from total path length
-    //let offset = 0;
+   
 
     const fontSize = 11; // Adjust the font size as needed
     context.font = `${fontSize}px Manrope`;
     context.fillStyle = 'black';
 
      // Find the index of the first space
-     const firstIndex = component.Label.indexOf(' ');
  
-    let firstPart, secondPart;
     if(component.Code === "P6") {
-        firstPart = component.Label.substring(0, firstIndex);
-        secondPart = component.Label.substring(firstIndex + 1);
+        let firstIndex = component.Label.indexOf(' ');
+        let firstPart = component.Label.substring(0, firstIndex);
+        let secondPart = component.Label.substring(firstIndex + 1);
 
-        let textLengthFirst = context.measureText(firstPart).width; // Adjusted for letter spacing
-        let textLengthSecond = context.measureText(secondPart).width; // Adjusted for letter spacing
-        let firstOffset = (2*halfWidth - textLengthFirst)/2; // Center the text by subtracting half the text length from total path length
-        let secontOffset = (2*halfWidth - textLengthSecond)/2; // Center the text by subtracting half the text length from total path length
+        let firstPartLength = context.measureText(firstPart).width; // Adjusted for letter spacing
+        let secondPartLength = context.measureText(secondPart).width; // Adjusted for letter spacing
+        let firstOffset = (2*halfWidth - firstPartLength)/2; // Center the text by subtracting half the text length from total path length
+        let secondOffset = (2*halfWidth - secondPartLength)/2; // Center the text by subtracting half the text length from total path length
 
-
-         // Iterate through each character in the label text
-         for (let i = 0; i < firstPart.length; i++) {
-            let char = firstPart[i];
-            let charWidth = context.measureText(char).width;
-
-            // Get the position and angle along the path at the current offset
-            let point = path.node().getPointAtLength(firstOffset);
-            let nextPoint = path.node().getPointAtLength(firstOffset + 1); // For angle calculation
-            
-            // Calculate the angle based on the tangent to the path
-            let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
-
-            // Save context state, translate to the point on the path, and rotate to match the angle
-            context.save();
-            context.translate(point.x, point.y);
-            context.rotate(angle);
-            // Draw the character
-            context.fillText(char, 0, -6); // Adjust centering
-
-            // Restore the context state
-            context.restore();
-
-            // Update the offset for the next character
-            firstOffset += charWidth;
-        }
-
-              // Iterate through each character in the label text
-              for (let i = 0; i < secondPart.length; i++) {
-                let char = secondPart[i];
-                let charWidth = context.measureText(char).width;
-    
-                // Get the position and angle along the path at the current offset
-                let point = path.node().getPointAtLength(secontOffset);
-                let nextPoint = path.node().getPointAtLength(secontOffset + 1); // For angle calculation
-                
-                // Calculate the angle based on the tangent to the path
-                let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
-    
-                // Save context state, translate to the point on the path, and rotate to match the angle
-                context.save();
-                context.translate(point.x, point.y);
-                context.rotate(angle);
-                // Draw the character
-                context.fillText(char, 0, 6); // Adjust centering
-    
-                // Restore the context state
-                context.restore();
-    
-                // Update the offset for the next character
-                secontOffset += charWidth;
-            }
-        
-    
+        putTextAlongPath(firstPart, context, path, firstOffset, -6)
+        putTextAlongPath(secondPart, context, path, secondOffset, 6)
     } else {
-        // Iterate through each character in the label text
-        for (let i = 0; i < component.Label.length; i++) {
-            let char = component.Label[i];
-            let charWidth = context.measureText(char).width;
+        let textLength = context.measureText(component.Label).width; // Adjusted for letter spacing
+        // This controls the spacing between characters
+        let offset = (2*halfWidth - textLength)/2; // Center the text by subtracting half the text length from total path length
+        //let offset = 0;
 
-            // Get the position and angle along the path at the current offset
-            let point = path.node().getPointAtLength(offset);
-            let nextPoint = path.node().getPointAtLength(offset + 1); // For angle calculation
-            
-            // Calculate the angle based on the tangent to the path
-            let angle = Math.atan2(nextPoint.y - point.y, nextPoint.x - point.x);
-
-            // Save context state, translate to the point on the path, and rotate to match the angle
-            context.save();
-            context.translate(point.x, point.y);
-            context.rotate(angle);
-            // Draw the character
-            context.fillText(char, 0, 0); // Adjust centering
-
-            // Restore the context state
-            context.restore();
-
-            // Update the offset for the next character
-            offset += charWidth;
-        }
+        putTextAlongPath(component.Label, context, path, offset, 0)
     }
 }
 
@@ -947,9 +903,9 @@ const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action
 
 const getGradientColor = (code, type, colors) => {
     if (code === 'Pe1')
-        return [0, colors.Perspective, 1, colors.Principle];
+        return [0, colors.Perspective, 0.9, colors.Principle];
     else if(code === 'D1')
-        return [0, colors.Dimension, 1, colors.Perspective];
+        return [0, colors.Dimension, 0.9, colors.Perspective];
     else if (type === 'Principle')
         return [0, colors.Principle, 1, colors.Principle];  
     else if (type === 'Perspective')

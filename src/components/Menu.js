@@ -30,8 +30,8 @@ const Menu = () => {
         return 'learn';
       case '/ol-compass/get-inspired':
         return 'get-inspired';
-      case '/ol-compass/analyze':
-        return 'analyze';
+      case '/ol-compass/contribute':
+        return 'contribute';
       case '/ol-compass/contextualize':
         return 'contextualize';
       case '/ol-compass/ideate':
@@ -68,10 +68,10 @@ const Menu = () => {
         GET INSPIRED
       </Link>
       <Link
-        to="/ol-compass/analyze"
-        className={`menu-button ${activeButton === 'analyze' ? 'active' : ''}`}
+        to="/ol-compass/contribute"
+        className={`menu-button ${activeButton === 'contribute' ? 'active' : ''}`}
       >
-        ANALYZE
+        CONTRIBUTE
       </Link>
       {showMore && (
         <>

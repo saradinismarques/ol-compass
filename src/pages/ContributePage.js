@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import '../styles/AnalyzePage.css';
+import '../styles/ContributePage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
 
 
-const AnalyzePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage}) => {
+const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage}) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -312,4 +312,4 @@ const AnalyzePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage})
   );
 };
 
-export default AnalyzePage;
+export default ContibutePage;
