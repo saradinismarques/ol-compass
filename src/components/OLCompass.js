@@ -8,9 +8,9 @@ import * as d3 from 'd3';
 // Sizes and positions 
 const size = 480;
 const waveDims = {
-    "Principle": { Width: size / 2.9, Height: size / 8, CornerRadius: size / 7 },
-    "Perspective": { Width: size / 2.9, Height: size / 8, CornerRadius: size / 7 },
-    "Dimension": { Width: size / 2.9, Height: size / 8, CornerRadius: size / 7 }
+    "Principle": { Width: size / 2.8, Height: size / 6.5, CornerRadius: size / 12 },
+    "Perspective": { Width: size / 2.8, Height: size / 6.5, CornerRadius: size / 12 },
+    "Dimension": { Width: size / 2.8, Height: size / 6.5, CornerRadius: size / 12  }
 };
 
 const getCenter = (action) => {
@@ -425,7 +425,7 @@ function getPrinciples(principlesData, center) {
 function getPerspectives(perspectivesData, center) {
     const x = center.x;
     const y = center.y;
-    const radius = size/2.77;
+    const radius = size/2.9;
     const numPerspectives = 7;
 
     const perspectives = calculateAroundCirclePositions(perspectivesData, x, y, radius, numPerspectives);
@@ -447,12 +447,15 @@ function getDimensions(dimensionsData, center) {
 function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfComponents) {
     const angleStep = (2 * Math.PI) / numberOfComponents;
     const StartAngle = -Math.PI/2;
-    
+
     for (let i = 0; i < numberOfComponents; i++) {
       let angle = i * angleStep + StartAngle;
       const x = centerX + radius * Math.cos(angle);
       const y = centerY + radius * Math.sin(angle);
-      angle = angle + Math.PI / 2;
+      if(arr[i].Type === 'Perspective')  
+        angle = angle + Math.PI / 2 - Math.PI*0.01;
+      else 
+        angle = angle + Math.PI / 2 - Math.PI*0.07;
 
       arr[i]["x"] = x;
       arr[i]["y"] = y;
@@ -513,60 +516,59 @@ function drawWaveButton(component, action, context, shape) {
     // context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
     // context.closePath();
     // context.fillStrokeShape(shape);
-
-
-    const left = { x: -halfWidth, y: 0 };
-    const right = { x: halfWidth, y: 0 };
-    let aTopLeft, mTopLeft, aTopRight, aBottomRight, mBottomLeft, aBottomLeft;
-
-    if(component.Type === 'Principle') {
-        aTopLeft = { x: -(2/3)*halfWidth, y: (1/3)*halfHeight };
-        mTopLeft = { x: -halfWidth/6, y: -(2/6)*halfHeight };
-        aTopRight = { x: halfWidth/3, y: -halfHeight };
-        aBottomRight = { x: (2/3)*halfWidth, y: -(1/3)*halfHeight };
-        mBottomLeft = { x: halfWidth/6, y: (2/6)*halfHeight };
-        aBottomLeft = { x: -halfWidth/3, y:  halfHeight};
-    } else {
-        aTopLeft = { x: -halfWidth/3, y: -halfHeight };
-        mTopLeft = { x: halfWidth/6, y: -(2/6)*halfHeight };
-        aTopRight = { x: (2/3)*halfWidth, y:(1/3)*halfHeight };
-        aBottomRight = { x: halfWidth/3, y: halfHeight };
-        mBottomLeft = { x: -halfWidth/6, y: (2/6)*halfHeight };
-        aBottomLeft = { x: -(2/3)*halfWidth, y:-(1/3)*halfHeight };
-    }
+    // if(component.Label !== 'KNOWLEDGE')
+    //     return;
 
     
-    
+    let left, lTop, aTopLeft, mTop, rTop, aTopRight, right, rBottom, aBottomRight, mBottom, lBottom, aBottomLeft;
+
+    // if(component.Type === 'Principle') {
+    //     aTopLeft = { x: -(2/3)*halfWidth, y: (1/3)*halfHeight };
+    //     mTopLeft = { x: -halfWidth/6, y: -(2/6)*halfHeight };
+    //     aTopRight = { x: halfWidth/3, y: -halfHeight };
+    //     aBottomRight = { x: (2/3)*halfWidth, y: -(1/3)*halfHeight };
+    //     mBottomLeft = { x: halfWidth/6, y: (2/6)*halfHeight };
+    //     aBottomLeft = { x: -halfWidth/3, y:  halfHeight};
+    // } else {
+
+    left = { x: -halfWidth+5, y: -5 };
+    lTop = { x: -(2/3)*halfWidth, y: -(2/3)*halfHeight+5 };
+    aTopLeft = { x: -halfWidth/3, y: -halfHeight-5 };
+    mTop = { x: 0, y: -(2/3)*halfHeight+5 };
+    rTop = { x: (1/3)*halfWidth, y: 0 };
+    aTopRight = { x: (2/3)*halfWidth, y:(1/3)*halfHeight+5 };
+    right = { x: halfWidth-5, y: 5 };
+    rBottom = { x: (2/3)*halfWidth, y: (2/3)*halfHeight-5 };
+    aBottomRight = { x: halfWidth/3, y: halfHeight+5 };
+    mBottom = { x: 0, y: (2/3)*halfHeight-5}
+    lBottom = { x: -(1/3)*halfWidth, y: 0 };
+    aBottomLeft = { x: -(2/3)*halfWidth, y:-(1/3)*halfHeight-5 };
+
+     
     context.beginPath();
     context.moveTo(left.x, left.y);
-    context.arcTo(aTopLeft.x, aTopLeft.y, mTopLeft.x, mTopLeft.y, cornerRadius);
+    //context.lineTo(lTop.x, lTop.y);
+    context.arcTo(aTopLeft.x, aTopLeft.y, mTop.x, mTop.y, cornerRadius);
+    context.lineTo(rTop.x, rTop.y);
     context.arcTo(aTopRight.x, aTopRight.y, right.x, right.y, cornerRadius);
-   
-    if(component.Type === 'Principle') 
-        context.lineTo(right.x, right.y);
-    context.arcTo(aBottomRight.x, aBottomRight.y, mBottomLeft.x, mBottomLeft.y, cornerRadius);
+    //context.lineTo(rBottom.x, rBottom.y);
+    context.arcTo(aBottomRight.x, aBottomRight.y, mBottom.x, mBottom.y, cornerRadius);
+    context.lineTo(lBottom.x, lBottom.y);
     context.arcTo(aBottomLeft.x, aBottomLeft.y, left.x, left.y, cornerRadius);
-    // const lTopLeft = { x: 0, y: -(2/3)*halfHeight };
-    // const lTopRight = { x: halfWidth/3, y: 0 };
-    // const lBottomRight = { x: 0, y: (2/3)*halfHeight };
-    // const lBottomLeft = { x: -halfWidth/3, y: 0 };
-    
-    // context.lineTo(lTopRight.x, lTopRight.y);
-    //context.lineTo(lBottomLeft.x, lBottomLeft.y);
-
     context.closePath();
     context.fillStrokeShape(shape);
 
    // Points array
     const points = [
-        left, aTopLeft, mTopLeft, aTopRight, right,
-        aBottomRight, mBottomLeft, aBottomLeft
+        left, lTop, aTopLeft, mTop, rTop,
+        aTopRight, right, rBottom, aBottomRight, 
+        mBottom, lBottom, aBottomLeft
     ];
 
     // Colors array for each point
     const colors = [
         'red', 'blue', 'green', 'yellow', 'purple', 'orange',
-        'pink', 'cyan', 'brown', 'magenta'
+        'pink', 'cyan', 'brown', 'magenta', 'black', 'gray'
     ];
 
     // Draw small circles at each point with different colors
