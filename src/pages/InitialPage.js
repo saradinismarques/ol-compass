@@ -76,13 +76,11 @@ const InitialPage = ({ colors }) => {
                     <p className='i-explanation'>
                         Ocean Literacy (OL) 
                         <br></br>
-                        is understanding our
+                        is the understanding of
                         <br></br>
-                        influence on the Ocean, 
+                        the Ocean-humanity 
                         <br></br>
-                        and the Ocean's 
-                        <br></br>
-                        influence on us.
+                        mutual influence.
                     </p>
                 </div>
                 </>
@@ -91,17 +89,13 @@ const InitialPage = ({ colors }) => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <p className='i-text'>OL is based on&nbsp;</p>
+                    <span className='i-text'>Ocean Literacy is based on </span>
                     <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 Principles
+                        7 scientific Principles
                     </span>
-                    <p className='i-text'>which summarize&nbsp;</p>
-                    <p className='i-text'>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        45 scientific concepts
-                    </span>
+                    <span className='i-text'>
                     .
-                    </p>
+                    </span>
                 </div>
                 </>
             );
@@ -109,26 +103,20 @@ const InitialPage = ({ colors }) => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <p className='i-text'>OL is based on&nbsp;</p>
+                    <span className='i-text'>Ocean Literacy is based on </span>
                     <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 Principles
+                        7 scientific Principles
                     </span>
-                    <p className='i-text'>which summarize&nbsp;</p>
-                    <p className='i-text'>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        45 scientific concepts
-                    </span>
+                    <span className='i-text'>
                     .
-                    </p>
-                    <p className='i-text'>
-                        Science is just one of the&nbsp;
+                    </span>
+                    <br></br>
+                    <br></br>
+                    <span className='i-text'>Science is just one of the </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         7 Perspectives
                     </span>
-                    </p>
-                    <p className='i-text'>
-                        from which OL can be seen.
-                    </p>
+                    <span className='i-text'> from which OL can be seen.</span>
                 </div>
                 </>
             );
@@ -136,35 +124,27 @@ const InitialPage = ({ colors }) => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <p className='i-text'>OL is based on&nbsp;</p>
+                    <span className='i-text'>Ocean Literacy is based on </span>
                     <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 Principles
+                        7 scientific Principles
                     </span>
-                    <p className='i-text'>which summarize&nbsp;</p>
-                    <p className='i-text'>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        45 scientific concepts
-                    </span>
+                    <span className='i-text'>
                     .
-                    </p>
-                    <p className='i-text'>
-                        Science is just one of the&nbsp;
+                    </span>
+                    <br></br>
+                    <br></br>
+                    <span className='i-text'>Science is just one of the </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         7 Perspectives
                     </span>
-                    </p>
-                    <p className='i-text'>
-                        from which OL can be seen.
-                    </p>
-                    <p className='i-text'>
-                        Knowledge is just one of the&nbsp;
+                    <span className='i-text'> from which OL can be seen.</span>
+                    <br></br>
+                    <br></br>
+                    <span className='i-text'>Knowledge is just one of the </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
                         10 Dimensions
                     </span>
-                    </p>
-                    <p className='i-text'>
-                        through which OL can be pursued.
-                    </p>
+                    <span className='i-text'> through which OL can be pursued.</span>
                 </div>
                 </>
             );

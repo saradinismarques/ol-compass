@@ -7,11 +7,9 @@ import * as d3 from 'd3';
 
 // Sizes and positions 
 const size = 480;
-const waveDims = {
-    "Principle": { Width: size / 2.77, Height: size / 6.5, CornerRadius: size / 12 },
-    "Perspective": { Width: size / 2.77, Height: size / 6.5, CornerRadius: size / 12 },
-    "Dimension": { Width: size / 2.77, Height: size / 6.5, CornerRadius: size / 12  }
-};
+const waveWidth = size/2.77;
+const waveHeight = size/6.5;
+const waveRadius = size/12;
 
 const getCenter = (action) => {
     if (action.startsWith("initial")) {
@@ -59,7 +57,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const circleRef = useRef({
         x: center.x, // Example center x
         y: center.y, // Example center y
-        radius: size/2 + waveDims.Dimension.Height/2// Example radius
+        radius: size/2 + waveHeight/2// Example radius
     });
 
     // Refs to update the state instantly
@@ -340,8 +338,8 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                         drawWaveButton(c, action, context, shape, savedComponents, initialState);
                         }}
                         id={String(i)}
-                        fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveDims[c.Type].Height/1.5 }}
-                        fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveDims[c.Type].Height/1.5 }}
+                        fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveHeight/1.5 }}
+                        fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveHeight/1.5 }}
                         fillLinearGradientColorStops={getGradientColor(c.Code, c.Type, colors)}
                         stroke={colors[c.Type]}
                         strokeWidth={0.01}
@@ -398,28 +396,12 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 function getPrinciples(principlesData, center) {
     const x = center.x;
     const y = center.y;
-
-    const width = waveDims.Principle.Width;
-    const height = waveDims.Principle.Height;
-    const halfWidth = width / 2;
-    const halfHeight = height / 2;
-    const margin = 0.7;
-    const angle = 0;
     const radius = size/6.3;
     const numPrinciples = 7;
 
     const principles = calculateAroundCirclePositionsPrinciples(principlesData, x, y, radius, numPrinciples);
 
-
-    // principlesData[0] = { ...principlesData[0], x: x, y: y, angle: angle };
-    // principlesData[1] = { ...principlesData[1], x: x - halfWidth - margin, y: y - halfHeight - margin, angle: angle };
-    // principlesData[2] = { ...principlesData[2], x: x + halfWidth + margin, y: y - halfHeight - margin, angle: angle };
-    // principlesData[3] = { ...principlesData[3], x: x, y: y - height - 2 * margin, angle: angle };
-    // principlesData[4] = { ...principlesData[4], x: x - halfWidth - margin, y: y + halfHeight + margin, angle: angle };
-    // principlesData[5] = { ...principlesData[5], x: x + halfWidth + margin, y: y + halfHeight + margin, angle: angle };
-    // principlesData[6] = { ...principlesData[6], x: x, y: y + height + 2 * margin, angle: angle };
-
-    return principlesData;
+    return principles;
 }
 
 function getPerspectives(perspectivesData, center) {
@@ -488,11 +470,6 @@ function drawWaveButton(component, action, context, shape) {
     const y = component.y;
     const angle = component.angle;
 
-    const dims = waveDims[component.Type];
-    const width = dims.Width;
-    const height = dims.Height;
-    const cornerRadius = dims.CornerRadius;
-
     // Save the current state of the canvas
     context.save();
     // Translate to the position where you want to draw the button
@@ -500,26 +477,9 @@ function drawWaveButton(component, action, context, shape) {
     // Rotate the canvas context to the calculated angle (in radians)
     context.rotate(angle);
 
-    const halfWidth =  width / 2;
-    const halfHeight =  height / 2;
+    const halfWidth =  waveWidth / 2;
+    const halfHeight =  waveHeight / 2;
 
-    // const top = { x: 0, y: -halfHeight };
-    // const right = { x: halfWidth, y: 0 };
-    // const bottom = { x: 0, y: halfHeight };
-    // const left = { x: -halfWidth, y: 0 };
-
-    // Shape 
-    // context.beginPath();
-    // context.moveTo(left.x, left.y);
-    // context.arcTo(top.x, top.y, right.x, right.y, cornerRadius);
-    // context.lineTo(right.x, right.y);
-    // context.arcTo(bottom.x, bottom.y, left.x, left.y, cornerRadius);
-    // context.closePath();
-    // context.fillStrokeShape(shape);
-    // if(component.Label !== 'ONE BIG OCEAN')
-    //     return;
-
-    
     let left, lTop, aTopLeft, mTop, rTop, aTopRight, right, rBottom, aBottomRight, mBottom, lBottom, aBottomLeft;
 
     if(component.Type === 'Principle') {
@@ -554,22 +514,22 @@ function drawWaveButton(component, action, context, shape) {
     if(component.Type === 'Principle') {
         context.moveTo(right.x, right.y);
         //context.lineTo(lTop.x, lTop.y);
-        context.arcTo(aTopRight.x, aTopRight.y, mTop.x, mTop.y, cornerRadius);
+        context.arcTo(aTopRight.x, aTopRight.y, mTop.x, mTop.y, waveRadius);
         context.lineTo(lTop.x, lTop.y);
-        context.arcTo(aTopLeft.x, aTopLeft.y, left.x, left.y, cornerRadius);
-        context.arcTo(aBottomLeft.x, aBottomLeft.y, mBottom.x, mBottom.y, cornerRadius);
+        context.arcTo(aTopLeft.x, aTopLeft.y, left.x, left.y, waveRadius);
+        context.arcTo(aBottomLeft.x, aBottomLeft.y, mBottom.x, mBottom.y, waveRadius);
         context.lineTo(rBottom.x, rBottom.y);
-        context.arcTo(aBottomRight.x, aBottomRight.y, right.x, right.y, cornerRadius);
+        context.arcTo(aBottomRight.x, aBottomRight.y, right.x, right.y, waveRadius);
     } else {
         context.moveTo(left.x, left.y);
         //context.lineTo(lTop.x, lTop.y);
-        context.arcTo(aTopLeft.x, aTopLeft.y, mTop.x, mTop.y, cornerRadius);
+        context.arcTo(aTopLeft.x, aTopLeft.y, mTop.x, mTop.y, waveRadius);
         context.lineTo(rTop.x, rTop.y);
-        context.arcTo(aTopRight.x, aTopRight.y, right.x, right.y, cornerRadius);
+        context.arcTo(aTopRight.x, aTopRight.y, right.x, right.y, waveRadius);
         //context.lineTo(rBottom.x, rBottom.y);
-        context.arcTo(aBottomRight.x, aBottomRight.y, mBottom.x, mBottom.y, cornerRadius);
+        context.arcTo(aBottomRight.x, aBottomRight.y, mBottom.x, mBottom.y, waveRadius);
         context.lineTo(lBottom.x, lBottom.y);
-        context.arcTo(aBottomLeft.x, aBottomLeft.y, left.x, left.y, cornerRadius);
+        context.arcTo(aBottomLeft.x, aBottomLeft.y, left.x, left.y, waveRadius);
     }
     
     context.closePath();
@@ -600,7 +560,6 @@ function drawWaveButton(component, action, context, shape) {
     // });
 
     // Define your points (pathPoints) based on your shapes
- 
     const leftT = { x: -halfWidth, y: 0};
     const rightT = { x: halfWidth, y: 0 };
 
@@ -744,80 +703,6 @@ function drawText(component, context, halfWidth, halfHeight, action) {
     }
 }
 
-
-// function drawText(component, action, context) {
-//     // Text
-//     if (action === "initial-0" || action === "initial-1") {
-//         return
-//     } else if (action === "initial-2") {
-//         if(component.Type !== "Principle")
-//             return
-//     } else if (action === "initial-3") {
-//         if(component.Type === "Dimension")
-//             return 
-//     }
-
-//     let color;
-//     if(component.Type === "Principle")
-//         color = '#269c76';
-//     else
-//         color = 'white';
-
-//     const flippedTexts = ['Pe3', 'Pe4', 'Pe5', 'Pe6', 'D4', 'D5', 'D6', 'D7', 'D8'];
-    
-//     if(flippedTexts.includes(component.Code))
-//         context.rotate(Math.PI);
-//     // Draw main text
-//     // Calculate font size based on dimension
-//     const fontSize = size / 39; // Adjust as needed
-//     context.font = `500 ${fontSize}px Manrope`;
-//     context.fillStyle = color;
-//     context.textAlign = 'center';
-//     context.textBaseline = 'middle';
-
-//     // Find the index of the first space
-//     const firstIndex = component.Label.indexOf(' ');
-//     const lastIndex = component.Label.lastIndexOf(' ');
-
-//     let firstPart, secondPart;
-//     if(component.Code === "P1") {
-//         firstPart = component.Label.substring(0, lastIndex);
-//         secondPart = component.Label.substring(lastIndex + 1);
-//     } else {
-//         // Split the string into two parts based on the first space
-//         firstPart = component.Label.substring(0, firstIndex);
-//         secondPart = component.Label.substring(firstIndex + 1);
-//     }
-
-//     let vPosition = -6;
-//     if(component.Code === 'Pe4')
-//         vPosition = -4;
-
-//     if(firstPart.length < 5)
-//         context.fillText(component.Label, 0, 0);
-//     else{
-//         context.fillText(firstPart, 0, vPosition);
-//         context.fillText(secondPart, 0, vPosition+12);
-//     }
-
-//     let topSpace;
-//     if(component.Type === "Principle")
-//         topSpace = -22;
-//     else if(component.Type === "Perspective")
-//         topSpace = -16;
-//     else if(component.Type === "Dimension")
-//         topSpace = -18;
-
-//     // Draw identifier
-//     const LabelFontSize = size / 50; // Adjust as needed
-//     context.fillStyle = color;
-//     context.font = `200 ${LabelFontSize}px Manrope`;
-//     context.textAlign = 'center';
-//     context.textBaseline = 'middle';
-//     context.fillText(component.Code, 0, topSpace);
-    
-// }
-
 // SVG Path drawing function
 const drawBookmarkFilled = (component, context, shape, action, savedComponents, initialState) => {
     if(action === "learn" && !initialState && savedComponents.includes(component.Code)) {    
@@ -825,12 +710,8 @@ const drawBookmarkFilled = (component, context, shape, action, savedComponents, 
         const y = component.y;
         const angle = component.angle;
 
-        const dims = waveDims[component.Type];
-        const width = dims.Width;
-        const height = dims.Height;
-
-        const halfWidth =  width / 2;
-        const halfHeight =  height / 2;
+        const halfWidth =  waveWidth / 2;
+        const halfHeight =  waveHeight / 2;
     
         const bottom = { x: 0, y: halfHeight };
         const left = { x: -halfWidth, y: 0 };
@@ -845,11 +726,11 @@ const drawBookmarkFilled = (component, context, shape, action, savedComponents, 
             context.rotate(angle);
 
         if(component.Type === "Principle")
-            context.translate(width/2.3, -1.56*height); // Start point
+            context.translate(waveWidth/2.3, -1.56*waveHeight); // Start point
         else if(component.Type === "Perspective")
-            context.translate(width/20, -2.49*height); // Start point
+            context.translate(waveWidth/20, -2.49*waveHeight); // Start point
         else if(component.Type === "Dimension")
-            context.translate(width/8, -2.19*height); // Start point
+            context.translate(waveWidth/8, -2.19*waveHeight); // Start point
         
         context.rotate(-rotation+ Math.PI/2);
 
@@ -869,17 +750,17 @@ const drawBookmarkFilled = (component, context, shape, action, savedComponents, 
 
 const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action, selectedComponents) => {
     if (action === "initial-0" || action === "initial-1") {
-        return 0.4
+        return 0.3
     } else if (action === "initial-2") {
         if(component.Type === "Principle") {
         return 1
 
         }
         else 
-            return 0.4
+            return 0.3
     } else if (action === "initial-3") {
         if(component.Type === "Dimension")
-            return 0.4
+            return 0.3
         else
             return 1
     } else if (action === "initial-4")

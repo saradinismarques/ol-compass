@@ -1,6 +1,6 @@
 .i-title-container {
     position: absolute;
-    top: 51.5%; /* Position item 50% from the top */
+    top: 50%; /* Position item 50% from the top */
     left: 50%; 
     transform: translate(-50%, -50%);
     max-width: 250px;
@@ -19,20 +19,20 @@
 }
 
 .i-welcome {
-    font-size: 1.3em;
+    font-size: 1.45em;
     font-weight: 400;
 }
 
 .i-title {
     margin-top: -25px;
     font-size: 2.8em;
-    font-weight: 500;
-    line-height: 1.2;
+    font-weight: 600;
+    line-height: 1;
 }
 
 .i-explanation {
     font-size: 1.3em;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 130%;
 }
 
@@ -40,7 +40,7 @@
     position: absolute;
     top: 27%;
     left: 70%;
-    max-width: 190px;
+    max-width: 230px;
     color: black;
     font-size: 1.2em;
     font-weight: 300;
@@ -52,7 +52,7 @@
 }
 
 .i-text.colored {
-    font-weight: 600;
+    font-weight: 500;
     white-space: nowrap;
 }
 
