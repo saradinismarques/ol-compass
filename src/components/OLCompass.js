@@ -20,7 +20,7 @@ const OLCompass = ({colors, action, position, onButtonClick, onClickOutside, res
         if (position === "center") {
             return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
         } else if (position === "left") {
-            return { x: window.innerWidth * 0.37, y: window.innerHeight * 0.46 };
+            return { x: window.innerWidth * 0.33, y: window.innerHeight * 0.46 };
         }
     };
     const center = getCenter(position);
@@ -634,8 +634,8 @@ function drawText(component, context, halfWidth, halfHeight, action) {
 
     let color;
     if(component.Type === "Principle")
-        color = 'black';
-    else
+        color = '#218067';
+    else 
         color = 'white';
 
     // Define the SVG path using D3.js (You can customize the path string as needed)
@@ -675,8 +675,7 @@ function drawText(component, context, halfWidth, halfHeight, action) {
     
     const totalLength = path.node().getTotalLength();
 
-    const fontSize = 11; // Adjust the font size as needed
-    context.font = `${fontSize}px Manrope`;
+    context.font = `500 11px Manrope`;
     context.fillStyle = color;
 
      // Find the index of the first space

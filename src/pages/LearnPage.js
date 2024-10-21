@@ -208,7 +208,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
       };
     }, [text]); // Run this effect when `text` changes
     return (
-      <div className="l-text">
+      <div className="l-text" style={{ color: textColor }}>
         <p dangerouslySetInnerHTML={{ __html: replaceUnderlinesWithButtons(text, currentConcept) }}></p>
       </div>
     );
@@ -224,6 +224,14 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
                 : state.code === 'P7' ? P7Image 
                 : null;
 
+  let textColor;
+  if(state.type === 'Principle')
+    textColor = "#218065"
+  else if(state.type === 'Perspective')
+    textColor = "#1c633e"
+  else if(state.type === 'Dimension')
+    textColor = "#216270"
+  
   return (
     <div>
     <div className={`container ${state.showMessage ? "blur-background" : ""}`}>
@@ -231,7 +239,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
         style={{
           background: state.initialState
             ? 'none'
-            : `linear-gradient(to right, transparent 30%, ${state.gradientColor} 70%)`
+            : `linear-gradient(to right, transparent 25%, ${state.gradientColor} 100%)`
         }}
       >
         <OLCompass 
@@ -295,34 +303,28 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
                 <>
                 <DynamicText text={state.paragraph} currentConcept={concept} />
                 <div className='l-concepts-container'>
-                  <h1 className='l-title-concepts'>{concept.label}</h1>
+                  <h1 className='l-title-concepts' style={{ color: textColor }}>{concept.label}</h1>
                   
                   {/* Navigation Arrows */}
                   {concept.index < state.concepts.length - 1 && (
                   <button className="l-arrow-button right" onClick={handleNext}>
                     <ArrowIcon 
-                      className="l-arrow-icon" // Apply your CSS class
+                      className="l-arrow-icon"  // Apply your CSS class
+                      style={{ fill: textColor }}
                     />
                   </button>
                   )}
                 </div>
-                  <div className="l-text-concepts expanded scroller">
+                  <div className="l-text-concepts expanded scroller" style={{ color: textColor, '--scrollbar-thumb-color': textColor }}>
                     <p>{concept.paragraph}</p>
                   </div>
                 </>
               )}
               {state.type !== "Principle" && (
                 <>
-                <div className="l-text">
+                <div className="l-text" style={{ color: textColor }}>
                   <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
                 </div>
-                {state.showDesignPrompt ? (
-                  <p className='l-design-prompt'>{state.designPrompt}</p>
-                ) : (
-                  <button onClick={toggleShowDesignPrompt} className="l-show-more-button">
-                    Design Prompt
-                  </button>
-                )}
                 </>
               )}
             </div>
