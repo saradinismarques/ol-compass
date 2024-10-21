@@ -207,7 +207,8 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                 if (hoveredIdRef.current === id) {  // Check if the tooltip was not cancelled
                     const mousePos = stage.getPointerPosition();
                     setTooltipPos({ x: mousePos.x, y: mousePos.y });
-                    setTooltipText(components[id].Tooltip);
+                    let cleanedText = components[id].Tooltip.replace('<br>', '');
+                    setTooltipText(cleanedText);
                     setTooltipVisible(true);
                 }
             }, 500); // 1-second delay
@@ -752,20 +753,25 @@ const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action
     if (action === "initial-0" || action === "initial-1") {
         return 0.3
     } else if (action === "initial-2") {
-        if(component.Type === "Principle") {
-        return 1
-
-        }
+        if(component.Type === "Principle")
+            return 1
         else 
             return 0.3
     } else if (action === "initial-3") {
-        if(component.Type === "Dimension")
-            return 0.3
+        if(component.Type === "Principle")
+            return 0.7;
+        else if(component.Type === "Perspective")
+            return 1;
         else
-            return 1
-    } else if (action === "initial-4")
-        return 1
-
+            return 0.3
+    } else if (action === "initial-4") {
+        if(component.Type === "Principle")
+            return 0.7;
+        else if(component.Type === "Perspective")
+            return 0.7;
+        else
+            return 1;
+    }
     if(action === "get-inspired-carousel" || action === "get-inspired-search") {
         if(selectedComponents.includes(component.Code))
             return 1;
