@@ -121,9 +121,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     }
   }, [newCaseStudies, getBookmarkState]);
 
-  const carouselHandleEnterClick = useCallback((e) => {
-    if(e.key !== 'Enter') return;
-
+  const carouselHandleEnterClick = () => {
     if(!carouselModeRef.current) return;
 
     setCarouselMode(true);
@@ -150,22 +148,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setAction('get-inspired-carousel');
     actionRef.current = 'get-inspired-carousel';
 
-  }, [state.initialState, state.firstClick, searchCaseStudies ]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', carouselHandleEnterClick);
-    return () => {
-        window.removeEventListener('keydown', carouselHandleEnterClick);
-    };
-}, [carouselHandleEnterClick]); // Dependency array includes carouselHandleEnterClick
-
-const defaultHandleEnterClick = (components) => {
-  if(carouselModeRef.current) return;
-
-  setAction('get-inspired-search');
-  actionRef.current = 'get-inspired-seatch';
-  searchCaseStudies(components);
-};
+  };
 
   const handleNext = () => {
     if (currentIndex < caseStudies.length - 1) {
@@ -209,6 +192,31 @@ const defaultHandleEnterClick = (components) => {
         initialState: false,
       });
     }
+  };
+
+  // Keyboard event handler
+  const handleKeyPress = useCallback((e) => {
+    if(e.key === 'Enter') 
+      carouselHandleEnterClick();
+    else if (e.key === 'ArrowUp') 
+      handlePrev();
+    else if (e.key === 'ArrowDown') 
+      handleNext();
+  }, [handlePrev, handleNext]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+        window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [carouselHandleEnterClick]); // Dependency array includes carouselHandleEnterClick
+
+  const defaultHandleEnterClick = (components) => {
+    if(carouselModeRef.current) return;
+
+    setAction('get-inspired-search');
+    actionRef.current = 'get-inspired-seatch';
+    searchCaseStudies(components);
   };
 
   const toggleBookmark = () => {
@@ -299,9 +307,6 @@ const defaultHandleEnterClick = (components) => {
       {!state.initialState && (
         <>
           <div className='gi-text-container'>
-            <p className='gi-results'>
-                <span className='bold-text'>{resultsNumber}</span> results 
-            </p> 
             <div className="gi-card-container">
               <button onClick={toggleBookmark} className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}>
                 <BookmarkIcon 
@@ -328,26 +333,28 @@ const defaultHandleEnterClick = (components) => {
                   <p className='gi-text-box collection'>/Collection Title + Collection Author/</p>
                 </div>
               </div>
-
-              {/* Navigation Arrows */}
-              {currentIndex > 0 && (
-                <button className="gi-arrow-button left" onClick={handlePrev}>
-                  <ArrowIcon 
-                    className='gi-arrow-icon'
-                  />
-
-                </button>
-              )}
-            
-              {currentIndex < caseStudies.length - 1 && (
-                <button className="gi-arrow-button right" onClick={handleNext}>
-                  <ArrowIcon 
-                    className='gi-arrow-icon'
-                  />
-                </button>
-              )}
             </div> 
           </div>
+          {/* Navigation Arrows */}
+          {currentIndex > 0 && (
+            <button className="gi-arrow-button up" onClick={handlePrev}>
+              <ArrowIcon 
+                className='gi-arrow-icon'
+              />
+
+            </button>
+          )}
+
+          {currentIndex < caseStudies.length - 1 && (
+            <button className="gi-arrow-button down" onClick={handleNext}>
+              <ArrowIcon 
+                className='gi-arrow-icon'
+            />
+            </button>
+          )}
+          <p className='gi-results'>
+            <span className='bold-text'>{resultsNumber}</span> results 
+          </p> 
         </>
       )}    
       <Menu />
@@ -357,7 +364,7 @@ const defaultHandleEnterClick = (components) => {
       <div className="message-box" style={{ width: 290 }}>
         <div className="question-circle">
             <QuestionIcon 
-              className="question-icon" 
+              className="question-icon message" 
             />
           </div>
         <p className="message-text">

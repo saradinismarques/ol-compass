@@ -348,7 +348,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
       <div className="message-box" style={{ width: 200 }}>
         <div className="question-circle">
           <QuestionIcon 
-            className="question-icon" // Apply your CSS class
+            className="question-icon message" // Apply your CSS class
           />
         </div>
         <p className="message-text">

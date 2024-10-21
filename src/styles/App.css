@@ -83,7 +83,6 @@ body {
     margin-top: -7px;
 }
 
-
 .bold-text {
     font-weight: 500;
 }
@@ -135,12 +134,12 @@ body {
   
 .question-button {
     position: absolute;
-    top: 5%;
-    left: 3%;
+    bottom: 10%;
+    left: 5.7%;
     background-color: transparent;
-    border:2px solid #bcbcbc;
+    border: 2px solid #bcbcbc;
     border-radius: 50%;
-    padding: 15px;
+    padding: 7px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -153,7 +152,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    border:2px solid #bcbcbc;
+    border: 1.5px solid #bcbcbc;
     border-radius: 50%;
     padding: 15px;
     display: flex;
@@ -180,17 +179,23 @@ body {
 }
 
 .question-icon {
-    width: 20px;
-    height: 20px;
+    width: 12px;
+    height: 12px;
     fill: #bcbcbc; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: #bcbcbc;
-    stroke-width: 0px;
+    stroke-width: 0px; 
+    padding-bottom: 1px;
+}
+
+.question-icon.message {
+    width: 18px;
+    height: 18px;
 }
 
 .message-icon {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
     fill: rgb(115, 114, 114); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: rgb(145, 144, 144);

@@ -291,7 +291,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     {!state.initialState && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 290 }}>
-        <div className="question-circle">
+        <div className="question-circle message">
             <svg 
                 className="question-icon" 
                 fill="currentcolor" 
