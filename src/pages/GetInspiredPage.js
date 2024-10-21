@@ -12,9 +12,11 @@ import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; //
 const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage }) => {
   const initialState = useMemo(() => ({
     title: '', 
+    collection: '',
     mainTarget: '',
     age: '',
     time: '',
+    type: '',
     languages: '',
     year: '',
     description: '',
@@ -91,9 +93,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       setState((prevState) => ({
         ...prevState,
         title: allCaseStudies[0].Title,
+        collection: allCaseStudies[0].Collection,
         mainTarget: allCaseStudies[0].MainTarget,
         age: allCaseStudies[0].Age,
         time: allCaseStudies[0].Time,
+        type: allCaseStudies[0].Type,
         languages: allCaseStudies[0].Languages,
         year: allCaseStudies[0].Year,
         description: allCaseStudies[0].Description,
@@ -109,9 +113,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       setState((prevState) => ({
         ...prevState,
         title: "No cases found with those filters",
+        collection: '',
         mainTarget: '',
         age: '',
         time: '',
+        type: '',
         languages: '',
         year: '',
         description: '',
@@ -158,9 +164,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       setState({
         ...state,
         title: caseStudies[nextIndex].Title,
+        collection: caseStudies[nextIndex].Collection,
         mainTarget: caseStudies[nextIndex].MainTarget,
         age: caseStudies[nextIndex].Age,
         time: caseStudies[nextIndex].Time,
+        type: caseStudies[nextIndex].Type,
         languages: caseStudies[nextIndex].Languages,
         year: caseStudies[nextIndex].Year,
         description: caseStudies[nextIndex].Description,
@@ -180,9 +188,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       setState({
         ...state,
         title: caseStudies[prevIndex].Title,
+        collection: caseStudies[prevIndex].Collection,
         mainTarget: caseStudies[prevIndex].MainTarget,
         age: caseStudies[prevIndex].Age,
         time: caseStudies[prevIndex].Time,
+        type: caseStudies[prevIndex].Type,
         languages: caseStudies[prevIndex].Languages,
         year: caseStudies[prevIndex].Year,
         description: caseStudies[prevIndex].Description,
@@ -320,7 +330,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
               
               <div className='gi-boxes-container'>
                 <div className='gi-box-row'>
-                  <p className='gi-text-box type'>/type/</p>
+                  <p className='gi-text-box type'>{state.type}</p>
                   <p className='gi-text-box age'>{state.age}</p>
                   <p className='gi-text-box time'>{state.time}</p>
                 </div>
@@ -330,7 +340,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
                   <p className='gi-text-box year'>{state.year}</p>
                 </div>
                 <div className='gi-box-row'>
-                  <p className='gi-text-box collection'>/Collection Title + Collection Author/</p>
+                  <p className='gi-text-box collection'>{state.collection}</p>
                 </div>
               </div>
             </div> 

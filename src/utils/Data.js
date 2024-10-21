@@ -61,9 +61,11 @@ export function getCaseStudies(labels) {
         // Function to extract components and return the case study object
         const processCaseStudy = (item) => ({
             Title: item["Title"],
+            Collection: item["Collection"],
             MainTarget: item["Main Target"],
             Age: item["Age"],
             Time: item["Time"],
+            Type: item["Type"],
             Languages: item["Laguage(s)"],
             Year: item["Year"],
             Description: item["Description"],
