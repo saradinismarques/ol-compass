@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, act } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/Menu.css';
 import { ReactComponent as HomeIcon } from '../assets/home-icon.svg'; // Adjust the path as necessary
@@ -46,7 +46,7 @@ const Menu = () => {
   const activeButton = getActiveButton(currentPath);
 
   return (
-    <div className="bottom-menu">
+    <div>
       <Link
         to="/ol-compass/home"
         className={`menu-button home ${activeButton === 'home' ? 'active' : ''}`}
@@ -55,51 +55,85 @@ const Menu = () => {
           className="home-icon" 
         />
       </Link>
-      <p className='i-want-to-text'>I want to</p>
-      <Link
-        to="/ol-compass/learn"
-        className={`menu-button ${activeButton === 'learn' ? 'active' : ''}`}
-      >
-        LEARN
-      </Link>
-      <Link
-        to="/ol-compass/get-inspired"
-        className={`menu-button ${activeButton === 'get-inspired' ? 'active' : ''}`}
-      >
-        GET INSPIRED
-      </Link>
-      <Link
-        to="/ol-compass/contribute"
-        className={`menu-button ${activeButton === 'contribute' ? 'active' : ''}`}
-      >
-        CONTRIBUTE
-      </Link>
+      <div className="bottom-menu">
+
+      {activeButton === 'home' && 
+        <>
+        <p className='i-want-to-text'>I want to</p>
+        </>
+      }
+      {(activeButton === 'home' || activeButton === 'learn') && 
+        <>
+        <Link
+          to="/ol-compass/learn"
+          className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'learn' ? 'active' : ''}`}
+        >
+          LEARN
+        </Link>
+        </>
+      }
+      {(activeButton === 'home' || activeButton === 'get-inspired') && 
+        <>
+        <Link
+          to="/ol-compass/get-inspired"
+          className={`menu-button ${activeButton !== 'home' ? 'solo' : ''}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
+        >
+          GET INSPIRED
+        </Link>
+        </>
+      }
+      {(activeButton === 'home' || activeButton === 'contribute') && 
+        <>
+        <Link
+          to="/ol-compass/contribute"
+          className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'contribute' ? 'active' : ''}`}
+        >
+          CONTRIBUTE
+        </Link>
+        </>
+      }
       {showMore && (
         <>
+          {(activeButton === 'home' || activeButton === 'contextualize') && 
+          <>
           <Link
             to="/ol-compass/contextualize"
-            className={`menu-button ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
+            className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
           >
             CONTEXTUALIZE
           </Link>
-          <Link
+          </>
+          }
+          {(activeButton === 'home' || activeButton === 'ideate') && 
+          <>
+           <Link
             to="/ol-compass/ideate"
-            className={`menu-button ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
+            className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
           >
             IDEATE
           </Link>
+          </>
+          }
+          {(activeButton === 'home' || activeButton === 'compare') && 
+          <>
           <Link
             to="/ol-compass/compare"
-            className={`menu-button ${activeButton === 'compare' ? 'active' : 'disabled'}`}
+            className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'compare' ? 'active' : 'disabled'}`}
           >
             COMPARE
           </Link>
+          </>
+          }
         </>
       )}
-      
-      <button onClick={toggleShowMore} className="menu-button show-more">
-        {showMore ? '-' : '+'}
-      </button>
+      {activeButton === 'home' && 
+        <>
+        <button onClick={toggleShowMore} className="menu-button show-more">
+          {showMore ? '-' : '+'}
+        </button>
+        </>
+      }
+      </div>
     </div>
   );
 };
