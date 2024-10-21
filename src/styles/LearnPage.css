@@ -122,26 +122,6 @@
     padding-left: 20px;
     padding-top: -25px;
 }
-
-.l-show-more-button {
-    position: relative;
-    padding-top: 17px;
-    font-family: 'Manrope', sans-serif;
-    font-size: 1.05em;
-    font-weight: 200;
-    background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: rgb(85, 85, 85);
-    border: none;
-    cursor: pointer;
-    padding-left: 20px;
-    outline: none; /* Optional: Remove outline on focus */
-    text-decoration: underline;
-    z-index: 20; /* Adjust the z-index */
-}
-
-.l-show-more-button:hover {
-    color: rgb(117, 117, 117);
-}
   
 .l-gradient-background {
     position: relative;

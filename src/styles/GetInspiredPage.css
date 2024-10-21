@@ -1,8 +1,8 @@
 /* Style for text-container */
 .gi-text-container {
     position: absolute;
-    top: 11%; /* Position item 50% from the top */
-    left: 63%; /* Position item 50% from the left */
+    top: 9%; /* Position item 50% from the top */
+    left: 65%; /* Position item 50% from the left */
     max-width: 280px;
     display: flex;
     flex-direction: column; /* Arrange items in a column */
@@ -11,20 +11,18 @@
 
 .gi-card-container {
     width: 300px;
-    height: 400px;
+    height: 430px;
     padding: 20px;
-    padding-left: 20px;
-    padding-right: 20px;
-    border-radius: 20px;
-    background: linear-gradient(to bottom right, #9494ad 30%, #aeaec1 60%, #f5f4f4 95%);
+    border-radius: 6px;
+    background: linear-gradient(to bottom right, #9797b1 25%, #d4d4df 80%);
     overflow: hidden;
+    color: white;
 }
 
 .gi-title{
     font-size: 1.3em;
     font-weight: 500;
     margin-top: 0px;
-    color: white;
     max-width: 270px;
 }
 
@@ -32,39 +30,69 @@
     font-size: 1em;
     font-weight: 400;
     margin-top: 10px;
-    color: white;
   }
   
 .gi-credits {
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-weight: 200;
     position: absolute;  /* Absolute positioning within the container */
-    bottom: 20px;        
-    color: white;
+    bottom: 110px;        
+}
+
+.gi-boxes-container {
+    position: absolute;
+    bottom: 30px;  
+}
+
+.gi-box-row {
+    display: flex;
+    gap: 5px; /* Optional: adds spacing between the text boxes */
+    margin-bottom: -20px; /* Space between rows, reduce this value */
+    text-align: center; /* Optional: center the text itself */
+}
+
+.gi-text-box {
+    background-color: #8888a5;
+    height: 25px;
+    line-height: 25px; /* Make line height equal to the height of the box */
+    opacity: 70%;
+    border-radius: 3px;
+    font-size: 0.8em;
+}
+
+.gi-text-box.type {
+    width: 140px;
+}
+
+.gi-text-box.age {
+    width: 60px;
+}
+
+.gi-text-box.time {
+    width: 90px;
+}
+
+.gi-text-box.languages {
+    width: 90px;
+}
+
+.gi-text-box.mainTarget {
+    width: 140px;
+}
+
+.gi-text-box.year {
+    width: 60px;
+}
+
+.gi-text-box.collection {
+    background-color: #ffffff;
+    width: 300px;
+    color: #53537e;
 }
 
 .gi-results {
     margin-bottom: 15px;
     font-weight: 200;
-}
-
-.gi-show-more-button {
-    font-family: 'Manrope', sans-serif;
-    font-size: 1.05em;
-    font-weight: 200;
-    background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: white;
-    border: none;
-    cursor: pointer;
-    position: absolute;
-    padding-left: 0;
-    bottom: 25px;     
-    outline: none; /* Optional: Remove outline on focus */
-    text-decoration: underline;
-}
-
-.gi-show-more-button:hover {
-    color: rgb(203, 202, 202);
 }
 
 .gi-bookmark-button {
@@ -105,7 +133,6 @@
     stroke-width: 1.4px;
     padding-left: 0.7px;
     padding-top: 0.5px;
-
 }
 
 /* General button styles (applies to both left and right buttons) */

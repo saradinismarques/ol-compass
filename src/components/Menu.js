@@ -55,6 +55,7 @@ const Menu = () => {
           className="home-icon" 
         />
       </Link>
+      <p className='i-want-to-text'>I want to</p>
       <Link
         to="/ol-compass/learn"
         className={`menu-button ${activeButton === 'learn' ? 'active' : ''}`}
@@ -96,8 +97,8 @@ const Menu = () => {
         </>
       )}
       
-      <button onClick={toggleShowMore} className="menu-show-more-button">
-        {showMore ? 'Show less' : 'Show more'}
+      <button onClick={toggleShowMore} className="menu-button show-more">
+        {showMore ? '-' : '+'}
       </button>
     </div>
   );

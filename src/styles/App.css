@@ -9,8 +9,8 @@ body {
 
 .text-container {
     position: absolute;
-    top: 14%; /* Position item 50% from the top */
-    left: 61%; /* Position item 50% from the left */
+    top: 15%; /* Position item 50% from the top */
+    right: 8%; /* Position item 50% from the left */
     max-width: 310px;
 }
 

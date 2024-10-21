@@ -11,20 +11,19 @@ const waveWidth = size/2.77;
 const waveHeight = size/6.5;
 const waveRadius = size/12;
 
-const getCenter = (action) => {
-    if (action.startsWith("initial")) {
-        return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    } else if (action === "default-center") {
-        return { x: window.innerWidth / 2, y: window.innerHeight * 0.45 };
-    } else {
-        return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.45 };
-    }
-};
+
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSubmitClick, fetchData }) => {
-    const center = getCenter(action);
+const OLCompass = ({colors, action, position, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSubmitClick, fetchData }) => {
+    const getCenter = (position) => {
+        if (position === "center") {
+            return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        } else if (position === "left") {
+            return { x: window.innerWidth * 0.37, y: window.innerHeight * 0.46 };
+        }
+    };
+    const center = getCenter(position);
 
     // Dictionary with all information
     const principles = getPrinciples(getPrinciplesData(), center);
@@ -115,7 +114,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
         
-        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired-carousel" || action === "get-inspired-search")
+        if (action.startsWith("initial") || action === "default" || action === "get-inspired-carousel" || action === "get-inspired-search")
             return;
         
         else if(action === "learn") {
@@ -138,7 +137,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
                     correspondingConcepts = getCorrespondingConcepts(concepts, components[id].Code);
                 
                 if (onButtonClick) {
-                    onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].ShowMoreText, components[id].DesignPrompt, components[id].Type, correspondingConcepts);
+                    onButtonClick(components[id].Code, title, components[id].Headline, components[id].Paragraph, components[id].DesignPrompt, components[id].Type, correspondingConcepts);
                 }
             }
         } else if(action === "get-inspired" || action === "contribute" || action === "ideate") {
@@ -187,7 +186,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
     const handleMouseEnter = (e) => {
         const stage = e.target.getStage();
         
-        if (action.startsWith("initial") || action.startsWith("default")  || action === "get-inspired-carousel" || action === "get-inspired-search") {
+        if (action.startsWith("initial") || action === "default" || action === "get-inspired-carousel" || action === "get-inspired-search") {
             stage.container().style.cursor = 'default';
             return; 
         }
@@ -217,7 +216,7 @@ const OLCompass = ({colors, action, onButtonClick, onClickOutside, resetState, s
 
     const handleMouseLeave = (e) => {
         //const isInside = isInsideRef.current;
-        if (action.startsWith("initial") || action.startsWith("default") || action === "get-inspired-carousel")
+        if (action.startsWith("initial") || action === "default" || action === "get-inspired-carousel")
             return;
         else if(action === "ideate" && !isInside) 
             return;

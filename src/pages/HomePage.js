@@ -5,7 +5,11 @@ import Menu from '../components/Menu';
 const HomePage = ({colors}) => {
   return (
     <div>
-      <OLCompass colors={colors} action="default-center"/>
+      <OLCompass 
+        colors={colors} 
+        action="default"
+        position="center" 
+      />
       <Menu />
     </div>
   );

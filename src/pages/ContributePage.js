@@ -13,7 +13,8 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     components: [], // Use an array to hold selected components
     initialState: true,
     firstClick: true,
-    showMessage: false
+    showMessage: false,
+    olPosition: "center" 
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -50,7 +51,8 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
 
     setState((prevState) => ({
       ...prevState,
-      initialState: false
+      initialState: false,
+      olPosition: "left"
     }));
   };
 
@@ -70,6 +72,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     setState((prevState) => ({
       ...prevState,
       initialState: false,
+      olPosition: "left"
     }));
 
   }, [state.initialState, state.firstClick]);
@@ -192,8 +195,8 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     <div className={`${state.showMessage ? "blur-background" : ""}`}>
       <OLCompass 
         colors={colors} 
-        position="left" 
         action="contribute"
+        position={state.olPosition} 
         onEnterClick={handleEnterClick} 
         resetState={resetState} 
         resetCompass={resetCompass}

@@ -6,7 +6,11 @@ import { ReactComponent as LockIcon } from '../assets/lock-icon.svg'; // Adjust 
 const ComparePage = ({colors}) => {
   return (
     <div>
-      <OLCompass colors={colors} action="default-left" />
+      <OLCompass 
+        colors={colors} 
+        action="default" 
+        position="left"
+      />
         <div className='text-container'>
             <p className='question'>
               What's it for?

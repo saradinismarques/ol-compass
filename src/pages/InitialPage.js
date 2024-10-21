@@ -153,7 +153,11 @@ const InitialPage = ({ colors }) => {
 
     return (
         <div>
-            <OLCompass colors={colors} action={action} />
+            <OLCompass 
+                colors={colors} 
+                action={action} 
+                position="center"
+            />
             {getDisplayText()}    
         </div>
     );

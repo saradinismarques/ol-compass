@@ -12,14 +12,18 @@ import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; //
 const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage }) => {
   const initialState = useMemo(() => ({
     title: '', 
-    shortDescription: '',
+    mainTarget: '',
+    age: '',
+    time: '',
+    languages: '',
+    year: '',
+    description: '',
     credits: '',
-    source: '',
     components: '',
-    showMore: false,
     initialState: true,
     firstClick: true,
     showMessage: false,
+    olPosition: "center"
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -64,6 +68,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       }));
     }
 
+    setState((prevState) => ({
+      ...prevState,
+      olPosition: "left"
+    }));
+
     setCarouselMode(false);
     carouselModeRef.current = false;
 
@@ -82,10 +91,14 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       setState((prevState) => ({
         ...prevState,
         title: allCaseStudies[0].Title,
-        shortDescription: allCaseStudies[0].ShortDescription,
+        mainTarget: allCaseStudies[0].MainTarget,
+        age: allCaseStudies[0].Age,
+        time: allCaseStudies[0].Time,
+        languages: allCaseStudies[0].Languages,
+        year: allCaseStudies[0].Year,
+        description: allCaseStudies[0].Description,
         credits: allCaseStudies[0].Credits,
         components: allCaseStudies[0].Components,
-        showMore: false,
         bookmark: getBookmarkState(allCaseStudies[0].Title),
         initialState: false,
       }));
@@ -96,7 +109,12 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       setState((prevState) => ({
         ...prevState,
         title: "No cases found with those filters",
-        shortDescription: '',
+        mainTarget: '',
+        age: '',
+        time: '',
+        languages: '',
+        year: '',
+        description: '',
         credits: '',
         initialState: false,
       }));
@@ -111,6 +129,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setCarouselMode(true);
     carouselModeRef.current = true;
 
+
     if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
@@ -120,6 +139,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     }
 
     if (!state.initialState) return;
+
+    setState((prevState) => ({
+      ...prevState,
+      olPosition: "left"
+    }));
 
     searchCaseStudies(null);
 
@@ -151,10 +175,14 @@ const defaultHandleEnterClick = (components) => {
       setState({
         ...state,
         title: caseStudies[nextIndex].Title,
-        shortDescription: caseStudies[nextIndex].ShortDescription,
+        mainTarget: caseStudies[nextIndex].MainTarget,
+        age: caseStudies[nextIndex].Age,
+        time: caseStudies[nextIndex].Time,
+        languages: caseStudies[nextIndex].Languages,
+        year: caseStudies[nextIndex].Year,
+        description: caseStudies[nextIndex].Description,
         credits: caseStudies[nextIndex].Credits,
         components: caseStudies[nextIndex].Components,
-        showMore: false,
         bookmark: getBookmarkState(caseStudies[nextIndex].Title),
         initialState: false,
       });
@@ -169,10 +197,14 @@ const defaultHandleEnterClick = (components) => {
       setState({
         ...state,
         title: caseStudies[prevIndex].Title,
-        shortDescription: caseStudies[prevIndex].ShortDescription,
+        mainTarget: caseStudies[prevIndex].MainTarget,
+        age: caseStudies[prevIndex].Age,
+        time: caseStudies[prevIndex].Time,
+        languages: caseStudies[prevIndex].Languages,
+        year: caseStudies[prevIndex].Year,
+        description: caseStudies[prevIndex].Description,
         credits: caseStudies[prevIndex].Credits,
         components: caseStudies[prevIndex].Components,
-        showMore: false,
         bookmark: getBookmarkState(caseStudies[prevIndex].Title),
         initialState: false,
       });
@@ -222,6 +254,7 @@ const defaultHandleEnterClick = (components) => {
       <OLCompass 
         colors={colors} 
         action={action}
+        position={state.olPosition} 
         resetState={resetState} // Passing resetState to OLCompass
         onEnterClick={defaultHandleEnterClick} 
         onButtonClick={handleCompassClick}
@@ -277,8 +310,24 @@ const defaultHandleEnterClick = (components) => {
               </button>   
 
               <h1 className="gi-title">{state.title}</h1>
-              <p className="gi-description">{state.shortDescription}</p>
-              <p className="gi-credits">{state.credits}</p>
+              <p className="gi-description">{state.description}</p>
+              <p className="gi-credits">Credits: {state.credits}</p>
+              
+              <div className='gi-boxes-container'>
+                <div className='gi-box-row'>
+                  <p className='gi-text-box type'>/type/</p>
+                  <p className='gi-text-box age'>{state.age}</p>
+                  <p className='gi-text-box time'>{state.time}</p>
+                </div>
+                <div className='gi-box-row'>
+                  <p className='gi-text-box languages'>{state.languages}</p>
+                  <p className='gi-text-box mainTarget'>{state.mainTarget}</p>
+                  <p className='gi-text-box year'>{state.year}</p>
+                </div>
+                <div className='gi-box-row'>
+                  <p className='gi-text-box collection'>/Collection Title + Collection Author/</p>
+                </div>
+              </div>
 
               {/* Navigation Arrows */}
               {currentIndex > 0 && (

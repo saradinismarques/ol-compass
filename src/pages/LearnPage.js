@@ -20,17 +20,16 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
     title: '',
     headline: '',
     paragraph: '',
-    showMoreText: '',
     designPrompt: '',
     concepts: [],
     type: null,
     initialState: true,
     firstClick: true,
     showMessage: false,
-    showMore: false,
     gradientColor: null,
     bookmark: false,
-    showDesignPrompt: false
+    showDesignPrompt: false,
+    olPosition: "center"
   }), []);
 
   const initialConcept = useMemo(() => ({
@@ -48,7 +47,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
     setState(initialState);
   }, [initialState]);
 
-  const handleCompassClick = (code, title, headline, paragraph, showMoreText, designPrompt, type, concepts, ) => {
+  const handleCompassClick = (code, title, headline, paragraph, designPrompt, type, concepts, ) => {
     if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
@@ -63,14 +62,13 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
       title,
       headline,
       paragraph,
-      showMoreText,
       designPrompt,
       concepts,
       type,
       initialState: false,
-      showMore: false,
       showDesignPrompt: false,
-      gradientColor: colors[type]
+      gradientColor: colors[type],
+      olPosition: "left"
     }));
 
     if(concepts !== null) {
@@ -239,6 +237,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
         <OLCompass 
           colors={colors} 
           action="learn" 
+          position={state.olPosition} 
           onButtonClick={handleCompassClick} 
           resetState={resetState}  // Passing resetState to OLCompass
           savedComponents={savedComponents}
