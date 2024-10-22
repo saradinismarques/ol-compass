@@ -353,27 +353,24 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
           </p> 
 
           <div className="search-mode-menu">
-            <div className="search-button-background">
             <div className="mode-button-background">
-            <div className="mode-buttons">
-              <button
-                className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
-                onClick={() => setSearchMode('AND')}
-              >
-                AND
-              </button>
-              <button
-                className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
-                onClick={() => setSearchMode('OR')}
-              >
-                OR
-              </button>
+                <div className="mode-buttons">
+                    <button
+                        className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
+                        onClick={() => setSearchMode('AND')}
+                    >
+                        AND
+                    </button>
+                    <button
+                        className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
+                        onClick={() => setSearchMode('OR')}
+                    >
+                        OR
+                    </button>
+                </div>
             </div>
-            </div>
-
-              <button className="search-button">SEARCH</button>
-            </div>
-            </div>
+            <button className="search-button">SEARCH</button>
+          </div>
         </>
       )}    
       <Menu isExplanationPage={isExplanationPage}/>
