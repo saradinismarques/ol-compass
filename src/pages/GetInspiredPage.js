@@ -80,32 +80,49 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   };
 
   const searchCaseStudies = useCallback((components) => {
-    const fetchedCaseStudies = getCaseStudies(components);
+    const fetchedCaseStudies = getCaseStudies();
     // Concatenate the fetched case studies with newCaseStudies
-    const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
-    setCaseStudies(allCaseStudies);
-    setResultsNumber(allCaseStudies.length);
 
-    if (allCaseStudies.length > 0) {
+    const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
+
+    // Process the JSON data
+    let filteredCaseStudies = allCaseStudies;
+    // If labels are provided, filter the case studies
+    if (components !== null) {
+      filteredCaseStudies = allCaseStudies.filter(item => {
+        // Ensure the Components field exists and is an array
+        if (Array.isArray(item.Components)) {
+          // Check if every component in the selected components is present in the item's Components array
+          return components.every(component => item.Components.includes(component));
+        }
+        return false;
+      });
+    }
+    console.log(filteredCaseStudies);
+
+    setCaseStudies(filteredCaseStudies);
+    setResultsNumber(filteredCaseStudies.length);
+
+    if (filteredCaseStudies.length > 0) {
       setState((prevState) => ({
         ...prevState,
-        title: allCaseStudies[0].Title,
-        collection: allCaseStudies[0].Collection,
-        mainTarget: allCaseStudies[0].MainTarget,
-        age: allCaseStudies[0].Age,
-        time: allCaseStudies[0].Time,
-        type: allCaseStudies[0].Type,
-        languages: allCaseStudies[0].Languages,
-        year: allCaseStudies[0].Year,
-        description: allCaseStudies[0].Description,
-        credits: allCaseStudies[0].Credits,
-        components: allCaseStudies[0].Components,
-        bookmark: getBookmarkState(allCaseStudies[0].Title),
+        title: filteredCaseStudies[0].Title,
+        collection: filteredCaseStudies[0].Collection,
+        mainTarget: filteredCaseStudies[0].MainTarget,
+        age: filteredCaseStudies[0].Age,
+        time: filteredCaseStudies[0].Time,
+        type: filteredCaseStudies[0].Type,
+        languages: filteredCaseStudies[0].Languages,
+        year: filteredCaseStudies[0].Year,
+        description: filteredCaseStudies[0].Description,
+        credits: filteredCaseStudies[0].Credits,
+        components: filteredCaseStudies[0].Components,
+        bookmark: getBookmarkState(filteredCaseStudies[0].Title),
       }));
       setCurrentIndex(0); // Reset to first case study
     }
 
-    if (allCaseStudies.length === 0) {
+    if (filteredCaseStudies.length === 0) {
       setState((prevState) => ({
         ...prevState,
         title: "No cases found with those filters",
