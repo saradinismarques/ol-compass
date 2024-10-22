@@ -69,6 +69,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         showMessage: true
       }));
     }
+    setIsExplanationPage(false);
 
     setCarouselMode(false);
     carouselModeRef.current = false;
@@ -118,10 +119,9 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         credits: '',
       }));
     }
-    setIsExplanationPage(false);
   }, [newCaseStudies, getBookmarkState, setIsExplanationPage]);
 
-  const carouselHandleEnterClick = useCallback(() => {
+  const handleCarouselSearch = useCallback(() => {
     if(!carouselModeRef.current) return;
 
     setCarouselMode(true);
@@ -137,6 +137,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     }
 
     if (!isExplanationPage) return;
+    setIsExplanationPage(false);
 
     searchCaseStudies(null);
 
@@ -194,25 +195,25 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {
     if(e.key === 'Enter') 
-      carouselHandleEnterClick();
+      handleCarouselSearch();
     else if (e.key === 'ArrowUp') 
       handlePrev();
     else if (e.key === 'ArrowDown') 
       handleNext();
-  }, [handlePrev, handleNext, carouselHandleEnterClick]);
+  }, [handlePrev, handleNext, handleCarouselSearch]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => {
         window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [carouselHandleEnterClick, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
+  }, [handleCarouselSearch, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
 
-  const defaultHandleEnterClick = (components) => {
+  const handleDefaultSearch = (components) => {
     if(carouselModeRef.current) return;
 
     setAction('get-inspired-search');
-    actionRef.current = 'get-inspired-seatch';
+    actionRef.current = 'get-inspired-search';
     searchCaseStudies(components);
   };
 
@@ -260,7 +261,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         action={action}
         position={isExplanationPage ? "center" : "left"} 
         resetState={resetState} // Passing resetState to OLCompass
-        onEnterClick={defaultHandleEnterClick} 
+        onEnterClick={handleDefaultSearch} 
         onButtonClick={handleCompassClick}
         selectedComponents={state.components}
       />
@@ -369,7 +370,11 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
                     </button>
                 </div>
             </div>
-            <button className="search-button">SEARCH</button>
+            <button 
+              className="search-button"
+            >
+              SEARCH
+            </button>
           </div>
         </>
       )}    

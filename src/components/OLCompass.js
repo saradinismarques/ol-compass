@@ -150,7 +150,6 @@ const OLCompass = ({action, position, onButtonClick, onClickOutside, resetState,
                 ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
                 : [...prevClickedIds, id] // Add ID if not already clicked
             );
-
             if(action === "get-inspired" || action ==="contribute") {
                 if(onButtonClick)
                     onButtonClick();

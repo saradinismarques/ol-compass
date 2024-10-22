@@ -20,6 +20,10 @@
     position: relative;
 }
 
+.gi-card-container.empty {
+    background: #eeeef2;
+}
+
 .gi-title{
     font-size: 1.3em;
     font-weight: 500;
