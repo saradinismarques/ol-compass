@@ -95,14 +95,14 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     // If labels are provided, filter the case studies
     if (components !== null) {
       filteredCaseStudies = allCaseStudies.filter(item => {
-        if (Array.isArray(item.Components)) {
-          if (searchModeRef.current === 'AND') {
-            // AND mode: all components must be present in the item's Components array
-            return components.every(component => item.Components.includes(component));
-          } else if (searchModeRef.current === 'OR') {
-            // OR mode: at least one component must be present in the item's Components array
-            return components.some(component => item.Components.includes(component));
-          }
+        if (searchModeRef.current === 'AND') {
+          // AND mode: all components must be present in the item's Components array
+          return components.every(component => item.Components.includes(component));
+        } else if (searchModeRef.current === 'OR') {
+          // OR mode: at least one component must be present in the item's Components array
+          return components.some(component => item.Components.includes(component));
+        } else {
+          return components;
         }
       });
     }
@@ -221,7 +221,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     if(e.key === 'Enter' && carouselModeRef.current) 
       handleCarouselSearch();
     else if(e.key === 'Enter' && !carouselModeRef.current) 
-      handleCarouselSearch();
+      handleSearchClick();
     else if (e.key === 'ArrowUp') 
       handlePrev();
     else if (e.key === 'ArrowDown') 
@@ -236,7 +236,6 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   }, [handleCarouselSearch, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
 
   const handleDefaultSearch = (components) => {
-    console.log("ENTER");
     if(carouselModeRef.current) return;
 
     setAction('get-inspired-search');
@@ -246,7 +245,6 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
    // Callback function to receive data from OLCompass
    const handleDataFromOLCompass = useCallback((data) => {
-    console.log("SEARCH");
     if(carouselModeRef.current) return;
 
     setAction('get-inspired-search');

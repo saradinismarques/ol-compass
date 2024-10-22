@@ -236,6 +236,15 @@
     color: #7a7a79;
     font-weight: 500;
     font-size: 10px;
+    outline: none;
+}
+
+.search-button:hover {
+    background-color: white; /* Darkened version of the original background color */
+}
+
+.search-button:active {
+    background-color: white; /* Darkened version of the original background color */
 }
 
 .mode-button.active {
@@ -259,10 +268,15 @@
     z-index: 10;
     width: 130px;
     text-indent: 20px; /* Move text 10px to the right */
+    outline: none;
 }
 
 /* When hovering the area below the mode button background */
 .search-button:hover {
+    background-color: #cc006f; /* Darkened version of the original background color */
+}
+
+.search-button:active {
     background-color: #cc006f; /* Darkened version of the original background color */
 }
 
