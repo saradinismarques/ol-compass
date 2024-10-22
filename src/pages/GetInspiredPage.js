@@ -37,6 +37,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   
   const carouselModeRef = useRef(carouselMode);
   const actionRef = useRef(action);
+  const searchModeRef = useRef(searchMode);
 
   useEffect(() => {
     carouselModeRef.current = carouselMode;
@@ -45,6 +46,10 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   useEffect(() => {
     actionRef.current = action;
   }, [action]);
+
+  useEffect(() => {
+    searchModeRef.current = searchMode;
+  }, [searchMode]);
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -90,15 +95,17 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     // If labels are provided, filter the case studies
     if (components !== null) {
       filteredCaseStudies = allCaseStudies.filter(item => {
-        // Ensure the Components field exists and is an array
         if (Array.isArray(item.Components)) {
-          // Check if every component in the selected components is present in the item's Components array
-          return components.every(component => item.Components.includes(component));
+          if (searchModeRef.current === 'AND') {
+            // AND mode: all components must be present in the item's Components array
+            return components.every(component => item.Components.includes(component));
+          } else if (searchModeRef.current === 'OR') {
+            // OR mode: at least one component must be present in the item's Components array
+            return components.some(component => item.Components.includes(component));
+          }
         }
-        return false;
       });
     }
-    console.log(filteredCaseStudies);
 
     setCaseStudies(filteredCaseStudies);
     setResultsNumber(filteredCaseStudies.length);
@@ -144,7 +151,6 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
     setCarouselMode(true);
     carouselModeRef.current = true;
-
 
     if(state.firstClick && firstMessage) {
       setState((prevState) => ({
@@ -212,7 +218,9 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {
-    if(e.key === 'Enter') 
+    if(e.key === 'Enter' && carouselModeRef.current) 
+      handleCarouselSearch();
+    else if(e.key === 'Enter' && !carouselModeRef.current) 
       handleCarouselSearch();
     else if (e.key === 'ArrowUp') 
       handlePrev();
@@ -228,6 +236,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   }, [handleCarouselSearch, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
 
   const handleDefaultSearch = (components) => {
+    console.log("ENTER");
     if(carouselModeRef.current) return;
 
     setAction('get-inspired-search');
@@ -237,6 +246,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
    // Callback function to receive data from OLCompass
    const handleDataFromOLCompass = useCallback((data) => {
+    console.log("SEARCH");
     if(carouselModeRef.current) return;
 
     setAction('get-inspired-search');
@@ -291,6 +301,16 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
       }));
     }
   };
+
+  const handleSearchModeChange = useCallback((mode) => {
+    if(mode === "AND") {
+      setSearchMode('AND');
+      searchModeRef.current = 'AND';
+    } else if(mode === "OR") {
+      setSearchMode('OR');
+      searchModeRef.current = 'OR';
+    }
+  }, []);
 
   return (
     <div>
@@ -417,13 +437,13 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
                 <div className="mode-buttons">
                     <button
                         className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
-                        onClick={() => setSearchMode('AND')}
+                        onClick={() => handleSearchModeChange("AND")}
                     >
                         AND
                     </button>
                     <button
                         className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
-                        onClick={() => setSearchMode('OR')}
+                        onClick={() => handleSearchModeChange("OR")}
                     >
                         OR
                     </button>
