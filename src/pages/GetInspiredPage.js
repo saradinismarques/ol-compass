@@ -63,7 +63,6 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   }, [savedCaseStudies]);
 
   const handleCompassClick = () => {
-
     if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
@@ -121,7 +120,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         credits: '',
       }));
     }
-  }, [newCaseStudies, getBookmarkState, setIsExplanationPage]);
+  }, [newCaseStudies, getBookmarkState]);
 
   const handleCarouselSearch = useCallback(() => {
     if(!carouselModeRef.current) return;
@@ -146,7 +145,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     setAction('get-inspired-carousel');
     actionRef.current = 'get-inspired-carousel';
 
-  }, [firstMessage, isExplanationPage, searchCaseStudies, state.firstClick]);
+  }, [firstMessage, isExplanationPage, searchCaseStudies, state.firstClick, setIsExplanationPage]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < caseStudies.length - 1) {
@@ -217,6 +216,26 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     setAction('get-inspired-search');
     actionRef.current = 'get-inspired-search';
     searchCaseStudies(components);
+  };
+
+   // Callback function to receive data from OLCompass
+   const handleDataFromOLCompass = useCallback((data) => {
+    if(carouselModeRef.current) return;
+
+    setAction('get-inspired-search');
+    actionRef.current = 'get-inspired-search';
+    searchCaseStudies(data);
+  }, [searchCaseStudies]); // Empty dependency array to ensure it doesn't change
+
+
+  const handleSearchClick = () => {
+    // You can now use compassData or perform any action with it
+    setFetchData(true);
+
+    // Set it back to false after the reset
+    setTimeout(() => {
+      setFetchData(false);
+    }, 0);
   };
 
   const toggleBookmark = () => {
@@ -395,7 +414,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
             </div>
             <button 
               className="search-button"
-              onClick={handleDefaultSearch}
+              onClick={handleSearchClick}
             >
               SEARCH
             </button>

@@ -266,7 +266,10 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 onChange={handleInputChange}
                 />
           </div>
-          <button className="a-submit-button" onClick={handleSubmitClick}>
+          <button 
+            className="a-submit-button" 
+            onClick={handleSubmitClick}
+          >
             Submit
           </button>
         </div>

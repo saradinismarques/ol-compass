@@ -109,19 +109,18 @@ const OLCompass = ({action, position, onButtonClick, onClickOutside, resetState,
     }, [resetCompass]);
 
     useEffect(() => {
-        if (fetchData) {
+        if (fetchData && onSubmitClick) {
             let codes = clickedIdsRef.current.map(id => components[id].Code);
             onSubmitClick(codes);
         }
     }, [fetchData, onSubmitClick, components]);
 
     useEffect(() => {
-        if (fetchData) {
+        if (fetchData && onSearchClick) {
             let codes = clickedIdsRef.current.map(id => components[id].Code);
             onSearchClick(codes);
         }
     }, [fetchData, onSearchClick, components]);
-
 
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);
