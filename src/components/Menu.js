@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import '../styles/Menu.css';
 import { ReactComponent as HomeIcon } from '../assets/home-icon.svg'; // Adjust the path as necessary
 
-const Menu = () => {
+const Menu = ({isExplanationPage}) => {
   const location = useLocation();
   const currentPath = location.pathname;
   // Load the initial state from localStorage or set default to false
@@ -45,6 +45,8 @@ const Menu = () => {
 
   const activeButton = getActiveButton(currentPath);
 
+  const menuExpanded = (activeButton === 'home' || isExplanationPage);
+
   return (
     <div>
       <Link
@@ -57,36 +59,36 @@ const Menu = () => {
       </Link>
       <div className="bottom-menu">
 
-      {activeButton === 'home' && 
+      {menuExpanded && 
         <>
         <p className='i-want-to-text'>I want to</p>
         </>
       }
-      {(activeButton === 'home' || activeButton === 'learn') && 
+      {(menuExpanded || activeButton === 'learn') && 
         <>
         <Link
           to="/ol-compass/learn"
-          className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'learn' ? 'active' : ''}`}
+          className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn' ? 'active' : ''}`}
         >
           LEARN
         </Link>
         </>
       }
-      {(activeButton === 'home' || activeButton === 'get-inspired') && 
+      {(menuExpanded || activeButton === 'get-inspired') && 
         <>
         <Link
           to="/ol-compass/get-inspired"
-          className={`menu-button ${activeButton !== 'home' ? 'solo' : ''}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
+          className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
         >
           GET INSPIRED
         </Link>
         </>
       }
-      {(activeButton === 'home' || activeButton === 'contribute') && 
+      {(menuExpanded || activeButton === 'contribute') && 
         <>
         <Link
           to="/ol-compass/contribute"
-          className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'contribute' ? 'active' : ''}`}
+          className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contribute' ? 'active' : ''}`}
         >
           CONTRIBUTE
         </Link>
@@ -94,31 +96,31 @@ const Menu = () => {
       }
       {showMore && (
         <>
-          {(activeButton === 'home' || activeButton === 'contextualize') && 
+          {(menuExpanded || activeButton === 'contextualize') && 
           <>
           <Link
             to="/ol-compass/contextualize"
-            className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
           >
             CONTEXTUALIZE
           </Link>
           </>
           }
-          {(activeButton === 'home' || activeButton === 'ideate') && 
+          {(menuExpanded || activeButton === 'ideate') && 
           <>
            <Link
             to="/ol-compass/ideate"
-            className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
           >
             IDEATE
           </Link>
           </>
           }
-          {(activeButton === 'home' || activeButton === 'compare') && 
+          {(menuExpanded || activeButton === 'compare') && 
           <>
           <Link
             to="/ol-compass/compare"
-            className={`menu-button ${activeButton !== 'home' ? 'solo' : ''} ${activeButton === 'compare' ? 'active' : 'disabled'}`}
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'compare' ? 'active' : 'disabled'}`}
           >
             COMPARE
           </Link>
@@ -126,7 +128,7 @@ const Menu = () => {
           }
         </>
       )}
-      {activeButton === 'home' && 
+      {(menuExpanded) && 
         <>
         <button onClick={toggleShowMore} className="menu-button show-more">
           {showMore ? '-' : '+'}

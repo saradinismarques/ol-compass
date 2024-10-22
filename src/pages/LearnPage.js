@@ -14,7 +14,7 @@ import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; //
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
-const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, setFirstMessage }) => {
+const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -23,13 +23,11 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
     designPrompt: '',
     concepts: [],
     type: null,
-    initialState: true,
     firstClick: true,
     showMessage: false,
     gradientColor: null,
     bookmark: false,
     showDesignPrompt: false,
-    olPosition: "center"
   }), []);
 
   const initialConcept = useMemo(() => ({
@@ -45,6 +43,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
 
   const resetState = useCallback(() => {
     setState(initialState);
+    setIsExplanationPage(true);
   }, [initialState]);
 
   const handleCompassClick = (code, title, headline, paragraph, designPrompt, type, concepts, ) => {
@@ -65,11 +64,11 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
       designPrompt,
       concepts,
       type,
-      initialState: false,
       showDesignPrompt: false,
       gradientColor: colors[type],
-      olPosition: "left"
     }));
+
+    setIsExplanationPage(false);
 
     if(concepts !== null) {
       setConcept((prevState) => ({
@@ -237,7 +236,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
     <div className={`container ${state.showMessage ? "blur-background" : ""}`}>
       <div className='l-gradient-background'
         style={{
-          background: state.initialState
+          background: isExplanationPage
             ? 'none'
             : `linear-gradient(to right, transparent 25%, ${state.gradientColor} 100%)`
         }}
@@ -245,13 +244,13 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
         <OLCompass 
           colors={colors} 
           action="learn" 
-          position={state.olPosition} 
+          position={isExplanationPage ? "center" : "left"}
           onButtonClick={handleCompassClick} 
           resetState={resetState}  // Passing resetState to OLCompass
           savedComponents={savedComponents}
         />
 
-        {state.initialState && (
+        {isExplanationPage && (
             <>
             <div className="text-container">
                 <p className='question'>
@@ -276,7 +275,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
             </>
           )}
 
-          {!state.initialState && (
+          {!isExplanationPage && (
             <>
             <button onClick={showMessage} className="question-button">
               <QuestionIcon 
@@ -330,7 +329,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
             </div>
             </>
           )} 
-          <Menu />
+          <Menu isExplanationPage={isExplanationPage}/>
       </div>
       {/* Conditionally render the image if an image source is set */}
       {imageSrc && (
@@ -345,7 +344,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
       )}
     </div>
     
-    {!state.initialState && state.showMessage && (
+    {!isExplanationPage && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 200 }}>
         <div className="question-circle">

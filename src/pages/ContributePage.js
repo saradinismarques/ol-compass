@@ -4,17 +4,15 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
 
 
-const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage}) => {
+const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
     shortDescription: '',
     credits: '',
     components: [], // Use an array to hold selected components
-    initialState: true,
     firstClick: true,
     showMessage: false,
-    olPosition: "center" 
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -38,6 +36,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
 
   const resetState = useCallback(() => {
     setState(initialState);
+    setIsExplanationPage(true);
   }, [initialState]);
 
   const handleCompassClick = () => {
@@ -48,18 +47,13 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
         showMessage: true,
       }));
     }
-
-    setState((prevState) => ({
-      ...prevState,
-      initialState: false,
-      olPosition: "left"
-    }));
+    setIsExplanationPage(false);
   };
 
   const handleKeyDown = useCallback((e) => {
     //for the initial state
     if(e.key !== 'Enter') return;
-    if (!state.initialState) return;
+    if (!isExplanationPage) return;
 
     if(state.firstClick && firstMessage) {
       setState((prevState) => ({
@@ -68,14 +62,9 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
         showMessage: true,
       }));
     }
+    setIsExplanationPage(false);
 
-    setState((prevState) => ({
-      ...prevState,
-      initialState: false,
-      olPosition: "left"
-    }));
-
-  }, [state.initialState, state.firstClick]);
+  }, [state.firstClick]);
 
 
   useEffect(() => {
@@ -101,13 +90,12 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
       shortDescription: '',
       credits: '',
       components: [],
-      initialState: false,
       firstClick: false,
       showMessage: false
     }));
     // Trigger OLCompass reset
     setResetCompass(true);
-
+    setIsExplanationPage(false);
     // Set it back to false after the reset
     setTimeout(() => {
       setResetCompass(false);
@@ -154,7 +142,6 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
   const handleEnterClick = (components) => {
     // for the rest of the interaction
     // Process the case study data from the state
-    if (state.initialState) return;
 
     const newCaseStudy = {
       Title: state.title,
@@ -196,7 +183,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
       <OLCompass 
         colors={colors} 
         action="contribute"
-        position={state.olPosition} 
+        position={isExplanationPage ? "center" : "left"}
         onEnterClick={handleEnterClick} 
         resetState={resetState} 
         resetCompass={resetCompass}
@@ -204,7 +191,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
         fetchData={fetchData} 
         onButtonClick={handleCompassClick}
       />
-        {state.initialState && (
+        {isExplanationPage && (
         <>
         <div className='text-container'>
             <p className='question'>
@@ -225,7 +212,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
         </>
         )} 
 
-        {!state.initialState && (
+        {!isExplanationPage && (
         <>
         <button onClick={showMessage} className="question-button">
               <svg 
@@ -286,9 +273,9 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
         </div>
         </>
         )}  
-        <Menu />
+        <Menu isExplanationPage={isExplanationPage} />
     </div>
-    {!state.initialState && state.showMessage && (
+    {!isExplanationPage && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 290 }}>
         <div className="question-circle message">

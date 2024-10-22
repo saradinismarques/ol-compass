@@ -9,7 +9,7 @@ import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjus
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
 
-const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage }) => {
+const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   const initialState = useMemo(() => ({
     title: '', 
     collection: '',
@@ -22,10 +22,8 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     description: '',
     credits: '',
     components: '',
-    initialState: true,
     firstClick: true,
     showMessage: false,
-    olPosition: "center"
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -52,6 +50,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
 
     setAction('get-inspired');
     actionRef.current = 'get-inspired';
+    setIsExplanationPage(true);
 
   }, [initialState]);
 
@@ -69,11 +68,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         showMessage: true
       }));
     }
-
-    setState((prevState) => ({
-      ...prevState,
-      olPosition: "left"
-    }));
 
     setCarouselMode(false);
     carouselModeRef.current = false;
@@ -104,7 +98,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         credits: allCaseStudies[0].Credits,
         components: allCaseStudies[0].Components,
         bookmark: getBookmarkState(allCaseStudies[0].Title),
-        initialState: false,
       }));
       setCurrentIndex(0); // Reset to first case study
     }
@@ -122,9 +115,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         year: '',
         description: '',
         credits: '',
-        initialState: false,
       }));
     }
+    setIsExplanationPage(false);
   }, [newCaseStudies, getBookmarkState]);
 
   const carouselHandleEnterClick = () => {
@@ -142,12 +135,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       }));
     }
 
-    if (!state.initialState) return;
-
-    setState((prevState) => ({
-      ...prevState,
-      olPosition: "left"
-    }));
+    if (!isExplanationPage) return;
 
     searchCaseStudies(null);
 
@@ -175,7 +163,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         credits: caseStudies[nextIndex].Credits,
         components: caseStudies[nextIndex].Components,
         bookmark: getBookmarkState(caseStudies[nextIndex].Title),
-        initialState: false,
       });
     }
   };
@@ -199,7 +186,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         credits: caseStudies[prevIndex].Credits,
         components: caseStudies[prevIndex].Components,
         bookmark: getBookmarkState(caseStudies[prevIndex].Title),
-        initialState: false,
       });
     }
   };
@@ -272,13 +258,13 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       <OLCompass 
         colors={colors} 
         action={action}
-        position={state.olPosition} 
+        position={isExplanationPage ? "center" : "left"} 
         resetState={resetState} // Passing resetState to OLCompass
         onEnterClick={defaultHandleEnterClick} 
         onButtonClick={handleCompassClick}
         selectedComponents={state.components}
       />
-      {state.initialState && (
+      {isExplanationPage && (
         <>
           <div className='text-container'>
             <p className='question'>
@@ -304,7 +290,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
           </div>
         </>
       )} 
-      {((!state.initialState && carouselMode) || !carouselMode) && (
+      {((!isExplanationPage && carouselMode) || !carouselMode) && (
         <>
         <button onClick={showMessage} className="question-button">
           <QuestionIcon 
@@ -314,7 +300,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         </>
       )}
 
-      {!state.initialState && (
+      {!isExplanationPage && (
         <>
           <div className='gi-text-container'>
             <div className="gi-card-container">
@@ -367,9 +353,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
           </p> 
         </>
       )}    
-      <Menu />
+      <Menu isExplanationPage={isExplanationPage}/>
     </div>
-    {((!state.initialState && carouselMode) || !carouselMode) && state.showMessage && (
+    {((!isExplanationPage && carouselMode) || !carouselMode) && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 290 }}>
         <div className="question-circle">
