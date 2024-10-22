@@ -19,7 +19,7 @@ const colors = {
 
 const menuArea = 130;
 
-const OLCompass = ({action, position, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSubmitClick, fetchData }) => {
+const OLCompass = ({action, position, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData }) => {
     const getCenter = (position) => {
         if (position === "center") {
             return { x: window.innerWidth / 2, y: window.innerHeight / 2 };
@@ -114,6 +114,14 @@ const OLCompass = ({action, position, onButtonClick, onClickOutside, resetState,
             onSubmitClick(codes);
         }
     }, [fetchData, onSubmitClick, components]);
+
+    useEffect(() => {
+        if (fetchData) {
+            let codes = clickedIdsRef.current.map(id => components[id].Code);
+            onSearchClick(codes);
+        }
+    }, [fetchData, onSearchClick, components]);
+
 
     const handleClick = (e) => {
         const id = parseInt(e.target.id(), 10);

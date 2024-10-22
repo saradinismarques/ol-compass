@@ -33,6 +33,8 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   const [action, setAction] = useState('get-inspired');
   const [resultsNumber, setResultsNumber] = useState(0);
   const [searchMode, setSearchMode] = useState('AND');
+  const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
+  
   const carouselModeRef = useRef(carouselMode);
   const actionRef = useRef(action);
 
@@ -48,7 +50,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     setState(initialState);
     setCarouselMode(true);
     carouselModeRef.current = true;
-
+    setResultsNumber(0);
     setAction('get-inspired');
     actionRef.current = 'get-inspired';
     setIsExplanationPage(true);
@@ -264,6 +266,8 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         onEnterClick={handleDefaultSearch} 
         onButtonClick={handleCompassClick}
         selectedComponents={state.components}
+        onSearchClick={handleDataFromOLCompass}
+        fetchData={fetchData} 
       />
       {isExplanationPage && (
         <>
@@ -303,38 +307,51 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
       {!isExplanationPage && (
         <>
-          <div className='gi-text-container'>
-            <div className="gi-card-container">
-              <button onClick={toggleBookmark} className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}>
-                <BookmarkIcon 
-                  className="gi-bookmark-icon" 
-                />
-              </button>   
+          {resultsNumber !== 0 && (
+            <>
+            <div className='gi-text-container'>
+              <div className="gi-card-container">
+                <button onClick={toggleBookmark} className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}>
+                  <BookmarkIcon 
+                    className="gi-bookmark-icon" 
+                  />
+                </button>   
 
-              <h1 className="gi-title">{state.title}</h1>
-              <p className="gi-description">{state.description}</p>
-              <p className="gi-credits">Credits: {state.credits}</p>
-              
-              <div className='gi-boxes-container'>
-                <div className='gi-box-row'>
-                  <p className='gi-text-box type'>{state.type}</p>
-                  <p className='gi-text-box age'>{state.age}</p>
-                  <p className='gi-text-box time'>{state.time}</p>
+                <h1 className="gi-title">{state.title}</h1>
+                <p className="gi-description">{state.description}</p>
+                <p className="gi-credits">Credits: {state.credits}</p>
+                
+                <div className='gi-boxes-container'>
+                  <div className='gi-box-row'>
+                    <p className='gi-text-box type'>{state.type}</p>
+                    <p className='gi-text-box age'>{state.age}</p>
+                    <p className='gi-text-box time'>{state.time}</p>
+                  </div>
+                  <div className='gi-box-row'>
+                    <p className='gi-text-box languages'>{state.languages}</p>
+                    <p className='gi-text-box mainTarget'>{state.mainTarget}</p>
+                    <p className='gi-text-box year'>{state.year}</p>
+                  </div>
+                  <div className='gi-box-row'>
+                    <p className='gi-text-box collection'>{state.collection}</p>
+                  </div>
                 </div>
-                <div className='gi-box-row'>
-                  <p className='gi-text-box languages'>{state.languages}</p>
-                  <p className='gi-text-box mainTarget'>{state.mainTarget}</p>
-                  <p className='gi-text-box year'>{state.year}</p>
-                </div>
-                <div className='gi-box-row'>
-                  <p className='gi-text-box collection'>{state.collection}</p>
-                </div>
-              </div>
-            </div> 
-          </div>
+              </div> 
+            </div>
+            </>
+          )}
+
+          {resultsNumber === 0 && (
+            <>
+            <div className='gi-text-container'>
+              <div className="gi-card-container empty"></div> 
+            </div>
+            </>
+          )}
+          
           {/* Navigation Arrows */}
-          {currentIndex > 0 && (
-            <button className="gi-arrow-button up" onClick={handlePrev}>
+          {(currentIndex > 0 || resultsNumber === 0) && (
+            <button className={`gi-arrow-button up ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handlePrev}>
               <ArrowIcon 
                 className='gi-arrow-icon'
               />
@@ -342,16 +359,22 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
             </button>
           )}
 
-          {currentIndex < caseStudies.length - 1 && (
-            <button className="gi-arrow-button down" onClick={handleNext}>
+          {(currentIndex < caseStudies.length - 1 || resultsNumber === 0) && (
+            <button className={`gi-arrow-button down ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handleNext}>
               <ArrowIcon 
                 className='gi-arrow-icon'
             />
             </button>
           )}
-          <p className='gi-results'>
-            <span className='bold-text'>{resultsNumber}</span> results 
-          </p> 
+
+          {resultsNumber !== 0 && (
+            <>
+            <p className='gi-results'>
+              <span className='bold-text'>{resultsNumber}</span> results 
+            </p>
+            </>
+          )}
+           
 
           <div className="search-mode-menu">
             <div className="mode-button-background">
@@ -372,6 +395,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
             </div>
             <button 
               className="search-button"
+              onClick={handleDefaultSearch}
             >
               SEARCH
             </button>

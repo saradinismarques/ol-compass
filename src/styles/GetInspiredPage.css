@@ -144,6 +144,11 @@
     left: 74%; 
 }
 
+.gi-arrow-button.disabled {
+    pointer-events: none;
+    opacity: 60%;
+}
+
 /* Left arrow button */
 .gi-arrow-button.up {
     rotate: -90deg; /* Rotate the arrow for left button */
