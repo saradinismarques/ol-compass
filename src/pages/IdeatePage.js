@@ -106,11 +106,10 @@ import { ReactComponent as LockIcon } from '../assets/lock-icon.svg'; // Adjust 
 //   );
 // };
 
-const IdeatePage = ({colors, isExplanationPage }) => {
+const IdeatePage = ({ isExplanationPage }) => {
   return (
     <div>
       <OLCompass 
-        colors={colors} 
         action="default"
         position={isExplanationPage ? "center" : "left"} 
       />

@@ -4,7 +4,7 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
 
 
-const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -37,7 +37,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
-  }, [initialState]);
+  }, [initialState, setIsExplanationPage]);
 
   const handleCompassClick = () => {
     if(state.firstClick && firstMessage) {
@@ -64,7 +64,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     }
     setIsExplanationPage(false);
 
-  }, [state.firstClick]);
+  }, [state.firstClick, firstMessage, isExplanationPage, setIsExplanationPage]);
 
 
   useEffect(() => {
@@ -83,7 +83,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     }));
   };
 
-  const resetStateAndCompass = () => {
+  const resetStateAndCompass = useCallback(() => {
     setState((prevState) => ({
       ...prevState,
       title: '',
@@ -100,7 +100,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     setTimeout(() => {
       setResetCompass(false);
     }, 0);
-  }
+  }, [setState, setResetCompass, setIsExplanationPage]);
 
   // Callback function to receive data from OLCompass
   const handleDataFromOLCompass  = useCallback((data) => {
@@ -115,7 +115,7 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
 
     resetStateAndCompass();
-  }, []); // Empty dependency array to ensure it doesn't change
+  }, [resetStateAndCompass, setNewCaseStudies]); // Empty dependency array to ensure it doesn't change
 
   const handleSubmitClick = () => {
     // You can now use compassData or perform any action with it
@@ -181,7 +181,6 @@ const ContibutePage = ({colors, setNewCaseStudies, firstMessage, setFirstMessage
     <div>
     <div className={`${state.showMessage ? "blur-background" : ""}`}>
       <OLCompass 
-        colors={colors} 
         action="contribute"
         position={isExplanationPage ? "center" : "left"}
         onEnterClick={handleEnterClick} 

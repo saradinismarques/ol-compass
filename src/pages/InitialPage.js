@@ -3,7 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
 import '../styles/InitialPage.css';
 
-const InitialPage = ({ colors }) => {
+const colors = {
+    Principle: "#41ffc9",
+    Perspective: "#41e092",
+    Dimension: "#41c4e0"
+};
+
+const InitialPage = () => {
     const [state, setState] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
 
@@ -154,7 +160,6 @@ const InitialPage = ({ colors }) => {
     return (
         <div>
             <OLCompass 
-                colors={colors} 
                 action={action} 
                 position="center"
             />

@@ -2,11 +2,10 @@ import React from 'react';
 import OLCompass from '../components/OLCompass'
 import Menu from '../components/Menu';
 
-const HomePage = ({colors}) => {
+const HomePage = () => {
   return (
     <div>
       <OLCompass 
-        colors={colors} 
         action="default"
         position="center" 
       />

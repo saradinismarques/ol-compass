@@ -14,7 +14,13 @@ import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; //
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
-const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const colors = {
+  Principle: "#41ffc9",
+  Perspective: "#41e092",
+  Dimension: "#41c4e0"
+};
+
+const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -44,7 +50,7 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
-  }, [initialState]);
+  }, [initialState, setIsExplanationPage]);
 
   const handleCompassClick = (code, title, headline, paragraph, designPrompt, type, concepts, ) => {
     if(state.firstClick && firstMessage) {
@@ -80,13 +86,6 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
         index: 0,
       }));
     }
-  };
-
-  const toggleShowDesignPrompt = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showDesignPrompt: true,
-    }));
   };
 
   const toggleBookmark = () => {
@@ -242,7 +241,6 @@ const LearnPage = ({colors, savedComponents, setSavedComponents, firstMessage, s
         }}
       >
         <OLCompass 
-          colors={colors} 
           action="learn" 
           position={isExplanationPage ? "center" : "left"}
           onButtonClick={handleCompassClick} 

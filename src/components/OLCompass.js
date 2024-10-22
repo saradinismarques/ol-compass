@@ -11,11 +11,15 @@ const waveWidth = size/2.77;
 const waveHeight = size/6.5;
 const waveRadius = size/12;
 
-
+const colors = {
+    Principle: "#41ffc9",
+    Perspective: "#41e092",
+    Dimension: "#41c4e0"
+};
 
 const menuArea = 130;
 
-const OLCompass = ({colors, action, position, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSubmitClick, fetchData }) => {
+const OLCompass = ({action, position, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSubmitClick, fetchData }) => {
     const getCenter = (position) => {
         if (position === "center") {
             return { x: window.innerWidth / 2, y: window.innerHeight / 2 };

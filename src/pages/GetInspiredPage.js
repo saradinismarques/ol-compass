@@ -9,7 +9,7 @@ import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjus
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
 
-const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   const initialState = useMemo(() => ({
     title: '', 
     collection: '',
@@ -32,6 +32,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
   const [carouselMode, setCarouselMode] = useState(true);
   const [action, setAction] = useState('get-inspired');
   const [resultsNumber, setResultsNumber] = useState(0);
+  const [searchMode, setSearchMode] = useState('AND');
   const carouselModeRef = useRef(carouselMode);
   const actionRef = useRef(action);
 
@@ -52,7 +53,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     actionRef.current = 'get-inspired';
     setIsExplanationPage(true);
 
-  }, [initialState]);
+  }, [initialState, setIsExplanationPage]);
 
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((title) => {
@@ -118,9 +119,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       }));
     }
     setIsExplanationPage(false);
-  }, [newCaseStudies, getBookmarkState]);
+  }, [newCaseStudies, getBookmarkState, setIsExplanationPage]);
 
-  const carouselHandleEnterClick = () => {
+  const carouselHandleEnterClick = useCallback(() => {
     if(!carouselModeRef.current) return;
 
     setCarouselMode(true);
@@ -142,9 +143,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setAction('get-inspired-carousel');
     actionRef.current = 'get-inspired-carousel';
 
-  };
+  }, [firstMessage, isExplanationPage, searchCaseStudies, state.firstClick]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (currentIndex < caseStudies.length - 1) {
       const nextIndex = currentIndex + 1;
       setCurrentIndex(nextIndex);
@@ -165,9 +166,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         bookmark: getBookmarkState(caseStudies[nextIndex].Title),
       });
     }
-  };
+  }, [caseStudies, currentIndex, getBookmarkState, state]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
       const prevIndex = currentIndex - 1;
       setCurrentIndex(prevIndex);
@@ -188,7 +189,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         bookmark: getBookmarkState(caseStudies[prevIndex].Title),
       });
     }
-  };
+  }, [caseStudies, currentIndex, getBookmarkState, state]);
 
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {
@@ -198,14 +199,14 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       handlePrev();
     else if (e.key === 'ArrowDown') 
       handleNext();
-  }, [handlePrev, handleNext]);
+  }, [handlePrev, handleNext, carouselHandleEnterClick]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => {
         window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [carouselHandleEnterClick]); // Dependency array includes carouselHandleEnterClick
+  }, [carouselHandleEnterClick, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
 
   const defaultHandleEnterClick = (components) => {
     if(carouselModeRef.current) return;
@@ -256,7 +257,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     <div>
     <div className={`${state.showMessage ? "blur-background" : ""}`}>
       <OLCompass 
-        colors={colors} 
         action={action}
         position={isExplanationPage ? "center" : "left"} 
         resetState={resetState} // Passing resetState to OLCompass
@@ -351,6 +351,29 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
           <p className='gi-results'>
             <span className='bold-text'>{resultsNumber}</span> results 
           </p> 
+
+          <div className="search-mode-menu">
+            <div className="search-button-background">
+            <div className="mode-button-background">
+            <div className="mode-buttons">
+              <button
+                className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
+                onClick={() => setSearchMode('AND')}
+              >
+                AND
+              </button>
+              <button
+                className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
+                onClick={() => setSearchMode('OR')}
+              >
+                OR
+              </button>
+            </div>
+            </div>
+
+              <button className="search-button">SEARCH</button>
+            </div>
+            </div>
         </>
       )}    
       <Menu isExplanationPage={isExplanationPage}/>
