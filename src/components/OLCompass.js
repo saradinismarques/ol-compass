@@ -17,6 +17,8 @@ const colors = {
     Dimension: "#41c4e0"
 };
 
+const pinkColor = "#e6007e";
+
 const menuArea = 130;
 
 const OLCompass = ({action, position, onButtonClick, onClickOutside, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData }) => {
@@ -341,24 +343,41 @@ const OLCompass = ({action, position, onButtonClick, onClickOutside, resetState,
     return (
         <Stage width={window.innerWidth} height={window.innerHeight} style={{ zIndex: 30 }}>
             <Layer>
-                {components.map((c, i) => (
-                    <Shape
-                        key={String(i)}
-                        sceneFunc={(context, shape) => {
+            {components.map((c, i) => (
+            <React.Fragment key={String(i)}>
+                
+                {/* Stroke with constant full opacity */}
+                <Shape
+                    sceneFunc={(context, shape) => {
                         drawWaveButton(c, action, context, shape, savedComponents, initialState);
-                        }}
-                        id={String(i)}
-                        fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveHeight/1.5 }}
-                        fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveHeight/1.5 }}
-                        fillLinearGradientColorStops={getGradientColor(c.Code, c.Type, colors)}
-                        stroke={colors[c.Type]}
-                        strokeWidth={0.01}
-                        opacity={getOpacity(clickedIds, lineIds, hoveredId, i, c, action, selectedComponents)}
-                        onClick={handleClick}
-                        onMouseEnter={handleMouseEnter}
-                        onMouseLeave={handleMouseLeave}
-                    />
-                ))} 
+                    }}
+                    id={String(i)}
+                    fill="transparent"  // No fill, just stroke
+                    stroke={getStroke(clickedIds, i, c, action)}
+                    strokeWidth={getStrokeWidth(clickedIds, i, c, action, selectedComponents)}
+                    opacity={1}  // Always keep stroke opacity at 1
+                /> 
+                
+                {/* Shape with varying opacity */}
+                <Shape
+                    sceneFunc={(context, shape) => {
+                        drawWaveButton(c, action, context, shape, savedComponents, initialState);
+                    }}
+                    id={String(i)}
+                    fillLinearGradientStartPoint={{ x: window.innerWidth / 2, y: -waveHeight / 1.5 }}
+                    fillLinearGradientEndPoint={{ x: window.innerWidth / 2, y: waveHeight / 1.5 }}
+                    fillLinearGradientColorStops={getGradientColor(c.Code, c.Type, colors)}
+                    opacity={getOpacity(clickedIds, lineIds, hoveredId, i, c, action, selectedComponents)}  // Shape opacity
+                    stroke={colors[c.Type]}
+                    strokeWidth={0.0001}
+                    onClick={handleClick}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                />
+
+            </React.Fragment>
+            ))}
+                
 
                 {/* Bookmarks */}
                 {components.map((c, i) => (
@@ -790,13 +809,31 @@ const getOpacity = (clickedIds, lineIds, hoveredId, currentId, component, action
     if (clickedIds.includes(currentId) || lineIds.includes(currentId)) 
         return 1;
     if (hoveredId === currentId) 
-        return 0.8;
+        return 0.7;
     if (action ==="ideate" && clickedIds.length === 0) 
         return 0.4;  
     if(clickedIds.length === 0)
         return 1;
     
     return 0.4;
+};
+
+const getStroke = (clickedIds, currentId, component, action) => {
+    if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search"))
+        return pinkColor;
+    else
+        return colors[component.Type];
+};
+
+const getStrokeWidth = (clickedIds, currentId, component, action, selectedComponents) => {
+    if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search") && selectedComponents.length === 0)
+        return 4;
+    if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search") && !selectedComponents.includes(component.Code))
+        return 2;
+    else if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search") && selectedComponents.includes(component.Code))
+        return 4;
+    else
+        return 0.001;
 };
 
 const getGradientColor = (code, type, colors) => {

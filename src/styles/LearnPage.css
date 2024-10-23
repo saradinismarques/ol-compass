@@ -6,57 +6,6 @@
     margin: 0px;
     z-index: 30;
 }
-
-.l-bookmark-container {
-    position: absolute;
-    top: 9%;
-    left: 58%;
-    display: flex; /* Align items in a row */
-    align-items: center; /* Center them vertically */
-    z-index: 30;
-}
-
-.l-white-line {
-    width: 330px;
-    height: 0.5px;
-    background-color: white;
-}
-  
-.l-bookmark-button {
-    background-color: transparent;
-    border:2px solid white;
-    border-radius: 50%;
-    padding: 7px;
-    margin-left: 10px; /* Add space between the line and the button */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-  
-.l-bookmark-button:hover {
-    border-color: #fff; /* Change border color on hover */
-    background-color:  rgba(255, 255, 255, 0.2);
-}
-  
-.l-bookmark-button:active {
-    border-color: #d8d8d8; /* Lighter border on click */
-    background-color:  rgba(199, 181, 181, 0.2);
-}
-
-.l-bookmark-button.active {
-    background-color: #da398f; /* Active state background color */
-    color: white; /* Active state text color */
-}
-  
-.l-bookmark-icon {
-    width: 22px;
-    height: 22px;
-    fill: none; /* Set default color for the bookmark */
-    transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: white;
-    stroke-width: 1.3px;
-}
   
 /* Style for h1 */
 .l-title {
@@ -80,7 +29,6 @@
 .l-text {
     font-size: 1em;
     font-weight: 300;
-    padding-left: 20px;
     margin-top: -25px;
     overflow-y: auto; /* Hide overflow initially */
     padding-right: 15px;
@@ -150,7 +98,6 @@
     opacity: 40%;
 }
 
-
 /* Style for h1 */
 .l-title-concepts {
     font-size: 1em; /* Larger size for h1 */
@@ -191,6 +138,7 @@
     display: flex;
     align-items: center;
 }
+
 /* Left arrow button */
 .l-arrow-button.left {
     rotate: 180deg; /* Rotate the arrow for left button */
@@ -213,6 +161,56 @@
     stroke-width: 0px;
 }
 
+.l-bookmark-container {
+    position: absolute;
+    top: 9%;
+    left: 58%;
+    display: flex; /* Align items in a row */
+    align-items: center; /* Center them vertically */
+    z-index: 30;
+}
+
+.l-white-line {
+    width: 310px;
+    height: 0.5px;
+    background-color: white;
+}
+  
+.l-bookmark-button {
+    background-color: transparent;
+    border:2px solid white;
+    border-radius: 50%;
+    padding: 7px;
+    margin-left: 10px; /* Add space between the line and the button */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+  
+.l-bookmark-button:hover {
+    border-color: #fff; /* Change border color on hover */
+    background-color:  rgba(255, 255, 255, 0.2);
+}
+  
+.l-bookmark-button:active {
+    border-color: #d8d8d8; /* Lighter border on click */
+    background-color:  rgba(199, 181, 181, 0.2);
+}
+
+.l-bookmark-button.active {
+    background-color: #da398f; /* Active state background color */
+    color: white; /* Active state text color */
+}
+  
+.l-bookmark-icon {
+    width: 22px;
+    height: 22px;
+    fill: none; /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: white;
+    stroke-width: 1.3px;
+}
 
 
 

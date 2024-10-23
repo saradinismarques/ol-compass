@@ -291,9 +291,9 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
             </div>
 
             <div className="l-text-container" style={{
-              maxWidth: state.code === 'P7' ? '393px': 
-                        state.code === 'P3'? '384.5px': 
-                        state.code === 'P1' ? '382px' : '385px'}}>
+              maxWidth: state.code === 'P7' ? '373px': 
+                        state.code === 'P3'? '364.5px': 
+                        state.code === 'P1' ? '362px' : '365px'}}>
               <h1 className='l-title'>{state.title}</h1>
               <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
               {state.type === "Principle" && (
