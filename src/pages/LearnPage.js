@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/LearnPage.css';
 import OLCompass from '../components/OLCompass';
+import CircleMenu from '../components/CircleMenu'; // Adjust the import path if needed
 import Menu from '../components/Menu';
 import P1Image from '../images/P1.png';
 import P2Image from '../images/P2.png';
@@ -232,6 +233,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
   
   return (
     <div>
+
     <div className={`container ${state.showMessage ? "blur-background" : ""}`}>
       <div className='l-gradient-background'
         style={{
@@ -246,11 +248,11 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
           onButtonClick={handleCompassClick} 
           resetState={resetState}  // Passing resetState to OLCompass
           savedComponents={savedComponents}
-        />
+        /> 
 
         {isExplanationPage && (
             <>
-            <div className="text-container">
+            <div className="text-container" >
                 <p className='question'>
                   What's it for?
                 </p>
