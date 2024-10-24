@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData, getConceptsData } from '../utils/Data.js'; 
 import '../styles/App.css'
 
@@ -34,11 +34,11 @@ const CircleMenu = ({ position }) => {
   const center = getCenter(position);
 
   // Dictionary with all information
-  const principles = getPrinciples(getPrinciplesData(), center);
-  const perspectives = getPerspectives(getPerspectivesData(), center);
-  const dimensions = getDimensions(getDimensionsData(), center);
-  const components = principles.concat(perspectives, dimensions);
-  const concepts = getConceptsData();
+  // const principles = getPrinciples(getPrinciplesData(), center);
+  // const perspectives = getPerspectives(getPerspectivesData(), center);
+  // const dimensions = getDimensions(getDimensionsData(), center);
+  // const components = principles.concat(perspectives, dimensions);
+  // const concepts = getConceptsData();
 
   // State of clicks and hovers
   const [hoveredId, setHoveredId] = useState(null);
@@ -50,7 +50,7 @@ const CircleMenu = ({ position }) => {
   // Refs to update the state instantly
   const clickedIdsRef = useRef(clickedIds);
   const hoveredIdRef = useRef(hoveredId);
-  
+
   // Define configurations for the two circles
   const circles = [
     { numberOfButtons: 10, radius: size/2 }, // Bigger circle
@@ -89,7 +89,7 @@ const CircleMenu = ({ position }) => {
     left: '0',           // Reset left for positioning
     transform: `translate(-50%, -50%)`, // Centered offset
     borderRadius: '50%', // To make it a circular background if desired
-    backgroundColor: '#e6007e', // Background color for the circle container
+   // backgroundColor: '#e6007e', // Background color for the circle container
     width: `${size}px`,
     height: `${size}px`
   };
@@ -101,6 +101,30 @@ const CircleMenu = ({ position }) => {
   };
 
   return (
+    <div>
+      
+       <div style={{position: 'fixed', left: `${getCenter(position).x}px`, top: `${getCenter(position).y}px`, transform: `translate(-50%, -50%)` }}>
+      <svg viewBox="0 0 30 30" width={size} height={size} style={{ pointerEvents: 'none' }}>
+        <circle
+        cx="15"          // Center X position
+        cy="15"           // Center Y position (you can adjust for different alignment)
+        r="15"             // Radius of the circle
+        fill="purple"      // Circle color
+      ></circle>
+       </svg>
+       </div>
+
+       <div style={{position: 'fixed', left: `${getCenter(position).x}px`, top: `${getCenter(position).y}px`, transform: `translate(-50%, -50%)` }}>
+      <svg viewBox="0 0 30 30" width={size/3*2} height={size/3*2} style={{ pointerEvents: 'none' }}>
+        <circle
+        cx="15"          // Center X position
+        cy="15"           // Center Y position (you can adjust for different alignment)
+        r="15"             // Radius of the circle
+        fill="green"      // Circle color
+      ></circle>
+       </svg>
+       </div>
+       
     <div style={{...containerStyle, left: `${getCenter(position).x}px`, top: `${getCenter(position).y}px` }}>
       {buttons.map((button, index) => (
         <div
@@ -119,6 +143,8 @@ const CircleMenu = ({ position }) => {
           </svg>
         </div>
       ))}
+    </div>
+    
     </div>
   );
 };
