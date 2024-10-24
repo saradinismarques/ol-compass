@@ -17,7 +17,6 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
 
   const [state, setState] = useState(initialState);
   const [resetCompass, setResetCompass] = useState(false);
-  const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
 
   // Process the case study data from the state
   const initialNewCS = {
@@ -117,28 +116,6 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     resetStateAndCompass();
   }, [resetStateAndCompass, setNewCaseStudies]); // Empty dependency array to ensure it doesn't change
 
-  const handleSubmitClick = () => {
-    // You can now use compassData or perform any action with it
-    setFetchData(true);
-
-    // Set it back to false after the reset
-    setTimeout(() => {
-      setFetchData(false);
-    }, 0);
-
-    setNewCS((prevState) => {
-      const updatedState = {
-        ...prevState,
-        Title: state.title,
-      ShortDescription: state.shortDescription,
-      Credits: state.credits,
-      };
-    
-      newCSRef.current = updatedState; // Update the ref immediately with the new state value
-      return updatedState;
-    });
-  };
-
   const handleEnterClick = (components) => {
     // for the rest of the interaction
     // Process the case study data from the state
@@ -187,7 +164,6 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
         resetState={resetState} 
         resetCompass={resetCompass}
         onSubmitClick={handleDataFromOLCompass}
-        fetchData={fetchData} 
         onButtonClick={handleCompassClick}
       />
         {isExplanationPage && (
@@ -224,54 +200,73 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
               </svg>
             </button>
-        <div className="a-text-container">
-          <div className="a-title">
-              <input 
-                name="title"
-                className="a-placeholder" 
-                type="text" 
-                placeholder="Insert Title"  
-                value={state.title} 
-                onChange={handleInputChange}
-              />
-          </div>
-          <div className='a-text'>
-              <p className='a-small-instruction'>Select all relevant elements</p>
-              <div className='a-instruction-container'>
-                  <p className='a-instruction'>Click again to deselect</p>
-                  <p className='a-instruction'>Long press to recall description</p>
-              </div>
-              <div className='a-question-container'>
-                  <p className='a-question'>Which principles does your case address?</p>
-                  <p className='a-question'>Which perspective(s) does it express?</p>
-                  <p className='a-question'>Which dimension(s) does it pertain?</p>
-              </div>
-          </div>
-          <div className="a-description">
-              <textarea 
-                name="shortDescription"
-                className="a-placeholder" 
-                placeholder="Insert Description"
-                value={state.shortDescription}
-                onChange={handleInputChange}
-              ></textarea>
-          </div>
-          <div className="a-insert-sources">
-              <input 
-                name="credits"
-                type="text"
-                className="a-placeholder" 
-                placeholder="Insert Credits" 
-                value={state.credits}
-                onChange={handleInputChange}
+        <div className='c-text-container'>
+          <div className="c-textarea-container">
+            <div className="c-title">
+                <textarea 
+                  name="title"
+                  className="c-placeholder" 
+                  type="text" 
+                  placeholder="Insert Title"  
+                  value={state.title} 
+                  onChange={handleInputChange}
+                ></textarea>
+            </div>
+            <div className="c-description">
+                <textarea 
+                  name="shortDescription"
+                  className="c-placeholder" 
+                  placeholder="Insert Description"
+                  value={state.shortDescription}
+                  onChange={handleInputChange}
+                ></textarea>
+            </div>
+            <div className="c-insert-sources">
+                <input 
+                  name="credits"
+                  type="text"
+                  className="c-placeholder" 
+                  placeholder="Insert Source/Credits" 
+                  value={state.credits}
+                  onChange={handleInputChange}
                 />
+            </div>
           </div>
-          <button 
-            className="a-submit-button" 
-            onClick={handleSubmitClick}
-          >
-            Submit
-          </button>
+
+          {/* Add your select boxes and language checkboxes below this point */}
+          <div className="c-filters">
+            <select name="type" value={state.type}>
+              <option value="">TYPE</option>
+              <option value="movie">Movie</option>
+              <option value="series">Series</option>
+            </select>
+
+            <select name="ageRange" value={state.ageRange}>
+              <option value="">AGE RANGE</option>
+              <option value="children">Children</option>
+              <option value="teen">Teen</option>
+              <option value="adult">Adult</option>
+            </select>
+
+            <select name="duration" value={state.duration}>
+              <option value="">DURATION</option>
+              <option value="short">Short</option>
+              <option value="long">Long</option>
+            </select>
+
+            <select name="mainTarget" value={state.mainTarget}>
+              <option value="">MAIN TARGET</option>
+              <option value="all">All</option>
+              <option value="specific">Specific Audience</option>
+            </select>
+
+            <select name="year" value={state.year}>
+              <option value="">YEAR</option>
+              <option value="2023">2023</option>
+              <option value="2022">2022</option>
+            </select>
+
+          </div>
         </div>
         </>
         )}  

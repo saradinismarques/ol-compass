@@ -1,113 +1,71 @@
-.a-text-container {
+.c-text-container {
     position: absolute;
     top: 16%; /* Position item 50% from the top */
     left: 60%; /* Position item 50% from the left */
-    width: 320px;
+    width: 300px;
     text-align: center;
-  }
+}
 
-.a-title input,
-.a-description textarea,
-.a-insert-sources input {
+.c-textarea-container {
+    border: 2px solid #ceceda; /* Define border width, style, and color */
+    border-radius: 6px; /* You can increase the radius to make it more rounded */
+    padding: 5px;
+}
+
+.c-title textarea,
+.c-description textarea,
+.c-insert-sources input {
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
-    background-color: #e0e0e0;
+    background-color: #f5f5f7;
     border: none;
-    border-radius: 10px;
+    border-radius: 4px;
     box-sizing: border-box;
     font-family: 'Manrope', sans-serif;
-    color: #ffffff; /* Set placeholder color to white */
+    color: #454574; /* Set placeholder color to white */
+    resize: none;
+    margin-bottom: 0px;
 }
   
-.a-placeholder::placeholder {
+.c-placeholder::placeholder {
     opacity: 1; /* Remove transparency */
-    color: #ffffff; /* Set placeholder color to white */
+    color: #454574; /* Set placeholder color to white */
 }
 
-.a-title input {
-    font-size: 1.4em;
+.c-title textarea {
+    font-size: 1.3em;
+    height: 80px;
 }
 
-.a-description textarea {
+.c-description textarea {
     font-size: 1.2em;
-    height: 150px;
-    resize: none;
+    height: 200px;
 }
 
-.a-insert-sources input {
-    font-size: 1.2em;
-}
-
-.a-text {
-    padding-left: 15px;
-    text-align: left;
-}
- 
-.a-small-instruction {
-    font-size: 1.2em;
-    font-weight: 400;
-    margin-top: 0px;
-    margin-bottom: -15px;
-    color: #5c5c5b;
-}
-
-.a-instruction-container {
-    margin-bottom: 20px;
-    color: #80807f;
-}
-
-.a-instruction {
-    font-size: 1em;
+.c-insert-sources input {
+    font-size: 0.8em;
     font-weight: 300;
-    margin-bottom: -15px;
 }
 
-.a-question-container {
-    margin-bottom: 25px;
-    color: #acabab;
-}
-
-.a-question {
-    font-size: 0.9em;
-    font-weight: 200;
-    margin-bottom: -15px;
-}
-
-.a-upload-picture-button {
-    font-family: 'Manrope', sans-serif;
-    font-size: 1.2em;
+/* Style for the filters container */
+.c-filters {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    grid-gap: 10px;
+    margin-top: 20px;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: #e0e0e0;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    box-sizing: border-box;
-    cursor: pointer;
-    text-align: left;
-    text-decoration: underline;
 }
 
-.a-upload-picture-button:hover {
-    background-color: rgb(236, 234, 234);
-}
-
-.a-submit-button {
+/* Style for select dropdowns */
+.c-filters select {
+    width: 100%;
     font-family: 'Manrope', sans-serif;
-    font-size: 1.05em;
-    font-weight: 200;
-    background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: rgb(131, 131, 131);
-    border: none;
-    cursor: pointer;
-    outline: none; /* Optional: Remove outline on focus */
-    text-decoration: underline;
-    margin-top: 15px;
+    font-size: 0.6em;
+    padding: 5px 8px; /* Add padding for the oval look */
+    border: 1px solid #ccc;
+    border-radius: 25px; /* Oval shape */
+    background-color: white;
+    appearance: none; /* Remove the default arrow, you can add a custom one */
+    outline: none;
 }
 
-.a-preview-button:hover {
-    color: rgb(203, 202, 202);
-}
-   
