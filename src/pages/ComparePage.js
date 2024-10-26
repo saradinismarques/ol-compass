@@ -7,10 +7,10 @@ import { ReactComponent as LockIcon } from '../assets/lock-icon.svg'; // Adjust 
 const ComparePage = ({ isExplanationPage }) => {
   return (
     <div>
-      <OLCompass 
+      {/* <OLCompass 
         action="default" 
         position={isExplanationPage ? "center" : "left"}
-      />
+      /> */}
       <CircleMenu 
         action="default" 
         position={isExplanationPage ? "center" : "left"}

@@ -1,6 +1,6 @@
 /* Style for text-container */
 .gi-text-container {
-    position: absolute;
+    position: fixed;
     top: 16%; /* Position item 50% from the top */
     left: 75%; /* Position item 50% from the left */
     transform: translateX(-50%);
@@ -40,12 +40,12 @@
 .gi-credits {
     font-size: 0.8em;
     font-weight: 200;
-    position: absolute;  /* Absolute positioning within the container */
+    position: fixed;  /* Absolute positioning within the container */
     bottom: 110px;        
 }
 
 .gi-boxes-container {
-    position: absolute;
+    position: fixed;
     bottom: 28px;  
 }
 
@@ -100,7 +100,7 @@
     border:2px solid white;
     border-radius: 50%;
     padding: 5px;
-    position: absolute;
+    position: fixed;
     right: 5%;
     cursor: pointer;
     display: flex;
@@ -140,7 +140,7 @@
     background-color: transparent;
     border: 2px solid transparent; /* Set initial border to transparent */
     cursor: pointer;
-    position: absolute;
+    position: fixed;
     left: 74%; 
 }
 
@@ -181,7 +181,7 @@
 
 
 .gi-results {
-    position: absolute;
+    position: fixed;
     left: 75%;
     bottom: 9%;
     transform: translateX(-50%);
@@ -190,7 +190,7 @@
 
 /* Container for the menu */
 .search-mode-menu {
-    position: absolute;
+    position: fixed;
     bottom: 7%;
     left: 27%;
     width: 200px;

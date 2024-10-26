@@ -229,7 +229,7 @@ const CircleMenu = ({action, position, onButtonClick, onClickOutside, resetState
   const Tooltip = ({ text, position }) => (
     <div
     style={{
-      position: 'absolute',
+      position: 'fixed',
       top: `${position.y}px`,
       left: `${position.x}px`,
       transform: 'translate(-50%, -110%)', // Adjusts the position above the button
@@ -242,7 +242,6 @@ const CircleMenu = ({action, position, onButtonClick, onClickOutside, resetState
       fontSize: '15px',
       width: `${text.length * 4.2}px`, // Dynamic width based on text length
       pointerEvents: 'none', // Prevents tooltip from interfering with hover
-      position: 'relative', // To position the pointer
       opacity: 0.9
     }}
   >
@@ -250,7 +249,7 @@ const CircleMenu = ({action, position, onButtonClick, onClickOutside, resetState
     {/* Tooltip pointer */}
     <div
       style={{
-        position: 'absolute',
+        position: 'fixed',
         top: '100%', // Positions pointer below the tooltip box
         left: '50%',
         marginLeft: '-5px', // Centers the pointer
