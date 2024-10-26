@@ -239,7 +239,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
         style={{
           background: isExplanationPage
             ? 'none'
-            : `linear-gradient(to right, transparent 25%, ${state.gradientColor} 100%)`
+            : `linear-gradient(to right, transparent 25%, ${state.gradientColor} 100%)`,
         }}
       >
         {/* <OLCompass 
@@ -250,7 +250,13 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
           savedComponents={savedComponents}
         />  */}
 
-        <CircleMenu position={"center"}/>
+        <CircleMenu 
+          action="learn" 
+          position={isExplanationPage ? "center" : "left"}
+          onButtonClick={handleCompassClick} 
+          resetState={resetState}  // Passing resetState to OLCompass
+          savedComponents={savedComponents}
+        />
 
         {isExplanationPage && (
             <>

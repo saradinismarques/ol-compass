@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import '../styles/GetInspiredPage.css';
 import OLCompass from '../components/OLCompass';
+import CircleMenu from '../components/CircleMenu'; // Adjust the import path if needed
 import Menu from '../components/Menu';
 import { getCaseStudies } from '../utils/Data.js'; 
 import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
@@ -313,7 +314,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   return (
     <div>
     <div className={`${state.showMessage ? "blur-background" : ""}`}>
-      <OLCompass 
+      {/* <OLCompass 
         action={action}
         position={isExplanationPage ? "center" : "left"} 
         resetState={resetState} // Passing resetState to OLCompass
@@ -322,6 +323,16 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         selectedComponents={state.components}
         onSearchClick={handleDataFromOLCompass}
         fetchData={fetchData} 
+      /> */}
+      <CircleMenu 
+        action={action}
+        position={isExplanationPage ? "center" : "left"} 
+        resetState={resetState} // Passing resetState to OLCompass
+        onEnterClick={handleDefaultSearch} 
+        onButtonClick={handleCompassClick}
+        selectedComponents={state.components}
+        onSearchClick={handleDataFromOLCompass}
+        fetchData={fetchData}  
       />
       {isExplanationPage && (
         <>

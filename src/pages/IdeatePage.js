@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/IdeatePage.css';
 import OLCompass from '../components/OLCompass';
+import CircleMenu from '../components/CircleMenu'; // Adjust the import path if needed
 //import PostIt from '../components/PostIt';
 import Menu from '../components/Menu';
 import { ReactComponent as LockIcon } from '../assets/lock-icon.svg'; // Adjust the path as necessary
@@ -109,9 +110,13 @@ import { ReactComponent as LockIcon } from '../assets/lock-icon.svg'; // Adjust 
 const IdeatePage = ({ isExplanationPage }) => {
   return (
     <div>
-      <OLCompass 
+      {/* <OLCompass 
         action="default"
         position={isExplanationPage ? "center" : "left"} 
+      /> */}
+      <CircleMenu 
+        action="default"
+        position={isExplanationPage ? "center" : "left"}
       />
         <div className='text-container'>
             <p className='question'>

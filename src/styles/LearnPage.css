@@ -1,5 +1,5 @@
 .l-text-container {
-    position: absolute;
+    position: fixed;
     top: 13%; /* Position item 50% from the top */
     left: 58%; /* Position item 50% from the left */
     padding: 0px;
@@ -72,7 +72,11 @@
 }
   
 .l-gradient-background {
-    position: relative;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: 20; /* Ensure this doesn't interfere with other content */
 }
 
@@ -91,7 +95,7 @@
 }
   
 .l-image-container {
-    position: absolute;
+    position: fixed;
     overflow: hidden; /* To prevent any overflow issues */
     left: 52%;
     top: 7%;
@@ -163,7 +167,7 @@
 }
 
 .l-bookmark-container {
-    position: absolute;
+    position: fixed;
     top: 9%;
     left: 58%;
     display: flex; /* Align items in a row */

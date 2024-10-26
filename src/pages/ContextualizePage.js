@@ -1,12 +1,17 @@
 import React from 'react';
 import OLCompass from '../components/OLCompass';
+import CircleMenu from '../components/CircleMenu'; // Adjust the import path if needed
 import Menu from '../components/Menu';
 import { ReactComponent as LockIcon } from '../assets/lock-icon.svg'; // Adjust the path as necessary
 
 const ContextualizePage = ({ isExplanationPage }) => {
   return (
     <div>
-      <OLCompass 
+      {/* <OLCompass 
+        action="default" 
+        position={isExplanationPage ? "center" : "left"}
+      /> */}
+      <CircleMenu 
         action="default" 
         position={isExplanationPage ? "center" : "left"}
       />

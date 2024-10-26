@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import '../styles/ContributePage.css';
 import OLCompass from '../components/OLCompass';
+import CircleMenu from '../components/CircleMenu'; // Adjust the import path if needed
 import Menu from '../components/Menu'
 
 
@@ -157,7 +158,16 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
   return (
     <div>
     <div className={`${state.showMessage ? "blur-background" : ""}`}>
-      <OLCompass 
+      {/* <OLCompass 
+        action="contribute"
+        position={isExplanationPage ? "center" : "left"}
+        onEnterClick={handleEnterClick} 
+        resetState={resetState} 
+        resetCompass={resetCompass}
+        onSubmitClick={handleDataFromOLCompass}
+        onButtonClick={handleCompassClick}
+      /> */}
+      <CircleMenu 
         action="contribute"
         position={isExplanationPage ? "center" : "left"}
         onEnterClick={handleEnterClick} 
@@ -166,6 +176,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
         onSubmitClick={handleDataFromOLCompass}
         onButtonClick={handleCompassClick}
       />
+      
         {isExplanationPage && (
         <>
         <div className='text-container'>

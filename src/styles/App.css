@@ -8,7 +8,7 @@ body {
 }
 
 .text-container {
-    position: absolute;
+    position: fixed;
     top: 15%; /* Position item 50% from the top */
     right: 8%; /* Position item 50% from the left */
     max-width: 310px;
@@ -88,7 +88,7 @@ body {
 }
 
 .message-box {
-    position: absolute;
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -108,7 +108,7 @@ body {
 }
 
 .got-it-button {
-    position: absolute;
+    position: fixed;
     transform: translate(-50%);
     padding-top: 10px;
     font-size: 0.9em;
@@ -133,7 +133,7 @@ body {
 }
   
 .question-button {
-    position: absolute;
+    position: fixed;
     bottom: 9%;
     left: 5.7%;
     background-color: transparent;
@@ -147,7 +147,7 @@ body {
 }
 
 .question-circle {
-    position: absolute;
+    position: fixed;
     top: 0%;
     left: 50%;
     transform: translate(-50%, -50%);
