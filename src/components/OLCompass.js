@@ -263,6 +263,36 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
   </div>
   );
 
+  const Bookmark = ({ component }) => (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${component.x-8}px`, // Adjust position for button size
+        top: `${component.y-8-2}px`,
+        transform: `rotate(${component.angle + Math.PI}rad)`,
+        zIndex: 20
+      }}
+    >
+      <div
+        style={{
+          position: 'relative',
+          left: `${component.Type === "Principle" ? '40px' : '-26px' }`,
+          top:  `${component.Type === "Principle" ? '17.7px' : '10px' }`,
+          transform: `${component.Type === "Principle" ? `rotate(${-Math.PI * 0.14}rad)` : `rotate(${-Math.PI * 0.11 + Math.PI/4}rad)` }`
+        }}  
+      >
+        <BookmarkIcon
+          style={{
+            width: '16px',
+            height: '16px',
+            fill: pinkColor,
+            stroke: 'none'
+          }}
+        />
+      </div>
+    </div>
+  );
+
   return (
     <div>       
     <div style={{...containerStyle, left: `${getCenter(position).x}px`, top: `${getCenter(position).y}px` }}>
@@ -395,34 +425,20 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
       </div>
 
       {/* Bookmark */}
-      <div
-        style={{
-          position: 'absolute',
-          left: `${c.x-11}px`, // Adjust position for button size
-          top: `${c.y-11-2}px`,
-          transform: `rotate(${c.angle + Math.PI}rad)`,
-          zIndex: 20
-        }}
-      >
-        <div
-          style={{
-            position: 'relative',
-            left: '40px',
-            top: '33px',
-          }}
-        >
-          {drawBookmark(c, action, savedComponents, initialState)}
-        </div>
-      </div>
+      {action === "learn" && !initialState && savedComponents.includes(c.Code) &&
+      <Bookmark
+        component={c}
+      />
+      }
     </div>
-))}
+    ))}
 
     </div>
-    {/* {(action ==="learn" || action ==="contribute" || action ==="get-inspired") && tooltipVisible && 
+    {(action ==="learn" || action ==="contribute" || action ==="get-inspired") && tooltipVisible && 
     <Tooltip 
       text={tooltipText} 
       position={tooltipPos} 
-    />} */}
+    />}
     
     </div>
   );
@@ -522,19 +538,19 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
       if(selectedComponents.includes(component.Code))
           return 1;
       else
-          return 0.4;
+          return 0.5;
   }
 
   if (clickedIds.includes(currentId)) 
       return 1;
   if (hoveredId === currentId) 
-      return 0.7;
+      return 0.8;
   if (action ==="ideate" && clickedIds.length === 0) 
-      return 0.4;  
+      return 0.5;  
   if(clickedIds.length === 0)
       return 1;
   
-  return 0.4;
+  return 0.5;
 };
 
 const getStroke = (clickedIds, currentId, action) => {
@@ -603,14 +619,35 @@ const noPointerEvents = (action) => {
 const drawBookmark = (component, action, savedComponents, initialState) => {
   if(action === "learn" && !initialState && savedComponents.includes(component.Code)) { 
     console.log("Bookmark");   
-    return <BookmarkIcon
+    return (
+      <div
+        style={{
+          position: 'absolute',
+          left: `${component.x-8}px`, // Adjust position for button size
+          top: `${component.y-8-2}px`,
+          transform: `rotate(${component.angle + Math.PI}rad)`,
+          zIndex: 20
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            left: '40px',
+            top: '17.7px',
+            transform: `rotate(${-Math.PI*0.14}rad)`,
+          }}  
+        >
+          <BookmarkIcon
             style={{
-              width: '22px',
-              height: '22px',
+              width: '16px',
+              height: '16px',
               fill: pinkColor,
               stroke: 'none'
             }}
-          />;
+          />
+        </div>
+      </div>
+    );
   }
 };
 
