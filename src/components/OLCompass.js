@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData, getConceptsData } from '../utils/Data.js'; 
 import '../styles/App.css'
+import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
+import { relative } from 'path-browserify';
 
 // Sizes and positions 
 const size = 480;
@@ -269,8 +271,8 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
       <div
         style={{
           ...buttonStyle,
-          left: `${c.x - waveWidth / 2}px`, // Adjust position for button size
-          top: `${c.y - waveHeight / 2 - 2}px`,
+          left: `${c.x - waveWidth/2}px`, // Adjust position for button size
+          top: `${c.y - waveHeight/2 - 2}px`,
           transform: `rotate(${c.angle}rad)`,
         }}
         onClick={() => handleClick(i)}
@@ -307,7 +309,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
         style={{
           position: 'absolute',
           left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
-          top: `${c.y - waveHeight / 2 - 2}px`,
+          top: `${c.y - waveHeight/2 - 2}px`,
           transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
           opacity: getOpacity(clickedIds, hoveredId, i, c, action, selectedComponents), // Change opacity on hover
           pointerEvents: 'none', // Disable pointer events for the inner div
@@ -374,6 +376,27 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
               </>
             }
           </svg>
+        </div>
+      </div>
+
+      {/* Bookmark */}
+      <div
+        style={{
+          position: 'absolute',
+          left: `${c.x-11}px`, // Adjust position for button size
+          top: `${c.y-11-2}px`,
+          transform: `rotate(${c.angle + Math.PI}rad)`,
+          zIndex: 20
+        }}
+      >
+        <div
+          style={{
+            position: 'relative',
+            left: '40px',
+            top: '33px',
+          }}
+        >
+          {drawBookmark(c, action, savedComponents, initialState)}
         </div>
       </div>
     </div>
@@ -520,7 +543,7 @@ const getGradientColor = (code, type, colors) => {
     return {start: colors.Perspective, end: colors.Perspective};
   else if (type === 'Dimension')
     return {start: colors.Dimension, end: colors.Dimension};
-}
+};
 
 const isFlipped = (label) => {
   const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
@@ -552,7 +575,7 @@ const getText = (action, type, label, code, index) => {
       return secondPart;
   }
   return label;
-}
+};
 
 const noPointerEvents = (action) => {
   if (
@@ -565,13 +588,27 @@ const noPointerEvents = (action) => {
   return false;
 };
 
+const drawBookmark = (component, action, savedComponents, initialState) => {
+  if(action === "learn" && !initialState && savedComponents.includes(component.Code)) { 
+    console.log("Bookmark");   
+    return <BookmarkIcon
+            style={{
+              width: '22px',
+              height: '22px',
+              fill: pinkColor,
+              stroke: 'none'
+            }}
+          />;
+  }
+};
+
 function convertLabel(label) {
   // Define a mapping of prefixes to their corresponding full names
   const prefixMap = {
       "D": "Dimension",
       "Pe": "Perspective",
       "P": "Principle"
-  };
+  };  
 
   // Use a regular expression to capture the prefix and the number
   const regex = /^([A-Za-z]+)(\d+)$/;
