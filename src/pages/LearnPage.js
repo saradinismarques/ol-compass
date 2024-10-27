@@ -26,14 +26,13 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
     title: '',
     headline: '',
     paragraph: '',
-    designPrompt: '',
     concepts: [],
     type: null,
     firstClick: true,
     showMessage: false,
     gradientColor: null,
+    textColor: null,
     bookmark: false,
-    showDesignPrompt: false,
   }), []);
 
   const initialConcept = useMemo(() => ({
@@ -52,7 +51,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
     setIsExplanationPage(true);
   }, [initialState, setIsExplanationPage]);
 
-  const handleCompassClick = (code, title, headline, paragraph, designPrompt, type, concepts, ) => {
+  const handleCompassClick = (code, title, headline, paragraph,type, concepts) => {
     if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
@@ -61,17 +60,24 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       }));
     }
 
+    let tColor;
+    if(type === 'Principle')
+      tColor = "#218065"
+    else if(type === 'Perspective')
+      tColor = "#1c633e"
+    else if(type === 'Dimension')
+      tColor = "#216270"
+    
     setState((prevState) => ({
       ...prevState,
       code,
       title,
       headline,
       paragraph,
-      designPrompt,
       concepts,
       type,
-      showDesignPrompt: false,
       gradientColor: colors[type],
+      textColor: tColor
     }));
 
     setIsExplanationPage(false);
@@ -206,7 +212,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       };
     }, [text]); // Run this effect when `text` changes
     return (
-      <div className="l-text" style={{ color: textColor }}>
+      <div className="l-text" style={{ color: state.textColor }}>
         <p dangerouslySetInnerHTML={{ __html: replaceUnderlinesWithButtons(text, currentConcept) }}></p>
       </div>
     );
@@ -222,14 +228,6 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
                 : state.code === 'P7' ? P7Image 
                 : null;
 
-  let textColor;
-  if(state.type === 'Principle')
-    textColor = "#218065"
-  else if(state.type === 'Perspective')
-    textColor = "#1c633e"
-  else if(state.type === 'Dimension')
-    textColor = "#216270"
-  
   return (
     <div>
 
@@ -300,26 +298,26 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
                 <>
                 <DynamicText text={state.paragraph} currentConcept={concept} />
                 <div className='l-concepts-container'>
-                  <h1 className='l-title-concepts' style={{ color: textColor }}>{concept.label}</h1>
+                  <h1 className='l-title-concepts' style={{ color: state.textColor }}>{concept.label}</h1>
                   
                   {/* Navigation Arrows */}
                   {concept.index < state.concepts.length - 1 && (
                   <button className="l-arrow-button right" onClick={handleNext}>
                     <ArrowIcon 
                       className="l-arrow-icon"  // Apply your CSS class
-                      style={{ fill: textColor }}
+                      style={{ fill: state.textColor }}
                     />
                   </button>
                   )}
                 </div>
-                  <div className="l-text-concepts expanded scroller" style={{ color: textColor, '--scrollbar-thumb-color': textColor }}>
+                  <div className="l-text-concepts expanded scroller" style={{ color: state.textColor, '--scrollbar-thumb-color': state.textColor }}>
                     <p>{concept.paragraph}</p>
                   </div>
                 </>
               )}
               {state.type !== "Principle" && (
                 <>
-                <div className="l-text" style={{ color: textColor }}>
+                <div className="l-text" style={{ color: state.textColor }}>
                   <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
                 </div>
                 </>

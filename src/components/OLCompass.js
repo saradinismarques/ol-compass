@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getPrinciplesData, getPerspectivesData, getDimensionsData, getConceptsData } from '../utils/Data.js'; 
 import '../styles/App.css'
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
-import { relative } from 'path-browserify';
 
 // Sizes and positions 
 const size = 480;
@@ -127,7 +126,6 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
             title,
             components[id].Headline,
             components[id].Paragraph,
-            components[id].DesignPrompt,
             components[id].Type,
             correspondingConcepts
           );
@@ -329,7 +327,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
             d={svgPath} 
             fill="none"  // Use the gradient fill
             stroke={getStroke(clickedIds, i, action)}
-            strokeWidth="1px"
+            strokeWidth="1.3px"
             style={{ pointerEvents: 'all' }} 
           />
         </svg>
@@ -614,41 +612,6 @@ const noPointerEvents = (action) => {
 ) 
     return true;
   return false;
-};
-
-const drawBookmark = (component, action, savedComponents, initialState) => {
-  if(action === "learn" && !initialState && savedComponents.includes(component.Code)) { 
-    console.log("Bookmark");   
-    return (
-      <div
-        style={{
-          position: 'absolute',
-          left: `${component.x-8}px`, // Adjust position for button size
-          top: `${component.y-8-2}px`,
-          transform: `rotate(${component.angle + Math.PI}rad)`,
-          zIndex: 20
-        }}
-      >
-        <div
-          style={{
-            position: 'relative',
-            left: '40px',
-            top: '17.7px',
-            transform: `rotate(${-Math.PI*0.14}rad)`,
-          }}  
-        >
-          <BookmarkIcon
-            style={{
-              width: '16px',
-              height: '16px',
-              fill: pinkColor,
-              stroke: 'none'
-            }}
-          />
-        </div>
-      </div>
-    );
-  }
 };
 
 function convertLabel(label) {
