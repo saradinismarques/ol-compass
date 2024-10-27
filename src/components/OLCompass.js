@@ -279,7 +279,18 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
         onMouseLeave={() => handleMouseLeave(i)}
       >
         <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
-          <path d={svgPath} fill={colors[c.Type]} stroke="none" style={{ pointerEvents: 'all' }} />
+          <defs>
+            <linearGradient id={`gradient-${i}`} x1="100%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{ stopColor: getGradientColor(c.Code, c.Type, colors).start, stopOpacity: 1 }} /> {/* Start color */}
+              <stop offset="70%" style={{ stopColor: getGradientColor(c.Code, c.Type, colors).end, stopOpacity: 1 }} /> {/* End color */}
+            </linearGradient>
+          </defs>
+          <path 
+            d={svgPath} 
+            fill={`url(#gradient-${i})`}  // Use the gradient fill
+            stroke="none" 
+            style={{ pointerEvents: 'all' }} 
+          />
         </svg>
       </div>
 
@@ -306,7 +317,11 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
             {/* <path d={svgTextPath} fill={'none'} stroke='black' />  */}
             
             <defs>
-              <path id={`text-path-${i}`} d={svgTextPath} style={{ pointerEvents: 'none' }} />
+              <path 
+                id={`text-path-${i}`} 
+                d={svgTextPath} 
+                style={{ pointerEvents: 'none' }} 
+              />
             </defs>
 
             {/* Text on Path */}
@@ -389,7 +404,7 @@ function getPerspectives(perspectivesData) {
   return perspectives;
 };
 
-function getDimensions(dimensionsData, center) {
+function getDimensions(dimensionsData) {
   const x = size/2;
   const y = size/2;
   const radius = size/2.04;
@@ -498,17 +513,16 @@ const getStrokeWidth = (clickedIds, currentId, component, action, selectedCompon
 };
 
 const getGradientColor = (code, type, colors) => {
-  // if (code === 'Pe1')
-  //     return [0, colors.Perspective, 0.9, colors.Principle];
-  // else if(code === 'D1')
-  //     return [0, colors.Dimension, 0.9, colors.Perspective];
+  if (code === 'Pe1')
+      return {start: colors.Perspective, end: colors.Principle};
+  else if(code === 'D1')
+    return {start: colors.Dimension, end: colors.Perspective};
   if (type === 'Principle')
-      return [0, colors.Principle, 1, colors.Principle];  
+    return {start: colors.Principle, end: colors.Principle};
   else if (type === 'Perspective')
-      return [0, colors.Perspective, 1, colors.Perspective];  
+    return {start: colors.Perspective, end: colors.Perspective};
   else if (type === 'Dimension')
-      return [0, colors.Dimension, 1, colors.Dimension];   
-  
+    return {start: colors.Dimension, end: colors.Dimension};
 }
 
 const isFlipped = (label) => {
@@ -518,12 +532,6 @@ const isFlipped = (label) => {
     return false;
   return true;
 };
-
-// const twoLinesText = (label) => {
-//   if(label ==) 
-//     return false;
-//   return true;
-// };
 
 const getText = (action, type, label, code, index) => {
   if (action === "initial-0" || action === "initial-1") {
