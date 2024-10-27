@@ -272,7 +272,6 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
           left: `${c.x - waveWidth / 2}px`, // Adjust position for button size
           top: `${c.y - waveHeight / 2 - 2}px`,
           transform: `rotate(${c.angle}rad)`,
-          opacity: getOpacity(clickedIds, hoveredId, i, c, action, selectedComponents), // Change opacity on hover
         }}
         onClick={() => handleClick(i)}
         onMouseEnter={(e) => handleMouseEnter(e, i)}
@@ -289,6 +288,15 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
             d={svgPath} 
             fill={`url(#gradient-${i})`}  // Use the gradient fill
             stroke="none" 
+            style={{ pointerEvents: 'all' }} 
+            opacity={getOpacity(clickedIds, hoveredId, i, c, action, selectedComponents)}
+          />
+
+          <path 
+            d={svgPath} 
+            fill="none"  // Use the gradient fill
+            stroke={getStroke(clickedIds, i, action)}
+            strokeWidth="1px"
             style={{ pointerEvents: 'all' }} 
           />
         </svg>
@@ -494,22 +502,11 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
   return 0.4;
 };
 
-const getStroke = (clickedIds, currentId, component, action) => {
+const getStroke = (clickedIds, currentId, action) => {
   if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search"))
       return pinkColor;
   else
-      return colors[component.Type];
-};
-
-const getStrokeWidth = (clickedIds, currentId, component, action, selectedComponents) => {
-  if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search") && selectedComponents.length === 0)
-      return 4;
-  if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search") && !selectedComponents.includes(component.Code))
-      return 2;
-  else if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search") && selectedComponents.includes(component.Code))
-      return 4;
-  else
-      return 0.001;
+      return 'none';
 };
 
 const getGradientColor = (code, type, colors) => {
