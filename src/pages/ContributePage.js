@@ -1,7 +1,6 @@
-import React, {useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, {useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/ContributePage.css';
 import OLCompass from '../components/OLCompass';
-import CircleMenu from '../components/CircleMenu'; // Adjust the import path if needed
 import Menu from '../components/Menu'
 
 
@@ -18,21 +17,6 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
 
   const [state, setState] = useState(initialState);
   const [resetCompass, setResetCompass] = useState(false);
-
-  // Process the case study data from the state
-  const initialNewCS = {
-    Title: '',
-    ShortDescription: '',
-    Credits: '',
-    Components: [] // assuming this is an array you will populate based on user input
-  };
-
-  const [newCS, setNewCS] = useState(initialNewCS);
-  const newCSRef = useRef(newCS);
-
-  useEffect(() => {
-    newCSRef.current = newCS;
-}, [newCS]);
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -102,21 +86,6 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     }, 0);
   }, [setState, setResetCompass, setIsExplanationPage]);
 
-  // Callback function to receive data from OLCompass
-  const handleDataFromOLCompass  = useCallback((data) => {
-    const newCaseStudy = {
-      Title: newCSRef.current.Title,
-      ShortDescription: newCSRef.current.ShortDescription,
-      Credits: newCSRef.current.Credits,
-      Components: data // assuming this is an array you will populate based on user input
-    };
-
-    // Update the newCaseStudies array with the new entry
-    setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
-
-    resetStateAndCompass();
-  }, [resetStateAndCompass, setNewCaseStudies]); // Empty dependency array to ensure it doesn't change
-
   const handleEnterClick = (components) => {
     // for the rest of the interaction
     // Process the case study data from the state
@@ -130,7 +99,6 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
 
     // Update the newCaseStudies array with the new entry
     setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
-
     resetStateAndCompass();
   };
 
@@ -158,25 +126,14 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
   return (
     <div>
     <div className={`${state.showMessage ? "blur-background" : ""}`}>
-      {/* <OLCompass 
+      <OLCompass 
         action="contribute"
         position={isExplanationPage ? "center" : "left"}
         onEnterClick={handleEnterClick} 
         resetState={resetState} 
         resetCompass={resetCompass}
-        onSubmitClick={handleDataFromOLCompass}
         onButtonClick={handleCompassClick}
-      /> */}
-      <CircleMenu 
-        action="contribute"
-        position={isExplanationPage ? "center" : "left"}
-        onEnterClick={handleEnterClick} 
-        resetState={resetState} 
-        resetCompass={resetCompass}
-        onSubmitClick={handleDataFromOLCompass}
-        onButtonClick={handleCompassClick}
-      />
-      
+      /> 
         {isExplanationPage && (
         <>
         <div className='text-container'>

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import '../styles/LearnPage.css';
 import OLCompass from '../components/OLCompass';
-import CircleMenu from '../components/CircleMenu'; // Adjust the import path if needed
 import Menu from '../components/Menu';
 import P1Image from '../images/P1.png';
 import P2Image from '../images/P2.png';
@@ -242,22 +241,13 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
             : `linear-gradient(to right, transparent 25%, ${state.gradientColor} 100%)`,
         }}
       >
-        {/* <OLCompass 
+        <OLCompass 
           action="learn" 
           position={isExplanationPage ? "center" : "left"}
           onButtonClick={handleCompassClick} 
           resetState={resetState}  // Passing resetState to OLCompass
           savedComponents={savedComponents}
-        />  */}
-
-        <CircleMenu 
-          action="learn" 
-          position={isExplanationPage ? "center" : "left"}
-          onButtonClick={handleCompassClick} 
-          resetState={resetState}  // Passing resetState to OLCompass
-          savedComponents={savedComponents}
-        />
-
+        />  
         {isExplanationPage && (
             <>
             <div className="text-container" >

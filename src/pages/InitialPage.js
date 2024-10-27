@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
-import CircleMenu from '../components/CircleMenu'; // Adjust the import path if needed
 import '../styles/InitialPage.css';
 
 const colors = {
@@ -160,14 +159,10 @@ const InitialPage = () => {
 
     return (
         <div>
-            {/* <OLCompass 
+            <OLCompass 
                 action={action} 
                 position="center"
-            /> */}
-            <CircleMenu 
-                action={action} 
-                position="center"
-            />
+            /> 
             {getDisplayText()}    
         </div>
     );
