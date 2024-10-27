@@ -44,23 +44,6 @@ body {
     max-width: 246px;
 }
 
-.start-new-button {
-    font-size: 1.05em; /* Smaller size for h2 */
-    font-weight: 200;
-    background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: rgb(255, 72, 172);
-    border: none;
-    cursor: pointer;
-    margin-top: -2px;
-    max-width: 250px;
-    outline: none; /* Optional: Remove outline on focus */
-    text-decoration: underline;
-}
-
-.start-new-button:hover {
-    color: rgb(217, 62, 147);
-}
-
 .not-available-container {
     display: flex;
     align-items: center;
