@@ -291,6 +291,7 @@ const CircleMenu = ({action, position, onButtonClick, onClickOutside, resetState
        
     <div style={{...containerStyle, left: `${getCenter(position).x}px`, top: `${getCenter(position).y}px` }}>
       {components.map((c, i) => (
+        <div>
         <div
           key={i}
           style={{
@@ -298,9 +299,8 @@ const CircleMenu = ({action, position, onButtonClick, onClickOutside, resetState
             left: `${c.x-waveWidth/2}px`, // Adjust position for button size
             top: `${c.y-waveHeight/2-2}px`,
             transform: `rotate(${c.angle}rad)`,
-            transformOrigin: 'center',
             opacity: getOpacity(clickedIds, hoveredId, i, c, action, selectedComponents) // Change opacity on hover
-        }}
+          }}
           onClick={() => handleClick(i)}
           onMouseEnter={(e) => handleMouseEnter(e, i)}
           onMouseLeave={() => handleMouseLeave(i)}
@@ -308,6 +308,48 @@ const CircleMenu = ({action, position, onButtonClick, onClickOutside, resetState
           <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
             <path d={svgPath} fill={colors[c.Type]} stroke="none" style={{ pointerEvents: 'all' }}/>
           </svg>
+        </div>
+
+        <div
+         style={{
+          position: 'absolute',
+          left: `${c.x-waveWidth*0.83/2}px`, // Adjust position for button size
+          top: `${c.y-waveHeight/2-2}px`,
+          transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`
+          }}
+        >
+          <div
+          style={{
+            position: 'relative',
+            left: isFlipped(c.Code) ? '6.5px' : '-6.5px', // Adjust position for button size
+            top: isFlipped(c.Code) ? '-2px' : '6px',
+          }}>
+        <svg viewBox="0 0 119.78 16.4" width={waveWidth*0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
+        
+          <path d="m119.67,8.06c-7.54,3.59-12.67,7.32-27.44,8.01-16.45.77-25.71-4.5-32.34-7.85-7.56-3.55-12.7-7.29-27.47-7.91C15.97-.38,6.73,4.93.11,8.31" fill={'none'} stroke='black' /> {/* Replace with your path */}
+          
+          <defs>
+            <path id={`text-path-${i}`} d="m119.67,8.06c-7.54,3.59-12.67,7.32-27.44,8.01-16.45.77-25.71-4.5-32.34-7.85-7.56-3.55-12.7-7.29-27.47-7.91C15.97-.38,6.73,4.93.11,8.31" /> {/* Replace with your path */}
+          </defs>
+          <text 
+            fill={c.Type === 'Principle' ? '#218067' : 'white'}
+            fontFamily="Manrope"
+            fontWeight={500} 
+            fontSize="9px"
+            dy="0.35em" // Adjust this to center the text vertically on the path
+            
+          >
+            <textPath 
+              href={`#text-path-${i}`}
+              startOffset="50%" // Center text along the path
+              textAnchor="middle" // Ensure the text centers based on its length
+            >
+              {c.Label} {/* The text that will follow the path */}
+            </textPath>
+          </text>
+        </svg>
+        </div>
+        </div>
         </div>
       ))}
     </div>
@@ -464,6 +506,15 @@ const getGradientColor = (code, type, colors) => {
       return [0, colors.Dimension, 1, colors.Dimension];   
   
 }
+
+const isFlipped = (label) => {
+  const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
+
+  if(flippedTexts.includes(label)) 
+    return false;
+  else
+    return true;
+};
 
 function convertLabel(label) {
   // Define a mapping of prefixes to their corresponding full names
