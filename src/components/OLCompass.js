@@ -5,7 +5,7 @@ import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; //
 
 // Sizes and positions 
 const size = 480;
-const waveWidth = size/2.7;
+const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
 const colors = {
@@ -302,7 +302,8 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
           ...buttonStyle,
           left: `${c.x - waveWidth/2}px`, // Adjust position for button size
           top: `${c.y - waveHeight/2 - 2}px`,
-          transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`
+          transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+          zIndex: 1 // Layer filled shapes at the base
         }}
         onClick={() => handleClick(i)}
         onMouseEnter={(e) => handleMouseEnter(e, i)}
@@ -321,11 +322,28 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
             stroke="none" 
             style={{ pointerEvents: 'all' }}
             opacity={getOpacity(clickedIds, hoveredId, i, c, action, selectedComponents)}
-            />
+          />
+        </svg>
+      </div>
 
+      {/* Outline Shape */}
+      <div
+        style={{
+          ...buttonStyle,
+          left: `${c.x - waveWidth / 2}px`,
+          top: `${c.y - waveHeight / 2 - 2}px`,
+          transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+          position: 'absolute', // Consistent positioning
+          zIndex: 2 // Ensures outlines are rendered on top of filled shapes
+        }}
+        onClick={() => handleClick(i)}
+        onMouseEnter={(e) => handleMouseEnter(e, i)}
+        onMouseLeave={() => handleMouseLeave(i)}
+      >
+        <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
           <path 
             d={svgPath} 
-            fill="none"  // Use the gradient fill
+            fill="none"
             stroke={getStroke(clickedIds, i, action)}
             strokeWidth="1.3px"
             style={{ pointerEvents: 'all' }} 
@@ -443,9 +461,9 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
 };
 
 function getPrinciples(principlesData) {
-  const x = size/2;
+  const x = size/2; 
   const y = size/2;
-  const radius = size/7.2;
+  const radius = size/6.9;
   const numPrinciples = 7;
 
   const principles = calculateAroundCirclePositionsPrinciples(principlesData, x, y, radius, numPrinciples);
@@ -456,7 +474,7 @@ function getPrinciples(principlesData) {
 function getPerspectives(perspectivesData) {
   const x = size/2;
   const y = size/2;
-  const radius = size/3.05;
+  const radius = size/2.93;
   const numPerspectives = 7;
 
   const perspectives = calculateAroundCirclePositions(perspectivesData, x, y, radius, numPerspectives);
@@ -467,7 +485,7 @@ function getPerspectives(perspectivesData) {
 function getDimensions(dimensionsData) {
   const x = size/2;
   const y = size/2;
-  const radius = size/2.04;
+  const radius = size/2;
   const numDimensions = 10;
 
   const positions = calculateAroundCirclePositions(dimensionsData, x, y, radius, numDimensions);
@@ -483,7 +501,10 @@ function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfC
     let angle = i * angleStep + StartAngle;
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
-    angle = angle + Math.PI / 2;
+    if(arr[i].Type === 'Perspective')
+      angle = angle + Math.PI / 2 - Math.PI*0.01;
+    else
+      angle = angle + Math.PI / 2 - Math.PI*0.005;
 
     arr[i]["x"] = x;
     arr[i]["y"] = y;
