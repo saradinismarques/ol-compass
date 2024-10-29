@@ -202,7 +202,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
           </div>
 
           {/* Add your select boxes and language checkboxes below this point */}
-          <div className="c-filters">
+          {/* <div className="c-filters">
             <select name="type" value={state.type}>
               <option value="">TYPE</option>
               <option value="movie">Movie</option>
@@ -234,7 +234,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
               <option value="2022">2022</option>
             </select>
 
-          </div>
+          </div> */}
         </div>
         </>
         )}  
