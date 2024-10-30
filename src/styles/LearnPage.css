@@ -175,7 +175,7 @@
 
 .l-white-line {
     width: 342px;
-    height: 0.5px;
+    height: 1.5px;
     background-color: white;
 }
   
@@ -183,8 +183,7 @@
     background-color: transparent;
     border: 1.6px solid white;
     border-radius: 50%;
-    height: 27px;
-    width: 27px;
+    padding: 5px;
     margin-left: 10px; /* Add space between the line and the button */
     cursor: pointer;
     display: flex;
@@ -208,13 +207,12 @@
 }
   
 .l-bookmark-icon {
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: white;
     stroke-width: 2px;
-    margin-top: 1px;
 }
 
 

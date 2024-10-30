@@ -1,7 +1,7 @@
 /* Style for text-container */
 .gi-text-container {
     position: fixed;
-    top: 16%; /* Position item 50% from the top */
+    top: 18.5%; /* Position item 50% from the top */
     left: 75%; /* Position item 50% from the left */
     transform: translateX(-50%);
     display: flex;
@@ -10,9 +10,9 @@
 }
 
 .gi-card-container {
-    width: 300px;
-    height: 430px;
-    padding: 20px;
+    width: 302px;
+    height: 437px;
+    padding: 18px;
     border-radius: 6px;
     background: linear-gradient(to bottom right, #9797b1 25%, #d4d4df 80%);
     overflow: hidden;
@@ -41,17 +41,17 @@
     font-size: 0.8em;
     font-weight: 200;
     position: fixed;  /* Absolute positioning within the container */
-    bottom: 110px;        
+    bottom: 108px;        
 }
 
 .gi-boxes-container {
     position: fixed;
-    bottom: 28px;  
+    bottom: 26px;  
 }
 
 .gi-box-row {
     display: flex;
-    gap: 5px; /* Optional: adds spacing between the text boxes */
+    gap: 6px; /* Optional: adds spacing between the text boxes */
     margin-bottom: -20px; /* Space between rows, reduce this value */
     text-align: center; /* Optional: center the text itself */
 }
@@ -66,27 +66,27 @@
 }
 
 .gi-text-box.type {
-    width: 140px;
+    width: 144px;
 }
 
 .gi-text-box.age {
-    width: 60px;
+    width: 55px;
 }
 
 .gi-text-box.time {
-    width: 90px;
+    width: 89px;
 }
 
 .gi-text-box.languages {
-    width: 90px;
+    width: 89px;
 }
 
 .gi-text-box.mainTarget {
-    width: 140px;
+    width: 144px;
 }
 
 .gi-text-box.year {
-    width: 60px;
+    width: 55px;
 }
 
 .gi-text-box.collection {
@@ -124,14 +124,12 @@
 }
  
 .gi-bookmark-icon {
-    width: 17px;
-    height: 17px;
+    width: 15px;
+    height: 15px;
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: white;
-    stroke-width: 1.4px;
-    padding-left: 0.7px;
-    padding-top: 0.5px;
+    stroke-width: 2px;
 }
 
 /* General button styles (applies to both left and right buttons) */
@@ -151,13 +149,13 @@
 /* Left arrow button */
 .gi-arrow-button.up {
     rotate: -90deg; /* Rotate the arrow for left button */
-    top: 12.3%; /* Position item 50% from the top */
+    top: 14.2%; /* Position item 50% from the top */
 }
 
 /* Right arrow button (default position) */
 .gi-arrow-button.down {
     rotate: 90deg; /* Rotate the arrow for left button */
-    bottom: 15.5%;
+    bottom: 12.3%;
 }
 
 /* Change icon color on hover */
@@ -170,19 +168,18 @@
 }
  
 .gi-arrow-icon {
-    width: 15px;
-    height: 15px;
+    width: 13px;
+    height: 13px;
     fill: #c2c2d1; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: #c2c2d1;
     stroke-width: 0px;
 }
 
-
 .gi-results {
     position: fixed;
     left: 75%;
-    bottom: 9%;
+    bottom: 6%;
     transform: translateX(-50%);
     font-weight: 200;
 }
@@ -190,7 +187,7 @@
 /* Container for the menu */
 .search-mode-menu {
     position: fixed;
-    bottom: 7%;
+    bottom: 5.5%;
     left: 27%;
     width: 200px;
     display: flex;
