@@ -31,7 +31,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   const [currentIndex, setCurrentIndex] = useState(0);
   const [carouselMode, setCarouselMode] = useState(true);
   const [action, setAction] = useState('get-inspired');
-  const [resultsNumber, setResultsNumber] = useState(0);
+  const [resultsNumber, setResultsNumber] = useState(-1);
   const [searchMode, setSearchMode] = useState('AND');
   const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
   
