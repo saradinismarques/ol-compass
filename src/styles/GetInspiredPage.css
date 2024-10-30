@@ -187,10 +187,10 @@
 /* Container for the menu */
 .search-mode-menu {
     position: fixed;
-    bottom: 5.5%;
-    left: 27%;
-    width: 200px;
-    height: 46px;
+    bottom: 6.5%;
+    left: 26%;
+    width: 220px;
+    height: 48px;
     display: flex;
     align-items: center;
     border: 1px solid #dedede;
@@ -204,7 +204,7 @@
 .mode-button-background {
     background-color: white;
     border: none;
-    padding: 3px;
+    padding: 2px;
     border-radius: 50px; /* Rounded on the right side */
     z-index: 15; /* Ensuring it's above the search button background */
     display: flex;
@@ -218,8 +218,8 @@
     background-color: #b1b1b1;
     border-radius: 50px;
     padding: 6px;
-    margin-left: 0px;
-    gap: 5px;
+    margin-left: 2px;
+    gap: 7px;
     z-index: 20; /* Ensure it’s on top */
 }
 
@@ -227,13 +227,14 @@
 .mode-button {
     border: none;
     background-color: #bcbcbc;
-    padding: 9px;
+    padding: 6px;
     border-radius: 50px;
     width: 57px;
     cursor: pointer;
     color: #7a7a79;
-    font-weight: 500;
-    font-size: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
     outline: none;
 }
 
@@ -256,16 +257,15 @@
     color: white;
     border: none;
     background-color: transparent;
-    padding: 15px 15px 15px 0px; /* Adjusted left padding */;
+    padding: 13px 19px 13px 0px; /* Adjusted left padding */;
     cursor: pointer;
-    z-index: 20;
+    font-family: 'Manrope', sans-serif;
     font-weight: 500;
-    font-size: 10px;
+    font-size: 11px;
     background-color: #e6007e;
     border-radius: 0 50px 50px 0; /* Rounded on the right side */
     z-index: 10;
-    width: 130px;
-    text-indent: 20px; /* Move text 10px to the right */
+    text-indent: 30px; /* Move text 10px to the right */
     outline: none;
 }
 
