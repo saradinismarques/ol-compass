@@ -55,7 +55,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     setState(initialState);
     setCarouselMode(true);
     carouselModeRef.current = true;
-    setResultsNumber(0);
+    setResultsNumber(-1);
     setAction('get-inspired');
     actionRef.current = 'get-inspired';
     setIsExplanationPage(true);
@@ -361,7 +361,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
       {!isExplanationPage && (
         <>
-          {resultsNumber !== 0 && (
+          {resultsNumber !== -1 && (
             <>
             <div className='gi-text-container'>
               <div className="gi-card-container">
@@ -395,7 +395,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
             </>
           )}
 
-          {resultsNumber === 0 && (
+          {resultsNumber === -1 && (
             <>
             <div className='gi-text-container'>
               <div className="gi-card-container empty"></div> 
@@ -404,7 +404,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
           )}
           
           {/* Navigation Arrows */}
-          {(currentIndex > 0 || resultsNumber === 0) && (
+          {(currentIndex > 0 || resultsNumber === -1) && (
             <button className={`gi-arrow-button up ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handlePrev}>
               <ArrowIcon 
                 className='gi-arrow-icon'
@@ -413,7 +413,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
             </button>
           )}
 
-          {(currentIndex < caseStudies.length - 1 || resultsNumber === 0) && (
+          {(currentIndex < caseStudies.length - 1 || resultsNumber === -1) && (
             <button className={`gi-arrow-button down ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handleNext}>
               <ArrowIcon 
                 className='gi-arrow-icon'
@@ -421,7 +421,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
             </button>
           )}
 
-          {resultsNumber !== 0 && (
+          {resultsNumber !== -1 && (
             <>
             <p className='gi-results'>
               <span className='bold-text'>{resultsNumber}</span> results 

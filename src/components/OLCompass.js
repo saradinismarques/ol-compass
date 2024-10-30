@@ -345,7 +345,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
             d={svgPath} 
             fill="none"
             stroke={getStroke(clickedIds, i, action)}
-            strokeWidth="1.3px"
+            strokeWidth="1.1px"
             style={{ pointerEvents: 'all' }} 
           />
         </svg>
