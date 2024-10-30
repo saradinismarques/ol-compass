@@ -4,7 +4,7 @@ import '../styles/App.css'
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
 // Sizes and positions 
-const size = 480;
+const size = 490;
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
@@ -275,7 +275,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
         style={{
           position: 'relative',
           left: `${component.Type === "Principle" ? '40px' : '-26px' }`,
-          top:  `${component.Type === "Principle" ? '17.7px' : '10px' }`,
+          top:  `${component.Type === "Principle" ? '19px' : '10px' }`,
           transform: `${component.Type === "Principle" ? `rotate(${-Math.PI * 0.14}rad)` : `rotate(${-Math.PI * 0.11 + Math.PI/4}rad)` }`
         }}  
       >
@@ -400,7 +400,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
               fill={c.Type === 'Principle' ? '#218067' : 'white'}
               fontFamily="Manrope"
               fontWeight={500}
-              fontSize="9px"
+              fontSize="8.7px"
               dy={bigLabels.includes(c.Code) ? '-0.1em' : '0.35em'} // Adjust this to center the text vertically on the path
               style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
             >
@@ -421,7 +421,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
                 fill={c.Type === 'Principle' ? '#218067' : 'white'}
                 fontFamily="Manrope"
                 fontWeight={500}
-                fontSize="9px"
+                fontSize="8.7px"
                 dy="0.8em" // Adjust this to center the text vertically on the path
                 style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
               >

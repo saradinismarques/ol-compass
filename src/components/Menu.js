@@ -57,7 +57,7 @@ const Menu = ({isExplanationPage}) => {
           className="home-icon" 
         />
       </Link>
-      <div className="bottom-menu">
+      <div className="left-menu">
 
       {menuExpanded && 
         <>

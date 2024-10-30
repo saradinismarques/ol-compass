@@ -10,7 +10,7 @@
 
 .i-explanation-container {
     position: absolute;
-    top: 50%; /* Position item 50% from the top */
+    top: 51.1%; /* Position item 50% from the top */
     left: 50%; 
     transform: translate(-50%, -50%);
     max-width: 250px;
@@ -19,31 +19,33 @@
 }
 
 .i-welcome {
-    font-size: 1.45em;
+    font-size: 1.5em;
     font-weight: 400;
+    letter-spacing: 0.03em;
 }
 
 .i-title {
     margin-top: -25px;
-    font-size: 2.8em;
+    font-size: 3em;
     font-weight: 600;
-    line-height: 1;
+    line-height: 0.9;
 }
 
 .i-explanation {
-    font-size: 1.3em;
+    font-size: 1.4em;
     font-weight: 600;
-    line-height: 130%;
+    line-height: 1.2;
 }
 
 .i-text-container {
     position: absolute;
     top: 27%;
     left: 70%;
-    max-width: 230px;
+    max-width: 250px;
     color: black;
-    font-size: 1.2em;
+    font-size: 1.32em;
     font-weight: 300;
+    line-height: 1.22;
 }
 
 .i-text {
@@ -54,6 +56,10 @@
 .i-text.colored {
     font-weight: 500;
     white-space: nowrap;
+}
+
+.i-space {
+    margin-top: 10px;
 }
 
 

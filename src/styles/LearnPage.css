@@ -1,6 +1,6 @@
 .l-text-container {
     position: fixed;
-    top: 13%; /* Position item 50% from the top */
+    top: 14%; /* Position item 50% from the top */
     left: 62%; /* Position item 50% from the left */
     padding: 0px;
     margin: 0px;
@@ -81,14 +81,14 @@
 }
 
 .l-principles-image {
-    width: 210px; /* Set the desired width */
+    width: 225px; /* Set the desired width */
     height: auto; /* Maintain the aspect ratio */
     opacity: 100%;
     z-index: 10;
 }
 
 .l-other-components-image {
-    width: 210px; /* Set the desired width */
+    width: 225px; /* Set the desired width */
     height: auto; /* Maintain the aspect ratio */
     opacity: 0%;
     z-index: 10;
@@ -97,8 +97,8 @@
 .l-image-container {
     position: fixed;
     overflow: hidden; /* To prevent any overflow issues */
-    left: 56%;
-    top: 7%;
+    right: 32.5%;
+    top: 8%;
     z-index: 10;
     opacity: 40%;
 }
@@ -174,16 +174,17 @@
 }
 
 .l-white-line {
-    width: 310px;
+    width: 342px;
     height: 0.5px;
     background-color: white;
 }
   
 .l-bookmark-button {
     background-color: transparent;
-    border: 2px solid white;
+    border: 1.6px solid white;
     border-radius: 50%;
-    padding: 7px;
+    height: 27px;
+    width: 27px;
     margin-left: 10px; /* Add space between the line and the button */
     cursor: pointer;
     display: flex;
@@ -207,12 +208,13 @@
 }
   
 .l-bookmark-icon {
-    width: 11px;
-    height: 11px;
+    width: 12px;
+    height: 12px;
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: white;
     stroke-width: 2px;
+    margin-top: 1px;
 }
 
 

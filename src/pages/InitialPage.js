@@ -82,7 +82,7 @@ const InitialPage = () => {
                     <p className='i-explanation'>
                         Ocean Literacy (OL) 
                         <br></br>
-                        is the understanding of
+                        is the understating of
                         <br></br>
                         the Ocean-humanity 
                         <br></br>
@@ -116,8 +116,7 @@ const InitialPage = () => {
                     <span className='i-text'>
                     .
                     </span>
-                    <br></br>
-                    <br></br>
+                    <p className='i-space'></p>
                     <span className='i-text'>Science is just one of the </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         7 Perspectives
@@ -137,15 +136,13 @@ const InitialPage = () => {
                     <span className='i-text'>
                     .
                     </span>
-                    <br></br>
-                    <br></br>
+                    <p className='i-space'></p>
                     <span className='i-text'>Science is just one of the </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         7 Perspectives
                     </span>
                     <span className='i-text'> from which OL can be seen.</span>
-                    <br></br>
-                    <br></br>
+                    <p className='i-space'></p>
                     <span className='i-text'>Knowledge is just one of the </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
                         10 Dimensions

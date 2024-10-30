@@ -1,6 +1,6 @@
 /* Existing styles */
 
-.bottom-menu {
+.left-menu {
     position: fixed;
     top: 10%;
     left: 7%;
@@ -13,7 +13,7 @@
 
 .menu-button {
     margin: 4px 0; /* Space between buttons */
-    width: 130px;
+    width: 140px;
     height: 25px;
     border: 2px solid black;
     border-radius: 100px;
@@ -26,6 +26,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    margin-left: 5px;
 }
 
 .menu-button:hover {
@@ -44,8 +45,8 @@
 
 .menu-button.solo {
     position: fixed;
-    top: 7%;
-    left: 8%;
+    top: 9%;
+    left: 7%;
 }
 
 /* New styles for disabled buttons */
@@ -66,26 +67,27 @@
     border: 2px solid  #a2a1a1;
     background-color: transparent;
     color: #a2a1a1;
-    width: 133.5px;  /* Ensure it's the same width as other buttons */
+    width: 143.5px;  /* Ensure it's the same width as other buttons */
     height: 27px;
 }
 
 .home-icon {
-    width: 11px;
-    height: 11px;
+    width: 12px;
+    height: 12px;
     fill: none; /* Set default color for the bookmark */
     stroke: black;
-    stroke-width: 2px;
-    padding-bottom: 1px;
+    stroke-width: 2.5px;
+    margin-bottom: 1px;
     position: relative;
 }
 
 .menu-button.home {
     position: fixed;
-    top: 7%;
-    left: 5%;
+    top: 9%;
+    left: 4.7%;
     height: 25px;
     width: 25px;
+    margin-left: 0px;
 }
 
 /* Add this rule to style the icon when the button is active */
@@ -100,8 +102,10 @@
 
 .i-want-to-text {
     position: relative;
-    left: -10%;
-    margin-top: 30px;
+    left: -14%;
+    margin-top: 60px;
+    margin-bottom: 10px;
+    font-size: 19px;
 }
 
 
