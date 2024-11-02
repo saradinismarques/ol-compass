@@ -31,6 +31,8 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
+    setOpenDropdown(null);
+    setDropdownPosition({ top: 0, left: 0 }); 
   }, [initialState, setIsExplanationPage]);
 
   const handleCompassClick = () => {
