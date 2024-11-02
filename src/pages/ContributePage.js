@@ -288,6 +288,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="activity" 
+                checked={state.type.includes('activity')}
                 onChange={handleInputChange}
               /> 
               Activity
@@ -298,6 +299,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="EU project" 
+                checked={state.type.includes('EU project')}
                 onChange={handleInputChange}
               /> 
               EU Project
@@ -312,6 +314,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="8+" 
+                checked={state.age.includes('8+')}
                 onChange={handleInputChange}
               /> 8+
             </label>
@@ -321,6 +324,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="10+" 
+                checked={state.age.includes('10+')}
                 onChange={handleInputChange}
               /> 10+
             </label>
@@ -330,6 +334,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="12+" 
+                checked={state.age.includes('12+')}
                 onChange={handleInputChange}
               /> 12+
             </label>
@@ -339,6 +344,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="14+" 
+                checked={state.age.includes('14+')}
                 onChange={handleInputChange}
               /> 14+
             </label>
@@ -348,6 +354,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="16+" 
+                checked={state.age.includes('16+')}
                 onChange={handleInputChange}
               /> 16+
             </label>
@@ -357,6 +364,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="18+" 
+                checked={state.age.includes('18+')}
                 onChange={handleInputChange}
               /> 18+
             </label>
@@ -370,6 +378,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="45'" 
+                checked={state.time.includes(`45'`)}
                 onChange={handleInputChange}
               /> 45'
             </label>
@@ -379,6 +388,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="60'" 
+                checked={state.time.includes(`60'`)}
                 onChange={handleInputChange}
               /> 60'
             </label>
@@ -388,6 +398,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="90'" 
+                checked={state.time.includes(`90'`)}
                 onChange={handleInputChange}
               /> 90'
             </label>
@@ -397,6 +408,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="120'" 
+                checked={state.time.includes(`120'`)}
                 onChange={handleInputChange}
               /> 120'
             </label>
@@ -406,6 +418,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="180'" 
+                checked={state.time.includes(`180'`)}
                 onChange={handleInputChange}
               /> 180'
             </label>
@@ -419,6 +432,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="EN" 
+                checked={state.languages.includes('EN')}
                 onChange={handleInputChange}
               /> ENGLISH [EN]
             </label>
@@ -428,6 +442,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="ES" 
+                checked={state.languages.includes('ES')}
                 onChange={handleInputChange}
               /> ESPANOL [ES]
             </label>
@@ -437,6 +452,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="IT" 
+                checked={state.languages.includes('IT')}
                 onChange={handleInputChange}
               /> ITALIANO [IT]
             </label>
@@ -446,6 +462,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="PT" 
+                checked={state.languages.includes('PT')}
                 onChange={handleInputChange}
               /> PORTUGUES [PT]
             </label>
@@ -458,9 +475,10 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 name="mainTarget"
                 type="checkbox" 
                 className="c-checkbox" 
-                value="students, high-school" 
+                value="high-school" 
+                checked={state.mainTarget.includes('high-school')}
                 onChange={handleInputChange}
-              /> Students, High-school
+              /> High-school
             </label>
             <label className="c-checkbox-label">
               <input 
@@ -468,6 +486,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="students" 
+                checked={state.mainTarget.includes('students')}
                 onChange={handleInputChange}
               /> Students
             </label>
@@ -477,6 +496,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="local community" 
+                checked={state.mainTarget.includes('local community')}
                 onChange={handleInputChange}
               /> Local Community
             </label>
@@ -490,6 +510,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="2018" 
+                checked={state.year.includes('2018')}
                 onChange={handleInputChange}
               /> 2018
             </label>
@@ -499,6 +520,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="2019" 
+                checked={state.year.includes('2019')}
                 onChange={handleInputChange}
               /> 2019
             </label>
@@ -508,6 +530,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="2020" 
+                checked={state.year.includes('2020')}
                 onChange={handleInputChange}
               /> 2020
             </label>
@@ -517,6 +540,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="2021" 
+                checked={state.year.includes('2021')}
                 onChange={handleInputChange}
               /> 2021
             </label>
@@ -526,6 +550,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="2022" 
+                checked={state.year.includes('2022')}
                 onChange={handleInputChange}
               />2022
             </label> 
@@ -535,6 +560,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="2023" 
+                checked={state.year.includes('2023')}
                 onChange={handleInputChange}
               /> 2023
             </label> 
@@ -544,6 +570,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
                 type="checkbox" 
                 className="c-checkbox" 
                 value="2024" 
+                checked={state.year.includes('2024')}
                 onChange={handleInputChange}
               /> 2024
             </label> 
