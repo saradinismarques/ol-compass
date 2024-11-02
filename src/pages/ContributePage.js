@@ -1,14 +1,21 @@
-import React, {useState, useEffect, useCallback, useMemo } from 'react';
+import React, {useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import '../styles/ContributePage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
-
+import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 
 const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
-    title: '',
-    shortDescription: '',
+    title: '', 
+    collection: '',
+    mainTarget: '',
+    age: '',
+    time: '',
+    type: '',
+    languages: '',
+    year: '',
+    description: '',
     credits: '',
     components: [], // Use an array to hold selected components
     firstClick: true,
@@ -17,6 +24,9 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
 
   const [state, setState] = useState(initialState);
   const [resetCompass, setResetCompass] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const buttonsRef = useRef({}); // Create a ref to store button positions
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -70,13 +80,23 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
   const resetStateAndCompass = useCallback(() => {
     setState((prevState) => ({
       ...prevState,
-      title: '',
-      shortDescription: '',
+      title: '', 
+      collection: '',
+      mainTarget: '',
+      age: '',
+      time: '',
+      type: '',
+      languages: '',
+      year: '',
+      description: '',
       credits: '',
       components: [],
       firstClick: false,
       showMessage: false
     }));
+
+    setOpenDropdown(null);
+    setDropdownPosition({ top: 0, left: 0 }); // Set dropdown position
     // Trigger OLCompass reset
     setResetCompass(true);
     setIsExplanationPage(false);
@@ -91,7 +111,14 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     // Process the case study data from the state
     const newCaseStudy = {
       Title: state.title,
-      ShortDescription: state.shortDescription,
+      Collection: state.collection,
+      MainTarget: state.mainTarget,
+      Age: state.age,
+      Time: state.time,
+      Type: state.type,
+      Languages: state.languages,
+      Year: state.year,
+      Description: state.description,
       Credits: state.credits,
       Components: components // assuming this is an array you will populate based on user input
     };
@@ -119,6 +146,17 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
         ...prevState,
         contribute: false,
       }));
+    }
+  };
+
+  // Function to toggle the dropdowns
+  const toggleDropdown = (dropdownName, button) => {
+    if (openDropdown === dropdownName) {
+      setOpenDropdown(null);
+    } else {
+      const rect = button.getBoundingClientRect(); // Get button position
+      setDropdownPosition({ top: rect.bottom + window.scrollY, left: rect.left }); // Set dropdown position
+      setOpenDropdown(dropdownName);
     }
   };
 
@@ -181,10 +219,10 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
             </div>
             <div className="c-description">
                 <textarea 
-                  name="shortDescription"
+                  name="description"
                   className="c-placeholder" 
                   placeholder="Insert Description"
-                  value={state.shortDescription}
+                  value={state.description}
                   onChange={handleInputChange}
                 ></textarea>
             </div>
@@ -201,40 +239,316 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
           </div>
 
           {/* Add your select boxes and language checkboxes below this point */}
+          {/* Dropdown Buttons */}
           <div className="c-filters">
-            <select name="type" value={state.type}>
-              <option value="">TYPE</option>
-              <option value="movie">Movie</option>
-              <option value="series">Series</option>
-            </select>
-
-            <select name="ageRange" value={state.ageRange}>
-              <option value="">AGE RANGE</option>
-              <option value="children">Children</option>
-              <option value="teen">Teen</option>
-              <option value="adult">Adult</option>
-            </select>
-
-            <select name="duration" value={state.duration}>
-              <option value="">DURATION</option>
-              <option value="short">Short</option>
-              <option value="long">Long</option>
-            </select>
-
-            <select name="mainTarget" value={state.mainTarget}>
-              <option value="">MAIN TARGET</option>
-              <option value="all">All</option>
-              <option value="specific">Specific Audience</option>
-            </select>
-
-            <select name="year" value={state.year}>
-              <option value="">YEAR</option>
-              <option value="2023">2023</option>
-              <option value="2022">2022</option>
-            </select>
-
-          </div> 
+            <button ref={el => (buttonsRef.current.type = el)} onClick={e => toggleDropdown('type', e.currentTarget)}>
+              TYPE
+              <ArrowIcon 
+                className={openDropdown === 'type' ? 'c-arrow-icon active' : 'c-arrow-icon'}
+              />
+            </button>
+            <button ref={el => (buttonsRef.current.ageRange = el)} onClick={e => toggleDropdown('ageRange', e.currentTarget)}>
+              AGE RANGE
+              <ArrowIcon 
+                className={openDropdown === 'ageRange' ? 'c-arrow-icon active' : 'c-arrow-icon'}
+              />
+            </button>
+            <button ref={el => (buttonsRef.current.duration = el)} onClick={e => toggleDropdown('duration', e.currentTarget)}>
+              DURATION
+              <ArrowIcon 
+                className={openDropdown === 'duration' ? 'c-arrow-icon active' : 'c-arrow-icon'}
+              />
+            </button>
+            <button ref={el => (buttonsRef.current.language = el)} onClick={e => toggleDropdown('language', e.currentTarget)}>
+              LANGUAGE
+              <ArrowIcon 
+                className={openDropdown === 'language' ? 'c-arrow-icon active' : 'c-arrow-icon'}
+              />
+            </button>
+            <button ref={el => (buttonsRef.current.mainTarget = el)} onClick={e => toggleDropdown('mainTarget', e.currentTarget)}>
+              MAIN TARGET
+              <ArrowIcon 
+                className={openDropdown === 'mainTarget' ? 'c-arrow-icon active' : 'c-arrow-icon'}
+              />
+            </button>
+            <button ref={el => (buttonsRef.current.year = el)} onClick={e => toggleDropdown('year', e.currentTarget)}>
+              YEAR
+              <ArrowIcon 
+                className={openDropdown === 'year' ? 'c-arrow-icon active' : 'c-arrow-icon'}
+              />
+            </button>
+          </div>
         </div>
+
+        {openDropdown === 'type' && (
+          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+            <label className="c-checkbox-label">
+              <input 
+                name="type"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="activity" 
+                onChange={handleInputChange}
+              /> 
+              Activity
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="type"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="EU project" 
+                onChange={handleInputChange}
+              /> 
+              EU Project
+            </label>
+          </div>
+        )}
+        {openDropdown === 'ageRange' && (
+          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+            <label className="c-checkbox-label">
+              <input 
+                name="age"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="8+" 
+                onChange={handleInputChange}
+              /> 8+
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="age"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="10+" 
+                onChange={handleInputChange}
+              /> 10+
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="age"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="12+" 
+                onChange={handleInputChange}
+              /> 12+
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="age"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="14+" 
+                onChange={handleInputChange}
+              /> 14+
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="age"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="16+" 
+                onChange={handleInputChange}
+              /> 16+
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="age"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="18+" 
+                onChange={handleInputChange}
+              /> 18+
+            </label>
+          </div>
+        )}
+        {openDropdown === 'duration' && (
+          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+            <label className="c-checkbox-label">
+              <input 
+                name="time"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="45'" 
+                onChange={handleInputChange}
+              /> 45'
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="time"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="60'" 
+                onChange={handleInputChange}
+              /> 60'
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="time"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="90'" 
+                onChange={handleInputChange}
+              /> 90'
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="time"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="120'" 
+                onChange={handleInputChange}
+              /> 120'
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="time"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="180'" 
+                onChange={handleInputChange}
+              /> 180'
+            </label>
+          </div>
+        )}
+        {openDropdown === 'language' && (
+          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+            <label className="c-checkbox-label">
+              <input 
+                name="languages"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="EN" 
+                onChange={handleInputChange}
+              /> ENGLISH [EN]
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="languages"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="ES" 
+                onChange={handleInputChange}
+              /> ESPANOL [ES]
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="languages"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="IT" 
+                onChange={handleInputChange}
+              /> ITALIANO [IT]
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="languages"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="PT" 
+                onChange={handleInputChange}
+              /> PORTUGUES [PT]
+            </label>
+          </div>
+        )}
+        {openDropdown === 'mainTarget' && (
+          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+            <label className="c-checkbox-label">
+              <input 
+                name="mainTarget"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="students, high-school" 
+                onChange={handleInputChange}
+              /> Students, High-school
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="mainTarget"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="students" 
+                onChange={handleInputChange}
+              /> Students
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="mainTarget"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="local community" 
+                onChange={handleInputChange}
+              /> Local Community
+            </label>
+          </div>
+        )}
+        {openDropdown === 'year' && (
+          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+            <label className="c-checkbox-label">
+              <input 
+                name="year"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="2018" 
+                onChange={handleInputChange}
+              /> 2018
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="year"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="2019" 
+                onChange={handleInputChange}
+              /> 2019
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="year"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="2020" 
+                onChange={handleInputChange}
+              /> 2020
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="year"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="2021" 
+                onChange={handleInputChange}
+              /> 2021
+            </label>
+            <label className="c-checkbox-label">
+              <input 
+                name="year"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="2022" 
+                onChange={handleInputChange}
+              />2022
+            </label> 
+            <label className="c-checkbox-label">
+              <input 
+                name="year"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="2023" 
+                onChange={handleInputChange}
+              /> 2023
+            </label> 
+            <label className="c-checkbox-label">
+              <input 
+                name="year"
+                type="checkbox" 
+                className="c-checkbox" 
+                value="2024" 
+                onChange={handleInputChange}
+              /> 2024
+            </label> 
+          </div>
+        )}
         </>
         )}  
         <Menu isExplanationPage={isExplanationPage} />

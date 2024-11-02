@@ -72,20 +72,6 @@ export function getCaseStudies() {
             Credits: item["Author, Country"],
             Components: Object.keys(item).filter(key => item[key] === 'Y')
         }));
-
-        // // Process the JSON data
-        // let filteredCaseStudies = caseStudies;
-
-        // // If labels are provided, filter the case studies
-        // if (components !== null) {
-        //     filteredCaseStudies = caseStudies.filter(item => {
-        //         const comp = Object.keys(item).filter(key => item[key] === 'Y');
-        //         return components.every(component => comp.includes(component));
-        //     });
-        // }
-
-        // // Map the case studies to the desired format
-        // return filteredCaseStudies.map(processCaseStudy);
         return result;
     } catch (error) {
         console.error("Error processing JSON:", error);
