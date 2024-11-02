@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ol-compass/static/css/main.3b8200ee.css",
-    "main.js": "/ol-compass/static/js/main.14d8a1da.js",
+    "main.css": "/ol-compass/static/css/main.13ab8898.css",
+    "main.js": "/ol-compass/static/js/main.bdf7acc6.js",
     "static/media/P3.png": "/ol-compass/static/media/P3.9f6df0d91bc7c82c1660.png",
     "static/media/P5.png": "/ol-compass/static/media/P5.c3ebdd793393cb08c731.png",
     "static/media/P6.png": "/ol-compass/static/media/P6.50d72ad2c01dea5cfe02.png",
@@ -16,11 +16,11 @@
     "static/media/home-icon.svg": "/ol-compass/static/media/home-icon.a36d1704e9a6c9b489a2daa2338ba569.svg",
     "static/media/arrow-icon.svg": "/ol-compass/static/media/arrow-icon.1f5acd6d92eb94971900eff54a74df42.svg",
     "static/media/wave-icon.svg": "/ol-compass/static/media/wave-icon.55c898635b3f0b77022c6668633ff66f.svg",
-    "main.3b8200ee.css.map": "/ol-compass/static/css/main.3b8200ee.css.map",
-    "main.14d8a1da.js.map": "/ol-compass/static/js/main.14d8a1da.js.map"
+    "main.13ab8898.css.map": "/ol-compass/static/css/main.13ab8898.css.map",
+    "main.bdf7acc6.js.map": "/ol-compass/static/js/main.bdf7acc6.js.map"
   },
   "entrypoints": [
-    "static/css/main.3b8200ee.css",
-    "static/js/main.14d8a1da.js"
+    "static/css/main.13ab8898.css",
+    "static/js/main.bdf7acc6.js"
   ]
 }

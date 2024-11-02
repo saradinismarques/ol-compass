@@ -24,6 +24,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     components: '',
     firstClick: true,
     showMessage: false,
+    bookmark: false,
   }), []);
 
   const [state, setState] = useState(initialState);

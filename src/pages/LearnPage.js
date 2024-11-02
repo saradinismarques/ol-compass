@@ -51,6 +51,11 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
     setIsExplanationPage(true);
   }, [initialState, setIsExplanationPage]);
 
+  // Wrap getBookmarkState in useCallback
+  const getBookmarkState = useCallback((code) => {
+    return savedComponents.length !== 0 && savedComponents.includes(code);
+  }, [savedComponents]);
+
   const handleCompassClick = (code, title, headline, paragraph,type, concepts) => {
     if(state.firstClick && firstMessage) {
       setState((prevState) => ({
@@ -77,7 +82,8 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       concepts,
       type,
       gradientColor: colors[type],
-      textColor: tColor
+      textColor: tColor,
+      bookmark: getBookmarkState(code),
     }));
 
     setIsExplanationPage(false);
@@ -102,6 +108,11 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       }
       // Otherwise, add it to the array
       return [...prevSavedComponents, state.code];
+    });
+
+    setState({
+      ...state,
+      bookmark: !state.bookmark,
     });
   };
 
@@ -281,7 +292,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
 
             <div className='l-bookmark-container'>
               <div className="l-white-line"></div>
-              <button onClick={toggleBookmark} className={`l-bookmark-button ${state.bookmark ? '' : ''}`}>
+              <button onClick={toggleBookmark} className={`l-bookmark-button ${state.bookmark ? 'active' : ''}`}>
                 <BookmarkIcon 
                   className="l-bookmark-icon" // Apply your CSS class
                 />
