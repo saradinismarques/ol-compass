@@ -26,6 +26,8 @@ const Menu = ({isExplanationPage}) => {
     switch (path) {
       case '/ol-compass/home':
         return 'home';
+      case '/ol-compass/get-started':
+        return 'get-started';
       case '/ol-compass/learn':
         return 'learn';
       case '/ol-compass/get-inspired':
@@ -62,6 +64,16 @@ const Menu = ({isExplanationPage}) => {
       {menuExpanded && 
         <>
         <p className='i-want-to-text'>I want to</p>
+        </>
+      }
+      {(menuExpanded || activeButton === 'get-started') && 
+        <>
+        <Link
+          to="/ol-compass/get-started"
+          className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'get-started' ? 'active' : ''}`}
+        >
+          GET STARTED
+        </Link>
         </>
       }
       {(menuExpanded || activeButton === 'learn') && 

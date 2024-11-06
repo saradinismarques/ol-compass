@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes  } from 'react-router-dom';
 import InitialPage from './pages/InitialPage';
 import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
+import GetStartedPage from './pages/GetStartedPage';
 import GetInspiredPage from './pages/GetInspiredPage';
 import ContributePage from './pages/ContributePage';
 import ContextualizePage from './pages/ContextualizePage';
@@ -13,12 +14,6 @@ import { useLocation } from 'react-router-dom';
 import './styles/App.css';
  
 function App() {
-  const colors = {
-    Principle: "#41ffc9",
-    Perspective: "#41e092",
-    Dimension: "#41c4e0"
-  };
-
   const [savedCaseStudies, setSavedCaseStudies] = useState([]);;
   const [savedComponents, setSavedComponents] = useState([]);
   const [newCaseStudies, setNewCaseStudies] = useState([]);
@@ -46,14 +41,15 @@ function App() {
     <div className="App">
       <main>
         <Routes>
-          <Route path="/ol-compass" element={<InitialPage colors={colors}/>} />
-          <Route path="/ol-compass/home" element={<HomePage colors={colors}/>} />
-          <Route path="/ol-compass/learn" element={<LearnPage colors={colors} savedComponents={savedComponents} setSavedComponents={setSavedComponents} firstMessage={firstMessage.learn} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
-          <Route path="/ol-compass/get-inspired" element={<GetInspiredPage colors={colors} savedCaseStudies={savedCaseStudies} setSavedCaseStudies={setSavedCaseStudies} newCaseStudies={newCaseStudies} firstMessage={firstMessage.getInspired} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
-          <Route path="/ol-compass/contribute" element={<ContributePage colors={colors} newCaseStudies={newCaseStudies} setNewCaseStudies={setNewCaseStudies} firstMessage={firstMessage.contribute} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
-          <Route path="/ol-compass/contextualize" element={<ContextualizePage colors={colors} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
-          <Route path="/ol-compass/ideate" element={<IdeatePage colors={colors} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
-          <Route path="/ol-compass/compare" element={<ComparePage colors={colors} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route path="/ol-compass" element={<InitialPage />} />
+          <Route path="/ol-compass/home" element={<HomePage />} />
+          <Route path="/ol-compass/get-started" element={<GetStartedPage savedComponents={savedComponents} setSavedComponents={setSavedComponents} firstMessage={firstMessage.learn} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route path="/ol-compass/learn" element={<LearnPage savedComponents={savedComponents} setSavedComponents={setSavedComponents} firstMessage={firstMessage.learn} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route path="/ol-compass/get-inspired" element={<GetInspiredPage savedCaseStudies={savedCaseStudies} setSavedCaseStudies={setSavedCaseStudies} newCaseStudies={newCaseStudies} firstMessage={firstMessage.getInspired} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route path="/ol-compass/contribute" element={<ContributePage newCaseStudies={newCaseStudies} setNewCaseStudies={setNewCaseStudies} firstMessage={firstMessage.contribute} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route path="/ol-compass/contextualize" element={<ContextualizePage isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route path="/ol-compass/ideate" element={<IdeatePage isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route path="/ol-compass/compare" element={<ComparePage isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
         </Routes>
       </main>
     </div>
