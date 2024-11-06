@@ -5,6 +5,7 @@ body {
     justify-content: flex-end;
     align-items: center;
     font-family: 'Manrope', sans-serif;
+    user-select: none;
 }
 
 .text-container {

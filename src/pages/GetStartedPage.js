@@ -53,6 +53,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
+    setAfterSearch(false);
   }, [initialState, setIsExplanationPage]);
 
   // Wrap getBookmarkState in useCallback
@@ -122,7 +123,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     setIsExplanationPage(false);
     setAfterSearch(true);
 
-  }, [firstMessage, isExplanationPage, state.firstClick, setIsExplanationPage]);
+  }, [isExplanationPage, setIsExplanationPage]);
   
   const handleNext = useCallback(() => {
     if (currentIndexRef.current < componentsRef.current.length - 1) {
@@ -147,7 +148,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
             : prevState;
        });
     }
-  }, [currentIndex, getBookmarkState, state]);
+  }, []);
 
   const handlePrev = useCallback(() => {
     if (currentIndexRef.current > 0) {
@@ -172,7 +173,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
             : prevState;
        });
     }
-  }, [currentIndex, getBookmarkState, state]);
+  }, []);
 
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {
