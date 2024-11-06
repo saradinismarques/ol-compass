@@ -359,8 +359,9 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
           top: `${c.y - waveHeight/2 - 2}px`,
           transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
           opacity: getOpacity(clickedIds, hoveredId, i, c, action, selectedComponents), // Change opacity on hover
+          zIndex: 10,
           pointerEvents: 'none', // Disable pointer events for the inner div
-          zIndex: 10
+          userSelect: 'none'
         }}
       >
         <div
@@ -373,7 +374,8 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
             ? (c.Type === 'Principle' ? '6px' : '-2px') 
             : (c.Type === 'Principle' ? '-2px' : '6px'),
             //transform: c.Type === 'Principle' ? `rotate(${-Math.PI*0.01}rad)` : 'none',
-            pointerEvents: 'none'
+            pointerEvents: 'none',
+            userSelect: 'none'
           }}
         >
           <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
@@ -390,6 +392,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
                 d={c.Type === "Principle" ? svgTextPathInverted : svgTextPath } 
                 style={{ 
                   pointerEvents: 'none',
+                  userSelect: 'none'
                 }} 
                 
               />
@@ -408,7 +411,10 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
                 href={`#text-path-${i}`}
                 startOffset="50%" // Center text along the path
                 textAnchor="middle" // Ensure the text centers based on its length
-                style={{ pointerEvents: 'none' }} // Ensure textPath doesn't interfere
+                style={{ 
+                  pointerEvents: 'none',  
+                  userSelect: 'none'
+                }} // Ensure textPath doesn't interfere
               >
                 {getText(action, c.Type, c.Label, c.Code, 0)}
               </textPath>
@@ -423,13 +429,19 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
                 fontWeight={500}
                 fontSize="8.7px"
                 dy="0.8em" // Adjust this to center the text vertically on the path
-                style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
+                style={{ 
+                  pointerEvents: 'none', 
+                  userSelect: 'none'
+                }} // Ensure text doesn't interfere
               >
                 <textPath
                   href={`#text-path-${i}`}
                   startOffset="50%" // Center text along the path
                   textAnchor="middle" // Ensure the text centers based on its length
-                  style={{ pointerEvents: 'none' }} // Ensure textPath doesn't interfere
+                  style={{ 
+                    pointerEvents: 'none', 
+                    userSelect: 'none'
+                  }} // Ensure textPath doesn't interfere
                 >
                   {getText(action, c.Type, c.Label, c.Code, 1)}
                 </textPath>
