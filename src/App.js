@@ -19,6 +19,7 @@ function App() {
   const [newCaseStudies, setNewCaseStudies] = useState([]);
   
   const initialfirstMessage = useMemo(() => ({
+    getStarted: true,
     learn: true, 
     getInspired: true,
     contribute: true,
@@ -43,7 +44,7 @@ function App() {
         <Routes>
           <Route path="/ol-compass" element={<InitialPage />} />
           <Route path="/ol-compass/home" element={<HomePage />} />
-          <Route path="/ol-compass/get-started" element={<GetStartedPage savedComponents={savedComponents} setSavedComponents={setSavedComponents} firstMessage={firstMessage.learn} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route path="/ol-compass/get-started" element={<GetStartedPage savedComponents={savedComponents} setSavedComponents={setSavedComponents} firstMessage={firstMessage.getStarted} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
           <Route path="/ol-compass/learn" element={<LearnPage savedComponents={savedComponents} setSavedComponents={setSavedComponents} firstMessage={firstMessage.learn} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
           <Route path="/ol-compass/get-inspired" element={<GetInspiredPage savedCaseStudies={savedCaseStudies} setSavedCaseStudies={setSavedCaseStudies} newCaseStudies={newCaseStudies} firstMessage={firstMessage.getInspired} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
           <Route path="/ol-compass/contribute" element={<ContributePage newCaseStudies={newCaseStudies} setNewCaseStudies={setNewCaseStudies} firstMessage={firstMessage.contribute} setFirstMessage={setFirstMessage} isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />

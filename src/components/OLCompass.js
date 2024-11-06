@@ -23,7 +23,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6'];
 
-const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData }) => {
+const OLCompass = ({ action, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData }) => {
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center") {
@@ -81,6 +81,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
     }
   }, [resetCompass]);
 
+   // Effect to handle the click on other buttons of the page
   useEffect(() => {
       if (fetchData && onSubmitClick) {
           let codes = clickedIdsRef.current.map(id => components[id].Code);
@@ -99,7 +100,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
     //const id = parseInt(e.target.id(), 10);
 
     if (noPointerEvents(action)) 
-        return;
+      return;
     
     if (action === "learn") {
       // Check if the clicked ID is already in clickedIds
@@ -109,7 +110,6 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
         setHoveredId(null);
         setInitialState(true);
 
-        if (resetState) resetState();
       } else {
         setInitialState(false);
         setClickedIds([id]);
@@ -131,7 +131,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
           );
         }
       }
-    } else if (action === "get-inspired" || action === "contribute" || action === "ideate") {
+    } else if (action === "get-inspired" || action === "contribute" || action === "ideate" || action === "get-started") {
       setClickedIds(prevClickedIds =>
         prevClickedIds.includes(id)
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
@@ -140,10 +140,21 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
         
       if (action === "get-inspired" || action === "contribute") {
         if (onButtonClick) onButtonClick();
-      }
-    }
+      } else if(action === "get-started") {
+        const title = convertLabel(components[id].Code);
+        
+        if (onButtonClick) {
+            onButtonClick(
+              components[id].Code,
+              title,
+              components[id].Headline,
+              components[id].Paragraph,
+              components[id].Type,
+            );
+          }
+        }
+    } 
   };
-
   
   const handleMouseEnter = (e, id) => {
     if (noPointerEvents(action)) 
@@ -168,13 +179,13 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
     }
   };
 
-  const handleMouseLeave = (id) => {
+  const handleMouseLeave = () => {
     setHoveredId(null);
 
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
     clearTimeout(tooltipTimeout);
 
-    if(action === "learn" || action === "contribute" || action === "get-inspired") {
+    if(action === "learn" || action === "contribute" || action === "get-inspired" || action === "get-started") {
       // Set the cancellation flag to prevent tooltip from showing
       setTooltipVisible(false);
       setTooltipText(""); // Clear the tooltip text
@@ -462,7 +473,7 @@ const CircleMenu = ({ action, position, onButtonClick, resetState, savedComponen
     ))}
 
     </div>
-    {(action ==="learn" || action ==="contribute" || action ==="get-inspired") && tooltipVisible && 
+    {(action ==="learn" || action ==="contribute" || action ==="get-inspired" || action === "get-started") && tooltipVisible && 
     <Tooltip 
       text={tooltipText} 
       position={tooltipPos} 
@@ -585,7 +596,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
 };
 
 const getStroke = (clickedIds, currentId, action) => {
-  if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search"))
+  if(clickedIds.includes(currentId) && (action === "get-inspired" || action === "get-inspired-search" || action === "get-started"))
       return pinkColor;
   else
       return 'none';
@@ -641,7 +652,7 @@ const noPointerEvents = (action) => {
     action.startsWith("initial") || 
     action === "default" || 
     action === "get-inspired-carousel" || 
-    action === "get-inspired-search"
+    action === "get-inspired-search"  
 ) 
     return true;
   return false;
@@ -684,4 +695,4 @@ function getCorrespondingConcepts(concepts, code) {
 }
 
 
-export default CircleMenu;
+export default OLCompass;

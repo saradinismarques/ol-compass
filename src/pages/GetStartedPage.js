@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import '../styles/GetStartedPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
@@ -20,13 +20,13 @@ const colors = {
   Dimension: "#41c4e0"
 };
 
-const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
+    code: '',
     title: '',
     headline: '',
     paragraph: '',
-    concepts: [],
     type: null,
     firstClick: true,
     showMessage: false,
@@ -36,6 +36,19 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
   }), []);
 
   const [state, setState] = useState(initialState);
+  const [components, setComponents] = useState([]);
+  const [afterSearch, setAfterSearch] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const componentsRef = useRef(components);
+  const currentIndexRef = useRef(currentIndex);
+
+  useEffect(() => {
+    componentsRef.current = components;
+  }, [components]);
+
+  useEffect(() => {
+    currentIndexRef.current = currentIndex;
+  }, [currentIndex]);
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -47,7 +60,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
     return savedComponents.length !== 0 && savedComponents.includes(code);
   }, [savedComponents]);
 
-  const handleCompassClick = (code, title, headline, paragraph,type, concepts) => {
+  const handleCompassClick = (code, title, headline, paragraph, type) => {
     if(state.firstClick && firstMessage) {
       setState((prevState) => ({
         ...prevState,
@@ -63,22 +76,122 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       tColor = "#1c633e"
     else if(type === 'Dimension')
       tColor = "#216270"
+
+    setComponents((prevComponents) => {
+        const updatedComponents = [
+            ...prevComponents,
+            {
+                code,
+                title,
+                headline,
+                paragraph,
+                type,
+                gradientColor: colors[type],
+                textColor: tColor,
+                bookmark: getBookmarkState(code)
+            }
+        ];
     
-    setState((prevState) => ({
-      ...prevState,
-      code,
-      title,
-      headline,
-      paragraph,
-      concepts,
-      type,
-      gradientColor: colors[type],
-      textColor: tColor,
-      bookmark: getBookmarkState(code),
-    }));
+        componentsRef.current = updatedComponents; // Update the ref as well
+        return updatedComponents;
+    });
 
     setIsExplanationPage(false);
   };
+
+  const handleSearch = useCallback(() => {
+    if (!isExplanationPage) return;
+
+    setState((prevState) => {
+        const firstComponent = componentsRef.current[0];
+        return firstComponent
+            ? {
+                  ...prevState,
+                  code: firstComponent.code,
+                  title: firstComponent.title,
+                  headline: firstComponent.headline,
+                  paragraph: firstComponent.paragraph,
+                  type: firstComponent.type,
+                  gradientColor: firstComponent.gradientColor,
+                  textColor: firstComponent.textColor,
+                  bookmark: firstComponent.bookmark
+              }
+            : prevState;
+        });
+
+    setIsExplanationPage(false);
+    setAfterSearch(true);
+
+  }, [firstMessage, isExplanationPage, state.firstClick, setIsExplanationPage]);
+  
+  const handleNext = useCallback(() => {
+    if (currentIndexRef.current < componentsRef.current.length - 1) {
+      const nextIndex = currentIndexRef.current + 1;
+      setCurrentIndex(nextIndex);
+      currentIndexRef.current = nextIndex;
+      console.log(componentsRef.current[nextIndex]);
+      setState((prevState) => {
+        const nextComponent = componentsRef.current[nextIndex];
+        return nextComponent
+            ? {
+                  ...prevState,
+                  code: nextComponent.code,
+                  title: nextComponent.title,
+                  headline: nextComponent.headline,
+                  paragraph: nextComponent.paragraph,
+                  type: nextComponent.type,
+                  gradientColor: nextComponent.gradientColor,
+                  textColor: nextComponent.textColor,
+                  bookmark: nextComponent.bookmark
+              }
+            : prevState;
+       });
+    }
+  }, [currentIndex, getBookmarkState, state]);
+
+  const handlePrev = useCallback(() => {
+    if (currentIndexRef.current > 0) {
+      const prevIndex = currentIndexRef.current - 1;
+      setCurrentIndex(prevIndex);
+      currentIndexRef.current = prevIndex;
+
+      setState((prevState) => {
+        const prevComponent = componentsRef.current[prevIndex];
+        return prevComponent
+            ? {
+                  ...prevState,
+                  code: prevComponent.code,
+                  title: prevComponent.title,
+                  headline: prevComponent.headline,
+                  paragraph: prevComponent.paragraph,
+                  type: prevComponent.type,
+                  gradientColor: prevComponent.gradientColor,
+                  textColor: prevComponent.textColor,
+                  bookmark: prevComponent.bookmark
+              }
+            : prevState;
+       });
+    }
+  }, [currentIndex, getBookmarkState, state]);
+
+  // Keyboard event handler
+  const handleKeyPress = useCallback((e) => {
+    if(e.key === 'Enter') 
+        handleSearch();
+    else if (e.key === 'ArrowUp') 
+        handlePrev();
+    else if (e.key === 'ArrowDown') 
+        handleNext();
+}, []);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+        window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleSearch, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
+
+  
 
   const toggleBookmark = () => {
     setSavedComponents((prevSavedComponents) => {
@@ -112,11 +225,11 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
     if(firstMessage) {
       setFirstMessage((prevState) => ({
         ...prevState,
-        learn: false,
+        getStarted: false,
       }));
     }
   };
-  
+
   // Dynamically choose image source based on state.code
   const imageSrc = state.code === 'P1' ? P1Image 
                 : state.code === 'P2' ? P2Image 
@@ -131,7 +244,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
     <div>
 
     <div className={`container ${state.showMessage ? "blur-background" : ""}`}>
-      <div className='l-gradient-background'
+      <div className='gs-gradient-background'
         style={{
           background: isExplanationPage
             ? 'none'
@@ -139,10 +252,10 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
         }}
       >
         <OLCompass 
-          action="learn" 
-          position={isExplanationPage ? "center" : "left"}
-          onButtonClick={handleCompassClick} 
+          action="get-started" 
+          position={afterSearch ? "left" : "center"}
           resetState={resetState}  // Passing resetState to OLCompass
+          onButtonClick={handleCompassClick} 
           savedComponents={savedComponents}
         />  
         {isExplanationPage && (
@@ -177,23 +290,19 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
                 className="question-icon" // Apply your CSS class
               />
             </button>
-
-            <div className='l-bookmark-container'>
-              <div className="l-white-line"></div>
-              <button onClick={toggleBookmark} className={`l-bookmark-button ${state.bookmark ? 'active' : ''}`}>
+            <div className='gs-bookmark-container'>
+              <div className="gs-white-line"></div>
+              <button onClick={toggleBookmark} className={`gs-bookmark-button ${state.bookmark ? 'active' : ''}`}>
                 <BookmarkIcon 
-                  className="l-bookmark-icon" // Apply your CSS class
+                  className="gs-bookmark-icon" // Apply your CSS class
                 />
               </button>
             </div>
 
-            <div className="l-text-container" style={{
-              maxWidth: state.code === 'P7' ? '373px': 
-                        state.code === 'P3'? '364.5px': 
-                        state.code === 'P1' ? '362px' : '365px'}}>
-                <h1 className='l-title'>{state.title}</h1>
-                <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
-                <div className="l-text" style={{ color: state.textColor }}>
+            <div className="gs-text-container">
+                <h1 className='gs-title'>{state.title}</h1>
+                <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
+                <div className="gs-text" style={{ color: state.textColor }}>
                   <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
                 </div>
             </div>
@@ -203,13 +312,13 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       </div>
       {/* Conditionally render the image if an image source is set */}
       {imageSrc && (
-        <div className="l-image-container">
-          <img src={imageSrc} alt={`Background ${state.code}`} className="l-principles-image" />
+        <div className="gs-image-container">
+          <img src={imageSrc} alt={`Background ${state.code}`} className="gs-principles-image" />
         </div>
       )}
       {imageSrc === null && (
-        <div className="l-image-container">
-          <img src={imageSrc} alt={`Background ${state.code}`} className="l-other-components-image" />
+        <div className="gs-image-container">
+          <img src={imageSrc} alt={`Background ${state.code}`} className="gs-other-components-image" />
         </div>
       )}
     </div>
@@ -243,4 +352,4 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
   );
 };
 
-export default LearnPage;
+export default GetStartedPage;
