@@ -275,7 +275,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
                   <p className='instruction'>
                   Start by clicking on any wave (
                   <WaveIcon 
-                    className="text-icon" // Apply your CSS class
+                    className="text-icon wave" // Apply your CSS class
                   />
                   ).
                   </p>

@@ -340,7 +340,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
               <p className='instruction'>
               Select as many waves (
                 <WaveIcon 
-                  className='text-icon'
+                  className='text-icon wave'
                 />
               ) as you like and press 'Enter' to filter examples.
               To see a carousel of popular OL examples just press 'Enter'.       
@@ -415,34 +415,36 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         
       </div>
       
-      <div className="search-mode-menu">
+      <div className='search-results-container'>
         {resultsNumber !== -1 && (
           <p className='gi-results'>
             <span className='bold-text'>{resultsNumber}</span> results 
           </p>
         )}
-        <div className="mode-button-background">
-          <div className="mode-buttons">
-            <button
-              className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
-              onClick={() => handleSearchModeChange("AND")}
-            >
-              AND
-            </button>
-            <button
-              className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
-              onClick={() => handleSearchModeChange("OR")}
-            >
-              OR
-            </button>
+        <div className="search-mode-menu">
+          <div className="mode-button-background">
+            <div className="mode-buttons">
+              <button
+                className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
+                onClick={() => handleSearchModeChange("AND")}
+              >
+                AND
+              </button>
+              <button
+                className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
+                onClick={() => handleSearchModeChange("OR")}
+              >
+                OR
+              </button>
+            </div>
           </div>
+          <button 
+            className="search-button"
+            onClick={handleSearchClick}
+          >
+            SEARCH
+          </button>
         </div>
-        <button 
-          className="search-button"
-          onClick={handleSearchClick}
-        >
-          SEARCH
-        </button>
        </div>
       </>
       )}    
@@ -459,11 +461,11 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         <p className="message-text">
           By default, the search includes resultsNumber that contain either of the
           <WaveIcon 
-            className='message-icon'
+            className='message-icon wave'
           /> 
           you selected. Thus, the more 
           <WaveIcon 
-            className='message-icon'
+            className='message-icon wave'
           />
           you select, the more case-studies are shown.
           <br></br>
