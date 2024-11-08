@@ -1,7 +1,7 @@
 .i-title-container {
     position: absolute;
-    top: 50%; /* Position item 50% from the top */
-    left: 50%; 
+    top: 50vh; /* Position item 50% from the top */
+    left: 50vw; 
     transform: translate(-50%, -50%);
     max-width: 250px;
     text-align: center; /* Center the text inside the element */
@@ -10,8 +10,8 @@
 
 .i-explanation-container {
     position: absolute;
-    top: 51.1%; /* Position item 50% from the top */
-    left: 50%; 
+    top: 51.1vh; /* Position item 50% from the top */
+    left: 50vw; 
     transform: translate(-50%, -50%);
     max-width: 250px;
     text-align: center; /* Center the text inside the element */
@@ -39,8 +39,8 @@
 
 .i-text-container {
     position: absolute;
-    top: 27%;
-    left: 70%;
+    top: 27vh;
+    left: 70vw;
     max-width: 250px;
     color: black;
     font-size: 1.32em;

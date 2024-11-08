@@ -10,8 +10,8 @@ body {
 
 .text-container {
     position: fixed;
-    top: 15%; /* Position item 50% from the top */
-    right: 8%; /* Position item 50% from the left */
+    top: 15vh; 
+    right: 8vw; 
     max-width: 310px;
 }
 
@@ -73,8 +73,8 @@ body {
 
 .message-box {
     position: fixed;
-    top: 50%;
-    left: 50%;
+    top: 50vh;
+    left: 50vw;
     transform: translate(-50%, -50%);
     padding: 50px;
     margin: 0;
@@ -118,8 +118,8 @@ body {
   
 .question-button {
     position: fixed;
-    bottom: 9%;
-    left: 4.7%;
+    bottom: 9vh;
+    left: 9vw;
     background-color: transparent;
     border: 2px solid #bcbcbc;
     border-radius: 50%;
@@ -163,8 +163,8 @@ body {
 }
 
 .question-icon {
-    width: 12px;
-    height: 12px;
+    width: 15px;
+    height: 15px;
     fill: #bcbcbc; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: #bcbcbc;

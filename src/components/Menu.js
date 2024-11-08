@@ -53,7 +53,7 @@ const Menu = ({isExplanationPage}) => {
     <div>
       <Link
         to="/ol-compass/home"
-        className={`menu-button home ${activeButton === 'home' ? 'active' : ''}`}
+        className={`home-button ${activeButton === 'home' ? 'active' : ''}`}
       >
         <HomeIcon 
           className="home-icon" 

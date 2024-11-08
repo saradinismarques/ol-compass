@@ -361,101 +361,90 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
       )}
 
       {!isExplanationPage && (
-        <>
-          {resultsNumber !== -1 && (
-            <>
-            <div className='gi-text-container'>
-              <div className="gi-card-container">
-                <button onClick={toggleBookmark} className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}>
-                  <BookmarkIcon 
-                    className="gi-bookmark-icon" 
-                  />
-                </button>   
-
-                <h1 className="gi-title">{state.title}</h1>
-                <p className="gi-description">{state.description}</p>
-                <p className="gi-credits">Credits: {state.credits}</p>
-                
-                <div className='gi-boxes-container'>
-                  <div className='gi-box-row'>
-                    <p className='gi-text-box type'>{state.type}</p>
-                    <p className='gi-text-box age'>{state.age}</p>
-                    <p className='gi-text-box time'>{state.time}</p>
-                  </div>
-                  <div className='gi-box-row'>
-                    <p className='gi-text-box languages'>{state.languages}</p>
-                    <p className='gi-text-box mainTarget'>{state.mainTarget}</p>
-                    <p className='gi-text-box year'>{state.year}</p>
-                  </div>
-                  <div className='gi-box-row'>
-                    <p className='gi-text-box collection'>{state.collection}</p>
-                  </div>
-                </div>
-              </div> 
-            </div>
-            </>
-          )}
-
-          {resultsNumber === -1 && (
-            <>
-            <div className='gi-text-container'>
-              <div className="gi-card-container empty"></div> 
-            </div>
-            </>
-          )}
-          
-          {/* Navigation Arrows */}
-          {(currentIndex > 0 || resultsNumber === -1) && (
-            <button className={`gi-arrow-button up ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handlePrev}>
-              <ArrowIcon 
-                className='gi-arrow-icon'
-              />
-
-            </button>
-          )}
-
-          {(currentIndex < caseStudies.length - 1 || resultsNumber === -1) && (
-            <button className={`gi-arrow-button down ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handleNext}>
-              <ArrowIcon 
-                className='gi-arrow-icon'
+      <>
+      <div className='gi-text-container'>
+        {resultsNumber !== -1 && (
+        <div className="gi-card-container">
+          <button onClick={toggleBookmark} className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}>
+            <BookmarkIcon 
+              className="gi-bookmark-icon" 
             />
-            </button>
-          )}
+          </button>   
 
-          {resultsNumber !== -1 && (
-            <>
-            <p className='gi-results'>
-              <span className='bold-text'>{resultsNumber}</span> results 
-            </p>
-            </>
-          )}
-           
-
-          <div className="search-mode-menu">
-            <div className="mode-button-background">
-                <div className="mode-buttons">
-                    <button
-                        className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
-                        onClick={() => handleSearchModeChange("AND")}
-                    >
-                        AND
-                    </button>
-                    <button
-                        className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
-                        onClick={() => handleSearchModeChange("OR")}
-                    >
-                        OR
-                    </button>
-                </div>
+          <h1 className="gi-title">{state.title}</h1>
+          <p className="gi-description">{state.description}</p>
+          <p className="gi-credits">Credits: {state.credits}</p>
+                
+          <div className='gi-boxes-container'>
+            <div className='gi-box-row'>
+              <p className='gi-text-box type'>{state.type}</p>
+              <p className='gi-text-box age'>{state.age}</p>
+              <p className='gi-text-box time'>{state.time}</p>
             </div>
-            <button 
-              className="search-button"
-              onClick={handleSearchClick}
+            <div className='gi-box-row'>
+              <p className='gi-text-box languages'>{state.languages}</p>
+              <p className='gi-text-box mainTarget'>{state.mainTarget}</p>
+              <p className='gi-text-box year'>{state.year}</p>
+            </div>
+            <div className='gi-box-row'>
+              <p className='gi-text-box collection'>{state.collection}</p>
+            </div>
+          </div>
+        </div> 
+        )}
+        {resultsNumber === -1 && (
+          <div className="gi-card-container empty"></div> 
+        )}
+
+        {/* Navigation Arrows */}
+        {(currentIndex > 0 || resultsNumber === -1) && (
+          <button className={`gi-arrow-button up ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handlePrev}>
+            <ArrowIcon 
+              className='gi-arrow-icon'
+            />
+          </button>
+        )}
+
+        {(currentIndex < caseStudies.length - 1 || resultsNumber === -1) && (
+          <button className={`gi-arrow-button down ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handleNext}>
+            <ArrowIcon 
+              className='gi-arrow-icon'
+            />
+          </button>
+        )}
+        
+      </div>
+      
+      <div className="search-mode-menu">
+        {resultsNumber !== -1 && (
+          <p className='gi-results'>
+            <span className='bold-text'>{resultsNumber}</span> results 
+          </p>
+        )}
+        <div className="mode-button-background">
+          <div className="mode-buttons">
+            <button
+              className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
+              onClick={() => handleSearchModeChange("AND")}
             >
-              SEARCH
+              AND
+            </button>
+            <button
+              className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
+              onClick={() => handleSearchModeChange("OR")}
+            >
+              OR
             </button>
           </div>
-        </>
+        </div>
+        <button 
+          className="search-button"
+          onClick={handleSearchClick}
+        >
+          SEARCH
+        </button>
+       </div>
+      </>
       )}    
       <Menu isExplanationPage={isExplanationPage}/>
     </div>

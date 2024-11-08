@@ -1,7 +1,8 @@
 .l-text-container {
     position: fixed;
-    top: 14%; /* Position item 50% from the top */
-    left: 62%; /* Position item 50% from the left */
+    top: 14vh; 
+    right: -1.7vw;
+    transform: translateX(-50%);
     padding: 0px;
     margin: 0px;
     z-index: 30;
@@ -97,8 +98,8 @@
 .l-image-container {
     position: fixed;
     overflow: hidden; /* To prevent any overflow issues */
-    right: 32.5%;
-    top: 8%;
+    top: 8vh;
+    right: 32.5vw;
     z-index: 10;
     opacity: 40%;
 }
@@ -166,8 +167,8 @@
 
 .l-bookmark-container {
     position: fixed;
-    top: 9%;
-    left: 62%;
+    top: 9vh;
+    right: 9vw;
     display: flex; /* Align items in a row */
     align-items: center; /* Center them vertically */
     z-index: 30;
@@ -183,12 +184,12 @@
     background-color: transparent;
     border: 2px solid white;
     border-radius: 50%;
-    padding: 5px;
     margin-left: 10px; /* Add space between the line and the button */
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 7px;
 }
   
 .l-bookmark-button:hover {

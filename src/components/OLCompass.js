@@ -29,7 +29,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
     if (position === "center") {
       return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
     } else if (position === "left") {
-      return { x: window.innerWidth * 0.33, y: window.innerHeight * 0.5 }; // Adjust y for better positioning
+      return { x: window.innerWidth * 0.37, y: window.innerHeight * 0.5 }; // Adjust y for better positioning
     } 
   };
 
@@ -304,7 +304,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
 
   return (
     <div>       
-    <div style={{...containerStyle, left: `${getCenter(position).x}px`, top: `${getCenter(position).y}px` }}>
+    <div style={{...containerStyle, left: `${getCenter(position).x/window.innerWidth*100}vw`, top: `${getCenter(position).y/window.innerHeight*100}vh` }}>
     {components.map((c, i) => (
     <div key={i}>
       {/* Shape */}
