@@ -38,9 +38,13 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
   const [state, setState] = useState(initialState);
   const [components, setComponents] = useState([]);
   const [afterSearch, setAfterSearch] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [selectedComponent, setSelectedComponent] = useState();
+  const [action, setAction] = useState('get-started');
+
   const componentsRef = useRef(components);
   const currentIndexRef = useRef(currentIndex);
+  const actionRef = useRef(action);
 
   useEffect(() => {
     componentsRef.current = components;
@@ -50,10 +54,20 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     currentIndexRef.current = currentIndex;
   }, [currentIndex]);
 
+  useEffect(() => {
+    actionRef.current = action;
+  }, [action]);
+
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
     setAfterSearch(false);
+    setCurrentIndex(-1);
+    setComponents([]);
+
+    setAction('get-started');
+    actionRef.current = 'get-started';
+
   }, [initialState, setIsExplanationPage]);
 
   // Wrap getBookmarkState in useCallback
@@ -79,49 +93,63 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
       tColor = "#216270"
 
     setComponents((prevComponents) => {
-        const updatedComponents = [
-            ...prevComponents,
-            {
-                code,
-                title,
-                headline,
-                paragraph,
-                type,
-                gradientColor: colors[type],
-                textColor: tColor,
-                bookmark: getBookmarkState(code)
-            }
-        ];
+      const updatedComponents = [
+          ...prevComponents,
+          {
+            code,
+            title,
+            headline,
+            paragraph,
+            type,
+            gradientColor: colors[type],
+            textColor: tColor,
+            bookmark: getBookmarkState(code)
+          }
+      ];
     
-        componentsRef.current = updatedComponents; // Update the ref as well
-        return updatedComponents;
+      componentsRef.current = updatedComponents; // Update the ref as well
+      return updatedComponents;
     });
+    setAction('get-started');
+    actionRef.current = 'get-started';
 
     setIsExplanationPage(false);
   };
 
   const handleSearch = useCallback(() => {
+    let currentIndex = currentIndexRef.current;
+    if(currentIndexRef.current === -1) {
+      currentIndex = 0;
+      setCurrentIndex(currentIndex);
+      currentIndexRef.current = currentIndex;
+    }
     setState((prevState) => {
-        const firstComponent = componentsRef.current[0];
+        const firstComponent = componentsRef.current[currentIndex];
         return firstComponent
-            ? {
-                  ...prevState,
-                  code: firstComponent.code,
-                  title: firstComponent.title,
-                  headline: firstComponent.headline,
-                  paragraph: firstComponent.paragraph,
-                  type: firstComponent.type,
-                  gradientColor: firstComponent.gradientColor,
-                  textColor: firstComponent.textColor,
-                  bookmark: firstComponent.bookmark
-              }
-            : prevState;
-        });
+          ? {
+              ...prevState,
+              code: firstComponent.code,
+              title: firstComponent.title,
+              headline: firstComponent.headline,
+              paragraph: firstComponent.paragraph,
+              type: firstComponent.type,
+              gradientColor: firstComponent.gradientColor,
+              textColor: firstComponent.textColor,
+              bookmark: firstComponent.bookmark
+            }
+          : prevState;
+    });
+
+    const code = componentsRef.current[currentIndex].code;
+    setSelectedComponent(code);
+
+    setAction('get-started-search');
+    actionRef.current = 'get-started-search';
 
     setIsExplanationPage(false);
     setAfterSearch(true);
 
-  }, [isExplanationPage, setIsExplanationPage]);
+  }, [setIsExplanationPage]);
   
   const handleNext = useCallback(() => {
     if (currentIndexRef.current < componentsRef.current.length - 1) {
@@ -145,6 +173,9 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
               }
             : prevState;
        });
+
+      const code = componentsRef.current[nextIndex].code;
+      setSelectedComponent(code);
     }
   }, []);
 
@@ -170,6 +201,8 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
               }
             : prevState;
        });
+      const code = componentsRef.current[prevIndex].code;
+      setSelectedComponent(code);
     }
   }, []);
 
@@ -251,11 +284,12 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
         }}
       >
         <OLCompass 
-          action="get-started" 
+          action={action} 
           position={afterSearch ? "left" : "center"}
           resetState={resetState}  // Passing resetState to OLCompass
           onButtonClick={handleCompassClick} 
           savedComponents={savedComponents}
+          selectedComponents={selectedComponent}
         />  
         {isExplanationPage && (
             <>
@@ -306,10 +340,11 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
                 </div>
             </div>
 
-            <div className='gs-search-button-container'>
-              <div className="gs-search-button-outline">
+            <div className={`gs-search-container ${afterSearch ? 'left' : ''}`}>
+              <div className="gs-search-outline">
                 <button 
                   className="gs-search-button"
+                  onClick={handleSearch}
                 >
                   SEARCH
                 </button>

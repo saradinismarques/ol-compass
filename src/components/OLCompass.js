@@ -133,7 +133,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
           );
         }
       }
-    } else if (action === "get-inspired" || action === "contribute" || action === "ideate" || action === "get-started") {
+    } else if (action === "get-inspired" || action === "contribute" || action === "ideate" || action === "get-started"|| action === "get-started-search") {
       setClickedIds(prevClickedIds =>
         prevClickedIds.includes(id)
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
@@ -142,7 +142,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
         
       if (action === "get-inspired" || action === "contribute") {
         if (onButtonClick) onButtonClick();
-      } else if(action === "get-started") {
+      } else if(action === "get-started" || action === "get-started-search") {
         const title = convertLabel(components[id].Code);
         
         if (onButtonClick) {
@@ -153,8 +153,8 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
               components[id].Paragraph,
               components[id].Type,
             );
-          }
         }
+      }
     } 
   };
   
@@ -187,7 +187,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
     clearTimeout(tooltipTimeout);
 
-    if(action === "learn" || action === "contribute" || action === "get-inspired" || action === "get-started") {
+    if(action === "learn" || action === "contribute" || action === "get-inspired" || action === "get-started"  || action === "get-started-search") {
       // Set the cancellation flag to prevent tooltip from showing
       setTooltipVisible(false);
       setTooltipText(""); // Clear the tooltip text
@@ -475,7 +475,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
     ))}
 
     </div>
-    {(action ==="learn" || action ==="contribute" || action ==="get-inspired" || action === "get-started") && tooltipVisible && 
+    {(action ==="learn" || action ==="contribute" || action ==="get-inspired" || action === "get-started" || action === "get-started-search") && tooltipVisible && 
     <Tooltip 
       text={tooltipText} 
       position={tooltipPos} 
@@ -556,6 +556,13 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
           return 0.2;
   }
 
+  if(action === "get-started-search") {
+    if(selectedComponents === component.Code)
+      return 1;
+    else
+        return 0.2;
+  }
+
   if (clickedIds.includes(currentId)) 
       return 1;
   if (hoveredId === currentId) 
@@ -572,7 +579,7 @@ const getStroke = (clickedIds, currentId, action) => {
   if(clickedIds.includes(currentId)) {
     if(action === "get-inspired" || action === "get-inspired-search")
       return pinkColor;
-    else if(action === "get-started")
+    else if(action === "get-started" || action === "get-started-search")
       return purpleColor;
   }
   else

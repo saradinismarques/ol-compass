@@ -125,16 +125,21 @@
     stroke-width: 2px;
 }
 
-.gs-search-button-container {
+.gs-search-container {
     position: fixed;
     bottom: 9vh;
+    left: 50vw;
     display: flex;
     align-items: center; /* Center them vertically */
 }
+
+.gs-search-container.left {
+    left: 37vw;
+}
+
 /* Container for the menu */
-.gs-search-button-outline {
+.gs-search-outline {
     position: fixed;
-    left: 50vw;
     display: flex;
     align-items: center;
     transform: translateX(-50%);
