@@ -46,6 +46,10 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
   const currentIndexRef = useRef(currentIndex);
   const actionRef = useRef(action);
 
+  const componentsOrdered = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
+                             'Pe1', 'Pe2', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'Pe7',
+                             'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'];
+
   useEffect(() => {
     componentsRef.current = components;
   }, [components]);
@@ -107,8 +111,27 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
           }
       ];
     
-      componentsRef.current = updatedComponents; // Update the ref as well
-      return updatedComponents;
+      // Sort updatedComponents according to the order in componentsOrdered
+      const componentsOrdered = [
+        'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
+        'Pe1', 'Pe2', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'Pe7',
+        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'
+      ];
+
+      const sortedComponents = updatedComponents.sort((a, b) => {
+          const indexA = componentsOrdered.indexOf(a.code);
+          const indexB = componentsOrdered.indexOf(b.code);
+          
+          // If the code is not found in componentsOrdered, it goes to the end
+          if (indexA === -1) return 1;
+          if (indexB === -1) return -1;
+          
+          return indexA - indexB;
+      });
+
+      componentsRef.current = sortedComponents; // Update the ref as well
+
+      return sortedComponents;
     });
     setAction('get-started');
     actionRef.current = 'get-started';

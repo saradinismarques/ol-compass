@@ -133,14 +133,14 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
           );
         }
       }
-    } else if (action === "get-inspired" || action === "contribute" || action === "ideate" || action === "get-started"|| action === "get-started-search") {
+    } else if (action === "get-inspired" || action === "get-inspired-search"|| action === "contribute" || action === "ideate" || action === "get-started"|| action === "get-started-search") {
       setClickedIds(prevClickedIds =>
         prevClickedIds.includes(id)
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
           : [...prevClickedIds, id] // Add ID if not already clicked
       );
         
-      if (action === "get-inspired" || action === "contribute") {
+      if (action === "get-inspired" || action === "get-inspired-search" || action === "contribute") {
         if (onButtonClick) onButtonClick();
       } else if(action === "get-started" || action === "get-started-search") {
         const title = convertLabel(components[id].Code);
@@ -635,8 +635,7 @@ const noPointerEvents = (action) => {
   if (
     action.startsWith("initial") || 
     action === "default" || 
-    action === "get-inspired-carousel" || 
-    action === "get-inspired-search"  
+    action === "get-inspired-carousel"  
 ) 
     return true;
   return false;
