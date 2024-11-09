@@ -1,7 +1,7 @@
 .c-text-container {
     position: fixed;
-    top: 17%; /* Position item 50% from the top */
-    left: 75%; /* Position item 50% from the left */
+    top: 18.5vh; 
+    left: 75vw; 
     transform: translateX(-50%);
     width: 338px;
     text-align: center;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { getPrinciplesData, getPerspectivesData, getDimensionsData, getConceptsData } from '../utils/Data.js'; 
+import { getComponentsData, getConceptsData } from '../utils/Data.js'; 
 import '../styles/App.css'
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
@@ -36,9 +36,10 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
   const center = getCenter(position);
 
   // Dictionary with all information
-  const principles = getPrinciples(getPrinciplesData(), center);
-  const perspectives = getPerspectives(getPerspectivesData(), center);
-  const dimensions = getDimensions(getDimensionsData(), center);
+  const componentsData = getComponentsData();
+  const principles = getComponentsPositions(componentsData['Principle'], 'Principle');
+  const perspectives = getComponentsPositions(componentsData['Perspective'], 'Perspective');
+  const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
   const components = principles.concat(perspectives, dimensions);
   const concepts = getConceptsData();
 
@@ -483,74 +484,45 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
   );
 };
 
-function getPrinciples(principlesData) {
-  const x = size/2; 
-  const y = size/2;
-  const radius = size/6.9;
-  const numPrinciples = 7;
+function getComponentsPositions(componentsData, type) {
+  const centerX = size/2;
+  const centerY = size/2;
+  let radius, numberOfComponents;
 
-  const principles = calculateAroundCirclePositionsPrinciples(principlesData, x, y, radius, numPrinciples);
+  if(type === 'Principle') {
+    radius = size/6.9;
+    numberOfComponents = 7;
+  } else if(type === 'Perspective') {
+    radius = size/2.93;
+    numberOfComponents = 7;
+  } else if(type === 'Dimension') {
+    radius = size/2;
+    numberOfComponents = 10;
+  }
 
-  return principles;
-};
-
-function getPerspectives(perspectivesData) {
-  const x = size/2;
-  const y = size/2;
-  const radius = size/2.93;
-  const numPerspectives = 7;
-
-  const perspectives = calculateAroundCirclePositions(perspectivesData, x, y, radius, numPerspectives);
-  
-  return perspectives;
-};
-
-function getDimensions(dimensionsData) {
-  const x = size/2;
-  const y = size/2;
-  const radius = size/2;
-  const numDimensions = 10;
-
-  const positions = calculateAroundCirclePositions(dimensionsData, x, y, radius, numDimensions);
-     
-  return positions;
-};
-
-function calculateAroundCirclePositions(arr, centerX, centerY, radius, numberOfComponents) {
   const angleStep = (2 * Math.PI) / numberOfComponents;
-  const StartAngle = -Math.PI/2;
+  let startAngle
+  if(type === 'Principle')
+    startAngle = -Math.PI/1.55;
+  else
+    startAngle = -Math.PI/2;
 
   for (let i = 0; i < numberOfComponents; i++) {
-    let angle = i * angleStep + StartAngle;
+    let angle = i * angleStep + startAngle;
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
-    if(arr[i].Type === 'Perspective')
+    if(type === 'Principle')
+      angle = angle + 2*Math.PI / 2 + Math.PI*0.02;
+    else if(type === 'Perspective')
       angle = angle + Math.PI / 2 - Math.PI*0.01;
-    else
+    else if(type === 'Dimension')
       angle = angle + Math.PI / 2 - Math.PI*0.005;
 
-    arr[i]["x"] = x;
-    arr[i]["y"] = y;
-    arr[i]["angle"] = angle;
+    componentsData[i]["x"] = x;
+    componentsData[i]["y"] = y;
+    componentsData[i]["angle"] = angle;
   }
-  return arr;
-};
-
-function calculateAroundCirclePositionsPrinciples(arr, centerX, centerY, radius, numberOfComponents) {
-  const angleStep = (2 * Math.PI) / numberOfComponents;
-  const StartAngle = -Math.PI/1.55;
-    
-  for (let i = 0; i < numberOfComponents; i++) {
-    let angle = i * angleStep + StartAngle;
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
-    angle = angle + 2*Math.PI / 2 + Math.PI*0.02;
-
-    arr[i]["x"] = x;
-    arr[i]["y"] = y;
-    arr[i]["angle"] = angle;
-  }
-  return arr;
+  return componentsData;
 };
 
 const getOpacity = (clickedIds, hoveredId, currentId, component, action, selectedComponents) => {
@@ -580,7 +552,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
       if(selectedComponents.includes(component.Code))
           return 1;
       else
-          return 0.5;
+          return 0.2;
   }
 
   if (clickedIds.includes(currentId)) 
@@ -592,7 +564,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
   if(clickedIds.length === 0)
       return 1;
   
-  return 0.5;
+  return 0.3;
 };
 
 const getStroke = (clickedIds, currentId, action) => {

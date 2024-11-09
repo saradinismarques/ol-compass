@@ -1,13 +1,10 @@
-/* Existing styles */
-
 .left-menu {
     position: fixed;
     top: 10vh;
-    left: 7vw;
+    left: 11.5vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start; /* Align items to the left */
     z-index: 30; /* Adjust the z-index */
 }
 
@@ -46,7 +43,9 @@
 .menu-button.solo {
     position: fixed;
     top: 9vh;
-    left: 7vw;
+    margin: 0px;
+    margin-left: 10px;
+    transform: translateY(-50%);
 }
 
 /* New styles for disabled buttons */
@@ -75,6 +74,7 @@
     position: fixed;
     top: 9vh;
     left: 9vw;
+    transform: translateY(-50%);
     background-color: transparent;
     border: 2px solid black;
     border-radius: 50%;
@@ -82,7 +82,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 7px;
+    padding: 5px;
 }
 
 .home-button.active {
@@ -122,8 +122,8 @@
 
 .i-want-to-text {
     position: relative;
-    left: -1.35vw;
-    margin-top: 60px;
+    left: -1.5vw;
+    margin-top: 45px;
     margin-bottom: 10px;
     font-size: 19px;
 }

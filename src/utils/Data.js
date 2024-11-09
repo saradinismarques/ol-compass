@@ -1,41 +1,60 @@
-import principlesData from '../data/principles.json';
-import perspectivesData from '../data/perspectives.json';
-import dimensionsData from '../data/dimensions.json';
+import learnData from '../data/learn.json';
 import conceptsData from '../data/concepts.json';
-import caseStudies from '../data/case_studies.json'
+import getInspiredData from '../data/get-inspired.json';
 
-function getComponentsDataFromJson(data, type) {
+export function getComponentsData() {
     try {
         // Process the JSON data
-        const result = data.map(item => ({
+        const result = learnData.map(item => ({
             Code: item["#code"],
             Label: item["#label"],
             Headline: item["#headline"],
             Paragraph: item["#paragraph"],
-            ShowMoreText: item["#showmoretext"],
-            DesignPrompt: item["#design prompt"],
-            Credits: item["#credits"],
             Tooltip: item["#headline"],
-            Type: type
+            Type: getType(item['#code'])
         }));
 
-        return result;
+        // Organize into three parts by Type
+        const organizeComponents = result.reduce((acc, item) => {
+            const type = item.Type;
+            if (!acc[type]) {
+                acc[type] = []; // Initialize the array for each type if it doesn't exist
+            }
+            acc[type].push(item);
+            return acc;
+        }, {});
+
+        return organizeComponents;
     } catch (error) {
         console.error("Error processing JSON:", error);
         throw error;
     }
 }
 
-export function getPrinciplesData() {
-    return getComponentsDataFromJson(principlesData, "Principle")
-}
-
-export function getPerspectivesData() {
-    return getComponentsDataFromJson(perspectivesData, "Perspective")
-}
-
-export function getDimensionsData() {
-    return getComponentsDataFromJson(dimensionsData, "Dimension")
+function getType(code) {
+    // Define a mapping of prefixes to their corresponding full names
+    const prefixMap = {
+        "D": "Dimension",
+        "Pe": "Perspective",
+        "P": "Principle"
+    };  
+  
+    // Use a regular expression to capture the prefix and the number
+    const regex = /^([A-Za-z]+)(\d+)$/;
+    const match = code.match(regex);
+  
+    if (match) {
+        const prefix = match[1];
+  
+        // Find the corresponding full name for the prefix
+        const type = prefixMap[prefix];
+  
+        if (type) {
+            return type;
+        }
+    }
+  // If the label doesn't match the expected pattern, return it unchanged
+  return code;
 }
 
 export function getConceptsData() {
@@ -59,7 +78,7 @@ export function getConceptsData() {
 export function getCaseStudies() {
     try {
         // Function to extract components and return the case study object
-        const result = caseStudies.map(item => ({
+        const result = getInspiredData.map(item => ({
             Title: item["Title"],
             Collection: item["Collection"],
             MainTarget: item["Main Target"],

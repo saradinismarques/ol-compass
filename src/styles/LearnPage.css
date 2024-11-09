@@ -119,7 +119,7 @@
 /* Style for paragraph */
 .l-text-concepts {
     font-size: 0.9em;
-    font-weight: 200;
+    font-weight: 300;
     display: block;
     max-height: 90px; /* Set a max height for scrolling */
     overflow-y: auto;
@@ -172,6 +172,7 @@
     display: flex; /* Align items in a row */
     align-items: center; /* Center them vertically */
     z-index: 30;
+    transform: translateY(-50%);
 }
 
 .l-white-line {
@@ -189,7 +190,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 7px;
+    padding: 5px;
 }
   
 .l-bookmark-button:hover {
