@@ -67,8 +67,8 @@
 .gs-image-container {
     position: fixed;
     overflow: hidden; /* To prevent any overflow issues */
-    top: 8vh;
-    right: 32.5vw;
+    top: 6vh;
+    right: 28vw;
     z-index: 10;
     opacity: 40%;
 }
