@@ -65,6 +65,10 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       }));
     }
 
+    if(code === null) {
+      resetState();
+      return;
+    }
     let tColor;
     if(type === 'Principle')
       tColor = "#218065"

@@ -112,6 +112,12 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
         setHoveredId(null);
         setInitialState(true);
 
+        if (onButtonClick) {
+          onButtonClick(
+            null
+          );
+        }
+
       } else {
         setInitialState(false);
         setClickedIds([id]);
@@ -139,7 +145,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
           : [...prevClickedIds, id] // Add ID if not already clicked
       );
-        
+              
       if (action === "get-inspired" || action === "get-inspired-search" || action === "contribute") {
         if (onButtonClick) onButtonClick();
       } else if(action === "get-started" || action === "get-started-search") {
@@ -466,7 +472,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
       </div>
 
       {/* Bookmark */}
-      {action === "learn" && !initialState && savedComponents.includes(c.Code) &&
+      {(action === "learn" || action === "get-started-search") && !initialState && savedComponents.includes(c.Code) &&
       <Bookmark
         component={c}
       />

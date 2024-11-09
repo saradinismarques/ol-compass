@@ -46,10 +46,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
   const currentIndexRef = useRef(currentIndex);
   const actionRef = useRef(action);
 
-  const componentsOrdered = ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
-                             'Pe1', 'Pe2', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'Pe7',
-                             'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10'];
-
   useEffect(() => {
     componentsRef.current = components;
   }, [components]);
@@ -62,6 +58,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     actionRef.current = action;
   }, [action]);
 
+  
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
@@ -89,15 +86,18 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     }
 
     let tColor;
-    if(type === 'Principle')
-      tColor = "#218065"
-    else if(type === 'Perspective')
-      tColor = "#1c633e"
-    else if(type === 'Dimension')
-      tColor = "#216270"
+    if(type === 'Principle') tColor = "#218065"
+    else if(type === 'Perspective') tColor = "#1c633e"
+    else if(type === 'Dimension') tColor = "#216270"
 
     setComponents((prevComponents) => {
-      const updatedComponents = [
+      // Check if the component with the specified code exists
+      const componentExists = prevComponents.some(component => component.code === code);
+
+      // If it exists, remove it; if not, add the new component
+      const updatedComponents = componentExists 
+        ? prevComponents.filter(component => component.code !== code) 
+        : [
           ...prevComponents,
           {
             code,
@@ -109,7 +109,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
             textColor: tColor,
             bookmark: getBookmarkState(code)
           }
-      ];
+        ];
     
       // Sort updatedComponents according to the order in componentsOrdered
       const componentsOrdered = [
@@ -130,17 +130,22 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
       });
 
       componentsRef.current = sortedComponents; // Update the ref as well
-
       return sortedComponents;
     });
-    setAction('get-started');
-    actionRef.current = 'get-started';
 
     setIsExplanationPage(false);
+
+    setAction('get-started');
+    actionRef.current = 'get-started';
   };
 
   const handleSearch = useCallback(() => {
     let currentIndex = currentIndexRef.current;
+    if(componentsRef.current.length === 0) {
+      setCurrentIndex(-1);
+      currentIndexRef.current = -1;
+      return;
+    }
     if(currentIndexRef.current === -1) {
       currentIndex = 0;
       setCurrentIndex(currentIndex);
@@ -163,6 +168,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
           : prevState;
     });
 
+
     const code = componentsRef.current[currentIndex].code;
     setSelectedComponent(code);
 
@@ -175,36 +181,38 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
   }, [setIsExplanationPage]);
   
   const handleNext = useCallback(() => {
-    if (currentIndexRef.current < componentsRef.current.length - 1) {
-      const nextIndex = currentIndexRef.current + 1;
-      setCurrentIndex(nextIndex);
-      currentIndexRef.current = nextIndex;
+    const nextIndex = (currentIndexRef.current + 1) % componentsRef.current.length;
+    setCurrentIndex(nextIndex);
+    currentIndexRef.current = nextIndex;
 
-      setState((prevState) => {
-        const nextComponent = componentsRef.current[nextIndex];
-        return nextComponent
-            ? {
-                  ...prevState,
-                  code: nextComponent.code,
-                  title: nextComponent.title,
-                  headline: nextComponent.headline,
-                  paragraph: nextComponent.paragraph,
-                  type: nextComponent.type,
-                  gradientColor: nextComponent.gradientColor,
-                  textColor: nextComponent.textColor,
-                  bookmark: nextComponent.bookmark
-              }
-            : prevState;
-       });
+    setState((prevState) => {
+      const nextComponent = componentsRef.current[nextIndex];
+      return nextComponent
+        ? {
+          ...prevState,
+          code: nextComponent.code,
+          title: nextComponent.title,
+          headline: nextComponent.headline,
+          paragraph: nextComponent.paragraph,
+          type: nextComponent.type,
+          gradientColor: nextComponent.gradientColor,
+          textColor: nextComponent.textColor,
+          bookmark: nextComponent.bookmark
+        }
+        : prevState;
+    });
 
-      const code = componentsRef.current[nextIndex].code;
-      setSelectedComponent(code);
-    }
+    const code = componentsRef.current[nextIndex].code;
+    setSelectedComponent(code);
   }, []);
 
   const handlePrev = useCallback(() => {
-    if (currentIndexRef.current > 0) {
-      const prevIndex = currentIndexRef.current - 1;
+      let prevIndex;
+      if(currentIndexRef.current === 0)
+        prevIndex = componentsRef.current.length - 1;
+      else {
+        prevIndex = currentIndexRef.current - 1;
+      }
       setCurrentIndex(prevIndex);
       currentIndexRef.current = prevIndex;
 
@@ -226,7 +234,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
        });
       const code = componentsRef.current[prevIndex].code;
       setSelectedComponent(code);
-    }
   }, []);
 
   // Keyboard event handler
@@ -378,12 +385,12 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
           <Menu isExplanationPage={isExplanationPage}/>
       </div>
       {/* Conditionally render the image if an image source is set */}
-      {imageSrc && (
+      {!isExplanationPage && imageSrc && (
         <div className="gs-image-container">
           <img src={imageSrc} alt={`Background ${state.code}`} className="gs-principles-image" />
         </div>
       )}
-      {imageSrc === null && (
+      {!isExplanationPage && imageSrc === null && (
         <div className="gs-image-container">
           <img src={imageSrc} alt={`Background ${state.code}`} className="gs-other-components-image" />
         </div>

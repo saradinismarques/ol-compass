@@ -76,6 +76,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         showMessage: true
       }));
     }
+
     setIsExplanationPage(false);
 
     setCarouselMode(false);
