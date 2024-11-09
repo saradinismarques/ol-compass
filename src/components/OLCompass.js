@@ -100,7 +100,6 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
 
   const handleClick = (id) => {
     //const id = parseInt(e.target.id(), 10);
-
     if (noPointerEvents(action)) 
       return;
     
@@ -150,6 +149,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
         if (onButtonClick) onButtonClick();
       } else if(action === "get-started" || action === "get-started-search") {
         const title = convertLabel(components[id].Code);
+        setInitialState(false);
         
         if (onButtonClick) {
             onButtonClick(
@@ -353,7 +353,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
           top: `${c.y - waveHeight / 2 - 2}px`,
           transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
           position: 'absolute', // Consistent positioning
-          zIndex: 2 // Ensures outlines are rendered on top of filled shapes
+          zIndex: 30 // Ensures outlines are rendered on top of filled shapes
         }}
         onClick={() => handleClick(i)}
         onMouseEnter={(e) => handleMouseEnter(e, i)}
@@ -472,7 +472,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
       </div>
 
       {/* Bookmark */}
-      {(action === "learn" || action === "get-started-search") && !initialState && savedComponents.includes(c.Code) &&
+      {(action === "learn" || action === "get-started" || action === "get-started-search") && !initialState && savedComponents.includes(c.Code) &&
       <Bookmark
         component={c}
       />

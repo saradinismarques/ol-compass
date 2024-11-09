@@ -99,6 +99,7 @@
     align-items: center;
     justify-content: center;
     padding: 5px;
+    outline: none;
 }
   
 .gs-bookmark-button:hover {

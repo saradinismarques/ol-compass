@@ -58,7 +58,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     actionRef.current = action;
   }, [action]);
 
-  
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
@@ -73,6 +72,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
 
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((code) => {
+    console.log(savedComponents);
     return savedComponents.length !== 0 && savedComponents.includes(code);
   }, [savedComponents]);
 
@@ -141,16 +141,19 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
 
   const handleSearch = useCallback(() => {
     let currentIndex = currentIndexRef.current;
+    
     if(componentsRef.current.length === 0) {
       setCurrentIndex(-1);
       currentIndexRef.current = -1;
       return;
     }
+
     if(currentIndexRef.current === -1) {
       currentIndex = 0;
       setCurrentIndex(currentIndex);
       currentIndexRef.current = currentIndex;
     }
+    console.log(componentsRef.current[currentIndex]);
     setState((prevState) => {
         const firstComponent = componentsRef.current[currentIndex];
         return firstComponent
@@ -185,6 +188,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     setCurrentIndex(nextIndex);
     currentIndexRef.current = nextIndex;
 
+    console.log(componentsRef.current[nextIndex]);
     setState((prevState) => {
       const nextComponent = componentsRef.current[nextIndex];
       return nextComponent
@@ -215,6 +219,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
       }
       setCurrentIndex(prevIndex);
       currentIndexRef.current = prevIndex;
+      console.log(componentsRef.current[prevIndex]);
 
       setState((prevState) => {
         const prevComponent = componentsRef.current[prevIndex];
@@ -268,6 +273,21 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     setState({
       ...state,
       bookmark: !state.bookmark,
+    });
+
+    setComponents((prevComponents) => {
+      const updatedComponents = prevComponents.map((component, index) => {
+          if (index === currentIndex) {
+              // Only update the bookmark property for the component at currentIndex
+              return {
+                  ...component,
+                  bookmark: !component.bookmark // Or set it to a specific new value if needed
+              };
+          }
+          return component;
+      });
+      componentsRef.current = updatedComponents; // Update the ref as well
+      return updatedComponents;
     });
   };
 
