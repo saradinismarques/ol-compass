@@ -101,8 +101,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
   };
 
   const handleSearch = useCallback(() => {
-    if (!isExplanationPage) return;
-
     setState((prevState) => {
         const firstComponent = componentsRef.current[0];
         return firstComponent
@@ -130,7 +128,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
       const nextIndex = currentIndexRef.current + 1;
       setCurrentIndex(nextIndex);
       currentIndexRef.current = nextIndex;
-      console.log(componentsRef.current[nextIndex]);
+
       setState((prevState) => {
         const nextComponent = componentsRef.current[nextIndex];
         return nextComponent
@@ -177,20 +175,20 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
 
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {
-    if(e.key === 'Enter') 
-        handleSearch();
+    if (e.key === 'Enter') 
+      handleSearch();
     else if (e.key === 'ArrowUp') 
-        handlePrev();
-    else if (e.key === 'ArrowDown') 
-        handleNext();
-}, []);
+      handlePrev();
+    else if (e.key === 'ArrowDown')
+      handleNext();
+}, [handleSearch, handlePrev, handleNext]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
     return () => {
         window.removeEventListener('keydown', handleKeyPress);
     };
-  }, [handleSearch, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
+  }, [handleKeyPress]); // Dependency array includes carouselHandleEnterClick
 
   
 
@@ -306,6 +304,16 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
                 <div className="gs-text" style={{ color: state.textColor }}>
                   <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
                 </div>
+            </div>
+
+            <div className='gs-search-button-container'>
+              <div className="gs-search-button-outline">
+                <button 
+                  className="gs-search-button"
+                >
+                  SEARCH
+                </button>
+              </div>
             </div>
             </>
           )} 

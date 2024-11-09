@@ -1,8 +1,7 @@
 .l-text-container {
     position: fixed;
     top: 14vh; 
-    right: -1.7vw;
-    transform: translateX(-50%);
+    left: 66.5vw;
     padding: 0px;
     margin: 0px;
     z-index: 30;
@@ -33,8 +32,11 @@
     font-weight: 300;
     margin-top: -25px;
     overflow-y: auto; /* Hide overflow initially */
-    padding-right: 15px;
     display: block;
+}
+
+.l-text b{
+    font-weight: 500;
 }
 
 .l-text button {
