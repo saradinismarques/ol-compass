@@ -304,9 +304,8 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
             </div>
 
             <div className="l-text-container" style={{
-              maxWidth: state.code === 'P7' ? '373px': 
-                        state.code === 'P3'? '364.5px': 
-                        state.code === 'P1' ? '362px' : '365px'}}>
+              width:  state.code === 'P3'? '369px': 
+                      state.code === 'P7' ? '369px' : '350px'}}>
               <h1 className='l-title'>{state.title}</h1>
               <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
               {state.type === "Principle" && (
@@ -325,7 +324,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
                   </button>
                   )}
                 </div>
-                  <div className="l-text-concepts expanded scroller" style={{ color: state.textColor, '--scrollbar-thumb-color': state.textColor }}>
+                  <div className="l-text-concepts expanded l-scroller" style={{ color: state.textColor, '--scrollbar-thumb-color': state.textColor }}>
                     <p>{concept.paragraph}</p>
                   </div>
                 </>
@@ -358,7 +357,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
     {!isExplanationPage && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 200 }}>
-        <div className="question-circle">
+        <div className="message-question">
           <QuestionIcon 
             className="question-icon message" // Apply your CSS class
           />

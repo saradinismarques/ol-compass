@@ -585,9 +585,9 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     {!isExplanationPage && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 290 }}>
-        <div className="question-circle message">
+        <div className="message-question">
             <svg 
-                className="question-icon" 
+                className="question-icon message" 
                 fill="currentcolor" 
                 stroke="currentcolor" /* Adds stroke color */
                 xmlns="http://www.w3.org/2000/svg" 

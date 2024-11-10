@@ -416,23 +416,23 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
         
       </div>
       
-      <div className='search-results-container'>
+      <div className='gi-search-results-container'>
         {resultsNumber !== -1 && (
           <p className='gi-results'>
             <span className='bold-text'>{resultsNumber}</span> results 
           </p>
         )}
-        <div className="search-mode-menu">
-          <div className="mode-button-background">
-            <div className="mode-buttons">
+        <div className="gi-search-mode-menu">
+          <div className="gi-mode-button-background">
+            <div className="gi-mode-buttons">
               <button
-                className={`mode-button ${searchMode === 'AND' ? 'active' : ''}`}
+                className={`gi-mode-button ${searchMode === 'AND' ? 'active' : ''}`}
                 onClick={() => handleSearchModeChange("AND")}
               >
                 AND
               </button>
               <button
-                className={`mode-button ${searchMode === 'OR' ? 'active' : ''}`}
+                className={`gi-mode-button ${searchMode === 'OR' ? 'active' : ''}`}
                 onClick={() => handleSearchModeChange("OR")}
               >
                 OR
@@ -440,7 +440,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
             </div>
           </div>
           <button 
-            className="search-button"
+            className="gi-search-button"
             onClick={handleSearchClick}
           >
             SEARCH
@@ -454,7 +454,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     {((!isExplanationPage && carouselMode) || !carouselMode) && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 290 }}>
-        <div className="question-circle">
+        <div className="message-question">
             <QuestionIcon 
               className="question-icon message" 
             />

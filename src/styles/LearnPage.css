@@ -6,7 +6,6 @@
     margin: 0px;
     z-index: 30;
 }
-
   
 /* Style for h1 */
 .l-title {
@@ -51,17 +50,17 @@
     font-weight: inherit;
 }
 
-.scroller{
+.l-scroller {
     overflow:auto;
     display: block;
 }
     
-.scroller::-webkit-scrollbar{
+.l-scroller::-webkit-scrollbar {
     width:2px;
     background-color:transparent;
 }
         
-.scroller::-webkit-scrollbar-thumb{
+.l-scroller::-webkit-scrollbar-thumb {
     background: var(--scrollbar-thumb-color); /* Use the CSS variable here */
     border-radius: 10px;
 }

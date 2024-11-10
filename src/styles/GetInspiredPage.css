@@ -175,7 +175,7 @@
     stroke-width: 0px;
 }
 
-.search-results-container {
+.gi-search-results-container {
     position: fixed;
     bottom: 9vh;
     display: flex;
@@ -191,7 +191,7 @@
 }
 
 /* Container for the menu */
-.search-mode-menu {
+.gi-search-mode-menu {
     position: fixed;
     left: 37vw;
     transform: translateX(-50%);
@@ -207,7 +207,7 @@
 }
 
 /* Position the mode button background with higher z-index */
-.mode-button-background {
+.gi-mode-button-background {
     background-color: white;
     border: none;
     padding: 2px;
@@ -218,7 +218,7 @@
 }
 
 /* Container for the mode toggle buttons */
-.mode-buttons {
+.gi-mode-buttons {
     display: flex;
     align-items: center;
     background-color: #b1b1b1;
@@ -230,7 +230,7 @@
 }
 
 /* Individual toggle buttons */
-.mode-button {
+.gi-mode-button {
     border: none;
     background-color: #bcbcbc;
     padding: 3px;
@@ -244,20 +244,20 @@
     outline: none;
 }
 
-.search-button:hover {
-    background-color: white; /* Darkened version of the original background color */
+.gi-mode-button:hover {
+    background-color: #d1d4d5; /* Darkened version of the original background color */
 }
 
-.search-button:active {
-    background-color: white; /* Darkened version of the original background color */
+.gi-mode-button:active {
+    background-color: #d1d4d5; /* Darkened version of the original background color */
 }
 
-.mode-button.active {
+.gi-mode-button.active {
     background-color: white;
 }
 
 /* SEARCH button */
-.search-button {
+.gi-search-button {
     position: relative;
     left: -7%;
     color: white;
@@ -275,11 +275,11 @@
 }
 
 /* When hovering the area below the mode button background */
-.search-button:hover {
+.gi-search-button:hover {
     background-color: #cc006f; /* Darkened version of the original background color */
 }
 
-.search-button:active {
+.gi-search-button:active {
     background-color: #cc006f; /* Darkened version of the original background color */
 }
 

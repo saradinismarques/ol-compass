@@ -420,7 +420,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     {!isExplanationPage && state.showMessage && (
       <>
       <div className="message-box" style={{ width: 200 }}>
-        <div className="question-circle">
+        <div className="message-question">
           <QuestionIcon 
             className="question-icon message" // Apply your CSS class
           />
