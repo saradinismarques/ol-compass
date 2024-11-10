@@ -1,6 +1,6 @@
-import learnData from '../data/learn.json';
-import conceptsData from '../data/concepts.json';
-import getInspiredData from '../data/get-inspired.json';
+import learnData from '../data/learn-data.json';
+import conceptsData from '../data/concepts-data.json';
+import getInspiredData from '../data/get-inspired-data.json';
 
 export function getComponentsData() {
     try {

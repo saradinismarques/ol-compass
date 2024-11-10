@@ -138,7 +138,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
           );
         }
       }
-    } else if (action === "get-inspired" || action === "get-inspired-search"|| action === "contribute" || action === "ideate" || action === "get-started"|| action === "get-started-search") {
+    } else if (action === "get-inspired" || action === "get-inspired-search"|| action === "contribute" || action === "get-started"|| action === "get-started-search") {
       setClickedIds(prevClickedIds =>
         prevClickedIds.includes(id)
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
@@ -555,6 +555,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
       else
           return 1;
   }
+
   if(action === "get-inspired-carousel" || action === "get-inspired-search") {
       if(selectedComponents.includes(component.Code))
           return 1;
@@ -573,11 +574,8 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
       return 1;
   if (hoveredId === currentId) 
       return 0.8;
-  if (action ==="ideate" && clickedIds.length === 0) 
-      return 0.5;  
-  if(clickedIds.length === 0)
+  if(clickedIds.length === 0) 
       return 1;
-  
   return 0.3;
 };
 
@@ -642,7 +640,7 @@ const noPointerEvents = (action) => {
     action.startsWith("initial") || 
     action === "default" || 
     action === "get-inspired-carousel"  
-) 
+  ) 
     return true;
   return false;
 };
