@@ -47,6 +47,7 @@ const InitialPage = () => {
 
     useEffect(() => {
         if (state === 5) {
+            console.log("AAA")
             navigate('/home');
         }
     }, [state, navigate]); // Trigger navigation when state changes to 6

@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { HashRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
+import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import InitialPage from './pages/InitialPage';
 import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
@@ -15,21 +15,31 @@ function App() {
   const [savedCaseStudies, setSavedCaseStudies] = useState([]);
   const [savedComponents, setSavedComponents] = useState([]);
   const [newCaseStudies, setNewCaseStudies] = useState([]);
-  
-  const initialFirstMessage = useMemo(() => ({
-    getStarted: true,
-    learn: true, 
-    getInspired: true,
-    contribute: true,
-  }), []);
-  const [firstMessage, setFirstMessage] = useState(initialFirstMessage);
 
+  const initialFirstMessage = useMemo(
+    () => ({
+      getStarted: true,
+      learn: true,
+      getInspired: true,
+      contribute: true,
+    }),
+    []
+  );
+  const [firstMessage, setFirstMessage] = useState(initialFirstMessage);
   const [isExplanationPage, setIsExplanationPage] = useState(true);
 
-  // Get the current location (route)
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // Reset the state when the route changes
+  useEffect(() => {
+    // Redirect to /ol-compass when the app is loaded (on refresh)
+    if (location.pathname !== '/ol-compass') {
+      navigate('/ol-compass', { replace: true });
+      localStorage.removeItem('showMore');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run only on the initial mount
+
   useEffect(() => {
     setIsExplanationPage(true); // Reset to initial state when the page changes
   }, [location.pathname]);
@@ -38,56 +48,90 @@ function App() {
     <div className="App">
       <main>
         <Routes>
-          <Route path="/" element={<InitialPage />} />
+          <Route path="/ol-compass" element={<InitialPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route 
-            path="/get-started" 
-            element={<GetStartedPage 
-              savedComponents={savedComponents} 
-              setSavedComponents={setSavedComponents} 
-              firstMessage={firstMessage.getStarted} 
-              setFirstMessage={setFirstMessage} 
-              isExplanationPage={isExplanationPage} 
-              setIsExplanationPage={setIsExplanationPage} 
-            />} 
+          <Route
+            path="/get-started"
+            element={
+              <GetStartedPage
+                savedComponents={savedComponents}
+                setSavedComponents={setSavedComponents}
+                firstMessage={firstMessage.getStarted}
+                setFirstMessage={setFirstMessage}
+                isExplanationPage={isExplanationPage}
+                setIsExplanationPage={setIsExplanationPage}
+              />
+            }
           />
-          <Route 
-            path="/learn" 
-            element={<LearnPage 
-              savedComponents={savedComponents} 
-              setSavedComponents={setSavedComponents} 
-              firstMessage={firstMessage.learn} 
-              setFirstMessage={setFirstMessage} 
-              isExplanationPage={isExplanationPage} 
-              setIsExplanationPage={setIsExplanationPage} 
-            />} 
+          <Route
+            path="/learn"
+            element={
+              <LearnPage
+                savedComponents={savedComponents}
+                setSavedComponents={setSavedComponents}
+                firstMessage={firstMessage.learn}
+                setFirstMessage={setFirstMessage}
+                isExplanationPage={isExplanationPage}
+                setIsExplanationPage={setIsExplanationPage}
+              />
+            }
           />
-          <Route 
-            path="/get-inspired" 
-            element={<GetInspiredPage 
-              savedCaseStudies={savedCaseStudies} 
-              setSavedCaseStudies={setSavedCaseStudies} 
-              newCaseStudies={newCaseStudies} 
-              firstMessage={firstMessage.getInspired} 
-              setFirstMessage={setFirstMessage} 
-              isExplanationPage={isExplanationPage} 
-              setIsExplanationPage={setIsExplanationPage} 
-            />} 
+          <Route
+            path="/get-inspired"
+            element={
+              <GetInspiredPage
+                savedCaseStudies={savedCaseStudies}
+                setSavedCaseStudies={setSavedCaseStudies}
+                newCaseStudies={newCaseStudies}
+                firstMessage={firstMessage.getInspired}
+                setFirstMessage={setFirstMessage}
+                isExplanationPage={isExplanationPage}
+                setIsExplanationPage={setIsExplanationPage}
+              />
+            }
           />
-          <Route 
-            path="/contribute" 
-            element={<ContributePage 
-              newCaseStudies={newCaseStudies} 
-              setNewCaseStudies={setNewCaseStudies} 
-              firstMessage={firstMessage.contribute} 
-              setFirstMessage={setFirstMessage} 
-              isExplanationPage={isExplanationPage} 
-              setIsExplanationPage={setIsExplanationPage} 
-            />} 
+          <Route
+            path="/contribute"
+            element={
+              <ContributePage
+                newCaseStudies={newCaseStudies}
+                setNewCaseStudies={setNewCaseStudies}
+                firstMessage={firstMessage.contribute}
+                setFirstMessage={setFirstMessage}
+                isExplanationPage={isExplanationPage}
+                setIsExplanationPage={setIsExplanationPage}
+              />
+            }
           />
-          <Route path="/contextualize" element={<ContextualizePage isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
-          <Route path="/ideate" element={<IdeatePage isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
-          <Route path="/compare" element={<ComparePage isExplanationPage={isExplanationPage} setIsExplanationPage={setIsExplanationPage} />} />
+          <Route
+            path="/contextualize"
+            element={
+              <ContextualizePage
+                isExplanationPage={isExplanationPage}
+                setIsExplanationPage={setIsExplanationPage}
+              />
+            }
+          />
+          <Route
+            path="/ideate"
+            element={
+              <IdeatePage
+                isExplanationPage={isExplanationPage}
+                setIsExplanationPage={setIsExplanationPage}
+              />
+            }
+          />
+          <Route
+            path="/compare"
+            element={
+              <ComparePage
+                isExplanationPage={isExplanationPage}
+                setIsExplanationPage={setIsExplanationPage}
+              />
+            }
+          />
+          {/* Catch-all route */}
+          <Route path="*" element={<InitialPage />} />
         </Routes>
       </main>
     </div>

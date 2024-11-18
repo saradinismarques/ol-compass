@@ -3,10 +3,9 @@ import { Link, useLocation } from 'react-router-dom';
 import '../styles/Menu.css';
 import { ReactComponent as HomeIcon } from '../assets/home-icon.svg'; // Adjust the path as necessary
 
-const Menu = ({ isExplanationPage }) => {
+const Menu = ({isExplanationPage}) => {
   const location = useLocation();
   const currentPath = location.pathname;
-
   // Load the initial state from localStorage or set default to false
   const [showMore, setShowMore] = useState(() => {
     const storedShowMore = localStorage.getItem('showMore');
@@ -45,10 +44,10 @@ const Menu = ({ isExplanationPage }) => {
         return null;
     }
   };
-
+  
   const activeButton = getActiveButton(currentPath);
 
-  const menuExpanded = activeButton === 'home' || isExplanationPage;
+  const menuExpanded = (activeButton === 'home' || isExplanationPage);
 
   return (
     <div>
@@ -56,79 +55,98 @@ const Menu = ({ isExplanationPage }) => {
         to="/home"
         className={`home-button ${activeButton === 'home' ? 'active' : ''}`}
       >
-        <HomeIcon className="home-icon" />
+        <HomeIcon 
+          className="home-icon" 
+        />
       </Link>
       <div className="left-menu">
-        {menuExpanded && (
+
+      {menuExpanded && 
+        <>
+        <p className='i-want-to-text'>I want to</p>
+        </>
+      }
+      {(menuExpanded || activeButton === 'get-started') && 
+        <>
+        <Link
+          to="/get-started"
+          className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'get-started' ? 'active' : ''}`}
+        >
+          GET STARTED
+        </Link>
+        </>
+      }
+      {(menuExpanded || activeButton === 'learn') && 
+        <>
+        <Link
+          to="/learn"
+          className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn' ? 'active' : ''}`}
+        >
+          LEARN
+        </Link>
+        </>
+      }
+      {(menuExpanded || activeButton === 'get-inspired') && 
+        <>
+        <Link
+          to="/get-inspired"
+          className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
+        >
+          GET INSPIRED
+        </Link>
+        </>
+      }
+      {(menuExpanded || activeButton === 'contribute') && 
+        <>
+        <Link
+          to="/contribute"
+          className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contribute' ? 'active' : ''}`}
+        >
+          CONTRIBUTE
+        </Link>
+        </>
+      }
+      {showMore && (
+        <>
+          {(menuExpanded || activeButton === 'contextualize') && 
           <>
-            <p className="i-want-to-text">I want to</p>
+          <Link
+            to="/contextualize"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
+          >
+            CONTEXTUALIZE
+          </Link>
           </>
-        )}
-        {(menuExpanded || activeButton === 'get-started') && (
-          <Link
-            to="/get-started"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'get-started' ? 'active' : ''}`}
-          >
-            GET STARTED
-          </Link>
-        )}
-        {(menuExpanded || activeButton === 'learn') && (
-          <Link
-            to="/learn"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn' ? 'active' : ''}`}
-          >
-            LEARN
-          </Link>
-        )}
-        {(menuExpanded || activeButton === 'get-inspired') && (
-          <Link
-            to="/get-inspired"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'get-inspired' ? 'active' : ''}`}
-          >
-            GET INSPIRED
-          </Link>
-        )}
-        {(menuExpanded || activeButton === 'contribute') && (
-          <Link
-            to="/contribute"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contribute' ? 'active' : ''}`}
-          >
-            CONTRIBUTE
-          </Link>
-        )}
-        {showMore && (
+          }
+          {(menuExpanded || activeButton === 'ideate') && 
           <>
-            {(menuExpanded || activeButton === 'contextualize') && (
-              <Link
-                to="/contextualize"
-                className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
-              >
-                CONTEXTUALIZE
-              </Link>
-            )}
-            {(menuExpanded || activeButton === 'ideate') && (
-              <Link
-                to="/ideate"
-                className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
-              >
-                IDEATE
-              </Link>
-            )}
-            {(menuExpanded || activeButton === 'compare') && (
-              <Link
-                to="/compare"
-                className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'compare' ? 'active' : 'disabled'}`}
-              >
-                COMPARE
-              </Link>
-            )}
+           <Link
+            to="/ideate"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
+          >
+            IDEATE
+          </Link>
           </>
-        )}
-        {menuExpanded && (
-          <button onClick={toggleShowMore} className="menu-button show-more">
-            {showMore ? '-' : '+'}
-          </button>
-        )}
+          }
+          {(menuExpanded || activeButton === 'compare') && 
+          <>
+          <Link
+            to="/compare"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'compare' ? 'active' : 'disabled'}`}
+          >
+            COMPARE
+          </Link>
+          </>
+          }
+        </>
+      )}
+      {(menuExpanded) && 
+        <>
+        <button onClick={toggleShowMore} className="menu-button show-more">
+          {showMore ? '-' : '+'}
+        </button>
+        </>
+      }
       </div>
     </div>
   );
