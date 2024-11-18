@@ -47,7 +47,7 @@ const InitialPage = () => {
 
     useEffect(() => {
         if (state === 5) {
-            navigate('/ol-compass/home');
+            navigate('/home');
         }
     }, [state, navigate]); // Trigger navigation when state changes to 6
 
