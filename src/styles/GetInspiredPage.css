@@ -9,6 +9,19 @@
     align-items: center;   /* Center items horizontally */
 }
 
+/* Adjust the top position when the screen height is smaller than a certain threshold */
+@media (max-height: 700px) { /* You can adjust this value as needed */
+    .gi-text-container {
+      top: 13vh;
+    }
+
+    .gi-card-container {
+        width: 200px;
+        height: 400px;
+    }
+    
+}
+
 .gi-card-container {
     width: 302px;
     height: 437px;

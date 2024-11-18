@@ -1,6 +1,6 @@
 .i-title-container {
     position: absolute;
-    top: 50vh; /* Position item 50% from the top */
+    top: 47vh; /* Position item 50% from the top */
     left: 50vw; 
     transform: translate(-50%, -50%);
     max-width: 250px;
@@ -10,7 +10,7 @@
 
 .i-explanation-container {
     position: absolute;
-    top: 51.1vh; /* Position item 50% from the top */
+    top: 47vh; /* Position item 50% from the top */
     left: 50vw; 
     transform: translate(-50%, -50%);
     max-width: 250px;

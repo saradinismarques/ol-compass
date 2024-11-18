@@ -4,7 +4,27 @@ import '../styles/App.css'
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
 // Sizes and positions 
-const size = 490;
+let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
+
+if(window.innerHeight > 700) {
+  size = 490;
+  bookmarkSize = '16px';
+  bookmarkLeftP = '40px';
+  bookmarkLeftPe = '-26px';
+  bookmarkLeftD = '-26px';
+  bookmarkTopP = '19px';
+  bookmarkTopPe = '10px';
+  bookmarkTopD = '10px';
+} else {
+  size = 460;
+  bookmarkSize = '15px';
+  bookmarkLeftP = '40px';
+  bookmarkLeftPe = '-26px';
+  bookmarkLeftD = '-26px';
+  bookmarkTopP = '17.5px';
+  bookmarkTopPe = '9.5px';
+  bookmarkTopD = '9.5px';
+}
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
@@ -28,9 +48,9 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center") {
-      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
     } else if (position === "left") {
-      return { x: window.innerWidth * 0.37, y: window.innerHeight * 0.5 }; // Adjust y for better positioning
+      return { x: window.innerWidth * 0.37, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
     } 
   };
 
@@ -293,15 +313,23 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
       <div
         style={{
           position: 'relative',
-          left: `${component.Type === "Principle" ? '40px' : '-26px' }`,
-          top:  `${component.Type === "Principle" ? '19px' : '10px' }`,
+          left: `${component.Type === "Principle" 
+            ? bookmarkLeftP 
+            : component.Type === "Perspective" 
+              ? bookmarkLeftPe  // Add your condition for 'dimension' here
+              : bookmarkLeftD }`,
+          top: `${component.Type === "Principle" 
+            ? bookmarkTopP 
+            : component.Type === "Perspective" 
+              ? bookmarkTopPe  // Add your condition for 'dimension' here
+              : bookmarkTopD }`,
           transform: `${component.Type === "Principle" ? `rotate(${-Math.PI * 0.14}rad)` : `rotate(${-Math.PI * 0.11 + Math.PI/4}rad)` }`
         }}  
       >
         <BookmarkIcon
           style={{
-            width: '16px',
-            height: '16px',
+            width: bookmarkSize ,
+            height: bookmarkSize,
             fill: pinkColor,
             stroke: 'none'
           }}
@@ -556,6 +584,13 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
           return 1;
   }
 
+  if (clickedIds.includes(currentId)) 
+    return 1;
+  if (hoveredId === currentId) 
+      return 0.8;
+  if(clickedIds.length === 0) 
+      return 1;
+
   if(action === "get-inspired-carousel" || action === "get-inspired-search") {
       if(selectedComponents.includes(component.Code))
           return 1;
@@ -569,13 +604,6 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
     else
         return 0.2;
   }
-
-  if (clickedIds.includes(currentId)) 
-      return 1;
-  if (hoveredId === currentId) 
-      return 0.8;
-  if(clickedIds.length === 0) 
-      return 1;
   return 0.3;
 };
 
