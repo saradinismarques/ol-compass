@@ -11,8 +11,6 @@ import P5Image from '../images/P5.png';
 import P6Image from '../images/P6.png';
 import P7Image from '../images/P7.png';
 import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
 const colors = {
@@ -21,7 +19,7 @@ const colors = {
   Dimension: "#41c4e0"
 };
 
-const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     code: '',
@@ -29,8 +27,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     headline: '',
     paragraph: '',
     type: null,
-    firstClick: true,
-    showMessage: false,
     gradientColor: null,
     textColor: null,
     bookmark: false,
@@ -78,14 +74,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
   }, [savedComponents]);
 
   const handleCompassClick = (code, title, headline, paragraph, type) => {
-    if(state.firstClick && firstMessage) {
-      setState((prevState) => ({
-        ...prevState,
-        firstClick: false,
-        showMessage: true
-      }));
-    }
-
     let tColor;
     if(type === 'Principle') tColor = "#218065"
     else if(type === 'Perspective') tColor = "#1c633e"
@@ -292,27 +280,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
     });
   };
 
-  const showMessage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMessage: true,
-    }));
-  };
-
-  const removeMessage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMessage: false,
-    }));
-
-    if(firstMessage) {
-      setFirstMessage((prevState) => ({
-        ...prevState,
-        getStarted: false,
-      }));
-    }
-  };
-
   // Dynamically choose image source based on state.code
   const imageSrc = state.code === 'P1' ? P1Image 
                 : state.code === 'P2' ? P2Image 
@@ -326,7 +293,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
   return (
     <div>
 
-    <div className={`container ${state.showMessage ? "blur-background" : ""}`}>
+    <div className={'container'}>
       <div className='gs-gradient-background'
         style={{
           background: isExplanationPage
@@ -336,13 +303,12 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
       >
         <OLCompass 
           action={action} 
-          position={afterSearch ? "left" : "center"}
+          position={afterSearch ? "center-left" : "center"}
           resetState={resetState}  // Passing resetState to OLCompass
           onButtonClick={handleCompassClick} 
           savedComponents={savedComponents}
           selectedComponents={selectedComponent}
         />  
-        <CompassIcon type ={state.type} />
         {isExplanationPage && (
             <>
             <div className="text-container" >
@@ -370,11 +336,10 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
 
           {!isExplanationPage && (
             <>
-            <button onClick={showMessage} className="question-button">
-              <QuestionIcon 
-                className="question-icon" // Apply your CSS class
-              />
-            </button>
+            {afterSearch && (
+              <CompassIcon type ={state.type} />
+            )}
+            
             <div className='gs-bookmark-container'>
               <div className="gs-white-line"></div>
               <button onClick={toggleBookmark} className={`gs-bookmark-button ${state.bookmark ? 'active' : ''}`}>
@@ -418,32 +383,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
         </div>
       )}
     </div>
-    
-    {!isExplanationPage && state.showMessage && (
-      <>
-      <div className="message-box" style={{ width: 200 }}>
-        <div className="message-question">
-          <QuestionIcon 
-            className="question-icon message" // Apply your CSS class
-          />
-        </div>
-        <p className="message-text">
-          For each element, you can browse in-depth information by clicking on the 
-          <ArrowIcon
-            className='message-icon smaller'
-          /> 
-          icon (or on the underlined words). Mark relevant content by clicking on the 
-          <BookmarkIcon
-            className='message-icon smaller'
-          /> 
-          icon.
-        </p>
-        <button className="got-it-button" onClick={removeMessage}>
-          Ok, got it!
-        </button>
-      </div>
-      </>
-    )}
 </div>
   );
 };

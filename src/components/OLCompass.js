@@ -34,6 +34,12 @@ const colors = {
     Dimension: "#41c4e0"
 };
 
+const textColors = {
+  Principle: "#218065",
+  Perspective: "#1c633e",
+  Dimension: "#216270"
+};
+
 const pinkColor = "#e6007e";
 const purpleColor = "#8734d6";
 
@@ -51,7 +57,9 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
       return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
     } else if (position === "left") {
       return { x: window.innerWidth * 0.37, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
-    } 
+    } else if (position === "center-left") {
+      return { x: window.innerWidth * 0.4, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
+    }
   };
 
   const center = getCenter(position);
@@ -447,7 +455,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
 
             {/* Text on Path */}
             <text
-              fill={c.Type === 'Principle' ? '#218067' : 'white'}
+              fill={textColors[c.Type]}
               fontFamily="Manrope"
               fontWeight={500}
               fontSize="8.7px"
@@ -471,7 +479,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
             {bigLabels.includes(c.Code) &&
               <>
               <text
-                fill={c.Type === 'Principle' ? '#218067' : 'white'}
+                fill={textColors[c.Type]}
                 fontFamily="Manrope"
                 fontWeight={500}
                 fontSize="8.7px"
