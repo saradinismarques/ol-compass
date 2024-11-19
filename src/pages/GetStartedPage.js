@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import '../styles/GetStartedPage.css';
 import OLCompass from '../components/OLCompass';
+import CompassIcon from '../components/CompassIcon';
 import Menu from '../components/Menu';
 import P1Image from '../images/P1.png';
 import P2Image from '../images/P2.png';
@@ -341,6 +342,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, firstMessage, set
           savedComponents={savedComponents}
           selectedComponents={selectedComponent}
         />  
+        <CompassIcon type ={state.type} />
         {isExplanationPage && (
             <>
             <div className="text-container" >

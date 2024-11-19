@@ -63,6 +63,25 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
   }, [initialState, setIsExplanationPage]);
 
+
+  // State to store window height
+  const [height, setHeight] = useState(window.innerHeight);
+
+  useEffect(() => {
+    // Function to update height on window resize
+    const handleResize = () => {
+      setHeight(window.innerHeight);
+    };
+
+    // Add event listener for resize
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((title) => {
     return savedCaseStudies.length !== 0 && savedCaseStudies.includes(title);
@@ -374,6 +393,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
           <h1 className="gi-title">{state.title}</h1>
           <p className="gi-description">{state.description}</p>
+          <p>{height}</p>
           <p className="gi-credits">Credits: {state.credits}</p>
                 
           <div className='gi-boxes-container'>
