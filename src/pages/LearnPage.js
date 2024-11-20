@@ -246,7 +246,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
   return (
     <div>
 
-    <div className={`container ${state.showMessage ? "blur-background" : ""}`}>
+    <div className={`${state.showMessage ? "blur-background" : ""}`}>
       <div className='l-gradient-background'
         style={{
           background: isExplanationPage

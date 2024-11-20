@@ -120,15 +120,18 @@ body {
     position: fixed;
     bottom: 9vh;
     left: 9vw;
+    width: 30px; /* Set an explicit width */
+    height: 30px; /* Set an explicit height */
     transform: translateY(50%);
     background-color: transparent;
     border: 2px solid #bcbcbc;
     border-radius: 50%;
-    padding: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .message-question {

@@ -74,6 +74,8 @@
     position: fixed;
     top: 9vh;
     left: 9vw;
+    width: 30px; /* Set an explicit width */
+    height: 30px; /* Set an explicit height */
     transform: translateY(-50%);
     background-color: transparent;
     border: 2px solid black;
@@ -82,7 +84,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .home-button.active {

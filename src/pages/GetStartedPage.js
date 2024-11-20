@@ -33,7 +33,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
   const [state, setState] = useState(initialState);
   const [components, setComponents] = useState([]);
   const [afterSearch, setAfterSearch] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(-1);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState();
   const [action, setAction] = useState('get-started');
 
@@ -57,7 +57,7 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
     setState(initialState);
     setIsExplanationPage(true);
     setAfterSearch(false);
-    setCurrentIndex(-1);
+    setCurrentIndex(0);
     setComponents([]);
 
     setAction('get-started');
@@ -120,20 +120,10 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
   };
 
   const handleSearch = useCallback(() => {
-    let currentIndex = currentIndexRef.current;
-    
-    if(componentsRef.current.length === 0) {
-      setCurrentIndex(-1);
-      currentIndexRef.current = -1;
-      return;
-    }
+    const currentIndex = 0
+    setCurrentIndex(currentIndex);
+    currentIndexRef.current = currentIndex;
 
-    if(currentIndexRef.current === -1) {
-      currentIndex = 0;
-      setCurrentIndex(currentIndex);
-      currentIndexRef.current = currentIndex;
-    }
-    console.log(componentsRef.current[currentIndex]);
     setState((prevState) => {
         const firstComponent = componentsRef.current[currentIndex];
         return firstComponent
@@ -163,68 +153,64 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
   }, [setIsExplanationPage]);
   
   const handleNext = useCallback(() => {
-    const nextIndex = (currentIndexRef.current + 1) % componentsRef.current.length;
-    setCurrentIndex(nextIndex);
-    currentIndexRef.current = nextIndex;
-
-    console.log(componentsRef.current[nextIndex]);
-    setState((prevState) => {
-      const nextComponent = componentsRef.current[nextIndex];
-      return nextComponent
-        ? {
-          ...prevState,
-          code: nextComponent.code,
-          title: nextComponent.title,
-          headline: nextComponent.headline,
-          paragraph: nextComponent.paragraph,
-          type: nextComponent.type,
-          gradientColor: nextComponent.gradientColor,
-          textColor: nextComponent.textColor,
-        }
-        : prevState;
-    });
-
-    const code = componentsRef.current[nextIndex].code;
-    setSelectedComponent(code);
+    if(currentIndexRef.current < componentsRef.current.length - 1) {
+      const nextIndex = currentIndexRef.current + 1;
+      setCurrentIndex(nextIndex);
+      currentIndexRef.current = nextIndex;
+      
+      setState((prevState) => {
+        const nextComponent = componentsRef.current[nextIndex];
+        return nextComponent
+          ? {
+            ...prevState,
+            code: nextComponent.code,
+            title: nextComponent.title,
+            headline: nextComponent.headline,
+            paragraph: nextComponent.paragraph,
+            type: nextComponent.type,
+            gradientColor: nextComponent.gradientColor,
+            textColor: nextComponent.textColor,
+          }
+          : prevState;
+      });
+      const code = componentsRef.current[nextIndex].code;
+      setSelectedComponent(code);
+    }; 
   }, []);
 
-  const handlePrev = useCallback(() => {
-      let prevIndex;
-      if(currentIndexRef.current === 0)
-        prevIndex = componentsRef.current.length - 1;
-      else {
-        prevIndex = currentIndexRef.current - 1;
-      }
-      setCurrentIndex(prevIndex);
-      currentIndexRef.current = prevIndex;
-      console.log(componentsRef.current[prevIndex]);
+  const handlePrev = useCallback(() => {     
+      if(currentIndexRef.current > 0) {
+        const prevIndex = currentIndexRef.current - 1;
+        setCurrentIndex(prevIndex);
+        currentIndexRef.current = prevIndex;
 
-      setState((prevState) => {
-        const prevComponent = componentsRef.current[prevIndex];
-        return prevComponent
-            ? {
-                  ...prevState,
-                  code: prevComponent.code,
-                  title: prevComponent.title,
-                  headline: prevComponent.headline,
-                  paragraph: prevComponent.paragraph,
-                  type: prevComponent.type,
-                  gradientColor: prevComponent.gradientColor,
-                  textColor: prevComponent.textColor,
-              }
-            : prevState;
-       });
-      const code = componentsRef.current[prevIndex].code;
-      setSelectedComponent(code);
+        setState((prevState) => {
+          const prevComponent = componentsRef.current[prevIndex];
+          return prevComponent
+              ? {
+                    ...prevState,
+                    code: prevComponent.code,
+                    title: prevComponent.title,
+                    headline: prevComponent.headline,
+                    paragraph: prevComponent.paragraph,
+                    type: prevComponent.type,
+                    gradientColor: prevComponent.gradientColor,
+                    textColor: prevComponent.textColor,
+                }
+              : prevState;
+        });
+        const code = componentsRef.current[prevIndex].code;
+        setSelectedComponent(code);
+      }
   }, []);
 
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {
     if (e.key === 'Enter') 
       handleSearch();
-    else if (e.key === 'ArrowUp') 
+    else if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
       handlePrev();
-    else if (e.key === 'ArrowDown')
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft')
       handleNext();
 }, [handleSearch, handlePrev, handleNext]);
 

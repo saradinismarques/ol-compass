@@ -112,10 +112,10 @@ function getComponentsPositions(type) {
     radius = size/6.9;
     numberOfComponents = 7;
   } else if(type === 'Perspective') {
-    radius = size/3;
+    radius = size/3.1;
     numberOfComponents = 7;
   } else if(type === 'Dimension') {
-    radius = size/2.03;
+    radius = size/2.07;
     numberOfComponents = 10;
   }
 
@@ -131,7 +131,7 @@ function getComponentsPositions(type) {
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
     if(type === 'Principle')
-      angle = angle + 2*Math.PI / 2 - Math.PI*0.01;
+      angle = angle + 2*Math.PI / 2 - Math.PI*0.04;
     else if(type === 'Perspective')
       angle = angle + Math.PI / 2 - Math.PI*0.01;
     else if(type === 'Dimension')

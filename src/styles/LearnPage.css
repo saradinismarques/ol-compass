@@ -191,7 +191,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 5px;
+    width: 30px; /* Set an explicit width */
+    height: 30px; /* Set an explicit height */
+    padding: 0; /* Remove padding to match the exact size */
+    box-sizing: border-box; /* Includes padding and border in total size */
 }
   
 .l-bookmark-button:hover {
