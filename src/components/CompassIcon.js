@@ -48,7 +48,7 @@ const CompassIcon = ({ type }) => {
   };
 
   return (
-    <div style={{...containerStyle, left: `${16}vw`, top: `${20}vh` }}>
+    <div style={{...containerStyle, left: `${16.6}vw`, top: `${20}vh` }}>
     {components.map((c, i) => (
     <div key={i}>
       {/* Shape */}
@@ -89,9 +89,10 @@ const CompassIcon = ({ type }) => {
             style={{
                 color: `${textColors[type]}`,
                 fontFamily: "Manrope",
-                fontWeight: "400",
-                fontSize:"20px",
+                fontWeight: "500",
+                fontSize:"16px",
                 textTransform: "uppercase", // Converts text to uppercase
+                letterSpacing: "2px", // Increases the spacing between letters
             }}
         >
             {type}

@@ -11,7 +11,6 @@ import P5Image from '../images/P5.png';
 import P6Image from '../images/P6.png';
 import P7Image from '../images/P7.png';
 import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
 const colors = {
   Principle: "#41ffc9",
@@ -29,7 +28,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
     type: null,
     gradientColor: null,
     textColor: null,
-    bookmark: false,
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -67,12 +65,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
 
   }, [initialState, setIsExplanationPage]);
 
-  // Wrap getBookmarkState in useCallback
-  const getBookmarkState = useCallback((code) => {
-    console.log(savedComponents);
-    return savedComponents.length !== 0 && savedComponents.includes(code);
-  }, [savedComponents]);
-
   const handleCompassClick = (code, title, headline, paragraph, type) => {
     let tColor;
     if(type === 'Principle') tColor = "#218065"
@@ -96,7 +88,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
             type,
             gradientColor: colors[type],
             textColor: tColor,
-            bookmark: getBookmarkState(code)
           }
         ];
     
@@ -155,7 +146,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
               type: firstComponent.type,
               gradientColor: firstComponent.gradientColor,
               textColor: firstComponent.textColor,
-              bookmark: firstComponent.bookmark
             }
           : prevState;
     });
@@ -190,7 +180,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
           type: nextComponent.type,
           gradientColor: nextComponent.gradientColor,
           textColor: nextComponent.textColor,
-          bookmark: nextComponent.bookmark
         }
         : prevState;
     });
@@ -222,7 +211,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
                   type: prevComponent.type,
                   gradientColor: prevComponent.gradientColor,
                   textColor: prevComponent.textColor,
-                  bookmark: prevComponent.bookmark
               }
             : prevState;
        });
@@ -246,39 +234,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
         window.removeEventListener('keydown', handleKeyPress);
     };
   }, [handleKeyPress]); // Dependency array includes carouselHandleEnterClick
-
-  
-
-  const toggleBookmark = () => {
-    setSavedComponents((prevSavedComponents) => {
-      // If the current title is already in the array, remove it
-      if (prevSavedComponents.includes(state.code)) {
-        return prevSavedComponents.filter(item => item !== state.code);
-      }
-      // Otherwise, add it to the array
-      return [...prevSavedComponents, state.code];
-    });
-
-    setState({
-      ...state,
-      bookmark: !state.bookmark,
-    });
-
-    setComponents((prevComponents) => {
-      const updatedComponents = prevComponents.map((component, index) => {
-          if (index === currentIndex) {
-              // Only update the bookmark property for the component at currentIndex
-              return {
-                  ...component,
-                  bookmark: !component.bookmark // Or set it to a specific new value if needed
-              };
-          }
-          return component;
-      });
-      componentsRef.current = updatedComponents; // Update the ref as well
-      return updatedComponents;
-    });
-  };
 
   // Dynamically choose image source based on state.code
   const imageSrc = state.code === 'P1' ? P1Image 
@@ -340,15 +295,6 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
               <CompassIcon type ={state.type} />
             )}
             
-            <div className='gs-bookmark-container'>
-              <div className="gs-white-line"></div>
-              <button onClick={toggleBookmark} className={`gs-bookmark-button ${state.bookmark ? 'active' : ''}`}>
-                <BookmarkIcon 
-                  className="gs-bookmark-icon" // Apply your CSS class
-                />
-              </button>
-            </div>
-
             <div className="gs-text-container">
                 <h1 className='gs-title'>{state.title}</h1>
                 <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>

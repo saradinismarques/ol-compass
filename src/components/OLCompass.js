@@ -592,6 +592,20 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
           return 1;
   }
 
+  if(action === "get-started-search") {
+    if(selectedComponents === component.Code)
+      return 1;
+    else
+      return 0.2;
+  }
+
+  if(action === "get-inspired-carousel" || action === "get-inspired-search") {
+    if(selectedComponents.includes(component.Code))
+        return 1;
+    else
+        return 0.2;
+  }
+
   if (clickedIds.includes(currentId)) 
     return 1;
   if (hoveredId === currentId) 
@@ -599,19 +613,8 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
   if(clickedIds.length === 0) 
       return 1;
 
-  if(action === "get-inspired-carousel" || action === "get-inspired-search") {
-      if(selectedComponents.includes(component.Code))
-          return 1;
-      else
-          return 0.2;
-  }
 
-  if(action === "get-started-search") {
-    if(selectedComponents === component.Code)
-      return 1;
-    else
-        return 0.2;
-  }
+
   return 0.3;
 };
 
