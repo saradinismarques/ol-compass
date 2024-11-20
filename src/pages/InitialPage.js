@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
+import { getIntroTexts } from '../utils/Data.js'; 
 import '../styles/InitialPage.css';
 
 const colors = {
@@ -12,6 +13,8 @@ const colors = {
 const InitialPage = () => {
     const [state, setState] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
+
+    const introTexts = getIntroTexts();
 
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
@@ -68,63 +71,89 @@ const InitialPage = () => {
     // Determine the text to display based on the current state
     const getDisplayText = () => {
         if (state === 0) {
+            // Split the title by the <b> tag and render parts in different components
+            const title = introTexts['English'].Title;
+
+            // Split the title by <b> tags and ensure we only get the relevant parts
+            const parts = title.split(/(<b>.*?<\/b>)/).filter(part => part.trim() !== "");
+
             return (
-                <>
-                <div className='i-title-container'>
-                    <p className='i-welcome'>WELCOME TO THE</p>
-                    <p className='i-title'>OL-in-One Compass</p>
+                <div className="i-title-container">
+                    {parts.map((part, index) => {
+                        if (part.startsWith('<b>')) {
+                            // Remove the <b> tags and render the text inside it with class "i-title"
+                            const cleanText = part.replace(/<\/?b>/g, ''); // Remove <b> and </b>
+                            return <p key={index} className="i-title">{cleanText}</p>;
+                        } else {
+                            // Render the normal text parts inside a <p> with class "i-welcome"
+                            return <p key={index} className="i-welcome">{part}</p>;
+                        }
+                    })}
                 </div>
-                </>
             );
         } else if (state === 1) {
+            const introDef = introTexts['English'].IntroDef;
+
+            // Split the string by the <br> tag to handle each segment
+            const parts = introDef.split('<br>').map(part => part.trim()).filter(part => part !== "");
+
             return (
-                <>
-                <div className='i-explanation-container'>
-                    <p className='i-explanation'>
-                        Ocean Literacy (OL) 
-                        <br></br>
-                        is the understating of
-                        <br></br>
-                        the Ocean-humanity 
-                        <br></br>
-                        mutual influence.
-                    </p>
+                <div className="i-explanation-container">
+                    {parts.map((part, index) => {
+                        return (
+                            <p key={index} className="i-explanation">
+                                {part}
+                            </p>
+                        );
+                    })}
                 </div>
-                </>
             );
         } else if (state === 2) {
+            const introP = introTexts['English'].IntroP;
+
+            // Split the string by the <br> tag to handle line breaks
+            const partsWithBr = introP.split('<br>').map(part => part.trim()).filter(part => part !== "");
+
             return (
-                <>
-                <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy is based on </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 scientific Principles
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
+                <div className="i-text-container">
+                    {partsWithBr.map((part, index) => {
+                        // Split the part further if it contains the <c> tag
+                        const parts = part.split('<c>').map(p => p.trim()).filter(p => p !== "");
+                        console.log(parts)
+                        return (
+                            <React.Fragment key={index}>
+                                {parts.map((subPart, subIndex) => {
+                                    // Check if the subPart contains the </c> tag (for coloring)
+                                    if (subPart.includes('</c>')) {
+                                        const [coloredText, rest] = subPart.split('</c>');
+                                        return (
+                                            <React.Fragment key={subIndex}>
+                                                <span className="i-text colored" style={{ color: colors.Principle }}>
+                                                    {coloredText}
+                                                </span>
+                                                <span className="i-text">
+                                                    {rest}
+                                                </span>
+                                                <span className="i-text"> </span>
+                                            </React.Fragment>
+                                        );
+                                    } else {
+                                        return (
+                                            <React.Fragment key={subIndex}>
+                                                <span key={subIndex} className="i-text">
+                                                    {subPart}
+                                                </span>
+                                                <span className="i-text"> </span>
+                                            </React.Fragment>                                            
+                                        );
+                                    }
+                                })}
+                                {/* Add <br /> for line breaks */}
+                                {index < partsWithBr.length - 1 && <br />}
+                            </React.Fragment>
+                        );
+                    })}
                 </div>
-                </>
-            );
-        } else if (state === 3) {
-            return (
-                <>
-                <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy is based on </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 scientific Principles
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <p className='i-space'></p>
-                    <span className='i-text'>Science is just one of the </span>
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
-                        7 Perspectives
-                    </span>
-                    <span className='i-text'> from which OL can be seen.</span>
-                </div>
-                </>
             );
         } else if (state === 4) {
             return (

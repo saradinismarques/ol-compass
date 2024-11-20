@@ -1,6 +1,33 @@
+import introTexts from '../data/intro-texts.json'
 import learnData from '../data/learn-data.json';
 import conceptsData from '../data/concepts-data.json';
 import getInspiredData from '../data/get-inspired-data.json';
+
+export function getIntroTexts() {
+    try {
+        // Initialize an empty object to store language-based data
+        const introText = {};
+
+        // Iterate over the JSON data
+        introTexts.forEach(item => {
+            // Use the "LANGUAGE" field as the key and assign the rest of the fields as the value
+            const language = item["LANGUAGE"];
+            
+            // Store the rest of the information in the introText object under the language key
+            introText[language] = {
+                Title: item["TITLE"],
+                IntroDef: item["INTRO_DEF"],
+                IntroP: item["INTRO_P"],
+                IntroPe: item["INTRO_Pe"],
+                IntroD: item["INTRO_D"],
+            };
+        });
+        return introText; // Return the grouped object
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
+}
 
 export function getComponentsData() {
     try {
