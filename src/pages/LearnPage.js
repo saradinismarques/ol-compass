@@ -28,8 +28,6 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
     paragraph: '',
     concepts: [],
     type: null,
-    firstClick: true,
-    showMessage: false,
     gradientColor: null,
     textColor: null,
     bookmark: false,
@@ -45,10 +43,15 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
 
   const [state, setState] = useState(initialState);
   const [concept, setConcept] = useState(initialConcept);
-
+  const [firstClick, setFirstClick] = useState(true);
+  const [message, setMessage] = useState(false);
+  
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
+
+    setFirstClick(true);
+    setMessage(false);
   }, [initialState, setIsExplanationPage]);
 
   // Wrap getBookmarkState in useCallback
@@ -57,16 +60,14 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
   }, [savedComponents]);
 
   const handleCompassClick = (code, title, headline, paragraph,type, concepts) => {
-    if(state.firstClick && firstMessage) {
-      setState((prevState) => ({
-        ...prevState,
-        firstClick: false,
-        showMessage: true
-      }));
+    if(firstClick && firstMessage) {
+      setFirstClick(false);
+      setMessage(true);
     }
 
     if(code === null) {
-      resetState();
+      setState(initialState);
+      setIsExplanationPage(true);
       return;
     }
     let tColor;
@@ -121,17 +122,11 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
   };
 
   const showMessage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMessage: true,
-    }));
+    setMessage(true)
   };
 
   const removeMessage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMessage: false,
-    }));
+    setMessage(false);
 
     if(firstMessage) {
       setFirstMessage((prevState) => ({
@@ -246,7 +241,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
   return (
     <div>
 
-    <div className={`${state.showMessage ? "blur-background" : ""}`}>
+    <div className={`${message ? "blur-background" : ""}`}>
       <div className='l-gradient-background'
         style={{
           background: isExplanationPage
@@ -354,7 +349,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       )}
     </div>
     
-    {!isExplanationPage && state.showMessage && (
+    {!isExplanationPage && message && (
       <>
       <div className="message-box" style={{ width: 200 }}>
         <div className="message-question">

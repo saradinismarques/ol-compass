@@ -18,14 +18,15 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     description: '',
     credits: '',
     components: [], // Use an array to hold selected components
-    firstClick: true,
-    showMessage: false,
   }), []);
 
   const [state, setState] = useState(initialState);
   const [resetCompass, setResetCompass] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [firstClick, setFirstClick] = useState(true);
+  const [message, setMessage] = useState(false);
+  
   const buttonsRef = useRef({}); // Create a ref to store button positions
 
   const resetState = useCallback(() => {
@@ -33,15 +34,15 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     setIsExplanationPage(true);
     setOpenDropdown(null);
     setDropdownPosition({ top: 0, left: 0 }); 
+
+    setFirstClick(true);
+    setMessage(false);
   }, [initialState, setIsExplanationPage]);
 
   const handleCompassClick = () => {
-    if(state.firstClick && firstMessage) {
-      setState((prevState) => ({
-        ...prevState,
-        firstClick: false,
-        showMessage: true,
-      }));
+    if(firstClick && firstMessage) {
+      setFirstClick(false);
+      setMessage(true);
     }
     setIsExplanationPage(false);
   };
@@ -51,16 +52,13 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     if(e.key !== 'Enter') return;
     if (!isExplanationPage) return;
 
-    if(state.firstClick && firstMessage) {
-      setState((prevState) => ({
-        ...prevState,
-        firstClick: false,
-        showMessage: true,
-      }));
+    if(firstClick && firstMessage) {
+      setFirstClick(false);
+      setMessage(true);
     }
     setIsExplanationPage(false);
 
-  }, [state.firstClick, firstMessage, isExplanationPage, setIsExplanationPage]);
+  }, [firstClick, firstMessage, isExplanationPage, setIsExplanationPage]);
 
 
   useEffect(() => {
@@ -80,22 +78,9 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
   };
 
   const resetStateAndCompass = useCallback(() => {
-    setState((prevState) => ({
-      ...prevState,
-      title: '', 
-      collection: '',
-      mainTarget: '',
-      age: '',
-      time: '',
-      type: '',
-      languages: '',
-      year: '',
-      description: '',
-      credits: '',
-      components: [],
-      firstClick: false,
-      showMessage: false
-    }));
+    setState(initialState);
+    setFirstClick(false);
+    setMessage(false);
 
     setOpenDropdown(null);
     setDropdownPosition({ top: 0, left: 0 }); // Set dropdown position
@@ -131,17 +116,11 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
   };
 
   const showMessage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMessage: true,
-    }));
+    setMessage(true)
   };
 
   const removeMessage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMessage: false,
-    }));
+    setMessage(false);
 
     if(firstMessage) {
       setFirstMessage((prevState) => ({
@@ -164,7 +143,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
 
   return (
     <div>
-    <div className={`${state.showMessage ? "blur-background" : ""}`}>
+    <div className={`${message ? "blur-background" : ""}`}>
       <OLCompass 
         action="contribute"
         position={isExplanationPage ? "center" : "left"}
@@ -582,7 +561,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
         )}  
         <Menu isExplanationPage={isExplanationPage} />
     </div>
-    {!isExplanationPage && state.showMessage && (
+    {!isExplanationPage && message && (
       <>
       <div className="message-box" style={{ width: 290 }}>
         <div className="message-question">

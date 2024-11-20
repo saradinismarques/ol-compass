@@ -22,8 +22,6 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     description: '',
     credits: '',
     components: '',
-    firstClick: true,
-    showMessage: false,
     bookmark: false,
   }), []);
 
@@ -35,6 +33,8 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   const [resultsNumber, setResultsNumber] = useState(-1);
   const [searchMode, setSearchMode] = useState('AND');
   const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
+  const [firstClick, setFirstClick] = useState(true);
+  const [message, setMessage] = useState(false);
   
   const carouselModeRef = useRef(carouselMode);
   const actionRef = useRef(action);
@@ -61,6 +61,8 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     actionRef.current = 'get-inspired';
     setIsExplanationPage(true);
 
+    setFirstClick(true);
+    setMessage(false);
   }, [initialState, setIsExplanationPage]);
 
 
@@ -88,14 +90,10 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   }, [savedCaseStudies]);
 
   const handleCompassClick = () => {
-    if(state.firstClick && firstMessage) {
-      setState((prevState) => ({
-        ...prevState,
-        firstClick: false,
-        showMessage: true
-      }));
+    if(firstClick && firstMessage) {
+      setFirstClick(false);
+      setMessage(true);
     }
-
     setIsExplanationPage(false);
 
     setCarouselMode(false);
@@ -173,12 +171,9 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     setCarouselMode(true);
     carouselModeRef.current = true;
 
-    if(state.firstClick && firstMessage) {
-      setState((prevState) => ({
-        ...prevState,
-        firstClick: false,
-        showMessage: true,
-      }));
+    if(firstClick && firstMessage) {
+      setMessage(true);
+      setFirstClick(false);
     }
 
     if (!isExplanationPage) return;
@@ -189,7 +184,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     setAction('get-inspired-carousel');
     actionRef.current = 'get-inspired-carousel';
 
-  }, [firstMessage, isExplanationPage, searchCaseStudies, state.firstClick, setIsExplanationPage]);
+  }, [firstMessage, isExplanationPage, searchCaseStudies, firstClick, setIsExplanationPage]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < caseStudies.length - 1) {
@@ -301,17 +296,11 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   };
 
   const showMessage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMessage: true,
-    }));
+    setMessage(true)
   };
 
   const removeMessage = () => {
-    setState((prevState) => ({
-      ...prevState,
-      showMessage: false,
-    }));
+    setMessage(false);
 
     if(firstMessage) {
       setFirstMessage((prevState) => ({
@@ -333,7 +322,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
   return (
     <div>
-    <div className={`${state.showMessage ? "blur-background" : ""}`}>
+    <div className={`${message ? "blur-background" : ""}`}>
       <OLCompass 
         action={action}
         position={isExplanationPage ? "center" : "left"} 
@@ -393,7 +382,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
           <h1 className="gi-title">{state.title}</h1>
           <p className="gi-description">{state.description}</p>
-          <p>{height}</p>
+          <p>{window.innerHeight}</p>
           <p className="gi-credits">Credits: {state.credits}</p>
                 
           <div className='gi-boxes-container'>
@@ -471,7 +460,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
       )}    
       <Menu isExplanationPage={isExplanationPage}/>
     </div>
-    {((!isExplanationPage && carouselMode) || !carouselMode) && state.showMessage && (
+    {((!isExplanationPage && carouselMode) || !carouselMode) && message && (
       <>
       <div className="message-box" style={{ width: 290 }}>
         <div className="message-question">
