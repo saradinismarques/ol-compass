@@ -10,7 +10,7 @@
 
 .menu-button {
     margin: 3px 0; /* Space between buttons */
-    width: 140px;
+    width: 9.5vw;
     height: 26px;
     border: 2px solid black;
     border-radius: 100px;
@@ -44,8 +44,8 @@
     position: fixed;
     top: 9vh;
     margin: 0px;
-    margin-left: 4px;
-    transform: translateY(-50%);
+    left: 16.5vw;
+    transform: translate(-50%, -50%);
 }
 
 /* New styles for disabled buttons */
@@ -66,7 +66,7 @@
     border: 2px solid  #a2a1a1;
     background-color: transparent;
     color: #a2a1a1;
-    width: 143.5px;  /* Ensure it's the same width as other buttons */
+    width: 9.7vw;    /* Ensure it's the same width as other buttons */
     height: 29px;
 }
 
@@ -74,8 +74,8 @@
     position: fixed;
     top: 9vh;
     left: 9vw;
-    width: 30px; /* Set an explicit width */
-    height: 30px; /* Set an explicit height */
+    width: 29px; /* Set an explicit width */
+    height: 29px; /* Set an explicit height */
     transform: translateY(-50%);
     background-color: transparent;
     border: 2px solid black;

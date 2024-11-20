@@ -18,7 +18,7 @@ const colors = {
   Dimension: "#41c4e0"
 };
 
-const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage, setIsExplanationPage }) => {
+const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     code: '',
@@ -244,10 +244,9 @@ const GetStartedPage = ({ savedComponents, setSavedComponents, isExplanationPage
       >
         <OLCompass 
           action={action} 
-          position={afterSearch ? "center-left" : "center"}
+          position={afterSearch ? "left" : "center"}
           resetState={resetState}  // Passing resetState to OLCompass
           onButtonClick={handleCompassClick} 
-          savedComponents={savedComponents}
           selectedComponents={selectedComponent}
         />  
         {isExplanationPage && (

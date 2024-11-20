@@ -1,7 +1,7 @@
 .l-text-container {
     position: fixed;
     top: 14vh; 
-    left: 66.5vw;
+    left: 65vw;
     padding: 0px;
     margin: 0px;
     z-index: 30;
@@ -169,7 +169,7 @@
 .l-bookmark-container {
     position: fixed;
     top: 9vh;
-    right: 9vw;
+    left: 64.5vw;
     display: flex; /* Align items in a row */
     align-items: center; /* Center them vertically */
     z-index: 30;
@@ -191,8 +191,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px; /* Set an explicit width */
-    height: 30px; /* Set an explicit height */
+    width: 29px; /* Set an explicit width */
+    height: 29px; /* Set an explicit height */
     padding: 0; /* Remove padding to match the exact size */
     box-sizing: border-box; /* Includes padding and border in total size */
 }

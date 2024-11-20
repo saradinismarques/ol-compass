@@ -56,10 +56,8 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
     if (position === "center") {
       return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
     } else if (position === "left") {
-      return { x: window.innerWidth * 0.37, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
-    } else if (position === "center-left") {
       return { x: window.innerWidth * 0.4, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
-    }
+    } 
   };
 
   const center = getCenter(position);
@@ -128,7 +126,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
 
   const handleClick = (id) => {
     //const id = parseInt(e.target.id(), 10);
-    if (noPointerEvents(action)) 
+    if (action.startsWith("initial") || action === "default" || action === "get-inspired-carousel") 
       return;
     
     if (action === "learn") {
@@ -193,7 +191,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
   };
   
   const handleMouseEnter = (e, id) => {
-    if (noPointerEvents(action)) 
+    if (action.startsWith("initial") || action === "default") 
       return;
 
     setHoveredId(id);
@@ -266,7 +264,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
 
   const buttonStyle = {
     position: 'absolute',
-    cursor: noPointerEvents(action) ? 'default' : 'pointer',
+    cursor: (action.startsWith("initial") || action === "default") ? 'default' : 'pointer',
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
@@ -508,7 +506,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
       </div>
 
       {/* Bookmark */}
-      {(action === "learn" || action === "get-started" || action === "get-started-search") && !initialState && savedComponents.includes(c.Code) &&
+      {action === "learn" && !initialState && savedComponents.includes(c.Code) &&
       <Bookmark
         component={c}
       />
@@ -517,7 +515,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
     ))}
 
     </div>
-    {(action ==="learn" || action ==="contribute" || action ==="get-inspired" || action === "get-started" || action === "get-started-search") && tooltipVisible && 
+    {(action ==="learn" || action ==="contribute" || action.startsWith("get-inspired") || action.startsWith("get-started")) && tooltipVisible && 
     <Tooltip 
       text={tooltipText} 
       position={tooltipPos} 
@@ -613,8 +611,6 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
   if(clickedIds.length === 0) 
       return 1;
 
-
-
   return 0.3;
 };
 
@@ -672,16 +668,6 @@ const getText = (action, type, label, code, index) => {
       return secondPart;
   }
   return label;
-};
-
-const noPointerEvents = (action) => {
-  if (
-    action.startsWith("initial") || 
-    action === "default" || 
-    action === "get-inspired-carousel"  
-  ) 
-    return true;
-  return false;
 };
 
 function convertLabel(label) {

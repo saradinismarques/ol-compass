@@ -91,7 +91,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     setTimeout(() => {
       setResetCompass(false);
     }, 0);
-  }, [setState, setResetCompass, setIsExplanationPage]);
+  }, [setState, setResetCompass, setIsExplanationPage, initialState]);
 
   const handleEnterClick = (components) => {
     // for the rest of the interaction

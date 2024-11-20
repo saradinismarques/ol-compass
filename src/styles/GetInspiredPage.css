@@ -112,13 +112,16 @@
     background-color: transparent;
     border:2px solid white;
     border-radius: 50%;
-    padding: 5px;
     position: fixed;
     right: 5%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 29px; /* Set an explicit width */
+    height: 29px; /* Set an explicit height */
+    padding: 0;
+    box-sizing: border-box;
 }
  
 .gi-bookmark-button:hover {
@@ -206,7 +209,7 @@
 /* Container for the menu */
 .gi-search-mode-menu {
     position: fixed;
-    left: 37vw;
+    left: 40vw;
     transform: translateX(-50%);
     width: 200px;
     height: 30px;

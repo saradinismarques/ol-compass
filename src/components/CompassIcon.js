@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import '../styles/App.css'
 
 // Sizes and positions 
@@ -48,7 +48,14 @@ const CompassIcon = ({ type }) => {
   };
 
   return (
-    <div style={{...containerStyle, left: `${16.6}vw`, top: `${20}vh` }}>
+    <div 
+      style={{
+        ...containerStyle, 
+        left: `${16.5}vw`, 
+        top: `${19}vh`, 
+        transform: 'translate(-50%, -50%)',
+      }}
+    >
     {components.map((c, i) => (
     <div key={i}>
       {/* Shape */}

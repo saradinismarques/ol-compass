@@ -1,7 +1,7 @@
 .gs-text-container {
     position: fixed;
     top: 14vh; 
-    left: 66.5vw;
+    left: 65vw;
     padding: 0px;
     margin: 0px;
     z-index: 30;
@@ -73,81 +73,25 @@
     opacity: 40%;
 }
 
-.gs-bookmark-container {
-    position: fixed;
-    top: 9vh;
-    right: 9vw;
-    display: flex; /* Align items in a row */
-    align-items: center; /* Center them vertically */
-    z-index: 30;
-    transform: translateY(-50%);
-}
-
-.gs-white-line {
-    width: 342px;
-    height: 1.5px;
-    background-color: white;
-}
-  
-.gs-bookmark-button {
-    background-color: transparent;
-    border: 2px solid white;
-    border-radius: 50%;
-    margin-left: 10px; /* Add space between the line and the button */
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px;
-    outline: none;
-}
-  
-.gs-bookmark-button:hover {
-    border-color: #fff; /* Change border color on hover */
-    background-color:  rgba(255, 255, 255, 0.2);
-}
-  
-.gs-bookmark-button:active {
-    border-color: #d8d8d8; /* Lighter border on click */
-    background-color:  rgba(199, 181, 181, 0.2);
-}
-
-.gs-bookmark-button.active {
-    background-color: #e6007e; /* Active state background color */
-    color: white; /* Active state text color */
-}
-  
-.gs-bookmark-icon {
-    width: 15px;
-    height: 15px;
-    fill: none; /* Set default color for the bookmark */
-    transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: white;
-    stroke-width: 2px;
-}
-
 .gs-search-container {
     position: fixed;
     bottom: 9vh;
     left: 50vw;
-    display: flex;
     align-items: center; /* Center them vertically */
 }
 
 .gs-search-container.left {
-    left: 37vw;
+    left: 40vw;
 }
 
 /* Container for the menu */
 .gs-search-outline {
     position: fixed;
-    display: flex;
-    align-items: center;
     transform: translateX(-50%);
     border: 2px solid #dedede;
     border-radius: 50px;
-    padding: 2px;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
 /* SEARCH button */
@@ -164,6 +108,9 @@
     border-radius: 50px; /* Rounded on the right side */
     z-index: 10;
     outline: none;
+    margin: 3px;
+    margin-right: 3.5px;
+    margin-bottom: 3.5px;
 }
 
 

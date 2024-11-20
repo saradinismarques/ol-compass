@@ -120,8 +120,8 @@ body {
     position: fixed;
     bottom: 9vh;
     left: 9vw;
-    width: 30px; /* Set an explicit width */
-    height: 30px; /* Set an explicit height */
+    width: 29px; /* Set an explicit width */
+    height: 29px; /* Set an explicit height */
     transform: translateY(50%);
     background-color: transparent;
     border: 2px solid #bcbcbc;
