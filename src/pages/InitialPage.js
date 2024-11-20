@@ -68,6 +68,52 @@ const InitialPage = () => {
     // Determine the action based on the current state
     const action = actionMap[state];
 
+    const formatText = (intro, type) => {
+        // Split the string by the <br> tag to handle line breaks
+        const partsWithBr = intro.split('<br>').map(part => part.trim()).filter(part => part !== "");
+
+        return (
+            <p>
+            {partsWithBr.map((part, index) => {
+            // Split the part further if it contains the <c> tag
+            const parts = part.split('<c>').map(p => p.trim()).filter(p => p !== "");
+            return (
+                <React.Fragment key={index}>
+                    {parts.map((subPart, subIndex) => {
+                        // Check if the subPart contains the </c> tag (for coloring)
+                        if (subPart.includes('</c>')) {
+                            const [coloredText, rest] = subPart.split('</c>');
+                            return (
+                                <React.Fragment key={subIndex}>
+                                    <span className="i-text colored" style={{ color: colors[type] }}>
+                                        {coloredText}
+                                    </span>
+                                    <span className="i-text">
+                                        {rest}
+                                    </span>
+                                    <span className="i-text"> </span>
+                                </React.Fragment>
+                            );
+                        } else {
+                            return (
+                                <React.Fragment key={subIndex}>
+                                    <span key={subIndex} className="i-text">
+                                        {subPart}
+                                    </span>
+                                    <span className="i-text"> </span>
+                                </React.Fragment>                                            
+                            );
+                        }
+                    })}
+                    {/* Add <br /> for line breaks */}
+                    {index < partsWithBr.length - 1 && <br />}
+                </React.Fragment>
+            );
+        })}
+            </p>
+        )
+    };
+
     // Determine the text to display based on the current state
     const getDisplayText = () => {
         if (state === 0) {
@@ -108,78 +154,25 @@ const InitialPage = () => {
                     })}
                 </div>
             );
-        } else if (state === 2) {
+        } else if (state > 1) {
             const introP = introTexts['English'].IntroP;
-
-            // Split the string by the <br> tag to handle line breaks
-            const partsWithBr = introP.split('<br>').map(part => part.trim()).filter(part => part !== "");
+            const introPe = introTexts['English'].IntroPe;
+            const introD = introTexts['English'].IntroD;
 
             return (
                 <div className="i-text-container">
-                    {partsWithBr.map((part, index) => {
-                        // Split the part further if it contains the <c> tag
-                        const parts = part.split('<c>').map(p => p.trim()).filter(p => p !== "");
-                        console.log(parts)
-                        return (
-                            <React.Fragment key={index}>
-                                {parts.map((subPart, subIndex) => {
-                                    // Check if the subPart contains the </c> tag (for coloring)
-                                    if (subPart.includes('</c>')) {
-                                        const [coloredText, rest] = subPart.split('</c>');
-                                        return (
-                                            <React.Fragment key={subIndex}>
-                                                <span className="i-text colored" style={{ color: colors.Principle }}>
-                                                    {coloredText}
-                                                </span>
-                                                <span className="i-text">
-                                                    {rest}
-                                                </span>
-                                                <span className="i-text"> </span>
-                                            </React.Fragment>
-                                        );
-                                    } else {
-                                        return (
-                                            <React.Fragment key={subIndex}>
-                                                <span key={subIndex} className="i-text">
-                                                    {subPart}
-                                                </span>
-                                                <span className="i-text"> </span>
-                                            </React.Fragment>                                            
-                                        );
-                                    }
-                                })}
-                                {/* Add <br /> for line breaks */}
-                                {index < partsWithBr.length - 1 && <br />}
-                            </React.Fragment>
-                        );
-                    })}
+                    {formatText(introP, 'Principle')}
+                    {(state === 3 || state === 4) &&
+                        <>
+                            {formatText(introPe, 'Perspective')}
+                        </>
+                    }
+                    {state === 4 &&
+                        <>
+                            {formatText(introD, 'Dimension')}
+                        </>
+                    }
                 </div>
-            );
-        } else if (state === 4) {
-            return (
-                <>
-                <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy is based on </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 scientific Principles
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <p className='i-space'></p>
-                    <span className='i-text'>Science is just one of the </span>
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
-                        7 Perspectives
-                    </span>
-                    <span className='i-text'> from which OL can be seen.</span>
-                    <p className='i-space'></p>
-                    <span className='i-text'>Knowledge is just one of the </span>
-                    <span className='i-text colored' style={{color: colors.Dimension}}>
-                        10 Dimensions
-                    </span>
-                    <span className='i-text'> through which OL can be pursued.</span>
-                </div>
-                </>
             );
         }
     };
