@@ -7,7 +7,7 @@ const IdeatePage = ({ isExplanationPage }) => {
   return (
     <div>
       <OLCompass 
-        action="default"
+        mode="default"
         position={isExplanationPage ? "center" : "left"} 
       /> 
         <div className='text-container'>

@@ -29,36 +29,36 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   const [caseStudies, setCaseStudies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [carouselMode, setCarouselMode] = useState(true);
-  const [action, setAction] = useState('get-inspired');
+  const [mode, setMode] = useState('get-inspired');
   const [resultsNumber, setResultsNumber] = useState(-1);
-  const [searchMode, setSearchMode] = useState('AND');
+  const [searchLogic, setSearchLogic] = useState('AND');
   const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
   const [firstClick, setFirstClick] = useState(true);
   const [message, setMessage] = useState(false);
   
   const carouselModeRef = useRef(carouselMode);
-  const actionRef = useRef(action);
-  const searchModeRef = useRef(searchMode);
+  const modeRef = useRef(mode);
+  const searchLogicRef = useRef(searchLogic);
 
   useEffect(() => {
     carouselModeRef.current = carouselMode;
   }, [carouselMode]);
 
   useEffect(() => {
-    actionRef.current = action;
-  }, [action]);
+    modeRef.current = mode;
+  }, [mode]);
 
   useEffect(() => {
-    searchModeRef.current = searchMode;
-  }, [searchMode]);
+    searchLogicRef.current = searchLogic;
+  }, [searchLogic]);
 
   const resetState = useCallback(() => {
     setState(initialState);
     setCarouselMode(true);
     carouselModeRef.current = true;
     setResultsNumber(-1);
-    setAction('get-inspired');
-    actionRef.current = 'get-inspired';
+    setMode('get-inspired');
+    modeRef.current = 'get-inspired';
     setIsExplanationPage(true);
 
     setFirstClick(true);
@@ -99,8 +99,8 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     setCarouselMode(false);
     carouselModeRef.current = false;
 
-    setAction('get-inspired');
-    actionRef.current = 'get-inspired';
+    setMode('get-inspired');
+    modeRef.current = 'get-inspired';
   };
 
   const searchCaseStudies = useCallback((components) => {
@@ -114,10 +114,10 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     // If labels are provided, filter the case studies
     if (components !== null) {
       filteredCaseStudies = allCaseStudies.filter(item => {
-        if (searchModeRef.current === 'AND') {
+        if (searchLogicRef.current === 'AND') {
           // AND mode: all components must be present in the item's Components array
           return components.every(component => item.Components.includes(component));
-        } else if (searchModeRef.current === 'OR') {
+        } else if (searchLogicRef.current === 'OR') {
           // OR mode: at least one component must be present in the item's Components array
           return components.some(component => item.Components.includes(component));
         } else {
@@ -181,8 +181,8 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
 
     searchCaseStudies(null);
 
-    setAction('get-inspired-carousel');
-    actionRef.current = 'get-inspired-carousel';
+    setMode('get-inspired-carousel');
+    modeRef.current = 'get-inspired-carousel';
 
   }, [firstMessage, isExplanationPage, searchCaseStudies, firstClick, setIsExplanationPage]);
 
@@ -254,8 +254,8 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   const handleDefaultSearch = (components) => {
     if(carouselModeRef.current) return;
 
-    setAction('get-inspired-search');
-    actionRef.current = 'get-inspired-search';
+    setMode('get-inspired-search');
+    modeRef.current = 'get-inspired-search';
     searchCaseStudies(components);
   };
 
@@ -263,8 +263,8 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
    const handleDataFromOLCompass = useCallback((data) => {
     if(carouselModeRef.current) return;
 
-    setAction('get-inspired-search');
-    actionRef.current = 'get-inspired-search';
+    setMode('get-inspired-search');
+    modeRef.current = 'get-inspired-search';
     searchCaseStudies(data);
   }, [searchCaseStudies]); // Empty dependency array to ensure it doesn't change
 
@@ -310,13 +310,13 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     }
   };
 
-  const handleSearchModeChange = useCallback((mode) => {
+  const handleSearchLogicChange = useCallback((mode) => {
     if(mode === "AND") {
-      setSearchMode('AND');
-      searchModeRef.current = 'AND';
+      setSearchLogic('AND');
+      searchLogicRef.current = 'AND';
     } else if(mode === "OR") {
-      setSearchMode('OR');
-      searchModeRef.current = 'OR';
+      setSearchLogic('OR');
+      searchLogicRef.current = 'OR';
     }
   }, []);
 
@@ -324,7 +324,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     <div>
     <div className={`${message ? "blur-background" : ""}`}>
       <OLCompass 
-        action={action}
+        mode={mode}
         position={isExplanationPage ? "center" : "left"} 
         resetState={resetState} // Passing resetState to OLCompass
         onEnterClick={handleDefaultSearch} 
@@ -431,18 +431,18 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
             <span className='bold-text'>{resultsNumber}</span> results 
           </p>
         )}
-        <div className="gi-search-mode-menu">
-          <div className="gi-mode-button-background">
-            <div className="gi-mode-buttons">
+        <div className="gi-search-logic-menu">
+          <div className="gi-logic-button-background">
+            <div className="gi-logic-buttons">
               <button
-                className={`gi-mode-button ${searchMode === 'AND' ? 'active' : ''}`}
-                onClick={() => handleSearchModeChange("AND")}
+                className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
+                onClick={() => handleSearchLogicChange("AND")}
               >
                 AND
               </button>
               <button
-                className={`gi-mode-button ${searchMode === 'OR' ? 'active' : ''}`}
-                onClick={() => handleSearchModeChange("OR")}
+                className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
+                onClick={() => handleSearchLogicChange("OR")}
               >
                 OR
               </button>

@@ -145,7 +145,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     <div>
     <div className={`${message ? "blur-background" : ""}`}>
       <OLCompass 
-        action="contribute"
+        mode="contribute"
         position={isExplanationPage ? "center" : "left"}
         onEnterClick={handleEnterClick} 
         resetState={resetState} 

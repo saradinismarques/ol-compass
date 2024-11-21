@@ -35,11 +35,11 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   const [afterSearch, setAfterSearch] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState();
-  const [action, setAction] = useState('get-started');
+  const [mode, setMode] = useState('get-started');
 
   const componentsRef = useRef(components);
   const currentIndexRef = useRef(currentIndex);
-  const actionRef = useRef(action);
+  const modeRef = useRef(mode);
 
   useEffect(() => {
     componentsRef.current = components;
@@ -50,8 +50,8 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   }, [currentIndex]);
 
   useEffect(() => {
-    actionRef.current = action;
-  }, [action]);
+    modeRef.current = mode;
+  }, [mode]);
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -60,8 +60,8 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
     setCurrentIndex(0);
     setComponents([]);
 
-    setAction('get-started');
-    actionRef.current = 'get-started';
+    setMode('get-started');
+    modeRef.current = 'get-started';
 
   }, [initialState, setIsExplanationPage]);
 
@@ -115,8 +115,8 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
 
     setIsExplanationPage(false);
 
-    setAction('get-started');
-    actionRef.current = 'get-started';
+    setMode('get-started');
+    modeRef.current = 'get-started';
   };
 
   const handleSearch = useCallback(() => {
@@ -144,8 +144,8 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
     const code = componentsRef.current[currentIndex].code;
     setSelectedComponent(code);
 
-    setAction('get-started-search');
-    actionRef.current = 'get-started-search';
+    setMode('get-started-search');
+    modeRef.current = 'get-started-search';
 
     setIsExplanationPage(false);
     setAfterSearch(true);
@@ -243,7 +243,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
         }}
       >
         <OLCompass 
-          action={action} 
+          mode={mode} 
           position={afterSearch ? "left" : "center"}
           resetState={resetState}  // Passing resetState to OLCompass
           onButtonClick={handleCompassClick} 

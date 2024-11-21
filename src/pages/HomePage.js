@@ -6,7 +6,7 @@ const HomePage = () => {
   return (
     <div>
       <OLCompass 
-        action="default"
+        mode="default"
         position="center" 
       /> 
       <Menu />

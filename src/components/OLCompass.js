@@ -50,7 +50,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6'];
 
-const OLCompass = ({ action, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData }) => {
+const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData }) => {
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center") {
@@ -126,10 +126,10 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
 
   const handleClick = (id) => {
     //const id = parseInt(e.target.id(), 10);
-    if (action.startsWith("initial") || action === "default" || action === "get-inspired-carousel") 
+    if (mode.startsWith("initial") || mode === "default" || mode === "get-inspired-carousel") 
       return;
     
-    if (action === "learn") {
+    if (mode === "learn") {
       // Check if the clicked ID is already in clickedIds
       if (clickedIds.includes(id)) {
         // If it is, remove it and reset state
@@ -164,16 +164,16 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
           );
         }
       }
-    } else if (action === "get-inspired" || action === "get-inspired-search"|| action === "contribute" || action === "get-started"|| action === "get-started-search") {
+    } else if (mode === "get-inspired" || mode === "get-inspired-search"|| mode === "contribute" || mode === "get-started"|| mode === "get-started-search") {
       setClickedIds(prevClickedIds =>
         prevClickedIds.includes(id)
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
           : [...prevClickedIds, id] // Add ID if not already clicked
       );
               
-      if (action === "get-inspired" || action === "get-inspired-search" || action === "contribute") {
+      if (mode === "get-inspired" || mode === "get-inspired-search" || mode === "contribute") {
         if (onButtonClick) onButtonClick();
-      } else if(action === "get-started" || action === "get-started-search") {
+      } else if(mode === "get-started" || mode === "get-started-search") {
         const title = convertLabel(components[id].Code);
         setInitialState(false);
         
@@ -191,7 +191,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
   };
   
   const handleMouseEnter = (e, id) => {
-    if (action.startsWith("initial") || action === "default") 
+    if (mode.startsWith("initial") || mode === "default") 
       return;
 
     setHoveredId(id);
@@ -219,7 +219,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
     clearTimeout(tooltipTimeout);
 
-    if(action === "learn" || action === "contribute" || action === "get-inspired" || action === "get-started"  || action === "get-started-search") {
+    if(mode === "learn" || mode === "contribute" || mode === "get-inspired" || mode === "get-started"  || mode === "get-started-search") {
       // Set the cancellation flag to prevent tooltip from showing
       setTooltipVisible(false);
       setTooltipText(""); // Clear the tooltip text
@@ -235,13 +235,13 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
 
       if(resetState)
         resetState();
-      } else if (e.key === 'Enter' && (action === "contribute" || action === "get-inspired")) {
+      } else if (e.key === 'Enter' && (mode === "contribute" || mode === "get-inspired")) {
         if (onEnterClick) {
           let codes = clickedIdsRef.current.map(id => components[id].Code);
           onEnterClick(codes);
         }
       }
-    }, [resetState, action, components, onEnterClick]);
+    }, [resetState, mode, components, onEnterClick]);
     
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -264,7 +264,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
 
   const buttonStyle = {
     position: 'absolute',
-    cursor: (action.startsWith("initial") || action === "default") ? 'default' : 'pointer',
+    cursor: (mode.startsWith("initial") || mode === "default") ? 'default' : 'pointer',
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
@@ -374,7 +374,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
             fill={`url(#gradient-${i})`}  // Use the gradient fill
             stroke="none" 
             style={{ pointerEvents: 'all' }}
-            opacity={getOpacity(clickedIds, hoveredId, i, c, action, selectedComponents)}
+            opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents)}
           />
         </svg>
       </div>
@@ -397,7 +397,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
           <path 
             d={svgPath} 
             fill="none"
-            stroke={getStroke(clickedIds, i, action)}
+            stroke={getStroke(clickedIds, i, mode)}
             strokeWidth="1.1px"
             style={{ pointerEvents: 'all' }} 
           />
@@ -411,7 +411,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
           left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
           top: `${c.y - waveHeight/2 - 2}px`,
           transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
-          opacity: getOpacity(clickedIds, hoveredId, i, c, action, selectedComponents), // Change opacity on hover
+          opacity: getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents), // Change opacity on hover
           zIndex: 10,
           pointerEvents: 'none', // Disable pointer events for the inner div
           userSelect: 'none'
@@ -469,7 +469,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
                   userSelect: 'none'
                 }} // Ensure textPath doesn't interfere
               >
-                {getText(action, c.Type, c.Label, c.Code, 0)}
+                {getText(mode, c.Type, c.Label, c.Code, 0)}
               </textPath>
             </text>
 
@@ -496,7 +496,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
                     userSelect: 'none'
                   }} // Ensure textPath doesn't interfere
                 >
-                  {getText(action, c.Type, c.Label, c.Code, 1)}
+                  {getText(mode, c.Type, c.Label, c.Code, 1)}
                 </textPath>
               </text>
               </>
@@ -506,7 +506,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
       </div>
 
       {/* Bookmark */}
-      {action === "learn" && !initialState && savedComponents.includes(c.Code) &&
+      {mode === "learn" && !initialState && savedComponents.includes(c.Code) &&
       <Bookmark
         component={c}
       />
@@ -515,7 +515,7 @@ const OLCompass = ({ action, position, onButtonClick, resetState, savedComponent
     ))}
 
     </div>
-    {(action ==="learn" || action ==="contribute" || action.startsWith("get-inspired") || action.startsWith("get-started")) && tooltipVisible && 
+    {(mode ==="learn" || mode ==="contribute" || mode.startsWith("get-inspired") || mode.startsWith("get-started")) && tooltipVisible && 
     <Tooltip 
       text={tooltipText} 
       position={tooltipPos} 
@@ -566,22 +566,22 @@ function getComponentsPositions(componentsData, type) {
   return componentsData;
 };
 
-const getOpacity = (clickedIds, hoveredId, currentId, component, action, selectedComponents) => {
-  if (action === "initial-0" || action === "initial-1") {
+const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents) => {
+  if (mode === "initial-0" || mode === "initial-1") {
       return 0.3
-  } else if (action === "initial-2") {
+  } else if (mode === "initial-2") {
       if(component.Type === "Principle")
           return 1
       else 
           return 0.3
-  } else if (action === "initial-3") {
+  } else if (mode === "initial-3") {
       if(component.Type === "Principle")
           return 0.7;
       else if(component.Type === "Perspective")
           return 1;
       else
           return 0.3
-  } else if (action === "initial-4") {
+  } else if (mode === "initial-4") {
       if(component.Type === "Principle")
           return 0.7;
       else if(component.Type === "Perspective")
@@ -590,14 +590,14 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
           return 1;
   }
 
-  if(action === "get-started-search") {
+  if(mode === "get-started-search") {
     if(selectedComponents === component.Code)
       return 1;
     else
       return 0.2;
   }
 
-  if(action === "get-inspired-carousel" || action === "get-inspired-search") {
+  if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
     if(selectedComponents.includes(component.Code))
         return 1;
     else
@@ -614,11 +614,11 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, action, selecte
   return 0.3;
 };
 
-const getStroke = (clickedIds, currentId, action) => {
+const getStroke = (clickedIds, currentId, mode) => {
   if(clickedIds.includes(currentId)) {
-    if(action === "get-inspired" || action === "get-inspired-search")
+    if(mode === "get-inspired" || mode === "get-inspired-search")
       return pinkColor;
-    else if(action === "get-started" || action === "get-started-search")
+    else if(mode === "get-started" || mode === "get-started-search")
       return purpleColor;
   }
   else
@@ -646,13 +646,13 @@ const isFlipped = (label) => {
   return true;
 };
 
-const getText = (action, type, label, code, index) => {
-  if (action === "initial-0" || action === "initial-1") {
+const getText = (mode, type, label, code, index) => {
+  if (mode === "initial-0" || mode === "initial-1") {
     return "";
-  } else if (action === "initial-2") {
+  } else if (mode === "initial-2") {
     if(type !== "Principle")
         return "";
-  } else if (action === "initial-3") {
+  } else if (mode === "initial-3") {
     if(type === "Dimension")
       return "";
   }

@@ -14,7 +14,7 @@ const InitialPage = () => {
     const [state, setState] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
 
-    const introTexts = getIntroTexts();
+    const introTexts = getIntroTexts('English');
 
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
@@ -49,14 +49,12 @@ const InitialPage = () => {
     }, [handleKeyDown, handleClick]); // Add handleKeyPress to the dependency array
 
     useEffect(() => {
-        if (state === 5) {
-            console.log("AAA")
+        if (state === 5) 
             navigate('/home');
-        }
     }, [state, navigate]); // Trigger navigation when state changes to 6
 
     // Define the action based on the current state
-    const actionMap = {
+    const modeMap = {
         0: 'initial-0',
         1: 'initial-1',
         2: 'initial-2',
@@ -66,7 +64,7 @@ const InitialPage = () => {
     };
 
     // Determine the action based on the current state
-    const action = actionMap[state];
+    const mode = modeMap[state];
 
     const formatText = (intro, type) => {
         // Split the string by the <br> tag to handle line breaks
@@ -118,7 +116,7 @@ const InitialPage = () => {
     const getDisplayText = () => {
         if (state === 0) {
             // Split the title by the <b> tag and render parts in different components
-            const title = introTexts['English'].Title;
+            const title = introTexts.Title;
 
             // Split the title by <b> tags and ensure we only get the relevant parts
             const parts = title.split(/(<b>.*?<\/b>)/).filter(part => part.trim() !== "");
@@ -138,7 +136,7 @@ const InitialPage = () => {
                 </div>
             );
         } else if (state === 1) {
-            const introDef = introTexts['English'].IntroDef;
+            const introDef = introTexts.IntroDef;
 
             // Split the string by the <br> tag to handle each segment
             const parts = introDef.split('<br>').map(part => part.trim()).filter(part => part !== "");
@@ -155,9 +153,9 @@ const InitialPage = () => {
                 </div>
             );
         } else if (state > 1) {
-            const introP = introTexts['English'].IntroP;
-            const introPe = introTexts['English'].IntroPe;
-            const introD = introTexts['English'].IntroD;
+            const introP = introTexts.IntroP;
+            const introPe = introTexts.IntroPe;
+            const introD = introTexts.IntroD;
 
             return (
                 <div className="i-text-container">
@@ -180,7 +178,7 @@ const InitialPage = () => {
     return (
         <div>
             <OLCompass 
-                action={action} 
+                mode={mode} 
                 position="center"
             /> 
             {getDisplayText()}    

@@ -3,26 +3,24 @@ import learnData from '../data/learn-data.json';
 import conceptsData from '../data/concepts-data.json';
 import getInspiredData from '../data/get-inspired-data.json';
 
-export function getIntroTexts() {
+export function getIntroTexts(language) {
     try {
-        // Initialize an empty object to store language-based data
-        const introText = {};
+        // Find the item in the introTexts array where LANGUAGE matches the desired language
+        const item = introTexts.find(item => item.LANGUAGE === language);
 
-        // Iterate over the JSON data
-        introTexts.forEach(item => {
-            // Use the "LANGUAGE" field as the key and assign the rest of the fields as the value
-            const language = item["LANGUAGE"];
-            
-            // Store the rest of the information in the introText object under the language key
-            introText[language] = {
+        // If a match is found, return the data; otherwise, return null or a default value
+        if (item) {
+            return {
                 Title: item["TITLE"],
                 IntroDef: item["INTRO_DEF"],
                 IntroP: item["INTRO_P"],
                 IntroPe: item["INTRO_Pe"],
                 IntroD: item["INTRO_D"],
             };
-        });
-        return introText; // Return the grouped object
+        }
+
+        // If no data for the language, return null or a fallback object
+        return null;
     } catch (error) {
         console.error("Error processing JSON:", error);
         throw error;

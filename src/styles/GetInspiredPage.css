@@ -207,7 +207,7 @@
 }
 
 /* Container for the menu */
-.gi-search-mode-menu {
+.gi-search-logic-menu {
     position: fixed;
     left: 40vw;
     transform: translateX(-50%);
@@ -223,7 +223,7 @@
 }
 
 /* Position the mode button background with higher z-index */
-.gi-mode-button-background {
+.gi-logic-button-background {
     background-color: white;
     border: none;
     padding: 2px;
@@ -234,7 +234,7 @@
 }
 
 /* Container for the mode toggle buttons */
-.gi-mode-buttons {
+.gi-logic-buttons {
     display: flex;
     align-items: center;
     background-color: #b1b1b1;
@@ -246,7 +246,7 @@
 }
 
 /* Individual toggle buttons */
-.gi-mode-button {
+.gi-logic-button {
     border: none;
     background-color: #bcbcbc;
     padding: 3px;
@@ -260,15 +260,15 @@
     outline: none;
 }
 
-.gi-mode-button:hover {
+.gi-logic-button:hover {
     background-color: #d1d4d5; /* Darkened version of the original background color */
 }
 
-.gi-mode-button:active {
+.gi-logic-button:active {
     background-color: #d1d4d5; /* Darkened version of the original background color */
 }
 
-.gi-mode-button.active {
+.gi-logic-button.active {
     background-color: white;
 }
 

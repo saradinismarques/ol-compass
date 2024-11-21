@@ -250,7 +250,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
         }}
       >
         <OLCompass 
-          action="learn" 
+          mode="learn" 
           position={isExplanationPage ? "center" : "left"}
           onButtonClick={handleCompassClick} 
           resetState={resetState}  // Passing resetState to OLCompass
