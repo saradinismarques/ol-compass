@@ -85,6 +85,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
+  const [currentWave, setCurrentWave] = useState(0);
   
   // Declare a timeout variable to store the reference to the timeout
   let tooltipTimeout = null;

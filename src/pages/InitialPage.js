@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
-import { getIntroTexts } from '../utils/Data.js'; 
 import '../styles/InitialPage.css';
 
 const colors = {
@@ -11,17 +10,15 @@ const colors = {
 };
 
 const InitialPage = () => {
-    const [state, setState] = useState(0);
+    const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
-
-    const introTexts = getIntroTexts('English');
 
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
-            setState((prevState) => (prevState + 1 <= 5 ? prevState + 1 : 5));
+            setFrame((prevState) => (prevState + 1 <= 8 ? prevState + 1 : 8));
         else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
-            setState((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
+            setFrame((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
     }, []);
 
     // useCallback ensures handleClick doesn't change unless its dependencies do
@@ -30,9 +27,9 @@ const InitialPage = () => {
         const clickPositionX = e.clientX;
 
         if (clickPositionX > screenWidth / 2) {
-            setState((prevState) => (prevState + 1 <= 5 ? prevState + 1 : 5));
+            setFrame((prevState) => (prevState + 1 <= 8 ? prevState + 1 : 8));
         } else {
-            setState((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
+            setFrame((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
         }
     }, []);
 
@@ -49,130 +46,277 @@ const InitialPage = () => {
     }, [handleKeyDown, handleClick]); // Add handleKeyPress to the dependency array
 
     useEffect(() => {
-        if (state === 5) 
+        if (frame === 8) {
+            console.log("AAA")
             navigate('/home');
-    }, [state, navigate]); // Trigger navigation when state changes to 6
+        }
+    }, [frame, navigate]); // Trigger navigation when state changes to 6
 
     // Define the action based on the current state
-    const modeMap = {
+    const actionMap = {
         0: 'initial-0',
         1: 'initial-1',
         2: 'initial-2',
         3: 'initial-3',
         4: 'initial-4',
         5: 'initial-5',
+        6: 'initial-6',
+        7: 'initial-7',
+        8: 'initial-8',
     };
 
     // Determine the action based on the current state
-    const mode = modeMap[state];
-
-    const formatText = (intro, type) => {
-        // Split the string by the <br> tag to handle line breaks
-        const partsWithBr = intro.split('<br>').map(part => part.trim()).filter(part => part !== "");
-
-        return (
-            <p>
-            {partsWithBr.map((part, index) => {
-            // Split the part further if it contains the <c> tag
-            const parts = part.split('<c>').map(p => p.trim()).filter(p => p !== "");
-            return (
-                <React.Fragment key={index}>
-                    {parts.map((subPart, subIndex) => {
-                        // Check if the subPart contains the </c> tag (for coloring)
-                        if (subPart.includes('</c>')) {
-                            const [coloredText, rest] = subPart.split('</c>');
-                            return (
-                                <React.Fragment key={subIndex}>
-                                    <span className="i-text colored" style={{ color: colors[type] }}>
-                                        {coloredText}
-                                    </span>
-                                    <span className="i-text">
-                                        {rest}
-                                    </span>
-                                    <span className="i-text"> </span>
-                                </React.Fragment>
-                            );
-                        } else {
-                            return (
-                                <React.Fragment key={subIndex}>
-                                    <span key={subIndex} className="i-text">
-                                        {subPart}
-                                    </span>
-                                    <span className="i-text"> </span>
-                                </React.Fragment>                                            
-                            );
-                        }
-                    })}
-                    {/* Add <br /> for line breaks */}
-                    {index < partsWithBr.length - 1 && <br />}
-                </React.Fragment>
-            );
-        })}
-            </p>
-        )
-    };
+    const mode = actionMap[frame];
 
     // Determine the text to display based on the current state
     const getDisplayText = () => {
-        if (state === 0) {
-            // Split the title by the <b> tag and render parts in different components
-            const title = introTexts.Title;
-
-            // Split the title by <b> tags and ensure we only get the relevant parts
-            const parts = title.split(/(<b>.*?<\/b>)/).filter(part => part.trim() !== "");
-
+        if (frame === 0) {
             return (
-                <div className="i-title-container">
-                    {parts.map((part, index) => {
-                        if (part.startsWith('<b>')) {
-                            // Remove the <b> tags and render the text inside it with class "i-title"
-                            const cleanText = part.replace(/<\/?b>/g, ''); // Remove <b> and </b>
-                            return <p key={index} className="i-title">{cleanText}</p>;
-                        } else {
-                            // Render the normal text parts inside a <p> with class "i-welcome"
-                            return <p key={index} className="i-welcome">{part}</p>;
-                        }
-                    })}
+                <>
+                <div className='i-title-container'>
+                    <p className='i-welcome'>WELCOME TO THE</p>
+                    <p className='i-title'>OL-in-One Compass</p>
                 </div>
+                </>
             );
-        } else if (state === 1) {
-            const introDef = introTexts.IntroDef;
-
-            // Split the string by the <br> tag to handle each segment
-            const parts = introDef.split('<br>').map(part => part.trim()).filter(part => part !== "");
-
+        } else if (frame === 1) {
             return (
-                <div className="i-explanation-container">
-                    {parts.map((part, index) => {
-                        return (
-                            <p key={index} className="i-explanation">
-                                {part}
-                            </p>
-                        );
-                    })}
+                <>
+                <div className='i-explanation-container'>
+                    <p className='i-explanation'>
+                        Ocean Literacy (OL) 
+                        <br></br>
+                        is the understating of
+                        <br></br>
+                        the Ocean-humanity 
+                        <br></br>
+                        mutual influence.
+                    </p>
                 </div>
+                </>
             );
-        } else if (state > 1) {
-            const introP = introTexts.IntroP;
-            const introPe = introTexts.IntroPe;
-            const introD = introTexts.IntroD;
-
+        } else if (frame === 2) {
             return (
-                <div className="i-text-container">
-                    {formatText(introP, 'Principle')}
-                    {(state === 3 || state === 4) &&
-                        <>
-                            {formatText(introPe, 'Perspective')}
-                        </>
-                    }
-                    {state === 4 &&
-                        <>
-                            {formatText(introD, 'Dimension')}
-                        </>
-                    }
+                <>
+                <div className='i-text-container'>
+                    <span className='i-text'>Ocean Literacy is based on </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        7 scientific Principles
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
                 </div>
+                </>
             );
-        }
+        } else if (frame === 3) {
+                return (
+                    <>
+                    <div className='i-text-container'>
+                        <span className='i-text'>Ocean Literacy is based on </span>
+                        <span className='i-text colored' style={{color: colors.Principle}}>
+                            7 scientific Principles
+                        </span>
+                        <span className='i-text'>
+                        .
+                        </span>
+                        <br></br>
+
+                        <span className='i-text'>See Principles as the Ocean's 7 </span>
+                        <span className='i-text colored' style={{color: colors.Principle}}>
+                            key traits
+                        </span>
+                        <span className='i-text'>, and associated </span>
+                        <span className='i-text colored' style={{color: colors.Principle}}>
+                            challenges
+                        </span>
+                        <span className='i-text'> due to the climate crysis.</span>
+                    </div>
+                    </>
+                );
+        } else if(frame === 4) {
+            return (
+                <>
+                <div className='i-text-container'>
+                    <span className='i-text'>Ocean Literacy is based on </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        7 scientific Principles
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                    <br></br>
+
+                    <span className='i-text'>See Principles as the Ocean's 7 </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        key traits
+                    </span>
+                    <span className='i-text'>, and associated </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        challenges
+                    </span>
+                    <span className='i-text'> due to the climate crysis.</span>
+                    <p className='i-space'></p>
+                    <span className='i-text'>OL Principles can be understood  through </span>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                        7 Perspectives
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                </div>
+                </>
+            );
+        } else if(frame === 5) {
+            return (
+                <>
+                <div className='i-text-container'>
+                    <span className='i-text'>Ocean Literacy is based on </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        7 scientific Principles
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                    <br></br>
+
+                    <span className='i-text'>See Principles as the Ocean's 7 </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        key traits
+                    </span>
+                    <span className='i-text'>, and associated </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        challenges
+                    </span>
+                    <span className='i-text'> due to the climate crysis.</span>
+                    <p className='i-space'></p>
+                    <span className='i-text'>OL Principles can be understood  through </span>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                        7 Perspectives
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                    <br></br>
+                    <span className='i-text'>See Perspectives as the 7 </span>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                        points of view
+                    </span>
+                    <span className='i-text'>  from which the Ocean's features and associated challenges can be understood.</span>
+
+                </div>
+                </>
+            );
+        } else if(frame === 6) {
+            return (
+                <>
+                <div className='i-text-container'>
+                    <span className='i-text'>Ocean Literacy is based on </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        7 scientific Principles
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                    <br></br>
+
+                    <span className='i-text'>See Principles as the Ocean's 7 </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        key traits
+                    </span>
+                    <span className='i-text'>, and associated </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        challenges
+                    </span>
+                    <span className='i-text'> due to the climate crysis.</span>
+                    
+                    <p className='i-space'></p>
+                    
+                    <span className='i-text'>OL Principles can be understood  through </span>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                        7 Perspectives
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                    <br></br>
+                    <span className='i-text'>See Perspectives as the 7 </span>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                        points of view
+                    </span>
+                    <span className='i-text'>  from which the Ocean's features and associated challenges can be understood.</span>
+
+                    <p className='i-space'></p>
+
+                    <span className='i-text'>OL Principles and relative Perspectives can be transfered and appropriated according to </span>
+                    <span className='i-text colored' style={{color: colors.Dimension}}>
+                        10 Dimensions
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                </div>
+                </>
+            );
+        } else if(frame === 7) {
+            return (
+                <>
+                <div className='i-text-container'>
+                    <span className='i-text'>Ocean Literacy is based on </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        7 scientific Principles
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                    <br></br>
+
+                    <span className='i-text'>See Principles as the Ocean's 7 </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        key traits
+                    </span>
+                    <span className='i-text'>, and associated </span>
+                    <span className='i-text colored' style={{color: colors.Principle}}>
+                        challenges
+                    </span>
+                    <span className='i-text'> due to the climate crysis.</span>
+                    
+                    <p className='i-space'></p>
+                    
+                    <span className='i-text'>OL Principles can be understood  through </span>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                        7 Perspectives
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                    <br></br>
+                    <span className='i-text'>See Perspectives as the 7 </span>
+                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                        points of view
+                    </span>
+                    <span className='i-text'>  from which the Ocean's features and associated challenges can be understood.</span>
+
+                    <p className='i-space'></p>
+
+                    <span className='i-text'>OL Principles and relative Perspectives can be transfered and appropriated according to </span>
+                    <span className='i-text colored' style={{color: colors.Dimension}}>
+                        10 Dimensions
+                    </span>
+                    <span className='i-text'>
+                    .
+                    </span>
+                    <br></br>
+                    <span className='i-text'>See Dimensions as the 10 </span>
+                    <span className='i-text colored' style={{color: colors.Dimension}}>
+                        approaches
+                    </span>
+                    <span className='i-text'> that can be adopted to convey the Ocean's key features and relative viewpoints.</span>
+
+                </div>
+                </>
+            );
+        } 
     };
 
     return (
