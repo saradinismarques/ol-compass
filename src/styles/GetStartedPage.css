@@ -1,40 +1,29 @@
 .gs-text-container {
     position: fixed;
     top: 14vh; 
-    left: 65vw;
+    left: 64.5vw;
     padding: 0px;
     margin: 0px;
     z-index: 30;
-    max-width: 385px;
+    max-width: 260px;
 }
 
   
 /* Style for h1 */
 .gs-title {
     font-size: 1.4em; /* Larger size for h1 */
-    font-weight: 400;
+    font-weight: 300;
     color: rgb(255, 255, 255); 
     text-transform: uppercase;
-    margin: 0;
+    margin-top: 7px;
 }
 
 /* Style for h2 */
 .gs-headline {
     font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
-    text-transform: uppercase;
     color: rgb(255, 255, 255);
-    margin-top: 3px;
-}
-  
-/* Style for paragraph */
-.gs-text {
-    font-size: 1em;
-    font-weight: 300;
-    margin-top: -25px;
-    overflow-y: auto; /* Hide overflow initially */
-    padding-right: 15px;
-    display: block;
+    margin-top: -5px;
 }
 
 .gs-text b{
@@ -48,29 +37,6 @@
     width: 100vw;
     height: 100vh;
     z-index: 20; /* Ensure this doesn't interfere with other content */
-}
-
-.gs-principles-image {
-    width: 225px; /* Set the desired width */
-    height: auto; /* Maintain the aspect ratio */
-    opacity: 100%;
-    z-index: 10;
-}
-
-.gs-other-components-image {
-    width: 225px; /* Set the desired width */
-    height: auto; /* Maintain the aspect ratio */
-    opacity: 0%;
-    z-index: 10;
-}
-  
-.gs-image-container {
-    position: fixed;
-    overflow: hidden; /* To prevent any overflow issues */
-    top: 6vh;
-    right: 28vw;
-    z-index: 10;
-    opacity: 40%;
 }
 
 .gs-search-container {
@@ -154,6 +120,37 @@
     text-transform: uppercase;
 }
 
+.gs-white-line{
+    height: 1px;
+    background-color: white;
+}
+
+.gs-show-more-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1em;
+    font-weight: 100;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(255, 255, 255);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+    text-decoration: underline;
+    text-decoration-thickness: 1px; /* Adjust thickness */
+    text-underline-offset: 4px; /* Optional: Adds spacing between text and underline */
+    z-index: 20; /* Adjust the z-index */
+    margin-left: -5px;
+}
+
+.gs-show-more-button:hover {
+    color: rgb(134, 134, 134);
+}
+
+.gs-show-more-text {
+    font-size: 1em;
+    font-weight: 300;
+    margin-top: 5px;
+}
 
 
 

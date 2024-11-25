@@ -2,7 +2,7 @@ import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react'
 import '../styles/GetInspiredPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
-import { getCaseStudies } from '../utils/Data.js'; 
+import { getGetInspiredData } from '../utils/Data.js'; 
 import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
@@ -104,7 +104,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
   };
 
   const searchCaseStudies = useCallback((components) => {
-    const fetchedCaseStudies = getCaseStudies();
+    const fetchedCaseStudies = getGetInspiredData();
     // Concatenate the fetched case studies with newCaseStudies
 
     const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];

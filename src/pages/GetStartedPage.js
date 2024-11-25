@@ -37,6 +37,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState();
   const [mode, setMode] = useState('get-started');
+  const [showMore, setShowMore] = useState(false);
 
   const componentsRef = useRef(components);
   const currentIndexRef = useRef(currentIndex);
@@ -60,7 +61,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
     setAfterSearch(false);
     setCurrentIndex(0);
     setComponents([]);
-
+    setShowMore(false);
     setMode('get-started');
     modeRef.current = 'get-started';
 
@@ -121,6 +122,8 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   };
 
   const handleSearch = useCallback(() => {
+    if(componentsRef.current.length === 0)
+      return;
     const currentIndex = 0
     setCurrentIndex(currentIndex);
     currentIndexRef.current = currentIndex;
@@ -133,7 +136,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
               code: firstComponent.code,
               title: firstComponent.title,
               headline: firstComponent.headline,
-              paragraph: firstComponent.paragraph,
+              showMore: firstComponent.showMore,
               type: firstComponent.type,
               gradientColor: firstComponent.gradientColor,
               textColor: firstComponent.textColor,
@@ -151,6 +154,8 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
     setIsExplanationPage(false);
     setAfterSearch(true);
 
+    setShowMore(false);
+
   }, [setIsExplanationPage]);
   
   const handleNext = useCallback(() => {
@@ -167,7 +172,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
             code: nextComponent.code,
             title: nextComponent.title,
             headline: nextComponent.headline,
-            paragraph: nextComponent.paragraph,
+            showMore: nextComponent.showMore,
             type: nextComponent.type,
             gradientColor: nextComponent.gradientColor,
             textColor: nextComponent.textColor,
@@ -176,6 +181,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
       });
       const code = componentsRef.current[nextIndex].code;
       setSelectedComponent(code);
+      setShowMore(false);
     }; 
   }, []);
 
@@ -193,7 +199,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
                     code: prevComponent.code,
                     title: prevComponent.title,
                     headline: prevComponent.headline,
-                    paragraph: prevComponent.paragraph,
+                    showMore: prevComponent.showMore,
                     type: prevComponent.type,
                     gradientColor: prevComponent.gradientColor,
                     textColor: prevComponent.textColor,
@@ -202,6 +208,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
         });
         const code = componentsRef.current[prevIndex].code;
         setSelectedComponent(code);
+        setShowMore(false);
       }
   }, []);
 
@@ -222,19 +229,11 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
     };
   }, [handleKeyPress]); // Dependency array includes carouselHandleEnterClick
 
-  // Dynamically choose image source based on state.code
-  const imageSrc = state.code === 'P1' ? P1Image 
-                : state.code === 'P2' ? P2Image 
-                : state.code === 'P3' ? P3Image 
-                : state.code === 'P4' ? P4Image 
-                : state.code === 'P5' ? P5Image 
-                : state.code === 'P6' ? P6Image 
-                : state.code === 'P7' ? P7Image 
-                : null;
+  const toggleShowMore = () => {
+    setShowMore(!showMore);
+  };
 
   return (
-    <div>
-
     <div>
       <div className='gs-gradient-background'
         style={{
@@ -277,11 +276,20 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
             )}
             
             <div className="gs-text-container">
-                <h1 className='gs-title'>{state.title}</h1>
-                <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
-                <div className="gs-text" style={{ color: state.textColor }}>
-                  <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
-                </div>
+              <div className="gs-white-line"></div>
+              <h1 className='gs-title'>{state.title}</h1>
+              <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
+
+              {state.type === "Principle" && (
+                <>
+                <button onClick={toggleShowMore} className="gs-show-more-button">
+                  {showMore ? 'Show less' : 'Show more'}
+                </button>
+                {showMore && (
+                  <p className='gs-show-more-text' style={{ color: state.textColor }}>{state.showMore}</p>
+                )}
+                </>
+              )}
             </div>
 
             <div className={`gs-search-container ${afterSearch ? 'left' : ''}`}>
@@ -298,19 +306,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
           )} 
           <Menu isExplanationPage={isExplanationPage}/>
       </div>
-      {/* Conditionally render the image if an image source is set */}
-      {!isExplanationPage && imageSrc && (
-        <div className="gs-image-container">
-          <img src={imageSrc} alt={`Background ${state.code}`} className="gs-principles-image" />
-        </div>
-      )}
-      {!isExplanationPage && imageSrc === null && (
-        <div className="gs-image-container">
-          <img src={imageSrc} alt={`Background ${state.code}`} className="gs-other-components-image" />
-        </div>
-      )}
     </div>
-</div>
   );
 };
 

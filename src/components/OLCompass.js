@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { getGetStartedData, getComponentsData, getConceptsData } from '../utils/Data.js'; 
+import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import '../styles/App.css'
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
@@ -68,7 +68,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
   if(mode.startsWith("get-started")) 
     componentsData = getGetStartedData();
   else
-    componentsData = getComponentsData();
+    componentsData = getLearnData();
 
   const principles = getComponentsPositions(componentsData['Principle'], 'Principle');
   const perspectives = getComponentsPositions(componentsData['Perspective'], 'Perspective');

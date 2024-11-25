@@ -56,7 +56,7 @@ export function getGetStartedData() {
     }
 }
 
-export function getComponentsData() {
+export function getLearnData() {
     try {
         // Process the JSON data
         const result = learnData.map(item => ({
@@ -129,7 +129,7 @@ export function getConceptsData() {
     }
 }
 
-export function getCaseStudies() {
+export function getGetInspiredData() {
     try {
         // Function to extract components and return the case study object
         const result = getInspiredData.map(item => ({
