@@ -581,43 +581,56 @@ function getComponentsPositions(componentsData, type) {
 };
 
 // Function to sequentially light up "Principle" buttons
-function lightUpPrincipleButtons(current, setCurrent) {
-  if (current >= 6) {
-    console.log("Finished lighting up all principle buttons");
+function lightUpPrincipleButtons(current, setCurrent, type) {
+    if ((type === 'Principle' && current >= 6) ||
+    (type === 'Perspective' && current >= 13) ||
+    (type === 'Dimension' && current >= 23))
     return;
-  }
+
 
   setTimeout(() => {
     setCurrent(current+1);
-    console.log(current);
   }, 300); // Delay for each button (3 seconds between each)
 }
 
 
 const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, currentWave, setCurrentWave) => {
   if (mode === "initial-0" || mode === "initial-1") {
-      return 0.3
-  } else if (mode === "initial-2") {
-    lightUpPrincipleButtons(currentWave, setCurrentWave);
-    if(component.Type === "Principle") 
+    return 0.3
+  } else if (mode === "initial-2" || mode === "initial-3") {
+    lightUpPrincipleButtons(currentWave, setCurrentWave, 'Principle');
+    if(component.Type === "Principle") {
         if(currentId <= currentWave )
           return 1;
-        else 
+        else
+          return 0.3;
+    } else 
+        return 0.3;
+  } else if (mode === "initial-4" || mode === "initial-5") {
+      
+      lightUpPrincipleButtons(currentWave, setCurrentWave, 'Perspective');
+      if(component.Type === "Principle")
+          return 0.7;
+      else if(component.Type === "Perspective") {
+        if(currentId <= currentWave )
+          return 1;
+        else
+          return 0.3;
+      }
+      else
           return 0.3
-  } else if (mode === "initial-3") {
+  } else if (mode === "initial-6" || mode === "initial-7") {
+      lightUpPrincipleButtons(currentWave, setCurrentWave, 'Dimension');
       if(component.Type === "Principle")
           return 0.7;
       else if(component.Type === "Perspective")
-          return 1;
-      else
-          return 0.3
-  } else if (mode === "initial-4") {
-      if(component.Type === "Principle")
           return 0.7;
-      else if(component.Type === "Perspective")
-          return 0.7;
-      else
+      else {
+        if(currentId <= currentWave )
           return 1;
+        else
+          return 0.3;
+      }
   }
 
   if(mode === "get-started-search") {
