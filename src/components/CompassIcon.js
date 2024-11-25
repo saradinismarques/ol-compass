@@ -92,7 +92,7 @@ const CompassIcon = ({ type }) => {
            
           }}
         >
-        {/* <p
+        <p
             style={{
                 color: `${textColors[type]}`,
                 fontFamily: "Manrope",
@@ -103,7 +103,7 @@ const CompassIcon = ({ type }) => {
             }}
         >
              {`${type}s`}
-        </p> */}
+        </p>
     </div>
     </div>
   );
@@ -156,10 +156,9 @@ function getComponentsPositions(type) {
 };
 
 const getOpacity = (cType, type) => {
-    // if(cType === type)
-    //     return 0.9;
-    // return 0.3;
-    return 1;
+    if(cType === type)
+        return 0.9;
+    return 0.3;
 };
 
 export default CompassIcon;
