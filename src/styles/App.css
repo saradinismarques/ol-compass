@@ -1,6 +1,7 @@
 body {
     height: 100vh;
     margin: 0;
+    padding: 0;
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -43,6 +44,8 @@ body {
 .instruction {
     margin-top: 20px;
     max-width: 246px;
+    font-weight: 500;
+    color: #E5007E;
 }
 
 .not-available-container {
@@ -65,10 +68,6 @@ body {
     width: 16px;
     margin-right: 5px;
     margin-top: -7px;
-}
-
-.bold-text {
-    font-weight: 500;
 }
 
 .message-box {
@@ -204,16 +203,26 @@ body {
 .text-icon {
     width: 1.3em;
     height: 1.3em;
-    fill: rgb(115, 114, 114); /* Set default color for the bookmark */
+    fill: #E5007E; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: rgb(145, 144, 144);
+    stroke: #E5007E;
     stroke-width: 0px;
     margin-left: 1px;
     margin-right: 1px;
 }
 
 .text-icon.wave {
-    margin-bottom: -6px;
+    margin-bottom: -4px;
+}
+
+.text-icon.wave-space {
+    margin-left: 5px;
+}
+
+.text-icon.cta-arrow {
+    width: 0.8em;
+    height: 0.8em;
+    margin-right: 5px;
 }
 
 

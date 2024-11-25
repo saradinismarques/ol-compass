@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/App.css'
 
 // Sizes and positions 
-let size = 80;
+let size = 100;
 
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
@@ -52,7 +52,7 @@ const CompassIcon = ({ type }) => {
       style={{
         ...containerStyle, 
         left: `${16.5}vw`, 
-        top: `${19}vh`, 
+        top: `${20}vh`, 
         transform: 'translate(-50%, -50%)',
       }}
     >
@@ -97,12 +97,12 @@ const CompassIcon = ({ type }) => {
                 color: `${textColors[type]}`,
                 fontFamily: "Manrope",
                 fontWeight: "500",
-                fontSize:"16px",
+                fontSize:"11px",
                 textTransform: "uppercase", // Converts text to uppercase
                 letterSpacing: "2px", // Increases the spacing between letters
             }}
         >
-            {type}
+             {`${type}s`}
         </p>
     </div>
     </div>
@@ -157,8 +157,8 @@ function getComponentsPositions(type) {
 
 const getOpacity = (cType, type) => {
     if(cType === type)
-        return 0.7;
-    return 0.1;
+        return 0.9;
+    return 0.3;
 };
 
 export default CompassIcon;

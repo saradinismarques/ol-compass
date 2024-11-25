@@ -1,7 +1,7 @@
 .left-menu {
     position: fixed;
-    top: 10vh;
-    left: 11.5vw;
+    top: 25vh;
+    left: 11vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,7 +9,8 @@
 }
 
 .menu-button {
-    margin: 3px 0; /* Space between buttons */
+    margin-bottom: 6px; /* Space between buttons */
+
     width: 9.5vw;
     height: 26px;
     border: 2px solid black;
@@ -124,10 +125,9 @@
 }
 
 .i-want-to-text {
-    position: relative;
-    left: -1.5vw;
-    margin-top: 43px;
-    margin-bottom: 10px;
+    position: fixed;
+    left: 9.7vw;
+    top: 15vh;
     font-size: 19px;
 }
 

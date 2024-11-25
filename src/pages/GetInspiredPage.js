@@ -428,7 +428,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
       <div className='gi-search-results-container'>
         {resultsNumber !== -1 && (
           <p className='gi-results'>
-            <span className='bold-text'>{resultsNumber}</span> results 
+            <span className='gi-bold-text'>{resultsNumber}</span> results 
           </p>
         )}
         <div className="gi-search-logic-menu">

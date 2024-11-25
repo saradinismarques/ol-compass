@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { getComponentsData, getConceptsData } from '../utils/Data.js'; 
+import { getGetStartedData, getComponentsData, getConceptsData } from '../utils/Data.js'; 
 import '../styles/App.css'
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
@@ -48,7 +48,7 @@ const svgPath = "m82.54,14.01c-.44.31-.88.61-1.32.92-.54.38-1.09.77-1.63,1.16-.3
 const svgTextPath = "m119.67,8.06c-7.54,3.59-12.67,7.32-27.44,8.01-16.45.77-25.71-4.5-32.34-7.85-7.56-3.55-12.7-7.29-27.47-7.91C15.97-.38,6.73,4.93.11,8.31";
 const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62-19.91,4.36-27.47,7.91-6.63,3.35-15.89,8.62-32.34,7.85C12.78,15.39,7.65,11.65.11,8.06";
 
-const bigLabels = ['P6'];
+const bigLabels = ['P6', 'D10'];
 
 const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData }) => {
   // Function to determine the center based on position
@@ -63,7 +63,13 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
   const center = getCenter(position);
 
   // Dictionary with all information
-  const componentsData = getComponentsData();
+  let componentsData;
+
+  if(mode.startsWith("get-started")) 
+    componentsData = getGetStartedData();
+  else
+    componentsData = getComponentsData();
+
   const principles = getComponentsPositions(componentsData['Principle'], 'Principle');
   const perspectives = getComponentsPositions(componentsData['Perspective'], 'Perspective');
   const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
@@ -182,7 +188,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
               components[id].Code,
               title,
               components[id].Headline,
-              components[id].Paragraph,
+              components[id].ShowMore,
               components[id].Type,
             );
         }
@@ -196,6 +202,9 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
 
     setHoveredId(id);
     hoveredIdRef.current = id; 
+
+    if(mode.startsWith("get-started"))
+      return;
 
     if(components[id].Type === "Principle") {
       // Clear any existing timeout to avoid overlaps
@@ -215,6 +224,9 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
 
   const handleMouseLeave = () => {
     setHoveredId(null);
+
+    if(mode.startsWith("get-started"))
+      return;
 
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
     clearTimeout(tooltipTimeout);
@@ -398,7 +410,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
             d={svgPath} 
             fill="none"
             stroke={getStroke(clickedIds, i, mode)}
-            strokeWidth="1.1px"
+            strokeWidth="1.5px"
             style={{ pointerEvents: 'all' }} 
           />
         </svg>
@@ -515,7 +527,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
     ))}
 
     </div>
-    {(mode ==="learn" || mode ==="contribute" || mode.startsWith("get-inspired") || mode.startsWith("get-started")) && tooltipVisible && 
+    {(mode ==="learn" || mode ==="contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 
     <Tooltip 
       text={tooltipText} 
       position={tooltipPos} 
@@ -593,8 +605,6 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
   if(mode === "get-started-search") {
     if(selectedComponents === component.Code)
       return 1;
-    else
-      return 0.2;
   }
 
   if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
@@ -619,7 +629,7 @@ const getStroke = (clickedIds, currentId, mode) => {
     if(mode === "get-inspired" || mode === "get-inspired-search")
       return pinkColor;
     else if(mode === "get-started" || mode === "get-started-search")
-      return purpleColor;
+      return pinkColor;
   }
   else
       return 'none';
@@ -659,8 +669,21 @@ const getText = (mode, type, label, code, index) => {
 
   if(bigLabels.includes(code)) {
     let firstIndex = label.indexOf(' ');
-    let firstPart = label.substring(0, firstIndex);
-    let secondPart = label.substring(firstIndex + 1);
+    let secondIndex = label.indexOf(' ', firstIndex + 1);
+
+    let firstPart, secondPart;
+
+    firstPart = label.substring(0, firstIndex); // "a"
+
+    if (firstPart.length > 6) {
+        // Case 1: Only one space ("a b")
+        firstPart = label.substring(0, firstIndex); // "a"
+        secondPart = label.substring(firstIndex + 1); // "b"
+    } else {
+        // Case 2: Two spaces ("a b c")
+        firstPart = label.substring(0, secondIndex); // "a b"
+        secondPart = label.substring(secondIndex + 1); // "c"
+    }
 
     if(index === 0)
       return firstPart;

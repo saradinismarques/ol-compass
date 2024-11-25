@@ -11,6 +11,7 @@ import P5Image from '../images/P5.png';
 import P6Image from '../images/P6.png';
 import P7Image from '../images/P7.png';
 import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as CtaArrow } from '../assets/cta-arrow-icon.svg'; // Adjust the path as necessary
 
 const colors = {
   Principle: "#41ffc9",
@@ -65,7 +66,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
 
   }, [initialState, setIsExplanationPage]);
 
-  const handleCompassClick = (code, title, headline, paragraph, type) => {
+  const handleCompassClick = (code, title, headline, showMore, type) => {
     let tColor;
     if(type === 'Principle') tColor = "#218065"
     else if(type === 'Perspective') tColor = "#1c633e"
@@ -84,7 +85,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
             code,
             title,
             headline,
-            paragraph,
+            showMore,
             type,
             gradientColor: colors[type],
             textColor: tColor,
@@ -234,7 +235,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   return (
     <div>
 
-    <div className={'container'}>
+    <div>
       <div className='gs-gradient-background'
         style={{
           background: isExplanationPage
@@ -250,28 +251,23 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
           selectedComponents={selectedComponent}
         />  
         {isExplanationPage && (
-            <>
-            <div className="text-container" >
-                <p className='question'>
-                  What's it for?
+            <div className="gs-explanation-text-container" >
+                <p className='gs-explanation-headline'>
+                  Never heard of Ocean Literacy?
                 </p>
-                <p className='headline'>
-                  Explore the OL fundamentals, one by one
-                  </p>
-                <div className='text'>
-                  Are you new to Ocean Literacy, or need a refresher?
-                  <br></br>
-                  In the LEARN mode the Compass lets you familiarize with each OL Principle, Perspective and Dimension, with basic definitions, additional information and hints for reflection.
-                  <p className='instruction'>
-                  Start by clicking on any wave (
-                  <WaveIcon 
-                    className="text-icon wave" // Apply your CSS class
+                <p className='gs-explanation-text'>
+                  In this mode the Compass gives you a general sense of the OL's vocabulary.
+                </p> 
+                <p className='gs-explanation-instruction'>
+                  <CtaArrow 
+                    className="text-icon cta-arrow" // Apply your CSS class
                   />
-                  ).
-                  </p>
-                </div>
-              </div>
-            </>
+                  To start, click on any  
+                  <WaveIcon 
+                    className="text-icon wave wave-space" // Apply your CSS class
+                  />
+                </p>
+             </div>
           )}
 
           {!isExplanationPage && (

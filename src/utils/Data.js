@@ -1,4 +1,5 @@
 import introTexts from '../data/intro-texts.json'
+import getStartedData from '../data/get-started-data.json';
 import learnData from '../data/learn-data.json';
 import conceptsData from '../data/concepts-data.json';
 import getInspiredData from '../data/get-inspired-data.json';
@@ -21,6 +22,34 @@ export function getIntroTexts(language) {
 
         // If no data for the language, return null or a fallback object
         return null;
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
+}
+
+export function getGetStartedData() {
+    try {
+        // Process the JSON data
+        const result = getStartedData.map(item => ({
+            Code: item["#code"],
+            Label: item["#label"],
+            Headline: item["#headline-1"],
+            ShowMore: item["SHOW MORE"],
+            Type: getType(item['#code'])
+        }));
+
+        // Organize into three parts by Type
+        const organizeComponents = result.reduce((acc, item) => {
+            const type = item.Type;
+            if (!acc[type]) {
+                acc[type] = []; // Initialize the array for each type if it doesn't exist
+            }
+            acc[type].push(item);
+            return acc;
+        }, {});
+
+        return organizeComponents;
     } catch (error) {
         console.error("Error processing JSON:", error);
         throw error;
