@@ -3,15 +3,9 @@ import '../styles/GetStartedPage.css';
 import OLCompass from '../components/OLCompass';
 import CompassIcon from '../components/CompassIcon';
 import Menu from '../components/Menu';
-import P1Image from '../images/P1.png';
-import P2Image from '../images/P2.png';
-import P3Image from '../images/P3.png';
-import P4Image from '../images/P4.png';
-import P5Image from '../images/P5.png';
-import P6Image from '../images/P6.png';
-import P7Image from '../images/P7.png';
 import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as CtaArrow } from '../assets/cta-arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 
 const colors = {
   Principle: "#41ffc9",
@@ -272,25 +266,33 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
           {!isExplanationPage && (
             <>
             {afterSearch && (
+              <>
               <CompassIcon type ={state.type} />
+              <div className="gs-text-container">
+                <div className="gs-white-line"></div>
+                <h1 className='gs-title'>{state.title}</h1>
+                <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
+
+                {state.type === "Principle" && (
+                  <>
+                  <button onClick={toggleShowMore} className="gs-show-more-button">
+                    {showMore ? 'Show less' : 'Show more'}
+                  </button>
+                  {showMore && (
+                    <p className='gs-show-more-text' style={{ color: state.textColor }}>{state.showMore}</p>
+                  )}
+                  </>
+                )}
+                <button className={'gs-arrow-button down'} onClick={handleNext}>
+                  <ArrowIcon 
+                    className='gs-arrow-icon'
+                />
+                </button>
+              </div>
+              </>
             )}
             
-            <div className="gs-text-container">
-              <div className="gs-white-line"></div>
-              <h1 className='gs-title'>{state.title}</h1>
-              <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
-
-              {state.type === "Principle" && (
-                <>
-                <button onClick={toggleShowMore} className="gs-show-more-button">
-                  {showMore ? 'Show less' : 'Show more'}
-                </button>
-                {showMore && (
-                  <p className='gs-show-more-text' style={{ color: state.textColor }}>{state.showMore}</p>
-                )}
-                </>
-              )}
-            </div>
+            
 
             <div className={`gs-search-container ${afterSearch ? 'left' : ''}`}>
               <div className="gs-search-outline">

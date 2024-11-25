@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/App.css'
 
 // Sizes and positions 
-let size = 100;
+let size = 90;
 
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
@@ -52,7 +52,7 @@ const CompassIcon = ({ type }) => {
       style={{
         ...containerStyle, 
         left: `${16.5}vw`, 
-        top: `${20}vh`, 
+        top: `${21}vh`, 
         transform: 'translate(-50%, -50%)',
       }}
     >

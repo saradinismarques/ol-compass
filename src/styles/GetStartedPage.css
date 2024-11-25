@@ -1,14 +1,23 @@
 .gs-text-container {
     position: fixed;
-    top: 14vh; 
+    top: 10.6vh; 
     left: 64.5vw;
     padding: 0px;
     margin: 0px;
     z-index: 30;
     max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* Center items horizontally */
+}
+  
+.gs-white-line{
+    height: 1px;
+    width: 260px;
+    background-color: white;
+    z-index: 40;
 }
 
-  
 /* Style for h1 */
 .gs-title {
     font-size: 1.4em; /* Larger size for h1 */
@@ -16,14 +25,48 @@
     color: rgb(255, 255, 255); 
     text-transform: uppercase;
     margin-top: 7px;
+    text-align: left; /* Align text within itself */
+    align-self: flex-start; /* Override center alignment */
 }
 
 /* Style for h2 */
 .gs-headline {
     font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
+    line-height: 1.2;
     color: rgb(255, 255, 255);
     margin-top: -5px;
+}
+
+.gs-show-more-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 1em;
+    font-weight: 100;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(255, 255, 255);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+    text-decoration: underline;
+    text-decoration-thickness: 1px; /* Adjust thickness */
+    text-underline-offset: 4px; /* Optional: Adds spacing between text and underline */
+    z-index: 20; /* Adjust the z-index */
+    margin-left: -5px;
+    text-align: left; /* Align text within itself */
+    align-self: flex-start; /* Override center alignment */
+}
+
+.gs-show-more-button:hover {
+    color: rgb(134, 134, 134);
+}
+
+.gs-show-more-text {
+    font-size: 1em;
+    font-weight: 300;
+    margin-top: 5px;
+    text-align: left; /* Align text within itself */
+    align-self: flex-start; /* Override center alignment */
 }
 
 .gs-text b{
@@ -41,8 +84,9 @@
 
 .gs-search-container {
     position: fixed;
-    bottom: 9vh;
+    bottom: 4vh;
     left: 50vw;
+    display: flex;
     align-items: center; /* Center them vertically */
 }
 
@@ -120,38 +164,42 @@
     text-transform: uppercase;
 }
 
-.gs-white-line{
-    height: 1px;
-    background-color: white;
-}
-
-.gs-show-more-button {
-    font-family: 'Manrope', sans-serif;
-    font-size: 1em;
-    font-weight: 100;
-    background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: rgb(255, 255, 255);
-    border: none;
+/* General button styles (applies to both left and right buttons) */
+.gs-arrow-button {
+    background-color: transparent;
+    border: 2px solid transparent; /* Set initial border to transparent */
     cursor: pointer;
-    outline: none; /* Optional: Remove outline on focus */
-    text-decoration: underline;
-    text-decoration: underline;
-    text-decoration-thickness: 1px; /* Adjust thickness */
-    text-underline-offset: 4px; /* Optional: Adds spacing between text and underline */
-    z-index: 20; /* Adjust the z-index */
-    margin-left: -5px;
+    position: fixed;
+    transform: translate(-50%);
+    position: fixed;
+    bottom: 4vh;
+    display: flex;
+    align-items: center; 
+    outline: none; /* Removes the focus outline */
 }
 
-.gs-show-more-button:hover {
-    color: rgb(134, 134, 134);
+/* Right arrow button (default position) */
+.gs-arrow-button.down {
+    rotate: 90deg; /* Rotate the arrow for left button */
 }
 
-.gs-show-more-text {
-    font-size: 1em;
-    font-weight: 300;
-    margin-top: 5px;
+/* Change icon color on hover */
+.gs-arrow-button:hover .gi-arrow-icon {
+    fill: #cc006f; /* Change fill color on hover */
 }
 
+.gs-arrow-button:active .gi-arrow-icon {
+    fill: #cc006f; /* Change fill color on hover */
+}
+
+.gs-arrow-icon {
+    width: 17px;
+    height: 17px;
+    fill: #e6007e; /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: #e6007e;
+    stroke-width: 0px;
+}
 
 
 
