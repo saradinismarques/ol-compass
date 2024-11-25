@@ -49,7 +49,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData }) => {
+const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData, opacityCounter }) => {
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center") {
@@ -74,9 +74,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
   const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
   const components = principles.concat(perspectives, dimensions);
   const concepts = getConceptsData();
-
-
-  const [currentWave, setCurrentWave] = useState(0);
 
   // State of clicks and hovers
   const [hoveredId, setHoveredId] = useState(null);
@@ -387,7 +384,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
             fill={`url(#gradient-${i})`}  // Use the gradient fill
             stroke="none" 
             style={{ pointerEvents: 'all' }}
-            opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, currentWave, setCurrentWave)}
+            opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)}
             transition="opacity 1s ease"
           />
         </svg>
@@ -425,7 +422,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
           left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
           top: `${c.y - waveHeight/2 - 2}px`,
           transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
-         // opacity: getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents), // Change opacity on hover
+          opacity: getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter), // Change opacity on hover
           zIndex: 10,
           pointerEvents: 'none', // Disable pointer events for the inner div
           userSelect: 'none'
@@ -580,39 +577,22 @@ function getComponentsPositions(componentsData, type) {
   return componentsData;
 };
 
-// Function to sequentially light up "Principle" buttons
-function lightUpPrincipleButtons(current, setCurrent, type) {
-    if ((type === 'Principle' && current >= 6) ||
-    (type === 'Perspective' && current >= 13) ||
-    (type === 'Dimension' && current >= 23))
-    return;
-
-
-  setTimeout(() => {
-    setCurrent(current+1);
-  }, 300); // Delay for each button (3 seconds between each)
-}
-
-
-const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, currentWave, setCurrentWave) => {
+const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, opacityCounter) => {
   if (mode === "initial-0" || mode === "initial-1") {
-    return 0.3
+    return 0.3;
   } else if (mode === "initial-2" || mode === "initial-3") {
-    lightUpPrincipleButtons(currentWave, setCurrentWave, 'Principle');
     if(component.Type === "Principle") {
-        if(currentId <= currentWave )
+        if(currentId <= opacityCounter)
           return 1;
         else
           return 0.3;
     } else 
         return 0.3;
   } else if (mode === "initial-4" || mode === "initial-5") {
-      
-      lightUpPrincipleButtons(currentWave, setCurrentWave, 'Perspective');
       if(component.Type === "Principle")
           return 0.7;
       else if(component.Type === "Perspective") {
-        if(currentId <= currentWave )
+        if(currentId <= opacityCounter)
           return 1;
         else
           return 0.3;
@@ -620,13 +600,12 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
       else
           return 0.3
   } else if (mode === "initial-6" || mode === "initial-7") {
-      lightUpPrincipleButtons(currentWave, setCurrentWave, 'Dimension');
       if(component.Type === "Principle")
           return 0.7;
       else if(component.Type === "Perspective")
           return 0.7;
       else {
-        if(currentId <= currentWave )
+        if(currentId <= opacityCounter)
           return 1;
         else
           return 0.3;
@@ -695,10 +674,10 @@ const isFlipped = (label) => {
 const getText = (mode, type, label, code, index) => {
   if (mode === "initial-0" || mode === "initial-1") {
     return "";
-  } else if (mode === "initial-2") {
+  } else if (mode === "initial-2" || mode === "initial-3") {
     if(type !== "Principle")
         return "";
-  } else if (mode === "initial-3") {
+  } else if (mode === "initial-4" || mode === "initial-5") {
     if(type === "Dimension")
       return "";
   }

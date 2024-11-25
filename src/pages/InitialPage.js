@@ -12,6 +12,7 @@ const colors = {
 const InitialPage = () => {
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
+    const [opacityCounter, setOpacityCounter] = useState(0);
 
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
@@ -47,7 +48,6 @@ const InitialPage = () => {
 
     useEffect(() => {
         if (frame === 8) {
-            console.log("AAA")
             navigate('/home');
         }
     }, [frame, navigate]); // Trigger navigation when state changes to 6
@@ -67,6 +67,19 @@ const InitialPage = () => {
 
     // Determine the action based on the current state
     const mode = actionMap[frame];
+
+    // Function to sequentially light up "Principle" buttons
+    function startOpacityCounter(type) {
+        if ((type === 'Principle' && opacityCounter >= 6) ||
+        (type === 'Perspective' && opacityCounter >= 13) ||
+        (type === 'Dimension' && opacityCounter >= 23))
+            return;
+
+        setTimeout(() => {
+            setOpacityCounter(opacityCounter+1);
+        }, 300); // Delay for each button (3 seconds between each)
+    }
+
 
     // Determine the text to display based on the current state
     const getDisplayText = () => {
@@ -96,12 +109,13 @@ const InitialPage = () => {
                 </>
             );
         } else if (frame === 2) {
+            startOpacityCounter('Principle');
             return (
                 <>
                 <div className='i-text-container'>
                     <span className='i-text'>Ocean Literacy is based on </span>
                     <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 scientific Principles
+                        {opacityCounter+1} scientific Principles
                     </span>
                     <span className='i-text'>
                     .
@@ -110,12 +124,14 @@ const InitialPage = () => {
                 </>
             );
         } else if (frame === 3) {
+                startOpacityCounter('Principle');
+
                 return (
                     <>
                     <div className='i-text-container'>
                         <span className='i-text'>Ocean Literacy is based on </span>
                         <span className='i-text colored' style={{color: colors.Principle}}>
-                            7 scientific Principles
+                            {opacityCounter+1} scientific Principles
                         </span>
                         <span className='i-text'>
                         .
@@ -135,12 +151,14 @@ const InitialPage = () => {
                     </>
                 );
         } else if(frame === 4) {
+            startOpacityCounter('Perspective');
+            
             return (
                 <>
                 <div className='i-text-container'>
                     <span className='i-text'>OL Principles can be understood  through </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
-                        7 Perspectives
+                        {opacityCounter-6} Perspectives
                     </span>
                     <span className='i-text'>
                     .
@@ -149,12 +167,14 @@ const InitialPage = () => {
                 </>
             );
         } else if(frame === 5) {
+            startOpacityCounter('Perspective');
+
             return (
                 <>
                 <div className='i-text-container'>
                     <span className='i-text'>OL Principles can be understood  through </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
-                        7 Perspectives
+                        {opacityCounter-6} Perspectives
                     </span>
                     <span className='i-text'>
                     .
@@ -170,12 +190,14 @@ const InitialPage = () => {
                 </>
             );
         } else if(frame === 6) {
+            startOpacityCounter('Dimension');
+            
             return (
                 <>
                 <div className='i-text-container'>
                     <span className='i-text'>OL Principles and relative Perspectives can be transfered and appropriated according to </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
-                        10 Dimensions
+                        {opacityCounter-13} Dimensions
                     </span>
                     <span className='i-text'>
                     .
@@ -184,12 +206,14 @@ const InitialPage = () => {
                 </>
             );
         } else if(frame === 7) {
+            startOpacityCounter('Dimension');
+
             return (
                 <>
                 <div className='i-text-container'>
                     <span className='i-text'>OL Principles and relative Perspectives can be transfered and appropriated according to </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
-                        10 Dimensions
+                        {opacityCounter-13} Dimensions
                     </span>
                     <span className='i-text'>
                     .
@@ -212,6 +236,7 @@ const InitialPage = () => {
             <OLCompass 
                 mode={mode} 
                 position="center"
+                opacityCounter={opacityCounter}
             /> 
             {getDisplayText()}    
         </div>
