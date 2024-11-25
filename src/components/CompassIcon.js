@@ -92,7 +92,7 @@ const CompassIcon = ({ type }) => {
            
           }}
         >
-        <p
+        {/* <p
             style={{
                 color: `${textColors[type]}`,
                 fontFamily: "Manrope",
@@ -103,7 +103,7 @@ const CompassIcon = ({ type }) => {
             }}
         >
              {`${type}s`}
-        </p>
+        </p> */}
     </div>
     </div>
   );
@@ -122,7 +122,7 @@ function getComponentsPositions(type) {
     radius = size/3.1;
     numberOfComponents = 7;
   } else if(type === 'Dimension') {
-    radius = size/2.07;
+    radius = size/2.075;
     numberOfComponents = 10;
   }
 
@@ -138,7 +138,7 @@ function getComponentsPositions(type) {
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
     if(type === 'Principle')
-      angle = angle + 2*Math.PI / 2 - Math.PI*0.04;
+      angle = angle + 2*Math.PI / 2 - Math.PI*0.03;
     else if(type === 'Perspective')
       angle = angle + Math.PI / 2 - Math.PI*0.01;
     else if(type === 'Dimension')
@@ -156,9 +156,10 @@ function getComponentsPositions(type) {
 };
 
 const getOpacity = (cType, type) => {
-    if(cType === type)
-        return 0.9;
-    return 0.3;
+    // if(cType === type)
+    //     return 0.9;
+    // return 0.3;
+    return 1;
 };
 
 export default CompassIcon;
