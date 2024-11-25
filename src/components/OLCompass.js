@@ -75,6 +75,9 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
   const components = principles.concat(perspectives, dimensions);
   const concepts = getConceptsData();
 
+
+  const [currentWave, setCurrentWave] = useState(0);
+
   // State of clicks and hovers
   const [hoveredId, setHoveredId] = useState(null);
   const [clickedIds, setClickedIds] = useState([]);
@@ -85,7 +88,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
-  const [currentWave, setCurrentWave] = useState(0);
   
   // Declare a timeout variable to store the reference to the timeout
   let tooltipTimeout = null;
@@ -93,7 +95,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
   // Refs to update the state instantly
   const clickedIdsRef = useRef(clickedIds);
   const hoveredIdRef = useRef(hoveredId);
-
   
   // Update the ref whenever changes
   useEffect(() => {
@@ -386,7 +387,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
             fill={`url(#gradient-${i})`}  // Use the gradient fill
             stroke="none" 
             style={{ pointerEvents: 'all' }}
-            opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents)}
+            opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, currentWave, setCurrentWave)}
+            transition="opacity 1s ease"
           />
         </svg>
       </div>
@@ -423,7 +425,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
           left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
           top: `${c.y - waveHeight/2 - 2}px`,
           transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
-          opacity: getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents), // Change opacity on hover
+         // opacity: getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents), // Change opacity on hover
           zIndex: 10,
           pointerEvents: 'none', // Disable pointer events for the inner div
           userSelect: 'none'
@@ -578,13 +580,29 @@ function getComponentsPositions(componentsData, type) {
   return componentsData;
 };
 
-const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents) => {
+// Function to sequentially light up "Principle" buttons
+function lightUpPrincipleButtons(current, setCurrent) {
+  if (current >= 6) {
+    console.log("Finished lighting up all principle buttons");
+    return;
+  }
+
+  setTimeout(() => {
+    setCurrent(current+1);
+    console.log(current);
+  }, 300); // Delay for each button (3 seconds between each)
+}
+
+
+const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, currentWave, setCurrentWave) => {
   if (mode === "initial-0" || mode === "initial-1") {
       return 0.3
   } else if (mode === "initial-2") {
-      if(component.Type === "Principle")
-          return 1
-      else 
+    lightUpPrincipleButtons(currentWave, setCurrentWave);
+    if(component.Type === "Principle") 
+        if(currentId <= currentWave )
+          return 1;
+        else 
           return 0.3
   } else if (mode === "initial-3") {
       if(component.Type === "Principle")

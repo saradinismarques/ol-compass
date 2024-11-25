@@ -138,25 +138,6 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy is based on </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 scientific Principles
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <br></br>
-
-                    <span className='i-text'>See Principles as the Ocean's 7 </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        key traits
-                    </span>
-                    <span className='i-text'>, and associated </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        challenges
-                    </span>
-                    <span className='i-text'> due to the climate crysis.</span>
-                    <p className='i-space'></p>
                     <span className='i-text'>OL Principles can be understood  through </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         7 Perspectives
@@ -171,25 +152,6 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy is based on </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 scientific Principles
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <br></br>
-
-                    <span className='i-text'>See Principles as the Ocean's 7 </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        key traits
-                    </span>
-                    <span className='i-text'>, and associated </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        challenges
-                    </span>
-                    <span className='i-text'> due to the climate crysis.</span>
-                    <p className='i-space'></p>
                     <span className='i-text'>OL Principles can be understood  through </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         7 Perspectives
@@ -202,7 +164,7 @@ const InitialPage = () => {
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         points of view
                     </span>
-                    <span className='i-text'>  from which the Ocean's features and associated challenges can be understood.</span>
+                    <span className='i-text'> from which the Ocean's features and associated challenges can be understood.</span>
 
                 </div>
                 </>
@@ -211,43 +173,6 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy is based on </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 scientific Principles
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <br></br>
-
-                    <span className='i-text'>See Principles as the Ocean's 7 </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        key traits
-                    </span>
-                    <span className='i-text'>, and associated </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        challenges
-                    </span>
-                    <span className='i-text'> due to the climate crysis.</span>
-                    
-                    <p className='i-space'></p>
-                    
-                    <span className='i-text'>OL Principles can be understood  through </span>
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
-                        7 Perspectives
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <br></br>
-                    <span className='i-text'>See Perspectives as the 7 </span>
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
-                        points of view
-                    </span>
-                    <span className='i-text'>  from which the Ocean's features and associated challenges can be understood.</span>
-
-                    <p className='i-space'></p>
-
                     <span className='i-text'>OL Principles and relative Perspectives can be transfered and appropriated according to </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
                         10 Dimensions
@@ -262,43 +187,6 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy is based on </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        7 scientific Principles
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <br></br>
-
-                    <span className='i-text'>See Principles as the Ocean's 7 </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        key traits
-                    </span>
-                    <span className='i-text'>, and associated </span>
-                    <span className='i-text colored' style={{color: colors.Principle}}>
-                        challenges
-                    </span>
-                    <span className='i-text'> due to the climate crysis.</span>
-                    
-                    <p className='i-space'></p>
-                    
-                    <span className='i-text'>OL Principles can be understood  through </span>
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
-                        7 Perspectives
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <br></br>
-                    <span className='i-text'>See Perspectives as the 7 </span>
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
-                        points of view
-                    </span>
-                    <span className='i-text'>  from which the Ocean's features and associated challenges can be understood.</span>
-
-                    <p className='i-space'></p>
-
                     <span className='i-text'>OL Principles and relative Perspectives can be transfered and appropriated according to </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
                         10 Dimensions

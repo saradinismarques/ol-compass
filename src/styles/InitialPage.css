@@ -39,11 +39,11 @@
 
 .i-text-container {
     position: absolute;
-    top: 14vh;
+    top: 30vh;
     left: 72vw;
     width: 310px;
     color: black;
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: 300;
     line-height: 1.22;
 }
