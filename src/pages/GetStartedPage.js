@@ -31,7 +31,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState();
   const [mode, setMode] = useState('get-started');
-  const [showMore, setShowMore] = useState(false);
 
   const componentsRef = useRef(components);
   const currentIndexRef = useRef(currentIndex);
@@ -55,13 +54,12 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
     setAfterSearch(false);
     setCurrentIndex(0);
     setComponents([]);
-    setShowMore(false);
     setMode('get-started');
     modeRef.current = 'get-started';
 
   }, [initialState, setIsExplanationPage]);
 
-  const handleCompassClick = (code, title, headline, showMore, type) => {
+  const handleCompassClick = (code, title, headline, type) => {
     let tColor;
     if(type === 'Principle') tColor = "#218065"
     else if(type === 'Perspective') tColor = "#1c633e"
@@ -80,7 +78,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
             code,
             title,
             headline,
-            showMore,
             type,
             gradientColor: colors[type],
             textColor: tColor,
@@ -130,7 +127,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
               code: firstComponent.code,
               title: firstComponent.title,
               headline: firstComponent.headline,
-              showMore: firstComponent.showMore,
               type: firstComponent.type,
               gradientColor: firstComponent.gradientColor,
               textColor: firstComponent.textColor,
@@ -147,9 +143,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
 
     setIsExplanationPage(false);
     setAfterSearch(true);
-
-    setShowMore(false);
-
   }, [setIsExplanationPage]);
   
   const handleNext = useCallback(() => {
@@ -166,7 +159,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
             code: nextComponent.code,
             title: nextComponent.title,
             headline: nextComponent.headline,
-            showMore: nextComponent.showMore,
             type: nextComponent.type,
             gradientColor: nextComponent.gradientColor,
             textColor: nextComponent.textColor,
@@ -175,7 +167,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
       });
       const code = componentsRef.current[nextIndex].code;
       setSelectedComponent(code);
-      setShowMore(false);
     }; 
   }, []);
 
@@ -193,7 +184,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
                     code: prevComponent.code,
                     title: prevComponent.title,
                     headline: prevComponent.headline,
-                    showMore: prevComponent.showMore,
                     type: prevComponent.type,
                     gradientColor: prevComponent.gradientColor,
                     textColor: prevComponent.textColor,
@@ -202,7 +192,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
         });
         const code = componentsRef.current[prevIndex].code;
         setSelectedComponent(code);
-        setShowMore(false);
       }
   }, []);
 
@@ -222,10 +211,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
         window.removeEventListener('keydown', handleKeyPress);
     };
   }, [handleKeyPress]); // Dependency array includes carouselHandleEnterClick
-
-  const toggleShowMore = () => {
-    setShowMore(!showMore);
-  };
 
   return (
     <div>
@@ -273,16 +258,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
                 <h1 className='gs-title'>{state.title}</h1>
                 <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
 
-                {state.type === "Principle" && (
-                  <>
-                  <button onClick={toggleShowMore} className="gs-show-more-button">
-                    {showMore ? 'Show less' : 'Show more'}
-                  </button>
-                  {showMore && (
-                    <p className='gs-show-more-text' style={{ color: state.textColor }}>{state.showMore}</p>
-                  )}
-                  </>
-                )}
                 <button className={'gs-arrow-button down'} onClick={handleNext}>
                   <ArrowIcon 
                     className='gs-arrow-icon'

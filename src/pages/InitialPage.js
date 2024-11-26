@@ -20,6 +20,13 @@ const InitialPage = () => {
     }
 
     const [opacityCounter, setOpacityCounter] = useState(initialCounters);
+    const maxCounters = {
+        Principle: 6,
+        Perspective: 6,
+        Dimension: 9
+    };
+
+    const [listenersActive, setListenersActive] = useState(true);
 
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
@@ -41,17 +48,37 @@ const InitialPage = () => {
         }
     }, []);
 
+    useEffect(() => {   
+        const isComplete = 
+            (frame === 0 || frame === 1) ||
+            (frame === 2 || frame === 3) && opacityCounter.Principle >= maxCounters.Principle ||
+            (frame === 4 || frame === 5) && opacityCounter.Perspective >= maxCounters.Perspective ||
+            (frame === 6 || frame === 7) && opacityCounter.Dimension >= maxCounters.Dimension;
+    
+        if (isComplete) {
+            setListenersActive(true);
+        } else {
+            setListenersActive(false);
+        }
+    }, [opacityCounter, frame]);
+
     useEffect(() => {
-        // Add the event listener when the component mounts
-        window.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('click', handleClick);
-        // Remove the event listener when the component unmounts
+        if (listenersActive) {
+            // Add event listeners
+            window.addEventListener('keydown', handleKeyDown);
+            window.addEventListener('click', handleClick);
+        } else {
+            // Remove event listeners if they are active
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('click', handleClick);
+        }
+            
+        // Cleanup on unmount
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('click', handleClick);
-
         };
-    }, [handleKeyDown, handleClick]); // Add handleKeyPress to the dependency array
+    }, [listenersActive, handleKeyDown, handleClick]); // Add handleKeyPress to the dependency array
 
     useEffect(() => {
         if (frame === 8) {
@@ -77,9 +104,9 @@ const InitialPage = () => {
 
     // Function to sequentially light up "Principle" buttons
     function startOpacityCounter(type) {
-        if ((type === 'Principle' && opacityCounter[type] >= 6) ||
-        (type === 'Perspective' && opacityCounter[type] >= 6) ||
-        (type === 'Dimension' && opacityCounter[type] >= 9)) 
+        if ((type === 'Principle' && opacityCounter[type] >= maxCounters.Principle) ||
+        (type === 'Perspective' && opacityCounter[type] >= maxCounters.Perspective) ||
+        (type === 'Dimension' && opacityCounter[type] >= maxCounters.Dimension)) 
             return;
         
         setTimeout(() => {
@@ -87,7 +114,7 @@ const InitialPage = () => {
                 ...opacityCounter,
                 [type]: opacityCounter[type]+1
             });
-        }, 200); // Delay for each button (3 seconds between each)
+        }, 300); // Delay for each button (3 seconds between each)
     }
 
     const getOpacityCounter = () => {
@@ -115,13 +142,16 @@ const InitialPage = () => {
                 <>
                 <div className='i-explanation-container'>
                     <p className='i-explanation'>
-                        Ocean Literacy (OL) 
+                         Ocean Literacy (OL) 
                         <br></br>
-                        is the understating of
+
+                        is the understanding of 
                         <br></br>
-                        the Ocean-humanity 
+
+                        the Ocean-humanity  
                         <br></br>
-                        mutual influence.
+
+                        mutual influence
                     </p>
                 </div>
                 </>
@@ -131,10 +161,18 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy is based on </span>
+                    <span className='i-text'>Ocean Literacy (OL) </span>
+                    <br></br>
+
+                    <span className='i-text'>is based on </span>
+                    <br></br>
+
                     <span className='i-text colored' style={{color: colors.Principle}}>
-                        {opacityCounter['Principle']+1} scientific Principles
+                        {opacityCounter['Principle']+1} Scientific 
                     </span>
+                    <br></br>
+
+                    <span className='i-text colored' style={{color: colors.Principle}}> Principles</span>
                     <span className='i-text'>
                     .
                     </span>
@@ -147,15 +185,16 @@ const InitialPage = () => {
                 return (
                     <>
                     <div className='i-text-container'>
-                        <span className='i-text'>See Principles as the Ocean's 7 </span>
+                        <span className='i-text'>See Principles as the </span>
+                        <br></br>
+                        
+                        <span className='i-text'>7 </span>
                         <span className='i-text colored' style={{color: colors.Principle}}>
-                            key traits
+                            macro traits                
                         </span>
-                        <span className='i-text'>, and associated </span>
-                        <span className='i-text colored' style={{color: colors.Principle}}>
-                            challenges
-                        </span>
-                        <span className='i-text'> due to the climate crysis.</span>
+                        <br></br>
+
+                        <span className='i-text'> of the Ocean.</span>
                     </div>
                     </>
                 );
@@ -165,7 +204,12 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>OL Principles can be understood  through </span>
+                    <span className='i-text'>Ocean knowledge </span>
+                    <br></br>
+                    
+                    <span className='i-text'>can be seen through </span>
+                    <br></br>
+                    
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         {opacityCounter['Perspective']+1} Perspectives
                     </span>
@@ -181,11 +225,25 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>See Perspectives as the 7 </span>
+                    <span className='i-text'>See Perspectives as </span>
+                    <br></br>
+                    
+                    <span className='i-text'>the 7 </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         points of view
                     </span>
-                    <span className='i-text'> from which the Ocean's features and associated challenges can be understood.</span>
+                    <br></br>
+
+                    <span className='i-text'> from which Ocean </span>
+                    <br></br>
+
+                    <span className='i-text'>features and challenges </span>
+                    <br></br>
+
+                    <span className='i-text'>can be explained </span>
+                    <br></br>
+
+                    <span className='i-text'>and contextualised.</span>
 
                 </div>
                 </>
@@ -196,7 +254,13 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>OL Principles and relative Perspectives can be transfered and appropriated according to </span>
+                    <span className='i-text'>Ocean knowledge </span>
+                    <br></br>
+
+                    <span className='i-text'>can be conveyed </span>
+                    <br></br>
+
+                    <span className='i-text'>through </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
                         {opacityCounter['Dimension']+1} Dimensions
                     </span>
@@ -212,12 +276,25 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>See Dimensions as the 10 </span>
+                    <span className='i-text'>See Dimensions as </span>
+                    <br></br>
+                    
+                    <span className='i-text'>the 10 </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
                         approaches
                     </span>
-                    <span className='i-text'> that can be adopted to convey the Ocean's key features and relative viewpoints.</span>
-
+                    <br></br>
+                    
+                    <span className='i-text'> that can be adopted </span>
+                    <br></br>
+                    
+                    <span className='i-text'>to transfer </span>
+                    <br></br>
+                   
+                    <span className='i-text'>OL Principles </span>
+                    <br></br>
+                    
+                    <span className='i-text'>and Perspectives.</span>
                 </div>
                 </>
             );

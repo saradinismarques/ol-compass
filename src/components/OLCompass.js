@@ -186,7 +186,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
               components[id].Code,
               title,
               components[id].Headline,
-              components[id].ShowMore,
               components[id].Type,
             );
         }
