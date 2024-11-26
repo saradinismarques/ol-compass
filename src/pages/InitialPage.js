@@ -87,7 +87,7 @@ const InitialPage = () => {
                 ...opacityCounter,
                 [type]: opacityCounter[type]+1
             });
-        }, 300); // Delay for each button (3 seconds between each)
+        }, 200); // Delay for each button (3 seconds between each)
     }
 
     const getOpacityCounter = () => {
@@ -147,15 +147,6 @@ const InitialPage = () => {
                 return (
                     <>
                     <div className='i-text-container'>
-                        <span className='i-text'>Ocean Literacy is based on </span>
-                        <span className='i-text colored' style={{color: colors.Principle}}>
-                            {opacityCounter['Principle']+1} scientific Principles
-                        </span>
-                        <span className='i-text'>
-                        .
-                        </span>
-                        <br></br>
-
                         <span className='i-text'>See Principles as the Ocean's 7 </span>
                         <span className='i-text colored' style={{color: colors.Principle}}>
                             key traits
@@ -190,14 +181,6 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>OL Principles can be understood  through </span>
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
-                        {opacityCounter['Perspective']+1} Perspectives
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <br></br>
                     <span className='i-text'>See Perspectives as the 7 </span>
                     <span className='i-text colored' style={{color: colors.Perspective}}>
                         points of view
@@ -229,14 +212,6 @@ const InitialPage = () => {
             return (
                 <>
                 <div className='i-text-container'>
-                    <span className='i-text'>OL Principles and relative Perspectives can be transfered and appropriated according to </span>
-                    <span className='i-text colored' style={{color: colors.Dimension}}>
-                        {opacityCounter['Dimension']+1} Dimensions
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                    <br></br>
                     <span className='i-text'>See Dimensions as the 10 </span>
                     <span className='i-text colored' style={{color: colors.Dimension}}>
                         approaches
