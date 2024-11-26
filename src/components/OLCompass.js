@@ -580,36 +580,36 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
   if (mode === "initial-0") {
     return 0.3;
   } else if (mode === "initial-1") {
-    return 0.2;
+    return 0.15;
   } else if (mode === "initial-2" || mode === "initial-3") {
     if(component.Type === "Principle") {
       if(currentId <= opacityCounter)
           return 1;
         else
-          return 0.2;
+          return 0.15;
     } else 
-        return 0.2;
+        return 0.15;
   } else if (mode === "initial-4" || mode === "initial-5") {
       if(component.Type === "Principle")
-          return 0.6;
+          return 0.55;
       else if(component.Type === "Perspective") {
         if(currentId <= opacityCounter)
           return 1;
         else
-          return 0.2;
+          return 0.15;
       }
       else
-          return 0.2
+          return 0.15;
   } else if (mode === "initial-6" || mode === "initial-7") {
       if(component.Type === "Principle")
-          return 0.6;
+          return 0.55;
       else if(component.Type === "Perspective")
-          return 0.6;
+          return 0.55;
       else {
         if(currentId <= opacityCounter)
           return 1;
         else
-          return 0.2;
+          return 0.15;
       }
   }
 
