@@ -577,39 +577,39 @@ function getComponentsPositions(componentsData, type) {
 };
 
 const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, opacityCounter) => {
-  if (mode === "initial-0" || mode === "initial-1") {
+  if (mode === "initial-0") {
     return 0.3;
+  } else if (mode === "initial-1") {
+    return 0.2;
   } else if (mode === "initial-2" || mode === "initial-3") {
     if(component.Type === "Principle") {
       if(currentId <= opacityCounter)
           return 1;
         else
-          return 0.3;
+          return 0.2;
     } else 
-        return 0.3;
+        return 0.2;
   } else if (mode === "initial-4" || mode === "initial-5") {
       if(component.Type === "Principle")
-          return 0.7;
+          return 0.6;
       else if(component.Type === "Perspective") {
-       
-
         if(currentId <= opacityCounter)
           return 1;
         else
-          return 0.3;
+          return 0.2;
       }
       else
-          return 0.3
+          return 0.2
   } else if (mode === "initial-6" || mode === "initial-7") {
       if(component.Type === "Principle")
-          return 0.7;
+          return 0.6;
       else if(component.Type === "Perspective")
-          return 0.7;
+          return 0.6;
       else {
         if(currentId <= opacityCounter)
           return 1;
         else
-          return 0.3;
+          return 0.2;
       }
   }
 
