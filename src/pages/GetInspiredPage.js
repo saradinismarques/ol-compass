@@ -9,7 +9,7 @@ import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjus
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
 
-const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   const initialState = useMemo(() => ({
     title: '', 
     collection: '',
@@ -324,6 +324,7 @@ const GetInspiredPage = ({ savedCaseStudies, setSavedCaseStudies, newCaseStudies
     <div>
     <div className={`${message ? "blur-background" : ""}`}>
       <OLCompass 
+        colors={colors}
         mode={mode}
         position={isExplanationPage ? "center" : "left"} 
         resetState={resetState} // Passing resetState to OLCompass

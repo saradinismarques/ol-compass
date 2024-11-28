@@ -4,7 +4,7 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 
-const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '', 
@@ -145,6 +145,7 @@ const ContibutePage = ({ setNewCaseStudies, firstMessage, setFirstMessage, isExp
     <div>
     <div className={`${message ? "blur-background" : ""}`}>
       <OLCompass 
+        colors={colors}
         mode="contribute"
         position={isExplanationPage ? "center" : "left"}
         onEnterClick={handleEnterClick} 

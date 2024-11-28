@@ -14,13 +14,7 @@ import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; //
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
 
-const colors = {
-  Principle: "#41ffc9",
-  Perspective: "#41e092",
-  Dimension: "#41c4e0"
-};
-
-const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     title: '',
@@ -86,7 +80,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
       paragraph,
       concepts,
       type,
-      gradientColor: colors[type],
+      gradientColor: colors['Wave'][type],
       textColor: tColor,
       bookmark: getBookmarkState(code),
     }));
@@ -250,6 +244,7 @@ const LearnPage = ({ savedComponents, setSavedComponents, firstMessage, setFirst
         }}
       >
         <OLCompass 
+          colors={colors}
           mode="learn" 
           position={isExplanationPage ? "center" : "left"}
           onButtonClick={handleCompassClick} 

@@ -3,10 +3,11 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import { ReactComponent as LockIcon } from '../assets/lock-icon.svg'; // Adjust the path as necessary
 
-const ComparePage = ({ isExplanationPage }) => {
+const ComparePage = ({ colors, isExplanationPage }) => {
   return (
     <div>
       <OLCompass 
+        colors={colors}
         mode="default" 
         position={isExplanationPage ? "center" : "left"}
       /> 

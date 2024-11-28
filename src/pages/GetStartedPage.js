@@ -7,31 +7,7 @@ import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust 
 import { ReactComponent as CtaArrow } from '../assets/cta-arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 
-const colors = {
-  Principle: "#d2f7d0",
-  Perspective: "#c0e7e9",
-  Dimension: "#55e0f3"
-};
-
-const textColors = {
-  Principle: "#36674f",
-  Perspective: "#386276",
-  Dimension: "#135c78"
-};
-
-// const colors = {
-//   Principle: "#11acc7",
-//   Perspective: "#026fd5",
-//   Dimension: "#012476"
-// };
-
-// const textColors = {
-// Principle: "white",
-// Perspective: "white",
-// Dimension: "white"
-// };
-
-const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
+const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
   const initialState = useMemo(() => ({
     code: '',
@@ -92,8 +68,8 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
             title,
             headline,
             type,
-            gradientColor: colors[type],
-            textColor: textColors[type],
+            gradientColor: colors['Wave'][type],
+            textColor: colors['Text'][type],
           }
         ];
     
@@ -235,6 +211,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
         }}
       >
         <OLCompass 
+          colors={colors}
           mode={mode} 
           position={afterSearch ? "left" : "center"}
           resetState={resetState}  // Passing resetState to OLCompass
@@ -265,7 +242,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
             <>
             {afterSearch && (
               <>
-              <CompassIcon type ={state.type} />
+              <CompassIcon colors={colors} type ={state.type} />
               <div className="gs-text-container">
                 <div className="gs-white-line" style={{ backgroundColor: state.textColor }}></div>
                 <h1 className='gs-title' style={{ color: state.textColor }}>{state.title}</h1>

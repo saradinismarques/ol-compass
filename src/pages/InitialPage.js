@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
 import '../styles/InitialPage.css';
 
-const InitialPage = ({colors}) => {
+const InitialPage = ({ colors }) => {
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
     
@@ -298,6 +298,7 @@ const InitialPage = ({colors}) => {
     return (
         <div>
             <OLCompass 
+                colors={colors}
                 mode={mode} 
                 position="center"
                 opacityCounter={getOpacityCounter()}

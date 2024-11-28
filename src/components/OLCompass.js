@@ -28,30 +28,6 @@ if(window.innerHeight > 700) {
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
-const colors = {
-    Principle: "#d2f7d0",
-    Perspective: "#c0e7e9",
-    Dimension: "#55e0f3"
-};
-
-const textColors = {
-  Principle: "#36674f",
-  Perspective: "#386276",
-  Dimension: "#135c78"
-};
-
-// const colors = {
-//   Principle: "#11acc7",
-//   Perspective: "#026fd5",
-//   Dimension: "#012476"
-// };
-
-// const textColors = {
-//   Principle: "white",
-//   Perspective: "white",
-//   Dimension: "white"
-// };
-
 const pinkColor = "#e6007e";
 
 // SVG Path for button shape
@@ -61,7 +37,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData, opacityCounter }) => {
+const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData, opacityCounter }) => {
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center") {
@@ -484,7 +460,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
                   ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
                 }
               }}
-              fill={textColors[c.Type]}
+              fill={colors['Text'][c.Type]}
               fontFamily="Manrope"
               fontWeight={400}
               fontSize="8.2px"
@@ -517,7 +493,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
                     ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
                   }
                 }}
-                fill={textColors[c.Type]}
+                fill={colors['Text'][c.Type]}
                 fontFamily="Manrope"
                 fontWeight={400}
                 fontSize="8.2px"
@@ -687,12 +663,7 @@ const getGradientColor = (code, type, colors) => {
   //     return {start: colors.Perspective, end: colors.Principle};
   // else if(code === 'D1')
   //   return {start: colors.Dimension, end: colors.Perspective};
-  if (type === 'Principle')
-    return {start: colors.Principle, end: colors.Principle};
-  else if (type === 'Perspective')
-    return {start: colors.Perspective, end: colors.Perspective};
-  else if (type === 'Dimension')
-    return {start: colors.Dimension, end: colors.Dimension};
+  return {start: colors['Wave'][type], end: colors['Wave'][type]};
 };
 
 const isFlipped = (label) => {

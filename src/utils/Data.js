@@ -8,17 +8,16 @@ import getInspiredData from '../data/get-inspired-data.json';
 export function getColorPallete(version) {
     try {
         // Find the color data for the given version
-        const versionData = colorPalletData.find(item => item.ColorVersion === version);
+        let versionData = colorPalletData.find(item => item.ColorVersion === version);
 
         // If no matching version found, return null or an error message
         if (!versionData) {
-            console.error(`Version ${version} not found`);
-            return null;
+            versionData = colorPalletData.find(item => item.ColorVersion === 1);
         }
 
         // Initialize the colors object
         let colors = {
-            Waves: {},
+            Wave: {},
             Text: {},
             "Initial Text": {},
             Selection: "",
@@ -32,9 +31,9 @@ export function getColorPallete(version) {
         };
 
         // Manually map colors for the selected version
-        colors['Waves']['Principle'] = versionData["Wave [Principle]"];
-        colors['Waves']['Perspective'] = versionData["Wave [Perspective]"];
-        colors['Waves']['Dimension'] = versionData["Wave [Dimension]"];
+        colors['Wave']['Principle'] = versionData["Wave [Principle]"];
+        colors['Wave']['Perspective'] = versionData["Wave [Perspective]"];
+        colors['Wave']['Dimension'] = versionData["Wave [Dimension]"];
         
         colors['Text']['Principle'] = versionData["Text [Principle]"];
         colors['Text']['Perspective'] = versionData["Text [Perspective]"];
