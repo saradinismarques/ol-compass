@@ -1,18 +1,12 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
 import '../styles/InitialPage.css';
 
-const colors = {
-    Principle: "#c3e8c2",
-    Perspective: "#aed3d5",
-    Dimension: "#55e0f3"
-  };
-
-const InitialPage = () => {
+const InitialPage = ({colors}) => {
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
-
+    
     const initialCounters = {
         Principle: 0,
         Perspective: 0,
@@ -20,11 +14,11 @@ const InitialPage = () => {
     }
 
     const [opacityCounter, setOpacityCounter] = useState(initialCounters);
-    const maxCounters = {
+    const maxCounters = useMemo(() => ({
         Principle: 6,
         Perspective: 6,
         Dimension: 9
-    };
+    }), []);
 
     const [listenersActive, setListenersActive] = useState(true);
 
@@ -49,18 +43,18 @@ const InitialPage = () => {
     }, []);
 
     useEffect(() => {   
-        const isComplete = 
+        const isComplete =
             (frame === 0 || frame === 1) ||
-            (frame === 2 || frame === 3) && opacityCounter.Principle >= maxCounters.Principle ||
-            (frame === 4 || frame === 5) && opacityCounter.Perspective >= maxCounters.Perspective ||
-            (frame === 6 || frame === 7) && opacityCounter.Dimension >= maxCounters.Dimension;
-    
+            ((frame === 2 || frame === 3) && opacityCounter.Principle >= maxCounters.Principle) ||
+            ((frame === 4 || frame === 5) && opacityCounter.Perspective >= maxCounters.Perspective) ||
+            ((frame === 6 || frame === 7) && opacityCounter.Dimension >= maxCounters.Dimension);
+        
         if (isComplete) {
             setListenersActive(true);
         } else {
             setListenersActive(false);
         }
-    }, [opacityCounter, frame]);
+    }, [opacityCounter, frame, maxCounters]);
 
     useEffect(() => {
         if (listenersActive) {
@@ -167,12 +161,12 @@ const InitialPage = () => {
                     <span className='i-text'>is based on </span>
                     <br></br>
 
-                    <span className='i-text colored' style={{color: colors.Principle}}>
+                    <span className='i-text colored' style={{color: colors['Initial Text']['Principle']}}>
                         {opacityCounter['Principle']+1} Scientific 
                     </span>
                     <br></br>
 
-                    <span className='i-text colored' style={{color: colors.Principle}}> Principles</span>
+                    <span className='i-text colored' style={{color: colors['Initial Text']['Principle']}}> Principles</span>
                     <span className='i-text'>
                     .
                     </span>
@@ -189,7 +183,7 @@ const InitialPage = () => {
                         <br></br>
                         
                         <span className='i-text'>7 </span>
-                        <span className='i-text colored' style={{color: colors.Principle}}>
+                        <span className='i-text colored' style={{color: colors['Initial Text']['Principle']}}>
                             macro traits                
                         </span>
                         <br></br>
@@ -210,7 +204,7 @@ const InitialPage = () => {
                     <span className='i-text'>can be seen through </span>
                     <br></br>
                     
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                    <span className='i-text colored' style={{color: colors['Initial Text']['Perspective']}}>
                         {opacityCounter['Perspective']+1} Perspectives
                     </span>
                     <span className='i-text'>
@@ -229,7 +223,7 @@ const InitialPage = () => {
                     <br></br>
                     
                     <span className='i-text'>the 7 </span>
-                    <span className='i-text colored' style={{color: colors.Perspective}}>
+                    <span className='i-text colored' style={{color: colors['Initial Text']['Perspective']}}>
                         points of view
                     </span>
                     <br></br>
@@ -261,7 +255,7 @@ const InitialPage = () => {
                     <br></br>
 
                     <span className='i-text'>through </span>
-                    <span className='i-text colored' style={{color: colors.Dimension}}>
+                    <span className='i-text colored' style={{color: colors['Initial Text']['Dimension']}}>
                         {opacityCounter['Dimension']+1} Dimensions
                     </span>
                     <span className='i-text'>
@@ -280,7 +274,7 @@ const InitialPage = () => {
                     <br></br>
                     
                     <span className='i-text'>the 10 </span>
-                    <span className='i-text colored' style={{color: colors.Dimension}}>
+                    <span className='i-text colored' style={{color: colors['Initial Text']['Dimension']}}>
                         approaches
                     </span>
                     <br></br>

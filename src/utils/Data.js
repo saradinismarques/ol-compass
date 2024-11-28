@@ -1,8 +1,64 @@
+import colorPalletData from '../data/color-pallete-data.json'
 import introTexts from '../data/intro-texts.json'
 import getStartedData from '../data/get-started-data.json';
 import learnData from '../data/learn-data.json';
 import conceptsData from '../data/concepts-data.json';
 import getInspiredData from '../data/get-inspired-data.json';
+
+export function getColorPallete(version) {
+    try {
+        // Find the color data for the given version
+        const versionData = colorPalletData.find(item => item.ColorVersion === version);
+
+        // If no matching version found, return null or an error message
+        if (!versionData) {
+            console.error(`Version ${version} not found`);
+            return null;
+        }
+
+        // Initialize the colors object
+        let colors = {
+            Waves: {},
+            Text: {},
+            "Initial Text": {},
+            Selection: "",
+            "Selection Method": "",
+            Opacity: {
+                Max: 0,
+                Hover: 0,
+                Initial: 0,
+                "Not Selected": 0
+            }
+        };
+
+        // Manually map colors for the selected version
+        colors['Waves']['Principle'] = versionData["Wave [Principle]"];
+        colors['Waves']['Perspective'] = versionData["Wave [Perspective]"];
+        colors['Waves']['Dimension'] = versionData["Wave [Dimension]"];
+        
+        colors['Text']['Principle'] = versionData["Text [Principle]"];
+        colors['Text']['Perspective'] = versionData["Text [Perspective]"];
+        colors['Text']['Dimension'] = versionData["Text [Dimension]"];
+
+        colors['Initial Text']['Principle'] = versionData["Initial Text [Principle]"];
+        colors['Initial Text']['Perspective'] = versionData["Initial Text [Perspective]"];
+        colors['Initial Text']['Dimension'] = versionData["Initial Text [Dimension]"];
+
+        colors.Selection = versionData["Selection"];
+        colors["Selection Method"] = versionData["Selection Method"];
+        
+        colors.Opacity.Max = versionData["Opacity [Max]"];
+        colors.Opacity.Hover = versionData["Opacity [Hover]"];
+        colors.Opacity.Initial = versionData["Opacity [Initial]"];
+        colors.Opacity["Not Selected"] = versionData["Opacity [Not Selected]"];
+
+        // Return the colors for the specific version
+        return colors;
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
+}
 
 export function getIntroTexts(language) {
     try {

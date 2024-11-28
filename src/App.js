@@ -10,11 +10,14 @@ import ContextualizePage from './pages/ContextualizePage';
 import IdeatePage from './pages/IdeatePage';
 import ComparePage from './pages/ComparePage';
 import './styles/App.css';
+import { getColorPallete } from './utils/Data.js'; 
 
 function App() {
   const [savedCaseStudies, setSavedCaseStudies] = useState([]);
   const [savedComponents, setSavedComponents] = useState([]);
   const [newCaseStudies, setNewCaseStudies] = useState([]);
+
+  const colors = getColorPallete(3);
 
   const initialFirstMessage = useMemo(
     () => ({
@@ -48,12 +51,25 @@ function App() {
     <div className="App">
       <main>
         <Routes>
-          <Route path="/ol-compass" element={<InitialPage />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route 
+            path="/ol-compass" 
+            element={
+              <InitialPage 
+                colors={colors}
+              />} 
+          />
+          <Route 
+            path="/home" 
+            element={
+              <HomePage 
+                colors={colors}
+              />} 
+            />
           <Route
             path="/get-started"
             element={
               <GetStartedPage
+                colors={colors}
                 savedComponents={savedComponents}
                 setSavedComponents={setSavedComponents}
                 firstMessage={firstMessage.getStarted}
@@ -67,6 +83,7 @@ function App() {
             path="/learn"
             element={
               <LearnPage
+                colors={colors}
                 savedComponents={savedComponents}
                 setSavedComponents={setSavedComponents}
                 firstMessage={firstMessage.learn}
@@ -80,6 +97,7 @@ function App() {
             path="/get-inspired"
             element={
               <GetInspiredPage
+                colors={colors}
                 savedCaseStudies={savedCaseStudies}
                 setSavedCaseStudies={setSavedCaseStudies}
                 newCaseStudies={newCaseStudies}
@@ -94,6 +112,7 @@ function App() {
             path="/contribute"
             element={
               <ContributePage
+                colors={colors}
                 newCaseStudies={newCaseStudies}
                 setNewCaseStudies={setNewCaseStudies}
                 firstMessage={firstMessage.contribute}
@@ -107,6 +126,7 @@ function App() {
             path="/contextualize"
             element={
               <ContextualizePage
+                colors={colors}
                 isExplanationPage={isExplanationPage}
                 setIsExplanationPage={setIsExplanationPage}
               />
@@ -116,6 +136,7 @@ function App() {
             path="/ideate"
             element={
               <IdeatePage
+                colors={colors}
                 isExplanationPage={isExplanationPage}
                 setIsExplanationPage={setIsExplanationPage}
               />
@@ -125,13 +146,14 @@ function App() {
             path="/compare"
             element={
               <ComparePage
+                colors={colors}
                 isExplanationPage={isExplanationPage}
                 setIsExplanationPage={setIsExplanationPage}
               />
             }
           />
           {/* Catch-all route */}
-          <Route path="*" element={<InitialPage />} />
+          <Route path="*" element={<InitialPage colors={colors}/>} />
         </Routes>
       </main>
     </div>
