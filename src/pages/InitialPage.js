@@ -4,10 +4,10 @@ import OLCompass from '../components/OLCompass';
 import '../styles/InitialPage.css';
 
 const colors = {
-    Principle: "#41ffc9",
-    Perspective: "#41e092",
-    Dimension: "#41c4e0"
-};
+    Principle: "#c3e8c2",
+    Perspective: "#aed3d5",
+    Dimension: "#55e0f3"
+  };
 
 const InitialPage = () => {
     const [frame, setFrame] = useState(0);

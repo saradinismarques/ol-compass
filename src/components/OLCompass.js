@@ -29,16 +29,28 @@ const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
 const colors = {
-    Principle: "#41ffc9",
-    Perspective: "#41e092",
-    Dimension: "#41c4e0"
+    Principle: "#d2f7d0",
+    Perspective: "#c0e7e9",
+    Dimension: "#55e0f3"
 };
 
 const textColors = {
-  Principle: "#218065",
-  Perspective: "#1c633e",
-  Dimension: "#216270"
+  Principle: "#36674f",
+  Perspective: "#386276",
+  Dimension: "#135c78"
 };
+
+// const colors = {
+//   Principle: "#11acc7",
+//   Perspective: "#026fd5",
+//   Dimension: "#012476"
+// };
+
+// const textColors = {
+//   Principle: "white",
+//   Perspective: "white",
+//   Dimension: "white"
+// };
 
 const pinkColor = "#e6007e";
 
@@ -463,11 +475,20 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
 
             {/* Text on Path */}
             <text
+              ref={(ref) => {
+                if (ref) {
+                  const bbox = ref.getBBox(); // Measure the rendered dimensions of the text
+                  const renderedWidth = bbox.width; // Get the actual width of the text
+            
+                  // Dynamically calculate letter spacing based on rendered width
+                  ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
+                }
+              }}
               fill={textColors[c.Type]}
               fontFamily="Manrope"
-              fontWeight={500}
-              fontSize="8.7px"
-              dy={bigLabels.includes(c.Code) ? '-0.1em' : '0.35em'} // Adjust this to center the text vertically on the path
+              fontWeight={400}
+              fontSize="8.2px"
+              dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
               style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
             >
               <textPath
@@ -487,11 +508,21 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, savedComponents,
             {bigLabels.includes(c.Code) &&
               <>
               <text
+                ref={(ref) => {
+                  if (ref) {
+                    const bbox = ref.getBBox(); // Measure the rendered dimensions of the text
+                    const renderedWidth = bbox.width; // Get the actual width of the text
+              
+                    // Dynamically calculate letter spacing based on rendered width
+                    ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
+                  }
+                }}
                 fill={textColors[c.Type]}
                 fontFamily="Manrope"
-                fontWeight={500}
-                fontSize="8.7px"
-                dy="0.8em" // Adjust this to center the text vertically on the path
+                fontWeight={400}
+                fontSize="8.2px"
+
+                dy="0.84em" // Adjust this to center the text vertically on the path
                 style={{ 
                   pointerEvents: 'none', 
                   userSelect: 'none'
@@ -652,10 +683,10 @@ const getStroke = (clickedIds, currentId, mode) => {
 };
 
 const getGradientColor = (code, type, colors) => {
-  if (code === 'Pe1')
-      return {start: colors.Perspective, end: colors.Principle};
-  else if(code === 'D1')
-    return {start: colors.Dimension, end: colors.Perspective};
+  // if (code === 'Pe1')
+  //     return {start: colors.Perspective, end: colors.Principle};
+  // else if(code === 'D1')
+  //   return {start: colors.Dimension, end: colors.Perspective};
   if (type === 'Principle')
     return {start: colors.Principle, end: colors.Principle};
   else if (type === 'Perspective')

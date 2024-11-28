@@ -8,10 +8,28 @@ import { ReactComponent as CtaArrow } from '../assets/cta-arrow-icon.svg'; // Ad
 import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
 
 const colors = {
-  Principle: "#41ffc9",
-  Perspective: "#41e092",
-  Dimension: "#41c4e0"
+  Principle: "#d2f7d0",
+  Perspective: "#c0e7e9",
+  Dimension: "#55e0f3"
 };
+
+const textColors = {
+  Principle: "#36674f",
+  Perspective: "#386276",
+  Dimension: "#135c78"
+};
+
+// const colors = {
+//   Principle: "#11acc7",
+//   Perspective: "#026fd5",
+//   Dimension: "#012476"
+// };
+
+// const textColors = {
+// Principle: "white",
+// Perspective: "white",
+// Dimension: "white"
+// };
 
 const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
@@ -60,11 +78,6 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
   }, [initialState, setIsExplanationPage]);
 
   const handleCompassClick = (code, title, headline, type) => {
-    let tColor;
-    if(type === 'Principle') tColor = "#218065"
-    else if(type === 'Perspective') tColor = "#1c633e"
-    else if(type === 'Dimension') tColor = "#216270"
-
     setComponents((prevComponents) => {
       // Check if the component with the specified code exists
       const componentExists = prevComponents.some(component => component.code === code);
@@ -80,7 +93,7 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
             headline,
             type,
             gradientColor: colors[type],
-            textColor: tColor,
+            textColor: textColors[type],
           }
         ];
     
@@ -254,9 +267,9 @@ const GetStartedPage = ({ isExplanationPage, setIsExplanationPage }) => {
               <>
               <CompassIcon type ={state.type} />
               <div className="gs-text-container">
-                <div className="gs-white-line"></div>
-                <h1 className='gs-title'>{state.title}</h1>
-                <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
+                <div className="gs-white-line" style={{ backgroundColor: state.textColor }}></div>
+                <h1 className='gs-title' style={{ color: state.textColor }}>{state.title}</h1>
+                <h2 className='gs-headline' style={{ color: state.textColor }} dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
 
                 <button className={'gs-arrow-button down'} onClick={handleNext}>
                   <ArrowIcon 

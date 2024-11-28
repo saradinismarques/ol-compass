@@ -48,6 +48,20 @@ body {
     color: #E5007E;
 }
 
+.colors {
+    color: #c3e8c2;
+    color: #aed3d5;
+    color: #55e0f3;
+
+    color: #36674f;
+    color: #386276;
+    color: #135c78;
+
+    color: #11acc7;
+    color: #026fd5;
+    color: #012476;
+}
+
 .not-available-container {
     display: flex;
     align-items: center;
