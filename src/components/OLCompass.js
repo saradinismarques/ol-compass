@@ -462,7 +462,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
               }}
               fill={colors['Text'][c.Type]}
               fontFamily="Manrope"
-              fontWeight={400}
+              fontWeight={500}
               fontSize="8.2px"
               dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
               style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
@@ -495,7 +495,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                 }}
                 fill={colors['Text'][c.Type]}
                 fontFamily="Manrope"
-                fontWeight={400}
+                fontWeight={500}
                 fontSize="8.2px"
 
                 dy="0.84em" // Adjust this to center the text vertically on the path
