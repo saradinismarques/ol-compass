@@ -52,6 +52,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     searchLogicRef.current = searchLogic;
   }, [searchLogic]);
 
+  document.documentElement.style.setProperty('--selection-color', colors['Selection']);
+  document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
+
   const resetState = useCallback(() => {
     setState(initialState);
     setCarouselMode(true);

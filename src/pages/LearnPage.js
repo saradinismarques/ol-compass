@@ -22,8 +22,6 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
     paragraph: '',
     concepts: [],
     type: null,
-    gradientColor: null,
-    textColor: null,
     bookmark: false,
   }), []);
 
@@ -40,6 +38,9 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
   const [firstClick, setFirstClick] = useState(true);
   const [message, setMessage] = useState(false);
   
+  document.documentElement.style.setProperty('--selection-color', colors['Selection']);
+  document.documentElement.style.setProperty('--text-color', colors['Text'][state.type]);
+  
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
@@ -53,7 +54,7 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
     return savedComponents.length !== 0 && savedComponents.includes(code);
   }, [savedComponents]);
 
-  const handleCompassClick = (code, title, headline, paragraph,type, concepts) => {
+  const handleCompassClick = (code, title, headline, paragraph, type, concepts) => {
     if(firstClick && firstMessage) {
       setFirstClick(false);
       setMessage(true);
@@ -80,10 +81,11 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
       paragraph,
       concepts,
       type,
-      gradientColor: colors['Wave'][type],
-      textColor: tColor,
       bookmark: getBookmarkState(code),
     }));
+
+    document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
+    document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
 
     setIsExplanationPage(false);
 
@@ -216,7 +218,7 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
       };
     }, [text]); // Run this effect when `text` changes
     return (
-      <div className="l-text" style={{ color: state.textColor }}>
+      <div className="l-text">
         <p dangerouslySetInnerHTML={{ __html: replaceUnderlinesWithButtons(text, currentConcept) }}></p>
       </div>
     );
@@ -236,13 +238,8 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
     <div>
 
     <div className={`${message ? "blur-background" : ""}`}>
-      <div className='l-gradient-background'
-        style={{
-          background: isExplanationPage
-            ? 'none'
-            : `linear-gradient(to right, transparent 25%, ${state.gradientColor} 100%)`,
-        }}
-      >
+      <div className={`l-background ${isExplanationPage ? '' : 'gradient'}`}>
+    
         <OLCompass 
           colors={colors}
           mode="learn" 
@@ -302,26 +299,25 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
                 <>
                 <DynamicText text={state.paragraph} currentConcept={concept} />
                 <div className='l-concepts-container'>
-                  <h1 className='l-title-concepts' style={{ color: state.textColor }}>{concept.label}</h1>
+                  <h1 className='l-title-concepts'>{concept.label}</h1>
                   
                   {/* Navigation Arrows */}
                   {concept.index < state.concepts.length - 1 && (
                   <button className="l-arrow-button right" onClick={handleNext}>
                     <ArrowIcon 
                       className="l-arrow-icon"  // Apply your CSS class
-                      style={{ fill: state.textColor }}
                     />
                   </button>
                   )}
                 </div>
-                  <div className="l-text-concepts expanded l-scroller" style={{ color: state.textColor, '--scrollbar-thumb-color': state.textColor }}>
+                  <div className="l-text-concepts expanded l-scroller">
                     <p>{concept.paragraph}</p>
                   </div>
                 </>
               )}
               {state.type !== "Principle" && (
                 <>
-                <div className="l-text" style={{ color: state.textColor }}>
+                <div className="l-text">
                   <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
                 </div>
                 </>

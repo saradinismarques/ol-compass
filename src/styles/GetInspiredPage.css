@@ -1,3 +1,8 @@
+:root {
+    --selection-color: #e5007e; /* Default color */
+    --selection-hover-color: #841321; /* Default color */
+}
+
 /* Style for text-container */
 .gi-text-container {
     position: fixed;
@@ -135,7 +140,7 @@
 }
 
 .gi-bookmark-button.active {
-    background-color: #e6007e; /* Active state background color */
+    background-color: var(--selection-color); /* Active state background color */
     color: white; /* Active state text color */
 }
  
@@ -175,19 +180,19 @@
 
 /* Change icon color on hover */
 .gi-arrow-button:hover .gi-arrow-icon {
-    fill: #cc006f; /* Change fill color on hover */
+    fill: var(--selection-hover-color); /* Change fill color on hover */
 }
 
 .gi-arrow-button:active .gi-arrow-icon {
-    fill: #cc006f; /* Change fill color on hover */
+    fill: var(--selection-hover-color); /* Change fill color on hover */
 }
  
 .gi-arrow-icon {
     width: 17px;
     height: 17px;
-    fill: #e6007e; /* Set default color for the bookmark */
+    fill: var(--selection-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: #e6007e;
+    stroke: var(--selection-color);
     stroke-width: 0px;
 }
 
@@ -203,7 +208,7 @@
     left: 75vw;
     transform: translateX(-50%);
     font-weight: 200;
-    color: #e6007e;
+    color: var(--selection-color);
 }
 
 /* Container for the menu */
@@ -283,7 +288,7 @@
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
     font-size: 11px;
-    background-color: #e6007e;
+    background-color: var(--selection-color);
     border-radius: 0 50px 50px 0; /* Rounded on the right side */
     z-index: 10;
     text-indent: 25px; /* Move text 10px to the right */
@@ -292,11 +297,11 @@
 
 /* When hovering the area below the mode button background */
 .gi-search-button:hover {
-    background-color: #cc006f; /* Darkened version of the original background color */
+    background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }
 
 .gi-search-button:active {
-    background-color: #cc006f; /* Darkened version of the original background color */
+    background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }
 
 .gi-bold-text {

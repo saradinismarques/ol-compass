@@ -10,8 +10,7 @@ body {
 }
 
 :root {
-    --selection-color: #E5007E; /* Default color */
-    --selection-hover-color: #841321;
+    --selection-color: #e5007e; /* Default color */
 }
 
 .text-container {
@@ -53,20 +52,6 @@ body {
     color: var(--selection-color);
 }
 
-.colors {
-    color: #c3e8c2;
-    color: #aed3d5;
-    color: #55e0f3;
-
-    color: #36674f;
-    color: #386276;
-    color: #135c78;
-
-    color: #11acc7;
-    color: #026fd5;
-    color: #012476;
-}
-
 .not-available-container {
     display: flex;
     align-items: center;
@@ -76,7 +61,7 @@ body {
 .not-available {
     font-size: 1.em; /* Smaller size for h2 */
     font-weight: 500;
-    color: var(--selection-hover-color);
+    color: #841321;
     margin-top: 10px;
     max-width: 250px;
 }
@@ -222,9 +207,9 @@ body {
 .text-icon {
     width: 1.3em;
     height: 1.3em;
-    fill: #E5007E; /* Set default color for the bookmark */
+    fill: var(--selection-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: #E5007E;
+    stroke: var(--selection-color);
     stroke-width: 0px;
     margin-left: 1px;
     margin-right: 1px;

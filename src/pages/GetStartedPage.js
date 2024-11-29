@@ -15,8 +15,6 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
     headline: '',
     paragraph: '',
     type: null,
-    gradientColor: null,
-    textColor: null,
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -41,6 +39,9 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
   useEffect(() => {
     modeRef.current = mode;
   }, [mode]);
+
+  document.documentElement.style.setProperty('--selection-color', colors['Selection']);
+  document.documentElement.style.setProperty('--text-color', colors['Text'][state.type]);
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -68,8 +69,6 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
             title,
             headline,
             type,
-            gradientColor: colors['Wave'][type],
-            textColor: colors['Text'][type],
           }
         ];
     
@@ -110,6 +109,9 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
     setState((prevState) => {
         const firstComponent = componentsRef.current[currentIndex];
+        document.documentElement.style.setProperty('--text-color', colors['Text'][firstComponent.type]);
+        document.documentElement.style.setProperty('--wave-color', colors['Wave'][firstComponent.type]);
+        
         return firstComponent
           ? {
               ...prevState,
@@ -117,8 +119,6 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
               title: firstComponent.title,
               headline: firstComponent.headline,
               type: firstComponent.type,
-              gradientColor: firstComponent.gradientColor,
-              textColor: firstComponent.textColor,
             }
           : prevState;
     });
@@ -142,6 +142,9 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
       
       setState((prevState) => {
         const nextComponent = componentsRef.current[nextIndex];
+        document.documentElement.style.setProperty('--text-color', colors['Text'][nextComponent.type]);
+        document.documentElement.style.setProperty('--wave-color', colors['Wave'][nextComponent.type]);
+        
         return nextComponent
           ? {
             ...prevState,
@@ -149,8 +152,6 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
             title: nextComponent.title,
             headline: nextComponent.headline,
             type: nextComponent.type,
-            gradientColor: nextComponent.gradientColor,
-            textColor: nextComponent.textColor,
           }
           : prevState;
       });
@@ -167,6 +168,9 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
         setState((prevState) => {
           const prevComponent = componentsRef.current[prevIndex];
+          document.documentElement.style.setProperty('--text-color', colors['Text'][prevComponent.type]);
+          document.documentElement.style.setProperty('--wave-color', colors['Wave'][prevComponent.type]);
+          
           return prevComponent
               ? {
                     ...prevState,
@@ -174,8 +178,6 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
                     title: prevComponent.title,
                     headline: prevComponent.headline,
                     type: prevComponent.type,
-                    gradientColor: prevComponent.gradientColor,
-                    textColor: prevComponent.textColor,
                 }
               : prevState;
         });
@@ -203,13 +205,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
   return (
     <div>
-      <div className='gs-gradient-background'
-        style={{
-          background: isExplanationPage
-            ? 'none'
-            : `linear-gradient(to right, transparent 25%, ${state.gradientColor} 100%)`,
-        }}
-      >
+      <div className={`gs-background ${afterSearch ? 'gradient' : ''}`}>
         <OLCompass 
           colors={colors}
           mode={mode} 
@@ -244,9 +240,9 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
               <>
               <CompassIcon colors={colors} type ={state.type} />
               <div className="gs-text-container">
-                <div className="gs-white-line" style={{ backgroundColor: state.textColor }}></div>
-                <h1 className='gs-title' style={{ color: state.textColor }}>{state.title}</h1>
-                <h2 className='gs-headline' style={{ color: state.textColor }} dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
+                <div className="gs-white-line"></div>
+                <h1 className='gs-title'>{state.title}</h1>
+                <h2 className='gs-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
 
                 <button className={'gs-arrow-button down'} onClick={handleNext}>
                   <ArrowIcon 

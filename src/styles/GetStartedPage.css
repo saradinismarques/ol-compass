@@ -1,3 +1,10 @@
+:root {
+    --wave-color: #ffffff; /* Default color */
+    --text-color: #ffffff
+    --selection-color: #e5007e; /* Default color */
+    --selection-hover-color: #841321; /* Default color */
+}
+
 .gs-text-container {
     position: fixed;
     top: 10.6vh; 
@@ -9,12 +16,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;   /* Center items horizontally */
+    color: var(--text-color);
 }
   
 .gs-white-line{
     height: 1px;
     width: 260px;
-    background-color: white;
+    background-color:  var(--text-color);
     z-index: 40;
 }
 
@@ -22,7 +30,6 @@
 .gs-title {
     font-size: 1.4em; /* Larger size for h1 */
     font-weight: 300;
-    color: rgb(255, 255, 255); 
     text-transform: uppercase;
     margin-top: 7px;
     text-align: left; /* Align text within itself */
@@ -34,7 +41,6 @@
     font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
     line-height: 1.2;
-    color: rgb(255, 255, 255);
     margin-top: -5px;
 }
 
@@ -43,7 +49,6 @@
     font-size: 1em;
     font-weight: 100;
     background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: rgb(255, 255, 255);
     border: none;
     cursor: pointer;
     outline: none; /* Optional: Remove outline on focus */
@@ -82,6 +87,19 @@
     z-index: 20; /* Ensure this doesn't interfere with other content */
 }
 
+.gs-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20; /* Ensure this doesn't interfere with other content */
+}
+
+.gs-background.gradient {
+    background: linear-gradient(to right, transparent 25%, var(--wave-color) 100%);
+}
+
 .gs-search-container {
     position: fixed;
     bottom: 4vh;
@@ -114,7 +132,7 @@
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
     font-size: 11px;
-    background-color:  #E5007E;
+    background-color:  var(--selection-color);
     border-radius: 50px; /* Rounded on the right side */
     z-index: 10;
     outline: none;
@@ -124,11 +142,11 @@
 
 /* When hovering the area below the mode button background */
 .gs-search-button:hover {
-    background-color: #cc006f; /* Darkened version of the original background color */
+    background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }
 
 .gs-search-button:active {
-    background-color: #cc006f; /* Darkened version of the original background color */
+    background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }
 
 .gs-explanation-text-container {
@@ -160,7 +178,7 @@
     max-width: 280px;
     font-weight: 600;
     font-size: 1em;
-    color: #E5007E;
+    color: var(--selection-color);
     text-transform: uppercase;
 }
 
@@ -185,19 +203,19 @@
 
 /* Change icon color on hover */
 .gs-arrow-button:hover .gi-arrow-icon {
-    fill: #cc006f; /* Change fill color on hover */
+    fill: var(--selection-hover-color); /* Change fill color on hover */
 }
 
 .gs-arrow-button:active .gi-arrow-icon {
-    fill: #cc006f; /* Change fill color on hover */
+    fill: var(--selection-hover-color); /* Change fill color on hover */
 }
 
 .gs-arrow-icon {
     width: 17px;
     height: 17px;
-    fill: #e6007e; /* Set default color for the bookmark */
+    fill: var(--selection-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: #e6007e;
+    stroke: var(--selection-color);
     stroke-width: 0px;
 }
 

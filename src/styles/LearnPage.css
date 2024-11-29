@@ -1,9 +1,15 @@
+:root {
+    --selection-color: #e5007e; /* Default color */
+    --text-color: #ffffff; /* Default color */
+}
+
 .l-text-container {
     position: fixed;
     top: 14vh; 
     left: 65vw;
     padding: 0px;
     margin: 0px;
+    color: var(--text-color); 
     z-index: 30;
 }
   
@@ -11,7 +17,6 @@
 .l-title {
     font-size: 1.4em; /* Larger size for h1 */
     font-weight: 400;
-    color: rgb(255, 255, 255); 
     text-transform: uppercase;
     margin: 0;
 }
@@ -21,7 +26,6 @@
     font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
     text-transform: uppercase;
-    color: rgb(255, 255, 255);
     margin-top: 3px;
 }
   
@@ -61,25 +65,21 @@
 }
         
 .l-scroller::-webkit-scrollbar-thumb {
-    background: var(--scrollbar-thumb-color); /* Use the CSS variable here */
+    background: var(--text-color); /* Use the CSS variable here */
     border-radius: 10px;
 }
   
-.l-design-prompt {
-    font-size: 1.1em;
-    font-weight: 400;
-    color: rgb(255, 255, 255); 
-    padding-left: 20px;
-    padding-top: -25px;
-}
-  
-.l-gradient-background {
+.l-background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
     z-index: 20; /* Ensure this doesn't interfere with other content */
+}
+
+.l-background.gradient {
+    background: linear-gradient(to right, transparent 25%, var(--wave-color) 100%);
 }
 
 .l-principles-image {
@@ -164,6 +164,7 @@
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: rgb(0, 0, 0);
     stroke-width: 0px;
+    fill: var(--text-color);
 }
 
 .l-bookmark-container {
@@ -179,12 +180,12 @@
 .l-white-line {
     width: 342px;
     height: 1.5px;
-    background-color: white;
+    background-color: var(--text-color);
 }
   
 .l-bookmark-button {
     background-color: transparent;
-    border: 2px solid white;
+    border: 2px solid var(--text-color);
     border-radius: 50%;
     margin-left: 10px; /* Add space between the line and the button */
     cursor: pointer;
@@ -198,18 +199,17 @@
 }
   
 .l-bookmark-button:hover {
-    border-color: #fff; /* Change border color on hover */
+    border-color: var(--text-color); /* Change border color on hover */
     background-color:  rgba(255, 255, 255, 0.2);
 }
   
 .l-bookmark-button:active {
-    border-color: #d8d8d8; /* Lighter border on click */
+    border-color: var(--text-color); /* Change border color on hover */
     background-color:  rgba(199, 181, 181, 0.2);
 }
 
 .l-bookmark-button.active {
-    background-color: #e6007e; /* Active state background color */
-    color: white; /* Active state text color */
+    background-color: var(--selection-color); /* Active state background color */
 }
   
 .l-bookmark-icon {
@@ -217,7 +217,7 @@
     height: 15px;
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: white;
+    stroke: var(--text-color);
     stroke-width: 2px;
 }
 

@@ -18,6 +18,7 @@ function App() {
   const [newCaseStudies, setNewCaseStudies] = useState([]);
 
   const colors = getColorPallete(1);
+  document.documentElement.style.setProperty('--selection-color', colors['Selection']);
 
   const initialFirstMessage = useMemo(
     () => ({
@@ -34,14 +35,14 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Redirect to /ol-compass when the app is loaded (on refresh)
-    if (location.pathname !== '/ol-compass') {
-      navigate('/ol-compass', { replace: true });
-      localStorage.removeItem('showMore');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run only on the initial mount
+  // useEffect(() => {
+  //   // Redirect to /ol-compass when the app is loaded (on refresh)
+  //   if (location.pathname !== '/ol-compass') {
+  //     navigate('/ol-compass', { replace: true });
+  //     localStorage.removeItem('showMore');
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []); // Run only on the initial mount
 
   useEffect(() => {
     setIsExplanationPage(true); // Reset to initial state when the page changes

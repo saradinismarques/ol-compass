@@ -83,7 +83,7 @@ const CompassIcon = ({ colors, type }) => {
         >
         <p
             style={{
-                color: `${colors['Text'][type]}`,
+                color: `${colors['Label'][type]}`,
                 fontFamily: "Manrope",
                 fontWeight: "500",
                 fontSize:"11px",

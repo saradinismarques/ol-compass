@@ -18,9 +18,11 @@ export function getColorPallete(version) {
         // Initialize the colors object
         let colors = {
             Wave: {},
+            Label: {},
             Text: {},
             "Initial Text": {},
             Selection: "",
+            "Selection Hover": "",
             "Selection Method": "",
             Opacity: {
                 Max: 0,
@@ -35,6 +37,10 @@ export function getColorPallete(version) {
         colors['Wave']['Perspective'] = versionData["Wave [Perspective]"];
         colors['Wave']['Dimension'] = versionData["Wave [Dimension]"];
         
+        colors['Label']['Principle'] = versionData["Label [Principle]"];
+        colors['Label']['Perspective'] = versionData["Label [Perspective]"];
+        colors['Label']['Dimension'] = versionData["Label [Dimension]"];
+
         colors['Text']['Principle'] = versionData["Text [Principle]"];
         colors['Text']['Perspective'] = versionData["Text [Perspective]"];
         colors['Text']['Dimension'] = versionData["Text [Dimension]"];
@@ -44,6 +50,7 @@ export function getColorPallete(version) {
         colors['Initial Text']['Dimension'] = versionData["Initial Text [Dimension]"];
 
         colors.Selection = versionData["Selection"];
+        colors["Selection Hover"] = versionData["Selection [Hover]"];
         colors["Selection Method"] = versionData["Selection Method"];
         
         colors.Opacity.Max = versionData["Opacity [Max]"];
