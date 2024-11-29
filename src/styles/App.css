@@ -9,6 +9,11 @@ body {
     user-select: none;
 }
 
+:root {
+    --selection-color: #E5007E; /* Default color */
+    --selection-hover-color: #841321;
+}
+
 .text-container {
     position: fixed;
     top: 15vh; 
@@ -45,7 +50,7 @@ body {
     margin-top: 20px;
     max-width: 246px;
     font-weight: 500;
-    color: #E5007E;
+    color: var(--selection-color);
 }
 
 .colors {
@@ -71,7 +76,7 @@ body {
 .not-available {
     font-size: 1.em; /* Smaller size for h2 */
     font-weight: 500;
-    color: #841321;
+    color: var(--selection-hover-color);
     margin-top: 10px;
     max-width: 250px;
 }

@@ -17,7 +17,7 @@ function App() {
   const [savedComponents, setSavedComponents] = useState([]);
   const [newCaseStudies, setNewCaseStudies] = useState([]);
 
-  const colors = getColorPallete(2);
+  const colors = getColorPallete(1);
 
   const initialFirstMessage = useMemo(
     () => ({
