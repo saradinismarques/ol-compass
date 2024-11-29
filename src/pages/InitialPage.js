@@ -152,6 +152,8 @@ const InitialPage = ({ colors }) => {
             );
         } else if (frame === 2) {
             startOpacityCounter('Principle');
+            document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Principle']);
+            
             return (
                 <>
                 <div className='i-text-container'>
@@ -161,12 +163,12 @@ const InitialPage = ({ colors }) => {
                     <span className='i-text'>is based on </span>
                     <br></br>
 
-                    <span className='i-text colored' style={{color: colors['Initial Text']['Principle']}}>
+                    <span className='i-text colored'>
                         {opacityCounter['Principle']+1} Scientific 
                     </span>
                     <br></br>
 
-                    <span className='i-text colored' style={{color: colors['Initial Text']['Principle']}}> Principles</span>
+                    <span className='i-text colored'> Principles</span>
                     <span className='i-text'>
                     .
                     </span>
@@ -175,6 +177,7 @@ const InitialPage = ({ colors }) => {
             );
         } else if (frame === 3) {
                 startOpacityCounter('Principle');
+                document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Principle']);
 
                 return (
                     <>
@@ -183,7 +186,7 @@ const InitialPage = ({ colors }) => {
                         <br></br>
                         
                         <span className='i-text'>7 </span>
-                        <span className='i-text colored' style={{color: colors['Initial Text']['Principle']}}>
+                        <span className='i-text colored'>
                             macro traits                
                         </span>
                         <br></br>
@@ -194,6 +197,7 @@ const InitialPage = ({ colors }) => {
                 );
         } else if(frame === 4) {
             startOpacityCounter('Perspective');
+            document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Perspective']);
             
             return (
                 <>
@@ -204,7 +208,7 @@ const InitialPage = ({ colors }) => {
                     <span className='i-text'>can be seen through </span>
                     <br></br>
                     
-                    <span className='i-text colored' style={{color: colors['Initial Text']['Perspective']}}>
+                    <span className='i-text colored'>
                         {opacityCounter['Perspective']+1} Perspectives
                     </span>
                     <span className='i-text'>
@@ -215,6 +219,7 @@ const InitialPage = ({ colors }) => {
             );
         } else if(frame === 5) {
             startOpacityCounter('Perspective');
+            document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Perspective']);
 
             return (
                 <>
@@ -223,7 +228,7 @@ const InitialPage = ({ colors }) => {
                     <br></br>
                     
                     <span className='i-text'>the 7 </span>
-                    <span className='i-text colored' style={{color: colors['Initial Text']['Perspective']}}>
+                    <span className='i-text colored'>
                         points of view
                     </span>
                     <br></br>
@@ -244,6 +249,7 @@ const InitialPage = ({ colors }) => {
             );
         } else if(frame === 6) {
             startOpacityCounter('Dimension');
+            document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Dimension']);
             
             return (
                 <>
@@ -255,7 +261,7 @@ const InitialPage = ({ colors }) => {
                     <br></br>
 
                     <span className='i-text'>through </span>
-                    <span className='i-text colored' style={{color: colors['Initial Text']['Dimension']}}>
+                    <span className='i-text colored'>
                         {opacityCounter['Dimension']+1} Dimensions
                     </span>
                     <span className='i-text'>
@@ -266,6 +272,7 @@ const InitialPage = ({ colors }) => {
             );
         } else if(frame === 7) {
             startOpacityCounter('Dimension');
+            document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Dimension']);
 
             return (
                 <>
@@ -274,7 +281,7 @@ const InitialPage = ({ colors }) => {
                     <br></br>
                     
                     <span className='i-text'>the 10 </span>
-                    <span className='i-text colored' style={{color: colors['Initial Text']['Dimension']}}>
+                    <span className='i-text colored'>
                         approaches
                     </span>
                     <br></br>

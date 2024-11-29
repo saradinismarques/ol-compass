@@ -1,3 +1,7 @@
+:root {
+    --initial-text-color: #000000; /* Default color */
+}
+
 .i-title-container {
     position: absolute;
     top: 47vh; /* Position item 50% from the top */
@@ -56,6 +60,7 @@
 .i-text.colored {
     font-weight: 500;
     white-space: nowrap;
+    color: var(--initial-text-color);
 }
 
 .i-space {
