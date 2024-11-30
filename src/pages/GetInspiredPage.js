@@ -3,9 +3,8 @@ import '../styles/pages/GetInspiredPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
+import Message from '../components/Message';
 import { getGetInspiredData } from '../utils/Data.js'; 
-import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 
@@ -34,7 +33,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
   const [searchLogic, setSearchLogic] = useState('AND');
   const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
   const [firstClick, setFirstClick] = useState(true);
-  const [message, setMessage] = useState(false);
+  const [messageShown, setMessageShown] = useState(false);
   
   const carouselModeRef = useRef(carouselMode);
   const modeRef = useRef(mode);
@@ -65,7 +64,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setIsExplanationPage(true);
 
     setFirstClick(true);
-    setMessage(false);
+    setMessageShown(false);
   }, [initialState, setIsExplanationPage]);
 
 
@@ -95,7 +94,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
   const handleCompassClick = () => {
     if(firstClick && firstMessage) {
       setFirstClick(false);
-      setMessage(true);
+      setMessageShown(true);
     }
     setIsExplanationPage(false);
 
@@ -175,7 +174,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     carouselModeRef.current = true;
 
     if(firstClick && firstMessage) {
-      setMessage(true);
+      setMessageShown(true);
       setFirstClick(false);
     }
 
@@ -298,21 +297,6 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     });
   };
 
-  const showMessage = () => {
-    setMessage(true)
-  };
-
-  const removeMessage = () => {
-    setMessage(false);
-
-    if(firstMessage) {
-      setFirstMessage((prevState) => ({
-        ...prevState,
-        getInspired: false,
-      }));
-    }
-  };
-
   const handleSearchLogicChange = useCallback((mode) => {
     if(mode === "AND") {
       setSearchLogic('AND');
@@ -325,7 +309,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
 
   return (
     <div>
-    <div className={`${message ? "blur-background" : ""}`}>
+    <div className={`${messageShown ? "blur-background" : ""}`}>
       <OLCompass 
         colors={colors}
         mode={mode}
@@ -341,13 +325,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         <Description colors={colors} mode={'get-inspired'} />
       } 
       {((!isExplanationPage && carouselMode) || !carouselMode) && (
-        <>
-        <button onClick={showMessage} className="question-button">
-          <QuestionIcon 
-            className="question-icon" 
-          />
-        </button>
-        </>
+        <Message
+          mode={'get-inspired'}
+          type={'button'}
+          setMessageShown={setMessageShown} // Pass the setter to control it
+        />
       )}
 
       {!isExplanationPage && (
@@ -441,41 +423,15 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       )}    
       <Menu isExplanationPage={isExplanationPage}/>
     </div>
-    {((!isExplanationPage && carouselMode) || !carouselMode) && message && (
-      <>
-      <div className="message-box" style={{ width: 290 }}>
-        <div className="message-question">
-            <QuestionIcon 
-              className="question-icon message" 
-            />
-          </div>
-        <p className="message-text">
-          By default, the search includes resultsNumber that contain either of the
-          <WaveIcon 
-            className='message-icon wave'
-          /> 
-          you selected. Thus, the more 
-          <WaveIcon 
-            className='message-icon wave'
-          />
-          you select, the more case-studies are shown.
-          <br></br>
-          Click on the 
-          <ArrowIcon 
-            className='message-icon smaller'
-          /> 
-          to browse case-studies. 
-          You can order and further filter them from the two top-right drop-down menus. Click on 
-          <BookmarkIcon
-            className='message-icon smaller'
-          /> 
-          to mark relevant ones.
-        </p>
-        <button className="got-it-button" onClick={removeMessage}>
-          Ok, got it!
-        </button>
-      </div>
-      </>
+    {((!isExplanationPage && carouselMode) || !carouselMode) && (
+      <Message
+        mode={'get-inspired'}
+        type={'message'}
+        messageShown={messageShown} // Pass whether to show the message
+        setMessageShown={setMessageShown} // Pass the setter to control it
+        firstMessage={firstMessage}
+        setFirstMessage={setFirstMessage}
+      />
     )}
     </div>
   );

@@ -3,6 +3,7 @@ import '../styles/pages/LearnPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
+import Message from '../components/Message';
 import P1Image from '../assets/images/P1.png';
 import P2Image from '../assets/images/P2.png';
 import P3Image from '../assets/images/P3.png';
@@ -10,7 +11,6 @@ import P4Image from '../assets/images/P4.png';
 import P5Image from '../assets/images/P5.png';
 import P6Image from '../assets/images/P6.png';
 import P7Image from '../assets/images/P7.png';
-import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 
@@ -36,7 +36,7 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
   const [state, setState] = useState(initialState);
   const [concept, setConcept] = useState(initialConcept);
   const [firstClick, setFirstClick] = useState(true);
-  const [message, setMessage] = useState(false);
+  const [messageShown, setMessageShown] = useState(false);
   
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--text-color', colors['Text'][state.type]);
@@ -46,7 +46,7 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
     setIsExplanationPage(true);
 
     setFirstClick(true);
-    setMessage(false);
+    setMessageShown(false);
   }, [initialState, setIsExplanationPage]);
 
   // Wrap getBookmarkState in useCallback
@@ -57,7 +57,7 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
   const handleCompassClick = (code, title, headline, paragraph, type, concepts) => {
     if(firstClick && firstMessage) {
       setFirstClick(false);
-      setMessage(true);
+      setMessageShown(true);
     }
 
     if(code === null) {
@@ -108,21 +108,6 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
       ...state,
       bookmark: !state.bookmark,
     });
-  };
-
-  const showMessage = () => {
-    setMessage(true)
-  };
-
-  const removeMessage = () => {
-    setMessage(false);
-
-    if(firstMessage) {
-      setFirstMessage((prevState) => ({
-        ...prevState,
-        learn: false,
-      }));
-    }
   };
 
   const handleNext = () => {
@@ -229,8 +214,8 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
 
   return (
     <div>
+      <div className={`${messageShown ? "blur-background" : ""}`}>
 
-    <div className={`${message ? "blur-background" : ""}`}>
       <div className={`l-background ${isExplanationPage ? '' : 'gradient'}`}>
     
         <OLCompass 
@@ -247,11 +232,11 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
 
           {!isExplanationPage && (
             <>
-            <button onClick={showMessage} className="question-button">
-              <QuestionIcon 
-                className="question-icon" // Apply your CSS class
-              />
-            </button>
+            <Message
+              mode={'learn'}
+              type={'button'}
+              setMessageShown={setMessageShown} // Pass the setter to control it
+            />
 
             <div className='l-bookmark-container'>
               <div className="l-white-line"></div>
@@ -288,11 +273,9 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
                 </>
               )}
               {state.type !== "Principle" && (
-                <>
                 <div className="l-text">
                   <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
                 </div>
-                </>
               )}
             </div>
             </>
@@ -312,32 +295,17 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
       )}
     </div>
     
-    {!isExplanationPage && message && (
-      <>
-      <div className="message-box" style={{ width: 200 }}>
-        <div className="message-question">
-          <QuestionIcon 
-            className="question-icon message" // Apply your CSS class
-          />
-        </div>
-        <p className="message-text">
-          For each element, you can browse in-depth information by clicking on the 
-          <ArrowIcon
-            className='message-icon smaller'
-          /> 
-          icon (or on the underlined words). Mark relevant content by clicking on the 
-          <BookmarkIcon
-            className='message-icon smaller'
-          /> 
-          icon.
-        </p>
-        <button className="got-it-button" onClick={removeMessage}>
-          Ok, got it!
-        </button>
-      </div>
-      </>
-    )}
-</div>
+    {!isExplanationPage && 
+      <Message
+        mode={'learn'}
+        type={'message'}
+        messageShown={messageShown} // Pass whether to show the message
+        setMessageShown={setMessageShown} // Pass the setter to control it
+        firstMessage={firstMessage}
+        setFirstMessage={setFirstMessage}
+      />
+    }
+  </div>
   );
 };
 

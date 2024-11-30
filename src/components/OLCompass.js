@@ -479,7 +479,6 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
 
             {/* Second Line (if it has one) */}
             {bigLabels.includes(c.Code) &&
-              <>
               <text
                 ref={(ref) => {
                   if (ref) {
@@ -513,7 +512,6 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   {getText(mode, c.Type, c.Label, c.Code, 1)}
                 </textPath>
               </text>
-              </>
             }
           </svg>
         </div>

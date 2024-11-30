@@ -124,16 +124,13 @@ const IntroPage = ({ colors }) => {
     const getDisplayText = () => {
         if (frame === 0) {
             return (
-                <>
                 <div className='i-title-container'>
                     <p className='i-welcome'>WELCOME TO THE</p>
                     <p className='i-title'>OL-in-One Compass</p>
                 </div>
-                </>
             );
         } else if (frame === 1) {
             return (
-                <>
                 <div className='i-explanation-container'>
                     <p className='i-explanation'>
                          Ocean Literacy (OL) 
@@ -148,14 +145,12 @@ const IntroPage = ({ colors }) => {
                         mutual influence
                     </p>
                 </div>
-                </>
             );
         } else if (frame === 2) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Principle']);
             
             return (
-                <>
                 <div className='i-text-container'>
                     <span className='i-text'>Ocean Literacy (OL) </span>
                     <br></br>
@@ -173,14 +168,12 @@ const IntroPage = ({ colors }) => {
                     .
                     </span>
                 </div>
-                </>
             );
         } else if (frame === 3) {
                 startOpacityCounter('Principle');
                 document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Principle']);
 
                 return (
-                    <>
                     <div className='i-text-container'>
                         <span className='i-text'>See Principles as the </span>
                         <br></br>
@@ -193,14 +186,12 @@ const IntroPage = ({ colors }) => {
 
                         <span className='i-text'> of the Ocean.</span>
                     </div>
-                    </>
                 );
         } else if(frame === 4) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Perspective']);
             
             return (
-                <>
                 <div className='i-text-container'>
                     <span className='i-text'>Ocean knowledge </span>
                     <br></br>
@@ -215,14 +206,12 @@ const IntroPage = ({ colors }) => {
                     .
                     </span>
                 </div>
-                </>
             );
         } else if(frame === 5) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Perspective']);
 
             return (
-                <>
                 <div className='i-text-container'>
                     <span className='i-text'>See Perspectives as </span>
                     <br></br>
@@ -245,14 +234,12 @@ const IntroPage = ({ colors }) => {
                     <span className='i-text'>and contextualised.</span>
 
                 </div>
-                </>
             );
         } else if(frame === 6) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Dimension']);
             
             return (
-                <>
                 <div className='i-text-container'>
                     <span className='i-text'>Ocean knowledge </span>
                     <br></br>
@@ -268,14 +255,12 @@ const IntroPage = ({ colors }) => {
                     .
                     </span>
                 </div>
-                </>
             );
         } else if(frame === 7) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--initial-text-color', colors['Initial Text']['Dimension']);
 
             return (
-                <>
                 <div className='i-text-container'>
                     <span className='i-text'>See Dimensions as </span>
                     <br></br>
@@ -297,7 +282,6 @@ const IntroPage = ({ colors }) => {
                     
                     <span className='i-text'>and Perspectives.</span>
                 </div>
-                </>
             );
         } 
     };

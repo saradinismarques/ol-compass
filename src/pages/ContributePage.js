@@ -3,6 +3,7 @@ import '../styles/pages/ContributePage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
 import Description from '../components/Description';
+import Message from '../components/Message';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 
 const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
@@ -26,7 +27,7 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
   const [openDropdown, setOpenDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [firstClick, setFirstClick] = useState(true);
-  const [message, setMessage] = useState(false);
+  const [messageShown, setMessageShown] = useState(false);
   
   const buttonsRef = useRef({}); // Create a ref to store button positions
 
@@ -37,13 +38,13 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
     setDropdownPosition({ top: 0, left: 0 }); 
 
     setFirstClick(true);
-    setMessage(false);
+    setMessageShown(false);
   }, [initialState, setIsExplanationPage]);
 
   const handleCompassClick = () => {
     if(firstClick && firstMessage) {
       setFirstClick(false);
-      setMessage(true);
+      setMessageShown(true);
     }
     setIsExplanationPage(false);
   };
@@ -55,7 +56,7 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
 
     if(firstClick && firstMessage) {
       setFirstClick(false);
-      setMessage(true);
+      setMessageShown(true);
     }
     setIsExplanationPage(false);
 
@@ -81,7 +82,7 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
   const resetStateAndCompass = useCallback(() => {
     setState(initialState);
     setFirstClick(false);
-    setMessage(false);
+    setMessageShown(false);
 
     setOpenDropdown(null);
     setDropdownPosition({ top: 0, left: 0 }); // Set dropdown position
@@ -116,21 +117,6 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
     resetStateAndCompass();
   };
 
-  const showMessage = () => {
-    setMessage(true)
-  };
-
-  const removeMessage = () => {
-    setMessage(false);
-
-    if(firstMessage) {
-      setFirstMessage((prevState) => ({
-        ...prevState,
-        contribute: false,
-      }));
-    }
-  };
-
   // Function to toggle the dropdowns
   const toggleDropdown = (dropdownName, button) => {
     if (openDropdown === dropdownName) {
@@ -144,7 +130,7 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
 
   return (
     <div>
-    <div className={`${message ? "blur-background" : ""}`}>
+      <div className={`${messageShown ? "blur-background" : ""}`}>
       <OLCompass 
         colors={colors}
         mode="contribute"
@@ -160,17 +146,11 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
 
         {!isExplanationPage && (
         <>
-        <button onClick={showMessage} className="question-button">
-              <svg 
-                className="question-icon" 
-                fill="currentcolor" 
-                stroke="currentcolor" /* Adds stroke color */
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="-1 109 35 35"  
-                >
-                <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
-              </svg>
-            </button>
+         <Message
+            mode={'contribute'}
+            type={'button'}
+            setMessageShown={setMessageShown} // Pass the setter to control it
+          />
         <div className='c-text-container'>
           <div className="c-textarea-container">
             <div className="c-title">
@@ -546,29 +526,16 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
         )}  
         <Menu isExplanationPage={isExplanationPage} />
     </div>
-    {!isExplanationPage && message && (
-      <>
-      <div className="message-box" style={{ width: 290 }}>
-        <div className="message-question">
-            <svg 
-                className="question-icon message" 
-                fill="currentcolor" 
-                stroke="currentcolor" /* Adds stroke color */
-                xmlns="http://www.w3.org/2000/svg" 
-                viewBox="-1 109 35 35"  
-              >
-              <path d="m14.01,133.19c0-1.09.05-2.04.16-2.87.1-.83.38-1.66.82-2.5.42-.79.93-1.45,1.55-1.97.61-.52,1.25-1.02,1.92-1.48.67-.47,1.3-1.02,1.9-1.66.54-.63.91-1.26,1.09-1.9s.27-1.32.27-2.03-.09-1.34-.26-1.9c-.17-.56-.44-1.04-.8-1.44-.56-.68-1.24-1.15-2.05-1.4s-1.65-.38-2.53-.38-1.67.12-2.41.37c-.75.24-1.36.62-1.85,1.12-.47.45-.82.98-1.03,1.61-.22.63-.32,1.29-.32,1.98h-3.17c.06-1.1.3-2.18.72-3.23.42-1.05,1.05-1.93,1.87-2.64.82-.75,1.78-1.3,2.87-1.64,1.09-.34,2.2-.51,3.31-.51,1.36,0,2.66.21,3.88.62,1.23.41,2.26,1.1,3.09,2.06.67.71,1.16,1.52,1.47,2.43.31.91.47,1.88.47,2.91,0,1.16-.22,2.24-.65,3.26-.43,1.02-1.04,1.92-1.82,2.72-.47.52-1.01.99-1.61,1.43-.6.44-1.17.89-1.72,1.36-.55.47-.97.97-1.26,1.51-.36.67-.56,1.3-.6,1.9-.03.6-.05,1.36-.05,2.28h-3.26Zm.02,8.21v-4.09h3.24v4.09h-3.24Z"/>
-            </svg>
-          </div>
-        <p className="message-text">
-          Fill the form with information about your OL content/initiative, select all the Principles/Perspectives/Dimensions it addresses and press 'Enter' to save it.
-        </p>
-        <button className="got-it-button" onClick={removeMessage}>
-          Ok, got it!
-        </button>
-      </div>
-      </>
-    )}
+    {!isExplanationPage && 
+      <Message
+        mode={'contribute'}
+        type={'message'}
+        messageShown={messageShown} // Pass whether to show the message
+        setMessageShown={setMessageShown} // Pass the setter to control it
+        firstMessage={firstMessage}
+        setFirstMessage={setFirstMessage}
+      />
+    }
     </div>
   );
 };
