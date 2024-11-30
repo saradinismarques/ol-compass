@@ -1,9 +1,10 @@
-import colorPalletData from '../data/color-pallete-data.json'
-import introTexts from '../data/intro-texts.json'
-import getStartedData from '../data/get-started-data.json';
-import learnData from '../data/learn-data.json';
-import conceptsData from '../data/concepts-data.json';
-import getInspiredData from '../data/get-inspired-data.json';
+import colorPalletData from '../data/static/color-pallete-data.json'
+import introTexts from '../data/static/intro-texts.json'
+import modesTexts from '../data/static/modes-texts.json'
+import getStartedData from '../data/content/get-started-data.json';
+import learnData from '../data/content/learn-data.json';
+import conceptsData from '../data/content/concepts-data.json';
+import getInspiredData from '../data/content/get-inspired-data.json';
 
 export function getColorPallete(version) {
     try {
@@ -79,6 +80,31 @@ export function getIntroTexts(language) {
                 IntroP: item["INTRO_P"],
                 IntroPe: item["INTRO_Pe"],
                 IntroD: item["INTRO_D"],
+            };
+        }
+
+        // If no data for the language, return null or a fallback object
+        return null;
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
+}
+
+
+export function getModeTexts(mode) {
+    try {
+        const formattedMode = mode.replace(/-/g, ' ').toUpperCase();
+        // Find the item in the introTexts array where LANGUAGE matches the desired language
+        const item = modesTexts.find(item => item["#MODE-LABEL"] === formattedMode);
+
+        // If a match is found, return the data; otherwise, return null or a default value
+        if (item) {
+            return {
+                Headline: item["#headline"],
+                Text: item["#text"],
+                StartPrompt: item["#start-prompt"],
+                Message: item["#?message?"],
             };
         }
 

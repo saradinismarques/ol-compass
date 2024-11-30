@@ -1,5 +1,4 @@
 import React from 'react';
-import '../styles/App.css'
 
 // Sizes and positions 
 let size = 90;
@@ -145,9 +144,9 @@ function getComponentsPositions(type) {
 };
 
 const getOpacity = (cType, type) => {
-    if(cType === type)
-        return 0.9;
-    return 0.3;
+  if(cType === type)
+    return 0.9;
+  return 0.3;
 };
 
 export default CompassIcon;

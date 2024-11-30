@@ -1,18 +1,19 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import '../styles/LearnPage.css';
+import '../styles/pages/LearnPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
-import P1Image from '../images/P1.png';
-import P2Image from '../images/P2.png';
-import P3Image from '../images/P3.png';
-import P4Image from '../images/P4.png';
-import P5Image from '../images/P5.png';
-import P6Image from '../images/P6.png';
-import P7Image from '../images/P7.png';
-import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
+import Description from '../components/Description';
+import P1Image from '../assets/images/P1.png';
+import P2Image from '../assets/images/P2.png';
+import P3Image from '../assets/images/P3.png';
+import P4Image from '../assets/images/P4.png';
+import P5Image from '../assets/images/P5.png';
+import P6Image from '../assets/images/P6.png';
+import P7Image from '../assets/images/P7.png';
+import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 
 const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
@@ -248,30 +249,9 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
           resetState={resetState}  // Passing resetState to OLCompass
           savedComponents={savedComponents}
         />  
-        {isExplanationPage && (
-            <>
-            <div className="text-container" >
-                <p className='question'>
-                  What's it for?
-                </p>
-                <p className='headline'>
-                  Explore the OL fundamentals, one by one
-                  </p>
-                <div className='text'>
-                  Are you new to Ocean Literacy, or need a refresher?
-                  <br></br>
-                  In the LEARN mode the Compass lets you familiarize with each OL Principle, Perspective and Dimension, with basic definitions, additional information and hints for reflection.
-                  <p className='instruction'>
-                  Start by clicking on any wave (
-                  <WaveIcon 
-                    className="text-icon wave" // Apply your CSS class
-                  />
-                  ).
-                  </p>
-                </div>
-              </div>
-            </>
-          )}
+        {isExplanationPage && 
+          <Description colors={colors} mode={'learn'}/>
+        }
 
           {!isExplanationPage && (
             <>

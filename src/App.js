@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import InitialPage from './pages/InitialPage';
+import IntroPage from './pages/IntroPage';
 import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
 import GetStartedPage from './pages/GetStartedPage';
@@ -55,7 +55,7 @@ function App() {
           <Route 
             path="/ol-compass" 
             element={
-              <InitialPage 
+              <IntroPage 
                 colors={colors}
               />} 
           />
@@ -154,7 +154,7 @@ function App() {
             }
           />
           {/* Catch-all route */}
-          <Route path="*" element={<InitialPage colors={colors}/>} />
+          <Route path="*" element={<IntroPage colors={colors}/>} />
         </Routes>
       </main>
     </div>

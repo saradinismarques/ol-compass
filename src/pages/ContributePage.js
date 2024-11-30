@@ -1,8 +1,9 @@
 import React, {useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import '../styles/ContributePage.css';
+import '../styles/pages/ContributePage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu'
-import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
+import Description from '../components/Description';
+import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 
 const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
@@ -154,24 +155,8 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
         onButtonClick={handleCompassClick}
       /> 
         {isExplanationPage && (
-        <>
-        <div className='text-container'>
-            <p className='question'>
-              What's it for?
-            </p>
-            <p className='headline'>
-              Understand and share your own OL practice
-            </p>
-            <div className='text'>
-              You want to make sense of an OL resource/experience you developed?
-              <br></br>
-              In the ANALYSE mode the Compass provides you with a structured way to see and record your own OL contents or initiatives, for future personal or public use.
-              <p className='instruction'>
-                Press 'Enter' to start the analysis.
-              </p>
-            </div>
-        </div>
-        </>
+        <Description colors={colors} mode={'get-inspired'} />
+      
         )} 
 
         {!isExplanationPage && (

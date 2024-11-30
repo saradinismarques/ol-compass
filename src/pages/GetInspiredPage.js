@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
-import '../styles/GetInspiredPage.css';
+import '../styles/pages/GetInspiredPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
+import Description from '../components/Description';
 import { getGetInspiredData } from '../utils/Data.js'; 
-import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as QuestionIcon } from '../assets/question-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as BookmarkIcon } from '../assets/bookmark-icon.svg'; // Adjust the path as necessary
-
+import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 
 const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
   const initialState = useMemo(() => ({
@@ -337,32 +337,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         onSearchClick={handleDataFromOLCompass}
         fetchData={fetchData} 
       /> 
-      {isExplanationPage && (
-        <>
-          <div className='text-container'>
-            <p className='question'>
-              What's it for?
-            </p>
-            <p className='headline'>
-              Browse inspiring application cases
-            </p>
-            <div className='text'>
-              You get OL theory, yet wonder how it works in practice?
-              <br></br>
-              In the GET INSPIRED mode the Compass gives you access to a variety of OL resources and initiatives, explained in terms of Principles, Perspectives and Dimensions addressed.
-              <p className='instruction'>
-              Select as many waves (
-                <WaveIcon 
-                  className='text-icon wave'
-                />
-              ) as you like and press 'Enter' to filter examples.
-              To see a carousel of popular OL examples just press 'Enter'.       
-              </p>
-            </div>
-
-          </div>
-        </>
-      )} 
+      {isExplanationPage && 
+        <Description colors={colors} mode={'get-inspired'} />
+      } 
       {((!isExplanationPage && carouselMode) || !carouselMode) && (
         <>
         <button onClick={showMessage} className="question-button">

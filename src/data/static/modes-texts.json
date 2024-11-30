@@ -1,0 +1,65 @@
+[
+  {
+    "#MODE-LABEL": "GET STARTED",
+    "#headline": "Never heard of Ocean Literacy?",
+    "#text": "In this mode the Compass gives you a general sense of the OL's vocabulary.",
+    "#start-prompt": "[CTAARROW-I] To start, click on any [WAVE-I]",
+    "#?message?": "/"
+  },
+  {
+    "#MODE-LABEL": "LEARN",
+    "#headline": "Explore the OL foundamentals, one by one",
+    "#text": "Are you new to Ocean Literacy, or need a refresher? <br> In the LEARN mode the Compass lets you familiarize with each OL Principle, Perspective and Dimension, with basic definitions, additional information and hints for reflection.",
+    "#start-prompt": "Start by clicking on any wave ([WAVE-I]).",
+    "#?message?": "For each element, you can browse in-depth information by clicking on the [ARROW-I] icon (or on the underlined words). Mark relevant content by clicking on the [BOOKMARK-I] icon.\nOk, got it!"
+  },
+  {
+    "#MODE-LABEL": "GET INSPIRED",
+    "#headline": "Browse inspiring application cases",
+    "#text": "You get OL theory, yet wonder how it works in practice? <br> In the GET INSPIRED mode the Compass gives you access to a variety of OL resources and initiatives, explained in terms of Principles, Perspectives and Dimensions addressed.",
+    "#start-prompt": "Select as many waves ([WAVE-I]) as you like and press 'Enter' to filter examples.\nTo see a carousel of popular OL examples just press 'Enter'.",
+    "#?message?": "By default, the search includes results that contain either of the [WAVE-I] you selected. Thus, the more [WAVE-I] you select, the more case-studies are shown.\n\nClick on the [ARROW-I] to browse case-studies. You can order and further filter them from the two top-right drop-down menus. Click on [BOOKMARK-I] to mark relevant ones.\n\nOk, got it!"
+  },
+  {
+    "#MODE-LABEL": "ANALYSE",
+    "#headline": "Understand and share your own OL practice",
+    "#text": "You want to make sense of an OL resource/experience you developed? <br> In the ANALYSE mode the Compass provides you with a structured way to see and record your own OL contents or initiatives, for future personal or public use.",
+    "#start-prompt": "Press 'Enter' to start the analysis.",
+    "#?message?": "Fill the form with information about your OL content/initiative, select all the Principles/Perspectives/Dimensions it addresses and press 'Enter' to save it.\n\nOk, got it!"
+  },
+  {
+    "#MODE-LABEL": "CONTEXTUALIZE",
+    "#headline": "See how OL applies to your locality",
+    "#text": "/",
+    "#start-prompt": "Not available yet",
+    "#?message?": "/"
+  },
+  {
+    "#MODE-LABEL": "IDEATE",
+    "#headline": "Come up with new ideas for pursuing OL",
+    "#text": "/",
+    "#start-prompt": "Not available yet",
+    "#?message?": "/"
+  },
+  {
+    "#MODE-LABEL": "COMPARE",
+    "#headline": "Ponder alternatives, track idea evolution over time, benchmark, and more",
+    "#text": "/",
+    "#start-prompt": "Not available yet",
+    "#?message?": "/"
+  },
+  {
+    "#MODE-LABEL": "EVALUATE",
+    "#headline": "Assess OL resources' efficacy or OL learners' progress",
+    "#text": "/",
+    "#start-prompt": "Not available yet",
+    "#?message?": "/"
+  },
+  {
+    "#MODE-LABEL": "MAKE YOURS",
+    "#headline": "Customize the Compass, tailor it, hack it!",
+    "#text": "/",
+    "#start-prompt": "Not available yet",
+    "#?message?": "/"
+  }
+]

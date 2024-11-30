@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
-import '../styles/InitialPage.css';
+import '../styles/pages/IntroPage.css';
 
-const InitialPage = ({ colors }) => {
+const IntroPage = ({ colors }) => {
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
     
@@ -315,4 +315,4 @@ const InitialPage = ({ colors }) => {
     );
 };
 
-export default InitialPage;
+export default IntroPage;

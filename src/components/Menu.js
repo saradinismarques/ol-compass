@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import '../styles/Menu.css';
-import { ReactComponent as HomeIcon } from '../assets/home-icon.svg'; // Adjust the path as necessary
+import '../styles/components/Menu.css';
+import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
 
 const Menu = ({isExplanationPage}) => {
   const location = useLocation();

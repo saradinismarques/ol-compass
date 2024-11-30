@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
-import '../styles/GetStartedPage.css';
+import '../styles/pages/GetStartedPage.css';
 import OLCompass from '../components/OLCompass';
 import CompassIcon from '../components/CompassIcon';
 import Menu from '../components/Menu';
-import { ReactComponent as WaveIcon } from '../assets/wave-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as CtaArrow } from '../assets/cta-arrow-icon.svg'; // Adjust the path as necessary
-import { ReactComponent as ArrowIcon } from '../assets/arrow-icon.svg'; // Adjust the path as necessary
+import Description from '../components/Description';
+import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 
 const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => {
   // Memoize the initialState object
@@ -214,25 +213,9 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
           onButtonClick={handleCompassClick} 
           selectedComponents={selectedComponent}
         />  
-        {isExplanationPage && (
-            <div className="gs-explanation-text-container" >
-                <p className='gs-explanation-headline'>
-                  Never heard of Ocean Literacy?
-                </p>
-                <p className='gs-explanation-text'>
-                  In this mode the Compass gives you a general sense of the OL's vocabulary.
-                </p> 
-                <p className='gs-explanation-instruction'>
-                  <CtaArrow 
-                    className="text-icon cta-arrow" // Apply your CSS class
-                  />
-                  To start, click on any  
-                  <WaveIcon 
-                    className="text-icon wave wave-space" // Apply your CSS class
-                  />
-                </p>
-             </div>
-          )}
+        {isExplanationPage && 
+          <Description colors={colors} mode={'get-started'} />
+        }
 
           {!isExplanationPage && (
             <>
