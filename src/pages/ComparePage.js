@@ -5,7 +5,7 @@ import Description from '../components/Description';
 
 const ComparePage = ({ colors, isExplanationPage }) => {
   return (
-    <div>
+    <>
       <OLCompass 
         colors={colors}
         mode="default" 
@@ -13,7 +13,7 @@ const ComparePage = ({ colors, isExplanationPage }) => {
       /> 
       <Description colors={colors} mode={'compare'} />
       <Menu isExplanationPage={isExplanationPage} />
-    </div>
+    </>
   );
 };
 

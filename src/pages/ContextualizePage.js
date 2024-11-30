@@ -5,7 +5,7 @@ import Description from '../components/Description';
 
 const ContextualizePage = ({ colors, isExplanationPage }) => {
   return (
-    <div>
+    <>
       <OLCompass 
         colors={colors}
         mode="default" 
@@ -13,7 +13,7 @@ const ContextualizePage = ({ colors, isExplanationPage }) => {
       /> 
       <Description colors={colors} mode={'contextualize'} />
       <Menu isExplanationPage={isExplanationPage} />
-    </div>
+    </>
   );
 };
 

@@ -5,7 +5,7 @@ import Description from '../components/Description';
 
 const IdeatePage = ({ colors, isExplanationPage }) => {
   return (
-    <div>
+    <>
       <OLCompass 
         colors={colors}
         mode="default"
@@ -13,7 +13,7 @@ const IdeatePage = ({ colors, isExplanationPage }) => {
       /> 
       <Description colors={colors} mode={'ideate'} />
       <Menu isExplanationPage={isExplanationPage} />
-    </div>
+    </>
   );
 };
 

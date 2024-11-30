@@ -2,7 +2,6 @@ import React from 'react';
 
 // Sizes and positions 
 let size = 90;
-
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
@@ -16,7 +15,6 @@ const CompassIcon = ({ colors, type }) => {
   const perspectives = getComponentsPositions('Perspective');
   const dimensions = getComponentsPositions('Dimension');
   const components = principles.concat(perspectives, dimensions);
-
 
   // Container styles for the circle menu
   const containerStyle = {
@@ -44,64 +42,63 @@ const CompassIcon = ({ colors, type }) => {
         transform: 'translate(-50%, -50%)',
       }}
     >
-    {components.map((c, i) => (
-    <div key={i}>
-      {/* Shape */}
-        <div
+      {components.map((c, i) => (
+        <div key={i}>
+          {/* Shape */}
+          <div
+            style={{
+              ...buttonStyle,
+              left: `${c.x - waveWidth / 2}px`, // Adjust position for button size
+              top: `${c.y - waveHeight / 2 - 2}px`,
+              transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+              zIndex: 1 // Layer filled shapes at the base
+            }}
+          >
+            <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
+              <path 
+                d={svgPath} 
+                fill={colors['Wave'][c.Type]}  // Use the gradient fill
+                stroke="none" 
+                style={{ pointerEvents: 'all' }}
+                opacity={getOpacity(c.Type, type)}
+              />
+            </svg>
+          </div>
+        </div>
+      ))}
+      <div
         style={{
-          ...buttonStyle,
-          left: `${c.x - waveWidth/2}px`, // Adjust position for button size
-          top: `${c.y - waveHeight/2 - 2}px`,
-          transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
-          zIndex: 1 // Layer filled shapes at the base
+          position: 'absolute',
+          left: '50%',
+          top: '50%',
+          transform: 'translate(-50%, -50%)',
+          pointerEvents: 'none',
+          userSelect: 'none',
+          zIndex: '10',
         }}
       >
-        <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
-          <path 
-            d={svgPath} 
-            fill={colors['Wave'][c.Type]}  // Use the gradient fill
-            stroke="none" 
-            style={{ pointerEvents: 'all' }}
-            opacity={getOpacity(c.Type, type)}
-          />
-        </svg>
-      </div>
-    </div>
-    ))}
-    <div
-        style={{
-            position: 'absolute',
-            left: '50%',
-            top:'50%',
-            transform: 'translate(-50%, -50%)',
-            pointerEvents: 'none',
-            userSelect: 'none',
-            zIndex: '10',
-           
+        <p
+          style={{
+            color: `${colors['Label'][type]}`,
+            fontFamily: "Manrope",
+            fontWeight: "500",
+            fontSize: "11px",
+            textTransform: "uppercase", // Converts text to uppercase
+            letterSpacing: "2px", // Increases the spacing between letters
           }}
         >
-        <p
-            style={{
-                color: `${colors['Label'][type]}`,
-                fontFamily: "Manrope",
-                fontWeight: "500",
-                fontSize:"11px",
-                textTransform: "uppercase", // Converts text to uppercase
-                letterSpacing: "2px", // Increases the spacing between letters
-            }}
-        >
-             {`${type}s`}
+          {`${type}s`}
         </p>
+      </div>
     </div>
-    </div>
-  );
+  ); 
 };
 
 function getComponentsPositions(type) {
-  let componentsData = [];
   const centerX = size/2;
   const centerY = size/2;
   let radius, numberOfComponents;
+  let componentsData = [];
 
   if(type === 'Principle') {
     radius = size/6.9;
@@ -125,6 +122,7 @@ function getComponentsPositions(type) {
     let angle = i * angleStep + startAngle;
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
+    
     if(type === 'Principle')
       angle = angle + 2*Math.PI / 2 - Math.PI*0.03;
     else if(type === 'Perspective')

@@ -8,7 +8,7 @@ import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.sv
 
 const Message = ({ mode, type, messageShown, setMessageShown, firstMessage, setFirstMessage }) => {
   const message = getModeTexts(mode).Message;
-
+  
   let width;
 
   if(mode === 'learn') width = '200px';
@@ -66,25 +66,25 @@ const Message = ({ mode, type, messageShown, setMessageShown, firstMessage, setF
     );
   } else {
     return (
-      <div>
+      <>
         {messageShown && 
           <>        
-          <div className="message-box" style={{ width: width }}>
-            <div className="message-question">
-              <QuestionIcon 
-                className="question-icon message" // Apply your CSS class
-              />
+            <div className="message-box" style={{ width: width }}>
+              <div className="message-question">
+                <QuestionIcon 
+                  className="question-icon message" // Apply your CSS class
+                />
+              </div>
+              <p className="message-text">
+                {renderTextWithIcons(message, iconsMap)}
+              </p>
+              <button className="got-it-button" onClick={removeMessage}>
+                Ok, got it!
+              </button>
             </div>
-            <p className="message-text">
-              {renderTextWithIcons(message, iconsMap)}
-            </p>
-            <button className="got-it-button" onClick={removeMessage}>
-              Ok, got it!
-            </button>
-          </div>
           </>
         }
-      </div>
+      </>
     )
   }
 };

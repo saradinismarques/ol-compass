@@ -24,6 +24,7 @@ if(window.innerHeight > 700) {
   bookmarkTopPe = '9.5px';
   bookmarkTopD = '9.5px';
 }
+
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
@@ -37,11 +38,10 @@ const bigLabels = ['P6', 'D10'];
 const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData, opacityCounter }) => {
   // Function to determine the center based on position
   const getCenter = (position) => {
-    if (position === "center") {
+    if (position === "center")
       return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
-    } else if (position === "left") {
+    else if (position === "left") 
       return { x: window.innerWidth * 0.4, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
-    } 
   };
 
   const center = getCenter(position);
@@ -64,6 +64,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   const [hoveredId, setHoveredId] = useState(null);
   const [clickedIds, setClickedIds] = useState([]);
   
+  // Initial State
   const [initialState, setInitialState] = useState(true);
 
   // Tooltip
@@ -88,34 +89,34 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   }, [hoveredId]);
 
 
-   // Effect to handle reset
-   useEffect(() => {
+  // Effect to handle reset
+  useEffect(() => {
     if (resetCompass) {
-    // Clear the selected buttons or reset the state
-        setClickedIds([]);
-        setHoveredId(null);
-        setInitialState(true);
+      // Clear the selected buttons or reset the state
+      setClickedIds([]);
+      setHoveredId(null);
+      setInitialState(true);
     }
   }, [resetCompass]);
 
-   // Effect to handle the click on other buttons of the page
+  // Effect to handle the click on other buttons of the page
   useEffect(() => {
-      if (fetchData && onSubmitClick) {
-          let codes = clickedIdsRef.current.map(id => components[id].Code);
-          onSubmitClick(codes);
-      }
+    if (fetchData && onSubmitClick) {
+      let codes = clickedIdsRef.current.map(id => components[id].Code);
+      onSubmitClick(codes);
+    }
   }, [fetchData, onSubmitClick, components]);
 
   useEffect(() => {
-      if (fetchData && onSearchClick) {
-          let codes = clickedIdsRef.current.map(id => components[id].Code);
-          onSearchClick(codes);
-      }
+    if (fetchData && onSearchClick) {
+      let codes = clickedIdsRef.current.map(id => components[id].Code);
+      onSearchClick(codes);
+    }
   }, [fetchData, onSearchClick, components]);
 
   const handleClick = (id) => {
     //const id = parseInt(e.target.id(), 10);
-    if (mode.startsWith("initial") || mode === "default" || mode === "get-inspired-carousel") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel") 
       return;
     
     if (mode === "learn") {
@@ -136,8 +137,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
         setInitialState(false);
         setClickedIds([id]);
         const title = convertLabel(components[id].Code);
-
         let correspondingConcepts = null;
+        
         if (components[id].Type === "Principle") {
           correspondingConcepts = getCorrespondingConcepts(concepts, components[id].Code);
         }
@@ -167,19 +168,19 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
         setInitialState(false);
         
         if (onButtonClick) {
-            onButtonClick(
-              components[id].Code,
-              title,
-              components[id].Headline,
-              components[id].Type,
-            );
+          onButtonClick(
+            components[id].Code,
+            title,
+            components[id].Headline,
+            components[id].Type,
+          );
         }
       }
     } 
   };
   
   const handleMouseEnter = (e, id) => {
-    if (mode.startsWith("initial") || mode === "default") 
+    if (mode.startsWith("intro") || mode === "default") 
       return;
 
     setHoveredId(id);
@@ -229,21 +230,20 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
 
       if(resetState)
         resetState();
-      } else if (e.key === 'Enter' && (mode === "contribute" || mode === "get-inspired")) {
-        if (onEnterClick) {
-          let codes = clickedIdsRef.current.map(id => components[id].Code);
-          onEnterClick(codes);
-        }
+    } else if (e.key === 'Enter' && (mode === "contribute" || mode === "get-inspired")) {
+      if (onEnterClick) {
+        let codes = clickedIdsRef.current.map(id => components[id].Code);
+        onEnterClick(codes);
       }
-    }, [resetState, mode, components, onEnterClick]);
+    }
+  }, [resetState, mode, components, onEnterClick]);
     
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [handleKeyDown]); // Dependency array includes handleKeyDown
-
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]); // Dependency array includes handleKeyDown
 
   // Container styles for the circle menu
   const containerStyle = {
@@ -258,46 +258,46 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
 
   const buttonStyle = {
     position: 'absolute',
-    cursor: (mode.startsWith("initial") || mode === "default") ? 'default' : 'pointer',
+    cursor: (mode.startsWith("intro") || mode === "default") ? 'default' : 'pointer',
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
   const Tooltip = ({ text, position }) => (
     <div
-    style={{
-      position: 'fixed',
-      top: `${position.y}px`,
-      left: `${position.x}px`,
-      transform: 'translate(-50%, -110%)', // Adjusts the position above the button
-      zIndex: 1000,
-      backgroundColor: '#acaaaa', // Tooltip background color
-      color: 'white', // Tooltip text color
-      padding: '10px', // Padding inside the tooltip
-      borderRadius: '5px', // Rounded corners
-      fontFamily: 'Manrope',
-      fontSize: '15px',
-      width: `${text.length * 4.2}px`, // Dynamic width based on text length
-      pointerEvents: 'none', // Prevents tooltip from interfering with hover
-      opacity: 0.9
-    }}
-  >
-    {text}
-    {/* Tooltip pointer */}
-    <div
       style={{
         position: 'fixed',
-        top: '100%', // Positions pointer below the tooltip box
-        left: '50%',
-        marginLeft: '-5px', // Centers the pointer
-        width: '0',
-        height: '0',
-        borderLeft: '5px solid transparent',
-        borderRight: '5px solid transparent',
-        borderTop: '10px solid #acaaaa', // Matches tooltip background
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+        transform: 'translate(-50%, -110%)', // Adjusts the position above the button
+        zIndex: 1000,
+        backgroundColor: '#acaaaa', // Tooltip background color
+        color: 'white', // Tooltip text color
+        padding: '10px', // Padding inside the tooltip
+        borderRadius: '5px', // Rounded corners
+        fontFamily: 'Manrope',
+        fontSize: '15px',
+        width: `${text.length * 4.2}px`, // Dynamic width based on text length
+        pointerEvents: 'none', // Prevents tooltip from interfering with hover
         opacity: 0.9
       }}
-    />
-  </div>
+    >
+      {text}
+      {/* Tooltip pointer */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '100%', // Positions pointer below the tooltip box
+          left: '50%',
+          marginLeft: '-5px', // Centers the pointer
+          width: '0',
+          height: '0',
+          borderLeft: '5px solid transparent',
+          borderRight: '5px solid transparent',
+          borderTop: '10px solid #acaaaa', // Matches tooltip background
+          opacity: 0.9
+        }}
+      />
+    </div>
   );
 
   const Bookmark = ({ component }) => (
@@ -339,203 +339,199 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   );
 
   return (
-    <div>       
-    <div style={{...containerStyle, left: `${center.x/window.innerWidth*100}vw`, top: `${center.y/window.innerHeight*100}vh` }}>
-    {components.map((c, i) => (
-    <div key={i}>
-      {/* Shape */}
-      <div
+    <>       
+      <div 
         style={{
-          ...buttonStyle,
-          left: `${c.x - waveWidth/2}px`, // Adjust position for button size
-          top: `${c.y - waveHeight/2 - 2}px`,
-          transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
-          zIndex: 1 // Layer filled shapes at the base
-        }}
-        onClick={() => handleClick(i)}
-        onMouseEnter={(e) => handleMouseEnter(e, i)}
-        onMouseLeave={() => handleMouseLeave(i)}
-      >
-        <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
-          <defs>
-            <linearGradient id={`gradient-${i}`} x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" style={{ stopColor: getGradientColor(c.Code, c.Type, colors).start, stopOpacity: 1 }} /> {/* Start color */}
-              <stop offset="70%" style={{ stopColor: getGradientColor(c.Code, c.Type, colors).end, stopOpacity: 1 }} /> {/* End color */}
-            </linearGradient>
-          </defs>
-          <path 
-            d={svgPath} 
-            fill={`url(#gradient-${i})`}  // Use the gradient fill
-            stroke="none" 
-            style={{ pointerEvents: 'all' }}
-            opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)}
-            transition="opacity 1s ease"
-          />
-        </svg>
-      </div>
-
-      {/* Outline Shape */}
-      <div
-        style={{
-          ...buttonStyle,
-          left: `${c.x - waveWidth / 2}px`,
-          top: `${c.y - waveHeight / 2 - 2}px`,
-          transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
-          position: 'absolute', // Consistent positioning
-          zIndex: 30 // Ensures outlines are rendered on top of filled shapes
-        }}
-        onClick={() => handleClick(i)}
-        onMouseEnter={(e) => handleMouseEnter(e, i)}
-        onMouseLeave={() => handleMouseLeave(i)}
-      >
-        <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
-          <path 
-            d={svgPath} 
-            fill="none"
-            stroke={getStroke(clickedIds, i, mode, colors['Selection'])}
-            strokeWidth="1.5px"
-            style={{ pointerEvents: 'all' }} 
-          />
-        </svg>
-      </div>
-
-      {/* Text */}
-      <div
-        style={{
-          position: 'absolute',
-          left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
-          top: `${c.y - waveHeight/2 - 2}px`,
-          transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
-          opacity: getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter), // Change opacity on hover
-          zIndex: 10,
-          pointerEvents: 'none', // Disable pointer events for the inner div
-          userSelect: 'none'
+          ...containerStyle, 
+          left: `${center.x / window.innerWidth * 100}vw`, 
+          top: `${center.y / window.innerHeight * 100}vh`
         }}
       >
-        <div
-          style={{
-            position: 'relative',
-            left: isFlipped(c.Code) 
-            ? (c.Type === 'Principle' ? '6.5px' : '6.5px') 
-            : (c.Type === 'Principle' ? '-6.5px' : '-6.5px'), 
-            top: isFlipped(c.Code) 
-            ? (c.Type === 'Principle' ? '6px' : '-2px') 
-            : (c.Type === 'Principle' ? '-2px' : '6px'),
-            //transform: c.Type === 'Principle' ? `rotate(${-Math.PI*0.01}rad)` : 'none',
-            pointerEvents: 'none',
-            userSelect: 'none'
-          }}
-        >
-          <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
-            {/* Path definition */}
-            {/* <path 
-              d={c.Type === "Principle" ? svgTextPathInverted : svgTextPath } 
-              fill={'none'} 
-              stroke='black' 
-            />  */}
-            
-            <defs>
-              <path 
-                id={`text-path-${i}`} 
-                d={c.Type === "Principle" ? svgTextPathInverted : svgTextPath } 
-                style={{ 
+        {components.map((c, i) => (
+          <div key={i}>
+            {/* Shape */}
+            <div
+              style={{
+                ...buttonStyle,
+                left: `${c.x - waveWidth / 2}px`, // Adjust position for button size
+                top: `${c.y - waveHeight / 2 - 2}px`,
+                transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+                zIndex: 1 // Layer filled shapes at the base
+              }}
+              onClick={() => handleClick(i)}
+              onMouseEnter={(e) => handleMouseEnter(e, i)}
+              onMouseLeave={() => handleMouseLeave(i)}
+            >
+              <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
+                <defs>
+                  <linearGradient id={`gradient-${i}`} x1="100%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" style={{ stopColor: getGradientColor(c.Code, c.Type, colors).start, stopOpacity: 1 }} /> {/* Start color */}
+                    <stop offset="70%" style={{ stopColor: getGradientColor(c.Code, c.Type, colors).end, stopOpacity: 1 }} /> {/* End color */}
+                  </linearGradient>
+                </defs>
+                <path 
+                  d={svgPath} 
+                  fill={`url(#gradient-${i})`}  // Use the gradient fill
+                  stroke="none" 
+                  style={{ pointerEvents: 'all' }}
+                  opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)}
+                  transition="opacity 1s ease"
+                />
+              </svg>
+            </div>
+  
+            {/* Outline Shape */}
+            <div
+              style={{
+                ...buttonStyle,
+                left: `${c.x - waveWidth / 2}px`,
+                top: `${c.y - waveHeight / 2 - 2}px`,
+                transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+                position: 'absolute', // Consistent positioning
+                zIndex: 30 // Ensures outlines are rendered on top of filled shapes
+              }}
+              onClick={() => handleClick(i)}
+              onMouseEnter={(e) => handleMouseEnter(e, i)}
+              onMouseLeave={() => handleMouseLeave(i)}
+            >
+              <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
+                <path 
+                  d={svgPath} 
+                  fill="none"
+                  stroke={getStroke(clickedIds, i, mode, colors['Selection'])}
+                  strokeWidth="1.5px"
+                  style={{ pointerEvents: 'all' }} 
+                />
+              </svg>
+            </div>
+  
+            {/* Text */}
+            <div
+              style={{
+                position: 'absolute',
+                left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
+                top: `${c.y - waveHeight / 2 - 2}px`,
+                transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
+                opacity: getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter), // Change opacity on hover
+                zIndex: 10,
+                pointerEvents: 'none', // Disable pointer events for the inner div
+                userSelect: 'none'
+              }}
+            >
+              <div
+                style={{
+                  position: 'relative',
+                  left: isFlipped(c.Code) 
+                    ? (c.Type === 'Principle' ? '6.5px' : '6.5px') 
+                    : (c.Type === 'Principle' ? '-6.5px' : '-6.5px'), 
+                  top: isFlipped(c.Code) 
+                    ? (c.Type === 'Principle' ? '6px' : '-2px') 
+                    : (c.Type === 'Principle' ? '-2px' : '6px'),
                   pointerEvents: 'none',
                   userSelect: 'none'
-                }} 
-                
-              />
-            </defs>
-
-            {/* Text on Path */}
-            <text
-              ref={(ref) => {
-                if (ref) {
-                  const bbox = ref.getBBox(); // Measure the rendered dimensions of the text
-                  const renderedWidth = bbox.width; // Get the actual width of the text
-            
-                  // Dynamically calculate letter spacing based on rendered width
-                  ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
-                }
-              }}
-              fill={colors['Label'][c.Type]}
-              fontFamily="Manrope"
-              fontWeight={500}
-              fontSize="8.2px"
-              dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
-              style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
-            >
-              <textPath
-                href={`#text-path-${i}`}
-                startOffset="50%" // Center text along the path
-                textAnchor="middle" // Ensure the text centers based on its length
-                style={{ 
-                  pointerEvents: 'none',  
-                  userSelect: 'none'
-                }} // Ensure textPath doesn't interfere
-              >
-                {getText(mode, c.Type, c.Label, c.Code, 0)}
-              </textPath>
-            </text>
-
-            {/* Second Line (if it has one) */}
-            {bigLabels.includes(c.Code) &&
-              <text
-                ref={(ref) => {
-                  if (ref) {
-                    const bbox = ref.getBBox(); // Measure the rendered dimensions of the text
-                    const renderedWidth = bbox.width; // Get the actual width of the text
-              
-                    // Dynamically calculate letter spacing based on rendered width
-                    ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
-                  }
                 }}
-                fill={colors['Label'][c.Type]}
-                fontFamily="Manrope"
-                fontWeight={500}
-                fontSize="8.2px"
-
-                dy="0.84em" // Adjust this to center the text vertically on the path
-                style={{ 
-                  pointerEvents: 'none', 
-                  userSelect: 'none'
-                }} // Ensure text doesn't interfere
               >
-                <textPath
-                  href={`#text-path-${i}`}
-                  startOffset="50%" // Center text along the path
-                  textAnchor="middle" // Ensure the text centers based on its length
-                  style={{ 
-                    pointerEvents: 'none', 
-                    userSelect: 'none'
-                  }} // Ensure textPath doesn't interfere
-                >
-                  {getText(mode, c.Type, c.Label, c.Code, 1)}
-                </textPath>
-              </text>
+                <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
+                  <defs>
+                    <path 
+                      id={`text-path-${i}`} 
+                      d={c.Type === "Principle" ? svgTextPathInverted : svgTextPath } 
+                      style={{ 
+                        pointerEvents: 'none',
+                        userSelect: 'none'
+                      }} 
+                    />
+                  </defs>
+  
+                  {/* Text on Path */}
+                  <text
+                    ref={(ref) => {
+                      if (ref) {
+                        const bbox = ref.getBBox(); // Measure the rendered dimensions of the text
+                        const renderedWidth = bbox.width; // Get the actual width of the text
+            
+                        // Dynamically calculate letter spacing based on rendered width
+                        ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
+                      }
+                    }}
+                    fill={colors['Label'][c.Type]}
+                    fontFamily="Manrope"
+                    fontWeight={500}
+                    fontSize="8.2px"
+                    dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
+                    style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
+                  >
+                    <textPath
+                      href={`#text-path-${i}`}
+                      startOffset="50%" // Center text along the path
+                      textAnchor="middle" // Ensure the text centers based on its length
+                      style={{ 
+                        pointerEvents: 'none',  
+                        userSelect: 'none'
+                      }} // Ensure textPath doesn't interfere
+                    >
+                      {getText(mode, c.Type, c.Label, c.Code, 0)}
+                    </textPath>
+                  </text>
+  
+                  {/* Second Line (if it has one) */}
+                  {bigLabels.includes(c.Code) &&
+                    <text
+                      ref={(ref) => {
+                        if (ref) {
+                          const bbox = ref.getBBox(); // Measure the rendered dimensions of the text
+                          const renderedWidth = bbox.width; // Get the actual width of the text
+                  
+                          // Dynamically calculate letter spacing based on rendered width
+                          ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
+                        }
+                      }}
+                      fill={colors['Label'][c.Type]}
+                      fontFamily="Manrope"
+                      fontWeight={500}
+                      fontSize="8.2px"
+                      dy="0.84em" // Adjust this to center the text vertically on the path
+                      style={{ 
+                        pointerEvents: 'none', 
+                        userSelect: 'none'
+                      }} // Ensure text doesn't interfere
+                    >
+                      <textPath
+                        href={`#text-path-${i}`}
+                        startOffset="50%" // Center text along the path
+                        textAnchor="middle" // Ensure the text centers based on its length
+                        style={{ 
+                          pointerEvents: 'none', 
+                          userSelect: 'none'
+                        }} // Ensure textPath doesn't interfere
+                      >
+                        {getText(mode, c.Type, c.Label, c.Code, 1)}
+                      </textPath>
+                    </text>
+                  }
+                </svg>
+              </div>
+            </div>
+  
+            {/* Bookmark */}
+            {mode === "learn" && !initialState && savedComponents.includes(c.Code) &&
+              <Bookmark component={c} />
             }
-          </svg>
-        </div>
+          </div>
+        ))}
+  
       </div>
-
-      {/* Bookmark */}
-      {mode === "learn" && !initialState && savedComponents.includes(c.Code) &&
-      <Bookmark
-        component={c}
-      />
+  
+      {(mode === "learn" || mode === "contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 
+        <Tooltip 
+          text={tooltipText} 
+          position={tooltipPos} 
+        />
       }
-    </div>
-    ))}
-
-    </div>
-    {(mode ==="learn" || mode ==="contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 
-    <Tooltip 
-      text={tooltipText} 
-      position={tooltipPos} 
-    />}
-    
-    </div>
+  
+    </>
   );
-};
+} 
 
 function getComponentsPositions(componentsData, type) {
   const centerX = size/2;
@@ -555,6 +551,7 @@ function getComponentsPositions(componentsData, type) {
 
   const angleStep = (2 * Math.PI) / numberOfComponents;
   let startAngle
+
   if(type === 'Principle')
     startAngle = -Math.PI/1.55;
   else
@@ -564,6 +561,7 @@ function getComponentsPositions(componentsData, type) {
     let angle = i * angleStep + startAngle;
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
+
     if(type === 'Principle')
       angle = angle + 2*Math.PI / 2 + Math.PI*0.02;
     else if(type === 'Perspective')
@@ -579,59 +577,57 @@ function getComponentsPositions(componentsData, type) {
 };
 
 const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, opacityCounter) => {
-  if (mode === "initial-0") {
+  // Intro
+  if (mode === "intro-0")
     return 0.3;
-  } else if (mode === "initial-1") {
+  else if (mode === "intro-1") 
     return 0.15;
-  } else if (mode === "initial-2" || mode === "initial-3") {
-    if(component.Type === "Principle") {
+  else if (mode === "intro-2" || mode === "intro-3") 
+    if(component.Type === "Principle") 
       if(currentId <= opacityCounter)
-          return 1;
-        else
-          return 0.15;
-    } else 
-        return 0.15;
-  } else if (mode === "initial-4" || mode === "initial-5") {
-      if(component.Type === "Principle")
-          return 0.55;
-      else if(component.Type === "Perspective") {
-        if(currentId <= opacityCounter)
-          return 1;
-        else
-          return 0.15;
-      }
+        return 1;
       else
-          return 0.15;
-  } else if (mode === "initial-6" || mode === "initial-7") {
-      if(component.Type === "Principle")
-          return 0.55;
-      else if(component.Type === "Perspective")
-          return 0.55;
-      else {
-        if(currentId <= opacityCounter)
-          return 1;
-        else
-          return 0.15;
-      }
-  }
+        return 0.15;
+    else 
+      return 0.15;
+  else if (mode === "intro-4" || mode === "intro-5") 
+    if(component.Type === "Principle")
+      return 0.55;
+    else if(component.Type === "Perspective")
+      if(currentId <= opacityCounter)
+        return 1;
+      else
+        return 0.15;
+    else
+      return 0.15;
+  else if (mode === "intro-6" || mode === "intro-7") 
+    if(component.Type === "Principle")
+      return 0.55;
+    else if(component.Type === "Perspective")
+      return 0.55;
+    else 
+      if(currentId <= opacityCounter)
+        return 1;
+      else
+        return 0.15;
 
-  if(mode === "get-started-search") {
+  // Get Started
+  if(mode === "get-started-search") 
     if(selectedComponents === component.Code)
       return 1;
     else if(hoveredId === currentId) 
       return 0.8;
-      
     else
       return 0.2;
-  }
 
-  if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
+  // Get Inspired
+  if(mode === "get-inspired-carousel" || mode === "get-inspired-search") 
     if(selectedComponents.includes(component.Code))
-        return 1;
+      return 1;
     else
-        return 0.2;
-  }
+      return 0.2;
 
+  // General
   if (clickedIds.includes(currentId)) 
     return 1;
   if (hoveredId === currentId) 
@@ -643,10 +639,9 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
 };
 
 const getStroke = (clickedIds, currentId, mode, color) => {
-  if(clickedIds.includes(currentId)) {
+  if(clickedIds.includes(currentId)) 
     if(mode === "get-inspired" || mode === "get-inspired-search" || mode === "get-started" || mode === "get-started-search")
       return color;
-  }
   else
       return 'none';
 };
@@ -668,20 +663,19 @@ const isFlipped = (label) => {
 };
 
 const getText = (mode, type, label, code, index) => {
-  if (mode === "initial-0" || mode === "initial-1") {
+  // Intro
+  if (mode === "intro-0" || mode === "intro-1") 
     return "";
-  } else if (mode === "initial-2" || mode === "initial-3") {
+  else if (mode === "intro-2" || mode === "intro-3")
     if(type !== "Principle")
         return "";
-  } else if (mode === "initial-4" || mode === "initial-5") {
+  else if (mode === "intro-4" || mode === "intro-5")
     if(type === "Dimension")
       return "";
-  }
 
   if(bigLabels.includes(code)) {
     let firstIndex = label.indexOf(' ');
     let secondIndex = label.indexOf(' ', firstIndex + 1);
-
     let firstPart, secondPart;
 
     firstPart = label.substring(0, firstIndex); // "a"

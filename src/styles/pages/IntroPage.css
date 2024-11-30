@@ -1,5 +1,5 @@
 :root {
-    --initial-text-color: #000000; /* Default color */
+    --intro-text-color: #000000; /* Default color */
 }
 
 .i-title-container {
@@ -60,7 +60,7 @@
 .i-text.colored {
     font-weight: 500;
     white-space: nowrap;
-    color: var(--initial-text-color);
+    color: var(--intro-text-color);
 }
 
 .i-space {

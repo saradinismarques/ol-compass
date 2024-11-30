@@ -21,14 +21,14 @@ export function getColorPallete(version) {
             Wave: {},
             Label: {},
             Text: {},
-            "Initial Text": {},
+            "Intro Text": {},
             Selection: "",
             "Selection Hover": "",
             "Selection Method": "",
             Opacity: {
                 Max: 0,
                 Hover: 0,
-                Initial: 0,
+                Intro: 0,
                 "Not Selected": 0
             }
         };
@@ -46,9 +46,9 @@ export function getColorPallete(version) {
         colors['Text']['Perspective'] = versionData["Text [Perspective]"];
         colors['Text']['Dimension'] = versionData["Text [Dimension]"];
 
-        colors['Initial Text']['Principle'] = versionData["Initial Text [Principle]"];
-        colors['Initial Text']['Perspective'] = versionData["Initial Text [Perspective]"];
-        colors['Initial Text']['Dimension'] = versionData["Initial Text [Dimension]"];
+        colors['Intro Text']['Principle'] = versionData["Intro Text [Principle]"];
+        colors['Intro Text']['Perspective'] = versionData["Intro Text [Perspective]"];
+        colors['Intro Text']['Dimension'] = versionData["Intro Text [Dimension]"];
 
         colors.Selection = versionData["Selection"];
         colors["Selection Hover"] = versionData["Selection [Hover]"];
@@ -56,7 +56,7 @@ export function getColorPallete(version) {
         
         colors.Opacity.Max = versionData["Opacity [Max]"];
         colors.Opacity.Hover = versionData["Opacity [Hover]"];
-        colors.Opacity.Initial = versionData["Opacity [Initial]"];
+        colors.Opacity.Intro = versionData["Opacity [Intro]"];
         colors.Opacity["Not Selected"] = versionData["Opacity [Not Selected]"];
 
         // Return the colors for the specific version

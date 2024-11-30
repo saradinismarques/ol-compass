@@ -62,11 +62,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setMode('get-inspired');
     modeRef.current = 'get-inspired';
     setIsExplanationPage(true);
-
     setFirstClick(true);
     setMessageShown(false);
   }, [initialState, setIsExplanationPage]);
-
 
   // State to store window height
   const [height, setHeight] = useState(window.innerHeight);
@@ -82,7 +80,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
 
     // Cleanup the event listener on component unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
+    window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -97,22 +95,21 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
       setMessageShown(true);
     }
     setIsExplanationPage(false);
-
     setCarouselMode(false);
     carouselModeRef.current = false;
-
     setMode('get-inspired');
     modeRef.current = 'get-inspired';
   };
 
   const searchCaseStudies = useCallback((components) => {
     const fetchedCaseStudies = getGetInspiredData();
+    
     // Concatenate the fetched case studies with newCaseStudies
-
     const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
 
     // Process the JSON data
     let filteredCaseStudies = allCaseStudies;
+    
     // If labels are provided, filter the case studies
     if (components !== null) {
       filteredCaseStudies = allCaseStudies.filter(item => {
@@ -179,10 +176,9 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     }
 
     if (!isExplanationPage) return;
+    
     setIsExplanationPage(false);
-
     searchCaseStudies(null);
-
     setMode('get-inspired-carousel');
     modeRef.current = 'get-inspired-carousel';
 
@@ -308,133 +304,133 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
   }, []);
 
   return (
-    <div>
-    <div className={`${messageShown ? "blur-background" : ""}`}>
-      <OLCompass 
-        colors={colors}
-        mode={mode}
-        position={isExplanationPage ? "center" : "left"} 
-        resetState={resetState} // Passing resetState to OLCompass
-        onEnterClick={handleDefaultSearch} 
-        onButtonClick={handleCompassClick}
-        selectedComponents={state.components}
-        onSearchClick={handleDataFromOLCompass}
-        fetchData={fetchData} 
-      /> 
-      {isExplanationPage && 
-        <Description colors={colors} mode={'get-inspired'} />
-      } 
+    <>
+      <div className={`${messageShown ? "blur-background" : ""}`}>
+        <OLCompass
+          colors={colors}
+          mode={mode}
+          position={isExplanationPage ? "center" : "left"}
+          resetState={resetState} // Passing resetState to OLCompass
+          onEnterClick={handleDefaultSearch}
+          onButtonClick={handleCompassClick}
+          selectedComponents={state.components}
+          onSearchClick={handleDataFromOLCompass}
+          fetchData={fetchData}
+        />
+        {isExplanationPage && 
+          <Description colors={colors} mode={'get-inspired'} 
+        />}
+        {((!isExplanationPage && carouselMode) || !carouselMode) && (
+          <Message
+            mode={'get-inspired'}
+            type={'button'}
+            setMessageShown={setMessageShown} // Pass the setter to control it
+          />
+        )}
+  
+        {!isExplanationPage && (
+          <>
+            <div className='gi-text-container'>
+              {resultsNumber !== -1 && (
+                <div className="gi-card-container">
+                  <button
+                    onClick={toggleBookmark}
+                    className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}
+                  >   
+                    <BookmarkIcon className="gi-bookmark-icon" />
+                  </button>
+    
+                  <h1 className="gi-title">{state.title}</h1>
+                  <p className="gi-description">{state.description}</p>
+                  <p>{height}</p>
+                  <p className="gi-credits">Credits: {state.credits}</p>
+    
+                  <div className='gi-boxes-container'>
+                  <div className='gi-box-row'>
+                    <p className='gi-text-box type'>{state.type}</p>
+                    <p className='gi-text-box age'>{state.age}</p>
+                    <p className='gi-text-box time'>{state.time}</p>
+                  </div>
+                  <div className='gi-box-row'>
+                    <p className='gi-text-box languages'>{state.languages}</p>
+                    <p className='gi-text-box mainTarget'>{state.mainTarget}</p>
+                    <p className='gi-text-box year'>{state.year}</p>
+                  </div>
+                  <div className='gi-box-row'>
+                    <p className='gi-text-box collection'>{state.collection}</p>
+                  </div>
+                </div>
+              </div>
+              )}
+              {resultsNumber === -1 && (
+                <div className="gi-card-container empty"></div>
+              )}
+    
+              {/* Navigation Arrows */}
+              {(currentIndex > 0 || resultsNumber === -1) && (
+                <button
+                  className={`gi-arrow-button up ${resultsNumber === 0 ? "disabled" : ""}`}
+                  onClick={handlePrev}
+                >
+                  <ArrowIcon className='gi-arrow-icon' />
+                </button>
+              )}
+    
+              {(currentIndex < caseStudies.length - 1 || resultsNumber === -1) && (
+                <button
+                  className={`gi-arrow-button down ${resultsNumber === 0 ? "disabled" : ""}`}
+                  onClick={handleNext}
+                >
+                  <ArrowIcon className='gi-arrow-icon' />
+                </button>
+              )}
+              </div>
+    
+              <div className='gi-search-results-container'>
+              {resultsNumber !== -1 && (
+                <p className='gi-results'>
+                  <span className='gi-bold-text'>{resultsNumber}</span> results
+                </p>
+              )}
+              <div className="gi-search-logic-menu">
+                <div className="gi-logic-button-background">
+                  <div className="gi-logic-buttons">
+                    <button
+                      className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
+                      onClick={() => handleSearchLogicChange("AND")}
+                    >
+                      AND
+                    </button>
+                    <button
+                      className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
+                      onClick={() => handleSearchLogicChange("OR")}
+                    >
+                      OR
+                    </button>
+                  </div>
+                </div>
+                <button className="gi-search-button" onClick={handleSearchClick}>
+                  SEARCH
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+        <Menu isExplanationPage={isExplanationPage} />
+      </div>
+  
       {((!isExplanationPage && carouselMode) || !carouselMode) && (
         <Message
           mode={'get-inspired'}
-          type={'button'}
+          type={'message'}
+          messageShown={messageShown} // Pass whether to show the message
           setMessageShown={setMessageShown} // Pass the setter to control it
+          firstMessage={firstMessage}
+          setFirstMessage={setFirstMessage}
         />
       )}
-
-      {!isExplanationPage && (
-      <>
-      <div className='gi-text-container'>
-        {resultsNumber !== -1 && (
-        <div className="gi-card-container">
-          <button onClick={toggleBookmark} className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}>
-            <BookmarkIcon 
-              className="gi-bookmark-icon" 
-            />
-          </button>   
-
-          <h1 className="gi-title">{state.title}</h1>
-          <p className="gi-description">{state.description}</p>
-          <p>{height}</p>
-          <p className="gi-credits">Credits: {state.credits}</p>
-                
-          <div className='gi-boxes-container'>
-            <div className='gi-box-row'>
-              <p className='gi-text-box type'>{state.type}</p>
-              <p className='gi-text-box age'>{state.age}</p>
-              <p className='gi-text-box time'>{state.time}</p>
-            </div>
-            <div className='gi-box-row'>
-              <p className='gi-text-box languages'>{state.languages}</p>
-              <p className='gi-text-box mainTarget'>{state.mainTarget}</p>
-              <p className='gi-text-box year'>{state.year}</p>
-            </div>
-            <div className='gi-box-row'>
-              <p className='gi-text-box collection'>{state.collection}</p>
-            </div>
-          </div>
-        </div> 
-        )}
-        {resultsNumber === -1 && (
-          <div className="gi-card-container empty"></div> 
-        )}
-
-        {/* Navigation Arrows */}
-        {(currentIndex > 0 || resultsNumber === -1) && (
-          <button className={`gi-arrow-button up ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handlePrev}>
-            <ArrowIcon 
-              className='gi-arrow-icon'
-            />
-          </button>
-        )}
-
-        {(currentIndex < caseStudies.length - 1 || resultsNumber === -1) && (
-          <button className={`gi-arrow-button down ${resultsNumber === 0 ? "disabled" : ""}`} onClick={handleNext}>
-            <ArrowIcon 
-              className='gi-arrow-icon'
-            />
-          </button>
-        )}
-        
-      </div>
-      
-      <div className='gi-search-results-container'>
-        {resultsNumber !== -1 && (
-          <p className='gi-results'>
-            <span className='gi-bold-text'>{resultsNumber}</span> results 
-          </p>
-        )}
-        <div className="gi-search-logic-menu">
-          <div className="gi-logic-button-background">
-            <div className="gi-logic-buttons">
-              <button
-                className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
-                onClick={() => handleSearchLogicChange("AND")}
-              >
-                AND
-              </button>
-              <button
-                className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
-                onClick={() => handleSearchLogicChange("OR")}
-              >
-                OR
-              </button>
-            </div>
-          </div>
-          <button 
-            className="gi-search-button"
-            onClick={handleSearchClick}
-          >
-            SEARCH
-          </button>
-        </div>
-       </div>
-      </>
-      )}    
-      <Menu isExplanationPage={isExplanationPage}/>
-    </div>
-    {((!isExplanationPage && carouselMode) || !carouselMode) && (
-      <Message
-        mode={'get-inspired'}
-        type={'message'}
-        messageShown={messageShown} // Pass whether to show the message
-        setMessageShown={setMessageShown} // Pass the setter to control it
-        firstMessage={firstMessage}
-        setFirstMessage={setFirstMessage}
-      />
-    )}
-    </div>
+    </>
   );
-};
+} 
 
 export default GetInspiredPage;

@@ -9,7 +9,6 @@ import { ReactComponent as LockIcon } from '../assets/icons/lock-icon.svg'; // A
 
 const Description = ({ colors, mode }) => {
   const description = getModeTexts(mode);
-
   const textLines = description.Text.split("<br>");
   
   // Placeholder-to-Component mapping
@@ -49,14 +48,14 @@ const Description = ({ colors, mode }) => {
       {/* Available */}
       {description.Text !== '/' && 
         <>
-        <div className='description-text'>
-          {textLines.map((line, index) => (
-            <p key={index}>{line}</p>
-          ))}
-        </div>
-        <p className='description-start-prompt'>
-          {renderTextWithIcons(description.StartPrompt, iconsMap)}  
-        </p>
+          <div className='description-text'>
+            {textLines.map((line, index) => (
+              <p key={index}>{line}</p>
+            ))}
+          </div>
+          <p className='description-start-prompt'>
+            {renderTextWithIcons(description.StartPrompt, iconsMap)}  
+          </p>
         </>
       }
       {/* Not Available */}
@@ -65,7 +64,6 @@ const Description = ({ colors, mode }) => {
           {renderTextWithIcons(description.StartPrompt, iconsMap)}  
         </p>
       } 
-      
     </div>
   );
 };

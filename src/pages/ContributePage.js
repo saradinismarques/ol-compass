@@ -1,15 +1,15 @@
-import React, {useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import '../styles/pages/ContributePage.css';
 import OLCompass from '../components/OLCompass';
-import Menu from '../components/Menu'
+import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 
-const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
-  // Memoize the initialState object
+const ContributePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+  // Initial state for the form
   const initialState = useMemo(() => ({
-    title: '', 
+    title: '',
     collection: '',
     mainTarget: '',
     age: '',
@@ -19,7 +19,7 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
     year: '',
     description: '',
     credits: '',
-    components: [], // Use an array to hold selected components
+    components: [],
   }), []);
 
   const [state, setState] = useState(initialState);
@@ -28,76 +28,64 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [firstClick, setFirstClick] = useState(true);
   const [messageShown, setMessageShown] = useState(false);
-  
-  const buttonsRef = useRef({}); // Create a ref to store button positions
 
+  const buttonsRef = useRef({}); // Stores button positions for dropdown alignment
+
+  // Reset state and UI elements
   const resetState = useCallback(() => {
     setState(initialState);
     setIsExplanationPage(true);
     setOpenDropdown(null);
-    setDropdownPosition({ top: 0, left: 0 }); 
-
+    setDropdownPosition({ top: 0, left: 0 });
     setFirstClick(true);
     setMessageShown(false);
   }, [initialState, setIsExplanationPage]);
 
+  // Trigger compass action
   const handleCompassClick = () => {
-    if(firstClick && firstMessage) {
+    if (firstClick && firstMessage) {
       setFirstClick(false);
       setMessageShown(true);
     }
     setIsExplanationPage(false);
   };
 
+  // Handle Enter key
   const handleKeyDown = useCallback((e) => {
-    //for the initial state
-    if(e.key !== 'Enter') return;
-    if (!isExplanationPage) return;
+      if (e.key !== 'Enter' || !isExplanationPage) return;
 
-    if(firstClick && firstMessage) {
-      setFirstClick(false);
-      setMessageShown(true);
-    }
-    setIsExplanationPage(false);
-
-  }, [firstClick, firstMessage, isExplanationPage, setIsExplanationPage]);
-
+      if (firstClick && firstMessage) {
+        setFirstClick(false);
+        setMessageShown(true);
+      }
+      setIsExplanationPage(false);
+    },
+    [firstClick, firstMessage, isExplanationPage, setIsExplanationPage]
+  );
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
-    return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-    };
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleKeyDown]);
 
+  // Update form state
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
+  // Reset compass and state
   const resetStateAndCompass = useCallback(() => {
-    setState(initialState);
-    setFirstClick(false);
-    setMessageShown(false);
-
-    setOpenDropdown(null);
-    setDropdownPosition({ top: 0, left: 0 }); // Set dropdown position
-    // Trigger OLCompass reset
+    resetState();
     setResetCompass(true);
-    setIsExplanationPage(false);
-    // Set it back to false after the reset
-    setTimeout(() => {
-      setResetCompass(false);
-    }, 0);
-  }, [setState, setResetCompass, setIsExplanationPage, initialState]);
+    setTimeout(() => setResetCompass(false), 0); // Reset compass trigger
+  }, [resetState]);
 
+  // Handle "Enter" button action
   const handleEnterClick = (components) => {
-    // for the rest of the interaction
-    // Process the case study data from the state
     const newCaseStudy = {
       Title: state.title,
       Collection: state.collection,
@@ -109,435 +97,177 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
       Year: state.year,
       Description: state.description,
       Credits: state.credits,
-      Components: components // assuming this is an array you will populate based on user input
+      Components: components,
     };
 
-    // Update the newCaseStudies array with the new entry
-    setNewCaseStudies((prevStudies) => [...prevStudies, newCaseStudy]);
+    setNewCaseStudies((prev) => [...prev, newCaseStudy]);
     resetStateAndCompass();
   };
 
-  // Function to toggle the dropdowns
+  // Toggle dropdown visibility
   const toggleDropdown = (dropdownName, button) => {
     if (openDropdown === dropdownName) {
       setOpenDropdown(null);
     } else {
-      const rect = button.getBoundingClientRect(); // Get button position
-      setDropdownPosition({ top: rect.bottom + window.scrollY, left: rect.left }); // Set dropdown position
+      const rect = button.getBoundingClientRect();
+      setDropdownPosition({ top: rect.bottom + window.scrollY, left: rect.left });
       setOpenDropdown(dropdownName);
     }
   };
 
+  // Render dropdown content
+  const renderDropdownContent = (dropdownName, options) => (
+    <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+      {options.map(({ label, value }) => (
+        <label key={value} className="c-checkbox-label">
+          <input
+            name={dropdownName}
+            type="checkbox"
+            className="c-checkbox"
+            value={value}
+            checked={state[dropdownName] === value}
+            onChange={handleInputChange}
+          />
+          {label}
+        </label>
+      ))}
+    </div>
+  );
+
+  // Dropdown options for each category
+  const dropdownOptions = {
+    type: [
+      { label: 'Activity', value: 'activity' },
+      { label: 'EU Project', value: 'EU project' },
+    ],
+    age: [
+      { label: '8+', value: '8+' },
+      { label: '10+', value: '10+' },
+      { label: '12+', value: '12+' },
+      { label: '14+', value: '14+' },
+      { label: '16+', value: '16+' },
+      { label: '18+', value: '18+' },
+    ],
+    time: [
+      { label: "45'", value: "45'" },
+      { label: "60'", value: "60'" },
+      { label: "90'", value: "90'" },
+      { label: "120'", value: "120'" },
+      { label: "180'", value: "180'" },
+    ],
+    languages: [
+      { label: 'English [EN]', value: 'EN' },
+      { label: 'Español [ES]', value: 'ES' },
+      { label: 'Italiano [IT]', value: 'IT' },
+      { label: 'Português [PT]', value: 'PT' },
+    ],
+    mainTarget: [
+      { label: 'High-school', value: 'high-school' },
+      { label: 'Students', value: 'students' },
+      { label: 'Local Community', value: 'local community' },
+    ],
+    year: [
+      { label: '2018', value: '2018' },
+      { label: '2019', value: '2019' },
+      { label: '2020', value: '2020' },
+      { label: '2021', value: '2021' },
+      { label: '2022', value: '2022' },
+      { label: '2023', value: '2023' },
+      { label: '2024', value: '2024' },
+    ],
+  };
+
+  // Dropdown display labels for each key
+  const dropdownLabels = {
+    type: 'TYPE',
+    age: 'AGE RANGE', // Properly spaced label for rendering
+    time: 'DURATION',
+    languages: 'LANGUAGE',
+    mainTarget: 'MAIN TARGET',
+    year: 'YEAR',
+  };
+
   return (
-    <div>
-      <div className={`${messageShown ? "blur-background" : ""}`}>
-      <OLCompass 
-        colors={colors}
-        mode="contribute"
-        position={isExplanationPage ? "center" : "left"}
-        onEnterClick={handleEnterClick} 
-        resetState={resetState} 
-        resetCompass={resetCompass}
-        onButtonClick={handleCompassClick}
-      /> 
-        {isExplanationPage && (
-          <Description colors={colors} mode={'contribute'} />
-        )} 
+    <>
+      <div className={messageShown ? 'blur-background' : ''}>
+        <OLCompass
+          colors={colors}
+          mode="contribute"
+          position={isExplanationPage ? 'center' : 'left'}
+          onEnterClick={handleEnterClick}
+          resetState={resetState}
+          resetCompass={resetCompass}
+          onButtonClick={handleCompassClick}
+        />
+        {isExplanationPage && <Description colors={colors} mode="contribute" />}
 
         {!isExplanationPage && (
-        <>
-         <Message
-            mode={'contribute'}
-            type={'button'}
-            setMessageShown={setMessageShown} // Pass the setter to control it
-          />
-        <div className='c-text-container'>
-          <div className="c-textarea-container">
-            <div className="c-title">
-                <textarea 
-                  name="title"
-                  className="c-placeholder" 
-                  type="text" 
-                  placeholder="Insert Title"  
-                  value={state.title} 
-                  onChange={handleInputChange}
-                ></textarea>
-            </div>
-            <div className="c-description">
-                <textarea 
-                  name="description"
-                  className="c-placeholder" 
-                  placeholder="Insert Description"
-                  value={state.description}
-                  onChange={handleInputChange}
-                ></textarea>
-            </div>
-            <div className="c-insert-sources">
-                <input 
-                  name="credits"
-                  type="text"
-                  className="c-placeholder" 
-                  placeholder="Insert Source/Credits" 
-                  value={state.credits}
-                  onChange={handleInputChange}
-                />
-            </div>
-          </div>
+          <>
+            <Message mode="contribute" type="button" setMessageShown={setMessageShown} />
+            <div className='c-text-container'>
+              <div className="c-textarea-container">
+                <div className="c-title">
+                    <textarea 
+                      name="title"
+                      className="c-placeholder" 
+                      type="text" 
+                      placeholder="Insert Title"  
+                      value={state.title} 
+                      onChange={handleInputChange}
+                    ></textarea>
+                </div>
+                <div className="c-description">
+                    <textarea 
+                      name="description"
+                      className="c-placeholder" 
+                      placeholder="Insert Description"
+                      value={state.description}
+                      onChange={handleInputChange}
+                    ></textarea>
+                </div>
+                <div className="c-insert-sources">
+                    <input 
+                      name="credits"
+                      type="text"
+                      className="c-placeholder" 
+                      placeholder="Insert Source/Credits" 
+                      value={state.credits}
+                      onChange={handleInputChange}
+                    />
+                </div>
+              </div>
 
-          {/* Add your select boxes and language checkboxes below this point */}
-          {/* Dropdown Buttons */}
-          <div className="c-filters">
-            <button ref={el => (buttonsRef.current.type = el)} onClick={e => toggleDropdown('type', e.currentTarget)}>
-              TYPE
-              <ArrowIcon 
-                className={openDropdown === 'type' ? 'c-arrow-icon active' : 'c-arrow-icon'}
-              />
-            </button>
-            <button ref={el => (buttonsRef.current.ageRange = el)} onClick={e => toggleDropdown('ageRange', e.currentTarget)}>
-              AGE RANGE
-              <ArrowIcon 
-                className={openDropdown === 'ageRange' ? 'c-arrow-icon active' : 'c-arrow-icon'}
-              />
-            </button>
-            <button ref={el => (buttonsRef.current.duration = el)} onClick={e => toggleDropdown('duration', e.currentTarget)}>
-              DURATION
-              <ArrowIcon 
-                className={openDropdown === 'duration' ? 'c-arrow-icon active' : 'c-arrow-icon'}
-              />
-            </button>
-            <button ref={el => (buttonsRef.current.language = el)} onClick={e => toggleDropdown('language', e.currentTarget)}>
-              LANGUAGE
-              <ArrowIcon 
-                className={openDropdown === 'language' ? 'c-arrow-icon active' : 'c-arrow-icon'}
-              />
-            </button>
-            <button ref={el => (buttonsRef.current.mainTarget = el)} onClick={e => toggleDropdown('mainTarget', e.currentTarget)}>
-              MAIN TARGET
-              <ArrowIcon 
-                className={openDropdown === 'mainTarget' ? 'c-arrow-icon active' : 'c-arrow-icon'}
-              />
-            </button>
-            <button ref={el => (buttonsRef.current.year = el)} onClick={e => toggleDropdown('year', e.currentTarget)}>
-              YEAR
-              <ArrowIcon 
-                className={openDropdown === 'year' ? 'c-arrow-icon active' : 'c-arrow-icon'}
-              />
-            </button>
-          </div>
-        </div>
+              <div className="c-filters">
+                {Object.keys(dropdownOptions).map((key) => (
+                  <button
+                    key={key}
+                    ref={(el) => (buttonsRef.current[key] = el)}
+                    onClick={(e) => toggleDropdown(key, e.currentTarget)}
+                  >
+                    {dropdownLabels[key]} {/* Use dropdownLabels for proper display */}
+                    <ArrowIcon className={openDropdown === key ? 'c-arrow-icon active' : 'c-arrow-icon'} />
+                  </button>
+                ))}
+              </div>
+            </div>
 
-        {openDropdown === 'type' && (
-          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
-            <label className="c-checkbox-label">
-              <input 
-                name="type"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="activity" 
-                checked={state.type.includes('activity')}
-                onChange={handleInputChange}
-              /> 
-              Activity
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="type"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="EU project" 
-                checked={state.type.includes('EU project')}
-                onChange={handleInputChange}
-              /> 
-              EU Project
-            </label>
-          </div>
+            {openDropdown && renderDropdownContent(openDropdown, dropdownOptions[openDropdown])}
+          </>
         )}
-        {openDropdown === 'ageRange' && (
-          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
-            <label className="c-checkbox-label">
-              <input 
-                name="age"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="8+" 
-                checked={state.age.includes('8+')}
-                onChange={handleInputChange}
-              /> 8+
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="age"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="10+" 
-                checked={state.age.includes('10+')}
-                onChange={handleInputChange}
-              /> 10+
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="age"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="12+" 
-                checked={state.age.includes('12+')}
-                onChange={handleInputChange}
-              /> 12+
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="age"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="14+" 
-                checked={state.age.includes('14+')}
-                onChange={handleInputChange}
-              /> 14+
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="age"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="16+" 
-                checked={state.age.includes('16+')}
-                onChange={handleInputChange}
-              /> 16+
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="age"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="18+" 
-                checked={state.age.includes('18+')}
-                onChange={handleInputChange}
-              /> 18+
-            </label>
-          </div>
-        )}
-        {openDropdown === 'duration' && (
-          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
-            <label className="c-checkbox-label">
-              <input 
-                name="time"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="45'" 
-                checked={state.time.includes(`45'`)}
-                onChange={handleInputChange}
-              /> 45'
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="time"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="60'" 
-                checked={state.time.includes(`60'`)}
-                onChange={handleInputChange}
-              /> 60'
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="time"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="90'" 
-                checked={state.time.includes(`90'`)}
-                onChange={handleInputChange}
-              /> 90'
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="time"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="120'" 
-                checked={state.time.includes(`120'`)}
-                onChange={handleInputChange}
-              /> 120'
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="time"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="180'" 
-                checked={state.time.includes(`180'`)}
-                onChange={handleInputChange}
-              /> 180'
-            </label>
-          </div>
-        )}
-        {openDropdown === 'language' && (
-          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
-            <label className="c-checkbox-label">
-              <input 
-                name="languages"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="EN" 
-                checked={state.languages.includes('EN')}
-                onChange={handleInputChange}
-              /> ENGLISH [EN]
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="languages"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="ES" 
-                checked={state.languages.includes('ES')}
-                onChange={handleInputChange}
-              /> ESPANOL [ES]
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="languages"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="IT" 
-                checked={state.languages.includes('IT')}
-                onChange={handleInputChange}
-              /> ITALIANO [IT]
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="languages"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="PT" 
-                checked={state.languages.includes('PT')}
-                onChange={handleInputChange}
-              /> PORTUGUES [PT]
-            </label>
-          </div>
-        )}
-        {openDropdown === 'mainTarget' && (
-          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
-            <label className="c-checkbox-label">
-              <input 
-                name="mainTarget"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="high-school" 
-                checked={state.mainTarget.includes('high-school')}
-                onChange={handleInputChange}
-              /> High-school
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="mainTarget"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="students" 
-                checked={state.mainTarget.includes('students')}
-                onChange={handleInputChange}
-              /> Students
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="mainTarget"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="local community" 
-                checked={state.mainTarget.includes('local community')}
-                onChange={handleInputChange}
-              /> Local Community
-            </label>
-          </div>
-        )}
-        {openDropdown === 'year' && (
-          <div className="c-dropdown-content" style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
-            <label className="c-checkbox-label">
-              <input 
-                name="year"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="2018" 
-                checked={state.year.includes('2018')}
-                onChange={handleInputChange}
-              /> 2018
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="year"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="2019" 
-                checked={state.year.includes('2019')}
-                onChange={handleInputChange}
-              /> 2019
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="year"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="2020" 
-                checked={state.year.includes('2020')}
-                onChange={handleInputChange}
-              /> 2020
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="year"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="2021" 
-                checked={state.year.includes('2021')}
-                onChange={handleInputChange}
-              /> 2021
-            </label>
-            <label className="c-checkbox-label">
-              <input 
-                name="year"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="2022" 
-                checked={state.year.includes('2022')}
-                onChange={handleInputChange}
-              />2022
-            </label> 
-            <label className="c-checkbox-label">
-              <input 
-                name="year"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="2023" 
-                checked={state.year.includes('2023')}
-                onChange={handleInputChange}
-              /> 2023
-            </label> 
-            <label className="c-checkbox-label">
-              <input 
-                name="year"
-                type="checkbox" 
-                className="c-checkbox" 
-                value="2024" 
-                checked={state.year.includes('2024')}
-                onChange={handleInputChange}
-              /> 2024
-            </label> 
-          </div>
-        )}
-        </>
-        )}  
         <Menu isExplanationPage={isExplanationPage} />
-    </div>
-    {!isExplanationPage && 
-      <Message
-        mode={'contribute'}
-        type={'message'}
-        messageShown={messageShown} // Pass whether to show the message
-        setMessageShown={setMessageShown} // Pass the setter to control it
-        firstMessage={firstMessage}
-        setFirstMessage={setFirstMessage}
-      />
-    }
-    </div>
+      </div>
+      {!isExplanationPage && (
+        <Message
+          mode="contribute"
+          type="message"
+          messageShown={messageShown}
+          setMessageShown={setMessageShown}
+          firstMessage={firstMessage}
+          setFirstMessage={setFirstMessage}
+        />
+      )}
+    </>
   );
 };
 
-export default ContibutePage;
+export default ContributePage;
