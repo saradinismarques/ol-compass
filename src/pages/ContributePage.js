@@ -155,8 +155,7 @@ const ContibutePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessag
         onButtonClick={handleCompassClick}
       /> 
         {isExplanationPage && (
-        <Description colors={colors} mode={'get-inspired'} />
-      
+          <Description colors={colors} mode={'contribute'} />
         )} 
 
         {!isExplanationPage && (

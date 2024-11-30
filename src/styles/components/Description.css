@@ -4,7 +4,7 @@
 
 .description-container {
     position: fixed;
-    top: 23vh; 
+    top: 25vh; 
     left: 73vw; 
 }
 
@@ -12,16 +12,16 @@
     max-width: 200px;
     font-size: 1.5em; /* Smaller size for h2 */
     font-weight: 600;
-    transform: translateY(-50%);
     color: rgb(0, 0, 0); 
+    margin-top: -8px;
 }
 
 .description-text {
+    margin-top: -30px;
     max-width: 200px;
     font-size: 1.1em;
     line-height: 1.3;
     font-weight: 400;
-    margin-top: -60px;
     color: rgb(151, 151, 150); 
     overflow-y: hidden; /* Hide overflow initially */
 }
@@ -43,6 +43,7 @@
     stroke-width: 0px;
     margin-left: 1px;
     margin-right: 1px;
+
 }
 
 .text-icon.wave {
@@ -59,24 +60,20 @@
     margin-right: 5px;
 }
 
-.not-available-container {
+.not-available {
+    margin-top: -10px;
     display: flex;
     align-items: center;
-    margin-top: 20px;
-} 
-
-.not-available {
-    font-size: 1.em; /* Smaller size for h2 */
+    font-size: 1em; /* Smaller size for h2 */
     font-weight: 500;
     color: #841321;
-    margin-top: 10px;
     max-width: 250px;
-}
+} 
 
 .lock-icon {
     fill: #841321;
     height: 16px;
     width: 16px;
     margin-right: 5px;
-    margin-top: -7px;
+    margin-top: -1px;
 }

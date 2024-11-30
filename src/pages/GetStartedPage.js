@@ -40,6 +40,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
   }, [mode]);
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
+  document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
   document.documentElement.style.setProperty('--text-color', colors['Text'][state.type]);
 
   const resetState = useCallback(() => {
@@ -131,7 +132,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
     setIsExplanationPage(false);
     setAfterSearch(true);
-  }, [setIsExplanationPage]);
+  }, [setIsExplanationPage, colors]);
   
   const handleNext = useCallback(() => {
     if(currentIndexRef.current < componentsRef.current.length - 1) {
@@ -157,7 +158,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
       const code = componentsRef.current[nextIndex].code;
       setSelectedComponent(code);
     }; 
-  }, []);
+  }, [colors]);
 
   const handlePrev = useCallback(() => {     
       if(currentIndexRef.current > 0) {
@@ -183,7 +184,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
         const code = componentsRef.current[prevIndex].code;
         setSelectedComponent(code);
       }
-  }, []);
+  }, [colors]);
 
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {

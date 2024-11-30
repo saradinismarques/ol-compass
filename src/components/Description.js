@@ -5,19 +5,20 @@ import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // A
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as CtaArrow } from '../assets/icons/cta-arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as LockIcon } from '../assets/icons/lock-icon.svg'; // Adjust the path as necessary
 
 const Description = ({ colors, mode }) => {
   const description = getModeTexts(mode);
 
   const textLines = description.Text.split("<br>");
   
-  console.log(textLines);
   // Placeholder-to-Component mapping
   const iconsMap = {
     "[WAVE-I]": <WaveIcon className="text-icon wave" />,
     "[ARROW-I]": <ArrowIcon className="text-icon" />,
     "[BOOKMARK-I]": <BookmarkIcon className="text-icon " />,
     "[CTAARROW-I]": <CtaArrow className="text-icon cta-arrow" />,
+    "[LOCK-I]": <LockIcon className="lock-icon" />,
   };
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
@@ -45,14 +46,26 @@ const Description = ({ colors, mode }) => {
       <p className='description-headline'>
         {description.Headline}
       </p>
-      <div className='description-text'>
-        {textLines.map((line, index) => (
-          <p key={index}>{line}</p>
-        ))}
-      <p className='description-start-prompt'>
-        {renderTextWithIcons(description.StartPrompt, iconsMap)}  
-      </p>
-      </div>
+      {/* Available */}
+      {description.Text !== '/' && 
+        <>
+        <div className='description-text'>
+          {textLines.map((line, index) => (
+            <p key={index}>{line}</p>
+          ))}
+        </div>
+        <p className='description-start-prompt'>
+          {renderTextWithIcons(description.StartPrompt, iconsMap)}  
+        </p>
+        </>
+      }
+      {/* Not Available */}
+      {description.Text === '/' && 
+        <p className='not-available'>
+          {renderTextWithIcons(description.StartPrompt, iconsMap)}  
+        </p>
+      } 
+      
     </div>
   );
 };

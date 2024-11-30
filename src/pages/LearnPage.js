@@ -10,7 +10,6 @@ import P4Image from '../assets/images/P4.png';
 import P5Image from '../assets/images/P5.png';
 import P6Image from '../assets/images/P6.png';
 import P7Image from '../assets/images/P7.png';
-import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
@@ -66,13 +65,6 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
       setIsExplanationPage(true);
       return;
     }
-    let tColor;
-    if(type === 'Principle')
-      tColor = "#218065"
-    else if(type === 'Perspective')
-      tColor = "#1c633e"
-    else if(type === 'Dimension')
-      tColor = "#216270"
     
     setState((prevState) => ({
       ...prevState,
