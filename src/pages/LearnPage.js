@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import '../styles/pages/LearnPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
@@ -39,6 +39,24 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--text-color', colors['Text'][state.type]);
+
+  
+  const imageSrc =
+    state.code === 'P1'
+      ? P1Image
+      : state.code === 'P2'
+      ? P2Image
+      : state.code === 'P3'
+      ? P3Image
+      : state.code === 'P4'
+      ? P4Image
+      : state.code === 'P5'
+      ? P5Image
+      : state.code === 'P6'
+      ? P6Image
+      : state.code === 'P7'
+      ? P7Image
+      : null;
 
   const resetState = useCallback(() => {
     setState(initialState);
@@ -118,85 +136,114 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
     }
   };
 
-  const replaceUnderlinesWithButtons = (text, currentConcept) => {
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = text.trim();
-    const underlines = tempDiv.querySelectorAll('u');
+  const replaceUnderlinesAndBreaks = (text, currentConcept, onClickHandler) => {
+    // Split the text by <br> to handle line breaks
+    const lineParts = text.split('<br>');
 
-    underlines.forEach((underline, index) => {
-      const button = document.createElement('button');
-      button.textContent = underline.textContent;
+    return lineParts.map((line, lineIndex) => {
+        // Handle <u> tags within each line
+        const parts = line.split(/(<u>.*?<\/u>)/g);
 
-      if (currentConcept.linkedTo.toLowerCase().includes(button.textContent.toLowerCase())) {
-        button.style.fontWeight = 500;
-      }
+        return (
+            <React.Fragment key={lineIndex}>
+                {parts.map((part, partIndex) => {
+                    if (part.startsWith('<u>') && part.endsWith('</u>')) {
+                        // Extract the content inside <u>...</u>
+                        const buttonText = part.replace('<u>', '').replace('</u>', '');
 
-      button.setAttribute('data-index', index);
-      underline.replaceWith(button);
+                        // Check if the buttonText matches the currentConcept's linkedTo
+                        const isHighlighted = currentConcept.linkedTo
+                            .toLowerCase()
+                            .includes(buttonText.toLowerCase());
+
+                        return (
+                            <button
+                                key={partIndex}
+                                style={{ fontWeight: isHighlighted ? 500 : 'normal' }}
+                                onClick={() => onClickHandler(buttonText)}
+                            >
+                                {buttonText}
+                            </button>
+                        );
+                    } else {
+                        // Render normal text
+                        return <span key={partIndex}>{part}</span>;
+                    }
+                })}
+                {/* Add a line break after each line, except the last one */}
+                {lineIndex < lineParts.length - 1 && <br />}
+            </React.Fragment>
+        );
     });
-
-    return tempDiv.innerHTML;
   };
 
-  const DynamicText = ({ text, currentConcept }) => {
-    useEffect(() => {
-      const buttons = document.querySelectorAll('.l-text button');
-
-      const handleButtonClick = (buttonText) => {
-        const matchingIndex = state.concepts.findIndex(
-          (concept) => concept.LinkedTo.toLowerCase().includes(buttonText.toLowerCase())
+  const TextWithButtons = ({ text, currentConcept }) => {
+    const handleButtonClick = (buttonText) => {
+        const matchingIndex = state.concepts.findIndex((concept) =>
+            concept.LinkedTo.toLowerCase().includes(buttonText.toLowerCase())
         );
 
         if (matchingIndex !== -1) {
-          const matchingConcept = state.concepts[matchingIndex];
-          setConcept({
-            code: matchingConcept.Code,
-            label: matchingConcept.Label,
-            paragraph: matchingConcept.Paragraph,
-            linkedTo: matchingConcept.LinkedTo,
-            index: matchingIndex,
-          });
+            const matchingConcept = state.concepts[matchingIndex];
+            setConcept({
+                code: matchingConcept.Code,
+                label: matchingConcept.Label,
+                paragraph: matchingConcept.Paragraph,
+                linkedTo: matchingConcept.LinkedTo,
+                index: matchingIndex,
+            });
         } else {
-          setConcept(initialConcept);
+            setConcept(initialConcept);
         }
-      };
-
-      buttons.forEach((button) => {
-        button.addEventListener('click', (e) => {
-          handleButtonClick(e.target.textContent);
-        });
-      });
-
-      return () => {
-        buttons.forEach((button) => {
-          button.removeEventListener('click', () => {});
-        });
-      };
-    }, [text]);
+    };
 
     return (
-      <div className="l-text">
-        <p dangerouslySetInnerHTML={{ __html: replaceUnderlinesWithButtons(text, currentConcept) }}></p>
-      </div>
+        <div className="l-text">
+            <p>
+                {replaceUnderlinesAndBreaks(text, currentConcept, handleButtonClick)}
+            </p>
+        </div>
     );
   };
 
-  const imageSrc =
-    state.code === 'P1'
-      ? P1Image
-      : state.code === 'P2'
-      ? P2Image
-      : state.code === 'P3'
-      ? P3Image
-      : state.code === 'P4'
-      ? P4Image
-      : state.code === 'P5'
-      ? P5Image
-      : state.code === 'P6'
-      ? P6Image
-      : state.code === 'P7'
-      ? P7Image
-      : null;
+  const formatWithLineBreaks = (text) => {
+    // Split the text by <br> tags
+    const parts = text.split('<br>').map(part => part.trim());
+
+    return (
+        <>
+            {parts.map((part, index) => (
+                <React.Fragment key={index}>
+                    {part}
+                    {index < parts.length - 1 && <br />}
+                </React.Fragment>
+            ))}
+        </>
+    );
+  };
+
+  const formatWithBold = (text) => {
+    // Regex to match text between <b> and </b> tags
+    const parts = text.split(/(<b>.*?<\/b>)/g); // Split by <b>...</b> while keeping the tags in the array
+
+    return (
+        <>
+            {parts.map((part, index) => {
+                if (part.startsWith('<b>') && part.endsWith('</b>')) {
+                    // Remove the <b> and </b> tags, render the content as bold
+                    return (
+                        <b key={index}>
+                            {part.replace('<b>', '').replace('</b>', '')}
+                        </b>
+                    );
+                } else {
+                    // Render non-bold text as plain text
+                    return <span key={index}>{part}</span>;
+                }
+            })}
+        </>
+    );
+  };
 
   return (
     <>
@@ -238,10 +285,10 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
                 }}
               >
                 <h1 className='l-title'>{state.title}</h1>
-                <h2 className='l-headline' dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
+                <h2 className='l-headline'>{formatWithLineBreaks(state.headline)}</h2>
                 {state.type === "Principle" && (
                   <>
-                    <DynamicText text={state.paragraph} currentConcept={concept} />
+                    <TextWithButtons text={state.paragraph} currentConcept={concept} />
                     <div className='l-concepts-container'>
                       <h1 className='l-title-concepts'>{concept.label}</h1>
 
@@ -258,7 +305,7 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
                 )}
                 {state.type !== "Principle" && (
                   <div className="l-text">
-                    <p dangerouslySetInnerHTML={{ __html: state.paragraph }}></p>
+                    <p>{formatWithBold(state.paragraph)}</p>
                   </div>
                 )}
               </div>

@@ -197,6 +197,22 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
     };
   }, [handleKeyPress]);
 
+  const formatWithLineBreaks = (text) => {
+    // Split the text by <br> tags
+    const parts = text.split('<br>').map(part => part.trim());
+
+    return (
+        <>
+            {parts.map((part, index) => (
+                <React.Fragment key={index}>
+                    {part}
+                    {index < parts.length - 1 && <br />}
+                </React.Fragment>
+            ))}
+        </>
+    );
+  };
+
   return (
     <>
       <div className={`gs-background ${afterSearch ? 'gradient' : ''}`}>
@@ -218,7 +234,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
                 <div className="gs-text-container">
                   <div className="gs-white-line"></div>
                   <h1 className="gs-title">{state.title}</h1>
-                  <h2 className="gs-headline" dangerouslySetInnerHTML={{ __html: state.headline }}></h2>
+                  <h2 className='l-headline'>{formatWithLineBreaks(state.headline)}</h2>
 
                   <button className={'gs-arrow-button down'} onClick={handleNext}>
                     <ArrowIcon className="gs-arrow-icon" />

@@ -137,23 +137,23 @@ const IntroPage = ({ colors }) => {
         });
     };
 
-    const formatText = (intro) => {
+    const formatText = (text) => {
         // Process the input to replace placeholders
-        let introWithouPlaceholders = intro;
+        let textWithouPlaceholders = text;
 
         if(frame === 2 || frame === 4 || frame === 6)
-            introWithouPlaceholders = replacePlaceholders(intro);
+            textWithouPlaceholders = replacePlaceholders(text);
 
         // Split the string by the <br> tag to handle line breaks
-        const lines = introWithouPlaceholders.split('<br>').map(part => part.trim()).filter(part => part !== "");
+        const parts = textWithouPlaceholders.split('<br>').map(part => part.trim()).filter(part => part !== "");
         let isInsideColoredBlock = false; // Tracks if we are inside a <c> block
         
         return (
             <div className="i-text-container">
                 <p>
-                    {lines.map((line, index) => {
+                    {parts.map((part, index) => {
                         let elements = []; // Collect parts of the current line
-                        let remainingText = line;
+                        let remainingText = part;
         
                         // Handle coloring for <c> and </c> tags within the part
                         while (remainingText) {
@@ -200,7 +200,7 @@ const IntroPage = ({ colors }) => {
                             <React.Fragment key={index}>
                                 {elements}
                                 {/* Add <br /> for line breaks */}
-                                {index < lines.length - 1 && <br />}
+                                {index < parts.length - 1 && <br />}
                             </React.Fragment>
                         );
                     })}
