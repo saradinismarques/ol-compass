@@ -5,6 +5,7 @@
     --selection-hover-color: #841321; /* Default color */
 }
 
+/* Text Container */
 .gs-text-container {
     position: fixed;
     top: 10.6vh; 
@@ -26,7 +27,6 @@
     z-index: 40;
 }
 
-/* Style for h1 */
 .gs-title {
     font-size: 1.4em; /* Larger size for h1 */
     font-weight: 300;
@@ -36,7 +36,6 @@
     align-self: flex-start; /* Override center alignment */
 }
 
-/* Style for h2 */
 .gs-headline {
     font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
@@ -44,49 +43,11 @@
     margin-top: -5px;
 }
 
-.gs-show-more-button {
-    font-family: 'Manrope', sans-serif;
-    font-size: 1em;
-    font-weight: 100;
-    background-color: transparent; /* Use 'transparent' instead of 'none' */
-    border: none;
-    cursor: pointer;
-    outline: none; /* Optional: Remove outline on focus */
-    text-decoration: underline;
-    text-decoration: underline;
-    text-decoration-thickness: 1px; /* Adjust thickness */
-    text-underline-offset: 4px; /* Optional: Adds spacing between text and underline */
-    z-index: 20; /* Adjust the z-index */
-    margin-left: -5px;
-    text-align: left; /* Align text within itself */
-    align-self: flex-start; /* Override center alignment */
-}
-
-.gs-show-more-button:hover {
-    color: rgb(134, 134, 134);
-}
-
-.gs-show-more-text {
-    font-size: 1em;
-    font-weight: 300;
-    margin-top: 5px;
-    text-align: left; /* Align text within itself */
-    align-self: flex-start; /* Override center alignment */
-}
-
-.gs-text b{
+.gs-text b {
     font-weight: 500;
 }
 
-.gs-gradient-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 20; /* Ensure this doesn't interfere with other content */
-}
-
+/* Gradient Background */
 .gs-background {
     position: fixed;
     top: 0;
@@ -100,6 +61,7 @@
     background: linear-gradient(to right, transparent 25%, var(--wave-color) 100%);
 }
 
+/* Search Button */
 .gs-search-container {
     position: fixed;
     bottom: 4vh;
@@ -112,7 +74,6 @@
     left: 40vw;
 }
 
-/* Container for the menu */
 .gs-search-outline {
     position: fixed;
     transform: translate(-50%, -50%);
@@ -122,7 +83,6 @@
     box-sizing: border-box;
 }
 
-/* SEARCH button */
 .gs-search-button {
     color: white;
     border: none;
@@ -140,49 +100,12 @@
     margin-left: 1.8px;
 }
 
-/* When hovering the area below the mode button background */
-.gs-search-button:hover {
-    background-color: var(--selection-hover-color); /* Darkened version of the original background color */
-}
-
+.gs-search-button:hover,
 .gs-search-button:active {
     background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }
 
-.gs-explanation-text-container {
-    position: fixed;
-    top: 25vh; 
-    left: 73vw; 
-    
-}
-
-.gs-explanation-headline {
-    max-width: 200px;
-    font-size: 1.5em; /* Smaller size for h2 */
-    font-weight: 600;
-    transform: translateY(-50%);
-    color: rgb(0, 0, 0); 
-}
-
-.gs-explanation-text {
-    max-width: 200px;
-    font-size: 1.1em;
-    line-height: 1.3;
-    font-weight: 400;
-    margin-top: -40px;
-    color: rgb(151, 151, 150); 
-    overflow-y: hidden; /* Hide overflow initially */
-}
-
-.gs-explanation-instruction {
-    max-width: 280px;
-    font-weight: 600;
-    font-size: 1em;
-    color: var(--selection-color);
-    text-transform: uppercase;
-}
-
-/* General button styles (applies to both left and right buttons) */
+/* Arrow Icon */
 .gs-arrow-button {
     background-color: transparent;
     border: 2px solid transparent; /* Set initial border to transparent */
@@ -196,16 +119,11 @@
     outline: none; /* Removes the focus outline */
 }
 
-/* Right arrow button (default position) */
 .gs-arrow-button.down {
     rotate: 90deg; /* Rotate the arrow for left button */
 }
 
-/* Change icon color on hover */
-.gs-arrow-button:hover .gi-arrow-icon {
-    fill: var(--selection-hover-color); /* Change fill color on hover */
-}
-
+.gs-arrow-button:hover .gi-arrow-icon,
 .gs-arrow-button:active .gi-arrow-icon {
     fill: var(--selection-hover-color); /* Change fill color on hover */
 }

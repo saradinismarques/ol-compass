@@ -1,3 +1,4 @@
+/* Text Container */
 .c-text-container {
     position: fixed;
     top: 18.5vh; 
@@ -7,6 +8,7 @@
     text-align: center;
 }
 
+/* Textarea and Input Fields */
 .c-textarea-container {
     border: 2px solid #ceceda; /* Define border width, style, and color */
     border-radius: 6px; /* You can increase the radius to make it more rounded */
@@ -48,7 +50,7 @@
     font-weight: 300;
 }
 
-/* Style for the filters container */
+/* Filters */
 .c-filters {
     position: relative; 
     display: grid;
@@ -58,7 +60,6 @@
     width: 100%;
 }
 
-/* Style for select dropdowns */
 .c-filters button {
     position: relative; 
     width: 109px; /* Set a fixed width (adjust as needed) */
@@ -73,6 +74,7 @@
     text-align: left;
 }
 
+/* Dropdown */
 .c-dropdown-content {
     display: flex;
     flex-direction: column;
@@ -85,13 +87,13 @@
     padding: 10px;
 }
 
-/* Style for the checkbox label */
 .c-checkbox-label {
     display: flex; /* Use flexbox for alignment */
     align-items: center; /* Center items vertically */
     cursor: pointer; /* Change cursor to pointer on hover */
 }
 
+/* Icons */
 .c-arrow-icon {
     width: 5px;
     height: 5px;
@@ -106,12 +108,10 @@
     transform: translateY(-50%); /* Adjust vertical alignment */
 }
 
-/* Change the icon color on button hover */
 .c-filters button:hover .c-arrow-icon {
     fill: #ffffff; /* Change this color to whatever you need */
 }
 
-/* Change the icon color on button hover */
 .c-arrow-icon.active {
     fill: #ffffff; /* Change this color to whatever you need */
 }

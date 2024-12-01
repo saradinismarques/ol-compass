@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
+import { getIntroTexts } from '../utils/Data.js';
 import '../styles/pages/IntroPage.css';
 
 const IntroPage = ({ colors }) => {
+    const introTexts = getIntroTexts('English');
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
     
@@ -22,6 +24,13 @@ const IntroPage = ({ colors }) => {
 
     const [listenersActive, setListenersActive] = useState(true);
 
+    // Placeholder-to-Counter mapping
+    const countersMap = {
+        "[COUNTER-P]": opacityCounter['Principle'] + 1,
+        "[COUNTER-Pe]": opacityCounter['Perspective'] + 1,
+        "[COUNTER-D]": opacityCounter['Dimension'] + 1,
+    };
+    
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
@@ -120,168 +129,165 @@ const IntroPage = ({ colors }) => {
             return opacityCounter['Dimension'] + 14;
     };
 
+    // Replace placeholders with values from countersMap
+    const replacePlaceholders = (text) => {
+        return text.replace(/\[COUNTER-[a-zA-Z]+\]/g, (match) => {
+            // Look up the placeholder in countersMap
+            return countersMap[match] !== undefined ? countersMap[match] : match;
+        });
+    };
+
+    const formatText = (intro) => {
+        // Process the input to replace placeholders
+        let introWithouPlaceholders = intro;
+
+        if(frame === 2 || frame === 4 || frame === 6)
+            introWithouPlaceholders = replacePlaceholders(intro);
+
+        // Split the string by the <br> tag to handle line breaks
+        const lines = introWithouPlaceholders.split('<br>').map(part => part.trim()).filter(part => part !== "");
+        let isInsideColoredBlock = false; // Tracks if we are inside a <c> block
+        
+        return (
+            <div className="i-text-container">
+                <p>
+                    {lines.map((line, index) => {
+                        let elements = []; // Collect parts of the current line
+                        let remainingText = line;
+        
+                        // Handle coloring for <c> and </c> tags within the part
+                        while (remainingText) {
+                            // Check for <c> and </c> tags
+                            const startC = remainingText.indexOf('<c>');
+                            const endC = remainingText.indexOf('</c>');
+        
+                            if (startC !== -1 && (endC === -1 || startC < endC)) {
+                                // Text before <c> (if any)
+                                if (startC > 0) {
+                                    elements.push(
+                                        <span key={`text-before-c-${index}`} className="i-text">
+                                            {remainingText.slice(0, startC)}
+                                        </span>
+                                    );
+                                }
+                                // Move inside <c>
+                                isInsideColoredBlock = true;
+                                remainingText = remainingText.slice(startC + 3); // Remove `<c>`
+                            } else if (endC !== -1) {
+                                // Inside <c>: Text up to </c>
+                                if (isInsideColoredBlock) {
+                                    elements.push(
+                                        <span key={`text-inside-c-${index}`} className="i-text colored">
+                                            {remainingText.slice(0, endC)}
+                                        </span>
+                                    );
+                                }
+                                // Exit <c>
+                                isInsideColoredBlock = false;
+                                remainingText = remainingText.slice(endC + 4); // Remove `</c>`
+                            } else {
+                                // No <c> or </c>: Handle remaining text
+                                elements.push(
+                                    <span key={`text-default-${index}`} className={`i-text ${isInsideColoredBlock ? 'colored' : ''}`}>
+                                        {remainingText}
+                                    </span>
+                                );
+                                remainingText = ""; // All done for this part
+                            }
+                        }
+        
+                        return (
+                            <React.Fragment key={index}>
+                                {elements}
+                                {/* Add <br /> for line breaks */}
+                                {index < lines.length - 1 && <br />}
+                            </React.Fragment>
+                        );
+                    })}
+                </p>
+            </div>
+        );
+    };
+
     // Determine the text to display based on the current state
     const getDisplayText = () => {
         if (frame === 0) {
+            // Split the title by the <b> tag and render parts in different components
+            const title = introTexts.Title;
+            // Split the title by <b> tags and ensure we only get the relevant parts
+            const parts = title.split(/(<b>.*?<\/b>)/).filter(part => part.trim() !== "");
+
             return (
-                <div className='i-title-container'>
-                    <p className='i-welcome'>WELCOME TO THE</p>
-                    <p className='i-title'>OL-in-One Compass</p>
+                <div className="i-title-container">
+                    {parts.map((part, index) => {
+                        if (part.startsWith('<b>')) {
+                            // Remove the <b> tags and render the text inside it with class "i-title"
+                            const cleanText = part.replace(/<\/?b>/g, ''); // Remove <b> and </b>
+                            return <p key={index} className="i-title">{cleanText}</p>;
+                        } else {
+                            // Render the normal text parts inside a <p> with class "i-welcome"
+                            return <p key={index} className="i-welcome">{part}</p>;
+                        }
+                    })}
                 </div>
             );
         } else if (frame === 1) {
+            const introDef = introTexts.IntroDef;
+            // Split the string by the <br> tag to handle each segment
+            const parts = introDef.split('<br>').map(part => part.trim()).filter(part => part !== "");
+
             return (
-                <div className='i-explanation-container'>
-                    <p className='i-explanation'>
-                         Ocean Literacy (OL) 
-                        <br />
-
-                        is the understanding of 
-                        <br />
-
-                        the Ocean-humanity  
-                        <br />
-
-                        mutual influence
-                    </p>
+                <div className="i-explanation-container">
+                    {parts.map((part, index) => {
+                        return (
+                            <p key={index} className="i-explanation">
+                                {part}
+                            </p>
+                        );
+                    })}
                 </div>
             );
         } else if (frame === 2) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
+            const defineP = introTexts.DefineP;
             
-            return (
-                <div className='i-text-container'>
-                    <span className='i-text'>Ocean Literacy (OL) </span>
-                    <br />
+            return <>{formatText(defineP)}</>;
 
-                    <span className='i-text'>is based on </span>
-                    <br />
-
-                    <span className='i-text colored'>
-                        {opacityCounter['Principle'] + 1} Scientific 
-                    </span>
-                    <br />
-
-                    <span className='i-text colored'> Principles</span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                </div>
-            );
         } else if (frame === 3) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
+            const clarifyP = introTexts.ClarifyP;
 
-            return (
-                <div className='i-text-container'>
-                    <span className='i-text'>See Principles as the </span>
-                    <br />
-                        
-                    <span className='i-text'>7 </span>
-                    <span className='i-text colored'>
-                        macro traits                
-                    </span>
-                    <br />
+            return <>{formatText(clarifyP)}</>;
 
-                    <span className='i-text'> of the Ocean.</span>
-                </div>
-            );
         } else if(frame === 4) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
+            const definePe = introTexts.DefinePe;
             
-            return (
-                <div className='i-text-container'>
-                    <span className='i-text'>Ocean knowledge </span>
-                    <br />
-                    
-                    <span className='i-text'>can be seen through </span>
-                    <br />
-                    
-                    <span className='i-text colored'>
-                        {opacityCounter['Perspective'] + 1} Perspectives
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                </div>
-            );
+            return <>{formatText(definePe)}</>;
+
         } else if(frame === 5) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
+            const clarifyPe = introTexts.ClarifyPe;
+            
+            return <>{formatText(clarifyPe)}</>;
 
-            return (
-                <div className='i-text-container'>
-                    <span className='i-text'>See Perspectives as </span>
-                    <br />
-                    
-                    <span className='i-text'>the 7 </span>
-                    <span className='i-text colored'>
-                        points of view
-                    </span>
-                    <br />
-
-                    <span className='i-text'> from which Ocean </span>
-                    <br />
-
-                    <span className='i-text'>features and challenges </span>
-                    <br />
-
-                    <span className='i-text'>can be explained </span>
-                    <br />
-
-                    <span className='i-text'>and contextualised.</span>
-                </div>
-            );
         } else if(frame === 6) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const defineD = introTexts.DefineD;
             
-            return (
-                <div className='i-text-container'>
-                    <span className='i-text'>Ocean knowledge </span>
-                    <br />
-
-                    <span className='i-text'>can be conveyed </span>
-                    <br />
-
-                    <span className='i-text'>through </span>
-                    <span className='i-text colored'>
-                        {opacityCounter['Dimension'] + 1} Dimensions
-                    </span>
-                    <span className='i-text'>
-                    .
-                    </span>
-                </div>
-            );
+            return <>{formatText(defineD)}</>;
+            
         } else if(frame === 7) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const clarifyD = introTexts.ClarifyD;
 
-            return (
-                <div className='i-text-container'>
-                    <span className='i-text'>See Dimensions as </span>
-                    <br />
-                    
-                    <span className='i-text'>the 10 </span>
-                    <span className='i-text colored'>
-                        approaches
-                    </span>
-                    <br />
-                    
-                    <span className='i-text'> that can be adopted </span>
-                    <br />
-                    
-                    <span className='i-text'>to transfer </span>
-                    <br />
-                   
-                    <span className='i-text'>OL Principles </span>
-                    <br />
-                    
-                    <span className='i-text'>and Perspectives.</span>
-                </div>
-            );
+            return <>{formatText(clarifyD)}</>;
         } 
     };
 

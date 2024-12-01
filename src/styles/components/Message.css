@@ -9,6 +9,7 @@
     z-index: 50; /* Ensure it stays on top */
 }
 
+/* Message Box */
 .message-box {
     position: fixed;
     top: 50vh;
@@ -42,7 +43,22 @@
     outline: none; /* Optional: Remove outline on focus */
     text-decoration: underline;
 }
+
+.message-question {
+    position: fixed;
+    top: 0%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1.5px solid #bcbcbc;
+    border-radius: 50%;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
   
+/* Question Button */
 .question-button {
     position: fixed;
     bottom: 9vh;
@@ -62,38 +78,17 @@
     z-index: 20;
 }
 
-.message-question {
-    position: fixed;
-    top: 0%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border: 1.5px solid #bcbcbc;
-    border-radius: 50%;
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Change icon color on hover */
-.question-button:hover .question-icon {
-    fill: #dcdcdc; /* Change fill color on hover */
-}
-
-.question-button:hover {
-    border:2px solid #dcdcdc;
-}
-
-/* Change icon color on hover */
+.question-button:hover .question-icon,
 .question-button:active .question-icon {
-    fill: #dcdcdc; /* Change fill color on hover */
+    fill: #dcdcdc; /* Lighter gray fill color */
 }
 
+.question-button:hover, 
 .question-button:active {
-    border:2px solid #dcdcdc;
+    border: 2px solid #dcdcdc; /* Lighter gray border on interaction */
 }
 
+/* Icons */
 .question-icon {
     width: 15px;
     height: 15px;

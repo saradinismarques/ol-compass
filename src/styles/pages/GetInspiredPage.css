@@ -3,7 +3,7 @@
     --selection-hover-color: #841321; /* Default color */
 }
 
-/* Style for text-container */
+/* Text Container */
 .gi-text-container {
     position: fixed;
     top: 16vh;
@@ -14,13 +14,7 @@
     align-items: center;   /* Center items horizontally */
 }
 
-/* Adjust the top position when the screen height is smaller than a certain threshold */
-/*@media (max-height: 700px) { /* You can adjust this value as needed */
-    /* .gi-text-container {
-      top: 12vh;
-    }     */
-/* }*/ 
-
+/* Card Container */
 .gi-card-container {
     width: 45vh;
     height: 60vh;
@@ -36,7 +30,7 @@
     background: #eeeef2;
 }
 
-.gi-title{
+.gi-title {
     font-size: 3vh;
     font-weight: 500;
     margin-top: 0vh;
@@ -61,17 +55,12 @@
     bottom: 3.6vh;  
 }
 
+/* Boxes Section */
 .gi-box-row {
     display: flex;
     gap: 1vh; /* Optional: adds spacing between the text boxes */
     margin-bottom: -2.6vh; /* Space between rows, reduce this value */
     text-align: center; /* Optional: center the text itself */
-}
-
-@media (max-height: 600px) { /* You can adjust this value as needed */
-    .gi-box-row {
-        margin-bottom: -4vh; /* Space between rows, reduce this value */
-    }    
 }
 
 .gi-text-box {
@@ -83,29 +72,12 @@
     font-size: 0.8em;
 }
 
-.gi-text-box.type {
-    width: 21vh;
-}
-
-.gi-text-box.age {
-    width: 9vh;
-}
-
-.gi-text-box.time {
-    width: 13vh;
-}
-
-.gi-text-box.languages {
-    width: 13vh;
-}
-
-.gi-text-box.mainTarget {
-    width: 21vh;
-}
-
-.gi-text-box.year {
-    width: 9vh;
-}
+.gi-text-box.type { width: 21vh; }
+.gi-text-box.age { width: 9vh; }
+.gi-text-box.time { width: 13vh; }
+.gi-text-box.languages { width: 13vh; }
+.gi-text-box.mainTarget { width: 21vh; }
+.gi-text-box.year { width: 9vh; }
 
 .gi-text-box.collection {
     background-color: #ffffff;
@@ -113,6 +85,7 @@
     color: #53537e;
 }
 
+/* Bookmark Button */
 .gi-bookmark-button {
     background-color: transparent;
     border:2px solid white;
@@ -129,14 +102,10 @@
     box-sizing: border-box;
 }
  
-.gi-bookmark-button:hover {
+.gi-bookmark-button:hover,
+.gi-bookmark-button:active {
     border-color: #fff; /* Change border color on hover */
     background-color:  rgba(255, 255, 255, 0.2);
-}
-
-.gi-bookmark-button:active {
-    border-color: #d8d8d8; /* Lighter border on click */
-    background-color:  rgba(199, 181, 181, 0.2);
 }
 
 .gi-bookmark-button.active {
@@ -153,7 +122,7 @@
     stroke-width: 2px;
 }
 
-/* General button styles (applies to both left and right buttons) */
+/* Arrow Buttons  */
 .gi-arrow-button {
     background-color: transparent;
     border: 2px solid transparent; /* Set initial border to transparent */
@@ -179,14 +148,11 @@
 }
 
 /* Change icon color on hover */
-.gi-arrow-button:hover .gi-arrow-icon {
-    fill: var(--selection-hover-color); /* Change fill color on hover */
-}
-
+.gi-arrow-button:hover .gi-arrow-icon,
 .gi-arrow-button:active .gi-arrow-icon {
     fill: var(--selection-hover-color); /* Change fill color on hover */
 }
- 
+
 .gi-arrow-icon {
     width: 17px;
     height: 17px;
@@ -196,6 +162,7 @@
     stroke-width: 0px;
 }
 
+/* Search and Results Container */
 .gi-search-results-container {
     position: fixed;
     bottom: 9vh;
@@ -203,6 +170,7 @@
     align-items: center; /* Center them vertically */
 }
 
+/* Results */
 .gi-results {
     position: fixed;
     left: 75vw;
@@ -211,7 +179,7 @@
     color: var(--selection-color);
 }
 
-/* Container for the menu */
+/* Search Logic Menu */
 .gi-search-logic-menu {
     position: fixed;
     left: 40vw;
@@ -227,7 +195,6 @@
     justify-content: space-between; /* Ensure equal spacing */
 }
 
-/* Position the mode button background with higher z-index */
 .gi-logic-button-background {
     background-color: white;
     border: none;
@@ -238,7 +205,6 @@
     align-items: center;
 }
 
-/* Container for the mode toggle buttons */
 .gi-logic-buttons {
     display: flex;
     align-items: center;
@@ -250,7 +216,6 @@
     z-index: 20; /* Ensure it’s on top */
 }
 
-/* Individual toggle buttons */
 .gi-logic-button {
     border: none;
     background-color: #bcbcbc;
@@ -265,10 +230,7 @@
     outline: none;
 }
 
-.gi-logic-button:hover {
-    background-color: #d1d4d5; /* Darkened version of the original background color */
-}
-
+.gi-logic-button:hover,
 .gi-logic-button:active {
     background-color: #d1d4d5; /* Darkened version of the original background color */
 }
@@ -277,7 +239,6 @@
     background-color: white;
 }
 
-/* SEARCH button */
 .gi-search-button {
     position: relative;
     left: -7%;
@@ -295,11 +256,7 @@
     outline: none;
 }
 
-/* When hovering the area below the mode button background */
-.gi-search-button:hover {
-    background-color: var(--selection-hover-color); /* Darkened version of the original background color */
-}
-
+.gi-search-button:hover,
 .gi-search-button:active {
     background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }

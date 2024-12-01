@@ -1,3 +1,4 @@
+/* Left Menu Container */
 .left-menu {
     position: fixed;
     top: 25vh;
@@ -8,6 +9,7 @@
     z-index: 30; /* Adjust the z-index */
 }
 
+/* Modes Button */
 .menu-button {
     margin-bottom: 6px; /* Space between buttons */
     width: 9.5vw;
@@ -26,12 +28,9 @@
     margin-left: 5px;
 }
 
-.menu-button:hover {
-    background-color: #f0f0f0;
-}
-
+.menu-button:hover,
 .menu-button:active {
-    background-color: #e0e0e0;
+    background-color: #f0f0f0;
 }
 
 .menu-button.active {
@@ -40,6 +39,7 @@
     border: 2px solid black; /* Border remains black to match the background */
 }
 
+/* Solo Mode Button */
 .menu-button.solo {
     position: fixed;
     top: 9vh;
@@ -48,28 +48,7 @@
     transform: translate(-50%, -50%);
 }
 
-/* New styles for disabled buttons */
-.menu-button.disabled {
-    color: #adadad; /* Light gray text color */
-    border: 2px solid #b3b3b2; /* Light gray border */
-}
-
-.menu-button.disabled:hover {
-    background-color: #f5f5f5; /* No change on hover for disabled button */
-}
-
-.menu-button.disabled:active {
-    background-color: #f5f5f5; /* No change on active for disabled button */
-}
-
-.menu-button.show-more {
-    border: 2px solid  #a2a1a1;
-    background-color: transparent;
-    color: #a2a1a1;
-    width: 9.7vw;    /* Ensure it's the same width as other buttons */
-    height: 29px;
-}
-
+/* Home Button */
 .home-button {
     position: fixed;
     top: 9vh;
@@ -94,24 +73,11 @@
     border: 2px solid black; /* Border remains black to match the background */
 }
 
-/* Add this rule to style the icon when the button is active */
-.menu-button.active .home-icon {
-    stroke: #f5f5f5; /* Change the icon's stroke to white */
-}
-
-/* Add this rule to style the icon when the button is active */
-.menu-button.hover .home-icon {
-    stroke: #f5f5f5; /* Change the icon's stroke to white */
-}
-
-/* Add this rule to style the icon when the button is active */
-.home-button.active .home-icon {
-    stroke: #f5f5f5; /* Change the icon's stroke to white */
-}
-
-/* Add this rule to style the icon when the button is active */
+.menu-button.active .home-icon, 
+.menu-button.hover .home-icon, 
+.home-button.active .home-icon, 
 .home-button.hover .home-icon {
-    stroke: #f5f5f5; /* Change the icon's stroke to white */
+    stroke: #f5f5f5; /* White stroke for active or hover states */
 }
 
 .home-icon {
@@ -123,11 +89,32 @@
     margin-bottom: 1px;
 }
 
+/* Text Above Modes Buttons ("I Want To") */
 .i-want-to-text {
     position: fixed;
     left: 9.7vw;
     top: 15vh;
     font-size: 19px;
+}
+
+/* Disabled Mode Button */
+.menu-button.disabled {
+    color: #adadad; /* Light gray text color */
+    border: 2px solid #b3b3b2; /* Light gray border */
+}
+
+.menu-button.disabled:hover,
+.menu-button.disabled:active {
+    background-color: #f5f5f5; /* No change on hover for disabled button */
+}
+
+/* "Show More" Button */
+.menu-button.show-more {
+    border: 2px solid  #a2a1a1;
+    background-color: transparent;
+    color: #a2a1a1;
+    width: 9.7vw;    /* Ensure it's the same width as other buttons */
+    height: 29px;
 }
 
 

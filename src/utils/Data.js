@@ -70,16 +70,19 @@ export function getColorPallete(version) {
 export function getIntroTexts(language) {
     try {
         // Find the item in the introTexts array where LANGUAGE matches the desired language
-        const item = introTexts.find(item => item.LANGUAGE === language);
+        const item = introTexts.find(item => item.Language === language);
 
         // If a match is found, return the data; otherwise, return null or a default value
         if (item) {
             return {
-                Title: item["TITLE"],
-                IntroDef: item["INTRO_DEF"],
-                IntroP: item["INTRO_P"],
-                IntroPe: item["INTRO_Pe"],
-                IntroD: item["INTRO_D"],
+                Title: item["TITLE (Frame 00)"],
+                IntroDef: item["INTRO_DEF (Frame 01)"],
+                DefineP: item["define_P (Frame 02)"],
+                ClarifyP: item["clarify_P (Frame 03)"],
+                DefinePe: item["define_Pe (Frame 04)"],
+                ClarifyPe: item["clarify_Pe (Frame 05)"],
+                DefineD: item["define_D (Frame 06)"],
+                ClarifyD: item["clarify_D (Frame 07)"],
             };
         }
 
