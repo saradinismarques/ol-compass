@@ -358,7 +358,7 @@ const IntroPage = ({ colors }) => {
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             const clarifyD = introTexts.ClarifyD;
 
-            return <>{formatText(clarifyD)}</>;
+            return <>{formatText(clarifyD, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } 
     };
 

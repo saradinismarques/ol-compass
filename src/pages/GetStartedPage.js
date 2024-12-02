@@ -234,7 +234,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
                 <div className="gs-text-container">
                   <div className="gs-white-line"></div>
                   <h1 className="gs-title">{state.title}</h1>
-                  <h2 className='l-headline'>{formatWithLineBreaks(state.headline)}</h2>
+                  <h2 className='gs-headline'>{formatWithLineBreaks(state.headline)}</h2>
 
                   <button className={'gs-arrow-button down'} onClick={handleNext}>
                     <ArrowIcon className="gs-arrow-icon" />
