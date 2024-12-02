@@ -445,19 +445,11 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   
                   {/* Text on Path */}
                   <text
-                    ref={(ref) => {
-                      if (ref) {
-                        const bbox = ref.getBBox(); // Measure the rendered dimensions of the text
-                        const renderedWidth = bbox.width; // Get the actual width of the text
-            
-                        // Dynamically calculate letter spacing based on rendered width
-                        ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
-                      }
-                    }}
                     fill={colors['Label'][c.Type]}
                     fontFamily="Manrope"
                     fontWeight={500}
-                    fontSize="8.2px"
+                    fontSize="8px"
+                    letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
                     style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
                   >
@@ -477,19 +469,11 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   {/* Second Line (if it has one) */}
                   {bigLabels.includes(c.Code) &&
                     <text
-                      ref={(ref) => {
-                        if (ref) {
-                          const bbox = ref.getBBox(); // Measure the rendered dimensions of the text
-                          const renderedWidth = bbox.width; // Get the actual width of the text
-                  
-                          // Dynamically calculate letter spacing based on rendered width
-                          ref.style.letterSpacing = (renderedWidth > 60 || bigLabels.includes(c.Code)) ? "0.4px" : "0.7px";
-                        }
-                      }}
                       fill={colors['Label'][c.Type]}
                       fontFamily="Manrope"
                       fontWeight={500}
-                      fontSize="8.2px"
+                      fontSize="8px"
+                      letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path
                       style={{ 
                         pointerEvents: 'none', 
@@ -580,9 +564,9 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
   // Intro
   if (mode === "intro-0")
     return 0.3;
-  else if (mode === "intro-1") 
+  else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
     return 0.15;
-  else if (mode === "intro-2" || mode === "intro-3") 
+  else if (mode === "intro-4" || mode === "intro-5") 
     if(component.Type === "Principle") 
       if(currentId <= opacityCounter)
         return 1;
@@ -590,7 +574,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
         return 0.15;
     else 
       return 0.15;
-  else if (mode === "intro-4" || mode === "intro-5") 
+  else if (mode === "intro-6" || mode === "intro-7") 
     if(component.Type === "Principle")
       return 0.55;
     else if(component.Type === "Perspective")
@@ -600,7 +584,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
         return 0.15;
     else
       return 0.15;
-  else if (mode === "intro-6" || mode === "intro-7") 
+  else if (mode === "intro-8" || mode === "intro-9") 
     if(component.Type === "Principle")
       return 0.55;
     else if(component.Type === "Perspective")
@@ -664,12 +648,12 @@ const isFlipped = (label) => {
 
 const getText = (mode, type, label, code, index) => {
   // Intro
-  if (mode === "intro-0" || mode === "intro-1") 
+  if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
     return "";
-  else if (mode === "intro-2" || mode === "intro-3")
+  else if (mode === "intro-4" || mode === "intro-5")
     if(type !== "Principle")
         return "";
-  else if (mode === "intro-4" || mode === "intro-5")
+  else if (mode === "intro-6" || mode === "intro-7")
     if(type === "Dimension")
       return "";
 
@@ -697,6 +681,14 @@ const getText = (mode, type, label, code, index) => {
   }
   return label;
 };
+
+function getLabelWidth(label) {
+   // Count the number of "I" characters in the label
+   const countI = label.split('I').length - 1;
+   const remainingLetters = label.length-countI;
+
+   return remainingLetters*1 + countI*0.5;
+}
 
 function convertLabel(label) {
   // Define a mapping of prefixes to their corresponding full names

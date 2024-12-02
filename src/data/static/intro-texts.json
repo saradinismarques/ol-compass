@@ -3,12 +3,14 @@
     "Language": "English",
     "TITLE (Frame 00)": "WELCOME TO THE <b> OL-in-One Compass </b>",
     "INTRO_DEF (Frame 01)": "Ocean Literacy (OL) <br> is the understanding of <br> the Ocean-humanity <br> mutual influence",
-    "define_P (Frame 02)": "Ocean Literacy (OL)\n<br> is based on\n<br> <c>[COUNTER-P] Scientific\n<br> Principles</c>.",
-    "clarify_P (Frame 03)": "See Principles as the\n<br> 7 <c>macro traits</c>\n<br> of the Ocean.",
-    "define_Pe (Frame 04)": "Ocean knowledge\n<br> can be seen through\n<br> <c>[COUNTER-Pe] Perspectives</c>.",
-    "clarify_Pe (Frame 05)": "See Perspectives as\n<br> the 7 <c>points of view</c>\n<br> from which Ocean\n<br> features and challenges\n<br> can be explained\n<br> and contextualised.",
-    "define_D (Frame 06)": "Ocean knowledge\n<br> can be conveyed\n<br> through <c>[COUNTER-D] Dimensions</c>.",
-    "clarify_D (Frame 07)": "See Dimensions as\n<br> the 10 <c>approaches</c>\n<br> that can be adopted\n<br> to transfer\n<br> OL Principles\n<br> and Perspectives.",
+    "INTRO_WHO IS BEHIND (Frame 02)": "The concept is being nurtured by\n<br> <b>educators networks</b>, <b>academia</b>\n<br> <b>ocean-focused agencies</b> and\n<br> NGOs, notably led by <b>IOC-UNESCO</b>.",
+    "INTRO_SUBJECT (Frame 03)": "OL is in fact a leverage for\n<br> increasing 'marine citizenship',\n<br> so it ultimately aims at us all\n<br> as <b>citizens</b> of our Blue Planet.",
+    "define_P (Frame 04)": "Ocean Literacy (OL)\n<br> is based on\n<br> <b>[COUNTER-P] Scientific\n<br> Principles</b>.",
+    "clarify_P (Frame 05)": "See Principles as the\n<br> 7 <b>macro traits</b>\n<br> of the Ocean\n<br> that every citizen\n<br> should know about.",
+    "define_Pe (Frame 06)": "Ocean knowledge\n<br> can be seen through\n<br> <b>[COUNTER-Pe] Perspectives</b>.",
+    "clarify_Pe (Frame 07)": "See Perspectives as\n<br> the 7 <b>points of view</b>\n<br> that citizens can adopt\n<br> to understand and contextualize\n<br> Ocean features and challenges.",
+    "define_D (Frame 08)": "Ocean knowledge\n<br> can be conveyed\n<br> through <b>[COUNTER-D] Dimensions</b>.",
+    "clarify_D (Frame 09)": "See Dimensions as\n<br> the 10 <b>competences</b>\n<br> that citizens can train\n<br> to transfer\n<br> OL Principles\n<br> and Perspectives.",
     "Notes": ""
   }
 ]

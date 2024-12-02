@@ -34,7 +34,7 @@ const IntroPage = ({ colors }) => {
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
-            setFrame((prevState) => (prevState + 1 <= 8 ? prevState + 1 : 8));
+            setFrame((prevState) => (prevState + 1 <= 10 ? prevState + 1 : 10));
         else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
             setFrame((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
     }, []);
@@ -45,7 +45,7 @@ const IntroPage = ({ colors }) => {
         const clickPositionX = e.clientX;
 
         if (clickPositionX > screenWidth / 2) {
-            setFrame((prevState) => (prevState + 1 <= 8 ? prevState + 1 : 8));
+            setFrame((prevState) => (prevState + 1 <= 10 ? prevState + 1 : 10));
         } else {
             setFrame((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
         }
@@ -54,9 +54,10 @@ const IntroPage = ({ colors }) => {
     useEffect(() => {   
         const isComplete =
             (frame === 0 || frame === 1) ||
-            ((frame === 2 || frame === 3) && opacityCounter.Principle >= maxCounters.Principle) ||
-            ((frame === 4 || frame === 5) && opacityCounter.Perspective >= maxCounters.Perspective) ||
-            ((frame === 6 || frame === 7) && opacityCounter.Dimension >= maxCounters.Dimension);
+            (frame === 2 || frame === 3) ||
+            ((frame === 4 || frame === 5) && opacityCounter.Principle >= maxCounters.Principle) ||
+            ((frame === 6 || frame === 7) && opacityCounter.Perspective >= maxCounters.Perspective) ||
+            ((frame === 8 || frame === 9) && opacityCounter.Dimension >= maxCounters.Dimension);
         
         if (isComplete) {
             setListenersActive(true);
@@ -84,7 +85,7 @@ const IntroPage = ({ colors }) => {
     }, [listenersActive, handleKeyDown, handleClick]); // Add handleKeyPress to the dependency array
 
     useEffect(() => {
-        if (frame === 8) {
+        if (frame === 10) {
             navigate('/home');
         }
     }, [frame, navigate]); // Trigger navigation when state changes to 6
@@ -100,6 +101,9 @@ const IntroPage = ({ colors }) => {
         6: 'intro-6',
         7: 'intro-7',
         8: 'intro-8',
+        9: 'intro-9',
+        10: 'intro-10',
+
     };
 
     // Determine the action based on the current state
@@ -121,11 +125,11 @@ const IntroPage = ({ colors }) => {
     }
 
     const getOpacityCounter = () => {
-        if (frame === 2 || frame === 3) 
+        if (frame === 4 || frame === 5) 
             return opacityCounter['Principle'];
-        else if (frame === 4 || frame === 5)
-            return opacityCounter['Perspective'] + 7;
         else if (frame === 6 || frame === 7)
+            return opacityCounter['Perspective'] + 7;
+        else if (frame === 8 || frame === 9)
             return opacityCounter['Dimension'] + 14;
     };
 
@@ -141,7 +145,7 @@ const IntroPage = ({ colors }) => {
         // Process the input to replace placeholders
         let textWithouPlaceholders = text;
 
-        if(frame === 2 || frame === 4 || frame === 6)
+        if(frame === 4 || frame === 6 || frame === 8)
             textWithouPlaceholders = replacePlaceholders(text);
 
         // Split the string by the <br> tag to handle line breaks
@@ -158,8 +162,8 @@ const IntroPage = ({ colors }) => {
                         // Handle coloring for <c> and </c> tags within the part
                         while (remainingText) {
                             // Check for <c> and </c> tags
-                            const startC = remainingText.indexOf('<c>');
-                            const endC = remainingText.indexOf('</c>');
+                            const startC = remainingText.indexOf('<b>');
+                            const endC = remainingText.indexOf('</b>');
         
                             if (startC !== -1 && (endC === -1 || startC < endC)) {
                                 // Text before <c> (if any)
@@ -248,41 +252,107 @@ const IntroPage = ({ colors }) => {
                 </div>
             );
         } else if (frame === 2) {
+            const introWho = introTexts.IntroWho;
+            // Split the string by the <br> tag to handle each segment
+            const lineParts = introWho.split('<br>').map(part => part.trim()).filter(part => part !== "");
+
+            return (
+                <div className="i-explanation-container">
+                    {lineParts.map((line, lineIndex) => {
+                        // Split by <b> tags within each line
+                        const parts = line.split(/(<b>.*?<\/b>)/g);
+        
+                        return (
+                            <p key={lineIndex} className="i-explanation">
+                                {parts.map((part, partIndex) => {
+                                    // Check if the part is bold text
+                                    if (part.startsWith('<b>') && part.endsWith('</b>')) {
+                                        // Extract bold content
+                                        const boldText = part.replace('<b>', '').replace('</b>', '');
+                                        return (
+                                            <strong key={partIndex} className="i-bold-text">
+                                                {boldText}
+                                            </strong>
+                                        );
+                                    } else {
+                                        // Render normal text
+                                        return <span key={partIndex}>{part}</span>;
+                                    }
+                                })}
+                            </p>
+                        );
+                    })}
+                </div>
+            );
+        } else if (frame === 3) {
+            const introSubject = introTexts.IntroSubject;
+            // Split the string by the <br> tag to handle each segment
+            const lineParts = introSubject.split('<br>').map(part => part.trim()).filter(part => part !== "");
+
+            return (
+                <div className="i-explanation-container">
+                    {lineParts.map((line, lineIndex) => {
+                        // Split by <b> tags within each line
+                        const parts = line.split(/(<b>.*?<\/b>)/g);
+        
+                        return (
+                            <p key={lineIndex} className="i-explanation">
+                                {parts.map((part, partIndex) => {
+                                    // Check if the part is bold text
+                                    if (part.startsWith('<b>') && part.endsWith('</b>')) {
+                                        // Extract bold content
+                                        const boldText = part.replace('<b>', '').replace('</b>', '');
+                                        return (
+                                            <strong key={partIndex} className="i-bold-text">
+                                                {boldText}
+                                            </strong>
+                                        );
+                                    } else {
+                                        // Render normal text
+                                        return <span key={partIndex}>{part}</span>;
+                                    }
+                                })}
+                            </p>
+                        );
+                    })}
+                </div>
+            );
+        } else if (frame === 4) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             const defineP = introTexts.DefineP;
             
             return <>{formatText(defineP)}</>;
 
-        } else if (frame === 3) {
+        } else if (frame === 5) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             const clarifyP = introTexts.ClarifyP;
 
             return <>{formatText(clarifyP)}</>;
 
-        } else if(frame === 4) {
+        } else if(frame === 6) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             const definePe = introTexts.DefinePe;
             
             return <>{formatText(definePe)}</>;
 
-        } else if(frame === 5) {
+        } else if(frame === 7) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             const clarifyPe = introTexts.ClarifyPe;
             
             return <>{formatText(clarifyPe)}</>;
 
-        } else if(frame === 6) {
+        } else if(frame === 8) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             const defineD = introTexts.DefineD;
             
             return <>{formatText(defineD)}</>;
             
-        } else if(frame === 7) {
+        } else if(frame === 9) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             const clarifyD = introTexts.ClarifyD;

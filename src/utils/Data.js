@@ -77,12 +77,14 @@ export function getIntroTexts(language) {
             return {
                 Title: item["TITLE (Frame 00)"],
                 IntroDef: item["INTRO_DEF (Frame 01)"],
-                DefineP: item["define_P (Frame 02)"],
-                ClarifyP: item["clarify_P (Frame 03)"],
-                DefinePe: item["define_Pe (Frame 04)"],
-                ClarifyPe: item["clarify_Pe (Frame 05)"],
-                DefineD: item["define_D (Frame 06)"],
-                ClarifyD: item["clarify_D (Frame 07)"],
+                IntroWho: item["INTRO_WHO IS BEHIND (Frame 02)"],
+                IntroSubject: item["INTRO_SUBJECT (Frame 03)"],
+                DefineP: item["define_P (Frame 04)"],
+                ClarifyP: item["clarify_P (Frame 05)"],
+                DefinePe: item["define_Pe (Frame 06)"],
+                ClarifyPe: item["clarify_Pe (Frame 07)"],
+                DefineD: item["define_D (Frame 08)"],
+                ClarifyD: item["clarify_D (Frame 09)"],
             };
         }
 
