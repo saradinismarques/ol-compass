@@ -38,9 +38,15 @@
 
 .i-explanation {
     font-size: 1.4em;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 0.3;
 }
+
+.i-explanation.smaller {
+    font-size: 1.3em;
+    font-weight: 500;
+}
+
 
 .i-bold-text {
     font-weight: 700;

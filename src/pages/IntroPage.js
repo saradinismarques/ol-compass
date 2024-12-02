@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
 import { getIntroTexts } from '../utils/Data.js';
+import { formatText } from '../utils/Text.js';
 import '../styles/pages/IntroPage.css';
 
 const IntroPage = ({ colors }) => {
@@ -141,77 +142,77 @@ const IntroPage = ({ colors }) => {
         });
     };
 
-    const formatText = (text) => {
-        // Process the input to replace placeholders
-        let textWithouPlaceholders = text;
+    // const formatText = (text) => {
+    //     // Process the input to replace placeholders
+    //     let textWithouPlaceholders = text;
 
-        if(frame === 4 || frame === 6 || frame === 8)
-            textWithouPlaceholders = replacePlaceholders(text);
+    //     if(frame === 4 || frame === 6 || frame === 8)
+    //         textWithouPlaceholders = replacePlaceholders(text);
 
-        // Split the string by the <br> tag to handle line breaks
-        const parts = textWithouPlaceholders.split('<br>').map(part => part.trim()).filter(part => part !== "");
-        let isInsideColoredBlock = false; // Tracks if we are inside a <c> block
+    //     // Split the string by the <br> tag to handle line breaks
+    //     const parts = textWithouPlaceholders.split('<br>').map(part => part.trim()).filter(part => part !== "");
+    //     let isInsideColoredBlock = false; // Tracks if we are inside a <c> block
         
-        return (
-            <div className="i-text-container">
-                <p>
-                    {parts.map((part, index) => {
-                        let elements = []; // Collect parts of the current line
-                        let remainingText = part;
+    //     return (
+    //         <div className="i-text-container">
+    //             <p>
+    //                 {parts.map((part, index) => {
+    //                     let elements = []; // Collect parts of the current line
+    //                     let remainingText = part;
         
-                        // Handle coloring for <c> and </c> tags within the part
-                        while (remainingText) {
-                            // Check for <c> and </c> tags
-                            const startC = remainingText.indexOf('<b>');
-                            const endC = remainingText.indexOf('</b>');
+    //                     // Handle coloring for <c> and </c> tags within the part
+    //                     while (remainingText) {
+    //                         // Check for <c> and </c> tags
+    //                         const startC = remainingText.indexOf('<b>');
+    //                         const endC = remainingText.indexOf('</b>');
         
-                            if (startC !== -1 && (endC === -1 || startC < endC)) {
-                                // Text before <c> (if any)
-                                if (startC > 0) {
-                                    elements.push(
-                                        <span key={`text-before-c-${index}`} className="i-text">
-                                            {remainingText.slice(0, startC)}
-                                        </span>
-                                    );
-                                }
-                                // Move inside <c>
-                                isInsideColoredBlock = true;
-                                remainingText = remainingText.slice(startC + 3); // Remove `<c>`
-                            } else if (endC !== -1) {
-                                // Inside <c>: Text up to </c>
-                                if (isInsideColoredBlock) {
-                                    elements.push(
-                                        <span key={`text-inside-c-${index}`} className="i-text colored">
-                                            {remainingText.slice(0, endC)}
-                                        </span>
-                                    );
-                                }
-                                // Exit <c>
-                                isInsideColoredBlock = false;
-                                remainingText = remainingText.slice(endC + 4); // Remove `</c>`
-                            } else {
-                                // No <c> or </c>: Handle remaining text
-                                elements.push(
-                                    <span key={`text-default-${index}`} className={`i-text ${isInsideColoredBlock ? 'colored' : ''}`}>
-                                        {remainingText}
-                                    </span>
-                                );
-                                remainingText = ""; // All done for this part
-                            }
-                        }
+    //                         if (startC !== -1 && (endC === -1 || startC < endC)) {
+    //                             // Text before <c> (if any)
+    //                             if (startC > 0) {
+    //                                 elements.push(
+    //                                     <span key={`text-before-c-${index}`} className="i-text">
+    //                                         {remainingText.slice(0, startC)}
+    //                                     </span>
+    //                                 );
+    //                             }
+    //                             // Move inside <c>
+    //                             isInsideColoredBlock = true;
+    //                             remainingText = remainingText.slice(startC + 3); // Remove `<c>`
+    //                         } else if (endC !== -1) {
+    //                             // Inside <c>: Text up to </c>
+    //                             if (isInsideColoredBlock) {
+    //                                 elements.push(
+    //                                     <span key={`text-inside-c-${index}`} className="i-text colored">
+    //                                         {remainingText.slice(0, endC)}
+    //                                     </span>
+    //                                 );
+    //                             }
+    //                             // Exit <c>
+    //                             isInsideColoredBlock = false;
+    //                             remainingText = remainingText.slice(endC + 4); // Remove `</c>`
+    //                         } else {
+    //                             // No <c> or </c>: Handle remaining text
+    //                             elements.push(
+    //                                 <span key={`text-default-${index}`} className={`i-text ${isInsideColoredBlock ? 'colored' : ''}`}>
+    //                                     {remainingText}
+    //                                 </span>
+    //                             );
+    //                             remainingText = ""; // All done for this part
+    //                         }
+    //                     }
         
-                        return (
-                            <React.Fragment key={index}>
-                                {elements}
-                                {/* Add <br /> for line breaks */}
-                                {index < parts.length - 1 && <br />}
-                            </React.Fragment>
-                        );
-                    })}
-                </p>
-            </div>
-        );
-    };
+    //                     return (
+    //                         <React.Fragment key={index}>
+    //                             {elements}
+    //                             {/* Add <br /> for line breaks */}
+    //                             {index < parts.length - 1 && <br />}
+    //                         </React.Fragment>
+    //                     );
+    //                 })}
+    //             </p>
+    //         </div>
+    //     );
+    // };
 
     // Determine the text to display based on the current state
     const getDisplayText = () => {
@@ -263,7 +264,7 @@ const IntroPage = ({ colors }) => {
                         const parts = line.split(/(<b>.*?<\/b>)/g);
         
                         return (
-                            <p key={lineIndex} className="i-explanation">
+                            <p key={lineIndex} className="i-explanation smaller">
                                 {parts.map((part, partIndex) => {
                                     // Check if the part is bold text
                                     if (part.startsWith('<b>') && part.endsWith('</b>')) {
@@ -296,7 +297,7 @@ const IntroPage = ({ colors }) => {
                         const parts = line.split(/(<b>.*?<\/b>)/g);
         
                         return (
-                            <p key={lineIndex} className="i-explanation">
+                            <p key={lineIndex} className="i-explanation smaller">
                                 {parts.map((part, partIndex) => {
                                     // Check if the part is bold text
                                     if (part.startsWith('<b>') && part.endsWith('</b>')) {
@@ -322,35 +323,35 @@ const IntroPage = ({ colors }) => {
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             const defineP = introTexts.DefineP;
             
-            return <>{formatText(defineP)}</>;
+            return <>{formatText(defineP, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
 
         } else if (frame === 5) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             const clarifyP = introTexts.ClarifyP;
 
-            return <>{formatText(clarifyP)}</>;
+            return <>{formatText(clarifyP, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
 
         } else if(frame === 6) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             const definePe = introTexts.DefinePe;
             
-            return <>{formatText(definePe)}</>;
+            return <>{formatText(definePe, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
 
         } else if(frame === 7) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             const clarifyPe = introTexts.ClarifyPe;
             
-            return <>{formatText(clarifyPe)}</>;
+            return <>{formatText(clarifyPe, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
 
         } else if(frame === 8) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             const defineD = introTexts.DefineD;
             
-            return <>{formatText(defineD)}</>;
+            return <>{formatText(defineD, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
             
         } else if(frame === 9) {
             startOpacityCounter('Dimension');
