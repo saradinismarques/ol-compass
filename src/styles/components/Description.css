@@ -28,7 +28,7 @@
 }
 
 .description-start-prompt {
-    max-width: 280px;
+    max-width: 236px;
     font-weight: 600;
     font-size: 1em;
     color: var(--selection-color);
