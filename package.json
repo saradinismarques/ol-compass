@@ -23,7 +23,7 @@
     "build": "react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",  
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "homepage": "https://saradinismarques.github.io/ol-compass",
@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-private-property-in-object": "^7.24.7",
+    "css-minimizer-webpack-plugin": "^7.0.0",
     "gh-pages": "^6.2.0",
     "react-app-rewired": "^2.2.1"
   }
