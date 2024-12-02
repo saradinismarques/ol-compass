@@ -1,6 +1,6 @@
 :root {
     --wave-color: #ffffff; /* Default color */
-    --text-color: #ffffff
+    --text-color: #ffffff;
     --selection-color: #e5007e; /* Default color */
     --selection-hover-color: #841321; /* Default color */
 }
@@ -17,12 +17,13 @@
     display: flex;
     flex-direction: column;
     align-items: center;   /* Center items horizontally */
+    color: var(--text-color);
 }
   
 .gs-white-line{
     height: 1px;
     width: 260px;
-    background-color: var(--text-color);
+    background-color:  var(--text-color);
     z-index: 40;
 }
 
