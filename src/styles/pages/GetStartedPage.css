@@ -16,6 +16,7 @@
     max-width: 260px;
     display: flex;
     flex-direction: column;
+    color: var(--text-color);
     align-items: center;   /* Center items horizontally */
 }
   
