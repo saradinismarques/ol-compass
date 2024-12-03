@@ -22,6 +22,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedComponent, setSelectedComponent] = useState();
   const [mode, setMode] = useState('get-started');
+  const [selectedType, setSelectedType] = useState(null);
 
   const componentsRef = useRef(components);
   const currentIndexRef = useRef(currentIndex);
@@ -54,6 +55,8 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
   }, [initialState, setIsExplanationPage]);
 
   const handleCompassClick = (code, title, headline, type) => {
+    setSelectedType(type);
+
     setComponents((prevComponents) => {
       const componentExists = prevComponents.some((component) => component.code === code);
 
@@ -103,6 +106,8 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
     setState((prevState) => {
       const firstComponent = componentsRef.current[currentIndex];
+      setSelectedType(firstComponent.type);
+
       document.documentElement.style.setProperty('--text-color', colors['Text'][firstComponent.type]);
       document.documentElement.style.setProperty('--wave-color', colors['Wave'][firstComponent.type]);
 
@@ -135,6 +140,8 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
       setState((prevState) => {
         const nextComponent = componentsRef.current[nextIndex];
+        setSelectedType(nextComponent.type);
+        
         document.documentElement.style.setProperty('--text-color', colors['Text'][nextComponent.type]);
         document.documentElement.style.setProperty('--wave-color', colors['Wave'][nextComponent.type]);
 
@@ -162,6 +169,8 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
       setState((prevState) => {
         const prevComponent = componentsRef.current[prevIndex];
+        setSelectedType(prevComponent.type);
+        
         document.documentElement.style.setProperty('--text-color', colors['Text'][prevComponent.type]);
         document.documentElement.style.setProperty('--wave-color', colors['Wave'][prevComponent.type]);
 
@@ -228,9 +237,10 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
         {!isExplanationPage && (
           <>
+            <CompassIcon colors={colors} type={selectedType} />
+
             {afterSearch && (
               <>
-                <CompassIcon colors={colors} type={state.type} />
                 <div className="gs-text-container">
                   <div className="gs-white-line"></div>
                   <h1 className="gs-title">{state.title}</h1>
