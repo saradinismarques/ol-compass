@@ -245,16 +245,30 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
     };
   }, [handleKeyDown]); // Dependency array includes handleKeyDown
 
-  // Container styles for the circle menu
-  const containerStyle = {
-    position: 'fixed',   // Fixed position to stay in the specified location
-    top: '0',            // Reset top for positioning
-    left: '0',           // Reset left for positioning
-    transform: `translate(-50%, -50%)`, // Centered offset
-    borderRadius: '50%', // To make it a circular background if desired
-    width: `${size}px`,
-    height: `${size}px`
-  };
+  
+  let containerStyle;
+  if(mode === 'analyse') {
+    // Container styles for the circle menu
+    
+      containerStyle = {
+      // position: 'relative',   // Fixed position to stay in the specified location
+      // top: '50%',            // Reset top for positioning
+      // left: '50%',           // Reset left for positioning
+      transform: `translate(9%, 8%)`,
+      height: 600,
+      width: 600,
+    };
+  } else {
+    containerStyle = {
+      position: 'fixed',   // Fixed position to stay in the specified location
+      top: '0',            // Reset top for positioning
+      left: '0',           // Reset left for positioning
+      transform: `translate(-50%, -50%)`, // Centered offset
+      borderRadius: '50%', // To make it a circular background if desired
+      width: `${size}px`,
+      height: `${size}px`,
+    };
+  }
 
   const buttonStyle = {
     position: 'absolute',
@@ -344,7 +358,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
         style={{
           ...containerStyle, 
           left: `${center.x / window.innerWidth * 100}vw`, 
-          top: `${center.y / window.innerHeight * 100}vh`
+          top: `${center.y / window.innerHeight * 100}vh`,
         }}
       >
         {components.map((c, i) => (

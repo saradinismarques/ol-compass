@@ -5,6 +5,7 @@ import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
 import GetStartedPage from './pages/GetStartedPage';
 import GetInspiredPage from './pages/GetInspiredPage';
+import AnalysePage from './pages/AnalysePage';
 import ContributePage from './pages/ContributePage';
 import ContextualizePage from './pages/ContextualizePage';
 import IdeatePage from './pages/IdeatePage';
@@ -35,14 +36,14 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Redirect to /ol-compass when the app is loaded (on refresh)
-    if (location.pathname !== '/ol-compass') {
-      navigate('/ol-compass', { replace: true });
-      localStorage.removeItem('showMore');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run only on the initial mount
+  // useEffect(() => {
+  //   // Redirect to /ol-compass when the app is loaded (on refresh)
+  //   if (location.pathname !== '/ol-compass') {
+  //     navigate('/ol-compass', { replace: true });
+  //     localStorage.removeItem('showMore');
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []); // Run only on the initial mount
 
   useEffect(() => {
     setIsExplanationPage(true); // Reset to initial state when the page changes
@@ -106,6 +107,14 @@ function App() {
                 setFirstMessage={setFirstMessage}
                 isExplanationPage={isExplanationPage}
                 setIsExplanationPage={setIsExplanationPage}
+              />
+            }
+          />
+          <Route
+            path="/analyse"
+            element={
+              <AnalysePage
+                colors={colors}
               />
             }
           />

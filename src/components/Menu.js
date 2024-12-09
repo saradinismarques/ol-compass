@@ -32,6 +32,8 @@ const Menu = ({isExplanationPage}) => {
         return 'learn';
       case '/get-inspired':
         return 'get-inspired';
+      case '/analyse':
+        return 'analyse';
       case '/contribute':
         return 'contribute';
       case '/contextualize':
@@ -84,6 +86,14 @@ const Menu = ({isExplanationPage}) => {
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
           >
             GET INSPIRED
+          </Link>
+        }
+        {(menuExpanded || activeButton === 'analyse') && 
+          <Link
+            to="/analyse"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'analyse' ? 'active' : ''}`}
+          >
+            ANALYSE
           </Link>
         }
         {(menuExpanded || activeButton === 'contribute') && 
