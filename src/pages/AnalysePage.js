@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import OLCompass from '../components/OLCompass'
 import Menu from '../components/Menu';
 import html2canvas from "html2canvas";
@@ -24,11 +24,39 @@ const AnalysePage = ({ colors }) => {
     const [ASubtask, setASubtask] = useState('All'); // Track active button
     const [mode, setMode] = useState('analyse');
 
+    const resetState = useCallback(() => {
+        setState(initialState);
+        setActiveTask('A');
+        setASubtask('All');
+        setMode('analyse');
+    }, [initialState]);
+    
     const handleCompassClick = (code, title, headline, type) => {
-        setTaskAComponents((prevComponents) => ({
+        // Prepare the new component
+    const newComponent = { Code: code, Title: title, Text: headline };
+
+    setTaskAComponents((prevComponents) => {
+        // Sort the existing components in the respective category (Principle, Perspective, Dimension)
+        const sortedComponents = [...prevComponents[type]];
+
+        // Insert the new component in the correct position
+        // We use the code to find the right position (e.g., insert P3 before P4)
+        const index = sortedComponents.findIndex(component => component.Code > code);
+
+        if (index === -1) {
+            // If the component code is larger than all existing codes, add it at the end
+            sortedComponents.push(newComponent);
+        } else {
+            // Otherwise, insert it before the first larger code
+            sortedComponents.splice(index, 0, newComponent);
+        }
+
+        // Return the updated components state with the new sorted list
+        return {
             ...prevComponents,
-            [type]: [...prevComponents[type], { Code: code, Title: title, Text:headline }],
-        }));
+            [type]: sortedComponents,
+        };
+    });
     };
 
     const handleTaskChange = (task) => {
@@ -38,6 +66,17 @@ const AnalysePage = ({ colors }) => {
     const handleASubtaskChange = (subtask) => {
         setASubtask(subtask); // Set active button based on the index
         setMode('analyse' + '-' + activeTask.toLowerCase() + '-' + subtask.toLowerCase())
+        
+        if(subtask === "P") {
+            document.documentElement.style.setProperty('--background-color', colors['Wave']['Principle']);
+            document.documentElement.style.setProperty('--title-color', colors['Text']['Principle']);
+        } else if(subtask === "Pe") {
+            document.documentElement.style.setProperty('--background-color', colors['Wave']['Perspective']);
+            document.documentElement.style.setProperty('--title-color', colors['Text']['Perspective']);
+        } else if(subtask === "D") {
+            document.documentElement.style.setProperty('--background-color', colors['Wave']['Dimension']);
+            document.documentElement.style.setProperty('--title-color', colors['Text']['Dimension']);
+        }
     };
 
     // PDF
@@ -115,14 +154,14 @@ const AnalysePage = ({ colors }) => {
             placeholder='Insert Project Name'
             value={state.project} 
             onChange={handleInputChange}
-            // onButtonClick={handleCompassClick}
-            // selectedComponents={selectedComponents}
         ></textarea>
         <div id='capture' className='a-ol-compass'>
             <OLCompass 
                 colors={colors}
                 mode={mode}
                 position="center" 
+                resetState={resetState}
+                onButtonClick={handleCompassClick}
             /> 
         </div>
         <Menu />
@@ -160,31 +199,43 @@ const AnalysePage = ({ colors }) => {
         
 
         {activeTask === 'A' &&
+        <>
         <div className="a-subtask-nav">
             <button 
                 className={`a-subtask-button ${'All' === ASubtask ? 'active' : ''}`} 
                 onClick={() => handleASubtaskChange('All')}>
-                Overview
+                All
             </button>
 
             <button 
                 className={`a-subtask-button ${'P' === ASubtask ? 'active' : ''}`} 
                 onClick={() => handleASubtaskChange('P')}>
-                Principles
+                P
             </button>
 
             <button 
                 className={`a-subtask-button ${'Pe' === ASubtask ? 'active' : ''}`} 
                 onClick={() => handleASubtaskChange('Pe')}>
-                Perspectives
+                Pe
             </button>
 
             <button 
                 className={`a-subtask-button ${'D' === ASubtask ? 'active' : ''}`} 
                 onClick={() => handleASubtaskChange('D')}>
-                Dimensions
+                D
             </button>
         </div>
+            {ASubtask === "P" &&
+                <div className='a-definitions-container'>
+                    {taskAComponents['Principle'].map((c) => (
+                        <div className='a-definition'>
+                            <p className='a-definition-title'>{c.Title}</p>
+                            <p className='a-definition-text'>{c.Text}</p>
+                        </div>
+                    ))}
+                </div>
+            }
+            </>
         }
         </>
     );

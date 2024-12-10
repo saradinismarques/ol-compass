@@ -1,18 +1,25 @@
+:root {
+    --background-color: #ffffff; /* Default color */
+    --title-color: #000000;
+}
+
 .a-textarea {
     position: fixed;
-    top: 15vh;
-    left: 9vw;
-    padding: 10px;
-    width: 300px;
+    top: 7vh;
+    left: 23vw;
+    width: 200px;
+    padding-left: 10px;
     background-color: #f5f5f7;
-    border: none;
-    border-radius: 4px;
-    box-sizing: border-box;
     font-family: 'Manrope', sans-serif;
     font-size: 16px;
     color: #000000; /* Set placeholder color to white */
     resize: none;
     margin-bottom: 0px;
+    height: 23px;
+    border: 2px solid #000000;
+    border-radius: 100px;
+    background-color: white;
+    padding-top: 3px;
 }
 
 .a-tasks-nav {
@@ -36,6 +43,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    outline: none;
 }
   
 .a-task-button.active {
@@ -50,48 +58,48 @@
 }
 
 .a-generate-pdf-button {
-    height: 26px;
+    height: 25px;
     border: 2px solid #0a4461;
     border-radius: 100px;
     background-color: white;
+    font-size: 16px;
     color: #0a4461;
 }
 
 .a-generate-pdf-button:hover {
     cursor: pointer;
+    background-color: #0a4461;
+    color: white;
 }
 
 .a-subtask-nav {
     position: fixed;
-    bottom: 16vh;
+    bottom: 3vh;
     left: 9vw; /* Positioning at the bottom of the page */
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    gap: 10px;
 }
   
 .a-subtask-button {
-    margin-bottom: 6px; /* Space between buttons */
-    width: 9.5vw;
-    height: 26px;
+    width: 35px; /* Default size */
+    height: 35px;
+    border: 2px solid #7d909b;
+    border-radius: 50%;
     background-color: white;
-    color: #0a4461;
-    border-width: 2px;
-    border-radius: 4px;
-    border-color: #0a4461;
+    color: #7d909b;
     font-size: 15px;
-    display: flex;
-    justify-content: center;
     align-items: center;
+    justify-items: center;
+    outline: none;
 }
   
 .a-subtask-button.active {
-    background-color: #0a4461;
+    background-color: #7d909b;
     color: white;
 }
   
 .a-subtask-button:hover {
-    background-color: #0a4461; /* Slight hover effect */
+    background-color: #7d909b; /* Slight hover effect */
     color: white;
     cursor: pointer;
 }
@@ -103,5 +111,33 @@
     transform: translate(-50%, -50%);
     height: 600px;
     width: 600px;
+}
+
+.a-definitions-container {
+    position: fixed;
+    top: 20vh;
+    left: 9vw;
+    width: 250px;
+}
+
+.a-definition {
+    margin-bottom: 5px;
+}
+
+.a-definition-title {
+    font-size: 13px;
+    color: var(--title-color);
+    background-image: linear-gradient(to right, var(--background-color), white); /* Gradient from blue to white */
+    padding: 3px;
+    padding-left: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 500;
+}
+
+.a-definition-text {
+    font-size: 13px;
+    font-weight: 300;
+    margin-top: -10px;
 }
 

@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import ManropeFont from '../utils/Font.js';
-import { hover } from '@testing-library/user-event/dist/hover.js';
 
 // Sizes and positions 
 let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
@@ -681,7 +680,9 @@ const getStroke = (clickedIds, currentId, mode, colors, type) => {
   if(clickedIds.includes(currentId)) 
     if(mode === "get-inspired" || mode === "get-inspired-search" || mode === "get-started" || mode === "get-started-search")
       return colors['Selection'];
-  if(mode.startsWith("analyse"))
+  if(mode === "analyse" || mode === "analyse-a-all")
+    return colors['Wave'][type];
+  if((mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") && !clickedIds.includes(currentId))
     return colors['Wave'][type];
   else
       return 'none';
