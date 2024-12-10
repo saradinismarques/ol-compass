@@ -51,7 +51,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   // Dictionary with all information
   let componentsData;
 
-  if(mode.startsWith("get-started")) 
+  if(mode.startsWith("get-started") || mode.startsWith("analyse")) 
     componentsData = getGetStartedData();
   else
     componentsData = getLearnData();
@@ -118,7 +118,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
 
   const handleClick = (id) => {
     //const id = parseInt(e.target.id(), 10);
-    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") 
       return;
     
     if (mode === "learn") {
@@ -156,7 +156,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
           );
         }
       }
-    } else if (mode === "get-inspired" || mode === "get-inspired-search"|| mode === "contribute" || mode === "get-started"|| mode === "get-started-search" || mode === "analyse") {
+    } else if (mode === "get-inspired" || mode === "get-inspired-search"|| mode === "contribute" || mode === "get-started"|| mode === "get-started-search" || mode.startsWith("analyse")) {
       setClickedIds(prevClickedIds =>
         prevClickedIds.includes(id)
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
@@ -165,7 +165,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
               
       if (mode === "get-inspired" || mode === "get-inspired-search" || mode === "contribute") {
         if (onButtonClick) onButtonClick();
-      } else if(mode === "get-started" || mode === "get-started-search") {
+      } else if(mode === "get-started" || mode === "get-started-search" || mode.startsWith("analyse")) {
         const title = convertLabel(components[id].Code);
         setInitialState(false);
         
@@ -182,13 +182,13 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   };
   
   const handleMouseEnter = (e, id) => {
-    if (mode.startsWith("intro") || mode === "default") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") 
       return;
 
     setHoveredId(id);
     hoveredIdRef.current = id; 
 
-    if(mode.startsWith("get-started"))
+    if(mode.startsWith("get-started") || mode.startsWith("analyse"))
       return;
 
     if(components[id].Type === "Principle") {
@@ -249,9 +249,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
 
   
   let containerStyle;
-  if(mode === 'analyse') {
+  if(mode.startsWith('analyse')) {
     // Container styles for the circle menu
-    
       containerStyle = {
       // position: 'relative',   // Fixed position to stay in the specified location
       // top: '50%',            // Reset top for positioning
@@ -274,7 +273,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
 
   const buttonStyle = {
     position: 'absolute',
-    cursor: (mode.startsWith("intro") || mode === "default") ? 'default' : 'pointer',
+    cursor: (mode.startsWith("intro") || mode === "default" || mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d" ) ? 'default' : 'pointer',
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
@@ -408,8 +407,9 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                 <path 
                   d={svgPath} 
                   fill="none"
+                  opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
                   stroke={getStroke(clickedIds, i, mode, colors, c.Type)}
-                  strokeWidth={mode === 'analyse' ? "1px" : "1.5px"}
+                  strokeWidth={mode.startsWith('analyse') ? "1px" : "1.5px"}
                   style={{ pointerEvents: 'all' }} 
                 />
               </svg>
@@ -625,12 +625,23 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
     else
       return 0.2;
 
-  if(mode === "analyse") {
+  if(mode === "analyse" || mode === "analyse-a-all") {
     if (clickedIds.includes(currentId)) 
       return 1;
     if (hoveredId === currentId) 
       return 0.5;
     return 1;
+  }
+  if(mode.startsWith("analyse")) {
+    if(mode === "analyse-a-p" && component.Type === "Principle")
+      return 1;
+    if(mode === "analyse-a-pe" && component.Type === "Perspective")
+      return 1;
+    if(mode === "analyse-a-d" && component.Type === "Dimension")
+      return 1;
+    if(!clickedIds.includes(currentId))
+      return 1;
+    return 0.5;
   }
 
   // General
@@ -645,7 +656,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
 };
 
 const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
-  if(mode === "analyse") {
+  if(mode.startsWith("analyse")) {
     if(clickedIds.includes(currentId) || hoveredId === currentId)
       return colors['Wave'][type];
     else
@@ -656,7 +667,7 @@ const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
 }
 
 const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
-  if(mode === "analyse") {
+  if(mode.startsWith("analyse")) {
     if(clickedIds.includes(currentId) || hoveredId === currentId)
       return colors['Label'][type];
     else
@@ -670,7 +681,7 @@ const getStroke = (clickedIds, currentId, mode, colors, type) => {
   if(clickedIds.includes(currentId)) 
     if(mode === "get-inspired" || mode === "get-inspired-search" || mode === "get-started" || mode === "get-started-search")
       return colors['Selection'];
-  if(mode === "analyse")
+  if(mode.startsWith("analyse"))
     return colors['Wave'][type];
   else
       return 'none';

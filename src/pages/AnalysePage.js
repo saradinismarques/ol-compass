@@ -11,17 +11,33 @@ const AnalysePage = ({ colors }) => {
         project: '',
     }), []);
 
-    const initialTaskA = useMemo(() => ({
-        components: [],
-        texts: [],
-    }), []);
+    // Initial state with 'Principle', 'Perspective', 'Dimension'
+    const [taskAComponents, setTaskAComponents] = useState({
+        Principle: [],
+        Perspective: [],
+        Dimension: [],
+    });
+
     
     const [state, setState] = useState(initialState); 
     const [activeTask, setActiveTask] = useState('A'); // Track active button
+    const [ASubtask, setASubtask] = useState('All'); // Track active button
     const [mode, setMode] = useState('analyse');
 
-    const handleButtonClick = (index) => {
-        setActiveTask(index); // Set active button based on the index
+    const handleCompassClick = (code, title, headline, type) => {
+        setTaskAComponents((prevComponents) => ({
+            ...prevComponents,
+            [type]: [...prevComponents[type], { Code: code, Title: title, Text:headline }],
+        }));
+    };
+
+    const handleTaskChange = (task) => {
+        setActiveTask(task); // Set active button based on the index
+    };
+
+    const handleASubtaskChange = (subtask) => {
+        setASubtask(subtask); // Set active button based on the index
+        setMode('analyse' + '-' + activeTask.toLowerCase() + '-' + subtask.toLowerCase())
     };
 
     // PDF
@@ -113,30 +129,63 @@ const AnalysePage = ({ colors }) => {
         <div className="a-tasks-nav">
             <button 
                 className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 
-                onClick={taskA}>
+                onClick={() => handleTaskChange('A')}>
                 A
             </button>
 
             <button 
                 className={`a-task-button ${'B' === activeTask ? 'active' : ''}`} 
-                onClick={taskA}>
+                onClick={() => handleTaskChange('B')}>
                 B
             </button>
 
             <button 
                 className={`a-task-button ${'C' === activeTask ? 'active' : ''}`} 
-                onClick={taskA}>
+                onClick={() => handleTaskChange('C')}>
                 C
             </button>
 
             <button 
                 className={`a-task-button ${'D' === activeTask ? 'active' : ''}`} 
-                onClick={taskA}>
+                onClick={() => handleTaskChange('D')}>
                 D
             </button>
-
+            <button 
+                className='a-generate-pdf-button'
+                onClick={taskA}>
+                Generate Visual Report
+            </button>
         </div>
-        <button onClick={taskA}>Generate Visual Report</button>
+
+        
+
+        {activeTask === 'A' &&
+        <div className="a-subtask-nav">
+            <button 
+                className={`a-subtask-button ${'All' === ASubtask ? 'active' : ''}`} 
+                onClick={() => handleASubtaskChange('All')}>
+                Overview
+            </button>
+
+            <button 
+                className={`a-subtask-button ${'P' === ASubtask ? 'active' : ''}`} 
+                onClick={() => handleASubtaskChange('P')}>
+                Principles
+            </button>
+
+            <button 
+                className={`a-subtask-button ${'Pe' === ASubtask ? 'active' : ''}`} 
+                onClick={() => handleASubtaskChange('Pe')}>
+                Perspectives
+            </button>
+
+            <button 
+                className={`a-subtask-button ${'D' === ASubtask ? 'active' : ''}`} 
+                onClick={() => handleASubtaskChange('D')}>
+                Dimensions
+            </button>
+        </div>
+        }
         </>
     );
 };
