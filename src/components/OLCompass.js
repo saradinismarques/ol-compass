@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
+import ManropeFont from '../utils/Font.js';
+import { hover } from '@testing-library/user-event/dist/hover.js';
 
 // Sizes and positions 
 let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
@@ -154,7 +156,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
           );
         }
       }
-    } else if (mode === "get-inspired" || mode === "get-inspired-search"|| mode === "contribute" || mode === "get-started"|| mode === "get-started-search") {
+    } else if (mode === "get-inspired" || mode === "get-inspired-search"|| mode === "contribute" || mode === "get-started"|| mode === "get-started-search" || mode === "analyse") {
       setClickedIds(prevClickedIds =>
         prevClickedIds.includes(id)
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
@@ -377,15 +379,9 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
               onMouseLeave={() => handleMouseLeave(i)}
             >
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
-                <defs>
-                  <linearGradient id={`gradient-${i}`} x1="100%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" style={{ stopColor: getGradientColor(c.Code, c.Type, colors).start, stopOpacity: 1 }} /> {/* Start color */}
-                    <stop offset="70%" style={{ stopColor: getGradientColor(c.Code, c.Type, colors).end, stopOpacity: 1 }} /> {/* End color */}
-                  </linearGradient>
-                </defs>
                 <path 
                   d={svgPath} 
-                  fill={`url(#gradient-${i})`}  // Use the gradient fill
+                  fill={getWaveFill(clickedIds, hoveredId, i, mode, colors, c.Type)}  // Use the gradient fill
                   stroke="none" 
                   style={{ pointerEvents: 'all' }}
                   opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)}
@@ -412,8 +408,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                 <path 
                   d={svgPath} 
                   fill="none"
-                  stroke={getStroke(clickedIds, i, mode, colors['Selection'])}
-                  strokeWidth="1.5px"
+                  stroke={getStroke(clickedIds, i, mode, colors, c.Type)}
+                  strokeWidth={mode === 'analyse' ? "1px" : "1.5px"}
                   style={{ pointerEvents: 'all' }} 
                 />
               </svg>
@@ -447,6 +443,14 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
               >
                 <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
                   <defs>
+                    <style type="text/css">
+                      {`
+                        @font-face {
+                          font-family: 'Manrope';
+                          src: url(data:font/ttf;base64,${ManropeFont}) format('truetype');
+                        }
+                      `}
+                    </style>
                     <path 
                       id={`text-path-${i}`} 
                       d={c.Type === "Principle" ? svgTextPathInverted : svgTextPath } 
@@ -459,9 +463,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   
                   {/* Text on Path */}
                   <text
-                    fill={colors['Label'][c.Type]}
-                    fontFamily="Manrope"
-                    fontWeight={500}
+                    fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c.Type)}
                     fontSize="8px"
                     letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
@@ -483,9 +485,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   {/* Second Line (if it has one) */}
                   {bigLabels.includes(c.Code) &&
                     <text
-                      fill={colors['Label'][c.Type]}
-                      fontFamily="Manrope"
-                      fontWeight={500}
+                      fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c.Type)}
                       fontSize="8px"
                       letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path
@@ -625,6 +625,14 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
     else
       return 0.2;
 
+  if(mode === "analyse") {
+    if (clickedIds.includes(currentId)) 
+      return 1;
+    if (hoveredId === currentId) 
+      return 0.5;
+    return 1;
+  }
+
   // General
   if (clickedIds.includes(currentId)) 
     return 1;
@@ -636,20 +644,36 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
   return 0.3;
 };
 
-const getStroke = (clickedIds, currentId, mode, color) => {
+const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
+  if(mode === "analyse") {
+    if(clickedIds.includes(currentId) || hoveredId === currentId)
+      return colors['Wave'][type];
+    else
+      return "white";
+  }
+  else 
+    return colors['Wave'][type];
+}
+
+const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
+  if(mode === "analyse") {
+    if(clickedIds.includes(currentId) || hoveredId === currentId)
+      return colors['Label'][type];
+    else
+      return colors['Wave'][type];
+  }
+  else 
+    return colors['Label'][type];
+}
+
+const getStroke = (clickedIds, currentId, mode, colors, type) => {
   if(clickedIds.includes(currentId)) 
     if(mode === "get-inspired" || mode === "get-inspired-search" || mode === "get-started" || mode === "get-started-search")
-      return color;
+      return colors['Selection'];
+  if(mode === "analyse")
+    return colors['Wave'][type];
   else
       return 'none';
-};
-
-const getGradientColor = (code, type, colors) => {
-  // if (code === 'Pe1')
-  //     return {start: colors.Perspective, end: colors.Principle};
-  // else if(code === 'D1')
-  //   return {start: colors.Dimension, end: colors.Perspective};
-  return {start: colors['Wave'][type], end: colors['Wave'][type]};
 };
 
 const isFlipped = (label) => {
