@@ -30,16 +30,8 @@
     gap: 20px; /* Space between buttons */
     align-items: center;
     justify-items: center;
-}
-
-.a-tasks-buttons {
-    display: flex;
-    gap: 20px; /* Space between buttons */
-    align-items: center;
-    justify-items: center;
     background-color: transparent;
 }
- 
   
 .a-task-button {
     width: 17px; /* Default size */

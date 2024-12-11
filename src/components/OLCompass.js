@@ -611,7 +611,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             }
 
             {/* Text Areas for 'analyse' mode */}
-            {mode.startsWith("analyse") &&
+            {/* {mode.startsWith("analyse") &&
               clickedIds.includes(i) && ( // Show the text area if the ID is in clickedIds
                 <TextArea
                   id={i}
@@ -619,7 +619,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                   onFocus={() => handleTextAreaFocus(i)} // Set active on focus
                 />
-              )}
+              )} */}
           </div>
         ))}
   

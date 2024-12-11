@@ -18,7 +18,6 @@ const AnalysePage = ({ colors }) => {
         Dimension: [],
     });
 
-    
     const [state, setState] = useState(initialState); 
     const [activeTask, setActiveTask] = useState('A'); // Track active button
     const [ASubtask, setASubtask] = useState('All'); // Track active button
@@ -87,25 +86,10 @@ const AnalysePage = ({ colors }) => {
         document.documentElement.style.setProperty('--title-color', colors['Text'][subtask]);
     };
 
-    
-
-    const handleDownloadPDF = async () => {
-        // PDF
-        const pdf = new jsPDF("landscape", "mm", "a4");
-        pdf.addFileToVFS('Manrope-Regular.ttf', ManropeFont);
-        pdf.addFont('Manrope-Regular.ttf', 'Manrope', 'normal');
-        pdf.setFont('Manrope', 'normal');
+    const addTaskPage = async(pdf, text) => {
         const a4Width = pdf.internal.pageSize.getWidth();
         const a4Height = pdf.internal.pageSize.getHeight();
 
-        // Cover 
-        pdf.text(state.project, 10, 10);
-
-        // Index 
-        pdf.addPage();
-
-        // Task A.All 
-        
         pdf.addPage();
         // Set the green background for the third page
         pdf.setFillColor('#dfe9e9'); // RGB for green
@@ -123,41 +107,40 @@ const AnalysePage = ({ colors }) => {
 
         pdf.setFontSize(13);
         pdf.setTextColor("#0a4461");
-        pdf.text('The OL aspects/potential of your project that I could initially capture', 20, 190);
+
+        pdf.text(text, 20, 190);
+
+
+         // Capture the task menu section
+         const element2 = document.getElementById('task-menu');
         
-        // Capture the task menu section
-        const element2 = document.getElementById('task-menu');
-        
-        const canvas2 = await html2canvas(element2, { scale: 4, logging: true, backgroundColor: null });
-        const imgData2 = canvas2.toDataURL('image/png');
-
-        // Calculate the width and height for the image (in mm)
-        // Get the natural width and height of the captured image
-        const imgWidthPx2 = canvas2.width;
-        const imgHeightPx2 = canvas2.height;
-
-        // Convert the image dimensions from pixels to mm for the PDF
-        const pixelToMm2 = 25.4 / 96; // Conversion factor: 1 inch = 25.4 mm, 1 pixel = 1/96 inches
-        const imgWidth2 = imgWidthPx2 * pixelToMm2;
-        const imgHeight2 = imgHeightPx2 * pixelToMm2;
-
-        // Define a scaling factor to make the image smaller
-        const scaleFactor = 0.2; // Example: scale the image to 50% of its original size
-
-        // Apply the scaling factor to the image width and height
-        const scaledImgWidth = imgWidth2 * scaleFactor;
-        const scaledImgHeight = imgHeight2 * scaleFactor;
-
-        // Add the captured image to the PDF (position at the top of the page)
-        pdf.addImage(imgData2, 'PNG', 20, 196, scaledImgWidth, scaledImgHeight);
+         const canvas2 = await html2canvas(element2, { scale: 4, logging: true, backgroundColor: null });
+         const imgData2 = canvas2.toDataURL('image/png');
+ 
+         // Calculate the width and height for the image (in mm)
+         // Get the natural width and height of the captured image
+         const imgWidthPx2 = canvas2.width;
+         const imgHeightPx2 = canvas2.height;
+ 
+         // Convert the image dimensions from pixels to mm for the PDF
+         const pixelToMm2 = 25.4 / 96; // Conversion factor: 1 inch = 25.4 mm, 1 pixel = 1/96 inches
+         const imgWidth2 = imgWidthPx2 * pixelToMm2;
+         const imgHeight2 = imgHeightPx2 * pixelToMm2;
+ 
+         // Define a scaling factor to make the image smaller
+         const scaleFactor = 0.2; // Example: scale the image to 50% of its original size
+ 
+         // Apply the scaling factor to the image width and height
+         const scaledImgWidth = imgWidth2 * scaleFactor;
+         const scaledImgHeight = imgHeight2 * scaleFactor;
+ 
+         // Add the captured image to the PDF (position at the top of the page)
+         pdf.addImage(imgData2, 'PNG', 20, 196, scaledImgWidth, scaledImgHeight); 
 
         const element = document.getElementById('ol-compass');
         const canvas = await html2canvas(element, { scale: 4, logging: true });
         const imgData = canvas.toDataURL('image/png');
 
-        // Step 3: Calculate the center position for the content
-        // Dimensions of the A4 page
-        
         // Original dimensions of the captured canvas
         const imgWidth = 550; // In pixels
         const imgHeight = 550; // In pixels
@@ -172,13 +155,55 @@ const AnalysePage = ({ colors }) => {
         const y = (a4Height - contentHeight) / 2;
         
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
+    };
 
+    const handleDownloadPDF = async () => {
+        // PDF
+        const pdf = new jsPDF("landscape", "mm", "a4");
+        pdf.addFileToVFS('Manrope-Regular.ttf', ManropeFont);
+        pdf.addFont('Manrope-Regular.ttf', 'Manrope', 'normal');
+        pdf.setFont('Manrope', 'normal');
+        
+        // Cover 
+        pdf.text(state.project, 10, 10);
+
+        // Index 
+        pdf.addPage();
+
+        // Task A.All 
+        let text = 'The OL aspects/potential of your project that I could initially capture';
+        await addTaskPage(pdf, text); 
+          
         // Task A.P 
+        handleASubtaskChange("Principle");
+        text = 'The OL aspects/potential of your project > PRINCIPLES focus';
+        await addTaskPage(pdf, text); 
+       
         // Task A.Pe
+        handleASubtaskChange("Perspective");
+        text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+        await addTaskPage(pdf, text); 
+
         // Task A.D
+        handleASubtaskChange("Dimension");
+        text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+        await addTaskPage(pdf, text); 
+
         // Task B
+        handleTaskChange("B");
+        text = 'Your revision of the visual map';
+        await addTaskPage(pdf, text); 
+        
         // Task C
+        handleTaskChange("C");
+        text = 'Your reflections on potential future developments of your project';
+        await addTaskPage(pdf, text); 
+
         // Task D
+        handleTaskChange("D");
+        text = 'Your input of potental changes to the Compass';
+        await addTaskPage(pdf, text);
+
         // Back Cover 
 
         // Trigger the download
@@ -208,7 +233,7 @@ const AnalysePage = ({ colors }) => {
             onChange={handleInputChange}
             spellcheck="false"
         ></textarea>
-        <div id='ol-compass' className='a-ol-compass'>
+        <div className='a-ol-compass'>
             <OLCompass 
                 colors={colors}
                 mode={mode}
@@ -219,7 +244,6 @@ const AnalysePage = ({ colors }) => {
         </div>
         <Menu />
         <div className="a-tasks-nav">
-            <div id='task-menu' className='a-tasks-buttons'>
             <button 
                 className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 
                 onClick={() => handleTaskChange('A')}>
@@ -243,7 +267,6 @@ const AnalysePage = ({ colors }) => {
                 onClick={() => handleTaskChange('D')}>
                 D
             </button>
-            </div>
             <button 
                 className='a-generate-pdf-button'
                 onClick={handleDownloadPDF}>
@@ -252,7 +275,6 @@ const AnalysePage = ({ colors }) => {
         </div>
 
         
-
         {activeTask === 'A' &&
         <>
         <div className="a-subtask-nav">
@@ -294,6 +316,7 @@ const AnalysePage = ({ colors }) => {
         
             </>
         }
+       
         </>
     );
 };
