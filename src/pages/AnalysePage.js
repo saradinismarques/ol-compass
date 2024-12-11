@@ -32,51 +32,59 @@ const AnalysePage = ({ colors }) => {
     }, [initialState]);
     
     const handleCompassClick = (code, title, headline, type) => {
-        // Prepare the new component
-    const newComponent = { Code: code, Title: title, Text: headline };
-
-    setTaskAComponents((prevComponents) => {
-        // Sort the existing components in the respective category (Principle, Perspective, Dimension)
-        const sortedComponents = [...prevComponents[type]];
-
-        // Insert the new component in the correct position
-        // We use the code to find the right position (e.g., insert P3 before P4)
-        const index = sortedComponents.findIndex(component => component.Code > code);
-
-        if (index === -1) {
-            // If the component code is larger than all existing codes, add it at the end
-            sortedComponents.push(newComponent);
-        } else {
-            // Otherwise, insert it before the first larger code
-            sortedComponents.splice(index, 0, newComponent);
-        }
-
-        // Return the updated components state with the new sorted list
-        return {
-            ...prevComponents,
-            [type]: sortedComponents,
-        };
-    });
+        setTaskAComponents((prevComponents) => {
+            // Get the existing components for the specific type
+            let updatedComponents = [...prevComponents[type]];
+    
+            // Check if the component with the same Code already exists
+            const componentExists = updatedComponents.some(component => component.Code === code);
+    
+            if (componentExists) {
+                // If it exists, remove it
+                updatedComponents = updatedComponents.filter(component => component.Code !== code);
+            } else {
+                // If it doesn't exist, add the new component
+                const newComponent = { Code: code, Title: title, Text: headline };
+    
+                // Find the correct position to insert the new component in sorted order
+                const index = updatedComponents.findIndex(component => component.Code > code);
+    
+                if (index === -1) {
+                    updatedComponents.push(newComponent); // Add at the end if it's the largest
+                } else {
+                    updatedComponents.splice(index, 0, newComponent); // Insert at the correct position
+                }
+            }
+    
+            // Return the updated components state
+            return {
+                ...prevComponents,
+                [type]: updatedComponents,
+            };
+        });
     };
-
+    
     const handleTaskChange = (task) => {
         setActiveTask(task); // Set active button based on the index
     };
 
     const handleASubtaskChange = (subtask) => {
-        setASubtask(subtask); // Set active button based on the index
-        setMode('analyse' + '-' + activeTask.toLowerCase() + '-' + subtask.toLowerCase())
+        let subtaskName;
+
+        if(subtask === "All")
+            subtaskName ="-a-all";
+        else if(subtask === "Principle")
+            subtaskName = "-a-p";
+        else if(subtask === "Perspective")
+            subtaskName = "-a-pe";
+        else if(subtask === "Dimension")
+            subtaskName = "-a-d";
         
-        if(subtask === "P") {
-            document.documentElement.style.setProperty('--background-color', colors['Wave']['Principle']);
-            document.documentElement.style.setProperty('--title-color', colors['Text']['Principle']);
-        } else if(subtask === "Pe") {
-            document.documentElement.style.setProperty('--background-color', colors['Wave']['Perspective']);
-            document.documentElement.style.setProperty('--title-color', colors['Text']['Perspective']);
-        } else if(subtask === "D") {
-            document.documentElement.style.setProperty('--background-color', colors['Wave']['Dimension']);
-            document.documentElement.style.setProperty('--title-color', colors['Text']['Dimension']);
-        }
+        setASubtask(subtask); // Set active button based on the index
+        setMode('analyse' + subtaskName)
+        
+        document.documentElement.style.setProperty('--background-color', colors['Wave'][subtask]);
+        document.documentElement.style.setProperty('--title-color', colors['Text'][subtask]);
     };
 
     // PDF
@@ -89,10 +97,7 @@ const AnalysePage = ({ colors }) => {
 
     const handleDownloadPDf = async () => {
         // Add Cover Page
-        pdf.addPage(1);
-
-        // Add content to the new page
-        pdf.text(state.project, 10, 10);
+        
     };
 
     const taskA = async () => {
@@ -101,7 +106,8 @@ const AnalysePage = ({ colors }) => {
         const canvas = await html2canvas(element, { scale: 2, logging: true });
         const imgData = canvas.toDataURL('image/png');
 
-        pdf.text("Sample text using Manrope font", 10, 20);
+        // Add content to the new page
+        pdf.text(state.project, 10, 10);
         // pdf.text("Ocean Literacy Concepts", 10, 20);
 
         // Step 3: Calculate the center position for the content
@@ -123,16 +129,14 @@ const AnalysePage = ({ colors }) => {
         // (You need the image as a Base64 string or a URL)
         // const imgBase64 = "data:image/png;base64,...";
         // doc.addImage(imgBase64, "PNG", 10, 60, 50, 50);
+        pdf.addPage();
+        
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
 
-        // Add a new page
-        pdf.addPage();
-
-        // Add content to the new page
-        pdf.text(state.project, 10, 10);
-        pdf.text("You can add more content here.", 10, 20);
         // Trigger the download
-        pdf.save("Ocean_Literacy.pdf");
+        pdf.save("Visual_Report.pdf");
+        
+        
     };
     
 
@@ -154,6 +158,7 @@ const AnalysePage = ({ colors }) => {
             placeholder='Insert Project Name'
             value={state.project} 
             onChange={handleInputChange}
+            spellcheck="false"
         ></textarea>
         <div id='capture' className='a-ol-compass'>
             <OLCompass 
@@ -208,33 +213,35 @@ const AnalysePage = ({ colors }) => {
             </button>
 
             <button 
-                className={`a-subtask-button ${'P' === ASubtask ? 'active' : ''}`} 
-                onClick={() => handleASubtaskChange('P')}>
+                className={`a-subtask-button ${'Principle' === ASubtask ? 'active' : ''}`} 
+                onClick={() => handleASubtaskChange('Principle')}>
                 P
             </button>
 
             <button 
-                className={`a-subtask-button ${'Pe' === ASubtask ? 'active' : ''}`} 
-                onClick={() => handleASubtaskChange('Pe')}>
+                className={`a-subtask-button ${'Perspective' === ASubtask ? 'active' : ''}`} 
+                onClick={() => handleASubtaskChange('Perspective')}>
                 Pe
             </button>
 
             <button 
-                className={`a-subtask-button ${'D' === ASubtask ? 'active' : ''}`} 
-                onClick={() => handleASubtaskChange('D')}>
+                className={`a-subtask-button ${'Dimension' === ASubtask ? 'active' : ''}`} 
+                onClick={() => handleASubtaskChange('Dimension')}>
                 D
             </button>
         </div>
-            {ASubtask === "P" &&
-                <div className='a-definitions-container'>
-                    {taskAComponents['Principle'].map((c) => (
-                        <div className='a-definition'>
-                            <p className='a-definition-title'>{c.Title}</p>
-                            <p className='a-definition-text'>{c.Text}</p>
-                        </div>
-                    ))}
-                </div>
-            }
+        
+        {ASubtask !== 'All' &&
+            <div className='a-definitions-container'>
+                {taskAComponents[ASubtask].map((c) => (
+                    <div className='a-definition'>
+                        <p className='a-definition-title'>{c.Title}</p>
+                        <p className='a-definition-text'>{c.Text}</p>
+                    </div>
+                ))}
+            </div>
+        }
+        
             </>
         }
         </>

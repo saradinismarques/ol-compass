@@ -115,7 +115,7 @@
 
 .a-definitions-container {
     position: fixed;
-    top: 20vh;
+    top: 15vh;
     left: 9vw;
     width: 250px;
 }
@@ -127,7 +127,11 @@
 .a-definition-title {
     font-size: 13px;
     color: var(--title-color);
-    background-image: linear-gradient(to right, var(--background-color), white); /* Gradient from blue to white */
+    background: linear-gradient(
+        to right, 
+        var(--background-color) 20%, /* Main color covers 70% of the area */
+        white 80%                  /* Fades into white by 100% */
+    );
     padding: 3px;
     padding-left: 5px;
     text-transform: uppercase;

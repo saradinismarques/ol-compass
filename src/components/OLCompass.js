@@ -89,7 +89,6 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
       hoveredIdRef.current = hoveredId;
   }, [hoveredId]);
 
-
   // Effect to handle reset
   useEffect(() => {
     if (resetCompass) {
@@ -175,6 +174,16 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             components[id].Headline,
             components[id].Type,
           );
+        }
+
+        if(mode === "analyse") {
+          if (activeId === id) {
+            // If the clicked component is already active, deactivate it
+            setActiveId(null);
+          } else {
+            // Set the clicked component as active
+            setActiveId(id);
+          }
         }
       }
     } 
@@ -352,6 +361,89 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
     </div>
   );
 
+  // Other states
+  const [textAreaData, setTextAreaData] = useState({}); // Store input data for components
+  const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
+  const textareaRef = useRef(null); 
+
+  // Focus the textarea when the component mounts
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, []);
+
+  // Handle text changes
+  const handleTextChange = (e) => {
+    const { name, value, selectionStart, selectionEnd } = e.target;
+
+    // Update the text and the cursor position for the specific textarea
+    setTextAreaData((prevData) => ({
+      ...prevData,
+      [name]: {
+        text: value, // Store the text content
+        cursorStart: selectionStart, // Store the cursor's starting position
+        cursorEnd: selectionEnd, // Store the cursor's ending position (for selection)
+      }
+    }));
+  };
+
+  const handleTextAreaFocus = (id) => {
+    setActiveId(id); // Set active ID when textarea is focused
+  };
+
+  // TextArea Component
+  const TextArea = ({ id, position, value }) => {
+    const textareaRef = useRef(null); // Create a unique ref for each TextArea component
+
+    // Focus the textarea when the component mounts
+    useEffect(() => {
+      if (textareaRef.current && id === activeId) {
+        textareaRef.current.focus();
+      }
+    }, [activeId, id]);
+
+    // After the textarea value updates, apply the cursor position
+    useEffect(() => {
+      if (textareaRef.current && value.cursorStart !== undefined) {
+        textareaRef.current.setSelectionRange(value.cursorStart, value.cursorEnd);
+      }
+    }, [value.cursorStart, value.cursorEnd]);
+
+    const handleInputChange = (e) => {
+      handleTextChange(e, id);
+    };
+
+    return (
+      <div
+        style={{
+          position: "absolute",
+          left: `${position.x}px`,
+          top: `${position.y + 20}px`, // Adjust to position below the component
+          zIndex: 100,
+        }}
+      >
+        <textarea
+          ref={textareaRef}
+          name={id}
+          value={value.text || ""}
+          type="text"
+          onChange={handleInputChange}
+          placeholder="Enter your notes here"
+          style={{
+            width: "200px",
+            height: "100px",
+            fontSize: "14px",
+            padding: "8px",
+            borderRadius: "4px",
+            border: "1px solid #ccc",
+            resize: "none",
+          }}
+        />
+      </div>
+    );
+  };
+
   return (
     <>       
       <div 
@@ -375,6 +467,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
               onClick={() => handleClick(i)}
               onMouseEnter={(e) => handleMouseEnter(e, i)}
               onMouseLeave={() => handleMouseLeave(i)}
+              opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
+
             >
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
                 <path 
@@ -382,8 +476,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   fill={getWaveFill(clickedIds, hoveredId, i, mode, colors, c.Type)}  // Use the gradient fill
                   stroke="none" 
                   style={{ pointerEvents: 'all' }}
-                  opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)}
                   transition="opacity 1s ease"
+                  opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
                 />
               </svg>
             </div>
@@ -514,6 +608,17 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             {mode === "learn" && !initialState && savedComponents.includes(c.Code) &&
               <Bookmark component={c} />
             }
+
+            {/* Text Areas for 'analyse' mode */}
+            {mode.startsWith("analyse") &&
+              clickedIds.includes(i) && ( // Show the text area if the ID is in clickedIds
+                <TextArea
+                  id={i}
+                  position={{ x: c.x, y: c.y }}
+                  value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                  onFocus={() => handleTextAreaFocus(i)} // Set active on focus
+                />
+              )}
           </div>
         ))}
   
@@ -682,7 +787,7 @@ const getStroke = (clickedIds, currentId, mode, colors, type) => {
       return colors['Selection'];
   if(mode === "analyse" || mode === "analyse-a-all")
     return colors['Wave'][type];
-  if((mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") && !clickedIds.includes(currentId))
+  if((mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d"))
     return colors['Wave'][type];
   else
       return 'none';

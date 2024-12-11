@@ -135,12 +135,12 @@ const IntroPage = ({ colors }) => {
     };
 
     // Replace placeholders with values from countersMap
-    const replacePlaceholders = (text) => {
-        return text.replace(/\[COUNTER-[a-zA-Z]+\]/g, (match) => {
-            // Look up the placeholder in countersMap
-            return countersMap[match] !== undefined ? countersMap[match] : match;
-        });
-    };
+    // const replacePlaceholders = (text) => {
+    //     return text.replace(/\[COUNTER-[a-zA-Z]+\]/g, (match) => {
+    //         // Look up the placeholder in countersMap
+    //         return countersMap[match] !== undefined ? countersMap[match] : match;
+    //     });
+    // };
 
     // const formatText = (text) => {
     //     // Process the input to replace placeholders
