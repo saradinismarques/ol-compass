@@ -87,51 +87,99 @@ const AnalysePage = ({ colors }) => {
         document.documentElement.style.setProperty('--title-color', colors['Text'][subtask]);
     };
 
-    // PDF
-    const pdf = new jsPDF("landscape", "mm", "a4");
-    pdf.addFileToVFS('Manrope-Regular.ttf', ManropeFont);
-    pdf.addFont('Manrope-Regular.ttf', 'Manrope', 'normal');
-    pdf.setFont('Manrope', 'normal');
-    const a4Width = pdf.internal.pageSize.getWidth();
-    const a4Height = pdf.internal.pageSize.getHeight();
+    
 
-    const handleDownloadPDf = async () => {
-        // Add Cover Page
-        
-    };
+    const handleDownloadPDF = async () => {
+        // PDF
+        const pdf = new jsPDF("landscape", "mm", "a4");
+        pdf.addFileToVFS('Manrope-Regular.ttf', ManropeFont);
+        pdf.addFont('Manrope-Regular.ttf', 'Manrope', 'normal');
+        pdf.setFont('Manrope', 'normal');
+        const a4Width = pdf.internal.pageSize.getWidth();
+        const a4Height = pdf.internal.pageSize.getHeight();
 
-    const taskA = async () => {
-        const element = document.getElementById('capture');
-        
-        const canvas = await html2canvas(element, { scale: 2, logging: true });
-        const imgData = canvas.toDataURL('image/png');
-
-        // Add content to the new page
+        // Cover 
         pdf.text(state.project, 10, 10);
-        // pdf.text("Ocean Literacy Concepts", 10, 20);
+
+        // Index 
+        pdf.addPage();
+
+        // Task A.All 
+        
+        pdf.addPage();
+        // Set the green background for the third page
+        pdf.setFillColor('#dfe9e9'); // RGB for green
+        pdf.rect(0, 0, a4Width, a4Height, 'F'); // Draw a filled rectangle covering the entire page
+
+        // Add a white rounded rectangle in the center of the page
+        const rectWidth = a4Width - 20;  // Width of the rectangle
+        const rectHeight = a4Height - 20; // Height of the rectangle
+        const rectX = (a4Width - rectWidth) / 2;  // Centered X position
+        const rectY = (a4Height - rectHeight) / 2; // Centered Y position
+        const borderRadius = 5; // Radius of the rounded corners
+                
+        pdf.setFillColor('white'); // RGB for green
+        pdf.roundedRect(rectX, rectY, rectWidth, rectHeight, borderRadius, borderRadius, 'F'); // Draw a filled rectangle covering the entire page
+
+        pdf.setFontSize(13);
+        pdf.setTextColor("#0a4461");
+        pdf.text('The OL aspects/potential of your project that I could initially capture', 20, 190);
+        
+        // Capture the task menu section
+        const element2 = document.getElementById('task-menu');
+        
+        const canvas2 = await html2canvas(element2, { scale: 4, logging: true, backgroundColor: null });
+        const imgData2 = canvas2.toDataURL('image/png');
+
+        // Calculate the width and height for the image (in mm)
+        // Get the natural width and height of the captured image
+        const imgWidthPx2 = canvas2.width;
+        const imgHeightPx2 = canvas2.height;
+
+        // Convert the image dimensions from pixels to mm for the PDF
+        const pixelToMm2 = 25.4 / 96; // Conversion factor: 1 inch = 25.4 mm, 1 pixel = 1/96 inches
+        const imgWidth2 = imgWidthPx2 * pixelToMm2;
+        const imgHeight2 = imgHeightPx2 * pixelToMm2;
+
+        // Define a scaling factor to make the image smaller
+        const scaleFactor = 0.2; // Example: scale the image to 50% of its original size
+
+        // Apply the scaling factor to the image width and height
+        const scaledImgWidth = imgWidth2 * scaleFactor;
+        const scaledImgHeight = imgHeight2 * scaleFactor;
+
+        // Add the captured image to the PDF (position at the top of the page)
+        pdf.addImage(imgData2, 'PNG', 20, 196, scaledImgWidth, scaledImgHeight);
+
+        const element = document.getElementById('ol-compass');
+        const canvas = await html2canvas(element, { scale: 4, logging: true });
+        const imgData = canvas.toDataURL('image/png');
 
         // Step 3: Calculate the center position for the content
         // Dimensions of the A4 page
         
-         // Original dimensions of the captured canvas
-         const imgWidth = 600; // In pixels
-         const imgHeight = 600; // In pixels
+        // Original dimensions of the captured canvas
+        const imgWidth = 550; // In pixels
+        const imgHeight = 550; // In pixels
  
-         // Convert pixel dimensions to mm
-         const pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-         const contentWidth = imgWidth * pixelToMm;
-         const contentHeight = imgHeight * pixelToMm;
+        // Convert pixel dimensions to mm
+        const pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        const contentWidth = imgWidth * pixelToMm;
+        const contentHeight = imgHeight * pixelToMm;
  
-         // Calculate the x and y positions to center the image
-         const x = (a4Width - contentWidth)/ 2 ;
-         const y = (a4Height - contentHeight) / 2;
-        // Example: Add an image (optional)
-        // (You need the image as a Base64 string or a URL)
-        // const imgBase64 = "data:image/png;base64,...";
-        // doc.addImage(imgBase64, "PNG", 10, 60, 50, 50);
-        pdf.addPage();
+        // Calculate the x and y positions to center the image
+        const x = (a4Width - contentWidth)/ 2 ;
+        const y = (a4Height - contentHeight) / 2;
         
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
+
+        // Task A.P 
+        // Task A.Pe
+        // Task A.D
+        // Task B
+        // Task C
+        // Task D
+        // Back Cover 
 
         // Trigger the download
         pdf.save("Visual_Report.pdf");
@@ -160,7 +208,7 @@ const AnalysePage = ({ colors }) => {
             onChange={handleInputChange}
             spellcheck="false"
         ></textarea>
-        <div id='capture' className='a-ol-compass'>
+        <div id='ol-compass' className='a-ol-compass'>
             <OLCompass 
                 colors={colors}
                 mode={mode}
@@ -171,6 +219,7 @@ const AnalysePage = ({ colors }) => {
         </div>
         <Menu />
         <div className="a-tasks-nav">
+            <div id='task-menu' className='a-tasks-buttons'>
             <button 
                 className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 
                 onClick={() => handleTaskChange('A')}>
@@ -194,9 +243,10 @@ const AnalysePage = ({ colors }) => {
                 onClick={() => handleTaskChange('D')}>
                 D
             </button>
+            </div>
             <button 
                 className='a-generate-pdf-button'
-                onClick={taskA}>
+                onClick={handleDownloadPDF}>
                 Generate Visual Report
             </button>
         </div>

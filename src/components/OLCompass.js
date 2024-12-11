@@ -436,6 +436,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             fontSize: "14px",
             padding: "8px",
             borderRadius: "4px",
+            fontFamily: 'Manrope',
             border: "1px solid #ccc",
             resize: "none",
           }}
