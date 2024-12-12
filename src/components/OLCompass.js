@@ -806,13 +806,15 @@ const getText = (mode, type, label, code, index) => {
   // Intro
   if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
     return "";
-  else if (mode === "intro-4" || mode === "intro-5")
+  else if (mode === "intro-4" || mode === "intro-5") {
     if(type !== "Principle")
         return "";
-  else if (mode === "intro-6" || mode === "intro-7")
-    if(type === "Dimension")
+  }
+  else if (mode === "intro-6" || mode === "intro-7") {
+    if(type === "Dimension") {
       return "";
-
+    }
+  }
   if(bigLabels.includes(code)) {
     let firstIndex = label.indexOf(' ');
     let secondIndex = label.indexOf(' ', firstIndex + 1);

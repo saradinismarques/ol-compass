@@ -176,29 +176,29 @@ const AnalysePage = ({ colors }) => {
         await addTaskPage(pdf, text); 
           
         // Task A.P 
-        handleASubtaskChange("Principle");
-        text = 'The OL aspects/potential of your project > PRINCIPLES focus';
-        await addTaskPage(pdf, text); 
+        // handleASubtaskChange("Principle");
+        // text = 'The OL aspects/potential of your project > PRINCIPLES focus';
+        // await addTaskPage(pdf, text); 
        
-        // Task A.Pe
-        handleASubtaskChange("Perspective");
-        text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-        await addTaskPage(pdf, text); 
+        // // Task A.Pe
+        // handleASubtaskChange("Perspective");
+        // text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+        // await addTaskPage(pdf, text); 
 
-        // Task A.D
-        handleASubtaskChange("Dimension");
-        text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-        await addTaskPage(pdf, text); 
+        // // Task A.D
+        // handleASubtaskChange("Dimension");
+        // text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+        // await addTaskPage(pdf, text); 
 
-        // Task B
-        handleTaskChange("B");
-        text = 'Your revision of the visual map';
-        await addTaskPage(pdf, text); 
+        // // Task B
+        // handleTaskChange("B");
+        // text = 'Your revision of the visual map';
+        // await addTaskPage(pdf, text); 
         
-        // Task C
-        handleTaskChange("B");
-        text = 'Your revision of the visual map';
-        await addTaskPage(pdf, text); 
+        // // Task C
+        // handleTaskChange("B");
+        // text = 'Your revision of the visual map';
+        // await addTaskPage(pdf, text); 
         
         // Task D
         // Back Cover 
