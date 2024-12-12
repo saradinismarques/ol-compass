@@ -543,7 +543,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
                 <path 
                   d={svgPath} 
-                  fill={getWaveFill(clickedIds, hoveredId, i, mode, colors, c.Type)}  // Use the gradient fill
+                  fill={getWaveFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents)}  // Use the gradient fill
                   stroke="none" 
                   style={{ pointerEvents: 'all' }}
                   transition="opacity 1s ease"
@@ -571,7 +571,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   d={svgPath} 
                   fill="none"
                   opacity={getOutlineOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
-                  stroke={getStroke(clickedIds, hoveredId, i, mode, colors, c.Type)}
+                  stroke={getStroke(clickedIds, hoveredId, i, mode, colors, c, selectedComponents)}
                   strokeWidth={mode.startsWith('analyse') ? "0.6px" : "1.5px"}
                   style={{ pointerEvents: 'all' }} 
                 />
@@ -626,7 +626,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   
                   {/* Text on Path */}
                   <text
-                    fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c.Type)}
+                    fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents)}
                     fontSize="8px"
                     letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
@@ -648,7 +648,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   {/* Second Line (if it has one) */}
                   {bigLabels.includes(c.Code) &&
                     <text
-                      fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c.Type)}
+                      fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents)}
                       fontSize="8px"
                       letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path
@@ -808,7 +808,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
       return 0.5;
     return 1;
   }
-  if(mode.startsWith("analyse")) {
+  if(mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") {
     if(mode === "analyse-a-p" && component.Type === "Principle")
       return 1;
     if(mode === "analyse-a-pe" && component.Type === "Perspective")
@@ -817,7 +817,28 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
       return 1;
     if(!clickedIds.includes(currentId))
       return 1;
-    return 0.05;
+    return 0.2;
+  }
+
+  
+  // Analyse PDF   
+  if(mode === "analyse-pdf-a-all") {
+    if (clickedIds.includes(currentId)) 
+      return 1;
+    if (hoveredId === currentId) 
+      return 0.5;
+    return 1;
+  }
+  if(mode === "analyse-pdf-a-p" || mode === "analyse-pdf-a-pe" || mode === "analyse-pdf-a-d") {
+    if(mode === "analyse-pdf-a-p" && component.Type === "Principle")
+      return 1;
+    if(mode === "analyse-pdf-a-pe" && component.Type === "Perspective")
+      return 1;
+    if(mode === "analyse-pdf-a-d" && component.Type === "Dimension")
+      return 1;
+    if(!selectedComponents.includes(component.Code))
+      return 1;
+    return 0.2;
   }
 
   // General
@@ -834,6 +855,26 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
 const getOutlineOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, opacityCounter) => {
   if(!mode.startsWith("analyse"))
     return 1;
+
+  // Analyse PDF   
+  if(mode === "analyse-pdf-a-all") {
+    if (clickedIds.includes(currentId)) 
+      return 1;
+    if (hoveredId === currentId) 
+      return 0.5;
+    return 1;
+  }
+  if(mode.startsWith("analyse-pdf")) {
+    if(mode === "analyse-pdf-a-p" && component.Type === "Principle")
+      return 1;
+    if(mode === "analyse-pdf-a-pe" && component.Type === "Perspective")
+      return 1;
+    if(mode === "analyse-pdf-a-d" && component.Type === "Dimension")
+      return 1;
+    if(!selectedComponents.includes(component.Code))
+      return 1;
+    return 1;
+  }
 
   // Analyse    
   if(mode === "analyse" || mode === "analyse-a-all") {
@@ -907,6 +948,25 @@ const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selec
     else
       return 0.2;
 
+  // Analyse PDF   
+  if(mode === "analyse-pdf-all") {
+    if (clickedIds.includes(currentId)) 
+      return 1;
+    if (hoveredId === currentId) 
+      return 0.5;
+    return 1;
+  }
+  if(mode.startsWith("analyse-pdf")) {
+    if(mode === "analyse-pdf-a-p" && component.Type === "Principle")
+      return 1;
+    if(mode === "analyse-pdf-a-pe" && component.Type === "Perspective")
+      return 1;
+    if(mode === "analyse-pdf-a-d" && component.Type === "Dimension")
+      return 1;
+    if(!selectedComponents.includes(component.Code))
+      return 1;
+  }
+
   // Analyse    
   if(mode === "analyse" || mode === "analyse-a-all") {
     if (clickedIds.includes(currentId)) 
@@ -938,52 +998,96 @@ const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selec
   return 0.3;
 };
 
-const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
+const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents) => {
+  if(mode.startsWith("analyse-pdf")) {
+    if(selectedComponents.includes(component.Code) || hoveredId === currentId)
+      return colors['Wave'][component.Type];
+    else
+      return "white";
+  }
+
+  // Analyse PDF
+  if(mode.startsWith("analyse-pdf")) {
+    if(selectedComponents.includes(component.Code) || hoveredId === currentId)
+      return colors['Wave'][component.Type];
+    else
+      return "white";
+  }
+
   if(mode.startsWith("analyse")) {
     if(clickedIds.includes(currentId) || hoveredId === currentId)
-      return colors['Wave'][type];
+      return colors['Wave'][component.Type];
     else
       return "white";
   }
   else 
-    return colors['Wave'][type];
+    return colors['Wave'][component.Type];
+    
 }
 
-const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
+const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents) => {
+  if(mode.startsWith("analyse-pdf")) {
+    if(!selectedComponents.includes(component.Code) && currentId !== hoveredId)
+      return "#cacbcb";
+    if(mode === "analyse-pdf-a-p") {
+      if(component.Type === "Principle")
+        return colors['Label'][component.Type];
+      else
+        return colors['Wave'][component.Type];
+    }
+    else if(mode === "analyse-pdf-a-pe") {
+      if(component.Type === "Perspective")
+        return colors['Label'][component.Type];
+      else
+        return colors['Wave'][component.Type];
+    }
+    else if(mode === "analyse-pdf-a-d") {
+      if(component.Type === "Dimension")
+        return colors['Label'][component.Type];
+      else
+        return colors['Wave'][component.Type];
+    }
+    return colors['Label'][component.Type];
+  }
   if(mode.startsWith("analyse")) {
       if(!clickedIds.includes(currentId) && currentId !== hoveredId)
         return "#cacbcb";
       if(mode === "analyse-a-p") {
-        if(type === "Principle")
-          return colors['Label'][type];
+        if(component.Type === "Principle")
+          return colors['Label'][component.Type];
         else
-          return colors['Wave'][type];
+          return colors['Wave'][component.Type];
       }
       else if(mode === "analyse-a-pe") {
-        if(type === "Perspective")
-          return colors['Label'][type];
+        if(component.Type === "Perspective")
+          return colors['Label'][component.Type];
         else
-          return colors['Wave'][type];
+          return colors['Wave'][component.Type];
       }
       else if(mode === "analyse-a-d") {
-        if(type === "Dimension")
-          return colors['Label'][type];
+        if(component.Type === "Dimension")
+          return colors['Label'][component.Type];
         else
-          return colors['Wave'][type];
+          return colors['Wave'][component.Type];
       }
-      return colors['Label'][type];
+      return colors['Label'][component.Type];
   } else 
-    return colors['Label'][type];
+    return colors['Label'][component.Type];
 }
 
-const getStroke = (clickedIds, hoveredId, currentId, mode, colors, type) => {
+const getStroke = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents) => {
   if(clickedIds.includes(currentId)) 
     if(mode === "get-inspired" || mode === "get-inspired-search" || mode === "get-started" || mode === "get-started-search")
       return colors['Selection'];
+  if(mode.startsWith("analyse-pdf")) {
+    if(!selectedComponents.includes(component.Code) && hoveredId !== currentId)
+      return '#cacbcb';
+    return colors['Wave'][component.Type];
+  }
   if(mode.startsWith("analyse")) {
     if(!clickedIds.includes(currentId) && hoveredId !== currentId)
       return '#cacbcb';
-    return colors['Wave'][type];
+    return colors['Wave'][component.Type];
   }
   else
       return 'none';

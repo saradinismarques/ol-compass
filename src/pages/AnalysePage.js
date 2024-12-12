@@ -5,6 +5,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import ManropeFont from '../utils/Font.js';
 import '../styles/pages/AnalysePage.css';
+import ReactDOM from 'react-dom';
 
 const AnalysePage = ({ colors }) => {
     const initialState = useMemo(() => ({
@@ -23,7 +24,8 @@ const AnalysePage = ({ colors }) => {
     const [activeTask, setActiveTask] = useState('A'); // Track active button
     const [ASubtask, setASubtask] = useState('All'); // Track active button
     const [mode, setMode] = useState('analyse');
-
+    const [selectedComponents, setSelectedComponents] = useState([]);
+    
     const resetState = useCallback(() => {
         setState(initialState);
         setActiveTask('A');
@@ -62,6 +64,7 @@ const AnalysePage = ({ colors }) => {
                 [type]: updatedComponents,
             };
         });
+        setSelectedComponents((prevState) => [...prevState, code]);
     };
     
     const handleTaskChange = (task) => {
@@ -87,7 +90,7 @@ const AnalysePage = ({ colors }) => {
         document.documentElement.style.setProperty('--title-color', colors['Text'][subtask]);
     };
 
-    const addTaskPage = async(pdf, text) => {
+    const addTaskPage = async(pdf, text, currentMode) => {
         const a4Width = pdf.internal.pageSize.getWidth();
         const a4Height = pdf.internal.pageSize.getHeight();
 
@@ -111,35 +114,25 @@ const AnalysePage = ({ colors }) => {
 
         pdf.text(text, 20, 190);
 
+        const container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
 
-         // Capture the task menu section
-         const element2 = document.getElementById('task-menu');
-        
-         const canvas2 = await html2canvas(element2, { scale: 4, logging: true, backgroundColor: null });
-         const imgData2 = canvas2.toDataURL('image/png');
- 
-         // Calculate the width and height for the image (in mm)
-         // Get the natural width and height of the captured image
-         const imgWidthPx2 = canvas2.width;
-         const imgHeightPx2 = canvas2.height;
- 
-         // Convert the image dimensions from pixels to mm for the PDF
-         const pixelToMm2 = 25.4 / 96; // Conversion factor: 1 inch = 25.4 mm, 1 pixel = 1/96 inches
-         const imgWidth2 = imgWidthPx2 * pixelToMm2;
-         const imgHeight2 = imgHeightPx2 * pixelToMm2;
- 
-         // Define a scaling factor to make the image smaller
-         const scaleFactor = 0.2; // Example: scale the image to 50% of its original size
- 
-         // Apply the scaling factor to the image width and height
-         const scaledImgWidth = imgWidth2 * scaleFactor;
-         const scaledImgHeight = imgHeight2 * scaleFactor;
- 
-         // Add the captured image to the PDF (position at the top of the page)
-         pdf.addImage(imgData2, 'PNG', 20, 196, scaledImgWidth, scaledImgHeight); 
+        // Render React component into the container
+        ReactDOM.render(
+            <OLCompass id='ol-compass' className='a-ol-compass'
+                colors={colors}
+                mode={currentMode}
+                position="center" 
+                resetState={resetState}
+                onButtonClick={handleCompassClick}
+                selectedComponents={selectedComponents}
+            />,
+            container
+        );
 
-        const element = document.getElementById('ol-compass');
-        const canvas = await html2canvas(element, { scale: 4, logging: true });
+        const canvas = await html2canvas(container, { scale: 4, logging: true });
         const imgData = canvas.toDataURL('image/png');
 
         // Original dimensions of the captured canvas
@@ -156,6 +149,51 @@ const AnalysePage = ({ colors }) => {
         const y = (a4Height - contentHeight) / 2;
         
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
+        document.body.removeChild(container);
+         // Capture the task menu section
+    //      const element2 = document.getElementById('task-menu');
+        
+    //      const canvas2 = await html2canvas(element2, { scale: 4, logging: true, backgroundColor: null });
+    //      const imgData2 = canvas2.toDataURL('image/png');
+ 
+    //      // Calculate the width and height for the image (in mm)
+    //      // Get the natural width and height of the captured image
+    //      const imgWidthPx2 = canvas2.width;
+    //      const imgHeightPx2 = canvas2.height;
+ 
+    //      // Convert the image dimensions from pixels to mm for the PDF
+    //      const pixelToMm2 = 25.4 / 96; // Conversion factor: 1 inch = 25.4 mm, 1 pixel = 1/96 inches
+    //      const imgWidth2 = imgWidthPx2 * pixelToMm2;
+    //      const imgHeight2 = imgHeightPx2 * pixelToMm2;
+ 
+    //      // Define a scaling factor to make the image smaller
+    //      const scaleFactor = 0.2; // Example: scale the image to 50% of its original size
+ 
+    //      // Apply the scaling factor to the image width and height
+    //      const scaledImgWidth = imgWidth2 * scaleFactor;
+    //      const scaledImgHeight = imgHeight2 * scaleFactor;
+ 
+    //      // Add the captured image to the PDF (position at the top of the page)
+    //      pdf.addImage(imgData2, 'PNG', 20, 196, scaledImgWidth, scaledImgHeight); 
+
+    //     const element = document.getElementById('ol-compass');
+    //     const canvas = await html2canvas(element, { scale: 4, logging: true });
+    //     const imgData = canvas.toDataURL('image/png');
+
+    //     // Original dimensions of the captured canvas
+    //     const imgWidth = 550; // In pixels
+    //     const imgHeight = 550; // In pixels
+ 
+    //     // Convert pixel dimensions to mm
+    //     const pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+    //     const contentWidth = imgWidth * pixelToMm;
+    //     const contentHeight = imgHeight * pixelToMm;
+ 
+    //     // Calculate the x and y positions to center the image
+    //     const x = (a4Width - contentWidth)/ 2 ;
+    //     const y = (a4Height - contentHeight) / 2;
+        
+    //     pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
     };
 
     const handleDownloadPDF = async () => {
@@ -173,37 +211,36 @@ const AnalysePage = ({ colors }) => {
 
         // Task A.All 
         let text = 'The OL aspects/potential of your project that I could initially capture';
-        await addTaskPage(pdf, text); 
+        await addTaskPage(pdf, text, 'analyse-pdf-a-all'); 
           
         //Task A.P 
-        handleASubtaskChange("Principle");
         text = 'The OL aspects/potential of your project > PRINCIPLES focus';
-        await addTaskPage(pdf, text); 
+        await addTaskPage(pdf, text, 'analyse-pdf-a-p'); 
        
-        // Task A.Pe
-        handleASubtaskChange("Perspective");
-        text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-        await addTaskPage(pdf, text); 
+        // // Task A.Pe
+        // handleASubtaskChange("Perspective");
+        // text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+        // await addTaskPage(pdf, text); 
 
-        // Task A.D
-        handleASubtaskChange("Dimension");
-        text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-        await addTaskPage(pdf, text); 
+        // // Task A.D
+        // handleASubtaskChange("Dimension");
+        // text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+        // await addTaskPage(pdf, text); 
 
-        // Task B
-        handleTaskChange("B");
-        text = 'Your revision of the visual map';
-        await addTaskPage(pdf, text); 
+        // // Task B
+        // handleTaskChange("B");
+        // text = 'Your revision of the visual map';
+        // await addTaskPage(pdf, text); 
         
-        // Task C
-        handleTaskChange("B");
-        text = 'Your revision of the visual map';
-        await addTaskPage(pdf, text); 
+        // // Task C
+        // handleTaskChange("B");
+        // text = 'Your revision of the visual map';
+        // await addTaskPage(pdf, text); 
         
-        // Task D
-        // Back Cover 
+        // // Task D
+        // // Back Cover 
 
-        // Trigger the download
+        // // Trigger the download
         pdf.save("Visual_Report.pdf");
         
         
