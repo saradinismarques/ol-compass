@@ -64,9 +64,15 @@ const AnalysePage = ({ colors }) => {
                 [type]: updatedComponents,
             };
         });
-        setSelectedComponents((prevState) => [...prevState, code]);
-    };
-    
+        setSelectedComponents((prevState) => {
+             // If the code exists, remove it. Otherwise, add it.
+            if (prevState.includes(code)) {
+                return prevState.filter((item) => item !== code); // Remove it
+            } else {
+                return [...prevState, code]; // Add it if it doesn't exist
+            }
+        });
+    }
     const handleTaskChange = (task) => {
         setActiveTask(task); // Set active button based on the index
     };
@@ -217,15 +223,13 @@ const AnalysePage = ({ colors }) => {
         text = 'The OL aspects/potential of your project > PRINCIPLES focus';
         await addTaskPage(pdf, text, 'analyse-pdf-a-p'); 
        
-        // // Task A.Pe
-        // handleASubtaskChange("Perspective");
-        // text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-        // await addTaskPage(pdf, text); 
+        // Task A.Pe
+        text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+        await addTaskPage(pdf, text, 'analyse-pdf-a-pe'); 
 
-        // // Task A.D
-        // handleASubtaskChange("Dimension");
-        // text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-        // await addTaskPage(pdf, text); 
+        // Task A.D
+        text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+        await addTaskPage(pdf, text, 'analyse-pdf-a-d'); 
 
         // // Task B
         // handleTaskChange("B");
