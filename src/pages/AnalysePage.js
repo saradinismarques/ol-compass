@@ -96,7 +96,7 @@ const AnalysePage = ({ colors }) => {
         document.documentElement.style.setProperty('--title-color', colors['Text'][subtask]);
     };
 
-    const addTaskPage = async(pdf, text, currentMode) => {
+    const addTaskPage = async(pdf, text, currentMode, subtask) => {
         const a4Width = pdf.internal.pageSize.getWidth();
         const a4Height = pdf.internal.pageSize.getHeight();
 
@@ -120,7 +120,8 @@ const AnalysePage = ({ colors }) => {
 
         pdf.text(text, 20, 190);
 
-        const container = document.createElement('div');
+        // OL Compass
+        let container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.top = '-9999px';
         document.body.appendChild(container);
@@ -138,68 +139,72 @@ const AnalysePage = ({ colors }) => {
             container
         );
 
-        const canvas = await html2canvas(container, { scale: 4, logging: true });
-        const imgData = canvas.toDataURL('image/png');
+        let canvas = await html2canvas(container, { scale: 2, logging: true });
+        let imgData = canvas.toDataURL('image/png');
 
         // Original dimensions of the captured canvas
-        const imgWidth = 550; // In pixels
-        const imgHeight = 550; // In pixels
+        let imgWidth = 550; // In pixels
+        let imgHeight = 550; // In pixels
  
         // Convert pixel dimensions to mm
-        const pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        const contentWidth = imgWidth * pixelToMm;
-        const contentHeight = imgHeight * pixelToMm;
+        let pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        let contentWidth = imgWidth * pixelToMm;
+        let contentHeight = imgHeight * pixelToMm;
  
         // Calculate the x and y positions to center the image
-        const x = (a4Width - contentWidth)/ 2 ;
-        const y = (a4Height - contentHeight) / 2;
+        let x = (a4Width - contentWidth)/ 2 ;
+        let y = (a4Height - contentHeight) / 2;
         
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
+        
         document.body.removeChild(container);
-         // Capture the task menu section
-    //      const element2 = document.getElementById('task-menu');
-        
-    //      const canvas2 = await html2canvas(element2, { scale: 4, logging: true, backgroundColor: null });
-    //      const imgData2 = canvas2.toDataURL('image/png');
- 
-    //      // Calculate the width and height for the image (in mm)
-    //      // Get the natural width and height of the captured image
-    //      const imgWidthPx2 = canvas2.width;
-    //      const imgHeightPx2 = canvas2.height;
- 
-    //      // Convert the image dimensions from pixels to mm for the PDF
-    //      const pixelToMm2 = 25.4 / 96; // Conversion factor: 1 inch = 25.4 mm, 1 pixel = 1/96 inches
-    //      const imgWidth2 = imgWidthPx2 * pixelToMm2;
-    //      const imgHeight2 = imgHeightPx2 * pixelToMm2;
- 
-    //      // Define a scaling factor to make the image smaller
-    //      const scaleFactor = 0.2; // Example: scale the image to 50% of its original size
- 
-    //      // Apply the scaling factor to the image width and height
-    //      const scaledImgWidth = imgWidth2 * scaleFactor;
-    //      const scaledImgHeight = imgHeight2 * scaleFactor;
- 
-    //      // Add the captured image to the PDF (position at the top of the page)
-    //      pdf.addImage(imgData2, 'PNG', 20, 196, scaledImgWidth, scaledImgHeight); 
 
-    //     const element = document.getElementById('ol-compass');
-    //     const canvas = await html2canvas(element, { scale: 4, logging: true });
-    //     const imgData = canvas.toDataURL('image/png');
 
-    //     // Original dimensions of the captured canvas
-    //     const imgWidth = 550; // In pixels
-    //     const imgHeight = 550; // In pixels
+        // Subtask Menu
+        container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
+
+        // Render React component into the container
+        ReactDOM.render(
+            <div className="a-tasks-nav">
+            <div id='task-menu' className='a-tasks-buttons'>
+            <button className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} >
+                A
+            </button>
+
+            <button className={`a-task-button ${'B' === activeTask ? 'active' : ''}`} >
+                B
+            </button>
+
+            <button className={`a-task-button ${'C' === activeTask ? 'active' : ''}`} >
+                C
+            </button>
+
+            <button className={`a-task-button ${'D' === activeTask ? 'active' : ''}`} >
+                D
+            </button>
+            </div>
+        </div>,
+            container
+        );
+
+        canvas = await html2canvas(container, { scale: 1, logging: true, backgroundColor: null });
+        imgData = canvas.toDataURL('image/png');
+
+        // Original dimensions of the captured canvas
+        imgWidth = canvas.width; // In pixels
+        imgHeight = canvas.height; // In pixels
  
-    //     // Convert pixel dimensions to mm
-    //     const pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-    //     const contentWidth = imgWidth * pixelToMm;
-    //     const contentHeight = imgHeight * pixelToMm;
+        // Convert pixel dimensions to mm
+        pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        contentWidth = imgWidth * pixelToMm;
+        contentHeight = imgHeight * pixelToMm;
  
-    //     // Calculate the x and y positions to center the image
-    //     const x = (a4Width - contentWidth)/ 2 ;
-    //     const y = (a4Height - contentHeight) / 2;
+        pdf.addImage(imgData, 'PNG', 20, 196, contentWidth, contentHeight);
         
-    //     pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
+        document.body.removeChild(container);
     };
 
     const handleDownloadPDF = async () => {
@@ -217,19 +222,19 @@ const AnalysePage = ({ colors }) => {
 
         // Task A.All 
         let text = 'The OL aspects/potential of your project that I could initially capture';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-all'); 
+        await addTaskPage(pdf, text, 'analyse-pdf-a-all', 'A'); 
           
         //Task A.P 
         text = 'The OL aspects/potential of your project > PRINCIPLES focus';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-p'); 
+        await addTaskPage(pdf, text, 'analyse-pdf-a-p', 'A'); 
        
         // Task A.Pe
         text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-pe'); 
+        await addTaskPage(pdf, text, 'analyse-pdf-a-pe', 'A'); 
 
         // Task A.D
         text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-d'); 
+        await addTaskPage(pdf, text, 'analyse-pdf-a-d', 'A'); 
 
         // // Task B
         // handleTaskChange("B");
@@ -281,7 +286,7 @@ const AnalysePage = ({ colors }) => {
             /> 
         </div>
         <Menu />
-        <div className="a-tasks-nav">
+        <div className="a-tasks-nav fixed">
             <div id='task-menu' className='a-tasks-buttons'>
             <button 
                 className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 

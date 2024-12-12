@@ -23,13 +23,16 @@
 }
 
 .a-tasks-nav {
-    position: fixed;
     bottom: 9vh;
     left: 9vw; /* Positioning at the bottom of the page */
     display: flex;
     gap: 20px; /* Space between buttons */
     align-items: center;
     justify-items: center;
+}
+
+.a-tasks-nav.fixed {
+    position: fixed;
 }
 
 .a-tasks-buttons {
@@ -118,8 +121,6 @@
     top: 50vh;           
     left: 50vw;           
     transform: translate(-50%, -50%);
-    height: 600px;
-    width: 600px;
 }
 
 .a-definitions-container {
