@@ -6,6 +6,7 @@ import jsPDF from "jspdf";
 import ManropeFont from '../utils/Font.js';
 import '../styles/pages/AnalysePage.css';
 import ReactDOM from 'react-dom';
+import { lineRadial } from 'd3';
 
 const AnalysePage = ({ colors }) => {
     const initialState = useMemo(() => ({
@@ -96,7 +97,7 @@ const AnalysePage = ({ colors }) => {
         document.documentElement.style.setProperty('--title-color', colors['Text'][subtask]);
     };
 
-    const addTaskPage = async(pdf, text, currentMode, subtask) => {
+    const addTaskPage = async(pdf, text, currentMode, subtask, type) => {
         const a4Width = pdf.internal.pageSize.getWidth();
         const a4Height = pdf.internal.pageSize.getHeight();
 
@@ -115,10 +116,45 @@ const AnalysePage = ({ colors }) => {
         pdf.setFillColor('white'); // RGB for green
         pdf.roundedRect(rectX, rectY, rectWidth, rectHeight, borderRadius, borderRadius, 'F'); // Draw a filled rectangle covering the entire page
 
+         
+        
+        const parts = text.split(' focus');
+        const mainText = parts[0].trim();
+        const highlightText = mainText.split(' ').pop();  // Get the last word (to highlight)
+        const remainingText = 'focus';
+
         pdf.setFontSize(13);
         pdf.setTextColor("#0a4461");
 
-        pdf.text(text, 20, 190);
+        let currentText;
+        if(type === 'All') {
+            currentText = text;
+            pdf.text(currentText, 20, 190);
+        } else {
+            currentText = mainText.replace(highlightText, '').trim();
+           
+            pdf.text(currentText, 20, 190);
+
+            // Measure the width of the main text (to correctly position the highlighted part)
+            //const textWidth = pdf.getTextWidth(mainText.replace(highlightText, '').trim());
+
+            // Set the highlight color for the key part (the word to be highlighted)
+            pdf.setTextColor(colors['Wave'][type]);
+            pdf.text(highlightText, 118, 190);
+
+            // Set the default color again for the 'focus' part
+            let padding = 118;
+            if(type === 'Principle')
+                padding += 27; 
+            else if(type === 'Perspective')
+                padding += 34; 
+            else if(type === 'Dimension')
+                padding += 30; 
+
+            pdf.setTextColor("#0a4461");
+            pdf.text(remainingText, padding, 190);
+        }
+       
 
         // OL Compass
         let container = document.createElement('div');
@@ -169,7 +205,6 @@ const AnalysePage = ({ colors }) => {
         // Render React component into the container
         ReactDOM.render(
             <div className="a-tasks-nav">
-            <div id='task-menu' className='a-tasks-buttons'>
             <button className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} >
                 A
             </button>
@@ -185,7 +220,6 @@ const AnalysePage = ({ colors }) => {
             <button className={`a-task-button ${'D' === activeTask ? 'active' : ''}`} >
                 D
             </button>
-            </div>
         </div>,
             container
         );
@@ -202,7 +236,55 @@ const AnalysePage = ({ colors }) => {
         contentWidth = imgWidth * pixelToMm;
         contentHeight = imgHeight * pixelToMm;
  
-        pdf.addImage(imgData, 'PNG', 20, 196, contentWidth, contentHeight);
+        pdf.addImage(imgData, 'PNG', 20, 195, contentWidth, contentHeight);
+        
+        document.body.removeChild(container);
+
+        
+        // Definitions
+        if(type === "All" || taskAComponents[type].lenght === 0)
+            return;
+        container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
+
+        // Render React component into the container
+        ReactDOM.render(
+            <div className='a-definitions-container'>
+                {taskAComponents[type].map((c) => (
+                    <div className='a-definition'>
+                        <p className='a-definition-title' 
+                            style={{
+                                color: `${colors['Label'][type]}`,
+                                background: `linear-gradient(
+                                    to right, 
+                                    ${colors['Wave'][type]} 20%, 
+                                    white 80%
+                                )`,
+                            }}>
+                            {c.Title}
+                        </p>
+                        <p className='a-definition-text'>{c.Text}</p>
+                    </div>
+                ))}
+            </div>,
+            container
+        );
+
+        canvas = await html2canvas(container, { scale: 2, logging: true, backgroundColor: null });
+        imgData = canvas.toDataURL('image/png');
+
+        // Original dimensions of the captured canvas
+        imgWidth = canvas.width*0.5; // In pixels
+        imgHeight = canvas.height*0.5; // In pixels
+ 
+        // Convert pixel dimensions to mm
+        pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        contentWidth = imgWidth * pixelToMm;
+        contentHeight = imgHeight * pixelToMm;
+ 
+        pdf.addImage(imgData, 'PNG', 20, 50, contentWidth, contentHeight);
         
         document.body.removeChild(container);
     };
@@ -215,27 +297,30 @@ const AnalysePage = ({ colors }) => {
         pdf.setFont('Manrope', 'normal');
         
         // Cover 
-        pdf.text(state.project, 10, 10);
+        // pdf.text(state.project, 10, 10);
 
-        // Index 
-        pdf.addPage();
+        // // Index 
+        // pdf.addPage();
 
         // Task A.All 
         let text = 'The OL aspects/potential of your project that I could initially capture';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-all', 'A'); 
+        await addTaskPage(pdf, text, 'analyse-pdf-a-all', 'A', 'All'); 
           
         //Task A.P 
-        text = 'The OL aspects/potential of your project > PRINCIPLES focus';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-p', 'A'); 
-       
+        if(taskAComponents['Principle'].length !== 0) {
+            text = 'The OL aspects/potential of your project > PRINCIPLES focus';
+            await addTaskPage(pdf, text, 'analyse-pdf-a-p', 'A', 'Principle'); 
+        }
         // Task A.Pe
-        text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-pe', 'A'); 
-
+        if(taskAComponents['Perspective'].length !== 0) {
+            text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+            await addTaskPage(pdf, text, 'analyse-pdf-a-pe', 'A', 'Perspective'); 
+        }
         // Task A.D
-        text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-d', 'A'); 
-
+        if(taskAComponents['Dimension'].length !== 0) {
+            text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+            await addTaskPage(pdf, text, 'analyse-pdf-a-d', 'A', 'Dimension'); 
+        }
         // // Task B
         // handleTaskChange("B");
         // text = 'Your revision of the visual map';
@@ -287,7 +372,6 @@ const AnalysePage = ({ colors }) => {
         </div>
         <Menu />
         <div className="a-tasks-nav fixed">
-            <div id='task-menu' className='a-tasks-buttons'>
             <button 
                 className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 
                 onClick={() => handleTaskChange('A')}>
@@ -311,15 +395,13 @@ const AnalysePage = ({ colors }) => {
                 onClick={() => handleTaskChange('D')}>
                 D
             </button>
-            </div>
             <button 
                 className='a-generate-pdf-button'
                 onClick={handleDownloadPDF}>
                 Generate Visual Report
             </button>
-        </div>
-
-        
+            </div>
+            
 
         {activeTask === 'A' &&
         <>
@@ -350,7 +432,7 @@ const AnalysePage = ({ colors }) => {
         </div>
         
         {ASubtask !== 'All' &&
-            <div className='a-definitions-container'>
+            <div className='a-definitions-container fixed'>
                 {taskAComponents[ASubtask].map((c) => (
                     <div className='a-definition'>
                         <p className='a-definition-title'>{c.Title}</p>

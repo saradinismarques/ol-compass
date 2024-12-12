@@ -29,20 +29,13 @@
     gap: 20px; /* Space between buttons */
     align-items: center;
     justify-items: center;
+    background-color: transparent;
+
 }
 
 .a-tasks-nav.fixed {
     position: fixed;
 }
-
-.a-tasks-buttons {
-    display: flex;
-    gap: 20px; /* Space between buttons */
-    align-items: center;
-    justify-items: center;
-    background-color: transparent;
-}
- 
   
 .a-task-button {
     width: 17px; /* Default size */
@@ -124,10 +117,13 @@
 }
 
 .a-definitions-container {
-    position: fixed;
     top: 15vh;
     left: 9vw;
-    width: 250px;
+    width: 220px;
+}
+
+.a-definitions-container.fixed {
+    position: fixed;
 }
 
 .a-definition {

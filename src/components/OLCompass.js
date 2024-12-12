@@ -817,7 +817,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
       return 1;
     if(!clickedIds.includes(currentId))
       return 1;
-    return 0.2;
+    return 0.3;
   }
 
   
@@ -838,7 +838,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
       return 1;
     if(!selectedComponents.includes(component.Code))
       return 1;
-    return 0.2;
+    return 0.3;
   }
 
   // General
@@ -873,7 +873,7 @@ const getOutlineOpacity = (clickedIds, hoveredId, currentId, component, mode, se
       return 1;
     if(!selectedComponents.includes(component.Code))
       return 1;
-    return 1;
+    return 0.3;
   }
 
   // Analyse    
@@ -893,7 +893,7 @@ const getOutlineOpacity = (clickedIds, hoveredId, currentId, component, mode, se
       return 1;
     if(!clickedIds.includes(currentId))
       return 1;
-    return 1;
+    return 0.3;
   }
 };
 
@@ -950,7 +950,7 @@ const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selec
 
   // Analyse PDF   
   if(mode === "analyse-pdf-all") {
-    if (clickedIds.includes(currentId)) 
+    if (selectedComponents.includes(component.Code)) 
       return 1;
     if (hoveredId === currentId) 
       return 0.5;
@@ -965,6 +965,7 @@ const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selec
       return 1;
     if(!selectedComponents.includes(component.Code))
       return 1;
+    return 0.8;
   }
 
   // Analyse    
@@ -984,7 +985,7 @@ const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selec
       return 1;
     if(!clickedIds.includes(currentId))
       return 1;
-    return 1;
+    return 0.8;
   }
 
   // General
@@ -1032,20 +1033,14 @@ const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, component, 
     if(mode === "analyse-pdf-a-p") {
       if(component.Type === "Principle")
         return colors['Label'][component.Type];
-      else
-        return colors['Wave'][component.Type];
     }
     else if(mode === "analyse-pdf-a-pe") {
       if(component.Type === "Perspective")
         return colors['Label'][component.Type];
-      else
-        return colors['Wave'][component.Type];
     }
     else if(mode === "analyse-pdf-a-d") {
       if(component.Type === "Dimension")
         return colors['Label'][component.Type];
-      else
-        return colors['Wave'][component.Type];
     }
     return colors['Label'][component.Type];
   }
@@ -1055,20 +1050,14 @@ const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, component, 
       if(mode === "analyse-a-p") {
         if(component.Type === "Principle")
           return colors['Label'][component.Type];
-        else
-          return colors['Wave'][component.Type];
       }
       else if(mode === "analyse-a-pe") {
         if(component.Type === "Perspective")
           return colors['Label'][component.Type];
-        else
-          return colors['Wave'][component.Type];
       }
       else if(mode === "analyse-a-d") {
         if(component.Type === "Dimension")
           return colors['Label'][component.Type];
-        else
-          return colors['Wave'][component.Type];
       }
       return colors['Label'][component.Type];
   } else 
