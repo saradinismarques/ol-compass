@@ -342,7 +342,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     
                   <h1 className="gi-title">{state.title}</h1>
                   <p className="gi-description">{state.description}</p>
-                  <p>{height}</p>
+                  {/* <p>{height}</p> */}
                   <p className="gi-credits">Credits: {state.credits}</p>
     
                   <div className='gi-boxes-container'>
