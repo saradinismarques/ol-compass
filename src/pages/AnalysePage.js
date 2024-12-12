@@ -18,6 +18,7 @@ const AnalysePage = ({ colors }) => {
         Dimension: [],
     });
 
+    
     const [state, setState] = useState(initialState); 
     const [activeTask, setActiveTask] = useState('A'); // Track active button
     const [ASubtask, setASubtask] = useState('All'); // Track active button
@@ -195,15 +196,11 @@ const AnalysePage = ({ colors }) => {
         await addTaskPage(pdf, text); 
         
         // Task C
-        handleTaskChange("C");
-        text = 'Your reflections on potential future developments of your project';
+        handleTaskChange("B");
+        text = 'Your revision of the visual map';
         await addTaskPage(pdf, text); 
-
+        
         // Task D
-        handleTaskChange("D");
-        text = 'Your input of potental changes to the Compass';
-        await addTaskPage(pdf, text);
-
         // Back Cover 
 
         // Trigger the download
@@ -233,7 +230,7 @@ const AnalysePage = ({ colors }) => {
             onChange={handleInputChange}
             spellcheck="false"
         ></textarea>
-        <div className='a-ol-compass'>
+        <div id='ol-compass' className='a-ol-compass'>
             <OLCompass 
                 colors={colors}
                 mode={mode}
@@ -244,6 +241,7 @@ const AnalysePage = ({ colors }) => {
         </div>
         <Menu />
         <div className="a-tasks-nav">
+            <div id='task-menu' className='a-tasks-buttons'>
             <button 
                 className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 
                 onClick={() => handleTaskChange('A')}>
@@ -267,6 +265,7 @@ const AnalysePage = ({ colors }) => {
                 onClick={() => handleTaskChange('D')}>
                 D
             </button>
+            </div>
             <button 
                 className='a-generate-pdf-button'
                 onClick={handleDownloadPDF}>
@@ -275,6 +274,7 @@ const AnalysePage = ({ colors }) => {
         </div>
 
         
+
         {activeTask === 'A' &&
         <>
         <div className="a-subtask-nav">
@@ -316,7 +316,6 @@ const AnalysePage = ({ colors }) => {
         
             </>
         }
-       
         </>
     );
 };

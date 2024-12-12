@@ -88,6 +88,14 @@ const Menu = ({isExplanationPage}) => {
             GET INSPIRED
           </Link>
         }
+        {(menuExpanded || activeButton === 'analyse') && 
+          <Link
+            to="/analyse"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'analyse' ? 'active' : ''}`}
+          >
+            ANALYSE
+          </Link>
+        }
         {(menuExpanded || activeButton === 'contribute') && 
           <Link
             to="/contribute"
@@ -120,14 +128,6 @@ const Menu = ({isExplanationPage}) => {
                 className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'compare' ? 'active' : 'disabled'}`}
               >
                 COMPARE
-              </Link>
-            }
-            {(menuExpanded || activeButton === 'analyse') && 
-              <Link
-                to="/analyse"
-                className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'analyse' ? 'active' : 'disabled'}`}
-              >
-                ANALYSE
               </Link>
             }
           </>
