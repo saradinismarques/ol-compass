@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import ManropeFont from '../utils/Font.js';
+import Draggable from "react-draggable";
 
 // Sizes and positions 
 let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
@@ -365,6 +366,14 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   const [textAreaData, setTextAreaData] = useState({}); // Store input data for components
   const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
   const textareaRef = useRef(null); 
+  const [textAreaPositions, setTextAreaPositions] = useState({}); // Track positions for all text areas
+
+  const handleDragStop = (id, data) => {
+    setTextAreaPositions((prevPositions) => ({
+      ...prevPositions,
+      [id]: { x: data.x, y: data.y }, // Update the position of the dragged textarea
+    }));
+  };
 
   // Focus the textarea when the component mounts
   useEffect(() => {
@@ -393,58 +402,77 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   };
 
   // TextArea Component
-  const TextArea = ({ id, position, value }) => {
-    const textareaRef = useRef(null); // Create a unique ref for each TextArea component
-
+  const TextArea = ({ id, position, value, onDragStop }) => {
+    const textareaRef = useRef(null);
+  
     // Focus the textarea when the component mounts
     useEffect(() => {
       if (textareaRef.current && id === activeId) {
         textareaRef.current.focus();
       }
     }, [activeId, id]);
-
+  
     // After the textarea value updates, apply the cursor position
     useEffect(() => {
       if (textareaRef.current && value.cursorStart !== undefined) {
         textareaRef.current.setSelectionRange(value.cursorStart, value.cursorEnd);
       }
     }, [value.cursorStart, value.cursorEnd]);
-
+  
     const handleInputChange = (e) => {
       handleTextChange(e, id);
     };
-
+  
     return (
-      <div
-        style={{
-          position: "absolute",
-          left: `${position.x}px`,
-          top: `${position.y + 20}px`, // Adjust to position below the component
-          zIndex: 100,
-        }}
+      <Draggable
+        position={position} // Controlled position from the parent state
+        onStop={(e, data) => onDragStop(id, data)} // Notify parent on drag stop
+        handle=".textarea-drag-handle" // Optional: Adds a drag handle
       >
-        <textarea
-          ref={textareaRef}
-          name={id}
-          value={value.text || ""}
-          type="text"
-          onChange={handleInputChange}
-          placeholder="Enter your notes here"
+        <div
           style={{
-            width: "200px",
-            height: "100px",
-            fontSize: "14px",
-            padding: "8px",
-            borderRadius: "4px",
-            fontFamily: 'Manrope',
-            border: "1px solid #ccc",
-            resize: "none",
+            position: "absolute",
+            zIndex: 100,
           }}
-        />
-      </div>
+        >
+          {/* Drag handle (optional) */}
+          <div
+            className="textarea-drag-handle"
+            style={{
+              cursor: "move",
+              backgroundColor: "#f0f0f0",
+              padding: "4px",
+              textAlign: "center",
+              borderTopLeftRadius: "4px",
+              borderTopRightRadius: "4px",
+              fontSize: "12px",
+            }}
+          >
+            Drag Me
+          </div>
+          <textarea
+            ref={textareaRef}
+            name={id}
+            value={value.text || ""}
+            type="text"
+            onChange={handleInputChange}
+            placeholder="Enter your notes here"
+            style={{
+              width: "200px",
+              height: "100px",
+              fontSize: "14px",
+              padding: "8px",
+              borderRadius: "4px",
+              fontFamily: "Manrope",
+              border: "1px solid #ccc",
+              resize: "none",
+            }}
+          />
+        </div>
+      </Draggable>
     );
   };
-
+  
   return (
     <>       
       <div 
@@ -611,15 +639,16 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             }
 
             {/* Text Areas for 'analyse' mode */}
-            {/* {mode.startsWith("analyse") &&
+            {mode.startsWith("analyse") &&
               clickedIds.includes(i) && ( // Show the text area if the ID is in clickedIds
                 <TextArea
-                  id={i}
-                  position={{ x: c.x, y: c.y }}
-                  value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
-                  onFocus={() => handleTextAreaFocus(i)} // Set active on focus
+                id={i}
+                position={textAreaPositions[i] || { x: c.x, y: c.y }} // Use stored or initial position
+                value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                onFocus={() => handleTextAreaFocus(i)} // Set active on focus
+                onDragStop={handleDragStop} // Handle drag stop to update position
                 />
-              )} */}
+              )}
           </div>
         ))}
   
