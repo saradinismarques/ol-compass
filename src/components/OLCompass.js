@@ -367,6 +367,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
   const textareaRef = useRef(null); 
   const [textAreaPositions, setTextAreaPositions] = useState({}); // Track positions for all text areas
+  const [initialPositions, setInitialPositions] = useState({});
 
   const handleDragStop = (id, data) => {
     setTextAreaPositions((prevPositions) => ({
@@ -405,6 +406,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   const TextArea = ({ id, position, value, onDragStop }) => {
     const textareaRef = useRef(null);
   
+    //setInitialPositions((prev) => ({ ...prev, [id]: position }));
     // Focus the textarea when the component mounts
     useEffect(() => {
       if (textareaRef.current && id === activeId) {
@@ -423,9 +425,11 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
       handleTextChange(e, id);
     };
   
+
     return (
       <Draggable
         position={position} // Controlled position from the parent state
+        onStart={() => handleTextAreaFocus(id)} // Set active ID when dragging starts
         onStop={(e, data) => onDragStop(id, data)} // Notify parent on drag stop
         handle=".textarea-drag-handle" // Optional: Adds a drag handle
       >
@@ -472,6 +476,44 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
       </Draggable>
     );
   };
+
+  const Arrow = ({ start, end }) => {
+    const arrowHeadSize = 5; // Adjust arrowhead size as needed
+  
+    // Calculate the angle for the arrowhead
+    const angle = Math.atan2(end.y - start.y, end.x - start.x);
+    const arrowHeadPoint1 = {
+      x: end.x - arrowHeadSize * Math.cos(angle - Math.PI / 6),
+      y: end.y - arrowHeadSize * Math.sin(angle - Math.PI / 6),
+    };
+    const arrowHeadPoint2 = {
+      x: end.x - arrowHeadSize * Math.cos(angle + Math.PI / 6),
+      y: end.y - arrowHeadSize * Math.sin(angle + Math.PI / 6),
+    };
+  
+    return (
+      <svg
+        style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
+        width="100%"
+        height="100%"
+      >
+        {/* Line connecting the start and end */}
+        <line
+          x1={start.x}
+          y1={start.y}
+          x2={end.x}
+          y2={end.y}
+          stroke="black"
+          strokeWidth="2"
+        />
+        {/* Arrowhead */}
+        <polygon
+          points={`${end.x},${end.y} ${arrowHeadPoint1.x},${arrowHeadPoint1.y} ${arrowHeadPoint2.x},${arrowHeadPoint2.y}`}
+          fill="black"
+        />
+      </svg>
+    );
+  };  
   
   return (
     <>       
@@ -496,7 +538,6 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
               onClick={() => handleClick(i)}
               onMouseEnter={(e) => handleMouseEnter(e, i)}
               onMouseLeave={() => handleMouseLeave(i)}
-              opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
 
             >
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
@@ -529,9 +570,9 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                 <path 
                   d={svgPath} 
                   fill="none"
-                  opacity={getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
-                  stroke={getStroke(clickedIds, i, mode, colors, c.Type)}
-                  strokeWidth={mode.startsWith('analyse') ? "1px" : "1.5px"}
+                  opacity={getOutlineOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
+                  stroke={getStroke(clickedIds, hoveredId, i, mode, colors, c.Type)}
+                  strokeWidth={mode.startsWith('analyse') ? "0.6px" : "1.5px"}
                   style={{ pointerEvents: 'all' }} 
                 />
               </svg>
@@ -544,7 +585,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                 left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
                 top: `${c.y - waveHeight / 2 - 2}px`,
                 transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
-                opacity: getOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter), // Change opacity on hover
+                opacity: getTextOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter), // Change opacity on hover
                 zIndex: 10,
                 pointerEvents: 'none', // Disable pointer events for the inner div
                 userSelect: 'none'
@@ -590,7 +631,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                     letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
                     style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
-                  >
+                    >
                     <textPath
                       href={`#text-path-${i}`}
                       startOffset="50%" // Center text along the path
@@ -639,7 +680,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             }
 
             {/* Text Areas for 'analyse' mode */}
-            {mode.startsWith("analyse") &&
+            {/* {mode.startsWith("analyse") &&
               clickedIds.includes(i) && ( // Show the text area if the ID is in clickedIds
                 <TextArea
                 id={i}
@@ -648,7 +689,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                 onFocus={() => handleTextAreaFocus(i)} // Set active on focus
                 onDragStop={handleDragStop} // Handle drag stop to update position
                 />
-              )}
+              )} */}
           </div>
         ))}
   
@@ -759,6 +800,7 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
     else
       return 0.2;
 
+  // Analyse    
   if(mode === "analyse" || mode === "analyse-a-all") {
     if (clickedIds.includes(currentId)) 
       return 1;
@@ -775,7 +817,114 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
       return 1;
     if(!clickedIds.includes(currentId))
       return 1;
-    return 0.5;
+    return 0.05;
+  }
+
+  // General
+  if (clickedIds.includes(currentId)) 
+    return 1;
+  if (hoveredId === currentId) 
+      return 0.8;
+  if(clickedIds.length === 0) 
+      return 1;
+
+  return 0.3;
+};
+
+const getOutlineOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, opacityCounter) => {
+  if(!mode.startsWith("analyse"))
+    return 1;
+
+  // Analyse    
+  if(mode === "analyse" || mode === "analyse-a-all") {
+    if (clickedIds.includes(currentId)) 
+      return 1;
+    if (hoveredId === currentId) 
+      return 0.5;
+    return 1;
+  }
+  if(mode.startsWith("analyse")) {
+    if(mode === "analyse-a-p" && component.Type === "Principle")
+      return 1;
+    if(mode === "analyse-a-pe" && component.Type === "Perspective")
+      return 1;
+    if(mode === "analyse-a-d" && component.Type === "Dimension")
+      return 1;
+    if(!clickedIds.includes(currentId))
+      return 1;
+    return 1;
+  }
+};
+
+const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedComponents, opacityCounter) => {
+  // Intro
+  if (mode === "intro-0")
+    return 0.3;
+  else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
+    return 0.15;
+  else if (mode === "intro-4" || mode === "intro-5") 
+    if(component.Type === "Principle") 
+      if(currentId <= opacityCounter)
+        return 1;
+      else
+        return 0.15;
+    else 
+      return 0.15;
+  else if (mode === "intro-6" || mode === "intro-7") 
+    if(component.Type === "Principle")
+      return 0.55;
+    else if(component.Type === "Perspective")
+      if(currentId <= opacityCounter)
+        return 1;
+      else
+        return 0.15;
+    else
+      return 0.15;
+  else if (mode === "intro-8" || mode === "intro-9") 
+    if(component.Type === "Principle")
+      return 0.55;
+    else if(component.Type === "Perspective")
+      return 0.55;
+    else 
+      if(currentId <= opacityCounter)
+        return 1;
+      else
+        return 0.15;
+
+  // Get Started
+  if(mode === "get-started-search") 
+    if(selectedComponents === component.Code)
+      return 1;
+    else if(hoveredId === currentId) 
+      return 0.8;
+    else
+      return 0.2;
+
+  // Get Inspired
+  if(mode === "get-inspired-carousel" || mode === "get-inspired-search") 
+    if(selectedComponents.includes(component.Code))
+      return 1;
+    else
+      return 0.2;
+
+  // Analyse    
+  if(mode === "analyse" || mode === "analyse-a-all") {
+    if (clickedIds.includes(currentId)) 
+      return 1;
+    if (hoveredId === currentId) 
+      return 0.5;
+    return 1;
+  }
+  if(mode.startsWith("analyse")) {
+    if(mode === "analyse-a-p" && component.Type === "Principle")
+      return 1;
+    if(mode === "analyse-a-pe" && component.Type === "Perspective")
+      return 1;
+    if(mode === "analyse-a-d" && component.Type === "Dimension")
+      return 1;
+    if(!clickedIds.includes(currentId))
+      return 1;
+    return 1;
   }
 
   // General
@@ -802,23 +951,40 @@ const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
 
 const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, type) => {
   if(mode.startsWith("analyse")) {
-    if(clickedIds.includes(currentId) || hoveredId === currentId)
+      if(!clickedIds.includes(currentId) && currentId !== hoveredId)
+        return "#cacbcb";
+      if(mode === "analyse-a-p") {
+        if(type === "Principle")
+          return colors['Label'][type];
+        else
+          return colors['Wave'][type];
+      }
+      else if(mode === "analyse-a-pe") {
+        if(type === "Perspective")
+          return colors['Label'][type];
+        else
+          return colors['Wave'][type];
+      }
+      else if(mode === "analyse-a-d") {
+        if(type === "Dimension")
+          return colors['Label'][type];
+        else
+          return colors['Wave'][type];
+      }
       return colors['Label'][type];
-    else
-      return colors['Wave'][type];
-  }
-  else 
+  } else 
     return colors['Label'][type];
 }
 
-const getStroke = (clickedIds, currentId, mode, colors, type) => {
+const getStroke = (clickedIds, hoveredId, currentId, mode, colors, type) => {
   if(clickedIds.includes(currentId)) 
     if(mode === "get-inspired" || mode === "get-inspired-search" || mode === "get-started" || mode === "get-started-search")
       return colors['Selection'];
-  if(mode === "analyse" || mode === "analyse-a-all")
+  if(mode.startsWith("analyse")) {
+    if(!clickedIds.includes(currentId) && hoveredId !== currentId)
+      return '#cacbcb';
     return colors['Wave'][type];
-  if((mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d"))
-    return colors['Wave'][type];
+  }
   else
       return 'none';
 };
