@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import OLCompass from '../components/OLCompass'
 import CompassIcon from '../components/CompassIcon'
 import Menu from '../components/Menu';
@@ -7,6 +7,7 @@ import jsPDF from "jspdf";
 import ManropeFont from '../utils/Font.js';
 import '../styles/pages/AnalysePage.css';
 import ReactDOM from 'react-dom';
+import Draggable from "react-draggable";
 
 const AnalysePage = ({ colors }) => {
     const initialState = useMemo(() => ({
@@ -27,6 +28,13 @@ const AnalysePage = ({ colors }) => {
     const [mode, setMode] = useState('analyse');
     const [selectedComponents, setSelectedComponents] = useState([]);
     
+    const [textAreaData, setTextAreaData] = useState({}); // Store input data for components
+    const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
+    const textareaRef = useRef(null); 
+    const [textAreaPositions, setTextAreaPositions] = useState({}); // Track positions for all text areas
+    const [initialPositions, setInitialPositions] = useState({});
+
+
     const resetState = useCallback(() => {
         setState(initialState);
         setActiveTask('A');
@@ -34,7 +42,7 @@ const AnalysePage = ({ colors }) => {
         setMode('analyse');
     }, [initialState]);
     
-    const handleCompassClick = (code, title, headline, type) => {
+    const handleCompassClick = (code, title, headline, type, x, y, id) => {
         setTaskAComponents((prevComponents) => {
             // Get the existing components for the specific type
             let updatedComponents = [...prevComponents[type]];
@@ -47,7 +55,7 @@ const AnalysePage = ({ colors }) => {
                 updatedComponents = updatedComponents.filter(component => component.Code !== code);
             } else {
                 // If it doesn't exist, add the new component
-                const newComponent = { Code: code, Title: title, Text: headline };
+                const newComponent = { Code: code, Title: title, Text: headline, x: x, y: y };
     
                 // Find the correct position to insert the new component in sorted order
                 const index = updatedComponents.findIndex(component => component.Code > code);
@@ -73,6 +81,13 @@ const AnalysePage = ({ colors }) => {
                 return [...prevState, code]; // Add it if it doesn't exist
             }
         });
+        if (activeId === id) {
+            // If the clicked component is already active, deactivate it
+            setActiveId(null);
+          } else {
+            // Set the clicked component as active
+            setActiveId(id);
+        }
     }
     const handleTaskChange = (task) => {
         setActiveTask(task); // Set active button based on the index
@@ -175,23 +190,86 @@ const AnalysePage = ({ colors }) => {
             container
         );
 
-        let canvas = await html2canvas(container, { scale: 2, logging: true });
+        let canvas = await html2canvas(container, { scale: 2, logging: true, backgroundColor: null  });
         let imgData = canvas.toDataURL('image/png');
 
         // Original dimensions of the captured canvas
-        let imgWidth = 550; // In pixels
-        let imgHeight = 550; // In pixels
+        let imgWidth = canvas.width; // In pixels
+        let imgHeight = canvas.height; // In pixels
  
         // Convert pixel dimensions to mm
         let pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        let contentWidth = imgWidth * pixelToMm;
-        let contentHeight = imgHeight * pixelToMm;
+        let contentWidth = imgWidth * pixelToMm*0.4;
+        let contentHeight = imgHeight * pixelToMm*0.4;
  
         // Calculate the x and y positions to center the image
         let x = (a4Width - contentWidth)/ 2 ;
         let y = (a4Height - contentHeight) / 2;
         
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
+        
+        document.body.removeChild(container);
+
+        // Text Areas
+        container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
+
+        // Render React component into the container
+        ReactDOM.render(
+            <div style={{backgroundColor: "transparent", height: 700, width: 1200}}>
+            {
+                  taskAComponents['Principle'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                    <TextArea
+                        id={i}
+                        position={textAreaPositions[i] || { x: c.x, y: c.y }} // Use stored or initial position
+                        value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                        onFocus={() => handleTextAreaFocus(i)} // Set active on focus
+                        onDragStop={handleDragStop} // Handle drag stop to update position
+                    />
+            ))} 
+            {
+                  taskAComponents['Perspective'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                    <TextArea
+                        id={i+7}
+                        position={textAreaPositions[i+7] || { x: c.x, y: c.y }} // Use stored or initial position
+                        value={textAreaData[i+7] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                        onFocus={() => handleTextAreaFocus(i+7)} // Set active on focus
+                        onDragStop={handleDragStop} // Handle drag stop to update position
+                    />
+            ))}
+            {
+                  taskAComponents['Dimension'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                    <TextArea
+                        id={i+14}
+                        position={textAreaPositions[i+14] || { x: c.x, y: c.y }} // Use stored or initial position
+                        value={textAreaData[i+14] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                        onFocus={() => handleTextAreaFocus(i+14)} // Set active on focus
+                        onDragStop={handleDragStop} // Handle drag stop to update position
+                    />
+            ))}
+            </div>,
+            container
+        );
+
+        canvas = await html2canvas(container, { scale: 2, logging: true, backgroundColor: null  });
+        imgData = canvas.toDataURL('image/png');
+
+        // Original dimensions of the captured canvas
+        imgWidth = canvas.width; // In pixels
+        imgHeight = canvas.height; // In pixels
+ 
+        // Convert pixel dimensions to mm
+        pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        contentWidth = imgWidth * pixelToMm*0.4;
+        contentHeight = imgHeight * pixelToMm*0.4;
+ 
+        // Calculate the x and y positions to center the image
+        x = (a4Width - contentWidth)/ 2 ;
+        y = (a4Height - contentHeight) / 2;
+        
+        pdf.addImage(imgData, 'PNG', x+50, y, contentWidth, contentHeight);
         
         document.body.removeChild(container);
 
@@ -382,6 +460,122 @@ const AnalysePage = ({ colors }) => {
         }));
     };
 
+      // Other states
+  
+  const handleDragStop = (id, data) => {
+    setTextAreaPositions((prevPositions) => ({
+      ...prevPositions,
+      [id]: { x: data.x, y: data.y }, // Update the position of the dragged textarea
+    }));
+  };
+
+  // Focus the textarea when the component mounts
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.focus();
+    }
+  }, []);
+
+  // Handle text changes
+  const handleTextChange = (e) => {
+    const { name, value, selectionStart, selectionEnd } = e.target;
+
+    // Update the text and the cursor position for the specific textarea
+    setTextAreaData((prevData) => ({
+      ...prevData,
+      [name]: {
+        text: value, // Store the text content
+        cursorStart: selectionStart, // Store the cursor's starting position
+        cursorEnd: selectionEnd, // Store the cursor's ending position (for selection)
+      }
+    }));
+  };
+
+  const handleTextAreaFocus = (id) => {
+    setActiveId((prevActiveId) => (prevActiveId === id ? null : id));
+  };
+
+  const TextArea = ({ id, position, value, onDragStop }) => {
+    const textareaRef = useRef(null);
+  
+    // Automatically focus the textarea if it is active
+    useEffect(() => {
+      if (textareaRef.current && id === activeId) {
+        textareaRef.current.focus();
+      }
+    }, [activeId, id]);
+  
+    // Preserve cursor position after value updates
+    useEffect(() => {
+      if (textareaRef.current && value.cursorStart !== undefined) {
+        textareaRef.current.setSelectionRange(value.cursorStart, value.cursorEnd);
+      }
+    }, [value.cursorStart, value.cursorEnd]);
+  
+    const handleInputChange = (e) => {
+      const { value, selectionStart, selectionEnd } = e.target;
+  
+      // Update the text and cursor position
+      setTextAreaData((prevData) => ({
+        ...prevData,
+        [id]: {
+          text: value,
+          cursorStart: selectionStart,
+          cursorEnd: selectionEnd,
+        },
+      }));
+    };
+  
+    return (
+      <Draggable
+        position={position} // Controlled position from parent state
+        onStart={() => setActiveId(id)} // Set this textarea as active on drag
+        onStop={(e, data) => onDragStop(id, data)} // Update position after drag
+      >
+        <div
+          style={{
+            position: "absolute", // Ensure absolute positioning within container
+            zIndex: 100,
+          }}
+        >
+          {/* Drag handle (optional) */}
+          <div
+            className="textarea-drag-handle"
+            style={{
+              cursor: "move",
+              backgroundColor: "#f0f0f0",
+              padding: "4px",
+              textAlign: "center",
+              borderTopLeftRadius: "4px",
+              borderTopRightRadius: "4px",
+              fontSize: "12px",
+              width: "200px",
+            }}
+          >
+            Drag Me
+          </div>
+          <textarea
+            ref={textareaRef}
+            name={id}
+            value={value.text || ""}
+            onChange={handleInputChange}
+            placeholder="Enter your notes here"
+            style={{
+              width: "200px",
+              height: "100px",
+              fontSize: "14px",
+              padding: "8px",
+              borderRadius: "4px",
+              fontFamily: "Manrope",
+              border: "1px solid #ccc",
+              resize: "none",
+            }}
+          />
+        </div>
+      </Draggable>
+    );
+  };
+  
     return (
         <>
         <textarea
@@ -393,6 +587,7 @@ const AnalysePage = ({ colors }) => {
             onChange={handleInputChange}
             spellcheck="false"
         ></textarea>
+
         <div id='ol-compass' className='a-ol-compass'>
             <OLCompass 
                 colors={colors}
@@ -401,6 +596,40 @@ const AnalysePage = ({ colors }) => {
                 resetState={resetState}
                 onButtonClick={handleCompassClick}
             /> 
+        </div>
+
+        <div style={{backgroundColor: "transparent", height: 700, width: 1200}}>
+        {taskAComponents['Principle'].map((c, i) => (
+  <TextArea
+    key={i}
+    id={i}
+    position={textAreaPositions[i] || { x: c.x, y: c.y }}
+    value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+    onDragStop={handleDragStop}
+  />
+))}
+
+        {
+              taskAComponents['Perspective'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                <TextArea
+                    id={i+7}
+                    position={textAreaPositions[i+7] || { x: c.x, y: c.y }} // Use stored or initial position
+                    value={textAreaData[i+7] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                    onFocus={() => handleTextAreaFocus(i+7)} // Set active on focus
+                    onDragStop={handleDragStop} // Handle drag stop to update position
+                />
+        ))}  
+        {
+              taskAComponents['Dimension'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                <TextArea
+                    id={i+14}
+                    position={textAreaPositions[i+14] || { x: c.x, y: c.y }} // Use stored or initial position
+                    value={textAreaData[i+14] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                    onFocus={() => handleTextAreaFocus(i+14)} // Set active on focus
+                    onDragStop={handleDragStop} // Handle drag stop to update position
+                />
+        ))}   
+
         </div>
         {/* <CompassIcon 
                 colors={colors} 

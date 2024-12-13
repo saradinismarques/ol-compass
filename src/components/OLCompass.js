@@ -174,6 +174,9 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             title,
             components[id].Headline,
             components[id].Type,
+            components[id].x,
+            components[id].y,
+            id
           );
         }
 
@@ -264,9 +267,9 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
       // position: 'relative',   // Fixed position to stay in the specified location
       // top: '50%',            // Reset top for positioning
       // left: '50%',           // Reset left for positioning
-      transform: `translate(9%, 8%)`,
-      height: 600,
-      width: 600,
+      height: 700,
+      width: 1500,
+      backgroundColor: 'transparent'
     };
   } else {
     containerStyle = {
@@ -514,6 +517,16 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
       </svg>
     );
   };  
+
+  let gapX, gapY;
+
+  if(mode.startsWith("analyse")) {
+    gapX = 500;
+    gapY = 100;
+  } else {
+    gapX = 0;
+    gapY = -2;
+  }
   
   return (
     <>       
@@ -530,8 +543,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             <div
               style={{
                 ...buttonStyle,
-                left: `${c.x - waveWidth / 2}px`, // Adjust position for button size
-                top: `${c.y - waveHeight / 2 - 2}px`,
+                left: `${c.x - waveWidth / 2 + gapX}px`, // Adjust position for button size
+                top: `${c.y - waveHeight / 2 + gapY}px`,
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
               }}
@@ -556,8 +569,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             <div
               style={{
                 ...buttonStyle,
-                left: `${c.x - waveWidth / 2}px`,
-                top: `${c.y - waveHeight / 2 - 2}px`,
+                left: `${c.x - waveWidth / 2 + gapX}px`,
+                top: `${c.y - waveHeight / 2 + gapY}px`,
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 position: 'absolute', // Consistent positioning
                 zIndex: 30 // Ensures outlines are rendered on top of filled shapes
@@ -582,8 +595,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             <div
               style={{
                 position: 'absolute',
-                left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
-                top: `${c.y - waveHeight / 2 - 2}px`,
+                left: `${c.x - (waveWidth * 0.83) / 2 + gapX}px`, // Adjust position for button size
+                top: `${c.y - waveHeight / 2 + gapY}px`,
                 transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
                 opacity: getTextOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter), // Change opacity on hover
                 zIndex: 10,
@@ -680,16 +693,26 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
             }
 
             {/* Text Areas for 'analyse' mode */}
-            {/* {mode.startsWith("analyse") &&
-              clickedIds.includes(i) && ( // Show the text area if the ID is in clickedIds
+            {/* {mode.startsWith("analyse-pdf") &&
+              selectedComponents.includes(c.Code) && ( // Show the text area if the ID is in clickedIds
                 <TextArea
                 id={i}
-                position={textAreaPositions[i] || { x: c.x, y: c.y }} // Use stored or initial position
+                position={textAreaPositions[i] || { x: c.x+gapX, y: c.y+gapY }} // Use stored or initial position
                 value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                 onFocus={() => handleTextAreaFocus(i)} // Set active on focus
                 onDragStop={handleDragStop} // Handle drag stop to update position
                 />
-              )} */}
+              )}  */}
+            {/* {mode.startsWith("analyse") &&
+              clickedIds.includes(i) && ( // Show the text area if the ID is in clickedIds
+                <TextArea
+                id={i}
+                position={textAreaPositions[i] || { x: c.x+gapX, y: c.y+gapY }} // Use stored or initial position
+                value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                onFocus={() => handleTextAreaFocus(i)} // Set active on focus
+                onDragStop={handleDragStop} // Handle drag stop to update position
+                />
+              )}  */}
           </div>
         ))}
   
