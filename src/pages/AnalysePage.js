@@ -563,6 +563,7 @@ const AnalysePage = ({ colors }) => {
               padding: "8px",
               borderRadius: "4px",
               fontFamily: "Manrope",
+              color: "#72716f",
               border: "none",
               resize: "none",
             }}
@@ -585,7 +586,7 @@ const AnalysePage = ({ colors }) => {
           y1={start.y}
           x2={end.x}
           y2={end.y}
-          stroke="black"
+          stroke="#72716f"
           strokeWidth="2"
         />
       </svg>
@@ -635,11 +636,14 @@ const AnalysePage = ({ colors }) => {
                     onFocus={() => handleTextAreaFocus(i+7)} // Set active on focus
                     onDragStop={handleDragStop} // Handle drag stop to update position
                 />
+                {/* {textAreaPositions[i+7] == null && (textAreaPositions[i+7].x !== c.x+500 || textAreaPositions[i+7].y !== c.y+100) &&
                 <Arrow
+                    id={i+7}
                     start={{ x: c.x+500, y: c.y+100 }}
                     end={textAreaPositions[i+7]|| { x: c.x+500, y: c.y+100 }}
                 >
                 </Arrow>
+                } */}
                 </>
         ))}  
         {
