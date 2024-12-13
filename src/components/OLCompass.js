@@ -3,6 +3,7 @@ import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import ManropeFont from '../utils/Font.js';
 import Draggable from "react-draggable";
+import { click } from '@testing-library/user-event/dist/click.js';
 
 // Sizes and positions 
 let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
@@ -37,7 +38,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedComponents, selectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData, opacityCounter }) => {
+const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedComponents, selectedComponents, setSelectedComponents, onEnterClick, resetCompass, onSearchClick, onSubmitClick, fetchData, opacityCounter, addedComponents, setAddedComponents, removedComponents, setRemovedComponents }) => {
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center")
@@ -73,6 +74,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
+  const [originalComponents, setOriginalComponents] = useState(selectedComponents);
   
   // Declare a timeout variable to store the reference to the timeout
   let tooltipTimeout = null;
@@ -156,6 +158,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
         }
       }
     } else if (mode === "get-inspired" || mode === "get-inspired-search"|| mode === "contribute" || mode === "get-started"|| mode === "get-started-search" || mode.startsWith("analyse")) {
+
       setClickedIds(prevClickedIds =>
         prevClickedIds.includes(id)
           ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
@@ -257,8 +260,8 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
       // position: 'relative',   // Fixed position to stay in the specified location
       // top: '50%',            // Reset top for positioning
       // left: '50%',           // Reset left for positioning
-      height: 700,
-      width: 1500,
+      height: window.innerHeight,
+      width: window.innerWidth,
       backgroundColor: 'transparent'
     };
   } else {
@@ -355,49 +358,11 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
     </div>
   );
 
-  const Arrow = ({ start, end }) => {
-    const arrowHeadSize = 5; // Adjust arrowhead size as needed
-  
-    // Calculate the angle for the arrowhead
-    const angle = Math.atan2(end.y - start.y, end.x - start.x);
-    const arrowHeadPoint1 = {
-      x: end.x - arrowHeadSize * Math.cos(angle - Math.PI / 6),
-      y: end.y - arrowHeadSize * Math.sin(angle - Math.PI / 6),
-    };
-    const arrowHeadPoint2 = {
-      x: end.x - arrowHeadSize * Math.cos(angle + Math.PI / 6),
-      y: end.y - arrowHeadSize * Math.sin(angle + Math.PI / 6),
-    };
-  
-    return (
-      <svg
-        style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
-        width="100%"
-        height="100%"
-      >
-        {/* Line connecting the start and end */}
-        <line
-          x1={start.x}
-          y1={start.y}
-          x2={end.x}
-          y2={end.y}
-          stroke="black"
-          strokeWidth="2"
-        />
-        {/* Arrowhead */}
-        <polygon
-          points={`${end.x},${end.y} ${arrowHeadPoint1.x},${arrowHeadPoint1.y} ${arrowHeadPoint2.x},${arrowHeadPoint2.y}`}
-          fill="black"
-        />
-      </svg>
-    );
-  };  
-
   let gapX, gapY;
 
   if(mode.startsWith("analyse")) {
-    gapX = 500;
-    gapY = 100;
+    gapX = window.innerWidth/3;
+    gapY = window.innerHeight/7;
   } else {
     gapX = 0;
     gapY = -2;
@@ -431,7 +396,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
                 <path 
                   d={svgPath} 
-                  fill={getWaveFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents)}  // Use the gradient fill
+                  fill={getWaveFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents, addedComponents, removedComponents)}  // Use the gradient fill
                   stroke="none" 
                   style={{ pointerEvents: 'all' }}
                   transition="opacity 1s ease"
@@ -459,7 +424,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   d={svgPath} 
                   fill="none"
                   opacity={getOutlineOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
-                  stroke={getStroke(clickedIds, hoveredId, i, mode, colors, c, selectedComponents)}
+                  stroke={getStroke(clickedIds, hoveredId, i, mode, colors, c, selectedComponents, addedComponents, removedComponents)}
                   strokeWidth={mode.startsWith('analyse') ? "0.6px" : "1.5px"}
                   style={{ pointerEvents: 'all' }} 
                 />
@@ -514,7 +479,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   
                   {/* Text on Path */}
                   <text
-                    fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents)}
+                    fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents, addedComponents, removedComponents)}
                     fontSize="8px"
                     letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
@@ -536,7 +501,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   {/* Second Line (if it has one) */}
                   {bigLabels.includes(c.Code) &&
                     <text
-                      fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents)}
+                      fill={getTextFill(clickedIds, hoveredId, i, mode, colors, c, selectedComponents, addedComponents, removedComponents)}
                       fontSize="8px"
                       letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path
@@ -696,7 +661,6 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
     return 0.3;
   }
 
-  
   // Analyse PDF   
   if(mode === "analyse-pdf-a-all") {
     if (clickedIds.includes(currentId)) 
@@ -717,6 +681,12 @@ const getOpacity = (clickedIds, hoveredId, currentId, component, mode, selectedC
     return 0.3;
   }
 
+  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
+    if(hoveredId === currentId)
+      return 0.7;
+    return 1;
+  }
+  
   // General
   if (clickedIds.includes(currentId)) 
     return 1;
@@ -732,6 +702,12 @@ const getOutlineOpacity = (clickedIds, hoveredId, currentId, component, mode, se
   if(!mode.startsWith("analyse"))
     return 1;
 
+  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
+    if(hoveredId === currentId)
+      return 0.7;
+    return 1;
+  }
+  
   // Analyse PDF   
   if(mode === "analyse-pdf-a-all") {
     if (clickedIds.includes(currentId)) 
@@ -824,6 +800,12 @@ const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selec
     else
       return 0.2;
 
+  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
+    if(hoveredId === currentId)
+      return 0.7;
+    return 1;
+  }
+      
   // Analyse PDF   
   if(mode === "analyse-pdf-all") {
     if (selectedComponents.includes(component.Code)) 
@@ -875,12 +857,12 @@ const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selec
   return 0.3;
 };
 
-const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents) => {
-  if(mode.startsWith("analyse-pdf")) {
-    if(selectedComponents.includes(component.Code) || hoveredId === currentId)
-      return colors['Wave'][component.Type];
-    else
-      return "white";
+const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents, addedComponents, removedComponents) => {
+  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
+    if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
+        return "#528d52";
+    else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
+      return "#b0433c";
   }
 
   // Analyse PDF
@@ -902,7 +884,14 @@ const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, component, 
     
 }
 
-const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents) => {
+const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents, addedComponents, removedComponents) => {
+  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
+    if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
+        return "black";
+    else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
+      return "black";
+  }
+
   if(mode.startsWith("analyse-pdf")) {
     if(!selectedComponents.includes(component.Code) && currentId !== hoveredId)
       return "#cacbcb";
@@ -940,10 +929,16 @@ const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, component, 
     return colors['Label'][component.Type];
 }
 
-const getStroke = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents) => {
+const getStroke = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents, addedComponents, removedComponents) => {
   if(clickedIds.includes(currentId)) 
     if(mode === "get-inspired" || mode === "get-inspired-search" || mode === "get-started" || mode === "get-started-search")
       return colors['Selection'];
+  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
+    if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
+        return "#528d52";
+    else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
+      return "#b0433c";
+  }
   if(mode.startsWith("analyse-pdf")) {
     if(!selectedComponents.includes(component.Code) && hoveredId !== currentId)
       return '#cacbcb';

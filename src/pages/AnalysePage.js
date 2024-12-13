@@ -32,14 +32,15 @@ const AnalysePage = ({ colors }) => {
     const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
     const textareaRef = useRef(null); 
     const [textAreaPositions, setTextAreaPositions] = useState({}); // Track positions for all text areas
-    const [initialPositions, setInitialPositions] = useState({});
 
-    const componentsOrdered = [
-        'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
-        'Pe1', 'Pe2', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'Pe7',
-        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10',
-      ];
-
+    const [addedComponents, setAddedComponents] = useState([]); 
+    const [removedComponents, setRemovedComponents] = useState([]); 
+    // Initial state with 'Principle', 'Perspective', 'Dimension'
+    const [taskBComponents, setTaskBComponents] = useState({
+        Principle: [],
+        Perspective: [],
+        Dimension: [],
+    });
     const activeIdRef = useRef(activeId);
 
     useEffect(() => {
@@ -54,6 +55,21 @@ const AnalysePage = ({ colors }) => {
     }, [initialState]);
     
     const handleCompassClick = (code, title, headline, type, x, y, id) => {
+        if(mode === "analyse-pdf-b" || mode === "analyse-b") {
+            if(selectedComponents.includes(code))
+              setRemovedComponents(prevClickedIds =>
+                prevClickedIds.includes(code)
+                  ? prevClickedIds.filter(buttonId => buttonId !== code) // Remove ID if already clicked
+                  : [...prevClickedIds,code] // Add ID if not already clicked
+              );
+            else
+              setAddedComponents(prevClickedIds =>
+                prevClickedIds.includes(code)
+                  ? prevClickedIds.filter(buttonId => buttonId !== code) // Remove ID if already clicked
+                  : [...prevClickedIds, code] // Add ID if not already clicked
+              );
+          }
+
         setTaskAComponents((prevComponents) => {
             // Get the existing components for the specific type
             let updatedComponents = [...prevComponents[type]];
@@ -62,15 +78,17 @@ const AnalysePage = ({ colors }) => {
             const componentExists = updatedComponents.some(component => component.Code === code);
     
             if (componentExists) {
-                updatedComponents = updatedComponents.filter(component => component.Code !== code);
-                
-                setTextAreaPositions((prevPositions) => {
-                    const updatedPositions = { ...prevPositions }; // Create a copy of the previous positions
+                if(mode !== "analyse-b" && mode !== "analyse-pdf-b") {
+                    updatedComponents = updatedComponents.filter(component => component.Code !== code);
                     
-                      delete updatedPositions[id];  // Remove the entry with the given id
-                  
-                    return updatedPositions;  // Return the updated positions
-                  });
+                    setTextAreaPositions((prevPositions) => {
+                        const updatedPositions = { ...prevPositions }; // Create a copy of the previous positions
+                        
+                        delete updatedPositions[id];  // Remove the entry with the given id
+                    
+                        return updatedPositions;  // Return the updated positions
+                    });
+                }
             } else {
                 // If it doesn't exist, add the new component
                 const newComponent = { Code: code, Title: title, Text: headline, x: x, y: y, id: id };
@@ -86,7 +104,7 @@ const AnalysePage = ({ colors }) => {
 
                 setTextAreaPositions((prevPositions) => ({
                     ...prevPositions,
-                    [id]: { x: x+500, y: y+100 }, // Update the position of the dragged textarea
+                    [id]: { x: x+window.innerWidth/3, y: y+window.innerHeight/7 }, // Update the position of the dragged textarea
                   }));
             }
     
@@ -121,6 +139,16 @@ const AnalysePage = ({ colors }) => {
     }
     const handleTaskChange = (task) => {
         setActiveTask(task); // Set active button based on the index
+        let subtaskName;
+        
+        if(task === "B")
+            subtaskName ="-b";
+        else if(task === "C")
+            subtaskName = "-c";
+        else if(task === "D")
+            subtaskName = "-d";
+        setMode('analyse' + subtaskName)
+        
     };
 
     const handleASubtaskChange = (subtask) => {
@@ -172,7 +200,7 @@ const AnalysePage = ({ colors }) => {
         pdf.setTextColor("#0a4461");
 
         let currentText;
-        if(type === 'All') {
+        if(type === 'All' || subtask !== 'A') {
             currentText = text;
             pdf.text(currentText, 20, 190);
         } else {
@@ -216,6 +244,10 @@ const AnalysePage = ({ colors }) => {
                 resetState={resetState}
                 onButtonClick={handleCompassClick}
                 selectedComponents={selectedComponents}
+                addedComponents={addedComponents}
+                setAddedComponents={setAddedComponents}
+                removedComponents={removedComponents}
+                setRemovedComponents={setRemovedComponents}
             />,
             container
         );
@@ -246,57 +278,89 @@ const AnalysePage = ({ colors }) => {
         container.style.top = '-9999px';
         document.body.appendChild(container);
 
-        // Render React component into the container
-        ReactDOM.render(
+        console.log(addedComponents);
 
+        // Get the elements with the matching codes
+        let filteredComponentsP, filteredComponentsPe, filteredComponentsD;
+
+        // Combine all arrays
+        const combined = [...selectedComponents, ...addedComponents, ...removedComponents];
+
+        // Remove duplicates by converting to a Set and back to an array
+        const uniqueValues = [...new Set(combined)];
+
+        // Render React component into the container
+        if(currentMode === "analyse-pdf-b") {
+            filteredComponentsP = taskAComponents['Principle'].filter(component => 
+                uniqueValues.includes(component.Code)
+            );
+            filteredComponentsPe = taskAComponents['Perspective'].filter(component => 
+                uniqueValues.includes(component.Code)
+            );
+            filteredComponentsD = taskAComponents['Dimension'].filter(component => 
+                uniqueValues.includes(component.Code)
+            );
+        } else {
+            filteredComponentsP = taskAComponents['Principle'].filter(component => 
+                selectedComponents.includes(component.Code)
+            );
+            filteredComponentsPe = taskAComponents['Perspective'].filter(component => 
+                selectedComponents.includes(component.Code)
+            );
+            filteredComponentsD = taskAComponents['Dimension'].filter(component => 
+                selectedComponents.includes(component.Code)
+            );
+        }
+        ReactDOM.render(
+            
             <div style={{backgroundColor: "transparent", height: window.innerHeight, width: window.innerWidth}}>
             {
-                  taskAComponents['Principle'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                  filteredComponentsP.map((c, i) => ( // Show the text area if the ID is in clickedIds
                    <>
                     <TextArea
                         id={c.id}
-                        position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                        position={textAreaPositions[c.id] || { x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }} // Use stored or initial position
                         value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                         onFocus={() => handleTextAreaFocus(c.id)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
                     />
                     <Arrow
                     id={c.id}
-                    start={{ x: c.x+500, y: c.y+100 }}
+                    start={{ x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }}
                     end={textAreaPositions[c.id]}
                 ></Arrow>
                 </>
             ))} 
             {
-                  taskAComponents['Perspective'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                  filteredComponentsPe.map((c, i) => ( // Show the text area if the ID is in clickedIds
                     <>
                     <TextArea
                         id={c.id}
-                        position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                        position={textAreaPositions[c.id] || { x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }} // Use stored or initial position
                         value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                         onFocus={() => handleTextAreaFocus(c.id)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
                     />
                     <Arrow
                     id={c.id}
-                    start={{ x: c.x+500, y: c.y+100 }}
+                    start={{ x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }}
                     end={textAreaPositions[c.id]}
                 ></Arrow>
                 </>
             ))}
             {
-                  taskAComponents['Dimension'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                  filteredComponentsD.map((c, i) => ( // Show the text area if the ID is in clickedIds
                    <>
                     <TextArea
                         id={c.id}
-                        position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                        position={textAreaPositions[c.id] || { x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }} // Use stored or initial position
                         value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                         onFocus={() => handleTextAreaFocus(c.id)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
                     />
                     <Arrow
                     id={c.id}
-                    start={{ x: c.x+500, y: c.y+100 }}
+                    start={{ x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }}
                     end={textAreaPositions[c.id]}
                 ></Arrow>
                 </>
@@ -334,19 +398,19 @@ const AnalysePage = ({ colors }) => {
         // Render React component into the container
         ReactDOM.render(
             <div className="a-tasks-nav">
-            <button className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} >
+            <button className={`a-task-button ${'A' === subtask ? 'active' : ''}`} >
                 A
             </button>
 
-            <button className={`a-task-button ${'B' === activeTask ? 'active' : ''}`} >
+            <button className={`a-task-button ${'B' === subtask ? 'active' : ''}`} >
                 B
             </button>
 
-            <button className={`a-task-button ${'C' === activeTask ? 'active' : ''}`} >
+            <button className={`a-task-button ${'C' === subtask ? 'active' : ''}`} >
                 C
             </button>
 
-            <button className={`a-task-button ${'D' === activeTask ? 'active' : ''}`} >
+            <button className={`a-task-button ${'D' === subtask ? 'active' : ''}`} >
                 D
             </button>
         </div>,
@@ -371,7 +435,7 @@ const AnalysePage = ({ colors }) => {
 
         
         // Definitions
-        if(type === "All")
+        if(type === "All" || subtask !== 'A')
             return;
         container = document.createElement('div');
         container.style.position = 'absolute';
@@ -484,9 +548,9 @@ const AnalysePage = ({ colors }) => {
             await addTaskPage(pdf, text, 'analyse-pdf-a-d', 'A', 'Dimension'); 
         }
         // // Task B
-        // handleTaskChange("B");
-        // text = 'Your revision of the visual map';
-        // await addTaskPage(pdf, text); 
+        
+        text = 'Your revision of the visual map';
+        await addTaskPage(pdf, text, 'analyse-pdf-b', 'B', 'null'); 
         
         // // Task C
         // handleTaskChange("B");
@@ -660,6 +724,12 @@ const AnalysePage = ({ colors }) => {
                 position="center" 
                 resetState={resetState}
                 onButtonClick={handleCompassClick}
+                selectedComponents={selectedComponents}
+                setSelectedComponents={setSelectedComponents}
+                addedComponents={addedComponents}
+                setAddedComponents={setAddedComponents}
+                removedComponents={removedComponents}
+                setRemovedComponents={setRemovedComponents}
             /> 
         </div>
 
@@ -669,13 +739,13 @@ const AnalysePage = ({ colors }) => {
             <TextArea
                 key={c.id}
                 id={c.id}
-                position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }}
+                position={textAreaPositions[c.id] || { x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }}
                 value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                 onDragStop={handleDragStop}
             />
             <Arrow
                     id={c.id}
-                    start={{ x: c.x+500, y: c.y+100 }}
+                    start={{ x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }}
                     end={textAreaPositions[c.id]}
             ></Arrow>
             </>
@@ -686,14 +756,14 @@ const AnalysePage = ({ colors }) => {
                 <>
                 <TextArea
                     id={c.id}
-                    position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                    position={textAreaPositions[c.id] || { x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }} // Use stored or initial position
                     value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                     onFocus={() => handleTextAreaFocus(c.id)} // Set active on focus
                     onDragStop={handleDragStop} // Handle drag stop to update position
                 />
                 <Arrow
                     id={c.id}
-                    start={{ x: c.x+500, y: c.y+100 }}
+                    start={{ x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }}
                     end={textAreaPositions[c.id]}
                 >
                 </Arrow>
@@ -704,13 +774,13 @@ const AnalysePage = ({ colors }) => {
                 <>
                 <TextArea
                     id={c.id}
-                    position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                    position={textAreaPositions[c.id] || { x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }} // Use stored or initial position
                     value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                     onDragStop={handleDragStop} // Handle drag stop to update position
                 />
                 <Arrow
                     id={c.id}
-                    start={{ x: c.x+500, y: c.y+100 }}
+                    start={{ x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }}
                     end={textAreaPositions[c.id]}
                 ></Arrow>
                 </>
