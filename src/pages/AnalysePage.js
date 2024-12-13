@@ -248,36 +248,58 @@ const AnalysePage = ({ colors }) => {
 
         // Render React component into the container
         ReactDOM.render(
+
             <div style={{backgroundColor: "transparent", height: window.innerHeight, width: window.innerWidth}}>
             {
                   taskAComponents['Principle'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                   <>
                     <TextArea
-                        id={i}
-                        position={textAreaPositions[i] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
-                        value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
-                        onFocus={() => handleTextAreaFocus(i)} // Set active on focus
+                        id={c.id}
+                        position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                        value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                        onFocus={() => handleTextAreaFocus(c.id)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
                     />
+                    <Arrow
+                    id={c.id}
+                    start={{ x: c.x+500, y: c.y+100 }}
+                    end={textAreaPositions[c.id]}
+                ></Arrow>
+                </>
             ))} 
             {
                   taskAComponents['Perspective'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                    <>
                     <TextArea
-                        id={i+7}
-                        position={textAreaPositions[i+7] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
-                        value={textAreaData[i+7] || { text: "", cursorStart: 0, cursorEnd: 0 }}
-                        onFocus={() => handleTextAreaFocus(i+7)} // Set active on focus
+                        id={c.id}
+                        position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                        value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                        onFocus={() => handleTextAreaFocus(c.id)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
                     />
+                    <Arrow
+                    id={c.id}
+                    start={{ x: c.x+500, y: c.y+100 }}
+                    end={textAreaPositions[c.id]}
+                ></Arrow>
+                </>
             ))}
             {
                   taskAComponents['Dimension'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                   <>
                     <TextArea
-                        id={i+14}
-                        position={textAreaPositions[i+14] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
-                        value={textAreaData[i+14] || { text: "", cursorStart: 0, cursorEnd: 0 }}
-                        onFocus={() => handleTextAreaFocus(i+14)} // Set active on focus
+                        id={c.id}
+                        position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                        value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                        onFocus={() => handleTextAreaFocus(c.id)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
                     />
+                    <Arrow
+                    id={c.id}
+                    start={{ x: c.x+500, y: c.y+100 }}
+                    end={textAreaPositions[c.id]}
+                ></Arrow>
+                </>
             ))}
             </div>,
             container
@@ -292,14 +314,14 @@ const AnalysePage = ({ colors }) => {
  
         // Convert pixel dimensions to mm
         pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        contentWidth = imgWidth * pixelToMm*0.2;
-        contentHeight = imgHeight * pixelToMm*0.2;
+        contentWidth = imgWidth * pixelToMm*0.3;
+        contentHeight = imgHeight * pixelToMm*0.3;
  
         // Calculate the x and y positions to center the image
         x = (a4Width - contentWidth)/ 2 ;
         y = (a4Height - contentHeight) / 2;
         
-        pdf.addImage(imgData, 'PNG', x+20, y, contentWidth, contentHeight);
+        pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
         
         document.body.removeChild(container);
 
