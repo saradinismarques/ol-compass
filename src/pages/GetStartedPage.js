@@ -237,7 +237,11 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
 
         {!isExplanationPage && (
           <>
-            <CompassIcon colors={colors} type={selectedType} />
+            <CompassIcon 
+              colors={colors} 
+              mode={mode}
+              type={selectedType} 
+            />
 
             {afterSearch && (
               <>

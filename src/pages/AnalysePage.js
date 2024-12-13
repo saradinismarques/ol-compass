@@ -1,12 +1,12 @@
 import React, { useState, useMemo, useCallback } from 'react';
 import OLCompass from '../components/OLCompass'
+import CompassIcon from '../components/CompassIcon'
 import Menu from '../components/Menu';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import ManropeFont from '../utils/Font.js';
 import '../styles/pages/AnalysePage.css';
 import ReactDOM from 'react-dom';
-import { lineRadial } from 'd3';
 
 const AnalysePage = ({ colors }) => {
     const initialState = useMemo(() => ({
@@ -195,7 +195,6 @@ const AnalysePage = ({ colors }) => {
         
         document.body.removeChild(container);
 
-
         // Subtask Menu
         container = document.createElement('div');
         container.style.position = 'absolute';
@@ -242,7 +241,7 @@ const AnalysePage = ({ colors }) => {
 
         
         // Definitions
-        if(type === "All" || taskAComponents[type].lenght === 0)
+        if(type === "All")
             return;
         container = document.createElement('div');
         container.style.position = 'absolute';
@@ -287,6 +286,39 @@ const AnalysePage = ({ colors }) => {
         pdf.addImage(imgData, 'PNG', 20, 50, contentWidth, contentHeight);
         
         document.body.removeChild(container);
+
+        // Compass Icon
+        container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
+ 
+        // Render React component into the container
+        ReactDOM.render(
+            <CompassIcon 
+                colors={colors} 
+                mode={currentMode}
+                type={type} 
+            />,
+            container
+        );
+ 
+        canvas = await html2canvas(container, { scale: 1, logging: true, backgroundColor: null });
+        imgData = canvas.toDataURL('image/png');
+ 
+        // Original dimensions of the captured canvas
+        imgWidth = canvas.width; // In pixels
+        imgHeight = canvas.width; // In pixels
+  
+        // Convert pixel dimensions to mm
+        pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        contentWidth = imgWidth * pixelToMm;
+        contentHeight = imgHeight * pixelToMm;
+  
+        pdf.addImage(imgData, 'PNG', 20, 5, contentWidth, contentHeight);
+         
+        document.body.removeChild(container);
+ 
     };
 
     const handleDownloadPDF = async () => {
@@ -370,6 +402,11 @@ const AnalysePage = ({ colors }) => {
                 onButtonClick={handleCompassClick}
             /> 
         </div>
+        {/* <CompassIcon 
+                colors={colors} 
+                mode={'analyse'}
+                type={'Dimension'} 
+        /> */}
         <Menu />
         <div className="a-tasks-nav fixed">
             <button 
