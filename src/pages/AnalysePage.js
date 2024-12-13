@@ -34,6 +34,11 @@ const AnalysePage = ({ colors }) => {
     const [textAreaPositions, setTextAreaPositions] = useState({}); // Track positions for all text areas
     const [initialPositions, setInitialPositions] = useState({});
 
+    const componentsOrdered = [
+        'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
+        'Pe1', 'Pe2', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'Pe7',
+        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10',
+      ];
 
     const activeIdRef = useRef(activeId);
 
@@ -57,11 +62,18 @@ const AnalysePage = ({ colors }) => {
             const componentExists = updatedComponents.some(component => component.Code === code);
     
             if (componentExists) {
-                // If it exists, remove it
                 updatedComponents = updatedComponents.filter(component => component.Code !== code);
+                
+                setTextAreaPositions((prevPositions) => {
+                    const updatedPositions = { ...prevPositions }; // Create a copy of the previous positions
+                    
+                      delete updatedPositions[id];  // Remove the entry with the given id
+                  
+                    return updatedPositions;  // Return the updated positions
+                  });
             } else {
                 // If it doesn't exist, add the new component
-                const newComponent = { Code: code, Title: title, Text: headline, x: x, y: y };
+                const newComponent = { Code: code, Title: title, Text: headline, x: x, y: y, id: id };
     
                 // Find the correct position to insert the new component in sorted order
                 const index = updatedComponents.findIndex(component => component.Code > code);
@@ -71,6 +83,11 @@ const AnalysePage = ({ colors }) => {
                 } else {
                     updatedComponents.splice(index, 0, newComponent); // Insert at the correct position
                 }
+
+                setTextAreaPositions((prevPositions) => ({
+                    ...prevPositions,
+                    [id]: { x: x+500, y: y+100 }, // Update the position of the dragged textarea
+                  }));
             }
     
             // Return the updated components state
@@ -79,6 +96,8 @@ const AnalysePage = ({ colors }) => {
                 [type]: updatedComponents,
             };
         });
+        console.log(textAreaPositions);
+        
         setSelectedComponents((prevState) => {
              // If the code exists, remove it. Otherwise, add it.
             if (prevState.includes(code)) {
@@ -87,6 +106,8 @@ const AnalysePage = ({ colors }) => {
                 return [...prevState, code]; // Add it if it doesn't exist
             }
         });
+
+
         if (activeIdRef.current === id) {
             // If the clicked component is already active, deactivate it
             activeIdRef.current = null;
@@ -472,6 +493,7 @@ const AnalysePage = ({ colors }) => {
       // Other states
   
   const handleDragStop = (id, data) => {
+    console.log(id);
     setTextAreaPositions((prevPositions) => ({
       ...prevPositions,
       [id]: { x: data.x, y: data.y }, // Update the position of the dragged textarea
@@ -505,6 +527,26 @@ const AnalysePage = ({ colors }) => {
     }
   };
 
+  const Arrow = ({ start, end }) => {
+    return (
+      <svg
+        style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
+        width="100%"
+        height="100%"
+      >
+        {/* Line connecting the start and end */}
+        <line
+          x1={start.x}
+          y1={start.y}
+          x2={end.x}
+          y2={end.y}
+          stroke="#72716f"
+          strokeWidth="2"
+        />
+      </svg>
+    );
+  };  
+
   const TextArea = ({ id, position, value, onDragStop }) => {
     const textareaRef = useRef(null);
   
@@ -537,6 +579,7 @@ const AnalysePage = ({ colors }) => {
     };
   
     return (
+        <div>
       <Draggable
         position={position} // Controlled position from parent state
         onStart={() => setActiveRef(id)} // Set this textarea as active on drag
@@ -570,28 +613,11 @@ const AnalysePage = ({ colors }) => {
           />
         </div>
       </Draggable>
+      </div>
     );
   };
   
-  const Arrow = ({ start, end }) => {
-    return (
-      <svg
-        style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
-        width="100%"
-        height="100%"
-      >
-        {/* Line connecting the start and end */}
-        <line
-          x1={start.x}
-          y1={start.y}
-          x2={end.x}
-          y2={end.y}
-          stroke="#72716f"
-          strokeWidth="2"
-        />
-      </svg>
-    );
-  };  
+
 
     return (
         <>
@@ -617,43 +643,55 @@ const AnalysePage = ({ colors }) => {
 
         <div style={{backgroundColor: "transparent", height: window.innerHeight, width: window.innerWidth}}>
         {taskAComponents['Principle'].map((c, i) => (
-  <TextArea
-    key={i}
-    id={i}
-    position={textAreaPositions[i] || { x: c.x+500, y: c.y+100 }}
-    value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
-    onDragStop={handleDragStop}
-  />
-))}
+                <>
+            <TextArea
+                key={c.id}
+                id={c.id}
+                position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }}
+                value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                onDragStop={handleDragStop}
+            />
+            <Arrow
+                    id={c.id}
+                    start={{ x: c.x+500, y: c.y+100 }}
+                    end={textAreaPositions[c.id]}
+            ></Arrow>
+            </>
+            ))}
 
         {
               taskAComponents['Perspective'].map((c, i) => ( // Show the text area if the ID is in clickedIds
                 <>
                 <TextArea
-                    id={i+7}
-                    position={textAreaPositions[i+7] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
-                    value={textAreaData[i+7] || { text: "", cursorStart: 0, cursorEnd: 0 }}
-                    onFocus={() => handleTextAreaFocus(i+7)} // Set active on focus
+                    id={c.id}
+                    position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                    value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                    onFocus={() => handleTextAreaFocus(c.id)} // Set active on focus
                     onDragStop={handleDragStop} // Handle drag stop to update position
                 />
-                {/* {textAreaPositions[i+7] == null && (textAreaPositions[i+7].x !== c.x+500 || textAreaPositions[i+7].y !== c.y+100) &&
                 <Arrow
-                    id={i+7}
+                    id={c.id}
                     start={{ x: c.x+500, y: c.y+100 }}
-                    end={textAreaPositions[i+7]|| { x: c.x+500, y: c.y+100 }}
+                    end={textAreaPositions[c.id]}
                 >
                 </Arrow>
-                } */}
                 </>
         ))}  
         {
               taskAComponents['Dimension'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                <>
                 <TextArea
-                    id={i+14}
-                    position={textAreaPositions[i+14] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
-                    value={textAreaData[i+14] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+                    id={c.id}
+                    position={textAreaPositions[c.id] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
+                    value={textAreaData[c.id] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                     onDragStop={handleDragStop} // Handle drag stop to update position
                 />
+                <Arrow
+                    id={c.id}
+                    start={{ x: c.x+500, y: c.y+100 }}
+                    end={textAreaPositions[c.id]}
+                ></Arrow>
+                </>
         ))}   
 
         </div>
