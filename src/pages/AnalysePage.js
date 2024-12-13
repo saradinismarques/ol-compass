@@ -35,6 +35,12 @@ const AnalysePage = ({ colors }) => {
     const [initialPositions, setInitialPositions] = useState({});
 
 
+    const activeIdRef = useRef(activeId);
+
+    useEffect(() => {
+        activeIdRef.current = activeId;
+    }, [activeId]);
+    
     const resetState = useCallback(() => {
         setState(initialState);
         setActiveTask('A');
@@ -81,11 +87,14 @@ const AnalysePage = ({ colors }) => {
                 return [...prevState, code]; // Add it if it doesn't exist
             }
         });
-        if (activeId === id) {
+        if (activeIdRef.current === id) {
             // If the clicked component is already active, deactivate it
+            activeIdRef.current = null;
             setActiveId(null);
+
           } else {
             // Set the clicked component as active
+            activeIdRef.current = id;
             setActiveId(id);
         }
     }
@@ -190,7 +199,7 @@ const AnalysePage = ({ colors }) => {
             container
         );
 
-        let canvas = await html2canvas(container, { scale: 2, logging: true, backgroundColor: null  });
+        let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null  });
         let imgData = canvas.toDataURL('image/png');
 
         // Original dimensions of the captured canvas
@@ -199,8 +208,8 @@ const AnalysePage = ({ colors }) => {
  
         // Convert pixel dimensions to mm
         let pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        let contentWidth = imgWidth * pixelToMm*0.4;
-        let contentHeight = imgHeight * pixelToMm*0.4;
+        let contentWidth = imgWidth * pixelToMm*0.3;
+        let contentHeight = imgHeight * pixelToMm*0.3;
  
         // Calculate the x and y positions to center the image
         let x = (a4Width - contentWidth)/ 2 ;
@@ -218,12 +227,12 @@ const AnalysePage = ({ colors }) => {
 
         // Render React component into the container
         ReactDOM.render(
-            <div style={{backgroundColor: "transparent", height: 700, width: 1200}}>
+            <div style={{backgroundColor: "transparent", height: window.innerHeight, width: window.innerWidth}}>
             {
                   taskAComponents['Principle'].map((c, i) => ( // Show the text area if the ID is in clickedIds
                     <TextArea
                         id={i}
-                        position={textAreaPositions[i] || { x: c.x, y: c.y }} // Use stored or initial position
+                        position={textAreaPositions[i] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
                         value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                         onFocus={() => handleTextAreaFocus(i)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
@@ -233,7 +242,7 @@ const AnalysePage = ({ colors }) => {
                   taskAComponents['Perspective'].map((c, i) => ( // Show the text area if the ID is in clickedIds
                     <TextArea
                         id={i+7}
-                        position={textAreaPositions[i+7] || { x: c.x, y: c.y }} // Use stored or initial position
+                        position={textAreaPositions[i+7] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
                         value={textAreaData[i+7] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                         onFocus={() => handleTextAreaFocus(i+7)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
@@ -243,7 +252,7 @@ const AnalysePage = ({ colors }) => {
                   taskAComponents['Dimension'].map((c, i) => ( // Show the text area if the ID is in clickedIds
                     <TextArea
                         id={i+14}
-                        position={textAreaPositions[i+14] || { x: c.x, y: c.y }} // Use stored or initial position
+                        position={textAreaPositions[i+14] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
                         value={textAreaData[i+14] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                         onFocus={() => handleTextAreaFocus(i+14)} // Set active on focus
                         onDragStop={handleDragStop} // Handle drag stop to update position
@@ -253,7 +262,7 @@ const AnalysePage = ({ colors }) => {
             container
         );
 
-        canvas = await html2canvas(container, { scale: 2, logging: true, backgroundColor: null  });
+        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null  });
         imgData = canvas.toDataURL('image/png');
 
         // Original dimensions of the captured canvas
@@ -262,14 +271,14 @@ const AnalysePage = ({ colors }) => {
  
         // Convert pixel dimensions to mm
         pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        contentWidth = imgWidth * pixelToMm*0.4;
-        contentHeight = imgHeight * pixelToMm*0.4;
+        contentWidth = imgWidth * pixelToMm*0.2;
+        contentHeight = imgHeight * pixelToMm*0.2;
  
         // Calculate the x and y positions to center the image
         x = (a4Width - contentWidth)/ 2 ;
         y = (a4Height - contentHeight) / 2;
         
-        pdf.addImage(imgData, 'PNG', x+50, y, contentWidth, contentHeight);
+        pdf.addImage(imgData, 'PNG', x+20, y, contentWidth, contentHeight);
         
         document.body.removeChild(container);
 
@@ -301,7 +310,7 @@ const AnalysePage = ({ colors }) => {
             container
         );
 
-        canvas = await html2canvas(container, { scale: 1, logging: true, backgroundColor: null });
+        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
         imgData = canvas.toDataURL('image/png');
 
         // Original dimensions of the captured canvas
@@ -310,8 +319,8 @@ const AnalysePage = ({ colors }) => {
  
         // Convert pixel dimensions to mm
         pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        contentWidth = imgWidth * pixelToMm;
-        contentHeight = imgHeight * pixelToMm;
+        contentWidth = imgWidth * pixelToMm * 0.3;
+        contentHeight = imgHeight * pixelToMm *0.3;
  
         pdf.addImage(imgData, 'PNG', 20, 195, contentWidth, contentHeight);
         
@@ -349,12 +358,12 @@ const AnalysePage = ({ colors }) => {
             container
         );
 
-        canvas = await html2canvas(container, { scale: 2, logging: true, backgroundColor: null });
+        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
         imgData = canvas.toDataURL('image/png');
 
         // Original dimensions of the captured canvas
-        imgWidth = canvas.width*0.5; // In pixels
-        imgHeight = canvas.height*0.5; // In pixels
+        imgWidth = canvas.width*0.3; // In pixels
+        imgHeight = canvas.height*0.3; // In pixels
  
         // Convert pixel dimensions to mm
         pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
@@ -381,7 +390,7 @@ const AnalysePage = ({ colors }) => {
             container
         );
  
-        canvas = await html2canvas(container, { scale: 1, logging: true, backgroundColor: null });
+        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
         imgData = canvas.toDataURL('image/png');
  
         // Original dimensions of the captured canvas
@@ -390,8 +399,8 @@ const AnalysePage = ({ colors }) => {
   
         // Convert pixel dimensions to mm
         pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        contentWidth = imgWidth * pixelToMm;
-        contentHeight = imgHeight * pixelToMm;
+        contentWidth = imgWidth * pixelToMm * 0.3;
+        contentHeight = imgHeight * pixelToMm * 0.3;
   
         pdf.addImage(imgData, 'PNG', 20, 5, contentWidth, contentHeight);
          
@@ -476,35 +485,36 @@ const AnalysePage = ({ colors }) => {
     }
   }, []);
 
-  // Handle text changes
-  const handleTextChange = (e) => {
-    const { name, value, selectionStart, selectionEnd } = e.target;
 
-    // Update the text and the cursor position for the specific textarea
-    setTextAreaData((prevData) => ({
-      ...prevData,
-      [name]: {
-        text: value, // Store the text content
-        cursorStart: selectionStart, // Store the cursor's starting position
-        cursorEnd: selectionEnd, // Store the cursor's ending position (for selection)
-      }
-    }));
-  };
+  const setActiveRef = (id) => {
+    setActiveId(id);
+    activeIdRef.current = id;
+
+  }
 
   const handleTextAreaFocus = (id) => {
-    setActiveId((prevActiveId) => (prevActiveId === id ? null : id));
+    if (activeIdRef.current === id) {
+        // If the clicked component is already active, deactivate it
+        activeIdRef.current = null;
+        setActiveId(null);
+
+      } else {
+        // Set the clicked component as active
+        activeIdRef.current = id;
+        setActiveId(id);
+    }
   };
 
   const TextArea = ({ id, position, value, onDragStop }) => {
     const textareaRef = useRef(null);
   
-    // Automatically focus the textarea if it is active
+    // Focus the textarea when the activeId changes
     useEffect(() => {
-      if (textareaRef.current && id === activeId) {
-        textareaRef.current.focus();
-      }
-    }, [activeId, id]);
-  
+        if (textareaRef.current && id === activeIdRef.current) {
+            textareaRef.current.focus();
+        }
+    }, [activeId]); // Only re-focus when the activeId changes
+
     // Preserve cursor position after value updates
     useEffect(() => {
       if (textareaRef.current && value.cursorStart !== undefined) {
@@ -529,31 +539,17 @@ const AnalysePage = ({ colors }) => {
     return (
       <Draggable
         position={position} // Controlled position from parent state
-        onStart={() => setActiveId(id)} // Set this textarea as active on drag
+        onStart={() => setActiveRef(id)} // Set this textarea as active on drag
         onStop={(e, data) => onDragStop(id, data)} // Update position after drag
-      >
+        onClick={() => setActiveRef(id)}
+        onFocus={() => handleTextAreaFocus(id)} // Set active on focus
+        >
         <div
           style={{
             position: "absolute", // Ensure absolute positioning within container
             zIndex: 100,
           }}
         >
-          {/* Drag handle (optional) */}
-          <div
-            className="textarea-drag-handle"
-            style={{
-              cursor: "move",
-              backgroundColor: "#f0f0f0",
-              padding: "4px",
-              textAlign: "center",
-              borderTopLeftRadius: "4px",
-              borderTopRightRadius: "4px",
-              fontSize: "12px",
-              width: "200px",
-            }}
-          >
-            Drag Me
-          </div>
           <textarea
             ref={textareaRef}
             name={id}
@@ -567,7 +563,7 @@ const AnalysePage = ({ colors }) => {
               padding: "8px",
               borderRadius: "4px",
               fontFamily: "Manrope",
-              border: "1px solid #ccc",
+              border: "none",
               resize: "none",
             }}
           />
@@ -576,6 +572,26 @@ const AnalysePage = ({ colors }) => {
     );
   };
   
+  const Arrow = ({ start, end }) => {
+    return (
+      <svg
+        style={{ position: "absolute", top: 0, left: 0, pointerEvents: "none" }}
+        width="100%"
+        height="100%"
+      >
+        {/* Line connecting the start and end */}
+        <line
+          x1={start.x}
+          y1={start.y}
+          x2={end.x}
+          y2={end.y}
+          stroke="black"
+          strokeWidth="2"
+        />
+      </svg>
+    );
+  };  
+
     return (
         <>
         <textarea
@@ -598,12 +614,12 @@ const AnalysePage = ({ colors }) => {
             /> 
         </div>
 
-        <div style={{backgroundColor: "transparent", height: 700, width: 1200}}>
+        <div style={{backgroundColor: "transparent", height: window.innerHeight, width: window.innerWidth}}>
         {taskAComponents['Principle'].map((c, i) => (
   <TextArea
     key={i}
     id={i}
-    position={textAreaPositions[i] || { x: c.x, y: c.y }}
+    position={textAreaPositions[i] || { x: c.x+500, y: c.y+100 }}
     value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
     onDragStop={handleDragStop}
   />
@@ -611,21 +627,27 @@ const AnalysePage = ({ colors }) => {
 
         {
               taskAComponents['Perspective'].map((c, i) => ( // Show the text area if the ID is in clickedIds
+                <>
                 <TextArea
                     id={i+7}
-                    position={textAreaPositions[i+7] || { x: c.x, y: c.y }} // Use stored or initial position
+                    position={textAreaPositions[i+7] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
                     value={textAreaData[i+7] || { text: "", cursorStart: 0, cursorEnd: 0 }}
                     onFocus={() => handleTextAreaFocus(i+7)} // Set active on focus
                     onDragStop={handleDragStop} // Handle drag stop to update position
                 />
+                <Arrow
+                    start={{ x: c.x+500, y: c.y+100 }}
+                    end={textAreaPositions[i+7]|| { x: c.x+500, y: c.y+100 }}
+                >
+                </Arrow>
+                </>
         ))}  
         {
               taskAComponents['Dimension'].map((c, i) => ( // Show the text area if the ID is in clickedIds
                 <TextArea
                     id={i+14}
-                    position={textAreaPositions[i+14] || { x: c.x, y: c.y }} // Use stored or initial position
+                    position={textAreaPositions[i+14] || { x: c.x+500, y: c.y+100 }} // Use stored or initial position
                     value={textAreaData[i+14] || { text: "", cursorStart: 0, cursorEnd: 0 }}
-                    onFocus={() => handleTextAreaFocus(i+14)} // Set active on focus
                     onDragStop={handleDragStop} // Handle drag stop to update position
                 />
         ))}   
