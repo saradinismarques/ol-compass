@@ -116,14 +116,16 @@ const AnalysePage = ({ colors }) => {
         });
         console.log(textAreaPositions);
         
-        setSelectedComponents((prevState) => {
-             // If the code exists, remove it. Otherwise, add it.
-            if (prevState.includes(code)) {
-                return prevState.filter((item) => item !== code); // Remove it
-            } else {
-                return [...prevState, code]; // Add it if it doesn't exist
-            }
-        });
+        if(mode !== "analyse-b" && mode !== "analyse-pdf-b") {
+            setSelectedComponents((prevState) => {
+                // If the code exists, remove it. Otherwise, add it.
+                if (prevState.includes(code)) {
+                    return prevState.filter((item) => item !== code); // Remove it
+                } else {
+                    return [...prevState, code]; // Add it if it doesn't exist
+                }
+            });
+        }
 
 
         if (activeIdRef.current === id) {
