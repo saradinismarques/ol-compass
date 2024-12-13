@@ -42,6 +42,17 @@ const CompassIcon = ({ colors, mode, type }) => {
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
+  let gapX, gapY;
+
+  if(mode.startsWith("analyse")) {
+    gapX = 54;
+    gapY = 53;
+  } else {
+    gapX = 0;
+    gapY = -2;
+  }
+
+
   return (
     <div 
       style={{
@@ -56,8 +67,8 @@ const CompassIcon = ({ colors, mode, type }) => {
           <div
             style={{
               ...buttonStyle,
-              left: `${c.x - waveWidth / 2 + 54}px`, // Adjust position for button size
-              top: `${c.y - waveHeight / 2 + 53}px`,
+              left: `${c.x - waveWidth / 2 + gapX}px`, // Adjust position for button size
+              top: `${c.y - waveHeight / 2 + gapY}px`,
               transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
               zIndex: 1, // Layer filled shapes at the base
             }}
