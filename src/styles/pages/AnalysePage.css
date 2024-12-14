@@ -151,3 +151,21 @@
     margin-top: -10px;
 }
 
+.a-changed-components {
+    position: fixed;
+    top: 6vh;
+    left: 50vw;
+    transform: translateX(-50%);
+    font-size: 13px;
+    display: flex;
+    gap: 20px;
+}
+
+.a-removed-components {
+    color: #dc645c;
+}
+
+.a-added-components {
+    color: #4cb245;
+}
+

@@ -35,12 +35,6 @@ const AnalysePage = ({ colors }) => {
 
     const [addedComponents, setAddedComponents] = useState([]); 
     const [removedComponents, setRemovedComponents] = useState([]); 
-    // Initial state with 'Principle', 'Perspective', 'Dimension'
-    const [taskBComponents, setTaskBComponents] = useState({
-        Principle: [],
-        Perspective: [],
-        Dimension: [],
-    });
     const activeIdRef = useRef(activeId);
 
     useEffect(() => {
@@ -52,6 +46,11 @@ const AnalysePage = ({ colors }) => {
         setActiveTask('A');
         setASubtask('All');
         setMode('analyse');
+        setSelectedComponents([]);
+        setTextAreaData({});
+        setTextAreaPositions({});
+        setAddedComponents([]);
+        setRemovedComponents([]);
     }, [initialState]);
     
     const handleCompassClick = (code, title, headline, type, x, y, id) => {
@@ -114,7 +113,6 @@ const AnalysePage = ({ colors }) => {
                 [type]: updatedComponents,
             };
         });
-        console.log(textAreaPositions);
         
         if(mode !== "analyse-b" && mode !== "analyse-pdf-b") {
             setSelectedComponents((prevState) => {
@@ -141,7 +139,7 @@ const AnalysePage = ({ colors }) => {
     }
     const handleTaskChange = (task) => {
         setActiveTask(task); // Set active button based on the index
-        let subtaskName;
+        let subtaskName = "";
         
         if(task === "B")
             subtaskName ="-b";
@@ -154,7 +152,10 @@ const AnalysePage = ({ colors }) => {
     };
 
     const handleASubtaskChange = (subtask) => {
-        let subtaskName;
+        let subtaskName = "";
+
+        setAddedComponents([]);
+        setRemovedComponents([]);
 
         if(subtask === "All")
             subtaskName ="-a-all";
@@ -735,7 +736,7 @@ const AnalysePage = ({ colors }) => {
             /> 
         </div>
 
-        <div style={{backgroundColor: "transparent", height: window.innerHeight, width: window.innerWidth}}>
+        {/* <div style={{backgroundColor: "transparent", height: window.innerHeight, width: window.innerWidth}}>
         {taskAComponents['Principle'].map((c, i) => (
                 <>
             <TextArea
@@ -788,7 +789,7 @@ const AnalysePage = ({ colors }) => {
                 </>
         ))}   
 
-        </div>
+        </div> */}
         {/* <CompassIcon 
                 colors={colors} 
                 mode={'analyse'}
@@ -868,7 +869,16 @@ const AnalysePage = ({ colors }) => {
         
             </>
         }
-        </>
+
+        {activeTask === 'B' &&
+            <>
+            <div className='a-changed-components'>
+                <p className='a-added-components'>ADDED</p>
+                <p className='a-removed-components'>REMOVED</p>
+            </div>
+            </>
+        }
+              </>  
     );
 };
 

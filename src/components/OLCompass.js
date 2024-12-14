@@ -74,7 +74,6 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
-  const [originalComponents, setOriginalComponents] = useState(selectedComponents);
   
   // Declare a timeout variable to store the reference to the timeout
   let tooltipTimeout = null;
@@ -159,12 +158,13 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
       }
     } else if (mode === "get-inspired" || mode === "get-inspired-search"|| mode === "contribute" || mode === "get-started"|| mode === "get-started-search" || mode.startsWith("analyse")) {
 
-      setClickedIds(prevClickedIds =>
-        prevClickedIds.includes(id)
-          ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
-          : [...prevClickedIds, id] // Add ID if not already clicked
-      );
-              
+      if(mode !== 'analyse-b' && mode !== 'analyse-pdf-b') {
+        setClickedIds(prevClickedIds =>
+          prevClickedIds.includes(id)
+            ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
+            : [...prevClickedIds, id] // Add ID if not already clicked
+        );
+    }
       if (mode === "get-inspired" || mode === "get-inspired-search" || mode === "contribute") {
         if (onButtonClick) onButtonClick();
       } else if(mode === "get-started" || mode === "get-started-search" || mode.startsWith("analyse")) {
@@ -425,7 +425,7 @@ const OLCompass = ({ colors, mode, position, onButtonClick, resetState, savedCom
                   fill="none"
                   opacity={getOutlineOpacity(clickedIds, hoveredId, i, c, mode, selectedComponents, opacityCounter)} // Change opacity on hover
                   stroke={getStroke(clickedIds, hoveredId, i, mode, colors, c, selectedComponents, addedComponents, removedComponents)}
-                  strokeWidth={mode.startsWith('analyse') ? "0.6px" : "1.5px"}
+                  strokeWidth={getStrokeWidth(clickedIds, hoveredId, i, mode, colors, c, selectedComponents, addedComponents, removedComponents)}
                   style={{ pointerEvents: 'all' }} 
                 />
               </svg>
@@ -858,24 +858,28 @@ const getTextOpacity = (clickedIds, hoveredId, currentId, component, mode, selec
 };
 
 const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents, addedComponents, removedComponents) => {
-  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
-    if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
-        return "#528d52";
-    else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
-      return "#b0433c";
-  }
 
   // Analyse PDF
   if(mode.startsWith("analyse-pdf")) {
     if(selectedComponents.includes(component.Code) || hoveredId === currentId)
       return colors['Wave'][component.Type];
+    else if(removedComponents.includes(component.Code)) {
+      return colors['Wave'][component.Type];
+    }
     else
       return "white";
   }
 
   if(mode.startsWith("analyse")) {
+    console.log(mode);
     if(clickedIds.includes(currentId) || hoveredId === currentId)
       return colors['Wave'][component.Type];
+    else if(removedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
+      return colors['Wave'][component.Type];
+    }
+    else if(addedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
+      return colors['Wave'][component.Type];
+    }
     else
       return "white";
   }
@@ -885,15 +889,8 @@ const getWaveFill = (clickedIds, hoveredId, currentId, mode, colors, component, 
 }
 
 const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents, addedComponents, removedComponents) => {
-  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
-    if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
-        return "black";
-    else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
-      return "black";
-  }
-
   if(mode.startsWith("analyse-pdf")) {
-    if(!selectedComponents.includes(component.Code) && currentId !== hoveredId)
+    if(!selectedComponents.includes(component.Code) && currentId !== hoveredId && !removedComponents.includes(component.Code) && !addedComponents.includes(component.Code))
       return "#cacbcb";
     if(mode === "analyse-pdf-a-p") {
       if(component.Type === "Principle")
@@ -910,7 +907,10 @@ const getTextFill = (clickedIds, hoveredId, currentId, mode, colors, component, 
     return colors['Label'][component.Type];
   }
   if(mode.startsWith("analyse")) {
-      if(!clickedIds.includes(currentId) && currentId !== hoveredId)
+      
+      if(mode.startsWith("analyse-b") && (removedComponents.includes(component.Code)|| addedComponents.includes(component.Code)))
+        return colors['Label'][component.Type];
+      else if(!clickedIds.includes(currentId) && currentId !== hoveredId )
         return "#cacbcb";
       if(mode === "analyse-a-p") {
         if(component.Type === "Principle")
@@ -933,11 +933,12 @@ const getStroke = (clickedIds, hoveredId, currentId, mode, colors, component, se
   if(clickedIds.includes(currentId)) 
     if(mode === "get-inspired" || mode === "get-inspired-search" || mode === "get-started" || mode === "get-started-search")
       return colors['Selection'];
+  
   if(mode === "analyse-b" || mode === "analyse-pdf-b") {
     if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
-        return "#528d52";
+        return "#4cb245";
     else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
-      return "#b0433c";
+      return "#dc645c";
   }
   if(mode.startsWith("analyse-pdf")) {
     if(!selectedComponents.includes(component.Code) && hoveredId !== currentId)
@@ -951,6 +952,21 @@ const getStroke = (clickedIds, hoveredId, currentId, mode, colors, component, se
   }
   else
       return 'none';
+};
+
+const getStrokeWidth = (clickedIds, hoveredId, currentId, mode, colors, component, selectedComponents, addedComponents, removedComponents) => {
+  if(mode === "analyse-b" || mode === "analyse-pdf-b") {
+    if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
+        return "1.5px";
+    else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
+      return "1.5px";
+    else
+      return "0.6px";
+  }
+  else if(mode.startsWith("analyse"))
+    return "0.6px";
+
+  return "1.5px";
 };
 
 const isFlipped = (label) => {
