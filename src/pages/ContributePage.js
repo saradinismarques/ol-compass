@@ -1,12 +1,25 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import '../styles/pages/ContributePage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { StateContext } from "../State";
 
-const ContributePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const ContributePage = ({}) => {
+  const {
+    colors,
+    firstMessage,
+    setFirstMessage,
+    isExplanationPage,
+    setIsExplanationPage,
+    CComponents,
+    setCComponents,
+    newCaseStudies,
+    setNewCaseStudies,
+  } = useContext(StateContext);
+
   // Initial state for the form
   const initialState = useMemo(() => ({
     title: '',
@@ -33,7 +46,7 @@ const ContributePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessa
 
   // Reset state and UI elements
   const resetState = useCallback(() => {
-    setState(initialState);
+   // setState(initialState);
     setIsExplanationPage(true);
     setOpenDropdown(null);
     setDropdownPosition({ top: 0, left: 0 });
@@ -42,23 +55,25 @@ const ContributePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessa
   }, [initialState, setIsExplanationPage]);
 
   // Trigger compass action
-  const handleCompassClick = () => {
+  const handleCompassClick = (code) => {
     if (firstClick && firstMessage) {
       setFirstClick(false);
       setMessageShown(true);
     }
+
     setIsExplanationPage(false);
   };
 
   // Handle Enter key
   const handleKeyDown = useCallback((e) => {
-      if (e.key !== 'Enter' || !isExplanationPage) return;
+      if (e.key !== 'Enter') return;
 
       if (firstClick && firstMessage) {
         setFirstClick(false);
         setMessageShown(true);
       }
       setIsExplanationPage(false);
+      //handleEnterClick();
     },
     [firstClick, firstMessage, isExplanationPage, setIsExplanationPage]
   );
@@ -191,13 +206,12 @@ const ContributePage = ({ colors, setNewCaseStudies, firstMessage, setFirstMessa
     <>
       <div className={messageShown ? 'blur-background' : ''}>
         <OLCompass
-          colors={colors}
           mode="contribute"
           position={isExplanationPage ? 'center' : 'left'}
-          onEnterClick={handleEnterClick}
           resetState={resetState}
           resetCompass={resetCompass}
           onButtonClick={handleCompassClick}
+          onEnterClick={handleEnterClick}
         />
         {isExplanationPage && <Description colors={colors} mode="contribute" />}
 

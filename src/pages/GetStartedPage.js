@@ -1,12 +1,21 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import '../styles/pages/GetStartedPage.css';
 import OLCompass from '../components/OLCompass';
 import CompassIcon from '../components/CompassIcon';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { StateContext } from "../State";
 
-const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => {
+const GetStartedPage = ({}) => {
+  const {
+    colors,
+    isExplanationPage,
+    setIsExplanationPage,
+    allComponents,
+    setGSCurrentComponent
+  } = useContext(StateContext);
+
   // Memoize the initialState object
   const initialState = useMemo(() => ({
       code: '',
@@ -20,7 +29,6 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
   const [components, setComponents] = useState([]);
   const [afterSearch, setAfterSearch] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [selectedComponent, setSelectedComponent] = useState();
   const [mode, setMode] = useState('get-started');
   const [selectedType, setSelectedType] = useState(null);
 
@@ -72,15 +80,9 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
             },
           ];
 
-      const componentsOrdered = [
-        'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
-        'Pe1', 'Pe2', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'Pe7',
-        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10',
-      ];
-
       const sortedComponents = updatedComponents.sort((a, b) => {
-        const indexA = componentsOrdered.indexOf(a.code);
-        const indexB = componentsOrdered.indexOf(b.code);
+        const indexA = allComponents.indexOf(a.code);
+        const indexB = allComponents.indexOf(b.code);
 
         if (indexA === -1) return 1;
         if (indexB === -1) return -1;
@@ -123,7 +125,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
     });
 
     const code = componentsRef.current[currentIndex].code;
-    setSelectedComponent(code);
+    setGSCurrentComponent(code);
 
     setMode('get-started-search');
     modeRef.current = 'get-started-search';
@@ -157,7 +159,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
       });
 
       const code = componentsRef.current[nextIndex].code;
-      setSelectedComponent(code);
+      setGSCurrentComponent(code);
     }
   }, [colors]);
 
@@ -186,7 +188,7 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
       });
 
       const code = componentsRef.current[prevIndex].code;
-      setSelectedComponent(code);
+      setGSCurrentComponent(code);
     }
   }, [colors]);
 
@@ -226,12 +228,10 @@ const GetStartedPage = ({ colors, isExplanationPage, setIsExplanationPage }) => 
     <>
       <div className={`gs-background ${afterSearch ? 'gradient' : ''}`}>
         <OLCompass
-          colors={colors}
           mode={mode}
           position={afterSearch ? 'left' : 'center'}
           resetState={resetState}
           onButtonClick={handleCompassClick}
-          selectedComponents={selectedComponent}
         />
         {isExplanationPage && <Description colors={colors} mode={'get-started'} />}
 

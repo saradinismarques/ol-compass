@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useMemo, useEffect, useRef, useContext } from 'react';
 import '../styles/pages/GetInspiredPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
@@ -7,8 +7,24 @@ import Message from '../components/Message';
 import { getGetInspiredData } from '../utils/Data.js'; 
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
+import { StateContext } from "../State";
 
-const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCaseStudies, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const GetInspiredPage = ({}) => {
+  const {
+    colors,
+    firstMessage,
+    setFirstMessage,
+    isExplanationPage,
+    setIsExplanationPage,
+    savedCaseStudies,
+    setSavedCaseStudies,
+    newCaseStudies,
+    GIComponents,
+    setGIComponents,
+    GICurrentComponents,
+    setGICurrentComponents
+  } = useContext(StateContext);
+
   const initialState = useMemo(() => ({
     title: '', 
     collection: '',
@@ -20,7 +36,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     year: '',
     description: '',
     credits: '',
-    components: '',
+    components: [],
     bookmark: false,
   }), []);
 
@@ -31,10 +47,10 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
   const [mode, setMode] = useState('get-inspired');
   const [resultsNumber, setResultsNumber] = useState(-1);
   const [searchLogic, setSearchLogic] = useState('AND');
-  const [fetchData, setFetchData] = useState(false); // State to trigger data fetching
   const [firstClick, setFirstClick] = useState(true);
   const [messageShown, setMessageShown] = useState(false);
-  
+  const [fetchData, setFetchData] = useState(false);
+
   const carouselModeRef = useRef(carouselMode);
   const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
@@ -89,11 +105,12 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     return savedCaseStudies.length !== 0 && savedCaseStudies.includes(title);
   }, [savedCaseStudies]);
 
-  const handleCompassClick = () => {
+  const handleCompassClick = (code) => {
     if(firstClick && firstMessage) {
       setFirstClick(false);
       setMessageShown(true);
     }
+
     setIsExplanationPage(false);
     setCarouselMode(false);
     carouselModeRef.current = false;
@@ -103,14 +120,13 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
 
   const searchCaseStudies = useCallback((components) => {
     const fetchedCaseStudies = getGetInspiredData();
-    
+    console.log(components);
     // Concatenate the fetched case studies with newCaseStudies
     const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
 
     // Process the JSON data
     let filteredCaseStudies = allCaseStudies;
     
-    // If labels are provided, filter the case studies
     if (components !== null) {
       filteredCaseStudies = allCaseStudies.filter(item => {
         if (searchLogicRef.current === 'AND') {
@@ -129,6 +145,8 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     setResultsNumber(filteredCaseStudies.length);
 
     if (filteredCaseStudies.length > 0) {
+      setCurrentIndex(0); // Reset to first case study
+      
       setState((prevState) => ({
         ...prevState,
         title: filteredCaseStudies[0].Title,
@@ -144,7 +162,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         components: filteredCaseStudies[0].Components,
         bookmark: getBookmarkState(filteredCaseStudies[0].Title),
       }));
-      setCurrentIndex(0); // Reset to first case study
+      setGICurrentComponents(filteredCaseStudies[0].Components)
     }
 
     if (filteredCaseStudies.length === 0) {
@@ -160,6 +178,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         year: '',
         description: '',
         credits: '',
+        components: []
       }));
     }
   }, [newCaseStudies, getBookmarkState]);
@@ -204,6 +223,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         components: caseStudies[nextIndex].Components,
         bookmark: getBookmarkState(caseStudies[nextIndex].Title),
       });
+      setGICurrentComponents(caseStudies[nextIndex].Components)
     }
   }, [caseStudies, currentIndex, getBookmarkState, state]);
 
@@ -227,6 +247,8 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
         components: caseStudies[prevIndex].Components,
         bookmark: getBookmarkState(caseStudies[prevIndex].Title),
       });
+      setGICurrentComponents(caseStudies[prevIndex].Components)
+
     }
   }, [caseStudies, currentIndex, getBookmarkState, state]);
 
@@ -259,6 +281,7 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
 
    // Callback function to receive data from OLCompass
    const handleDataFromOLCompass = useCallback((data) => {
+   console.log(data);
     if(carouselModeRef.current) return;
 
     setMode('get-inspired-search');
@@ -307,13 +330,11 @@ const GetInspiredPage = ({ colors, savedCaseStudies, setSavedCaseStudies, newCas
     <>
       <div className={`${messageShown ? "blur-background" : ""}`}>
         <OLCompass
-          colors={colors}
           mode={mode}
           position={isExplanationPage ? "center" : "left"}
           resetState={resetState} // Passing resetState to OLCompass
-          onEnterClick={handleDefaultSearch}
           onButtonClick={handleCompassClick}
-          selectedComponents={state.components}
+          onEnterClick={handleDefaultSearch}
           onSearchClick={handleDataFromOLCompass}
           fetchData={fetchData}
         />

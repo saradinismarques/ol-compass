@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useContext } from 'react';
 import '../styles/pages/LearnPage.css';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
@@ -13,8 +13,19 @@ import P6Image from '../assets/images/P6.png';
 import P7Image from '../assets/images/P7.png';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
+import { StateContext } from "../State";
 
-const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, setFirstMessage, isExplanationPage, setIsExplanationPage }) => {
+const LearnPage = ({}) => {
+  const {
+    colors,
+    firstMessage,
+    setFirstMessage,
+    isExplanationPage,
+    setIsExplanationPage,
+    savedComponents,
+    setSavedComponents,
+  } = useContext(StateContext);
+
   const initialState = useMemo(() => ({
     title: '',
     headline: '',
@@ -70,7 +81,7 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
   }, [savedComponents]);
 
   const handleCompassClick = (code, title, headline, paragraph, type, concepts) => {
-    if (firstClick && firstMessage) {
+    if (firstClick && firstMessage["learn"]) {
       setFirstClick(false);
       setMessageShown(true);
     }
@@ -123,9 +134,9 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
   };
 
   const handleNext = () => {
+    
     if (concept.index < state.concepts.length - 1) {
       const nextIndex = concept.index + 1;
-
       setConcept({
         code: state.concepts[nextIndex].Code,
         label: state.concepts[nextIndex].Label,
@@ -250,12 +261,10 @@ const LearnPage = ({ colors, savedComponents, setSavedComponents, firstMessage, 
       <div className={`${messageShown ? "blur-background" : ""}`}>
         <div className={`l-background ${isExplanationPage ? '' : 'gradient'}`}>
           <OLCompass
-            colors={colors}
             mode="learn"
             position={isExplanationPage ? "center" : "left"}
             onButtonClick={handleCompassClick}
             resetState={resetState}
-            savedComponents={savedComponents}
           />
           {isExplanationPage && <Description colors={colors} mode={'learn'} />}
 

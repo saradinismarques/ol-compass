@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass';
 import { getIntroTexts } from '../utils/Data.js';
 import { formatText } from '../utils/Text.js';
 import '../styles/pages/IntroPage.css';
+import { StateContext } from "../State";
 
-const IntroPage = ({ colors }) => {
+const IntroPage = ({}) => {
+    const {
+        colors,
+        opacityCounter,
+        setOpacityCounter
+      } = useContext(StateContext);
+
     const introTexts = getIntroTexts('English');
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
     
-    const initialCounters = {
-        Principle: 0,
-        Perspective: 0,
-        Dimension: 0
-    };
-
-    const [opacityCounter, setOpacityCounter] = useState(initialCounters);
     const maxCounters = useMemo(() => ({
         Principle: 6,
         Perspective: 6,
@@ -124,15 +124,6 @@ const IntroPage = ({ colors }) => {
             });
         }, 300); // Delay for each button (3 seconds between each)
     }
-
-    const getOpacityCounter = () => {
-        if (frame === 4 || frame === 5) 
-            return opacityCounter['Principle'];
-        else if (frame === 6 || frame === 7)
-            return opacityCounter['Perspective'] + 7;
-        else if (frame === 8 || frame === 9)
-            return opacityCounter['Dimension'] + 14;
-    };
 
     // Replace placeholders with values from countersMap
     // const replacePlaceholders = (text) => {
@@ -365,10 +356,8 @@ const IntroPage = ({ colors }) => {
     return (
         <div>
             <OLCompass 
-                colors={colors}
                 mode={mode} 
                 position="center"
-                opacityCounter={getOpacityCounter()}
             /> 
             {getDisplayText()}    
         </div>

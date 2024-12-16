@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useContext } from 'react';
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import IntroPage from './pages/IntroPage';
 import HomePage from './pages/HomePage';
@@ -11,27 +11,32 @@ import ContextualizePage from './pages/ContextualizePage';
 import IdeatePage from './pages/IdeatePage';
 import ComparePage from './pages/ComparePage';
 import './styles/App.css';
-import { getColorPallete } from './utils/Data.js'; 
+import { State, StateContext } from "./State";
 
 function App() {
-  const [savedCaseStudies, setSavedCaseStudies] = useState([]);
-  const [savedComponents, setSavedComponents] = useState([]);
-  const [newCaseStudies, setNewCaseStudies] = useState([]);
-
-  const colors = getColorPallete(1);
-  document.documentElement.style.setProperty('--selection-color', colors['Selection']);
-
-  const initialFirstMessage = useMemo(
-    () => ({
-      getStarted: true,
-      learn: true,
-      getInspired: true,
-      contribute: true,
-    }),
-    []
-  );
-  const [firstMessage, setFirstMessage] = useState(initialFirstMessage);
-  const [isExplanationPage, setIsExplanationPage] = useState(true);
+  const {
+    colors,
+    firstMessage,
+    setFirstMessage,
+    isExplanationPage,
+    setIsExplanationPage,
+    savedComponents,
+    setSavedComponents,
+    savedCaseStudies,
+    setSavedCaseStudies,
+    newCaseStudies,
+    setNewCaseStudies,
+    GSComponents,
+    setGSComponents,
+    GSCurrentComponent,
+    setGSCurrentComponent,
+    LComponents,
+    setLComponent,
+    GIComponents,
+    setGIComponents,
+    GICurrentComponents,
+    setGICurrentComponents,
+  } = useContext(StateContext);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -47,6 +52,11 @@ function App() {
 
   useEffect(() => {
     setIsExplanationPage(true); // Reset to initial state when the page changes
+    setGSComponents([]);
+    setGSCurrentComponent([]);
+    setLComponent([]);
+    setGIComponents([]);
+    setGICurrentComponents([]);
   }, [location.pathname]);
 
   return (
@@ -55,84 +65,39 @@ function App() {
         <Routes>
           <Route 
             path="/ol-compass" 
-            element={
-              <IntroPage 
-                colors={colors}
-              />} 
+            element={<IntroPage />} 
           />
           <Route 
             path="/home" 
-            element={
-              <HomePage 
-                colors={colors}
-              />} 
+            element={<HomePage />} 
             />
           <Route
             path="/get-started"
-            element={
-              <GetStartedPage
-                colors={colors}
-                savedComponents={savedComponents}
-                setSavedComponents={setSavedComponents}
-                firstMessage={firstMessage.getStarted}
-                setFirstMessage={setFirstMessage}
-                isExplanationPage={isExplanationPage}
-                setIsExplanationPage={setIsExplanationPage}
-              />
+            element={<GetStartedPage />
             }
           />
           <Route
             path="/learn"
-            element={
-              <LearnPage
-                colors={colors}
-                savedComponents={savedComponents}
-                setSavedComponents={setSavedComponents}
-                firstMessage={firstMessage.learn}
-                setFirstMessage={setFirstMessage}
-                isExplanationPage={isExplanationPage}
-                setIsExplanationPage={setIsExplanationPage}
-              />
-            }
+            element={<LearnPage />}
           />
           <Route
             path="/get-inspired"
-            element={
-              <GetInspiredPage
-                colors={colors}
-                savedCaseStudies={savedCaseStudies}
-                setSavedCaseStudies={setSavedCaseStudies}
-                newCaseStudies={newCaseStudies}
-                firstMessage={firstMessage.getInspired}
-                setFirstMessage={setFirstMessage}
-                isExplanationPage={isExplanationPage}
-                setIsExplanationPage={setIsExplanationPage}
-              />
+            element={<GetInspiredPage />
             }
           />
-          <Route
+          {/*<Route
             path="/analyse"
             element={
               <AnalysePage
                 colors={colors}
               />
             }
-          />
+          />*/}
           <Route
             path="/contribute"
-            element={
-              <ContributePage
-                colors={colors}
-                newCaseStudies={newCaseStudies}
-                setNewCaseStudies={setNewCaseStudies}
-                firstMessage={firstMessage.contribute}
-                setFirstMessage={setFirstMessage}
-                isExplanationPage={isExplanationPage}
-                setIsExplanationPage={setIsExplanationPage}
-              />
-            }
+            element={<ContributePage />}
           />
-          <Route
+          {/*<Route
             path="/contextualize"
             element={
               <ContextualizePage
@@ -161,7 +126,7 @@ function App() {
                 setIsExplanationPage={setIsExplanationPage}
               />
             }
-          />
+          /> */}
           {/* Catch-all route */}
           <Route path="*" element={<IntroPage colors={colors}/>} />
         </Routes>
@@ -172,9 +137,11 @@ function App() {
 
 function RouterWrapper() {
   return (
-    <Router>
-      <App />
-    </Router>
+    <State>
+      <Router>
+        <App />
+      </Router>
+    </State>
   );
 }
 
