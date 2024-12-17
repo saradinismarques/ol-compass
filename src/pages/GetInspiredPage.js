@@ -9,7 +9,7 @@ import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; //
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 
-const GetInspiredPage = ({}) => {
+const GetInspiredPage = () => {
   const {
     colors,
     firstMessage,
@@ -21,6 +21,7 @@ const GetInspiredPage = ({}) => {
     newCaseStudies,
     GIComponents,
     setGIComponents,
+    GIComponentsRef,
     GICurrentComponents,
     setGICurrentComponents
   } = useContext(StateContext);
@@ -49,8 +50,7 @@ const GetInspiredPage = ({}) => {
   const [searchLogic, setSearchLogic] = useState('AND');
   const [firstClick, setFirstClick] = useState(true);
   const [messageShown, setMessageShown] = useState(false);
-  const [fetchData, setFetchData] = useState(false);
-
+  
   const carouselModeRef = useRef(carouselMode);
   const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
@@ -105,7 +105,7 @@ const GetInspiredPage = ({}) => {
     return savedCaseStudies.length !== 0 && savedCaseStudies.includes(title);
   }, [savedCaseStudies]);
 
-  const handleCompassClick = (code) => {
+  const handleCompassClick = () => {
     if(firstClick && firstMessage) {
       setFirstClick(false);
       setMessageShown(true);
@@ -120,7 +120,6 @@ const GetInspiredPage = ({}) => {
 
   const searchCaseStudies = useCallback((components) => {
     const fetchedCaseStudies = getGetInspiredData();
-    console.log(components);
     // Concatenate the fetched case studies with newCaseStudies
     const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
 
@@ -257,7 +256,7 @@ const GetInspiredPage = ({}) => {
     if(e.key === 'Enter' && carouselModeRef.current) 
       handleCarouselSearch();
     else if(e.key === 'Enter' && !carouselModeRef.current) 
-      handleSearchClick();
+      handleDefaultSearch();
     else if (e.key === 'ArrowUp') 
       handlePrev();
     else if (e.key === 'ArrowDown') 
@@ -271,33 +270,12 @@ const GetInspiredPage = ({}) => {
     };
   }, [handleCarouselSearch, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
 
-  const handleDefaultSearch = (components) => {
+  const handleDefaultSearch = () => {
     if(carouselModeRef.current) return;
 
     setMode('get-inspired-search');
     modeRef.current = 'get-inspired-search';
-    searchCaseStudies(components);
-  };
-
-   // Callback function to receive data from OLCompass
-   const handleDataFromOLCompass = useCallback((data) => {
-   console.log(data);
-    if(carouselModeRef.current) return;
-
-    setMode('get-inspired-search');
-    modeRef.current = 'get-inspired-search';
-    searchCaseStudies(data);
-  }, [searchCaseStudies]); // Empty dependency array to ensure it doesn't change
-
-
-  const handleSearchClick = () => {
-    // You can now use compassData or perform any action with it
-    setFetchData(true);
-
-    // Set it back to false after the reset
-    setTimeout(() => {
-      setFetchData(false);
-    }, 0);
+    searchCaseStudies(GIComponentsRef.current);
   };
 
   const toggleBookmark = () => {
@@ -334,18 +312,15 @@ const GetInspiredPage = ({}) => {
           position={isExplanationPage ? "center" : "left"}
           resetState={resetState} // Passing resetState to OLCompass
           onButtonClick={handleCompassClick}
-          onEnterClick={handleDefaultSearch}
-          onSearchClick={handleDataFromOLCompass}
-          fetchData={fetchData}
         />
         {isExplanationPage && 
-          <Description colors={colors} mode={'get-inspired'} 
+          <Description mode={'get-inspired'} 
         />}
         {((!isExplanationPage && carouselMode) || !carouselMode) && (
           <Message
             mode={'get-inspired'}
             type={'button'}
-            setMessageShown={setMessageShown} // Pass the setter to control it
+            setMessageShown={setMessageShown}
           />
         )}
   
@@ -430,7 +405,7 @@ const GetInspiredPage = ({}) => {
                     </button>
                   </div>
                 </div>
-                <button className="gi-search-button" onClick={handleSearchClick}>
+                <button className="gi-search-button" onClick={handleDefaultSearch}>
                   SEARCH
                 </button>
               </div>
@@ -446,8 +421,6 @@ const GetInspiredPage = ({}) => {
           type={'message'}
           messageShown={messageShown} // Pass whether to show the message
           setMessageShown={setMessageShown} // Pass the setter to control it
-          firstMessage={firstMessage}
-          setFirstMessage={setFirstMessage}
         />
       )}
     </>

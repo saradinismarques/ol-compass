@@ -3,16 +3,15 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 
-const ContextualizePage = ({ colors, isExplanationPage }) => {
+const ContextualizePage = () => {
   return (
     <>
       <OLCompass 
-        colors={colors}
         mode="default" 
-        position={isExplanationPage ? "center" : "left"}
+        position={"center"}
       /> 
-      <Description colors={colors} mode={'contextualize'} />
-      <Menu isExplanationPage={isExplanationPage} />
+      <Description mode={'contextualize'}/>
+      <Menu />
     </>
   );
 };

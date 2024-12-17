@@ -7,7 +7,7 @@ import Description from '../components/Description';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 
-const GetStartedPage = ({}) => {
+const GetStartedPage = () => {
   const {
     colors,
     isExplanationPage,
@@ -62,7 +62,7 @@ const GetStartedPage = ({}) => {
     modeRef.current = 'get-started';
   }, [initialState, setIsExplanationPage]);
 
-  const handleCompassClick = (code, title, headline, type) => {
+  const handleCompassClick = (code, title, headline, type) => {    
     setSelectedType(type);
 
     setComponents((prevComponents) => {
@@ -233,7 +233,7 @@ const GetStartedPage = ({}) => {
           resetState={resetState}
           onButtonClick={handleCompassClick}
         />
-        {isExplanationPage && <Description colors={colors} mode={'get-started'} />}
+        {isExplanationPage && <Description mode={'get-started'} />}
 
         {!isExplanationPage && (
           <>
@@ -266,7 +266,7 @@ const GetStartedPage = ({}) => {
             </div>
           </>
         )}
-        <Menu isExplanationPage={isExplanationPage} />
+        <Menu />
       </div>
     </>
   );

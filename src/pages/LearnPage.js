@@ -15,7 +15,7 @@ import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
 
-const LearnPage = ({}) => {
+const LearnPage = () => {
   const {
     colors,
     firstMessage,
@@ -320,7 +320,7 @@ const LearnPage = ({}) => {
               </div>
             </>
           )}
-          <Menu isExplanationPage={isExplanationPage} />
+          <Menu />
         </div>
 
         {imageSrc && (
@@ -341,8 +341,6 @@ const LearnPage = ({}) => {
           type={'message'}
           messageShown={messageShown}
           setMessageShown={setMessageShown}
-          firstMessage={firstMessage}
-          setFirstMessage={setFirstMessage}
         />
       )}
     </>

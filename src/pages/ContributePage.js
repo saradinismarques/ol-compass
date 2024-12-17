@@ -7,7 +7,7 @@ import Message from '../components/Message';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 
-const ContributePage = ({}) => {
+const ContributePage = () => {
   const {
     colors,
     firstMessage,
@@ -16,6 +16,7 @@ const ContributePage = ({}) => {
     setIsExplanationPage,
     CComponents,
     setCComponents,
+    CComponentsRef,
     newCaseStudies,
     setNewCaseStudies,
   } = useContext(StateContext);
@@ -43,10 +44,15 @@ const ContributePage = ({}) => {
   const [messageShown, setMessageShown] = useState(false);
 
   const buttonsRef = useRef({}); // Stores button positions for dropdown alignment
+  const stateRef = useRef(state);
+
+  useEffect(() => {
+    stateRef.current = state; // Keep the ref in sync with the latest state
+  }, [state]);
 
   // Reset state and UI elements
   const resetState = useCallback(() => {
-   // setState(initialState);
+    setState(initialState);
     setIsExplanationPage(true);
     setOpenDropdown(null);
     setDropdownPosition({ top: 0, left: 0 });
@@ -55,7 +61,7 @@ const ContributePage = ({}) => {
   }, [initialState, setIsExplanationPage]);
 
   // Trigger compass action
-  const handleCompassClick = (code) => {
+  const handleCompassClick = () => {
     if (firstClick && firstMessage) {
       setFirstClick(false);
       setMessageShown(true);
@@ -73,7 +79,7 @@ const ContributePage = ({}) => {
         setMessageShown(true);
       }
       setIsExplanationPage(false);
-      //handleEnterClick();
+      handleEnterClick(CComponentsRef.current);
     },
     [firstClick, firstMessage, isExplanationPage, setIsExplanationPage]
   );
@@ -102,16 +108,16 @@ const ContributePage = ({}) => {
   // Handle "Enter" button action
   const handleEnterClick = (components) => {
     const newCaseStudy = {
-      Title: state.title,
-      Collection: state.collection,
-      MainTarget: state.mainTarget,
-      Age: state.age,
-      Time: state.time,
-      Type: state.type,
-      Languages: state.languages,
-      Year: state.year,
-      Description: state.description,
-      Credits: state.credits,
+      Title: stateRef.current.title,
+      Collection: stateRef.current.collection,
+      MainTarget: stateRef.current.mainTarget,
+      Age: stateRef.current.age,
+      Time: stateRef.current.time,
+      Type: stateRef.current.type,
+      Languages: stateRef.current.languages,
+      Year: stateRef.current.year,
+      Description: stateRef.current.description,
+      Credits: stateRef.current.credits,
       Components: components,
     };
 
@@ -211,9 +217,8 @@ const ContributePage = ({}) => {
           resetState={resetState}
           resetCompass={resetCompass}
           onButtonClick={handleCompassClick}
-          onEnterClick={handleEnterClick}
         />
-        {isExplanationPage && <Description colors={colors} mode="contribute" />}
+        {isExplanationPage && <Description mode="contribute" />}
 
         {!isExplanationPage && (
           <>
@@ -268,7 +273,7 @@ const ContributePage = ({}) => {
             {openDropdown && renderDropdownContent(openDropdown, dropdownOptions[openDropdown])}
           </>
         )}
-        <Menu isExplanationPage={isExplanationPage} />
+        <Menu />
       </div>
       {!isExplanationPage && (
         <Message
@@ -276,8 +281,6 @@ const ContributePage = ({}) => {
           type="message"
           messageShown={messageShown}
           setMessageShown={setMessageShown}
-          firstMessage={firstMessage}
-          setFirstMessage={setFirstMessage}
         />
       )}
     </>

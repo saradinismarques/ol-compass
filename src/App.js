@@ -82,53 +82,30 @@ function App() {
           />
           <Route
             path="/get-inspired"
-            element={<GetInspiredPage />
-            }
+            element={<GetInspiredPage />}
           />
-          {/*<Route
+          <Route
             path="/analyse"
-            element={
-              <AnalysePage
-                colors={colors}
-              />
-            }
-          />*/}
+            element={<AnalysePage />}
+          />
           <Route
             path="/contribute"
             element={<ContributePage />}
           />
-          {/*<Route
+          <Route
             path="/contextualize"
-            element={
-              <ContextualizePage
-                colors={colors}
-                isExplanationPage={isExplanationPage}
-                setIsExplanationPage={setIsExplanationPage}
-              />
-            }
+            element={<ContextualizePage />}
           />
           <Route
             path="/ideate"
-            element={
-              <IdeatePage
-                colors={colors}
-                isExplanationPage={isExplanationPage}
-                setIsExplanationPage={setIsExplanationPage}
-              />
-            }
+            element={<IdeatePage />}
           />
           <Route
             path="/compare"
-            element={
-              <ComparePage
-                colors={colors}
-                isExplanationPage={isExplanationPage}
-                setIsExplanationPage={setIsExplanationPage}
-              />
-            }
-          /> */}
+            element={<ComparePage />}
+          /> 
           {/* Catch-all route */}
-          <Route path="*" element={<IntroPage colors={colors}/>} />
+          <Route path="*" element={<IntroPage />} />
         </Routes>
       </main>
     </div>

@@ -6,7 +6,7 @@ import { formatText } from '../utils/Text.js';
 import '../styles/pages/IntroPage.css';
 import { StateContext } from "../State";
 
-const IntroPage = ({}) => {
+const IntroPage = () => {
     const {
         colors,
         opacityCounter,

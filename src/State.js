@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState, useRef, useEffect } from 'react';
 import { getColorPallete } from './utils/Data.js'; 
 
 // Create the context
@@ -51,6 +51,12 @@ export const State = ({ children }) => {
     // Get Inspired
     const [GICurrentComponents, setGICurrentComponents] = useState([]);
     const [GIComponents, setGIComponents] = useState([]);
+    const GIComponentsRef = useRef(GIComponents);
+  
+    // Update the ref whenever changes
+    useEffect(() => {
+        GIComponentsRef.current = GIComponents;
+    }, [GIComponents]);
 
     // Analyse
     const [AComponents, setAComponents] = useState([]);
@@ -59,6 +65,12 @@ export const State = ({ children }) => {
 
     // Contribute
     const [CComponents, setCComponents] = useState([]);
+    const CComponentsRef = useRef(GIComponents);
+  
+    // Update the ref whenever changes
+    useEffect(() => {
+        CComponentsRef.current = CComponents;
+    }, [CComponents]);
 
     return (
         <StateContext.Provider
@@ -86,6 +98,7 @@ export const State = ({ children }) => {
                 setLComponent,
                 GIComponents,
                 setGIComponents,
+                GIComponentsRef,
                 GICurrentComponents,
                 setGICurrentComponents,
                 AComponents,
@@ -95,7 +108,8 @@ export const State = ({ children }) => {
                 removedComponents,
                 setRemovedComponents,
                 CComponents,
-                setCComponents
+                setCComponents,
+                CComponentsRef
                 // Add other global states here as needed
             }}
         >

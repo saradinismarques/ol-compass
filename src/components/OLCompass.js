@@ -37,7 +37,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, position, onButtonClick, resetState, onEnterClick, resetCompass,  onSearchClick, onSubmitClick, fetchData }) => {
+const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) => {
   const {
     colors,
     savedComponents,
@@ -52,14 +52,18 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, onEnterClick, re
     setLComponent,
     GIComponents,
     setGIComponents,
+    GIComponentsRef,
     GICurrentComponents,
     setGICurrentComponents,
+    AComponents,
+    setAComponents,
     addedComponents,
     setAddedComponents,
     removedComponents,
     setRemovedComponents,
     CComponents,
-    setCComponents
+    setCComponents,
+    CComponentsRef
   } = useContext(StateContext);
   
   // Function to determine the center based on position
@@ -106,9 +110,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, onEnterClick, re
     setSelectedComponents = setGIComponents;
     currentComponents = GICurrentComponents;
   } else if(mode.startsWith("analyse")) {
-    selectedComponents = GIComponents;
-    setSelectedComponents = setGIComponents;
-    currentComponents = GICurrentComponents;
+    selectedComponents = AComponents;
+    setSelectedComponents = setAComponents;
   } else if(mode === "contribute") {
     selectedComponents = CComponents;
     setSelectedComponents = setCComponents;
@@ -147,20 +150,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, onEnterClick, re
       setSelectedComponents([]);
     }
   }, [resetCompass]);
-
-  // Effect to handle the click on other buttons of the page
-  useEffect(() => {
-    if (fetchData && onSubmitClick) {
-      onSubmitClick(selectedComponents);
-    }
-  }, [fetchData, onSubmitClick]);
-
-  useEffect(() => {
-    if (fetchData && onSearchClick) {
-      onSearchClick(selectedComponents);
-    }
-  }, [fetchData, onSearchClick]);
-
 
   const handleClick = (id) => {
     //const id = parseInt(e.target.id(), 10);
@@ -219,53 +208,53 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, onEnterClick, re
           title,
           components[id].Headline,
           components[id].Type,
-          components[id].x,
-          components[id].y,
-          id
         );
       }
     } else if(mode === "get-inspired" || mode === "get-inspired-search") {
+      setSelectedComponents(prevClickedIds => {
+        const newSelectedIds = prevClickedIds.includes(components[id].Code)
+          ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
+          : [...prevClickedIds, components[id].Code]; // Add ID if not already clicked
+        
+        // Update the ref immediately with the new state
+        GIComponentsRef.current = newSelectedIds;
+      
+        // Return the updated state
+        return newSelectedIds;
+      });
+      
+      if (onButtonClick) onButtonClick();
+    } else if(mode === "contribute") {
+      setSelectedComponents(prevClickedIds => {
+        const newSelectedIds = prevClickedIds.includes(components[id].Code)
+          ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
+          : [...prevClickedIds, components[id].Code]; // Add ID if not already clicked
+        
+        // Update the ref immediately with the new state
+        GIComponentsRef.current = newSelectedIds;
+      
+        // Return the updated state
+        return newSelectedIds;
+      });
+      
+      if (onButtonClick) onButtonClick();
+    } else if(mode.startsWith("analyse")) {
+      const title = convertLabel(components[id].Code);
+      setInitialState(false);
+
       setSelectedComponents(prevClickedIds =>
         prevClickedIds.includes(components[id].Code)
           ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
           : [...prevClickedIds, components[id].Code] // Add ID if not already clicked
       );
       
-      if (onButtonClick) onButtonClick(components[id].Code);
-    } else if(mode === "contribute") {
-      setSelectedComponents(prevClickedIds =>
-        prevClickedIds.includes(components[id].Code)
-          ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevClickedIds, components[id].Code] // Add ID if not already clicked
-      );
-
-      if (onButtonClick) onButtonClick(components[id].Code);
-    } else if(mode.startsWith("analyse")) {
-
-      if(mode !== 'analyse-b' && mode !== 'analyse-pdf-b') {
-        setClickedIds(prevClickedIds =>
-          prevClickedIds.includes(id)
-            ? prevClickedIds.filter(buttonId => buttonId !== id) // Remove ID if already clicked
-            : [...prevClickedIds, id] // Add ID if not already clicked
+      if (onButtonClick) {
+        onButtonClick(
+          components[id].Code,
+          title,
+          components[id].Headline,
+          components[id].Type,
         );
-    }
-      if ( mode === "contribute") {
-        if (onButtonClick) onButtonClick();
-      } else if(mode === "get-started" || mode === "get-started-search" || mode.startsWith("analyse")) {
-        const title = convertLabel(components[id].Code);
-        setInitialState(false);
-        
-        if (onButtonClick) {
-          onButtonClick(
-            components[id].Code,
-            title,
-            components[id].Headline,
-            components[id].Type,
-            components[id].x,
-            components[id].y,
-            id
-          );
-        }
       }
     } 
   };
@@ -322,12 +311,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, onEnterClick, re
 
       if(resetState)
         resetState();
-    } else if (e.key === 'Enter' && (mode === "contribute" || mode === "get-inspired")) {
-      if (onEnterClick) {
-        onEnterClick(selectedComponents);
-      }
     }
-  }, [resetState, mode, components, onEnterClick]);
+  }, [resetState, mode, components]);
     
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -445,7 +430,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, onEnterClick, re
   let gapX, gapY;
 
   if(mode.startsWith("analyse")) {
-    gapX = window.innerWidth/3;
+    gapX = window.innerWidth/2.9;
     gapY = window.innerHeight/7;
   } else {
     gapX = 0;
@@ -675,7 +660,6 @@ function getComponentsPositions(componentsData, type) {
 };
 
 const getWaveFill = (mode, colors, selectedComponents, hoveredId, component, opacityCounter) => {
-
   // Analyse PDF
   // if(mode.startsWith("analyse-pdf")) {
   //   if(selectedComponents.includes(component.Code) || hoveredId === currentId)
@@ -687,20 +671,19 @@ const getWaveFill = (mode, colors, selectedComponents, hoveredId, component, opa
   //     return "white";
   // }
 
-  // if(mode.startsWith("analyse")) {
-  //   if(clickedIds.includes(currentId) || hoveredId === currentId)
-  //     return colors['Wave'][component.Type];
-  //   else if(removedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
-  //     return colors['Wave'][component.Type];
-  //   }
-  //   else if(addedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
-  //     return colors['Wave'][component.Type];
-  //   }
-  //   else
-  //     return "white";
-  // }
-  // else 
-    return colors['Wave'][component.Type];
+  if(mode.startsWith("analyse")) {
+    if(selectedComponents.includes(component.Code) || hoveredId === component.Code)
+      return colors['Wave'][component.Type];
+    // else if(removedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
+    //   return colors['Wave'][component.Type];
+    // }
+    // else if(addedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
+    //   return colors['Wave'][component.Type];
+    // }
+    else
+      return "transparent";
+  }
+  return colors['Wave'][component.Type];
 }
 
 const getTextFill = (mode, colors, selectedComponents, hoveredId, component, opacityCounter) => {
@@ -721,35 +704,36 @@ const getTextFill = (mode, colors, selectedComponents, hoveredId, component, opa
   //   }
   //   return colors['Label'][component.Type];
   // }
-  // if(mode.startsWith("analyse")) {
-      
-  //     if(mode.startsWith("analyse-b") && (removedComponents.includes(component.Code)|| addedComponents.includes(component.Code)))
-  //       return colors['Label'][component.Type];
-  //     else if(!clickedIds.includes(currentId) && currentId !== hoveredId )
-  //       return "#cacbcb";
-  //     if(mode === "analyse-a-p") {
-  //       if(component.Type === "Principle")
-  //         return colors['Label'][component.Type];
-  //     }
-  //     else if(mode === "analyse-a-pe") {
-  //       if(component.Type === "Perspective")
-  //         return colors['Label'][component.Type];
-  //     }
-  //     else if(mode === "analyse-a-d") {
-  //       if(component.Type === "Dimension")
-  //         return colors['Label'][component.Type];
-  //     }
-  //     return colors['Label'][component.Type];
-  // } else 
-    return colors['Label'][component.Type];
+  if(mode.startsWith("analyse")) {  
+      // if(mode.startsWith("analyse-b") && (removedComponents.includes(component.Code)|| addedComponents.includes(component.Code)))
+      //   return colors['Label'][component.Type];
+      // else if(!clickedIds.includes(currentId) && currentId !== hoveredId )
+      //   return "#cacbcb";
+      // if(mode === "analyse-a-p") {
+      //   if(component.Type === "Principle")
+      //     return colors['Label'][component.Type];
+      // }
+      // else if(mode === "analyse-a-pe") {
+      //   if(component.Type === "Perspective")
+      //     return colors['Label'][component.Type];
+      // }
+      // else if(mode === "analyse-a-d") {
+      //   if(component.Type === "Dimension")
+      //     return colors['Label'][component.Type];
+      // }
+      // return colors['Label'][component.Type];
+      if(selectedComponents.includes(component.Code) || hoveredId === component.Code)
+        return colors['Label'][component.Type];
+      else 
+        return "#cacbcb";
+  } 
+  return colors['Label'][component.Type];
 }
 
 const getStroke = (mode, colors, selectedComponents, hoveredId, component, opacityCounter) => {
-  if(mode === "default")
-    return;
   // Get Started
-  if(selectedComponents.includes(component.Code)) 
-    if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
+  if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
+    if(selectedComponents.includes(component.Code)) 
       return colors['Selection'];
   
   // if(mode === "analyse-b" || mode === "analyse-pdf-b") {
@@ -768,8 +752,7 @@ const getStroke = (mode, colors, selectedComponents, hoveredId, component, opaci
   //     return '#cacbcb';
   //   return colors['Wave'][component.Type];
   // }
-  // else
-      return 'none';
+  return 'none';
 };
 
 const getStrokeWidth = (mode, selectedComponents, hoveredId, component, opacityCounter) => {

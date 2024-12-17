@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { getModeTexts } from '../utils/Data.js'; 
 import '../styles/components/Description.css';
 import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
@@ -6,8 +6,11 @@ import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; //
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as CtaArrow } from '../assets/icons/cta-arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as LockIcon } from '../assets/icons/lock-icon.svg'; // Adjust the path as necessary
+import { StateContext } from "../State";
 
-const Description = ({ colors, mode }) => {
+const Description = ({ mode }) => {
+  const {colors} = useContext(StateContext);
+
   const description = getModeTexts(mode);
   const textLines = description.Text.split("<br>");
   

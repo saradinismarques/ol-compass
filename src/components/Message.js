@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { getModeTexts } from '../utils/Data.js'; 
 import '../styles/components/Message.css';
 import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg'; // Adjust the path as necessary
+import { StateContext } from "../State";
 
-const Message = ({ mode, type, messageShown, setMessageShown, firstMessage, setFirstMessage }) => {
+const Message = ({ mode, type, messageShown, setMessageShown }) => {
+  const {firstMessage, setFirstMessage} = useContext(StateContext);
+ 
   const message = getModeTexts(mode).Message;
   
   let width;

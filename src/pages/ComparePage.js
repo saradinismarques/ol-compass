@@ -3,16 +3,15 @@ import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 
-const ComparePage = ({ colors, isExplanationPage }) => {
+const ComparePage = () => {
   return (
     <>
       <OLCompass 
-        colors={colors}
         mode="default" 
-        position={isExplanationPage ? "center" : "left"}
+        position={"center"}
       /> 
-      <Description colors={colors} mode={'compare'} />
-      <Menu isExplanationPage={isExplanationPage} />
+      <Description mode={'compare'} />
+      <Menu />
     </>
   );
 };

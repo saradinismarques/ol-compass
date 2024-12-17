@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/components/Menu.css';
 import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
+import { StateContext } from "../State";
 
-const Menu = ({isExplanationPage}) => {
+const Menu = () => {
+  const {isExplanationPage} = useContext(StateContext);
+
   const location = useLocation();
   const currentPath = location.pathname;
   // Load the initial state from localStorage or set default to false
@@ -88,6 +91,14 @@ const Menu = ({isExplanationPage}) => {
             GET INSPIRED
           </Link>
         }
+        {(menuExpanded || activeButton === 'analyse') && 
+          <Link
+            to="/analyse"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'analyse' ? 'active' : ''}`}
+          >
+            ANALYSE
+          </Link>
+        }
         {(menuExpanded || activeButton === 'contribute') && 
           <Link
             to="/contribute"
@@ -120,14 +131,6 @@ const Menu = ({isExplanationPage}) => {
                 className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'compare' ? 'active' : 'disabled'}`}
               >
                 COMPARE
-              </Link>
-            }
-            {(menuExpanded || activeButton === 'analyse') && 
-              <Link
-                to="/analyse"
-                className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'analyse' ? 'active' : 'disabled'}`}
-              >
-                ANALYSE
               </Link>
             }
           </>
