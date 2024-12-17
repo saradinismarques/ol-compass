@@ -110,13 +110,14 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
     setSelectedComponents = setGIComponents;
     currentComponents = GICurrentComponents;
   } else if(mode.startsWith("analyse")) {
-    selectedComponents = AComponents;
-    setSelectedComponents = setAComponents;
+    selectedComponents = GIComponents;
+    setSelectedComponents = setGIComponents;
   } else if(mode === "contribute") {
     selectedComponents = CComponents;
     setSelectedComponents = setCComponents;
   }
 
+  console.log(selectedComponents);
   const [initialState, setInitialState] = useState(true);
 
   // Tooltip
@@ -152,8 +153,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
   }, [resetCompass]);
 
   const handleClick = (id) => {
-    //const id = parseInt(e.target.id(), 10);
-    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode.startsWith("analyse-a-")) 
       return;
     
     if (mode === "learn") {
@@ -260,7 +260,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
   };
   
   const handleMouseEnter = (e, id) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") 
+    if (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse-a-")) 
       return;
 
     setHoveredId(components[id].Code);
@@ -347,7 +347,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
 
   const buttonStyle = {
     position: 'absolute',
-    cursor: (mode.startsWith("intro") || mode === "default" || mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d" ) ? 'default' : 'pointer',
+    cursor: (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse-a-")) ? 'default' : 'pointer',
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
@@ -747,11 +747,10 @@ const getStroke = (mode, colors, selectedComponents, hoveredId, component, opaci
   //     return '#cacbcb';
   //   return colors['Wave'][component.Type];
   // }
-  // if(mode.startsWith("analyse")) {
-  //   if(!clickedIds.includes(currentId) && hoveredId !== currentId)
-  //     return '#cacbcb';
-  //   return colors['Wave'][component.Type];
-  // }
+  if(mode.startsWith("analyse")) {
+    if(!selectedComponents.includes(component.Code) && hoveredId !== component.Code)
+      return '#cacbcb';
+  }
   return 'none';
 };
 
@@ -764,8 +763,8 @@ const getStrokeWidth = (mode, selectedComponents, hoveredId, component, opacityC
   //   else
   //     return "0.6px";
   // }
-  // else if(mode.startsWith("analyse"))
-  //   return "0.6px";
+  if(mode.startsWith("analyse"))
+    return "0.6px";
 
   return "1.5px";
 };
@@ -865,13 +864,13 @@ const getWaveOpacity = (mode, selectedComponents, currentComponents, hoveredId, 
     return 0.3;
   }
   // // Analyse    
-  // if(mode === "analyse" || mode === "analyse-a-all") {
-  //   if (clickedIds.includes(currentId)) 
-  //     return 1;
-  //   if (hoveredId === currentId) 
-  //     return 0.5;
-  //   return 1;
-  // }
+  if(mode === "analyse" || mode === "analyse-a-all") {
+    if (selectedComponents.includes(component.Code)) 
+      return 1;
+    if (hoveredId === component.Code) 
+      return 0.5;
+    return 1;
+  }
   // if(mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") {
   //   if(mode === "analyse-a-p" && component.Type === "Principle")
   //     return 1;
