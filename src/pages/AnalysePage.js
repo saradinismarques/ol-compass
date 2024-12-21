@@ -79,7 +79,7 @@ const AnalysePage = () => {
     //       });
     // };
 
-    const handleDragStart = (code, title, headline, type) => {
+    const handleDragStart = (code, title, headline, type, x, y) => {
         setComponents((prevComponents) => {
             const componentExists = prevComponents.some((component) => component.code === code);
       
@@ -92,6 +92,8 @@ const AnalysePage = () => {
                     title,
                     headline,
                     type,
+                    x, 
+                    y
                   },
                 ];
       
@@ -106,7 +108,6 @@ const AnalysePage = () => {
             });
       
             componentsRef.current = sortedComponents;
-            console.log(componentsRef.current);
             return sortedComponents;
           });
     };
@@ -297,12 +298,13 @@ const AnalysePage = () => {
         // Render React component into the container
         ReactDOM.render(
             <State>
-                <OLCompass 
+                <BigWave 
                     className='a-ol-compass'
                     mode={currentMode}
-                    position="center" 
+                    position="center"
                     selected={componentsRef.current.map((component) => component.code)}
-                />
+                    positions = {componentsRef.current}
+                /> 
             </State>,
             container
         );
@@ -326,9 +328,9 @@ const AnalysePage = () => {
         document.body.removeChild(container);
 
 
-        if(currentMode === 'analyse-a-all')
+        if(currentMode === 'analyse-pdf-a-all')
             return;
-        if(currentMode.startsWith('analyse-a-'))
+        if(currentMode.startsWith('analyse-pdf-a-'))
             await addIconAndDefinitions(pdf, currentMode, type);
     };
 
@@ -348,22 +350,22 @@ const AnalysePage = () => {
 
         // Task A All Page
         let text = 'The OL aspects/potential of your project that I could initially capture';
-        await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
+        await addTaskPage(pdf, text, 'analyse-pdf-a-all', 'A', 'All'); 
         
         //Task A Principles
         if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > PRINCIPLES focus';
-            await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
+            await addTaskPage(pdf, text, 'analyse-pdf-a-p', 'A', 'Principle'); 
         }
         //Task A Perspectives
         if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-            await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
+            await addTaskPage(pdf, text, 'analyse-pdf-a-pe', 'A', 'Perspective'); 
         }
         //Task A Dimensions
         if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-            await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
+            await addTaskPage(pdf, text, 'analyse-pdf-a-d', 'A', 'Dimension'); 
         }
         //Task B
         //Task C
@@ -407,6 +409,7 @@ const AnalysePage = () => {
                 onDragStart={handleDragStart}
             /> 
         </div>
+
         {!isExplanationPage && (
             <>
             <textarea

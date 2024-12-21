@@ -23,7 +23,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, position, onDragStart, resetState, resetCompass, selected, current }) => {
+const OLCompass = ({ mode, position, onDragStart, resetState, selected, positions }) => {
   const {
     colors,
     isExplanationPage,
@@ -49,14 +49,7 @@ const OLCompass = ({ mode, position, onDragStart, resetState, resetCompass, sele
 
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
-  let currentComponent = current || null;
-
-  useEffect(() => {
-    if (resetCompass) {
-      // Clear the selected buttons or reset the state
-      setSelectedComponents([]);
-    }
-  }, [resetCompass]);
+  const componentPositions = positions || [];
 
   useEffect(() => {
     setComponents((prevComponents) =>
@@ -81,11 +74,21 @@ const OLCompass = ({ mode, position, onDragStart, resetState, resetCompass, sele
         else
             newAngle = -Math.PI+0.025*Math.PI;
     }
+
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
         updatedComponents[id].angle = newAngle;
         updatedComponents[id].gapX = NaN;
         updatedComponents[id].gapY = NaN;
+        return updatedComponents;
+    });
+  };
+
+  const handleDragStop = (id, data) => {
+    setComponents((prevComponents) => {
+        const updatedComponents = [...prevComponents];
+        updatedComponents[id].x = data.x;
+        updatedComponents[id].y = data.y;
         return updatedComponents;
       });
 
@@ -97,17 +100,10 @@ const OLCompass = ({ mode, position, onDragStart, resetState, resetCompass, sele
           title,
           components[id].Headline,
           components[id].Type,
+          data.x,
+          data.y
         );
       }
-  };
-
-  const handleDragStop = (id, data) => {
-    setComponents((prevComponents) => {
-        const updatedComponents = [...prevComponents];
-        updatedComponents[id].x = data.x;
-        updatedComponents[id].y = data.y;
-        return updatedComponents;
-      });
   };
 
   // Memoize handleKeyDown to avoid creating a new reference on each render
@@ -151,6 +147,11 @@ const OLCompass = ({ mode, position, onDragStart, resetState, resetCompass, sele
       >
         {components.map((c, i) => (
         <Draggable key={i} 
+            position={
+                componentPositions.length > 0 
+                ? { x: componentPositions["x"], y: componentPositions["y"] } 
+                : undefined // Let Draggable manage the position if no positions are defined
+            }
             disabled={isExplanationPage}
             onStart={() => handleDragStart(i)} // Set this textarea as active on drag
             onStop={(data) => handleDragStop(i, data)} // Set this textarea as active on drag
@@ -160,8 +161,8 @@ const OLCompass = ({ mode, position, onDragStart, resetState, resetCompass, sele
             <div
               style={{
                 ...buttonStyle,
-                left: `${c.x - waveWidth / 2 + c.gapX}px`, // Adjust position for button size
-                top: `${c.y - waveHeight / 2 + c.gapY}px`,
+                left: `${selectedComponents.includes(c.Code) ? 0 : c.x - waveWidth / 2 + c.gapX}px`, // Adjust position for button size
+                top: `${selectedComponents.includes(c.Code) ? 0 : c.y - waveHeight / 2 + c.gapY}px`,
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
               }}
@@ -173,7 +174,7 @@ const OLCompass = ({ mode, position, onDragStart, resetState, resetCompass, sele
                   stroke="none" 
                   style={{ pointerEvents: 'all' }}
                   transition="opacity 1s ease"
-                  opacity={getWaveOpacity(mode, selectedComponents, currentComponent, c, opacityCounter, allComponents)} // Change opacity on hover
+                  opacity={getWaveOpacity(mode, selectedComponents, c, opacityCounter, allComponents)} // Change opacity on hover
                 />
               </svg>
             </div>
@@ -208,7 +209,7 @@ const OLCompass = ({ mode, position, onDragStart, resetState, resetCompass, sele
                 left: `${c.x - (waveWidth * 0.83) / 2 + c.gapX}px`, // Adjust position for button size
                 top: `${c.y - waveHeight / 2 + c.gapY}px`,
                 transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
-                opacity: getWaveOpacity(mode, selectedComponents, currentComponent, c, opacityCounter, allComponents), // Change opacity on hover
+                opacity: getWaveOpacity(mode, selectedComponents, c, opacityCounter, allComponents), // Change opacity on hover
                 zIndex: 10,
                 pointerEvents: 'none', // Disable pointer events for the inner div
                 userSelect: 'none'
@@ -365,7 +366,7 @@ const getStrokeWidth = (mode) => {
     return "0.6px";
 };
 
-const getWaveOpacity = (mode, selectedComponents, currentComponent, component, opacityCounter, allComponents) => {
+const getWaveOpacity = (mode, selectedComponents, component, allComponents) => {
   // Analyse    
   if(mode === "analyse" || mode === "analyse-a-all") {
     if (selectedComponents.includes(component.Code)) 
