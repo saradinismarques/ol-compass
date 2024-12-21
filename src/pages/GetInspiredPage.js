@@ -107,19 +107,19 @@ const GetInspiredPage = () => {
   }, [savedCaseStudies]);
 
   const handleCompassClick = (code) => {
-    if(firstClick && firstMessage) {
+    if(firstClick && firstMessage["get-inspired"]) {
       setFirstClick(false);
       setMessageShown(true);
     }
 
-    setComponents(prevClickedIds => {
-      const newSelectedIds = prevClickedIds.includes(code)
-        ? prevClickedIds.filter(buttonId => buttonId !== code) // Remove ID if already clicked
-        : [...prevClickedIds, code]; // Add ID if not already clicked
-      componentsRef.current = newSelectedIds;
+    setComponents(prevComponents => {
+      const newComponents = prevComponents.includes(code)
+        ? prevComponents.filter(buttonId => buttonId !== code) // Remove ID if already clicked
+        : [...prevComponents, code]; // Add ID if not already clicked
+      componentsRef.current = newComponents;
       
       // Return the updated state
-      return newSelectedIds;
+      return newComponents;
     });
 
     setIsExplanationPage(false);
@@ -207,7 +207,7 @@ const GetInspiredPage = () => {
     setCarouselMode(true);
     carouselModeRef.current = true;
 
-    if(firstClick && firstMessage) {
+    if(firstClick && firstMessage["get-inspired"]) {
       setMessageShown(true);
       setFirstClick(false);
     }

@@ -582,7 +582,6 @@ const AnalysePage = ({ colors }) => {
       // Other states
   
   const handleDragStop = (id, data) => {
-    console.log(id);
     setTextAreaPositions((prevPositions) => ({
       ...prevPositions,
       [id]: { x: data.x, y: data.y }, // Update the position of the dragged textarea

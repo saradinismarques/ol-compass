@@ -58,19 +58,19 @@ const ContributePage = () => {
 
   // Trigger compass action
   const handleCompassClick = (code) => {
-    if (firstClick && firstMessage) {
+    if (firstClick && firstMessage["contribute"]) {
       setFirstClick(false);
       setMessageShown(true);
     }
 
-    setComponents(prevClickedIds => {
-      const newSelectedIds = prevClickedIds.includes(code)
-        ? prevClickedIds.filter(buttonId => buttonId !== code) // Remove ID if already clicked
-        : [...prevClickedIds, code]; // Add ID if not already clicked
-      componentsRef.current = newSelectedIds;
+    setComponents(prevComponents => {
+      const newComponents = prevComponents.includes(code)
+        ? prevComponents.filter(buttonId => buttonId !== code) // Remove ID if already clicked
+        : [...prevComponents, code]; // Add ID if not already clicked
+      componentsRef.current = newComponents;
       
       // Return the updated state
-      return newSelectedIds;
+      return newComponents;
     });
 
     setIsExplanationPage(false);
@@ -108,7 +108,7 @@ const ContributePage = () => {
   const handleKeyDown = useCallback((e) => {
       if (e.key !== 'Enter') return;
 
-      if (firstClick && firstMessage) {
+      if (firstClick && firstMessage["contribute"]) {
         setFirstClick(false);
         setMessageShown(true);
       }

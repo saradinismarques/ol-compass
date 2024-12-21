@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
 import OLCompass from '../components/OLCompass'
+import BigWave from '../components/BigWave.js'
 import CompassIcon from '../components/CompassIcon'
 import Menu from '../components/Menu';
 import html2canvas from "html2canvas";
@@ -36,9 +37,49 @@ const AnalysePage = () => {
         setMode('analyse');
     }, []);
 
-    const handleCompassClick = (code, title, headline, type) => {
+    // Handle Enter key
+    const handleKeyDown = useCallback((e) => {
+        if (e.key !== 'Enter') return;
         setIsExplanationPage(false);
-        
+    }, [setIsExplanationPage]);
+
+    useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [handleKeyDown]);
+
+    // const handleCompassClick = (code, title, headline, type) => {
+    //     setComponents((prevComponents) => {
+    //         const componentExists = prevComponents.some((component) => component.code === code);
+      
+    //         const updatedComponents = componentExists
+    //           ? prevComponents.filter((component) => component.code !== code)
+    //           : [
+    //               ...prevComponents,
+    //               {
+    //                 code,
+    //                 title,
+    //                 headline,
+    //                 type,
+    //               },
+    //             ];
+      
+    //         const sortedComponents = updatedComponents.sort((a, b) => {
+    //           const indexA = allComponents.indexOf(a.code);
+    //           const indexB = allComponents.indexOf(b.code);
+      
+    //           if (indexA === -1) return 1;
+    //           if (indexB === -1) return -1;
+      
+    //           return indexA - indexB;
+    //         });
+      
+    //         componentsRef.current = sortedComponents;
+    //         return sortedComponents;
+    //       });
+    // };
+
+    const handleDragStart = (code, title, headline, type) => {
         setComponents((prevComponents) => {
             const componentExists = prevComponents.some((component) => component.code === code);
       
@@ -65,9 +106,11 @@ const AnalysePage = () => {
             });
       
             componentsRef.current = sortedComponents;
+            console.log(componentsRef.current);
             return sortedComponents;
           });
     };
+
 
     const addIconAndDefinitions = async(pdf, currentMode, type) => {
         // Compass Icon
@@ -351,9 +394,17 @@ const AnalysePage = () => {
         <div className='a-ol-compass'>
             <OLCompass 
                 mode={mode}
-                position="center" 
+                position="center"
                 resetState={resetState}
-                onButtonClick={handleCompassClick}
+            /> 
+        </div>
+        
+        <div className='a-ol-compass'>
+            <BigWave 
+                mode={mode}
+                position="center"
+                resetState={resetState}
+                onDragStart={handleDragStart}
             /> 
         </div>
         {!isExplanationPage && (

@@ -40,6 +40,7 @@ const bigLabels = ['P6', 'D10'];
 const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
   const {
     colors,
+    isExplanationPage,
     savedComponents,
     allComponents,
     opacityCounter,
@@ -71,13 +72,10 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
 
   // State of clicks and hovers
   const [hoveredId, setHoveredId] = useState(null);
-  const [clickedIds, setClickedIds] = useState([]);
    
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
   let currentComponent = current || null;
-
-  const [initialState, setInitialState] = useState(true);
 
   // Tooltip
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -88,14 +86,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   let tooltipTimeout = null;
 
   // Refs to update the state instantly
-  const clickedIdsRef = useRef(clickedIds);
   const hoveredIdRef = useRef(hoveredId);
   
-  // Update the ref whenever changes
-  useEffect(() => {
-      clickedIdsRef.current = clickedIds;
-  }, [clickedIds]);
-
   useEffect(() => {
       hoveredIdRef.current = hoveredId;
   }, [hoveredId]);
@@ -104,15 +96,13 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   useEffect(() => {
     if (resetCompass) {
       // Clear the selected buttons or reset the state
-      setClickedIds([]);
       setHoveredId(null);
-      setInitialState(true);
       setSelectedComponents([]);
     }
   }, [resetCompass]);
 
   const handleClick = (id) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode.startsWith("analyse-a-")) 
+    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode.startsWith("analyse")) 
       return;
     
     if (mode === "learn") {
@@ -120,17 +110,13 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       if (selectedComponents === components[id].Code) {
         // If it is, remove it and reset state
         setHoveredId(null);
-        setInitialState(true);
         setSelectedComponents([]);
 
         if (onButtonClick) {
-          onButtonClick(
-            null
-          );
+          onButtonClick(null);
         }
 
       } else {
-        setInitialState(false);
         const title = convertLabel(components[id].Code);
         let correspondingConcepts = null;
         
@@ -153,12 +139,11 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       }
     } else if(mode.startsWith("get-started")) {
       const title = convertLabel(components[id].Code);
-      setInitialState(false);
 
-      setSelectedComponents(prevClickedIds =>
-        prevClickedIds.includes(components[id].Code)
-          ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevClickedIds, components[id].Code] // Add ID if not already clicked
+      setSelectedComponents(prevComponents =>
+        prevComponents.includes(components[id].Code)
+          ? prevComponents.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
+          : [...prevComponents, components[id].Code] // Add ID if not already clicked
       );
       
       if (onButtonClick) {
@@ -170,56 +155,38 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
         );
       }
     } else if(mode === "get-inspired" || mode === "get-inspired-search") {
-      setSelectedComponents(prevClickedIds => {
-        const newSelectedIds = prevClickedIds.includes(components[id].Code)
-          ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevClickedIds, components[id].Code]; // Add ID if not already clicked
+      setSelectedComponents(prevComponents => {
+        const newComponents = prevComponents.includes(components[id].Code)
+          ? prevComponents.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
+          : [...prevComponents, components[id].Code]; // Add ID if not already clicked
         
         // Return the updated state
-        return newSelectedIds;
+        return newComponents;
       });
       
       if (onButtonClick) onButtonClick(components[id].Code);
     } else if(mode === "contribute") {
-      setSelectedComponents(prevClickedIds => {
-        const newSelectedIds = prevClickedIds.includes(components[id].Code)
-          ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevClickedIds, components[id].Code]; // Add ID if not already clicked
+      setSelectedComponents(prevComponents => {
+        const newComponents = prevComponents.includes(components[id].Code)
+          ? prevComponents.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
+          : [...prevComponents, components[id].Code]; // Add ID if not already clicked
         
         // Return the updated state
-        return newSelectedIds;
+        return newComponents;
       });
       
       if (onButtonClick) onButtonClick(components[id].Code);
-    } else if(mode.startsWith("analyse")) {
-      const title = convertLabel(components[id].Code);
-      setInitialState(false);
-
-      setSelectedComponents(prevClickedIds =>
-        prevClickedIds.includes(components[id].Code)
-          ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevClickedIds, components[id].Code] // Add ID if not already clicked
-      );
-      
-      if (onButtonClick) {
-        onButtonClick(
-          components[id].Code,
-          title,
-          components[id].Headline,
-          components[id].Type,
-        );
-      }
     } 
   };
   
   const handleMouseEnter = (e, id) => {
-    if (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse-a-")) 
+    if (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse")) 
       return;
 
     setHoveredId(components[id].Code);
     hoveredIdRef.current = components[id].Code; 
 
-    if(mode.startsWith("get-started") || mode.startsWith("analyse"))
+    if(mode.startsWith("get-started"))
       return;
 
     if(components[id].Type === "Principle") {
@@ -257,9 +224,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   // Memoize handleKeyDown to avoid creating a new reference on each render
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape') {
-      setClickedIds([]);
       setHoveredId(null);
-      setInitialState(true);
       setSelectedComponents([]);
 
       if(resetState)
@@ -383,8 +348,13 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   let gapX, gapY;
 
   if(mode.startsWith("analyse")) {
-    gapX = window.innerWidth/2.9;
-    gapY = window.innerHeight/7;
+    if(isExplanationPage) {
+      gapX = window.innerWidth/2.9;
+      gapY = window.innerHeight/6.6;
+    } else {
+      gapX = window.innerWidth/9;
+      gapY = window.innerHeight/6.6;
+    }
   } else {
     gapX = 0;
     gapY = -2;
@@ -550,12 +520,11 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
             </div>
   
             {/* Bookmark */}
-            {mode === "learn" && !initialState && savedComponents.includes(c.Code) &&
+            {mode === "learn" && !isExplanationPage && savedComponents.includes(c.Code) &&
               <Bookmark component={c} />
             }
           </div>
         ))}
-  
       </div>
   
       {(mode === "learn" || mode === "contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 

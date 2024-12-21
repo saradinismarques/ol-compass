@@ -12,9 +12,9 @@ export const State = ({ children }) => {
 
     const initialFirstMessage = useMemo(
         () => ({
-          getStarted: true,
+          "get-started": true,
           learn: true,
-          getInspired: true,
+          "get-inspired": true,
           analyse: true,
           contribute: true,
         }), []
