@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useContext } from 'rea
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import ManropeFont from '../utils/Font.js';
-import { State, StateContext } from "../State";
+import { StateContext } from "../State";
 
 // Sizes and positions 
 let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
@@ -41,7 +41,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   const {
     colors,
     savedComponents,
-    setSavedComponents,
     allComponents,
     opacityCounter,
   } = useContext(StateContext);
@@ -266,7 +265,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       if(resetState)
         resetState();
     }
-  }, [resetState, mode, components]);
+  }, [resetState]);
     
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -446,9 +445,9 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                 <path 
                   d={svgPath} 
                   fill="none"
-                  opacity={getStrokeOpacity(mode, selectedComponents, hoveredId, c, opacityCounter)} // Change opacity on hover
+                  opacity={getStrokeOpacity()} // Change opacity on hover
                   stroke={getStroke(mode, colors, selectedComponents, hoveredId, c)}
-                  strokeWidth={getStrokeWidth(mode, selectedComponents, hoveredId, c)}
+                  strokeWidth={getStrokeWidth(mode)}
                   style={{ pointerEvents: 'all' }} 
                 />
               </svg>
@@ -461,7 +460,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                 left: `${c.x - (waveWidth * 0.83) / 2 + gapX}px`, // Adjust position for button size
                 top: `${c.y - waveHeight / 2 + gapY}px`,
                 transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
-                opacity: getTextOpacity(mode, selectedComponents, currentComponent, hoveredId, c, opacityCounter, allComponents), // Change opacity on hover
+                opacity: getWaveOpacity(mode, selectedComponents, currentComponent, hoveredId, c, opacityCounter, allComponents), // Change opacity on hover
                 zIndex: 10,
                 pointerEvents: 'none', // Disable pointer events for the inner div
                 userSelect: 'none'
@@ -613,68 +612,20 @@ function getComponentsPositions(componentsData, type) {
   return componentsData;
 };
 
-const getWaveFill = (mode, colors, selectedComponents, hoveredId, component, opacityCounter) => {
-  // Analyse PDF
-  // if(mode.startsWith("analyse-pdf")) {
-  //   if(selectedComponents.includes(component.Code) || hoveredId === currentId)
-  //     return colors['Wave'][component.Type];
-  //   else if(removedComponents.includes(component.Code)) {
-  //     return colors['Wave'][component.Type];
-  //   }
-  //   else
-  //     return "white";
-  // }
+const getWaveFill = (mode, colors, selectedComponents, hoveredId, component) => {
+  // Analyse
   if(mode.startsWith("analyse")) {
     if(selectedComponents.includes(component.Code) || hoveredId === component.Code) 
       return colors['Wave'][component.Type];
-    // else if(removedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
-    //   return colors['Wave'][component.Type];
-    // }
-    // else if(addedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
-    //   return colors['Wave'][component.Type];
-    // }
     else
       return "transparent";
   }
   return colors['Wave'][component.Type];
 }
 
-const getTextFill = (mode, colors, selectedComponents, hoveredId, component, opacityCounter) => {
-  // if(mode.startsWith("analyse-pdf")) {
-  //   if(!selectedComponents.includes(component.Code) && currentId !== hoveredId && !removedComponents.includes(component.Code) && !addedComponents.includes(component.Code))
-  //     return "#cacbcb";
-  //   if(mode === "analyse-pdf-a-p") {
-  //     if(component.Type === "Principle")
-  //       return colors['Label'][component.Type];
-  //   }
-  //   else if(mode === "analyse-pdf-a-pe") {
-  //     if(component.Type === "Perspective")
-  //       return colors['Label'][component.Type];
-  //   }
-  //   else if(mode === "analyse-pdf-a-d") {
-  //     if(component.Type === "Dimension")
-  //       return colors['Label'][component.Type];
-  //   }
-  //   return colors['Label'][component.Type];
-  // }
+const getTextFill = (mode, colors, selectedComponents, hoveredId, component) => {
+  // Analyse
   if(mode.startsWith("analyse")) {  
-      // if(mode.startsWith("analyse-b") && (removedComponents.includes(component.Code)|| addedComponents.includes(component.Code)))
-      //   return colors['Label'][component.Type];
-      // else if(!clickedIds.includes(currentId) && currentId !== hoveredId )
-      //   return "#cacbcb";
-      // if(mode === "analyse-a-p") {
-      //   if(component.Type === "Principle")
-      //     return colors['Label'][component.Type];
-      // }
-      // else if(mode === "analyse-a-pe") {
-      //   if(component.Type === "Perspective")
-      //     return colors['Label'][component.Type];
-      // }
-      // else if(mode === "analyse-a-d") {
-      //   if(component.Type === "Dimension")
-      //     return colors['Label'][component.Type];
-      // }
-      // return colors['Label'][component.Type];
       if(selectedComponents.includes(component.Code) || hoveredId === component.Code)
         return colors['Label'][component.Type];
       else 
@@ -683,23 +634,13 @@ const getTextFill = (mode, colors, selectedComponents, hoveredId, component, opa
   return colors['Label'][component.Type];
 }
 
-const getStroke = (mode, colors, selectedComponents, hoveredId, component, opacityCounter) => {
+const getStroke = (mode, colors, selectedComponents, hoveredId, component) => {
   // Get Started
   if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
     if(selectedComponents.includes(component.Code)) 
       return colors['Selection'];
-  
-  // if(mode === "analyse-b" || mode === "analyse-pdf-b") {
-  //   if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
-  //       return "#4cb245";
-  //   else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
-  //     return "#dc645c";
-  // }
-  // if(mode.startsWith("analyse-pdf")) {
-  //   if(!selectedComponents.includes(component.Code) && hoveredId !== currentId)
-  //     return '#cacbcb';
-  //   return colors['Wave'][component.Type];
-  // }
+
+  // Analyse
   if(mode.startsWith("analyse")) {
     if(!selectedComponents.includes(component.Code) && hoveredId !== component.Code)
       return '#cacbcb';
@@ -707,15 +648,7 @@ const getStroke = (mode, colors, selectedComponents, hoveredId, component, opaci
   return 'none';
 };
 
-const getStrokeWidth = (mode, selectedComponents, hoveredId, component, opacityCounter) => {
-  // if(mode === "analyse-b" || mode === "analyse-pdf-b") {
-  //   if(addedComponents.includes(component.Code) ||(currentId === hoveredId && !clickedIds.includes(currentId)))
-  //       return "1.5px";
-  //   else if(removedComponents.includes(component.Code) || (currentId === hoveredId && clickedIds.includes(currentId)))
-  //     return "1.5px";
-  //   else
-  //     return "0.6px";
-  // }
+const getStrokeWidth = (mode) => {
   if(mode.startsWith("analyse"))
     return "0.6px";
 
@@ -816,6 +749,7 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
         return 0.8;
     return 0.3;
   }
+
   // Analyse    
   if(mode === "analyse" || mode === "analyse-a-all") {
     if (selectedComponents.includes(component.Code)) 
@@ -842,255 +776,10 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
     else
       return 0.3;
   }
-  // if(mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") {
-  //   if(mode === "analyse-a-p" && component.Type === "Principle")
-  //     return 1;
-  //   if(mode === "analyse-a-pe" && component.Type === "Perspective")
-  //     return 1;
-  //   if(mode === "analyse-a-d" && component.Type === "Dimension")
-  //     return 1;
-  //   if(!clickedIds.includes(currentId))
-  //     return 1;
-  //   return 0.3;
-  // }
-
-  // // Analyse PDF   
-  // if(mode === "analyse-pdf-a-all") {
-  //   if (clickedIds.includes(currentId)) 
-  //     return 1;
-  //   if (hoveredId === currentId) 
-  //     return 0.5;
-  //   return 1;
-  // }
-  // if(mode === "analyse-pdf-a-p" || mode === "analyse-pdf-a-pe" || mode === "analyse-pdf-a-d") {
-  //   if(mode === "analyse-pdf-a-p" && component.Type === "Principle")
-  //     return 1;
-  //   if(mode === "analyse-pdf-a-pe" && component.Type === "Perspective")
-  //     return 1;
-  //   if(mode === "analyse-pdf-a-d" && component.Type === "Dimension")
-  //     return 1;
-  //   if(!selectedComponents.includes(component.Code))
-  //     return 1;
-  //   return 0.3;
-  // }
-
-  // if(mode === "analyse-b" || mode === "analyse-pdf-b") {
-  //   if(hoveredId === currentId)
-  //     return 0.7;
-  //   return 1;
-  // }
 };
 
-
-const getTextOpacity = (mode, selectedComponents, currentComponent, hoveredId, component, opacityCounter, allComponents) => {
-  // Intro
-  if (mode === "intro-0")
-    return 0.3;
-  else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
-    return 0.15;
-  else if (mode === "intro-4" || mode === "intro-5") 
-    if(component.Type === "Principle") 
-      if(allComponents.indexOf(component.Code) <= opacityCounter['Principle'])
-        return 1;
-      else
-        return 0.15;
-    else 
-      return 0.15;
-  else if (mode === "intro-6" || mode === "intro-7") 
-    if(component.Type === "Principle")
-      return 0.55;
-    else if(component.Type === "Perspective")
-      if(allComponents.indexOf(component.Code) <= opacityCounter['Perspective']+7)
-        return 1;
-      else
-        return 0.15;
-    else
-      return 0.15;
-  else if (mode === "intro-8" || mode === "intro-9") 
-    if(component.Type === "Principle")
-      return 0.55;
-    else if(component.Type === "Perspective")
-      return 0.55;
-    else 
-      if(allComponents.indexOf(component.Code) <= opacityCounter['Dimension']+14)
-        return 1;
-      else
-        return 0.15;
-
-  // Learn
-  if(mode === "learn") {
-    if(selectedComponents.length === 0) 
-      return 1;
-    if (selectedComponents === component.Code) 
-      return 1;
-    if (hoveredId === component.Code) 
-        return 0.8;
-    return 0.3;
-  }
-  // Get Started
-  if(mode === "get-started") {
-    if(selectedComponents.length === 0) 
-      return 1;
-    if (selectedComponents.includes(component.Code)) 
-      return 1;
-    if (hoveredId === component.Code) 
-        return 0.8;
-    return 0.3;
-  }
-  if(mode === "get-started-search") {
-    if(currentComponent === component.Code)
-      return 1;
-    else if(hoveredId === component.Code) 
-      return 0.8;
-    else
-      return 0.2;
-  }
-  // Get Inspired
-  if(mode === "get-inspired") {
-    if(selectedComponents.length === 0) 
-      return 1;
-    if (selectedComponents.includes(component.Code)) 
-      return 1;
-    if (hoveredId === component.Code) 
-        return 0.8;
-    return 0.3;
-  }
-  if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-    if(currentComponent.includes(component.Code))
-      return 1;
-    else if(hoveredId === component.Code) 
-      return 0.8;
-    else
-      return 0.2;
-  }
-
-  // Contribute
-  if(mode === "contribute") {
-    if(selectedComponents.length === 0) 
-      return 1;
-    if (selectedComponents.includes(component.Code)) 
-      return 1;
-    if (hoveredId === component.Code) 
-        return 0.8;
-    return 0.3;
-  }
-      
-  // Analyse    
-  if(mode === "analyse" || mode === "analyse-a-all") {
-    if (selectedComponents.includes(component.Code)) 
-      return 1;
-    if (hoveredId === component.Code) 
-      return 0.5;
-    return 1;
-  }
-  if(mode === "analyse-a-p") {
-    if(component.Type === "Principle")
-      return 1;
-    else
-      return 0.3;
-  }
-  if(mode === "analyse-a-pe") {
-    if(component.Type === "Perspective")
-      return 1;
-    else
-      return 0.3;
-  }
-  if(mode === "analyse-a-d") {
-    if(component.Type === "Dimension")
-      return 1;
-    else
-      return 0.3;
-  }
-  // Analyse PDF   
-  // if(mode === "analyse-pdf-all") {
-  //   if (selectedComponents.includes(component.Code)) 
-  //     return 1;
-  //   if (hoveredId === currentId) 
-  //     return 0.5;
-  //   return 1;
-  // }
-  // if(mode.startsWith("analyse-pdf")) {
-  //   if(mode === "analyse-pdf-a-p" && component.Type === "Principle")
-  //     return 1;
-  //   if(mode === "analyse-pdf-a-pe" && component.Type === "Perspective")
-  //     return 1;
-  //   if(mode === "analyse-pdf-a-d" && component.Type === "Dimension")
-  //     return 1;
-  //   if(!selectedComponents.includes(component.Code))
-  //     return 1;
-  //   return 0.8;
-  // }
-
-  // // Analyse    
-  // if(mode === "analyse" || mode === "analyse-a-all") {
-  //   if (clickedIds.includes(currentId)) 
-  //     return 1;
-  //   if (hoveredId === currentId) 
-  //     return 0.5;
-  //   return 1;
-  // }
-  // if(mode.startsWith("analyse")) {
-  //   if(mode === "analyse-a-p" && component.Type === "Principle")
-  //     return 1;
-  //   if(mode === "analyse-a-pe" && component.Type === "Perspective")
-  //     return 1;
-  //   if(mode === "analyse-a-d" && component.Type === "Dimension")
-  //     return 1;
-  //   if(!clickedIds.includes(currentId))
-  //     return 1;
-  //   return 0.8;
-  // }
-};
-
-const getStrokeOpacity = (mode, selectedComponents, hoveredId, component, opacityCounter) => {
-  if(!mode.startsWith("analyse"))
-    return 1;
-
-  // if(mode === "analyse-b" || mode === "analyse-pdf-b") {
-  //   if(hoveredId === currentId)
-  //     return 0.7;
-  //   return 1;
-  // }
-  
-  // Analyse PDF   
-  // if(mode === "analyse-pdf-a-all") {
-  //   if (clickedIds.includes(currentId)) 
-  //     return 1;
-  //   if (hoveredId === currentId) 
-  //     return 0.5;
-  //   return 1;
-  // }
-  // if(mode.startsWith("analyse-pdf")) {
-  //   if(mode === "analyse-pdf-a-p" && component.Type === "Principle")
-  //     return 1;
-  //   if(mode === "analyse-pdf-a-pe" && component.Type === "Perspective")
-  //     return 1;
-  //   if(mode === "analyse-pdf-a-d" && component.Type === "Dimension")
-  //     return 1;
-  //   if(!selectedComponents.includes(component.Code))
-  //     return 1;
-  //   return 0.3;
-  // }
-
-  // // Analyse    
-  // if(mode === "analyse" || mode === "analyse-a-all") {
-  //   if (clickedIds.includes(currentId)) 
-  //     return 1;
-  //   if (hoveredId === currentId) 
-  //     return 0.5;
-  //   return 1;
-  // }
-  // if(mode.startsWith("analyse")) {
-  //   if(mode === "analyse-a-p" && component.Type === "Principle")
-  //     return 1;
-  //   if(mode === "analyse-a-pe" && component.Type === "Perspective")
-  //     return 1;
-  //   if(mode === "analyse-a-d" && component.Type === "Dimension")
-  //     return 1;
-  //   if(!clickedIds.includes(currentId))
-  //     return 1;
-  //   return 0.3;
-  // }
+const getStrokeOpacity = () => {
+  return 1;
 };
 
 const isFlipped = (label) => {

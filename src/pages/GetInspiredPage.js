@@ -13,7 +13,6 @@ const GetInspiredPage = () => {
   const {
     colors,
     firstMessage,
-    setFirstMessage,
     isExplanationPage,
     setIsExplanationPage,
     savedCaseStudies,
@@ -85,22 +84,22 @@ const GetInspiredPage = () => {
   }, [initialState, setIsExplanationPage]);
 
   // State to store window height
-  const [height, setHeight] = useState(window.innerHeight);
+  //const [height, setHeight] = useState(window.innerHeight);
 
-  useEffect(() => {
-    // Function to update height on window resize
-    const handleResize = () => {
-      setHeight(window.innerHeight);
-    };
+  // useEffect(() => {
+  //   // Function to update height on window resize
+  //   const handleResize = () => {
+  //     setHeight(window.innerHeight);
+  //   };
 
-    // Add event listener for resize
-    window.addEventListener('resize', handleResize);
+  //   // Add event listener for resize
+  //   window.addEventListener('resize', handleResize);
 
-    // Cleanup the event listener on component unmount
-    return () => {
-    window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  //   // Cleanup the event listener on component unmount
+  //   return () => {
+  //   window.removeEventListener('resize', handleResize);
+  //   };
+  // }, []);
 
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((title) => {
@@ -194,6 +193,14 @@ const GetInspiredPage = () => {
     }
   }, [newCaseStudies, getBookmarkState]);
 
+  const handleDefaultSearch = useCallback(() => {
+    if(carouselModeRef.current) return;
+
+    setMode('get-inspired-search');
+    modeRef.current = 'get-inspired-search';
+    searchCaseStudies();
+  }, [searchCaseStudies]);
+
   const handleCarouselSearch = useCallback(() => {
     if(!carouselModeRef.current) return;
 
@@ -213,7 +220,7 @@ const GetInspiredPage = () => {
     modeRef.current = 'get-inspired-carousel';
 
   }, [firstMessage, isExplanationPage, searchCaseStudies, firstClick, setIsExplanationPage]);
-
+  
   const handleNext = useCallback(() => {
     if (currentIndex < caseStudies.length - 1) {
       const nextIndex = currentIndex + 1;
@@ -273,7 +280,7 @@ const GetInspiredPage = () => {
       handlePrev();
     else if (e.key === 'ArrowDown') 
       handleNext();
-  }, [handlePrev, handleNext, handleCarouselSearch]);
+  }, [handlePrev, handleNext, handleDefaultSearch, handleCarouselSearch]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -281,14 +288,6 @@ const GetInspiredPage = () => {
         window.removeEventListener('keydown', handleKeyPress);
     };
   }, [handleCarouselSearch, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
-
-  const handleDefaultSearch = () => {
-    if(carouselModeRef.current) return;
-
-    setMode('get-inspired-search');
-    modeRef.current = 'get-inspired-search';
-    searchCaseStudies();
-  };
 
   const toggleBookmark = () => {
     setSavedCaseStudies((prevSavedComponents) => {

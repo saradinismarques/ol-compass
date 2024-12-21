@@ -19,7 +19,6 @@ const LearnPage = () => {
   const {
     colors,
     firstMessage,
-    setFirstMessage,
     isExplanationPage,
     setIsExplanationPage,
     savedComponents,

@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState, useRef, useEffect } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import { getColorPallete } from './utils/Data.js'; 
 
 // Create the context

@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback, useRef, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
 import OLCompass from '../components/OLCompass'
 import CompassIcon from '../components/CompassIcon'
 import Menu from '../components/Menu';
@@ -12,8 +12,6 @@ import '../styles/pages/AnalysePage.css';
 const AnalysePage = () => {
     const {
         colors,
-        firstMessage,
-        setFirstMessage,
         isExplanationPage,
         setIsExplanationPage,
         allComponents,

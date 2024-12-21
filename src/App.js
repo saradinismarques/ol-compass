@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect, useContext } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import IntroPage from './pages/IntroPage';
 import HomePage from './pages/HomePage';
@@ -32,7 +32,7 @@ function App() {
 
   useEffect(() => {
     setIsExplanationPage(true); // Reset to initial state when the page changes
-  }, [location.pathname]);
+  }, [location.pathname, setIsExplanationPage]);
 
   return (
     <div className="App">

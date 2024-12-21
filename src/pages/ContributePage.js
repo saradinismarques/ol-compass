@@ -9,12 +9,9 @@ import { StateContext } from "../State";
 
 const ContributePage = () => {
   const {
-    colors,
     firstMessage,
-    setFirstMessage,
     isExplanationPage,
     setIsExplanationPage,
-    newCaseStudies,
     setNewCaseStudies,
   } = useContext(StateContext);
 
@@ -79,34 +76,7 @@ const ContributePage = () => {
     setIsExplanationPage(false);
   };
 
-  // Handle Enter key
-  const handleKeyDown = useCallback((e) => {
-      if (e.key !== 'Enter') return;
-
-      if (firstClick && firstMessage) {
-        setFirstClick(false);
-        setMessageShown(true);
-      }
-      setIsExplanationPage(false);
-      handleEnterClick(componentsRef.current);
-    },
-    [firstClick, firstMessage, isExplanationPage, setIsExplanationPage]
-  );
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
-
-  // Update form state
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
+  
   // Reset compass and state
   const resetStateAndCompass = useCallback(() => {
     resetState();
@@ -115,7 +85,7 @@ const ContributePage = () => {
   }, [resetState]);
 
   // Handle "Enter" button action
-  const handleEnterClick = (components) => {
+  const handleEnterClick  = useCallback((components) => {
     const newCaseStudy = {
       Title: stateRef.current.title,
       Collection: stateRef.current.collection,
@@ -132,6 +102,34 @@ const ContributePage = () => {
 
     setNewCaseStudies((prev) => [...prev, newCaseStudy]);
     resetStateAndCompass();
+  }, [setNewCaseStudies, resetStateAndCompass]);
+
+  // Handle Enter key
+  const handleKeyDown = useCallback((e) => {
+      if (e.key !== 'Enter') return;
+
+      if (firstClick && firstMessage) {
+        setFirstClick(false);
+        setMessageShown(true);
+      }
+      setIsExplanationPage(false);
+      handleEnterClick(componentsRef.current);
+    },
+    [firstClick, firstMessage, setIsExplanationPage, handleEnterClick]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
+
+  // Update form state
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   // Toggle dropdown visibility
