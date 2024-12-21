@@ -41,37 +41,6 @@ export const State = ({ children }) => {
     };
     const [opacityCounter, setOpacityCounter] = useState(initialCounters);
 
-    // Get Started
-    const [GSCurrentComponent, setGSCurrentComponent] = useState([]);
-    const [GSComponents, setGSComponents] = useState([]);
-
-    // Learn
-    const [LComponent, setLComponent] = useState([]);
-
-    // Get Inspired
-    const [GICurrentComponents, setGICurrentComponents] = useState([]);
-    const [GIComponents, setGIComponents] = useState([]);
-    const GIComponentsRef = useRef(GIComponents);
-  
-    // Update the ref whenever changes
-    useEffect(() => {
-        GIComponentsRef.current = GIComponents;
-    }, [GIComponents]);
-
-    // Analyse
-    const [AComponents, setAComponents] = useState([]);
-    const [addedComponents, setAddedComponents] = useState([]);
-    const [removedComponents, setRemovedComponents] = useState([]);
-
-    // Contribute
-    const [CComponents, setCComponents] = useState([]);
-    const CComponentsRef = useRef(GIComponents);
-  
-    // Update the ref whenever changes
-    useEffect(() => {
-        CComponentsRef.current = CComponents;
-    }, [CComponents]);
-
     return (
         <StateContext.Provider
             value={{
@@ -90,26 +59,6 @@ export const State = ({ children }) => {
                 allComponents,
                 opacityCounter,
                 setOpacityCounter,
-                GSComponents,
-                setGSComponents,
-                GSCurrentComponent,
-                setGSCurrentComponent,
-                LComponent,
-                setLComponent,
-                GIComponents,
-                setGIComponents,
-                GIComponentsRef,
-                GICurrentComponents,
-                setGICurrentComponents,
-                AComponents,
-                setAComponents,
-                addedComponents,
-                setAddedComponents,
-                removedComponents,
-                setRemovedComponents,
-                CComponents,
-                setCComponents,
-                CComponentsRef
                 // Add other global states here as needed
             }}
         >

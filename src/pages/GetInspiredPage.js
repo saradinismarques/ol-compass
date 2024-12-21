@@ -19,11 +19,6 @@ const GetInspiredPage = () => {
     savedCaseStudies,
     setSavedCaseStudies,
     newCaseStudies,
-    GIComponents,
-    setGIComponents,
-    GIComponentsRef,
-    GICurrentComponents,
-    setGICurrentComponents
   } = useContext(StateContext);
 
   const initialState = useMemo(() => ({
@@ -50,10 +45,17 @@ const GetInspiredPage = () => {
   const [searchLogic, setSearchLogic] = useState('AND');
   const [firstClick, setFirstClick] = useState(true);
   const [messageShown, setMessageShown] = useState(false);
+  const [components, setComponents] = useState([]);
+  const [currentComponents, setCurrentComponents] = useState();
   
   const carouselModeRef = useRef(carouselMode);
   const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
+  const componentsRef = useRef(components);
+
+  useEffect(() => {
+    componentsRef.current = components;
+  }, [components]);
 
   useEffect(() => {
     carouselModeRef.current = carouselMode;
@@ -105,11 +107,21 @@ const GetInspiredPage = () => {
     return savedCaseStudies.length !== 0 && savedCaseStudies.includes(title);
   }, [savedCaseStudies]);
 
-  const handleCompassClick = () => {
+  const handleCompassClick = (code) => {
     if(firstClick && firstMessage) {
       setFirstClick(false);
       setMessageShown(true);
     }
+
+    setComponents(prevClickedIds => {
+      const newSelectedIds = prevClickedIds.includes(code)
+        ? prevClickedIds.filter(buttonId => buttonId !== code) // Remove ID if already clicked
+        : [...prevClickedIds, code]; // Add ID if not already clicked
+      componentsRef.current = newSelectedIds;
+      
+      // Return the updated state
+      return newSelectedIds;
+    });
 
     setIsExplanationPage(false);
     setCarouselMode(false);
@@ -118,7 +130,7 @@ const GetInspiredPage = () => {
     modeRef.current = 'get-inspired';
   };
 
-  const searchCaseStudies = useCallback((components) => {
+  const searchCaseStudies = useCallback(() => {
     const fetchedCaseStudies = getGetInspiredData();
     // Concatenate the fetched case studies with newCaseStudies
     const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
@@ -126,16 +138,16 @@ const GetInspiredPage = () => {
     // Process the JSON data
     let filteredCaseStudies = allCaseStudies;
     
-    if (components !== null) {
+    if (componentsRef.current !== null) {
       filteredCaseStudies = allCaseStudies.filter(item => {
         if (searchLogicRef.current === 'AND') {
           // AND mode: all components must be present in the item's Components array
-          return components.every(component => item.Components.includes(component));
+          return componentsRef.current.every(component => item.Components.includes(component));
         } else if (searchLogicRef.current === 'OR') {
           // OR mode: at least one component must be present in the item's Components array
-          return components.some(component => item.Components.includes(component));
+          return componentsRef.current.some(component => item.Components.includes(component));
         } else {
-          return components;
+          return componentsRef.current;
         }
       });
     }
@@ -161,7 +173,7 @@ const GetInspiredPage = () => {
         components: filteredCaseStudies[0].Components,
         bookmark: getBookmarkState(filteredCaseStudies[0].Title),
       }));
-      setGICurrentComponents(filteredCaseStudies[0].Components)
+      setCurrentComponents(filteredCaseStudies[0].Components)
     }
 
     if (filteredCaseStudies.length === 0) {
@@ -222,7 +234,7 @@ const GetInspiredPage = () => {
         components: caseStudies[nextIndex].Components,
         bookmark: getBookmarkState(caseStudies[nextIndex].Title),
       });
-      setGICurrentComponents(caseStudies[nextIndex].Components)
+      setCurrentComponents(caseStudies[nextIndex].Components)
     }
   }, [caseStudies, currentIndex, getBookmarkState, state]);
 
@@ -246,7 +258,7 @@ const GetInspiredPage = () => {
         components: caseStudies[prevIndex].Components,
         bookmark: getBookmarkState(caseStudies[prevIndex].Title),
       });
-      setGICurrentComponents(caseStudies[prevIndex].Components)
+      setCurrentComponents(caseStudies[prevIndex].Components)
 
     }
   }, [caseStudies, currentIndex, getBookmarkState, state]);
@@ -275,7 +287,7 @@ const GetInspiredPage = () => {
 
     setMode('get-inspired-search');
     modeRef.current = 'get-inspired-search';
-    searchCaseStudies(GIComponentsRef.current);
+    searchCaseStudies();
   };
 
   const toggleBookmark = () => {
@@ -312,6 +324,7 @@ const GetInspiredPage = () => {
           position={isExplanationPage ? "center" : "left"}
           resetState={resetState} // Passing resetState to OLCompass
           onButtonClick={handleCompassClick}
+          current={currentComponents}
         />
         {isExplanationPage && 
           <Description mode={'get-inspired'} 

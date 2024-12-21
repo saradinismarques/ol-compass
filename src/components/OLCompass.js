@@ -37,33 +37,13 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) => {
+const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
   const {
     colors,
     savedComponents,
     setSavedComponents,
     allComponents,
     opacityCounter,
-    GSComponents,
-    setGSComponents,
-    GSCurrentComponent,
-    setGSCurrentComponent,
-    LComponent,
-    setLComponent,
-    GIComponents,
-    setGIComponents,
-    GIComponentsRef,
-    GICurrentComponents,
-    setGICurrentComponents,
-    AComponents,
-    setAComponents,
-    addedComponents,
-    setAddedComponents,
-    removedComponents,
-    setRemovedComponents,
-    CComponents,
-    setCComponents,
-    CComponentsRef
   } = useContext(StateContext);
   
   // Function to determine the center based on position
@@ -95,29 +75,14 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
   const [clickedIds, setClickedIds] = useState([]);
    
   // Determine which components and setter to use based on mode
-  let selectedComponents, setSelectedComponents;
-  let currentComponents;
+  let [selectedComponents, setSelectedComponents] = useState([]);
+  let currentComponent;
   
-  if(mode.startsWith("get-started")){
-    selectedComponents = GSComponents;
-    setSelectedComponents = setGSComponents;
-    currentComponents = GSCurrentComponent;
-  } else if(mode === "learn") {
-    selectedComponents = LComponent;
-    setSelectedComponents = setLComponent;
-  } else if(mode.startsWith("get-inspired")) {
-    selectedComponents = GIComponents;
-    setSelectedComponents = setGIComponents;
-    currentComponents = GICurrentComponents;
-  } else if(mode.startsWith("analyse")) {
-    selectedComponents = GIComponents;
-    setSelectedComponents = setGIComponents;
-  } else if(mode === "contribute") {
-    selectedComponents = CComponents;
-    setSelectedComponents = setCComponents;
-  }
-
-  console.log(selectedComponents);
+  if(selected) 
+    setSelectedComponents(selected);
+  if(current)
+    currentComponent = current;
+  
   const [initialState, setInitialState] = useState(true);
 
   // Tooltip
@@ -216,28 +181,22 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
           ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
           : [...prevClickedIds, components[id].Code]; // Add ID if not already clicked
         
-        // Update the ref immediately with the new state
-        GIComponentsRef.current = newSelectedIds;
-      
         // Return the updated state
         return newSelectedIds;
       });
       
-      if (onButtonClick) onButtonClick();
+      if (onButtonClick) onButtonClick(components[id].Code);
     } else if(mode === "contribute") {
       setSelectedComponents(prevClickedIds => {
         const newSelectedIds = prevClickedIds.includes(components[id].Code)
           ? prevClickedIds.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
           : [...prevClickedIds, components[id].Code]; // Add ID if not already clicked
         
-        // Update the ref immediately with the new state
-        GIComponentsRef.current = newSelectedIds;
-      
         // Return the updated state
         return newSelectedIds;
       });
       
-      if (onButtonClick) onButtonClick();
+      if (onButtonClick) onButtonClick(components[id].Code);
     } else if(mode.startsWith("analyse")) {
       const title = convertLabel(components[id].Code);
       setInitialState(false);
@@ -465,11 +424,11 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
                 <path 
                   d={svgPath} 
-                  fill={getWaveFill(mode, colors, selectedComponents, hoveredId, c, addedComponents, removedComponents)}  // Use the gradient fill
+                  fill={getWaveFill(mode, colors, selectedComponents, hoveredId, c)}  // Use the gradient fill
                   stroke="none" 
                   style={{ pointerEvents: 'all' }}
                   transition="opacity 1s ease"
-                  opacity={getWaveOpacity(mode, selectedComponents, currentComponents, hoveredId, c, opacityCounter, allComponents)} // Change opacity on hover
+                  opacity={getWaveOpacity(mode, selectedComponents, currentComponent, hoveredId, c, opacityCounter, allComponents)} // Change opacity on hover
                 />
               </svg>
             </div>
@@ -493,8 +452,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
                   d={svgPath} 
                   fill="none"
                   opacity={getStrokeOpacity(mode, selectedComponents, hoveredId, c, opacityCounter)} // Change opacity on hover
-                  stroke={getStroke(mode, colors, selectedComponents, hoveredId, c, addedComponents, removedComponents)}
-                  strokeWidth={getStrokeWidth(mode, selectedComponents, hoveredId, c, addedComponents, removedComponents)}
+                  stroke={getStroke(mode, colors, selectedComponents, hoveredId, c)}
+                  strokeWidth={getStrokeWidth(mode, selectedComponents, hoveredId, c)}
                   style={{ pointerEvents: 'all' }} 
                 />
               </svg>
@@ -507,7 +466,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
                 left: `${c.x - (waveWidth * 0.83) / 2 + gapX}px`, // Adjust position for button size
                 top: `${c.y - waveHeight / 2 + gapY}px`,
                 transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
-                opacity: getTextOpacity(mode, selectedComponents, currentComponents, hoveredId, c, opacityCounter, allComponents), // Change opacity on hover
+                opacity: getTextOpacity(mode, selectedComponents, currentComponent, hoveredId, c, opacityCounter, allComponents), // Change opacity on hover
                 zIndex: 10,
                 pointerEvents: 'none', // Disable pointer events for the inner div
                 userSelect: 'none'
@@ -548,7 +507,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
   
                   {/* Text on Path */}
                   <text
-                    fill={getTextFill(mode, colors, selectedComponents, hoveredId, c, addedComponents, removedComponents)}
+                    fill={getTextFill(mode, colors, selectedComponents, hoveredId, c)}
                     fontSize="8px"
                     letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
@@ -570,7 +529,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass }) 
                   {/* Second Line (if it has one) */}
                   {bigLabels.includes(c.Code) &&
                     <text
-                      fill={getTextFill(mode, colors, selectedComponents, hoveredId, c, addedComponents, removedComponents)}
+                      fill={getTextFill(mode, colors, selectedComponents, hoveredId, c)}
                       fontSize="8px"
                       letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path
@@ -769,7 +728,7 @@ const getStrokeWidth = (mode, selectedComponents, hoveredId, component, opacityC
   return "1.5px";
 };
 
-const getWaveOpacity = (mode, selectedComponents, currentComponents, hoveredId, component, opacityCounter, allComponents) => {
+const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, component, opacityCounter, allComponents) => {
   // Intro
   if (mode === "intro-0")
     return 0.3;
@@ -826,7 +785,7 @@ const getWaveOpacity = (mode, selectedComponents, currentComponents, hoveredId, 
     return 0.3;
   }
   if(mode === "get-started-search") {
-    if(currentComponents === component.Code)
+    if(currentComponent === component.Code)
       return 1;
     else if(hoveredId === component.Code) 
       return 0.8;
@@ -845,7 +804,7 @@ const getWaveOpacity = (mode, selectedComponents, currentComponents, hoveredId, 
     return 0.3;
   }
   if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-    if(currentComponents.includes(component.Code))
+    if(currentComponent.includes(component.Code))
       return 1;
     else if(hoveredId === component.Code) 
       return 0.8;
@@ -911,7 +870,7 @@ const getWaveOpacity = (mode, selectedComponents, currentComponents, hoveredId, 
 };
 
 
-const getTextOpacity = (mode, selectedComponents, currentComponents, hoveredId, component, opacityCounter, allComponents) => {
+const getTextOpacity = (mode, selectedComponents, currentComponent, hoveredId, component, opacityCounter, allComponents) => {
   // Intro
   if (mode === "intro-0")
     return 0.3;
@@ -967,7 +926,7 @@ const getTextOpacity = (mode, selectedComponents, currentComponents, hoveredId, 
     return 0.3;
   }
   if(mode === "get-started-search") {
-    if(currentComponents === component.Code)
+    if(currentComponent === component.Code)
       return 1;
     else if(hoveredId === component.Code) 
       return 0.8;
@@ -985,7 +944,7 @@ const getTextOpacity = (mode, selectedComponents, currentComponents, hoveredId, 
     return 0.3;
   }
   if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-    if(currentComponents.includes(component.Code))
+    if(currentComponent.includes(component.Code))
       return 1;
     else if(hoveredId === component.Code) 
       return 0.8;

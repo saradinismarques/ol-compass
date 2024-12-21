@@ -13,7 +13,6 @@ const GetStartedPage = () => {
     isExplanationPage,
     setIsExplanationPage,
     allComponents,
-    setGSCurrentComponent
   } = useContext(StateContext);
 
   // Memoize the initialState object
@@ -26,10 +25,11 @@ const GetStartedPage = () => {
     }), []);
 
   const [state, setState] = useState(initialState);
-  const [components, setComponents] = useState([]);
   const [afterSearch, setAfterSearch] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [mode, setMode] = useState('get-started');
+  const [components, setComponents] = useState([]);
+  const [currentComponent, setCurrentComponent] = useState();
   const [selectedType, setSelectedType] = useState(null);
 
   const componentsRef = useRef(components);
@@ -125,7 +125,7 @@ const GetStartedPage = () => {
     });
 
     const code = componentsRef.current[currentIndex].code;
-    setGSCurrentComponent(code);
+    setCurrentComponent(code);
 
     setMode('get-started-search');
     modeRef.current = 'get-started-search';
@@ -159,7 +159,7 @@ const GetStartedPage = () => {
       });
 
       const code = componentsRef.current[nextIndex].code;
-      setGSCurrentComponent(code);
+      setCurrentComponent(code);
     }
   }, [colors]);
 
@@ -188,7 +188,7 @@ const GetStartedPage = () => {
       });
 
       const code = componentsRef.current[prevIndex].code;
-      setGSCurrentComponent(code);
+      setCurrentComponent(code);
     }
   }, [colors]);
 
@@ -232,13 +232,13 @@ const GetStartedPage = () => {
           position={afterSearch ? 'left' : 'center'}
           resetState={resetState}
           onButtonClick={handleCompassClick}
+          current={currentComponent}
         />
         {isExplanationPage && <Description mode={'get-started'} />}
 
         {!isExplanationPage && (
           <>
             <CompassIcon 
-              colors={colors} 
               mode={mode}
               type={selectedType} 
             />

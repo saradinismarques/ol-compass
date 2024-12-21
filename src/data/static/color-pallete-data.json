@@ -14,11 +14,7 @@
     "Intro Text [Perspective]": "#41e092",
     "Intro Text [Dimension]": "#41c4e0",
     "Selection": "#e6007e",
-    "Selection [Hover]": "#c3006b",
-    "Opacity [Max]": 1,
-    "Opacity [Hover]": 0.8,
-    "Opacity [Intro]": 0.3,
-    "Opacity [Not Selected]": 0.15
+    "Selection [Hover]": "#c3006b"
   },
   {
     "ColorVersion": 1,
@@ -35,11 +31,7 @@
     "Intro Text [Perspective]": "#aed3d5",
     "Intro Text [Dimension]": "#55e0f3",
     "Selection": "#e6007e",
-    "Selection [Hover]": "#c3006b",
-    "Opacity [Max]": 1,
-    "Opacity [Hover]": 0.8,
-    "Opacity [Intro]": 0.3,
-    "Opacity [Not Selected]": 0.15
+    "Selection [Hover]": "#c3006b"
   },
   {
     "ColorVersion": 2,
@@ -56,11 +48,7 @@
     "Intro Text [Perspective]": "#c2e3e6",
     "Intro Text [Dimension]": "#55bcd5",
     "Selection": "#e6007e",
-    "Selection [Hover]": "#c3006b",
-    "Opacity [Max]": 1,
-    "Opacity [Hover]": 0.8,
-    "Opacity [Intro]": 0.3,
-    "Opacity [Not Selected]": 0.15
+    "Selection [Hover]": "#c3006b"
   },
   {
     "ColorVersion": 3,
@@ -77,10 +65,6 @@
     "Intro Text [Perspective]": "#026fd5",
     "Intro Text [Dimension]": "#012476",
     "Selection": "#000000",
-    "Selection [Hover]": "#841321",
-    "Opacity [Max]": 1,
-    "Opacity [Hover]": 0.8,
-    "Opacity [Intro]": 0.3,
-    "Opacity [Not Selected]": 0.15
+    "Selection [Hover]": "#841321"
   }
 ]

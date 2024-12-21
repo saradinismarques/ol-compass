@@ -15,27 +15,7 @@ import { State, StateContext } from "./State";
 
 function App() {
   const {
-    colors,
-    firstMessage,
-    setFirstMessage,
-    isExplanationPage,
     setIsExplanationPage,
-    savedComponents,
-    setSavedComponents,
-    savedCaseStudies,
-    setSavedCaseStudies,
-    newCaseStudies,
-    setNewCaseStudies,
-    GSComponents,
-    setGSComponents,
-    GSCurrentComponent,
-    setGSCurrentComponent,
-    LComponents,
-    setLComponent,
-    GIComponents,
-    setGIComponents,
-    GICurrentComponents,
-    setGICurrentComponents,
   } = useContext(StateContext);
 
   const location = useLocation();
@@ -52,11 +32,6 @@ function App() {
 
   useEffect(() => {
     setIsExplanationPage(true); // Reset to initial state when the page changes
-    setGSComponents([]);
-    setGSCurrentComponent([]);
-    setLComponent([]);
-    setGIComponents([]);
-    setGICurrentComponents([]);
   }, [location.pathname]);
 
   return (

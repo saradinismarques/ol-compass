@@ -14,9 +14,6 @@ const ContributePage = () => {
     setFirstMessage,
     isExplanationPage,
     setIsExplanationPage,
-    CComponents,
-    setCComponents,
-    CComponentsRef,
     newCaseStudies,
     setNewCaseStudies,
   } = useContext(StateContext);
@@ -42,7 +39,9 @@ const ContributePage = () => {
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [firstClick, setFirstClick] = useState(true);
   const [messageShown, setMessageShown] = useState(false);
+  const [components, setComponents] = useState([]);
 
+  const componentsRef = useRef(components);
   const buttonsRef = useRef({}); // Stores button positions for dropdown alignment
   const stateRef = useRef(state);
 
@@ -61,11 +60,21 @@ const ContributePage = () => {
   }, [initialState, setIsExplanationPage]);
 
   // Trigger compass action
-  const handleCompassClick = () => {
+  const handleCompassClick = (code) => {
     if (firstClick && firstMessage) {
       setFirstClick(false);
       setMessageShown(true);
     }
+
+    setComponents(prevClickedIds => {
+      const newSelectedIds = prevClickedIds.includes(code)
+        ? prevClickedIds.filter(buttonId => buttonId !== code) // Remove ID if already clicked
+        : [...prevClickedIds, code]; // Add ID if not already clicked
+      componentsRef.current = newSelectedIds;
+      
+      // Return the updated state
+      return newSelectedIds;
+    });
 
     setIsExplanationPage(false);
   };
@@ -79,7 +88,7 @@ const ContributePage = () => {
         setMessageShown(true);
       }
       setIsExplanationPage(false);
-      handleEnterClick(CComponentsRef.current);
+      handleEnterClick(componentsRef.current);
     },
     [firstClick, firstMessage, isExplanationPage, setIsExplanationPage]
   );
