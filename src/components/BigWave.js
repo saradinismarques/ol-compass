@@ -23,7 +23,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, position, onDragStart, resetState, selected, positions }) => {
+const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
   const {
     colors,
     isExplanationPage,
@@ -31,25 +31,16 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
     opacityCounter,
   } = useContext(StateContext);
   
-  // Function to determine the center based on position
-  const getCenter = (position) => {
-    if (position === "center")
-      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
-  };
-
-  const center = getCenter(position);
-
   // Dictionary with all information
   let componentsData = getGetStartedData();
 
   const principles = getComponentsPositions(componentsData['Principle'], 'Principle');
   const perspectives = getComponentsPositions(componentsData['Perspective'], 'Perspective');
   const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
-  const [components, setComponents] = useState(principles.concat(perspectives, dimensions));
+  const [components, setComponents] = useState(positions || principles.concat(perspectives, dimensions));
 
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
-  const componentPositions = positions || [];
 
   const selectedComponentsRef = useRef(selectedComponents);
 
@@ -66,17 +57,6 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
         }))
       );
   }, [isExplanationPage]);
-
-
-  let gapX, gapY;
-
-  if(isExplanationPage) {
-    gapX = window.innerWidth/2.9;
-    gapY = window.innerHeight/6.6;
-  } else {
-    gapX = window.innerWidth/9;
-    gapY = window.innerHeight/6.6;
-  }
 
   const handleDragStart = (id) => {
     let newAngle;
@@ -126,8 +106,10 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
         onDragStart(
           components[id].Code,
           title,
+          components[id].Label,
           components[id].Headline,
           components[id].Type,
+          components[id].angle,
           data.x,
           data.y
         );
@@ -174,15 +156,10 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
       >
         {components.map((c, i) => (
         <Draggable key={i} 
-            // position={
-            //     componentPositions.length > 0 
-            //     ? { x: componentPositions["x"], y: componentPositions["y"] } 
-            //     : undefined // Let Draggable manage the position if no positions are defined
-            // }
+            position={{ x: c.x, y: c.y }} // Let Draggable manage the position if no positions are defined
             disabled={isExplanationPage}
             onStart={() => handleDragStart(i)} // Set this textarea as active on drag
             onStop={(e, data) => handleDragStop(i, data)} // Set this textarea as active on drag
-            position={{ x: c.x, y: c.y }}
         >
           <div key={i}>
             {/* Shape */}
@@ -211,8 +188,6 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
             <div
               style={{
                 ...buttonStyle,
-               // left: `${c.x - waveWidth / 2 + gapX}px`,
-                //top: `${c.y - waveHeight / 2 + gapY}px`,
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 position: 'absolute', // Consistent positioning
                 zIndex: 30 // Ensures outlines are rendered on top of filled shapes

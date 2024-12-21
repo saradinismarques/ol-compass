@@ -79,7 +79,7 @@ const AnalysePage = () => {
     //       });
     // };
 
-    const handleDragStart = (code, title, headline, type, x, y) => {
+    const handleDragStart = (code, title, label, headline, type, angle, x, y) => {
         setComponents((prevComponents) => {
             const componentExists = prevComponents.some((component) => component.code === code);
       
@@ -88,10 +88,12 @@ const AnalysePage = () => {
               : [
                   ...prevComponents,
                   {
-                    code,
-                    title,
-                    headline,
-                    type,
+                    Code: code,
+                    Title: title,
+                    Label: label, 
+                    Headline: headline,
+                    Type: type,
+                    angle,
                     x, 
                     y
                   },
@@ -169,9 +171,9 @@ const AnalysePage = () => {
                                         white 80%
                                     )`,
                                 }}>
-                                {c.title}
+                                {c.Title}
                             </p>
-                            <p className='a-definition-text'>{c.headline}</p>
+                            <p className='a-definition-text'>{c.Headline}</p>
                         </div>
                     ))}
             </div>,
@@ -301,7 +303,6 @@ const AnalysePage = () => {
                 <BigWave 
                     className='a-ol-compass'
                     mode={currentMode}
-                    position="center"
                     selected={componentsRef.current.map((component) => component.code)}
                     positions = {componentsRef.current}
                 /> 
@@ -309,18 +310,18 @@ const AnalysePage = () => {
             container
         );
         
-        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null  });
+        canvas = await html2canvas(container, { scale: 5, logging: true, backgroundColor: null  });
         imgData = canvas.toDataURL('image/png');
         
         // Original dimensions of the captured canvas
         imgWidth = canvas.width; // In pixels
         imgHeight = canvas.height; // In pixels
          
-        contentWidth = imgWidth * pixelToMm*0.3;
-        contentHeight = imgHeight * pixelToMm*0.3;
+        contentWidth = imgWidth * pixelToMm*0.25;
+        contentHeight = imgHeight * pixelToMm*0.25;
          
         // Calculate the x and y positions to center the image
-        let x = (a4Width - contentWidth)/ 2 ;
+        let x = (a4Width - contentWidth) / 2 - 60;
         let y = (a4Height - contentHeight) / 2;
                 
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
@@ -328,9 +329,9 @@ const AnalysePage = () => {
         document.body.removeChild(container);
 
 
-        if(currentMode === 'analyse-pdf-a-all')
+        if(currentMode === 'analyse-a-all')
             return;
-        if(currentMode.startsWith('analyse-pdf-a-'))
+        if(currentMode.startsWith('analyse-a-'))
             await addIconAndDefinitions(pdf, currentMode, type);
     };
 
@@ -350,22 +351,22 @@ const AnalysePage = () => {
 
         // Task A All Page
         let text = 'The OL aspects/potential of your project that I could initially capture';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-all', 'A', 'All'); 
+        await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
         
         //Task A Principles
         if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > PRINCIPLES focus';
-            await addTaskPage(pdf, text, 'analyse-pdf-a-p', 'A', 'Principle'); 
+            await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
         }
         //Task A Perspectives
         if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-            await addTaskPage(pdf, text, 'analyse-pdf-a-pe', 'A', 'Perspective'); 
+            await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
         }
         //Task A Dimensions
         if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-            await addTaskPage(pdf, text, 'analyse-pdf-a-d', 'A', 'Dimension'); 
+            await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
         }
         //Task B
         //Task C
@@ -404,7 +405,6 @@ const AnalysePage = () => {
         <div className='a-ol-compass'>
             <BigWave 
                 mode={mode}
-                position="center"
                 resetState={resetState}
                 onDragStart={handleDragStart}
             /> 
