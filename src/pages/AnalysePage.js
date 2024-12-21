@@ -71,11 +71,88 @@ const AnalysePage = () => {
           });
     };
 
-    const addIconAndDefinitions = (pdf, subtask) => {
+    const addIconAndDefinitions = async(pdf, currentMode, type) => {
+        // Compass Icon
+        let container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
+ 
+        // Render React component into the container
+        ReactDOM.render(
+            <State>
+                <CompassIcon 
+                    mode={currentMode}
+                    type={type} 
+                />
+            </State>,
+            container
+        );
+ 
+        let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
+        let imgData = canvas.toDataURL('image/png');
+ 
+        // Original dimensions of the captured canvas
+        let imgWidth = canvas.width; // In pixels
+        let imgHeight = canvas.width; // In pixels
+  
+        // Convert pixel dimensions to mm
+        let pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        let contentWidth = imgWidth * pixelToMm * 0.4;
+        let contentHeight = imgHeight * pixelToMm * 0.4;
+  
+        pdf.addImage(imgData, 'PNG', 20, 5, contentWidth, contentHeight);
+         
+        document.body.removeChild(container);
+ 
+        // Definitions
+        container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
 
+        // Render React component into the container
+        ReactDOM.render(
+            <div className='a-definitions-container'>
+                {components
+                    .filter((c) => c.type === type) // Filter by the specific type
+                    .map((c) => (
+                        <div className='a-definition'>
+                            <p className='a-definition-title' 
+                                style={{
+                                    color: `${colors['Label'][type]}`,
+                                    background: `linear-gradient(
+                                        to right, 
+                                        ${colors['Wave'][type]} 20%, 
+                                        white 80%
+                                    )`,
+                                }}>
+                                {c.title}
+                            </p>
+                            <p className='a-definition-text'>{c.headline}</p>
+                        </div>
+                    ))}
+            </div>,
+            container
+        );
+
+        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
+        imgData = canvas.toDataURL('image/png');
+
+        // Original dimensions of the captured canvas
+        imgWidth = canvas.width*0.3; // In pixels
+        imgHeight = canvas.height*0.3; // In pixels
+ 
+        // Convert pixel dimensions to mm
+        contentWidth = imgWidth * pixelToMm;
+        contentHeight = imgHeight * pixelToMm;
+ 
+        pdf.addImage(imgData, 'PNG', 20, 60, contentWidth, contentHeight);
+        
+        document.body.removeChild(container);
     }
 
-    const addTaskPage = async(pdf, text, currentMode, subtask, type) => {
+    const addTaskPage = async(pdf, text, currentMode, task, type) => {
         const a4Width = pdf.internal.pageSize.getWidth();
         const a4Height = pdf.internal.pageSize.getHeight();
 
@@ -104,7 +181,7 @@ const AnalysePage = () => {
         pdf.setTextColor("#0a4461");
 
         let currentText;
-        if(type === 'All' || subtask !== 'A') {
+        if(type === 'All' || task !== 'A') {
             currentText = text;
             pdf.text(currentText, 20, 190);
         } else {
@@ -126,8 +203,52 @@ const AnalysePage = () => {
             pdf.text(remainingText, padding, 190);
         }
 
-        // OL Compass
+        // Subtask Menu
         let container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
+        
+        // Render React component into the container
+        ReactDOM.render(
+            <div className="a-tasks-nav">
+                <button className={`a-task-button ${'A' === task ? 'active' : ''}`} >
+                    A
+                </button>
+                            
+                <button className={`a-task-button ${'B' === task ? 'active' : ''}`} >
+                    B
+                </button>
+        
+                <button className={`a-task-button ${'C' === task ? 'active' : ''}`} >
+                    C
+                </button>
+        
+                <button className={`a-task-button ${'D' === task ? 'active' : ''}`} >
+                    D
+                </button>
+            </div>,
+                container
+            );
+            
+        let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
+        let imgData = canvas.toDataURL('image/png');
+        
+        // Original dimensions of the captured canvas
+        let imgWidth = canvas.width; // In pixels
+        let imgHeight = canvas.height; // In pixels
+            
+        // Convert pixel dimensions to mm
+        let pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        let contentWidth = imgWidth * pixelToMm * 0.3;
+        let contentHeight = imgHeight * pixelToMm *0.3;
+         
+        pdf.addImage(imgData, 'PNG', 20, 195, contentWidth, contentHeight);
+                
+        document.body.removeChild(container);
+        
+        // OL Compass
+        container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.top = '-9999px';
         document.body.appendChild(container);
@@ -145,17 +266,15 @@ const AnalysePage = () => {
             container
         );
         
-        let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null  });
-        let imgData = canvas.toDataURL('image/png');
+        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null  });
+        imgData = canvas.toDataURL('image/png');
         
         // Original dimensions of the captured canvas
-        let imgWidth = canvas.width; // In pixels
-        let imgHeight = canvas.height; // In pixels
+        imgWidth = canvas.width; // In pixels
+        imgHeight = canvas.height; // In pixels
          
-        // Convert pixel dimensions to mm
-        let pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        let contentWidth = imgWidth * pixelToMm*0.3;
-        let contentHeight = imgHeight * pixelToMm*0.3;
+        contentWidth = imgWidth * pixelToMm*0.3;
+        contentHeight = imgHeight * pixelToMm*0.3;
          
         // Calculate the x and y positions to center the image
         let x = (a4Width - contentWidth)/ 2 ;
@@ -165,53 +284,11 @@ const AnalysePage = () => {
                 
         document.body.removeChild(container);
 
-        // Subtask Menu
-        container = document.createElement('div');
-        container.style.position = 'absolute';
-        container.style.top = '-9999px';
-        document.body.appendChild(container);
-
-        // Render React component into the container
-        ReactDOM.render(
-            <div className="a-tasks-nav">
-            <button className={`a-task-button ${'A' === subtask ? 'active' : ''}`} >
-                A
-            </button>
-
-            <button className={`a-task-button ${'B' === subtask ? 'active' : ''}`} >
-                B
-            </button>
-
-            <button className={`a-task-button ${'C' === subtask ? 'active' : ''}`} >
-                C
-            </button>
-
-            <button className={`a-task-button ${'D' === subtask ? 'active' : ''}`} >
-                D
-            </button>
-        </div>,
-            container
-        );
-
-        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
-        imgData = canvas.toDataURL('image/png');
-
-        // Original dimensions of the captured canvas
-        imgWidth = canvas.width; // In pixels
-        imgHeight = canvas.height; // In pixels
-        
-        contentWidth = imgWidth * pixelToMm * 0.3;
-        contentHeight = imgHeight * pixelToMm *0.3;
- 
-        pdf.addImage(imgData, 'PNG', 20, 195, contentWidth, contentHeight);
-        
-        document.body.removeChild(container);
-
 
         if(currentMode === 'analyse-a-all')
             return;
         if(currentMode.startsWith('analyse-a-'))
-            addIconAndDefinitions(pdf, subtask);
+            await addIconAndDefinitions(pdf, currentMode, type);
     };
 
     const handleDownloadPDF = async () => {
@@ -291,11 +368,6 @@ const AnalysePage = () => {
                 onChange={handleInputChange}
                 spellCheck="false"
             ></textarea>
-            {/* <CompassIcon 
-                    colors={colors} 
-                    mode={'analyse'}
-                    type={'Dimension'} 
-            /> */}
             <div className="a-tasks-nav fixed">
                 <button 
                     className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 
