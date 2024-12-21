@@ -51,14 +51,32 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
   const componentPositions = positions || [];
 
+  const selectedComponentsRef = useRef(selectedComponents);
+
+  useEffect(() => {
+    selectedComponentsRef.current = selectedComponents;
+  }, [selectedComponents]);
+
   useEffect(() => {
     setComponents((prevComponents) =>
         prevComponents.map((component) => ({
           ...component,
-          gapX: isExplanationPage ? window.innerWidth / 2.9 : window.innerWidth / 9,
+          x: isExplanationPage ? component.x : component.x-window.innerWidth/2.9+window.innerWidth/9,
+          y: isExplanationPage ? component.y : component.y
         }))
       );
   }, [isExplanationPage]);
+
+
+  let gapX, gapY;
+
+  if(isExplanationPage) {
+    gapX = window.innerWidth/2.9;
+    gapY = window.innerHeight/6.6;
+  } else {
+    gapX = window.innerWidth/9;
+    gapY = window.innerHeight/6.6;
+  }
 
   const handleDragStart = (id) => {
     let newAngle;
@@ -78,8 +96,7 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
         updatedComponents[id].angle = newAngle;
-        updatedComponents[id].gapX = NaN;
-        updatedComponents[id].gapY = NaN;
+
         return updatedComponents;
     });
   };
@@ -89,10 +106,21 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
         const updatedComponents = [...prevComponents];
         updatedComponents[id].x = data.x;
         updatedComponents[id].y = data.y;
-        return updatedComponents;
-      });
 
-      if (onDragStart) {
+        return updatedComponents;
+    });
+
+    setSelectedComponents(prevComponents => {
+        const newComponents = prevComponents.includes(components[id].Code)
+          ? prevComponents.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
+          : [...prevComponents, components[id].Code]; // Add ID if not already clicked
+        
+        selectedComponentsRef.current = newComponents;
+        // Return the updated state
+        return newComponents;
+    });
+
+    if (onDragStart) {
         const title = convertLabel(components[id].Code);
 
         onDragStart(
@@ -127,7 +155,8 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
   let containerStyle = {
       height: window.innerHeight,
       width: window.innerWidth,
-      backgroundColor: 'transparent'
+      backgroundColor: 'transparent',
+      position: 'relative',  
     };
 
   const buttonStyle = {
@@ -141,30 +170,29 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
       <div 
         style={{
           ...containerStyle, 
-          left: `${center.x / window.innerWidth * 100}vw`, 
-          top: `${center.y / window.innerHeight * 100}vh`,
         }}
       >
         {components.map((c, i) => (
         <Draggable key={i} 
-            position={
-                componentPositions.length > 0 
-                ? { x: componentPositions["x"], y: componentPositions["y"] } 
-                : undefined // Let Draggable manage the position if no positions are defined
-            }
+            // position={
+            //     componentPositions.length > 0 
+            //     ? { x: componentPositions["x"], y: componentPositions["y"] } 
+            //     : undefined // Let Draggable manage the position if no positions are defined
+            // }
             disabled={isExplanationPage}
             onStart={() => handleDragStart(i)} // Set this textarea as active on drag
-            onStop={(data) => handleDragStop(i, data)} // Set this textarea as active on drag
+            onStop={(e, data) => handleDragStop(i, data)} // Set this textarea as active on drag
+            position={{ x: c.x, y: c.y }}
         >
           <div key={i}>
             {/* Shape */}
             <div
-              style={{
+             style={{
                 ...buttonStyle,
-                left: `${selectedComponents.includes(c.Code) ? 0 : c.x - waveWidth / 2 + c.gapX}px`, // Adjust position for button size
-                top: `${selectedComponents.includes(c.Code) ? 0 : c.y - waveHeight / 2 + c.gapY}px`,
+                position: 'absolute', // Consistent positioning
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
+                // Other styles go here
               }}
             >
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
@@ -178,13 +206,13 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
                 />
               </svg>
             </div>
-  
+
             {/* Outline Shape */}
             <div
               style={{
                 ...buttonStyle,
-                left: `${c.x - waveWidth / 2 + c.gapX}px`,
-                top: `${c.y - waveHeight / 2 + c.gapY}px`,
+               // left: `${c.x - waveWidth / 2 + gapX}px`,
+                //top: `${c.y - waveHeight / 2 + gapY}px`,
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 position: 'absolute', // Consistent positioning
                 zIndex: 30 // Ensures outlines are rendered on top of filled shapes
@@ -206,8 +234,7 @@ const OLCompass = ({ mode, position, onDragStart, resetState, selected, position
             <div
               style={{
                 position: 'absolute',
-                left: `${c.x - (waveWidth * 0.83) / 2 + c.gapX}px`, // Adjust position for button size
-                top: `${c.y - waveHeight / 2 + c.gapY}px`,
+                left: `${0.35*waveWidth/4}px`, // Adjust position for button size
                 transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
                 opacity: getWaveOpacity(mode, selectedComponents, c, opacityCounter, allComponents), // Change opacity on hover
                 zIndex: 10,
@@ -341,11 +368,9 @@ function getComponentsPositions(componentsData, type) {
     else if(type === 'Dimension')
       angle = angle + Math.PI / 2 - Math.PI*0.005;
 
-    componentsData[i]["x"] = x;
-    componentsData[i]["y"] = y;
+    componentsData[i]["x"] = x - waveWidth/2 + window.innerWidth/2.9;
+    componentsData[i]["y"] = y - waveHeight/2 + window.innerHeight/6.6;
     componentsData[i]["angle"] = angle;
-    componentsData[i]["gapX"] = window.innerWidth / 2.9;
-    componentsData[i]["gapY"] = window.innerHeight / 6.6;
   }
   return componentsData;
 };
