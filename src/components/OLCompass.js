@@ -75,14 +75,9 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   const [clickedIds, setClickedIds] = useState([]);
    
   // Determine which components and setter to use based on mode
-  let [selectedComponents, setSelectedComponents] = useState([]);
-  let currentComponent;
-  
-  if(selected) 
-    setSelectedComponents(selected);
-  if(current)
-    currentComponent = current;
-  
+  const [selectedComponents, setSelectedComponents] = useState(selected || []);
+  let currentComponent = current || null;
+
   const [initialState, setInitialState] = useState(true);
 
   // Tooltip
@@ -629,9 +624,8 @@ const getWaveFill = (mode, colors, selectedComponents, hoveredId, component, opa
   //   else
   //     return "white";
   // }
-
   if(mode.startsWith("analyse")) {
-    if(selectedComponents.includes(component.Code) || hoveredId === component.Code)
+    if(selectedComponents.includes(component.Code) || hoveredId === component.Code) 
       return colors['Wave'][component.Type];
     // else if(removedComponents.includes(component.Code) && mode.startsWith('analyse-b')) {
     //   return colors['Wave'][component.Type];
@@ -822,13 +816,31 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
         return 0.8;
     return 0.3;
   }
-  // // Analyse    
+  // Analyse    
   if(mode === "analyse" || mode === "analyse-a-all") {
     if (selectedComponents.includes(component.Code)) 
       return 1;
     if (hoveredId === component.Code) 
       return 0.5;
     return 1;
+  }
+  if(mode === "analyse-a-p") {
+    if(component.Type === "Principle")
+      return 1;
+    else
+      return 0.3;
+  }
+  if(mode === "analyse-a-pe") {
+    if(component.Type === "Perspective")
+      return 1;
+    else
+      return 0.3;
+  }
+  if(mode === "analyse-a-d") {
+    if(component.Type === "Dimension")
+      return 1;
+    else
+      return 0.3;
   }
   // if(mode === "analyse-a-p" || mode === "analyse-a-pe" || mode === "analyse-a-d") {
   //   if(mode === "analyse-a-p" && component.Type === "Principle")
@@ -963,6 +975,32 @@ const getTextOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
     return 0.3;
   }
       
+  // Analyse    
+  if(mode === "analyse" || mode === "analyse-a-all") {
+    if (selectedComponents.includes(component.Code)) 
+      return 1;
+    if (hoveredId === component.Code) 
+      return 0.5;
+    return 1;
+  }
+  if(mode === "analyse-a-p") {
+    if(component.Type === "Principle")
+      return 1;
+    else
+      return 0.3;
+  }
+  if(mode === "analyse-a-pe") {
+    if(component.Type === "Perspective")
+      return 1;
+    else
+      return 0.3;
+  }
+  if(mode === "analyse-a-d") {
+    if(component.Type === "Dimension")
+      return 1;
+    else
+      return 0.3;
+  }
   // Analyse PDF   
   // if(mode === "analyse-pdf-all") {
   //   if (selectedComponents.includes(component.Code)) 

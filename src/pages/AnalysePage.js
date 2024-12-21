@@ -17,13 +17,6 @@ const AnalysePage = () => {
         isExplanationPage,
         setIsExplanationPage,
         allComponents,
-        AComponents,
-        setAComponents,
-        AComponentsRef,
-        addedComponents,
-        setAddedComponents,
-        removedComponents,
-        setRemovedComponents,
       } = useContext(StateContext);
 
     const [projectName, setProjectName] = useState('');
@@ -34,7 +27,6 @@ const AnalysePage = () => {
 
     const componentsRef = useRef(components);
 
-    console.log(colors);
     useEffect(() => {
         componentsRef.current = components;
     }, [components]);
@@ -78,6 +70,10 @@ const AnalysePage = () => {
             return sortedComponents;
           });
     };
+
+    const addIconAndDefinitions = (pdf, subtask) => {
+
+    }
 
     const addTaskPage = async(pdf, text, currentMode, subtask, type) => {
         const a4Width = pdf.internal.pageSize.getWidth();
@@ -143,9 +139,9 @@ const AnalysePage = () => {
                     className='a-ol-compass'
                     mode={currentMode}
                     position="center" 
+                    selected={componentsRef.current.map((component) => component.code)}
                 />
-            </State>
-            ,
+            </State>,
             container
         );
         
@@ -168,6 +164,54 @@ const AnalysePage = () => {
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
                 
         document.body.removeChild(container);
+
+        // Subtask Menu
+        container = document.createElement('div');
+        container.style.position = 'absolute';
+        container.style.top = '-9999px';
+        document.body.appendChild(container);
+
+        // Render React component into the container
+        ReactDOM.render(
+            <div className="a-tasks-nav">
+            <button className={`a-task-button ${'A' === subtask ? 'active' : ''}`} >
+                A
+            </button>
+
+            <button className={`a-task-button ${'B' === subtask ? 'active' : ''}`} >
+                B
+            </button>
+
+            <button className={`a-task-button ${'C' === subtask ? 'active' : ''}`} >
+                C
+            </button>
+
+            <button className={`a-task-button ${'D' === subtask ? 'active' : ''}`} >
+                D
+            </button>
+        </div>,
+            container
+        );
+
+        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
+        imgData = canvas.toDataURL('image/png');
+
+        // Original dimensions of the captured canvas
+        imgWidth = canvas.width; // In pixels
+        imgHeight = canvas.height; // In pixels
+        
+        contentWidth = imgWidth * pixelToMm * 0.3;
+        contentHeight = imgHeight * pixelToMm *0.3;
+ 
+        pdf.addImage(imgData, 'PNG', 20, 195, contentWidth, contentHeight);
+        
+        document.body.removeChild(container);
+
+
+        if(currentMode === 'analyse-a-all')
+            return;
+        if(currentMode.startsWith('analyse-a-'))
+            addIconAndDefinitions(pdf, subtask);
     };
 
     const handleDownloadPDF = async () => {
@@ -186,15 +230,23 @@ const AnalysePage = () => {
 
         // Task A All Page
         let text = 'The OL aspects/potential of your project that I could initially capture';
-        await addTaskPage(pdf, text, 'analyse-pdf-a-all', 'A', 'All'); 
+        await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
         
         //Task A Principles
-        if (components.filter((c) => c.Type === 'Principle').length !== 0) {
+        if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > PRINCIPLES focus';
             await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
         }
         //Task A Perspectives
+        if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
+            text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+            await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
+        }
         //Task A Dimensions
+        if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
+            text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+            await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
+        }
         //Task B
         //Task C
         //Task D
