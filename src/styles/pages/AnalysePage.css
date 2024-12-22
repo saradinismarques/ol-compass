@@ -23,7 +23,7 @@
 }
 
 .a-tasks-nav {
-    bottom: 9vh;
+    bottom: 5vh;
     left: 9vw; /* Positioning at the bottom of the page */
     display: flex;
     gap: 20px; /* Space between buttons */

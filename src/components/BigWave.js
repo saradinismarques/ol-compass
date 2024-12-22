@@ -38,21 +38,29 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
   const perspectives = getComponentsPositions(componentsData['Perspective'], 'Perspective');
   const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
   const [components, setComponents] = useState(positions || principles.concat(perspectives, dimensions));
-
+  
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
 
   const selectedComponentsRef = useRef(selectedComponents);
+
+  const [showSquare, setShowSquare] = useState(true);
 
   useEffect(() => {
     selectedComponentsRef.current = selectedComponents;
   }, [selectedComponents]);
 
   useEffect(() => {
+    if (!isExplanationPage) {
+        setShowSquare(true);
+    }
+  }, [isExplanationPage]);
+
+  useEffect(() => {
     setComponents((prevComponents) =>
         prevComponents.map((component) => ({
           ...component,
-          x: isExplanationPage ? component.x : component.x-window.innerWidth/2.9+window.innerWidth/9,
+          x: isExplanationPage ? component.x : component.x-window.innerWidth/2.94+window.innerWidth/11.1,
           y: isExplanationPage ? component.y : component.y
         }))
       );
@@ -154,6 +162,20 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
           ...containerStyle, 
         }}
       >
+        {showSquare &&
+        <div 
+            style={{
+                position: 'absolute',
+                top: '12vh',
+                left: '50vw',
+                width: '37vw',
+                height: '75vh',
+                border: '2px solid #cacbcb',
+                borderRadius: '10px'
+            }}
+        ></div>
+        }
+
         {components.map((c, i) => (
         <Draggable key={i} 
             position={{ x: c.x, y: c.y }} // Let Draggable manage the position if no positions are defined
@@ -166,7 +188,6 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
             <div
              style={{
                 ...buttonStyle,
-                position: 'absolute', // Consistent positioning
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
                 // Other styles go here
@@ -343,8 +364,8 @@ function getComponentsPositions(componentsData, type) {
     else if(type === 'Dimension')
       angle = angle + Math.PI / 2 - Math.PI*0.005;
 
-    componentsData[i]["x"] = x - waveWidth/2 + window.innerWidth/2.9;
-    componentsData[i]["y"] = y - waveHeight/2 + window.innerHeight/6.6;
+    componentsData[i]["x"] = x - waveWidth/2 + window.innerWidth/2.94;
+    componentsData[i]["y"] = y - waveHeight/2 + window.innerHeight/6.85;
     componentsData[i]["angle"] = angle;
   }
   return componentsData;

@@ -50,8 +50,12 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   const getCenter = (position) => {
     if (position === "center")
       return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
+    else if (position === "center-2")
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.485 };
     else if (position === "left") 
       return { x: window.innerWidth * 0.4, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
+    else if (position === "left-2") 
+      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.485 };
   };
 
   const center = getCenter(position);
@@ -240,19 +244,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   }, [handleKeyDown]); // Dependency array includes handleKeyDown
 
   
-  let containerStyle;
-  if(mode.startsWith('analyse')) {
-    // Container styles for the circle menu
-      containerStyle = {
-      // position: 'relative',   // Fixed position to stay in the specified location
-      // top: '50%',            // Reset top for positioning
-      // left: '50%',           // Reset left for positioning
-      height: window.innerHeight,
-      width: window.innerWidth,
-      backgroundColor: 'transparent'
-    };
-  } else {
-    containerStyle = {
+  let containerStyle = {
       position: 'fixed',   // Fixed position to stay in the specified location
       top: '0',            // Reset top for positioning
       left: '0',           // Reset left for positioning
@@ -261,11 +253,10 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       width: `${size}px`,
       height: `${size}px`,
     };
-  }
 
   const buttonStyle = {
     position: 'absolute',
-    cursor: (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse-a-")) ? 'default' : 'pointer',
+    cursor: (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse")) ? 'default' : 'pointer',
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
@@ -345,21 +336,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     </div>
   );
 
-  let gapX, gapY;
-
-  if(mode.startsWith("analyse")) {
-    if(isExplanationPage) {
-      gapX = window.innerWidth/2.9;
-      gapY = window.innerHeight/6.6;
-    } else {
-      gapX = window.innerWidth/9;
-      gapY = window.innerHeight/6.6;
-    }
-  } else {
-    gapX = 0;
-    gapY = -2;
-  }
-  
   return (
     <>       
       <div 
@@ -375,8 +351,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
             <div
               style={{
                 ...buttonStyle,
-                left: `${c.x - waveWidth / 2 + gapX}px`, // Adjust position for button size
-                top: `${c.y - waveHeight / 2 + gapY}px`,
+                left: `${c.x - waveWidth / 2}px`, // Adjust position for button size
+                top: `${c.y - waveHeight / 2 - 2}px`,
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
               }}
@@ -388,7 +364,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
                 <path 
                   d={svgPath} 
-                  fill={getWaveFill(mode, colors, selectedComponents, hoveredId, c)}  // Use the gradient fill
+                  fill={getWaveFill(mode, colors, c)}  // Use the gradient fill
                   stroke="none" 
                   style={{ pointerEvents: 'all' }}
                   transition="opacity 1s ease"
@@ -401,8 +377,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
             <div
               style={{
                 ...buttonStyle,
-                left: `${c.x - waveWidth / 2 + gapX}px`,
-                top: `${c.y - waveHeight / 2 + gapY}px`,
+                left: `${c.x - waveWidth / 2}px`,
+                top: `${c.y - waveHeight / 2 - 2}px`,
                 transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 position: 'absolute', // Consistent positioning
                 zIndex: 30 // Ensures outlines are rendered on top of filled shapes
@@ -416,7 +392,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                   d={svgPath} 
                   fill="none"
                   opacity={getStrokeOpacity()} // Change opacity on hover
-                  stroke={getStroke(mode, colors, selectedComponents, hoveredId, c)}
+                  stroke={getStroke(mode, colors, selectedComponents, c)}
                   strokeWidth={getStrokeWidth(mode)}
                   style={{ pointerEvents: 'all' }} 
                 />
@@ -427,8 +403,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
             <div
               style={{
                 position: 'absolute',
-                left: `${c.x - (waveWidth * 0.83) / 2 + gapX}px`, // Adjust position for button size
-                top: `${c.y - waveHeight / 2 + gapY}px`,
+                left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
+                top: `${c.y - waveHeight / 2 - 2}px`,
                 transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
                 opacity: getWaveOpacity(mode, selectedComponents, currentComponent, hoveredId, c, opacityCounter, allComponents), // Change opacity on hover
                 zIndex: 10,
@@ -471,7 +447,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   
                   {/* Text on Path */}
                   <text
-                    fill={getTextFill(mode, colors, selectedComponents, hoveredId, c)}
+                    fill={getTextFill(mode, colors, c)}
                     fontSize="8px"
                     letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
@@ -493,7 +469,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                   {/* Second Line (if it has one) */}
                   {bigLabels.includes(c.Code) &&
                     <text
-                      fill={getTextFill(mode, colors, selectedComponents, hoveredId, c)}
+                      fill={getTextFill(mode, colors, c)}
                       fontSize="8px"
                       letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path
@@ -581,46 +557,35 @@ function getComponentsPositions(componentsData, type) {
   return componentsData;
 };
 
-const getWaveFill = (mode, colors, selectedComponents, hoveredId, component) => {
+const getWaveFill = (mode, colors, component) => {
   // Analyse
-  if(mode.startsWith("analyse")) {
-    if(selectedComponents.includes(component.Code) || hoveredId === component.Code) 
-      return colors['Wave'][component.Type];
-    else
+  if(mode.startsWith("analyse"))
       return "transparent";
-  }
   return colors['Wave'][component.Type];
 }
 
-const getTextFill = (mode, colors, selectedComponents, hoveredId, component) => {
+const getTextFill = (mode, colors, component) => {
   // Analyse
-  if(mode.startsWith("analyse")) {  
-      if(selectedComponents.includes(component.Code) || hoveredId === component.Code)
-        return colors['Label'][component.Type];
-      else 
+  if(mode.startsWith("analyse")) 
         return "#cacbcb";
-  } 
   return colors['Label'][component.Type];
 }
 
-const getStroke = (mode, colors, selectedComponents, hoveredId, component) => {
+const getStroke = (mode, colors, selectedComponents, component) => {
   // Get Started
   if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
     if(selectedComponents.includes(component.Code)) 
       return colors['Selection'];
 
   // Analyse
-  if(mode.startsWith("analyse")) {
-    if(!selectedComponents.includes(component.Code) && hoveredId !== component.Code)
-      return '#cacbcb';
-  }
+  if(mode.startsWith("analyse"))
+    return '#cacbcb';
   return 'none';
 };
 
 const getStrokeWidth = (mode) => {
   if(mode.startsWith("analyse"))
     return "0.6px";
-
   return "1.5px";
 };
 
@@ -720,31 +685,8 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
   }
 
   // Analyse    
-  if(mode === "analyse" || mode === "analyse-a-all") {
-    if (selectedComponents.includes(component.Code)) 
+  if(mode.startsWith("analyse")) 
       return 1;
-    if (hoveredId === component.Code) 
-      return 0.5;
-    return 1;
-  }
-  if(mode === "analyse-a-p") {
-    if(component.Type === "Principle")
-      return 1;
-    else
-      return 0.3;
-  }
-  if(mode === "analyse-a-pe") {
-    if(component.Type === "Perspective")
-      return 1;
-    else
-      return 0.3;
-  }
-  if(mode === "analyse-a-d") {
-    if(component.Type === "Dimension")
-      return 1;
-    else
-      return 0.3;
-  }
 };
 
 const getStrokeOpacity = () => {

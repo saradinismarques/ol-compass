@@ -9,6 +9,7 @@ import ManropeFont from '../utils/Font.js';
 import ReactDOM from 'react-dom';
 import { State, StateContext } from "../State";
 import '../styles/pages/AnalysePage.css';
+import coverImage from '../assets/images/PDF-cover-background.png';
 
 const AnalysePage = () => {
     const {
@@ -81,37 +82,50 @@ const AnalysePage = () => {
 
     const handleDragStart = (code, title, label, headline, type, angle, x, y) => {
         setComponents((prevComponents) => {
-            const componentExists = prevComponents.some((component) => component.code === code);
-      
+            const componentExists = prevComponents.some((component) => component.Code === code);
+        
             const updatedComponents = componentExists
-              ? prevComponents.filter((component) => component.code !== code)
-              : [
-                  ...prevComponents,
-                  {
-                    Code: code,
-                    Title: title,
-                    Label: label, 
-                    Headline: headline,
-                    Type: type,
-                    angle,
-                    x, 
-                    y
-                  },
-                ];
-      
+                ? prevComponents.map((component) =>
+                      component.Code === code
+                          ? {
+                                ...component, // Keep existing fields
+                                Title: title,
+                                Label: label,
+                                Headline: headline,
+                                Type: type,
+                                angle,
+                                x,
+                                y,
+                            }
+                          : component // Keep components that are not being updated as is
+                  )
+                : [
+                      ...prevComponents,
+                      {
+                          Code: code,
+                          Title: title,
+                          Label: label,
+                          Headline: headline,
+                          Type: type,
+                          angle,
+                          x,
+                          y,
+                      },
+                  ];
+        
             const sortedComponents = updatedComponents.sort((a, b) => {
-              const indexA = allComponents.indexOf(a.code);
-              const indexB = allComponents.indexOf(b.code);
-      
-              if (indexA === -1) return 1;
-              if (indexB === -1) return -1;
-      
-              return indexA - indexB;
+                const indexA = allComponents.indexOf(a.Code);
+                const indexB = allComponents.indexOf(b.Code);
+        
+                if (indexA === -1) return 1;
+                if (indexB === -1) return -1;
+        
+                return indexA - indexB;
             });
-      
+        
             componentsRef.current = sortedComponents;
             return sortedComponents;
-          });
+        });
     };
 
 
@@ -159,7 +173,7 @@ const AnalysePage = () => {
         ReactDOM.render(
             <div className='a-definitions-container'>
                 {components
-                    .filter((c) => c.type === type) // Filter by the specific type
+                    .filter((c) => c.Type === type) // Filter by the specific type
                     .map((c) => (
                         <div className='a-definition'>
                             <p className='a-definition-title' 
@@ -303,25 +317,25 @@ const AnalysePage = () => {
                 <BigWave 
                     className='a-ol-compass'
                     mode={currentMode}
-                    selected={componentsRef.current.map((component) => component.code)}
+                    selected={componentsRef.current.map((component) => component.Code)}
                     positions = {componentsRef.current}
                 /> 
             </State>,
             container
         );
         
-        canvas = await html2canvas(container, { scale: 5, logging: true, backgroundColor: null  });
+        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null  });
         imgData = canvas.toDataURL('image/png');
         
         // Original dimensions of the captured canvas
         imgWidth = canvas.width; // In pixels
         imgHeight = canvas.height; // In pixels
          
-        contentWidth = imgWidth * pixelToMm*0.25;
-        contentHeight = imgHeight * pixelToMm*0.25;
+        contentWidth = imgWidth * pixelToMm * 0.4;
+        contentHeight = imgHeight * pixelToMm * 0.4;
          
         // Calculate the x and y positions to center the image
-        let x = (a4Width - contentWidth) / 2 - 60;
+        let x = (a4Width - contentWidth) / 2 - 50;
         let y = (a4Height - contentHeight) / 2;
                 
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
@@ -329,10 +343,10 @@ const AnalysePage = () => {
         document.body.removeChild(container);
 
 
-        if(currentMode === 'analyse-a-all')
-            return;
-        if(currentMode.startsWith('analyse-a-'))
-            await addIconAndDefinitions(pdf, currentMode, type);
+        // if(currentMode === 'analyse-a-all')
+        //     return;
+        // if(currentMode.startsWith('analyse-a-'))
+        //     await addIconAndDefinitions(pdf, currentMode, type);
     };
 
     const handleDownloadPDF = async () => {
@@ -343,8 +357,15 @@ const AnalysePage = () => {
         pdf.addFont('Manrope-Regular.ttf', 'Manrope', 'normal');
         pdf.setFont('Manrope', 'normal');
     
-        // Cover Page
-        pdf.text(projectName, 10, 10);
+        // Add the image as a background
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        pdf.addImage(coverImage, 'PNG', 0, 0, pageWidth, pageHeight);
+
+        // Add text on top of the background
+        pdf.setTextColor('white'); // RGB for green
+        pdf.setFontSize(50);
+        pdf.text(projectName, 30, 30);
 
         // Index Page
         pdf.addPage();
@@ -353,18 +374,18 @@ const AnalysePage = () => {
         let text = 'The OL aspects/potential of your project that I could initially capture';
         await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
         
-        //Task A Principles
-        if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
+        // Task A Principles
+        if (componentsRef.current.filter((c) => c.Type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > PRINCIPLES focus';
             await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
         }
-        //Task A Perspectives
-        if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
+        // Task A Perspectives
+        if (componentsRef.current.filter((c) => c.Type === 'Perspective').length !== 0) {
             text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
             await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
         }
-        //Task A Dimensions
-        if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
+        // Task A Dimensions
+        if (componentsRef.current.filter((c) => c.Type === 'Dimension').length !== 0) {
             text = 'The OL aspects/potential of your project > DIMENSIONS focus';
             await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
         }
@@ -394,13 +415,11 @@ const AnalysePage = () => {
 
     return (
     <>
-        <div className='a-ol-compass'>
-            <OLCompass 
-                mode={mode}
-                position="center"
-                resetState={resetState}
-            /> 
-        </div>
+        <OLCompass 
+            mode={mode}
+            position={isExplanationPage ? "center-2" : "left-2"}
+            resetState={resetState}
+        /> 
         
         <div className='a-ol-compass'>
             <BigWave 
@@ -420,6 +439,7 @@ const AnalysePage = () => {
                 onChange={handleInputChange}
                 spellCheck="false"
             ></textarea>
+            
             <div className="a-tasks-nav fixed">
                 <button 
                     className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 
@@ -450,50 +470,6 @@ const AnalysePage = () => {
                     Generate Visual Report
                 </button>
             </div> 
-
-            {activeTask === 'A' &&
-            <>
-            <div className="a-subtask-nav">
-                <button 
-                    className={`a-subtask-button ${'' === ASubtask ? 'active' : ''}`} 
-                    onClick={() => handleASubtaskChange('')}>
-                    All
-                </button>
-
-                <button 
-                    className={`a-subtask-button ${'Principle' === ASubtask ? 'active' : ''}`} 
-                    onClick={() => handleASubtaskChange('Principle')}>
-                    P
-                </button>
-
-                <button 
-                    className={`a-subtask-button ${'Perspective' === ASubtask ? 'active' : ''}`} 
-                    onClick={() => handleASubtaskChange('Perspective')}>
-                    Pe
-                </button>
-
-                <button 
-                    className={`a-subtask-button ${'Dimension' === ASubtask ? 'active' : ''}`} 
-                    onClick={() => handleASubtaskChange('Dimension')}>
-                    D
-                </button>
-            </div>
-            
-                {ASubtask !== 'All' &&
-                    <div className='a-definitions-container fixed'>
-                        {components
-                            .filter((c) => c.Type === ASubtask) // Filter by the specific type
-                            .map((c) => (
-                                <div className='a-definition'>
-                                    <p className='a-definition-title'>{c.Title}</p>
-                                    <p className='a-definition-text'>{c.Text}</p>
-                                </div>
-                        ))}
-                    </div>
-                }
-            
-                </>
-            }
 
             {activeTask === 'B' &&
                 <>
