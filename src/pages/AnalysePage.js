@@ -49,38 +49,7 @@ const AnalysePage = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
-    // const handleCompassClick = (code, title, headline, type) => {
-    //     setComponents((prevComponents) => {
-    //         const componentExists = prevComponents.some((component) => component.code === code);
-      
-    //         const updatedComponents = componentExists
-    //           ? prevComponents.filter((component) => component.code !== code)
-    //           : [
-    //               ...prevComponents,
-    //               {
-    //                 code,
-    //                 title,
-    //                 headline,
-    //                 type,
-    //               },
-    //             ];
-      
-    //         const sortedComponents = updatedComponents.sort((a, b) => {
-    //           const indexA = allComponents.indexOf(a.code);
-    //           const indexB = allComponents.indexOf(b.code);
-      
-    //           if (indexA === -1) return 1;
-    //           if (indexB === -1) return -1;
-      
-    //           return indexA - indexB;
-    //         });
-      
-    //         componentsRef.current = sortedComponents;
-    //         return sortedComponents;
-    //       });
-    // };
-
-    const handleDragStart = (code, title, label, headline, type, angle, x, y) => {
+    const handleDragStop = (code, title, label, headline, type, angle, x, y, textareaX, textareaY, textAreaData) => {
         setComponents((prevComponents) => {
             const componentExists = prevComponents.some((component) => component.Code === code);
         
@@ -96,6 +65,9 @@ const AnalysePage = () => {
                                 angle,
                                 x,
                                 y,
+                                textareaX,
+                                textareaY,
+                                textAreaData
                             }
                           : component // Keep components that are not being updated as is
                   )
@@ -110,6 +82,9 @@ const AnalysePage = () => {
                           angle,
                           x,
                           y,
+                          textareaX,
+                          textareaY,
+                          textAreaData
                       },
                   ];
         
@@ -425,7 +400,7 @@ const AnalysePage = () => {
             <BigWave 
                 mode={mode}
                 resetState={resetState}
-                onDragStart={handleDragStart}
+                onDragStop={handleDragStop}
             /> 
         </div>
 

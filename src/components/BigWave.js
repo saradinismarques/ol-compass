@@ -23,7 +23,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
+const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
   const {
     colors,
     isExplanationPage,
@@ -43,9 +43,7 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
   const [showSquare, setShowSquare] = useState(false);
 
-  const [textAreaData, setTextAreaData] = useState({}); // Store input data for components
   const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
-  const [textAreaPositions, setTextAreaPositions] = useState({}); // Track positions for all text areas
 
   const selectedComponentsRef = useRef(selectedComponents);
   const activeIdRef = useRef(activeId);
@@ -75,6 +73,7 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
       );
   }, [isExplanationPage]);
 
+  console.log(components);
   const handleDragStart = (id) => {
     let newAngle;
 
@@ -108,19 +107,16 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
     });
 
     setSelectedComponents(prevComponents => {
-        const newComponents = prevComponents.includes(components[id].Code)
-          ? prevComponents.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevComponents, components[id].Code]; // Add ID if not already clicked
-        
-        selectedComponentsRef.current = newComponents;
-        // Return the updated state
-        return newComponents;
+        if (!prevComponents.includes(components[id].Code)) {
+            const newComponents = [...prevComponents, components[id].Code]; // Add the component if it doesn't already exist
+            selectedComponentsRef.current = newComponents;
+            return newComponents; // Return updated state
+        }
+    
+        // If it already exists, just return the previous state
+        return prevComponents;
     });
-
-    setTextAreaPositions((prevPositions) => ({
-        ...prevPositions,
-        [id]: { x: data.x, y: data.y }, // Update the position of the dragged textarea
-    }));
+    
 
     if (activeIdRef.current === id) {
         // If the clicked component is already active, deactivate it
@@ -133,10 +129,10 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
         setActiveId(id);
     }
 
-    if (onDragStart) {
+    if (onDragStop) {
         const title = convertLabel(components[id].Code);
 
-        onDragStart(
+        onDragStop(
           components[id].Code,
           title,
           components[id].Label,
@@ -144,7 +140,10 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
           components[id].Type,
           components[id].angle,
           data.x,
-          data.y
+          data.y,
+          components[id].textareaX,
+          components[id].textareaY,
+          components[id].textAreaData
         );
       }
   };
@@ -182,10 +181,31 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
 
   // Other states
   const handleTextAreaDragStop = (id, data) => {
-    setTextAreaPositions((prevPositions) => ({
-        ...prevPositions,
-        [id]: { x: data.x, y: data.y }, // Update the position of the dragged textarea
-    }));
+    setComponents((prevComponents) => {
+        const updatedComponents = [...prevComponents];
+        updatedComponents[id].textareaX = data.x;
+        updatedComponents[id].textareaY = data.y;
+
+        return updatedComponents;
+    });
+
+    if (onDragStop) {
+        const title = convertLabel(components[id].Code);
+
+        onDragStop(
+          components[id].Code,
+          title,
+          components[id].Label,
+          components[id].Headline,
+          components[id].Type,
+          components[id].angle,
+          components[id].x,
+          components[id].y,
+          data.x,
+          data.y,
+          components[id].textAreaData
+        );
+      }
   };
 
   // Focus the textarea when the component mounts
@@ -222,14 +242,37 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
       const { value, selectionStart, selectionEnd } = e.target;
   
       // Update the text and cursor position
-      setTextAreaData((prevData) => ({
-        ...prevData,
-        [id]: {
-          text: value,
-          cursorStart: selectionStart,
-          cursorEnd: selectionEnd,
-        },
-      }));
+      setComponents((prevComponents) => {
+        const updatedComponents = [...prevComponents];
+        updatedComponents[id].textAreaData = {
+            text: value,
+            cursorStart: selectionStart,
+            cursorEnd: selectionEnd,
+        }
+        return updatedComponents;
+      });
+
+      if (onDragStop) {
+        const title = convertLabel(components[id].Code);
+
+        onDragStop(
+            components[id].Code,
+            title,
+            components[id].Label,
+            components[id].Headline,
+            components[id].Type,
+            components[id].angle,
+            components[id].x,
+            components[id].y,
+            components[id].textareaX,
+            components[id].textareaY,
+            {
+                text: value,
+                cursorStart: selectionStart,
+                cursorEnd: selectionEnd,
+            }  
+        );
+        }
     };
   
     return (
@@ -249,7 +292,7 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
           <textarea
             ref={textareaRef}
             name={id}
-            value={value.text || ""}
+            value={value.text}
             onChange={handleInputChange}
             placeholder="Enter your notes here"
             spellcheck="false"
@@ -259,7 +302,6 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
               fontSize: "14px",
               padding: "8px",
               borderRadius: "4px",
-              fontFamily: "Manrope",
               color: "#72716f",
               border: "none",
               resize: "none",
@@ -443,8 +485,8 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
         <TextArea
             key={i}
             id={i}
-            position={textAreaPositions[i] || { x: c.x, y: c.y }}
-            value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+            position={{x: c.textareaX, y: c.textareaY }}
+            value={c.textAreaData}
             onDragStop={handleDragStop}
         />
         }
@@ -494,6 +536,9 @@ function getComponentsPositions(componentsData, type) {
     componentsData[i]["x"] = x - waveWidth/2 + window.innerWidth/2.94;
     componentsData[i]["y"] = y - waveHeight/2 + window.innerHeight/6.85;
     componentsData[i]["angle"] = angle;
+    componentsData[i]["textareaX"] = x - waveWidth/2 + window.innerWidth/2.94;
+    componentsData[i]["textareaY"] = y - waveHeight/2 + window.innerHeight/6.85;
+    componentsData[i]["textAreaData"] = "";
   }
   return componentsData;
 };
