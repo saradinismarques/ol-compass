@@ -749,7 +749,7 @@ const AnalysePage = ({ colors }) => {
                     id={c.id}
                     start={{ x: c.x+window.innerWidth/3, y: c.y+window.innerHeight/7 }}
                     end={textAreaPositions[c.id]}
-            ></Arrow>
+             ></Arrow>
             </>
             ))}
 

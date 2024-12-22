@@ -41,10 +41,19 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
   
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
+  const [showSquare, setShowSquare] = useState(false);
+
+  const [textAreaData, setTextAreaData] = useState({}); // Store input data for components
+  const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
+  const [textAreaPositions, setTextAreaPositions] = useState({}); // Track positions for all text areas
 
   const selectedComponentsRef = useRef(selectedComponents);
+  const activeIdRef = useRef(activeId);
+  const textareaRef = useRef(null); 
 
-  const [showSquare, setShowSquare] = useState(true);
+  useEffect(() => {
+      activeIdRef.current = activeId;
+  }, [activeId]);
 
   useEffect(() => {
     selectedComponentsRef.current = selectedComponents;
@@ -108,6 +117,22 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
         return newComponents;
     });
 
+    setTextAreaPositions((prevPositions) => ({
+        ...prevPositions,
+        [id]: { x: data.x, y: data.y }, // Update the position of the dragged textarea
+    }));
+
+    if (activeIdRef.current === id) {
+        // If the clicked component is already active, deactivate it
+        activeIdRef.current = null;
+        setActiveId(null);
+
+    } else {
+        // Set the clicked component as active
+        activeIdRef.current = id;
+        setActiveId(id);
+    }
+
     if (onDragStart) {
         const title = convertLabel(components[id].Code);
 
@@ -155,6 +180,97 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
+  // Other states
+  const handleTextAreaDragStop = (id, data) => {
+    setTextAreaPositions((prevPositions) => ({
+        ...prevPositions,
+        [id]: { x: data.x, y: data.y }, // Update the position of the dragged textarea
+    }));
+  };
+
+  // Focus the textarea when the component mounts
+//   useEffect(() => {
+//     if (textareaRef.current) {
+//         textareaRef.current.focus();
+//     }
+//   }, []);
+    
+    
+  const setActiveRef = (id) => {
+    setActiveId(id);
+    activeIdRef.current = id;
+  }
+
+  const TextArea = ({ id, position, value }) => {
+    const textareaRef = useRef(null);
+  
+    // Focus the textarea when the activeId changes
+    useEffect(() => {
+        if (textareaRef.current && id === activeIdRef.current) {
+            textareaRef.current.focus();
+        }
+    }, [activeId]); // Only re-focus when the activeId changes
+
+    // Preserve cursor position after value updates
+    useEffect(() => {
+      if (textareaRef.current && value.cursorStart !== undefined) {
+        textareaRef.current.setSelectionRange(value.cursorStart, value.cursorEnd);
+      }
+    }, [value.cursorStart, value.cursorEnd]);
+  
+    const handleInputChange = (e) => {
+      const { value, selectionStart, selectionEnd } = e.target;
+  
+      // Update the text and cursor position
+      setTextAreaData((prevData) => ({
+        ...prevData,
+        [id]: {
+          text: value,
+          cursorStart: selectionStart,
+          cursorEnd: selectionEnd,
+        },
+      }));
+    };
+  
+    return (
+        <div>
+        <Draggable
+            position={position} // Controlled position from parent state
+            onStart={() => setActiveRef(id)} // Set this textarea as active on drag
+            onStop={(e, data) => handleTextAreaDragStop(id, data)} // Update position after drag
+            onClick={() => setActiveRef(id)}
+        >
+        <div
+          style={{
+            position: "absolute", // Ensure absolute positioning within container
+            zIndex: 100,
+          }}
+        >
+          <textarea
+            ref={textareaRef}
+            name={id}
+            value={value.text || ""}
+            onChange={handleInputChange}
+            placeholder="Enter your notes here"
+            spellcheck="false"
+            style={{
+              width: "200px",
+              height: "50px",
+              fontSize: "14px",
+              padding: "8px",
+              borderRadius: "4px",
+              fontFamily: "Manrope",
+              color: "#72716f",
+              border: "none",
+              resize: "none",
+            }}
+          />
+        </div>
+      </Draggable>
+      </div>
+    );
+  };
+
   return (
     <>       
       <div 
@@ -162,14 +278,14 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
           ...containerStyle, 
         }}
       >
-        {showSquare &&
+        {(showSquare && !selected) &&
         <div 
             style={{
                 position: 'absolute',
-                top: '12vh',
+                top: '13vh',
                 left: '50vw',
                 width: '37vw',
-                height: '75vh',
+                height: '70vh',
                 border: '2px solid #cacbcb',
                 borderRadius: '10px'
             }}
@@ -177,6 +293,7 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
         }
 
         {components.map((c, i) => (
+        <>
         <Draggable key={i} 
             position={{ x: c.x, y: c.y }} // Let Draggable manage the position if no positions are defined
             disabled={isExplanationPage}
@@ -322,6 +439,16 @@ const OLCompass = ({ mode, onDragStart, resetState, selected, positions }) => {
             </div>
           </div>
         </Draggable>
+        {selectedComponentsRef.current.includes(c.Code) &&
+        <TextArea
+            key={i}
+            id={i}
+            position={textAreaPositions[i] || { x: c.x, y: c.y }}
+            value={textAreaData[i] || { text: "", cursorStart: 0, cursorEnd: 0 }}
+            onDragStop={handleDragStop}
+        />
+        }
+        </>
         ))}
       </div>  
     </>

@@ -343,10 +343,10 @@ const AnalysePage = () => {
         document.body.removeChild(container);
 
 
-        // if(currentMode === 'analyse-a-all')
-        //     return;
-        // if(currentMode.startsWith('analyse-a-'))
-        //     await addIconAndDefinitions(pdf, currentMode, type);
+        if(currentMode === 'analyse-a-all')
+            return;
+        if(currentMode.startsWith('analyse-a-'))
+            await addIconAndDefinitions(pdf, currentMode, type);
     };
 
     const handleDownloadPDF = async () => {
