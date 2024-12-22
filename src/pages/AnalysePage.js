@@ -22,7 +22,6 @@ const AnalysePage = () => {
     const [projectName, setProjectName] = useState('');
     const [components, setComponents] = useState([]);
     const [activeTask, setActiveTask] = useState('A'); // Track active button
-    const [ASubtask, setASubtask] = useState(''); // Track active button
     const [mode, setMode] = useState('analyse');
 
     const componentsRef = useRef(components);
@@ -34,7 +33,6 @@ const AnalysePage = () => {
     const resetState = useCallback(() => {
         setProjectName('');
         setActiveTask('A');
-        setASubtask('');
         setMode('analyse');
     }, []);
 
@@ -49,7 +47,7 @@ const AnalysePage = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
-    const handleDragStop = (code, title, label, headline, type, angle, x, y, textareaX, textareaY, textAreaData) => {
+    const handleDragStop = (code, title, label, headline, type, angle, x, y, textAreaX, textAreaY, textAreaData) => {
         setComponents((prevComponents) => {
             const componentExists = prevComponents.some((component) => component.Code === code);
         
@@ -65,8 +63,8 @@ const AnalysePage = () => {
                                 angle,
                                 x,
                                 y,
-                                textareaX,
-                                textareaY,
+                                textAreaX,
+                                textAreaY,
                                 textAreaData
                             }
                           : component // Keep components that are not being updated as is
@@ -82,8 +80,8 @@ const AnalysePage = () => {
                           angle,
                           x,
                           y,
-                          textareaX,
-                          textareaY,
+                          textAreaX,
+                          textAreaY,
                           textAreaData
                       },
                   ];
@@ -378,14 +376,6 @@ const AnalysePage = () => {
     const handleTaskChange = (task) => {
         setActiveTask(task); // Set active button based on the index
         setMode('analyse-' + task.toLowerCase());
-    };
-
-    const handleASubtaskChange = (subtask) => {
-        setASubtask(subtask); // Set active button based on the index
-        setMode('analyse-a-' + subtask.toLowerCase())
-        
-        document.documentElement.style.setProperty('--background-color', colors['Wave'][subtask]);
-        document.documentElement.style.setProperty('--title-color', colors['Text'][subtask]);
     };
 
     return (

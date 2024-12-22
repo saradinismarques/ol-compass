@@ -109,8 +109,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
     if(!selectedComponentsRef.current.includes(components[id].Code)) {
         setComponents((prevComponents) => {
             const updatedComponents = [...prevComponents];
-            updatedComponents[id].textareaX = data.x;
-            updatedComponents[id].textareaY = data.y + 150;
+            updatedComponents[id].textAreaX = data.x;
+            updatedComponents[id].textAreaY = data.y + 150;
     
             return updatedComponents;
         });
@@ -151,8 +151,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
           components[id].angle,
           data.x,
           data.y,
-          components[id].textareaX,
-          components[id].textareaY,
+          components[id].textAreaX,
+          components[id].textAreaY,
           components[id].textAreaData
         );
       }
@@ -185,7 +185,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
 
   const buttonStyle = {
     position: 'absolute',
-    cursor: (mode.startsWith("analyse-a-")) ? 'default' : 'pointer',
+    cursor: 'pointer',
     pointerEvents: 'none', // Ensure buttons are clickable
   };
 
@@ -193,8 +193,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
   const handleTextAreaDragStop = (id, data) => {
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
-        updatedComponents[id].textareaX = data.x;
-        updatedComponents[id].textareaY = data.y;
+        updatedComponents[id].textAreaX = data.x;
+        updatedComponents[id].textAreaY = data.y;
 
         return updatedComponents;
     });
@@ -274,8 +274,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
             components[id].angle,
             components[id].x,
             components[id].y,
-            components[id].textareaX,
-            components[id].textareaY,
+            components[id].textAreaX,
+            components[id].textAreaY,
             {
                 text: value,
                 cursorStart: selectionStart,
@@ -495,7 +495,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
         <TextArea
             key={i}
             id={i}
-            position={{x: c.textareaX, y: c.textareaY }}
+            position={{x: c.textAreaX, y: c.textAreaY }}
             value={c.textAreaData}
             onDragStop={handleDragStop}
         />
@@ -546,8 +546,8 @@ function getComponentsPositions(componentsData, type) {
     componentsData[i]["x"] = x - waveWidth/2 + window.innerWidth/2.94;
     componentsData[i]["y"] = y - waveHeight/2 + window.innerHeight/6.85;
     componentsData[i]["angle"] = angle;
-    componentsData[i]["textareaX"] = x;
-    componentsData[i]["textareaY"] = y;
+    componentsData[i]["textAreaX"] = x;
+    componentsData[i]["textAreaY"] = y;
     componentsData[i]["textAreaData"] = "";
   }
   return componentsData;
