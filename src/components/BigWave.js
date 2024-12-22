@@ -47,8 +47,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
 
   const selectedComponentsRef = useRef(selectedComponents);
   const activeIdRef = useRef(activeId);
-  const textareaRef = useRef(null); 
-
+  const nodeRef = useRef(null);
+  
   useEffect(() => {
       activeIdRef.current = activeId;
   }, [activeId]);
@@ -73,7 +73,6 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
       );
   }, [isExplanationPage]);
 
-  console.log(components);
   const handleDragStart = (id) => {
     let newAngle;
 
@@ -288,12 +287,14 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
     return (
         <div>
         <Draggable
+            nodeRef={nodeRef}
             position={position} // Controlled position from parent state
             onStart={() => setActiveRef(id)} // Set this textarea as active on drag
             onStop={(e, data) => handleTextAreaDragStop(id, data)} // Update position after drag
             onClick={() => setActiveRef(id)}
         >
         <div
+          nodeRef={nodeRef}
           style={{
             position: "absolute", // Ensure absolute positioning within container
             zIndex: 100,
@@ -347,12 +348,13 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
         {components.map((c, i) => (
         <>
         <Draggable key={i} 
+            nodeRef={nodeRef} 
             position={{ x: c.x, y: c.y }} // Let Draggable manage the position if no positions are defined
             disabled={isExplanationPage}
             onStart={() => handleDragStart(i)} // Set this textarea as active on drag
             onStop={(e, data) => handleDragStop(i, data)} // Set this textarea as active on drag
         >
-          <div key={i}>
+          <div ref={nodeRef}>
             {/* Shape */}
             <div
              style={{
