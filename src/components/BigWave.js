@@ -106,6 +106,16 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
         return updatedComponents;
     });
 
+    if(!selectedComponentsRef.current.includes(components[id].Code)) {
+        setComponents((prevComponents) => {
+            const updatedComponents = [...prevComponents];
+            updatedComponents[id].textareaX = data.x;
+            updatedComponents[id].textareaY = data.y + 150;
+    
+            return updatedComponents;
+        });
+    }
+
     setSelectedComponents(prevComponents => {
         if (!prevComponents.includes(components[id].Code)) {
             const newComponents = [...prevComponents, components[id].Code]; // Add the component if it doesn't already exist
@@ -303,7 +313,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
               padding: "8px",
               borderRadius: "4px",
               color: "#72716f",
-              border: "none",
+              border: "0px solid white",
               resize: "none",
             }}
           />
@@ -536,8 +546,8 @@ function getComponentsPositions(componentsData, type) {
     componentsData[i]["x"] = x - waveWidth/2 + window.innerWidth/2.94;
     componentsData[i]["y"] = y - waveHeight/2 + window.innerHeight/6.85;
     componentsData[i]["angle"] = angle;
-    componentsData[i]["textareaX"] = x - waveWidth/2 + window.innerWidth/2.94;
-    componentsData[i]["textareaY"] = y - waveHeight/2 + window.innerHeight/6.85;
+    componentsData[i]["textareaX"] = x;
+    componentsData[i]["textareaY"] = y;
     componentsData[i]["textAreaData"] = "";
   }
   return componentsData;
