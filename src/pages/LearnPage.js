@@ -49,7 +49,7 @@ const LearnPage = () => {
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--text-color', colors['Text'][state.type]);
-
+  document.documentElement.style.setProperty('--image-color', colors['Wave'][state.type]);
   
   const imageSrc =
     state.code === 'P1'
@@ -324,6 +324,20 @@ const LearnPage = () => {
 
         {imageSrc && (
           <div className="l-image-container">
+            <div
+              className="color-overlay"
+              style={{
+                position: 'absolute', // Absolutely position the overlay on top of the image
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: colors['Wave']['Principle'], // Apply the dynamic color (e.g., "#41ffc9")
+                mixBlendMode: 'color', // Use blend mode to tint the image
+                pointerEvents: 'none', // Disable interaction with the overlay
+                zIndex: 5, // Ensure the overlay is on top
+              }}
+            />
             <img src={imageSrc} alt={`Background ${state.code}`} className="l-principles-image" />
           </div>
         )}
