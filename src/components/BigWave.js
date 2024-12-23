@@ -37,7 +37,9 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   const principles = getComponentsPositions(componentsData['Principle'], 'Principle');
   const perspectives = getComponentsPositions(componentsData['Perspective'], 'Perspective');
   const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
-  const [components, setComponents] = useState(positions || principles.concat(perspectives, dimensions));
+  const initialComponents = principles.concat(perspectives, dimensions);
+ 
+  const [components, setComponents] = useState(positions || initialComponents);
   
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
@@ -48,6 +50,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   const selectedComponentsRef = useRef(selectedComponents);
   const activeIdRef = useRef(activeId);
   const nodeRef = useRef(null);
+  const initialComponentsRef = useRef(initialComponents);
   
   useEffect(() => {
       activeIdRef.current = activeId;
@@ -63,6 +66,11 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     }
   }, [isExplanationPage]);
 
+   // Update the ref whenever originalComponents changes
+   useEffect(() => {
+    initialComponentsRef.current = initialComponents;
+  }, [initialComponents]);
+
   useEffect(() => {
     setComponents((prevComponents) =>
         prevComponents.map((component) => ({
@@ -76,13 +84,13 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   const handleDragStart = (id) => {
     let newAngle;
 
-    if(components[id].Type === "Principle") {
-        if(isFlipped(components[id].Code))
+    if(components[id].type === "Principle") {
+        if(isFlipped(components[id].code))
             newAngle = -0.025*Math.PI;
         else
             newAngle = -Math.PI-0.025*Math.PI;
     } else {
-        if(isFlipped(components[id].Code))
+        if(isFlipped(components[id].code))
             newAngle = 0.025*Math.PI;
         else
             newAngle = -Math.PI+0.025*Math.PI;
@@ -105,7 +113,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
         return updatedComponents;
     });
 
-    if(!selectedComponentsRef.current.includes(components[id].Code)) {
+    if(!selectedComponentsRef.current.includes(components[id].code)) {
         setComponents((prevComponents) => {
             const updatedComponents = [...prevComponents];
             updatedComponents[id].textAreaX = data.x;
@@ -116,8 +124,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     }
 
     setSelectedComponents(prevComponents => {
-        if (!prevComponents.includes(components[id].Code)) {
-            const newComponents = [...prevComponents, components[id].Code]; // Add the component if it doesn't already exist
+        if (!prevComponents.includes(components[id].code)) {
+            const newComponents = [...prevComponents, components[id].code]; // Add the component if it doesn't already exist
             selectedComponentsRef.current = newComponents;
             return newComponents; // Return updated state
         }
@@ -129,14 +137,14 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     setActiveRef(id);
 
     if (onDragStop) {
-        const title = convertLabel(components[id].Code);
+        const title = convertLabel(components[id].code);
 
         onDragStop(
-          components[id].Code,
+          components[id].code,
           title,
-          components[id].Label,
-          components[id].Headline,
-          components[id].Type,
+          components[id].label,
+          components[id].headline,
+          components[id].type,
           components[id].angle,
           data.x,
           data.y,
@@ -150,7 +158,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   // Memoize handleKeyDown to avoid creating a new reference on each render
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape') {
-        setComponents(principles.concat(perspectives, dimensions));
+        setComponents(initialComponentsRef.current)
         setSelectedComponents([]);
         selectedComponentsRef.current = [];
         setShowSquare(false);
@@ -158,7 +166,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
       if(resetState)
         resetState();
     }
-  }, [resetState, principles, perspectives, dimensions]);
+  }, [resetState]);
     
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -192,14 +200,14 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     });
 
     if (onDragStop) {
-        const title = convertLabel(components[id].Code);
+        const title = convertLabel(components[id].code);
 
         onDragStop(
-          components[id].Code,
+          components[id].code,
           title,
-          components[id].Label,
-          components[id].Headline,
-          components[id].Type,
+          components[id].label,
+          components[id].headline,
+          components[id].type,
           components[id].angle,
           components[id].x,
           components[id].y,
@@ -247,14 +255,14 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
       });
 
       if (onDragStop) {
-        const title = convertLabel(components[id].Code);
+        const title = convertLabel(components[id].code);
 
         onDragStop(
-            components[id].Code,
+            components[id].code,
             title,
-            components[id].Label,
-            components[id].Headline,
-            components[id].Type,
+            components[id].label,
+            components[id].headline,
+            components[id].type,
             components[id].angle,
             components[id].x,
             components[id].y,
@@ -353,7 +361,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             <div
              style={{
                 ...buttonStyle,
-                transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+                transform: `rotate(${c.angle}rad) ${c.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
                 // Other styles go here
               }}
@@ -374,7 +382,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             <div
               style={{
                 ...buttonStyle,
-                transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+                transform: `rotate(${c.angle}rad) ${c.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 position: 'absolute', // Consistent positioning
                 zIndex: 30 // Ensures outlines are rendered on top of filled shapes
               }}
@@ -396,7 +404,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
               style={{
                 position: 'absolute',
                 left: `${0.35*waveWidth/4}px`, // Adjust position for button size
-                transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
+                transform: isFlipped(c.code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
                 opacity: getWaveOpacity(mode, selectedComponents, c, opacityCounter, allComponents), // Change opacity on hover
                 zIndex: 10,
                 pointerEvents: 'none', // Disable pointer events for the inner div
@@ -406,12 +414,12 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
               <div
                 style={{
                   position: 'relative',
-                  left: isFlipped(c.Code) 
-                    ? (c.Type === 'Principle' ? '6.5px' : '6.5px') 
-                    : (c.Type === 'Principle' ? '-6.5px' : '-6.5px'), 
-                  top: isFlipped(c.Code) 
-                    ? (c.Type === 'Principle' ? '6px' : '-2px') 
-                    : (c.Type === 'Principle' ? '-2px' : '6px'),
+                  left: isFlipped(c.code) 
+                    ? (c.type === 'Principle' ? '6.5px' : '6.5px') 
+                    : (c.type === 'Principle' ? '-6.5px' : '-6.5px'), 
+                  top: isFlipped(c.code) 
+                    ? (c.type === 'Principle' ? '6px' : '-2px') 
+                    : (c.type === 'Principle' ? '-2px' : '6px'),
                   pointerEvents: 'none',
                   userSelect: 'none'
                 }}
@@ -428,7 +436,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                     </style>
                     <path 
                       id={`text-path-${i}`} 
-                      d={c.Type === "Principle" ? svgTextPathInverted : svgTextPath } 
+                      d={c.type === "Principle" ? svgTextPathInverted : svgTextPath } 
                       style={{ 
                         pointerEvents: 'none',
                         userSelect: 'none'
@@ -440,8 +448,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                   <text
                     fill={getTextFill(mode, colors, selectedComponents, c)}
                     fontSize="8px"
-                    letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
-                    dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
+                    letterSpacing={getLabelWidth(c.label) > 10 ? "0.5px" : "0.9px"}
+                    dy={bigLabels.includes(c.code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
                     style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
                     >
                     <textPath
@@ -453,16 +461,16 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                         userSelect: 'none'
                       }} // Ensure textPath doesn't interfere
                     >
-                      {getText(mode, c.Type, c.Label, c.Code, 0)}
+                      {getText(mode, c.type, c.label, c.code, 0)}
                     </textPath>
                   </text>
   
                   {/* Second Line (if it has one) */}
-                  {bigLabels.includes(c.Code) &&
+                  {bigLabels.includes(c.code) &&
                     <text
                       fill={getTextFill(mode, colors, selectedComponents, c)}
                       fontSize="8px"
-                      letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
+                      letterSpacing={getLabelWidth(c.label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path
                       style={{ 
                         pointerEvents: 'none', 
@@ -478,7 +486,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                           userSelect: 'none'
                         }} // Ensure textPath doesn't interfere
                       >
-                        {getText(mode, c.Type, c.Label, c.Code, 1)}
+                        {getText(mode, c.type, c.label, c.code, 1)}
                       </textPath>
                     </text>
                   }
@@ -487,7 +495,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             </div>
           </div>
         </Draggable>
-        {selectedComponentsRef.current.includes(c.Code) &&
+        {selectedComponentsRef.current.includes(c.code) &&
         <TextArea
             id={i}
             position={{x: c.textAreaX, y: c.textAreaY }}
@@ -549,11 +557,11 @@ function getComponentsPositions(componentsData, type) {
 };
 
 const getWaveFill = (mode, colors, selectedComponents, component) => {
-    return colors['Wave'][component.Type];
+    return colors['Wave'][component.type];
 }
 
 const getTextFill = (mode, colors, selectedComponents, component) => {
-    return colors['Label'][component.Type];
+    return colors['Label'][component.type];
 }
 
 const getStroke = (mode, colors, selectedComponents, component) => {
@@ -567,24 +575,24 @@ const getStrokeWidth = (mode) => {
 const getWaveOpacity = (mode, selectedComponents, component, allComponents) => {
   // Analyse    
   if(mode === "analyse" || mode === "analyse-a-all") {
-    if (selectedComponents.includes(component.Code)) 
+    if (selectedComponents.includes(component.code)) 
       return 1;
     return 1;
   }
   if(mode === "analyse-a-p") {
-    if(component.Type === "Principle")
+    if(component.type === "Principle")
       return 1;
     else
       return 0.3;
   }
   if(mode === "analyse-a-pe") {
-    if(component.Type === "Perspective")
+    if(component.type === "Perspective")
       return 1;
     else
       return 0.3;
   }
   if(mode === "analyse-a-d") {
-    if(component.Type === "Dimension")
+    if(component.type === "Dimension")
       return 1;
     else
       return 0.3;

@@ -125,16 +125,16 @@ export function getGetStartedData() {
     try {
         // Process the JSON data
         const result = getStartedData.map(item => ({
-            Code: item["#code"],
-            Label: item["#label"],
-            Headline: item["#headline-1"],
-            ShowMore: item["SHOW MORE"],
-            Type: getType(item['#code'])
+            code: item["#code"],
+            label: item["#label"],
+            headline: item["#headline-1"],
+            showMore: item["SHOW MORE"],
+            type: getType(item['#code'])
         }));
 
         // Organize into three parts by Type
         const organizeComponents = result.reduce((acc, item) => {
-            const type = item.Type;
+            const type = item.type;
             if (!acc[type]) {
                 acc[type] = []; // Initialize the array for each type if it doesn't exist
             }
@@ -153,17 +153,17 @@ export function getLearnData() {
     try {
         // Process the JSON data
         const result = learnData.map(item => ({
-            Code: item["#code"],
-            Label: item["#label"],
-            Headline: item["#headline"],
-            Paragraph: item["#paragraph"],
-            Tooltip: item["#headline"],
-            Type: getType(item['#code'])
+            code: item["#code"],
+            label: item["#label"],
+            headline: item["#headline"],
+            paragraph: item["#paragraph"],
+            tooltip: item["#headline"],
+            type: getType(item['#code'])
         }));
 
         // Organize into three parts by Type
         const organizeComponents = result.reduce((acc, item) => {
-            const type = item.Type;
+            const type = item.type;
             if (!acc[type]) {
                 acc[type] = []; // Initialize the array for each type if it doesn't exist
             }
@@ -208,11 +208,11 @@ export function getConceptsData() {
     try {
         // Process the JSON data
         const result = conceptsData.map(item => ({
-            Code: item["#code"],
-            Label: item["#label"],
-            Paragraph: item["#paragraph"],
-            LinkedTo: item["#linked-to"],
-            Type: "Concept"
+            code: item["#code"],
+            label: item["#label"],
+            paragraph: item["#paragraph"],
+            linkedTo: item["#linked-to"],
+            type: "Concept"
         }));
 
         return result;

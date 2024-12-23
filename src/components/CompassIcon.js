@@ -71,17 +71,17 @@ const CompassIcon = ({ mode, type }) => {
               ...buttonStyle,
               left: `${c.x - waveWidth / 2 + gapX}px`, // Adjust position for button size
               top: `${c.y - waveHeight / 2 + gapY}px`,
-              transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+              transform: `rotate(${c.angle}rad) ${c.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
               zIndex: 1, // Layer filled shapes at the base
             }}
           >
             <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
               <path 
                 d={svgPath} 
-                fill={getColor(c.Type, type, colors)}  // Use the gradient fill
+                fill={getColor(c.type, type, colors)}  // Use the gradient fill
                 stroke="none" 
                 style={{ pointerEvents: 'all' }}
-                opacity={getOpacity(c.Type, type)}
+                opacity={getOpacity(c.type, type)}
               />
             </svg>
           </div>
@@ -154,7 +154,7 @@ function getComponentsPositions(type) {
     
      // Add an object to the array
      componentsData.push({
-        Type: type,
+        type: type,
         x: x,
         y: y,
         angle: angle

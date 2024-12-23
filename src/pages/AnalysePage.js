@@ -54,17 +54,17 @@ const AnalysePage = () => {
 
     const handleDragStop = (code, title, label, headline, type, angle, x, y, textAreaX, textAreaY, textAreaData) => {
         setComponents((prevComponents) => {
-            const componentExists = prevComponents.some((component) => component.Code === code);
+            const componentExists = prevComponents.some((component) => component.code === code);
         
             const updatedComponents = componentExists
                 ? prevComponents.map((component) =>
-                      component.Code === code
+                      component.code === code
                           ? {
                                 ...component, // Keep existing fields
-                                Title: title,
-                                Label: label,
-                                Headline: headline,
-                                Type: type,
+                                title,
+                                label,
+                                headline,
+                                type,
                                 angle,
                                 x,
                                 y,
@@ -77,11 +77,11 @@ const AnalysePage = () => {
                 : [
                       ...prevComponents,
                       {
-                          Code: code,
-                          Title: title,
-                          Label: label,
-                          Headline: headline,
-                          Type: type,
+                          code,
+                          title,
+                          label,
+                          headline,
+                          type,
                           angle,
                           x,
                           y,
@@ -92,8 +92,8 @@ const AnalysePage = () => {
                   ];
         
             const sortedComponents = updatedComponents.sort((a, b) => {
-                const indexA = allComponents.indexOf(a.Code);
-                const indexB = allComponents.indexOf(b.Code);
+                const indexA = allComponents.indexOf(a.code);
+                const indexB = allComponents.indexOf(b.code);
         
                 if (indexA === -1) return 1;
                 if (indexB === -1) return -1;
@@ -155,7 +155,7 @@ const AnalysePage = () => {
         await renderToCanvas(
             <div className='a-definitions-container'>
                 {components
-                    .filter((c) => c.Type === type) // Filter by the specific type
+                    .filter((c) => c.type === type) // Filter by the specific type
                     .map((c, i) => (
                         <div key={i} className='a-definition'>
                             <p className='a-definition-title' 
@@ -167,9 +167,9 @@ const AnalysePage = () => {
                                         white 80%
                                     )`,
                                 }}>
-                                {c.Title}
+                                {c.title}
                             </p>
-                            <p className='a-definition-text'>{c.Headline}</p>
+                            <p className='a-definition-text'>{c.headline}</p>
                         </div>
                     ))}
             </div>,
@@ -259,7 +259,7 @@ const AnalysePage = () => {
                 <BigWave 
                     className='a-ol-compass'
                     mode={currentMode}
-                    selected={componentsRef.current.map((component) => component.Code)}
+                    selected={componentsRef.current.map((component) => component.code)}
                     positions = {componentsRef.current}
                 /> 
             </State>,
@@ -302,17 +302,17 @@ const AnalysePage = () => {
         await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
         
         // Task A Principles
-        if (componentsRef.current.filter((c) => c.Type === 'Principle').length !== 0) {
+        if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > PRINCIPLES focus';
             await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
         }
         // Task A Perspectives
-        if (componentsRef.current.filter((c) => c.Type === 'Perspective').length !== 0) {
+        if (componentsRef.current.filter((c) => c.type === 'Perspective').length !== 0) {
             text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
             await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
         }
         // Task A Dimensions
-        if (componentsRef.current.filter((c) => c.Type === 'Dimension').length !== 0) {
+        if (componentsRef.current.filter((c) => c.type === 'Dimension').length !== 0) {
             text = 'The OL aspects/potential of your project > DIMENSIONS focus';
             await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
         }

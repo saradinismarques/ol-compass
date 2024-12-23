@@ -110,7 +110,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     
     if (mode === "learn") {
       // Check if the clicked ID is already in clickedIds
-      if (selectedComponents === components[id].Code) {
+      if (selectedComponents === components[id].code) {
         // If it is, remove it and reset state
         setHoveredId(null);
         setSelectedComponents([]);
@@ -120,65 +120,65 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
         }
 
       } else {
-        const title = convertLabel(components[id].Code);
+        const title = convertLabel(components[id].code);
         let correspondingConcepts = null;
         
-        if (components[id].Type === "Principle") {
-          correspondingConcepts = getCorrespondingConcepts(concepts, components[id].Code);
+        if (components[id].type === "Principle") {
+          correspondingConcepts = getCorrespondingConcepts(concepts, components[id].code);
         }
-        setSelectedComponents(components[id].Code);
+        setSelectedComponents(components[id].code);
 
         if (onButtonClick) {
           onButtonClick(
-            components[id].Code,
+            components[id].code,
             title,
-            components[id].Headline,
-            components[id].Paragraph,
-            components[id].Type,
+            components[id].headline,
+            components[id].paragraph,
+            components[id].type,
             correspondingConcepts
           );
         }
 
       }
     } else if(mode.startsWith("get-started")) {
-      const title = convertLabel(components[id].Code);
+      const title = convertLabel(components[id].code);
 
       setSelectedComponents(prevComponents =>
-        prevComponents.includes(components[id].Code)
-          ? prevComponents.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevComponents, components[id].Code] // Add ID if not already clicked
+        prevComponents.includes(components[id].code)
+          ? prevComponents.filter(buttonId => buttonId !== components[id].code) // Remove ID if already clicked
+          : [...prevComponents, components[id].code] // Add ID if not already clicked
       );
       
       if (onButtonClick) {
         onButtonClick(
-          components[id].Code,
+          components[id].code,
           title,
-          components[id].Headline,
-          components[id].Type,
+          components[id].headline,
+          components[id].type,
         );
       }
     } else if(mode === "get-inspired" || mode === "get-inspired-search") {
       setSelectedComponents(prevComponents => {
-        const newComponents = prevComponents.includes(components[id].Code)
-          ? prevComponents.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevComponents, components[id].Code]; // Add ID if not already clicked
+        const newComponents = prevComponents.includes(components[id].code)
+          ? prevComponents.filter(buttonId => buttonId !== components[id].code) // Remove ID if already clicked
+          : [...prevComponents, components[id].code]; // Add ID if not already clicked
         
         // Return the updated state
         return newComponents;
       });
       
-      if (onButtonClick) onButtonClick(components[id].Code);
+      if (onButtonClick) onButtonClick(components[id].code);
     } else if(mode === "contribute") {
       setSelectedComponents(prevComponents => {
-        const newComponents = prevComponents.includes(components[id].Code)
-          ? prevComponents.filter(buttonId => buttonId !== components[id].Code) // Remove ID if already clicked
-          : [...prevComponents, components[id].Code]; // Add ID if not already clicked
+        const newComponents = prevComponents.includes(components[id].code)
+          ? prevComponents.filter(buttonId => buttonId !== components[id].code) // Remove ID if already clicked
+          : [...prevComponents, components[id].code]; // Add ID if not already clicked
         
         // Return the updated state
         return newComponents;
       });
       
-      if (onButtonClick) onButtonClick(components[id].Code);
+      if (onButtonClick) onButtonClick(components[id].code);
     } 
   };
   
@@ -186,19 +186,19 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     if (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse")) 
       return;
 
-    setHoveredId(components[id].Code);
-    hoveredIdRef.current = components[id].Code; 
+    setHoveredId(components[id].code);
+    hoveredIdRef.current = components[id].code; 
 
     if(mode.startsWith("get-started"))
       return;
 
-    if(components[id].Type === "Principle") {
+    if(components[id].type === "Principle") {
       // Clear any existing timeout to avoid overlaps
       clearTimeout(tooltipTimeout);
 
       // Set a timeout to delay the appearance of the tooltip by 1 second
       tooltipTimeout = setTimeout(() => {
-        if (hoveredIdRef.current === components[id].Code) {  // Check if the tooltip was not cancelled
+        if (hoveredIdRef.current === components[id].code) {  // Check if the tooltip was not cancelled
           setTooltipPos({ x: e.clientX, y: e.clientY });
           let cleanedText = components[id].Tooltip.replace('<br>', '');
           setTooltipText(cleanedText);
@@ -313,17 +313,17 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       <div
         style={{
           position: 'relative',
-          left: `${component.Type === "Principle" 
+          left: `${component.type === "Principle" 
             ? bookmarkLeftP 
-            : component.Type === "Perspective" 
+            : component.type === "Perspective" 
               ? bookmarkLeftPe  // Add your condition for 'dimension' here
               : bookmarkLeftD }`,
-          top: `${component.Type === "Principle" 
+          top: `${component.type === "Principle" 
             ? bookmarkTopP 
-            : component.Type === "Perspective" 
+            : component.type === "Perspective" 
               ? bookmarkTopPe  // Add your condition for 'dimension' here
               : bookmarkTopD }`,
-          transform: `${component.Type === "Principle" ? `rotate(${-Math.PI * 0.14}rad)` : `rotate(${-Math.PI * 0.11 + Math.PI/4}rad)` }`
+          transform: `${component.type === "Principle" ? `rotate(${-Math.PI * 0.14}rad)` : `rotate(${-Math.PI * 0.11 + Math.PI/4}rad)` }`
         }}  
       >
         <BookmarkIcon
@@ -355,7 +355,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                 ...buttonStyle,
                 left: `${c.x - waveWidth / 2}px`, // Adjust position for button size
                 top: `${c.y - waveHeight / 2 - 2}px`,
-                transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+                transform: `rotate(${c.angle}rad) ${c.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
               }}
               onClick={() => handleClick(i)}
@@ -381,7 +381,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                 ...buttonStyle,
                 left: `${c.x - waveWidth / 2}px`,
                 top: `${c.y - waveHeight / 2 - 2}px`,
-                transform: `rotate(${c.angle}rad) ${c.Type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+                transform: `rotate(${c.angle}rad) ${c.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 position: 'absolute', // Consistent positioning
                 zIndex: 30 // Ensures outlines are rendered on top of filled shapes
               }}
@@ -407,7 +407,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                 position: 'absolute',
                 left: `${c.x - (waveWidth * 0.83) / 2}px`, // Adjust position for button size
                 top: `${c.y - waveHeight / 2 - 2}px`,
-                transform: isFlipped(c.Code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
+                transform: isFlipped(c.code) ? `rotate(${c.angle + Math.PI}rad)` : `rotate(${c.angle}rad)`,
                 opacity: getWaveOpacity(mode, selectedComponents, currentComponent, hoveredId, c, opacityCounter, allComponents), // Change opacity on hover
                 zIndex: 10,
                 pointerEvents: 'none', // Disable pointer events for the inner div
@@ -417,12 +417,12 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
               <div
                 style={{
                   position: 'relative',
-                  left: isFlipped(c.Code) 
-                    ? (c.Type === 'Principle' ? '6.5px' : '6.5px') 
-                    : (c.Type === 'Principle' ? '-6.5px' : '-6.5px'), 
-                  top: isFlipped(c.Code) 
-                    ? (c.Type === 'Principle' ? '6px' : '-2px') 
-                    : (c.Type === 'Principle' ? '-2px' : '6px'),
+                  left: isFlipped(c.code) 
+                    ? (c.type === 'Principle' ? '6.5px' : '6.5px') 
+                    : (c.type === 'Principle' ? '-6.5px' : '-6.5px'), 
+                  top: isFlipped(c.code) 
+                    ? (c.type === 'Principle' ? '6px' : '-2px') 
+                    : (c.type === 'Principle' ? '-2px' : '6px'),
                   pointerEvents: 'none',
                   userSelect: 'none'
                 }}
@@ -432,7 +432,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                   
                     <path 
                       id={`text-path-${i}`} 
-                      d={c.Type === "Principle" ? svgTextPathInverted : svgTextPath } 
+                      d={c.type === "Principle" ? svgTextPathInverted : svgTextPath } 
                       style={{ 
                         pointerEvents: 'none',
                         userSelect: 'none'
@@ -446,8 +446,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                     fontFamily="Manrope"
                     fontWeight={500}
                     fontSize="8px"
-                    letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
-                    dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
+                    letterSpacing={getLabelWidth(c.label) > 10 ? "0.5px" : "0.9px"}
+                    dy={bigLabels.includes(c.code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
                     style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
                     >
                     <textPath
@@ -459,18 +459,18 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                         userSelect: 'none'
                       }} // Ensure textPath doesn't interfere
                     >
-                      {getText(mode, c.Type, c.Label, c.Code, 0)}
+                      {getText(mode, c.type, c.label, c.code, 0)}
                     </textPath>
                   </text>
   
                   {/* Second Line (if it has one) */}
-                  {bigLabels.includes(c.Code) &&
+                  {bigLabels.includes(c.code) &&
                     <text
                       fill={getTextFill(mode, colors, c)}
                       fontFamily="Manrope"
                       fontWeight={500}
                       fontSize="8px"
-                      letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
+                      letterSpacing={getLabelWidth(c.label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path
                       style={{ 
                         pointerEvents: 'none', 
@@ -486,7 +486,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                           userSelect: 'none'
                         }} // Ensure textPath doesn't interfere
                       >
-                        {getText(mode, c.Type, c.Label, c.Code, 1)}
+                        {getText(mode, c.type, c.label, c.code, 1)}
                       </textPath>
                     </text>
                   }
@@ -495,7 +495,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
             </div>
   
             {/* Bookmark */}
-            {mode === "learn" && !isExplanationPage && savedComponents.includes(c.Code) &&
+            {mode === "learn" && !isExplanationPage && savedComponents.includes(c.code) &&
               <Bookmark component={c} />
             }
           </div>
@@ -560,20 +560,20 @@ const getWaveFill = (mode, colors, component) => {
   // Analyse
   if(mode.startsWith("analyse"))
       return "transparent";
-  return colors['Wave'][component.Type];
+  return colors['Wave'][component.type];
 }
 
 const getTextFill = (mode, colors, component) => {
   // Analyse
   if(mode.startsWith("analyse")) 
         return "#cacbcb";
-  return colors['Label'][component.Type];
+  return colors['Label'][component.type];
 }
 
 const getStroke = (mode, colors, selectedComponents, component) => {
   // Get Started
   if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
-    if(selectedComponents.includes(component.Code)) 
+    if(selectedComponents.includes(component.code)) 
       return colors['Selection'];
 
   // Analyse
@@ -595,30 +595,30 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
   else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
     return 0.15;
   else if (mode === "intro-4" || mode === "intro-5") 
-    if(component.Type === "Principle") 
-      if(allComponents.indexOf(component.Code) <= opacityCounter['Principle'])
+    if(component.type === "Principle") 
+      if(allComponents.indexOf(component.code) <= opacityCounter['Principle'])
         return 1;
       else
         return 0.15;
     else 
       return 0.15;
   else if (mode === "intro-6" || mode === "intro-7") 
-    if(component.Type === "Principle")
+    if(component.type === "Principle")
       return 0.55;
-    else if(component.Type === "Perspective")
-      if(allComponents.indexOf(component.Code) <= opacityCounter['Perspective']+7)
+    else if(component.type === "Perspective")
+      if(allComponents.indexOf(component.code) <= opacityCounter['Perspective']+7)
         return 1;
       else
         return 0.15;
     else
       return 0.15;
   else if (mode === "intro-8" || mode === "intro-9") 
-    if(component.Type === "Principle")
+    if(component.type === "Principle")
       return 0.55;
-    else if(component.Type === "Perspective")
+    else if(component.type === "Perspective")
       return 0.55;
     else 
-      if(allComponents.indexOf(component.Code) <= opacityCounter['Dimension']+14)
+      if(allComponents.indexOf(component.code) <= opacityCounter['Dimension']+14)
         return 1;
       else
         return 0.15;
@@ -627,9 +627,9 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
   if(mode === "learn") {
     if(selectedComponents.length === 0)
       return 1;
-    if(selectedComponents === component.Code)
+    if(selectedComponents === component.code)
       return 1;
-    else if(hoveredId === component.Code) 
+    else if(hoveredId === component.code) 
       return 0.8;
     else
       return 0.3;
@@ -638,16 +638,16 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
   if(mode === "get-started") {
     if(selectedComponents.length === 0) 
       return 1;
-    if (selectedComponents.includes(component.Code)) 
+    if (selectedComponents.includes(component.code)) 
       return 1;
-    if (hoveredId === component.Code) 
+    if (hoveredId === component.code) 
         return 0.8;
     return 0.3;
   }
   if(mode === "get-started-search") {
-    if(currentComponent === component.Code)
+    if(currentComponent === component.code)
       return 1;
-    else if(hoveredId === component.Code) 
+    else if(hoveredId === component.code) 
       return 0.8;
     else
       return 0.2;
@@ -657,16 +657,16 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
   if(mode === "get-inspired") {
     if(selectedComponents.length === 0) 
       return 1;
-    if (selectedComponents.includes(component.Code)) 
+    if (selectedComponents.includes(component.code)) 
       return 1;
-    if (hoveredId === component.Code) 
+    if (hoveredId === component.code) 
         return 0.8;
     return 0.3;
   }
   if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-    if(currentComponent.includes(component.Code))
+    if(currentComponent.includes(component.code))
       return 1;
-    else if(hoveredId === component.Code) 
+    else if(hoveredId === component.code) 
       return 0.8;
     else
       return 0.2;
@@ -676,9 +676,9 @@ const getWaveOpacity = (mode, selectedComponents, currentComponent, hoveredId, c
   if(mode === "contribute") {
     if(selectedComponents.length === 0) 
       return 1;
-    if (selectedComponents.includes(component.Code)) 
+    if (selectedComponents.includes(component.code)) 
       return 1;
-    if (hoveredId === component.Code) 
+    if (hoveredId === component.code) 
         return 0.8;
     return 0.3;
   }
@@ -779,7 +779,7 @@ function getCorrespondingConcepts(concepts, code) {
   const codeNumber = code.slice(1);
 
   // Filter the array by matching the number in the `#code` (e.g., C1.a, C1.b... for P1)
-  return concepts.filter(c => c.Code.startsWith(`C${codeNumber}.`));
+  return concepts.filter(c => c.code.startsWith(`C${codeNumber}.`));
 }
 
 
