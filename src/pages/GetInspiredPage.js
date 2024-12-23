@@ -148,10 +148,10 @@ const GetInspiredPage = () => {
       filteredCaseStudies = allCaseStudies.filter(item => {
         if (searchLogicRef.current === 'AND') {
           // AND mode: all components must be present in the item's Components array
-          return componentsRef.current.every(component => item.Components.includes(component));
+          return componentsRef.current.every(component => item.components.includes(component));
         } else if (searchLogicRef.current === 'OR') {
           // OR mode: at least one component must be present in the item's Components array
-          return componentsRef.current.some(component => item.Components.includes(component));
+          return componentsRef.current.some(component => item.components.includes(component));
         } else {
           return componentsRef.current;
         }
@@ -166,20 +166,20 @@ const GetInspiredPage = () => {
       
       setState((prevState) => ({
         ...prevState,
-        title: filteredCaseStudies[0].Title,
-        collection: filteredCaseStudies[0].Collection,
-        mainTarget: filteredCaseStudies[0].MainTarget,
-        age: filteredCaseStudies[0].Age,
-        time: filteredCaseStudies[0].Time,
-        type: filteredCaseStudies[0].Type,
-        languages: filteredCaseStudies[0].Languages,
-        year: filteredCaseStudies[0].Year,
-        description: filteredCaseStudies[0].Description,
-        credits: filteredCaseStudies[0].Credits,
-        components: filteredCaseStudies[0].Components,
-        bookmark: getBookmarkState(filteredCaseStudies[0].Title),
+        title: filteredCaseStudies[0].title,
+        collection: filteredCaseStudies[0].collection,
+        mainTarget: filteredCaseStudies[0].mainTarget,
+        age: filteredCaseStudies[0].age,
+        time: filteredCaseStudies[0].time,
+        type: filteredCaseStudies[0].type,
+        languages: filteredCaseStudies[0].languages,
+        year: filteredCaseStudies[0].year,
+        description: filteredCaseStudies[0].description,
+        credits: filteredCaseStudies[0].credits,
+        components: filteredCaseStudies[0].components,
+        bookmark: getBookmarkState(filteredCaseStudies[0].title),
       }));
-      setCurrentComponents(filteredCaseStudies[0].Components)
+      setCurrentComponents(filteredCaseStudies[0].components)
     }
 
     if (filteredCaseStudies.length === 0) {
@@ -235,20 +235,20 @@ const GetInspiredPage = () => {
 
       setState({
         ...state,
-        title: caseStudies[nextIndex].Title,
-        collection: caseStudies[nextIndex].Collection,
-        mainTarget: caseStudies[nextIndex].MainTarget,
-        age: caseStudies[nextIndex].Age,
-        time: caseStudies[nextIndex].Time,
-        type: caseStudies[nextIndex].Type,
-        languages: caseStudies[nextIndex].Languages,
-        year: caseStudies[nextIndex].Year,
-        description: caseStudies[nextIndex].Description,
-        credits: caseStudies[nextIndex].Credits,
-        components: caseStudies[nextIndex].Components,
-        bookmark: getBookmarkState(caseStudies[nextIndex].Title),
+        title: caseStudies[nextIndex].title,
+        collection: caseStudies[nextIndex].collection,
+        mainTarget: caseStudies[nextIndex].mainTarget,
+        age: caseStudies[nextIndex].age,
+        time: caseStudies[nextIndex].time,
+        type: caseStudies[nextIndex].type,
+        languages: caseStudies[nextIndex].languages,
+        year: caseStudies[nextIndex].year,
+        description: caseStudies[nextIndex].description,
+        credits: caseStudies[nextIndex].credits,
+        components: caseStudies[nextIndex].components,
+        bookmark: getBookmarkState(caseStudies[nextIndex].title),
       });
-      setCurrentComponents(caseStudies[nextIndex].Components)
+      setCurrentComponents(caseStudies[nextIndex].components)
     }
   }, [caseStudies, currentIndex, getBookmarkState, state]);
 
@@ -259,20 +259,20 @@ const GetInspiredPage = () => {
 
       setState({
         ...state,
-        title: caseStudies[prevIndex].Title,
-        collection: caseStudies[prevIndex].Collection,
-        mainTarget: caseStudies[prevIndex].MainTarget,
-        age: caseStudies[prevIndex].Age,
-        time: caseStudies[prevIndex].Time,
-        type: caseStudies[prevIndex].Type,
-        languages: caseStudies[prevIndex].Languages,
-        year: caseStudies[prevIndex].Year,
-        description: caseStudies[prevIndex].Description,
-        credits: caseStudies[prevIndex].Credits,
-        components: caseStudies[prevIndex].Components,
-        bookmark: getBookmarkState(caseStudies[prevIndex].Title),
+        title: caseStudies[prevIndex].title,
+        collection: caseStudies[prevIndex].collection,
+        mainTarget: caseStudies[prevIndex].mainTarget,
+        age: caseStudies[prevIndex].age,
+        time: caseStudies[prevIndex].time,
+        type: caseStudies[prevIndex].type,
+        languages: caseStudies[prevIndex].languages,
+        year: caseStudies[prevIndex].year,
+        description: caseStudies[prevIndex].description,
+        credits: caseStudies[prevIndex].credits,
+        components: caseStudies[prevIndex].components,
+        bookmark: getBookmarkState(caseStudies[prevIndex].title),
       });
-      setCurrentComponents(caseStudies[prevIndex].Components)
+      setCurrentComponents(caseStudies[prevIndex].components)
 
     }
   }, [caseStudies, currentIndex, getBookmarkState, state]);

@@ -226,17 +226,17 @@ export function getGetInspiredData() {
     try {
         // Function to extract components and return the case study object
         const result = getInspiredData.map(item => ({
-            Title: item["Title"],
-            Collection: item["Collection"],
-            MainTarget: item["Main Target"],
-            Age: item["Age"],
-            Time: item["Time"],
-            Type: item["Type"],
-            Languages: item["Laguage(s)"],
-            Year: item["Year"],
-            Description: item["Description"],
-            Credits: item["Author, Country"],
-            Components: Object.keys(item).filter(key => item[key] === 'Y')
+            title: item["Title"],
+            collection: item["Collection"],
+            mainTarget: item["Main Target"],
+            age: item["Age"],
+            time: item["Time"],
+            type: item["Type"],
+            languages: item["Laguage(s)"],
+            year: item["Year"],
+            description: item["Description"],
+            credits: item["Author, Country"],
+            components: Object.keys(item).filter(key => item[key] === 'Y')
         }));
         return result;
     } catch (error) {

@@ -94,17 +94,17 @@ const ContributePage = () => {
   // Handle "Enter" button action
   const handleEnterClick  = useCallback((components) => {
     const newCaseStudy = {
-      Title: stateRef.current.title,
-      Collection: stateRef.current.collection,
-      MainTarget: stateRef.current.mainTarget,
-      Age: stateRef.current.age,
-      Time: stateRef.current.time,
-      Type: stateRef.current.type,
-      Languages: stateRef.current.languages,
-      Year: stateRef.current.year,
-      Description: stateRef.current.description,
-      Credits: stateRef.current.credits,
-      Components: components,
+      title: stateRef.current.title,
+      collection: stateRef.current.collection,
+      mainTarget: stateRef.current.mainTarget,
+      age: stateRef.current.age,
+      time: stateRef.current.time,
+      type: stateRef.current.type,
+      languages: stateRef.current.languages,
+      year: stateRef.current.year,
+      description: stateRef.current.description,
+      credits: stateRef.current.credits,
+      components: components,
     };
 
     setNewCaseStudies((prev) => [...prev, newCaseStudy]);

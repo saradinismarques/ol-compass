@@ -200,7 +200,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       tooltipTimeout = setTimeout(() => {
         if (hoveredIdRef.current === components[id].code) {  // Check if the tooltip was not cancelled
           setTooltipPos({ x: e.clientX, y: e.clientY });
-          let cleanedText = components[id].Tooltip.replace('<br>', '');
+          let cleanedText = components[id].tooltip.replace('<br>', '');
           setTooltipText(cleanedText);
           setTooltipVisible(true);
         }
