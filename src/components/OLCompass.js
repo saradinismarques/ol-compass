@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
-import ManropeFont from '../utils/Fonts.js';
 import { StateContext } from "../State";
 
 // Sizes and positions 

@@ -238,7 +238,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
         if (textareaRef.current && id === activeIdRef.current) {
             textareaRef.current.focus();
         }
-    }, [activeId]); // Only re-focus when the activeId changes
+    }, [id]); // Only re-focus when the activeId changes
 
     // Preserve cursor position after value updates
     useEffect(() => {
@@ -330,7 +330,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
           ...containerStyle, 
         }}
       >
-        {
+        {(showSquare && !selected) &&
         <div 
             style={{
                 position: 'absolute',
