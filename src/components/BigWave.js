@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { getGetStartedData } from '../utils/Data.js'; 
-import ManropeFont from '../utils/Font.js';
+import { encodedFonts } from '../utils/Fonts.js';
 import { StateContext } from "../State";
 import Draggable from "react-draggable";
 
@@ -294,7 +294,6 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
             onClick={() => setActiveRef(id)}
         >
         <div
-          nodeRef={nodeRef}
           style={{
             position: "absolute", // Ensure absolute positioning within container
             zIndex: 100,
@@ -306,7 +305,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
             value={value.text}
             onChange={handleInputChange}
             placeholder="Enter your notes here"
-            spellcheck="false"
+            spellCheck="false"
             style={{
               width: "200px",
               height: "50px",
@@ -331,7 +330,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
           ...containerStyle, 
         }}
       >
-        {(showSquare && !selected) &&
+        {
         <div 
             style={{
                 position: 'absolute',
@@ -346,7 +345,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
         }
 
         {components.map((c, i) => (
-        <>
+        <React.Fragment key={i}> 
         <Draggable key={i} 
             nodeRef={nodeRef} 
             position={{ x: c.x, y: c.y }} // Let Draggable manage the position if no positions are defined
@@ -354,7 +353,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
             onStart={() => handleDragStart(i)} // Set this textarea as active on drag
             onStop={(e, data) => handleDragStop(i, data)} // Set this textarea as active on drag
         >
-          <div ref={nodeRef}>
+          <div key={i} ref={nodeRef}>
             {/* Shape */}
             <div
              style={{
@@ -428,7 +427,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
                       {`
                         @font-face {
                           font-family: 'Manrope';
-                          src: url(data:font/ttf;base64,${ManropeFont}) format('truetype');
+                          src: url(data:font/ttf;base64,${encodedFonts['Manrope-Medium-500']}) format('truetype');
                         }
                       `}
                     </style>
@@ -495,14 +494,13 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
         </Draggable>
         {selectedComponentsRef.current.includes(c.Code) &&
         <TextArea
-            key={i}
             id={i}
             position={{x: c.textAreaX, y: c.textAreaY }}
             value={c.textAreaData}
             onDragStop={handleDragStop}
         />
         }
-        </>
+        </React.Fragment>
         ))}
       </div>  
     </>

@@ -5,11 +5,11 @@ import CompassIcon from '../components/CompassIcon'
 import Menu from '../components/Menu';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import ManropeFont from '../utils/Font.js';
-import ReactDOM from 'react-dom';
+import { encodedFonts } from '../utils/Fonts.js';
 import { State, StateContext } from "../State";
 import '../styles/pages/AnalysePage.css';
 import coverImage from '../assets/images/PDF-cover-background.png';
+import { createRoot } from 'react-dom/client';
 
 const AnalysePage = () => {
     const {
@@ -101,54 +101,58 @@ const AnalysePage = () => {
         });
     };
 
-
-    const addIconAndDefinitions = async(pdf, currentMode, type) => {
-        // Compass Icon
-        let container = document.createElement('div');
+    const renderToCanvas = async(component, pdf, x, y, scale, resize) => {
+        const container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.top = '-9999px';
         document.body.appendChild(container);
- 
-        // Render React component into the container
-        ReactDOM.render(
-            <State>
-                <CompassIcon 
-                    mode={currentMode}
-                    type={type} 
-                />
-            </State>,
-            container
-        );
- 
-        let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
-        let imgData = canvas.toDataURL('image/png');
+
+        const root = createRoot(container);
+        root.render(component);
+
+        // Wait for the next frame to ensure the component is fully rendered
+        await new Promise((resolve) => setTimeout(resolve, 0));
+
+        const canvas = await html2canvas(container, { scale: scale, logging: true, backgroundColor: null });
+
+        root.unmount(); // Clean up the root
+
+        //let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
+        const imgData = canvas.toDataURL('image/png');
  
         // Original dimensions of the captured canvas
-        let imgWidth = canvas.width; // In pixels
-        let imgHeight = canvas.width; // In pixels
+        const imgWidth = canvas.width; // In pixels
+        const imgHeight = canvas.height; // In pixels
   
         // Convert pixel dimensions to mm
-        let pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        let contentWidth = imgWidth * pixelToMm * 0.4;
-        let contentHeight = imgHeight * pixelToMm * 0.4;
+        const pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
+        const contentWidth = imgWidth * pixelToMm * resize;
+        const contentHeight = imgHeight * pixelToMm * resize;
   
-        pdf.addImage(imgData, 'PNG', 20, 5, contentWidth, contentHeight);
+        pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
          
         document.body.removeChild(container);
  
-        // Definitions
-        container = document.createElement('div');
-        container.style.position = 'absolute';
-        container.style.top = '-9999px';
-        document.body.appendChild(container);
+    };
 
-        // Render React component into the container
-        ReactDOM.render(
+    const addIconAndDefinitions = async(pdf, currentMode, type) => {
+        // Compass Icon
+        await renderToCanvas(
+            <State>
+                <CompassIcon 
+                    mode={currentMode} 
+                    type={type} />
+            </State>,
+            pdf, 20, 5, 3, 0.4
+        );
+
+        // Definitions
+        await renderToCanvas(
             <div className='a-definitions-container'>
                 {components
                     .filter((c) => c.Type === type) // Filter by the specific type
-                    .map((c) => (
-                        <div className='a-definition'>
+                    .map((c, i) => (
+                        <div key={i} className='a-definition'>
                             <p className='a-definition-title' 
                                 style={{
                                     color: `${colors['Label'][type]}`,
@@ -164,24 +168,9 @@ const AnalysePage = () => {
                         </div>
                     ))}
             </div>,
-            container
+            pdf, 20, 60, 3, 0.3
         );
-
-        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
-        imgData = canvas.toDataURL('image/png');
-
-        // Original dimensions of the captured canvas
-        imgWidth = canvas.width*0.3; // In pixels
-        imgHeight = canvas.height*0.3; // In pixels
- 
-        // Convert pixel dimensions to mm
-        contentWidth = imgWidth * pixelToMm;
-        contentHeight = imgHeight * pixelToMm;
- 
-        pdf.addImage(imgData, 'PNG', 20, 60, contentWidth, contentHeight);
-        
-        document.body.removeChild(container);
-    }
+    };
 
     const addTaskPage = async(pdf, text, currentMode, task, type) => {
         const a4Width = pdf.internal.pageSize.getWidth();
@@ -208,6 +197,7 @@ const AnalysePage = () => {
         const highlightText = mainText.split(' ').pop();  // Get the last word (to highlight)
         const remainingText = 'focus';
 
+        pdf.setFont('Manrope', 'medium');
         pdf.setFontSize(13);
         pdf.setTextColor("#0a4461");
 
@@ -221,27 +211,23 @@ const AnalysePage = () => {
             pdf.text(currentText, 20, 190);
 
             // Set the highlight color for the key part (the word to be highlighted)
+            pdf.setFont('Manrope', 'bold');
             pdf.setTextColor(colors['Wave'][type]);
-            pdf.text(highlightText, 118, 190);
+            pdf.text(highlightText, 112, 190);
 
             // Set the default color again for the 'focus' part
             let padding = 118;
-            if(type === 'Principle') padding += 27; 
-            else if(type === 'Perspective') padding += 34; 
-            else if(type === 'Dimension') padding += 30; 
+            if(type === 'Principle') padding += 22; 
+            else if(type === 'Perspective') padding += 29; 
+            else if(type === 'Dimension') padding += 24; 
 
+            pdf.setFont('Manrope', 'medium');
             pdf.setTextColor("#0a4461");
             pdf.text(remainingText, padding, 190);
         }
 
         // Subtask Menu
-        let container = document.createElement('div');
-        container.style.position = 'absolute';
-        container.style.top = '-9999px';
-        document.body.appendChild(container);
-        
-        // Render React component into the container
-        ReactDOM.render(
+        await renderToCanvas(
             <div className="a-tasks-nav">
                 <button className={`a-task-button ${'A' === task ? 'active' : ''}`} >
                     A
@@ -259,33 +245,11 @@ const AnalysePage = () => {
                     D
                 </button>
             </div>,
-                container
-            );
-            
-        let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
-        let imgData = canvas.toDataURL('image/png');
-        
-        // Original dimensions of the captured canvas
-        let imgWidth = canvas.width; // In pixels
-        let imgHeight = canvas.height; // In pixels
-            
-        // Convert pixel dimensions to mm
-        let pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        let contentWidth = imgWidth * pixelToMm * 0.3;
-        let contentHeight = imgHeight * pixelToMm *0.3;
-         
-        pdf.addImage(imgData, 'PNG', 20, 195, contentWidth, contentHeight);
-                
-        document.body.removeChild(container);
-        
+                pdf, 20, 195, 3, 0.3
+        );
+
         // OL Compass
-        container = document.createElement('div');
-        container.style.position = 'absolute';
-        container.style.top = '-9999px';
-        document.body.appendChild(container);
-        
-        // Render React component into the container
-        ReactDOM.render(
+        await renderToCanvas(
             <State>
                 <BigWave 
                     className='a-ol-compass'
@@ -294,28 +258,9 @@ const AnalysePage = () => {
                     positions = {componentsRef.current}
                 /> 
             </State>,
-            container
+            pdf, -150, -10, 3, 0.4
         );
-        
-        canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null  });
-        imgData = canvas.toDataURL('image/png');
-        
-        // Original dimensions of the captured canvas
-        imgWidth = canvas.width; // In pixels
-        imgHeight = canvas.height; // In pixels
          
-        contentWidth = imgWidth * pixelToMm * 0.4;
-        contentHeight = imgHeight * pixelToMm * 0.4;
-         
-        // Calculate the x and y positions to center the image
-        let x = (a4Width - contentWidth) / 2 - 50;
-        let y = (a4Height - contentHeight) / 2;
-                
-        pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
-                
-        document.body.removeChild(container);
-
-
         if(currentMode === 'analyse-a-all')
             return;
         if(currentMode.startsWith('analyse-a-'))
@@ -325,20 +270,24 @@ const AnalysePage = () => {
     const handleDownloadPDF = async () => {
         const pdf = new jsPDF("landscape", "mm", "a4");
         
-        // Font
-        pdf.addFileToVFS('Manrope-Regular.ttf', ManropeFont);
-        pdf.addFont('Manrope-Regular.ttf', 'Manrope', 'normal');
-        pdf.setFont('Manrope', 'normal');
-    
+        // Loading Fonts
+        pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium-500']);
+        pdf.addFont('Manrope-Medium.ttf', 'Manrope', 'medium');
+        pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-SemiBold-600']);
+        pdf.addFont('Manrope-SemiBold.ttf', 'Manrope', 'semi-bold');
+        pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-Bold-700']);
+        pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
+
         // Add the image as a background
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
         pdf.addImage(coverImage, 'PNG', 0, 0, pageWidth, pageHeight);
 
         // Add text on top of the background
+        pdf.setFont('Manrope', 'semi-bold');
         pdf.setTextColor('white'); // RGB for green
-        pdf.setFontSize(50);
-        pdf.text(projectName, 30, 30);
+        pdf.setFontSize(60);
+        pdf.text(projectName, 30, 40);
 
         // Index Page
         pdf.addPage();

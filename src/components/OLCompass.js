@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
-import ManropeFont from '../utils/Font.js';
+import ManropeFont from '../utils/Fonts.js';
 import { StateContext } from "../State";
 
 // Sizes and positions 
@@ -427,14 +427,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
               >
                 <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
                   <defs>
-                    <style type="text/css">
-                      {`
-                        @font-face {
-                          font-family: 'Manrope';
-                          src: url(data:font/ttf;base64,${ManropeFont}) format('truetype');
-                        }
-                      `}
-                    </style>
+                  
                     <path 
                       id={`text-path-${i}`} 
                       d={c.Type === "Principle" ? svgTextPathInverted : svgTextPath } 
@@ -448,6 +441,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                   {/* Text on Path */}
                   <text
                     fill={getTextFill(mode, colors, c)}
+                    fontFamily="Manrope"
+                    fontWeight={500}
                     fontSize="8px"
                     letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(c.Code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
@@ -470,6 +465,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                   {bigLabels.includes(c.Code) &&
                     <text
                       fill={getTextFill(mode, colors, c)}
+                      fontFamily="Manrope"
+                      fontWeight={500}
                       fontSize="8px"
                       letterSpacing={getLabelWidth(c.Label) > 10 ? "0.5px" : "0.9px"}
                       dy="0.84em" // Adjust this to center the text vertically on the path

@@ -4,7 +4,7 @@ import CompassIcon from '../components/CompassIcon'
 import Menu from '../components/Menu';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import ManropeFont from '../utils/Font.js';
+import ManropeFont from '../utils/Fonts.js';
 import '../styles/pages/AnalysePage.css';
 import ReactDOM from 'react-dom';
 import Draggable from "react-draggable";
