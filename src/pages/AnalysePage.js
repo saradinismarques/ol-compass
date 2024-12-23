@@ -271,11 +271,11 @@ const AnalysePage = () => {
         const pdf = new jsPDF("landscape", "mm", "a4");
         
         // Loading Fonts
-        pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium-500']);
+        pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium']);
         pdf.addFont('Manrope-Medium.ttf', 'Manrope', 'medium');
-        pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-SemiBold-600']);
+        pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-SemiBold']);
         pdf.addFont('Manrope-SemiBold.ttf', 'Manrope', 'semi-bold');
-        pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-Bold-700']);
+        pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-Bold']);
         pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
 
         // Add the image as a background

@@ -286,6 +286,14 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
   
     return (
         <div>
+        <style type="text/css">
+            {`
+                @font-face {
+                    font-family: 'Handlee-Regular';
+                    src: url(data:font/ttf;base64,${encodedFonts['Handlee-Regular']}) format('truetype');
+                }
+            `}
+        </style>
         <Draggable
             nodeRef={nodeRef}
             position={position} // Controlled position from parent state
@@ -309,11 +317,13 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
             style={{
               width: "200px",
               height: "50px",
+              fontFamily: "Handlee-Regular, sans-serif",
               fontSize: "14px",
               padding: "8px",
               borderRadius: "4px",
               color: "#72716f",
-              border: "0px solid white",
+              background: "transparent",
+              border: "0px solid transparent",
               resize: "none",
             }}
           />
@@ -427,7 +437,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
                       {`
                         @font-face {
                           font-family: 'Manrope';
-                          src: url(data:font/ttf;base64,${encodedFonts['Manrope-Medium-500']}) format('truetype');
+                          src: url(data:font/ttf;base64,${encodedFonts['Manrope-Medium']}) format('truetype');
                         }
                       `}
                     </style>
