@@ -34,26 +34,33 @@ const ContributePage = () => {
   const [resetCompass, setResetCompass] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
+  const [components, setComponents] = useState([]);
   const [firstClick, setFirstClick] = useState(true);
   const [messageShown, setMessageShown] = useState(false);
-  const [components, setComponents] = useState([]);
 
+  const stateRef = useRef(state);
   const componentsRef = useRef(components);
   const buttonsRef = useRef({}); // Stores button positions for dropdown alignment
-  const stateRef = useRef(state);
 
   useEffect(() => {
     stateRef.current = state; // Keep the ref in sync with the latest state
   }, [state]);
 
+  useEffect(() => {
+    componentsRef.current = components; // Keep the ref in sync with the latest state
+  }, [components]);
+
   // Reset state and UI elements
   const resetState = useCallback(() => {
     setState(initialState);
-    setIsExplanationPage(true);
+    stateRef.current = initialState;
     setOpenDropdown(null);
     setDropdownPosition({ top: 0, left: 0 });
+    setComponents([]);
+    componentsRef.current = [];
     setFirstClick(true);
     setMessageShown(false);
+    setIsExplanationPage(true);
   }, [initialState, setIsExplanationPage]);
 
   // Trigger compass action

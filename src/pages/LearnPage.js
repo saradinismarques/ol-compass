@@ -70,10 +70,11 @@ const LearnPage = () => {
 
   const resetState = useCallback(() => {
     setState(initialState);
-    setIsExplanationPage(true);
+    setConcept(initialConcept);
     setFirstClick(true);
     setMessageShown(false);
-  }, [initialState, setIsExplanationPage]);
+    setIsExplanationPage(true);
+  }, [initialState, initialConcept, setIsExplanationPage]);
 
   const getBookmarkState = useCallback((code) => {
     return savedComponents.length !== 0 && savedComponents.includes(code);

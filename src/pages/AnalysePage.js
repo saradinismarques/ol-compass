@@ -20,6 +20,7 @@ const AnalysePage = () => {
       } = useContext(StateContext);
 
     const [projectName, setProjectName] = useState('');
+    const [isProjectNameFocused, setIsProjectNameFocused] = useState(false);
     const [components, setComponents] = useState([]);
     const [activeTask, setActiveTask] = useState('A'); // Track active button
     const [mode, setMode] = useState('analyse');
@@ -32,9 +33,13 @@ const AnalysePage = () => {
     
     const resetState = useCallback(() => {
         setProjectName('');
+        setIsProjectNameFocused(false);
+        setComponents([]);
+        componentsRef.current = [];
         setActiveTask('A');
         setMode('analyse');
-    }, []);
+        setIsExplanationPage(true);
+    }, [setIsExplanationPage]);
 
     // Handle Enter key
     const handleKeyDown = useCallback((e) => {
@@ -327,6 +332,7 @@ const AnalysePage = () => {
         setMode('analyse-' + task.toLowerCase());
     };
 
+
     return (
     <>
         <OLCompass 
@@ -340,6 +346,7 @@ const AnalysePage = () => {
                 mode={mode}
                 resetState={resetState}
                 onDragStop={handleDragStop}
+                isProjectNameFocused={isProjectNameFocused}
             /> 
         </div>
 
@@ -351,6 +358,8 @@ const AnalysePage = () => {
                 placeholder='Insert Project Name'
                 value={projectName} 
                 onChange={handleInputChange}
+                onFocus={() => setIsProjectNameFocused(true)}  // Set focus flag when focused
+                onBlur={() => setIsProjectNameFocused(false)} 
                 spellCheck="false"
             ></textarea>
             

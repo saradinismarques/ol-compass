@@ -54,12 +54,16 @@ const GetStartedPage = () => {
 
   const resetState = useCallback(() => {
     setState(initialState);
-    setIsExplanationPage(true);
     setAfterSearch(false);
     setCurrentIndex(0);
-    setComponents([]);
+    currentIndexRef.current = 0;
     setMode('get-started');
     modeRef.current = 'get-started';
+    setComponents([]);
+    componentsRef.current = [];
+    setCurrentComponent();
+    setSelectedType(null);
+    setIsExplanationPage(true);
   }, [initialState, setIsExplanationPage]);
 
   const handleCompassClick = (code, title, headline, type) => {    

@@ -23,7 +23,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
+const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjectNameFocused  }) => {
   const {
     colors,
     isExplanationPage,
@@ -126,17 +126,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
         return prevComponents;
     });
     
-
-    if (activeIdRef.current === id) {
-        // If the clicked component is already active, deactivate it
-        activeIdRef.current = null;
-        setActiveId(null);
-
-    } else {
-        // Set the clicked component as active
-        activeIdRef.current = id;
-        setActiveId(id);
-    }
+    setActiveRef(id);
 
     if (onDragStop) {
         const title = convertLabel(components[id].Code);
@@ -160,12 +150,15 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
   // Memoize handleKeyDown to avoid creating a new reference on each render
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape') {
-      setSelectedComponents([]);
-
+        setComponents(principles.concat(perspectives, dimensions));
+        setSelectedComponents([]);
+        selectedComponentsRef.current = [];
+        setShowSquare(false);
+        setActiveId(null);
       if(resetState)
         resetState();
     }
-  }, [resetState]);
+  }, [resetState, principles, perspectives, dimensions]);
     
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -217,14 +210,6 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
       }
   };
 
-  // Focus the textarea when the component mounts
-//   useEffect(() => {
-//     if (textareaRef.current) {
-//         textareaRef.current.focus();
-//     }
-//   }, []);
-    
-    
   const setActiveRef = (id) => {
     setActiveId(id);
     activeIdRef.current = id;
@@ -235,7 +220,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
   
     // Focus the textarea when the activeId changes
     useEffect(() => {
-        if (textareaRef.current && id === activeIdRef.current) {
+        if (textareaRef.current && id === activeIdRef.current && !isProjectNameFocused) {
             textareaRef.current.focus();
         }
     }, [id]); // Only re-focus when the activeId changes
@@ -246,7 +231,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions }) => {
         textareaRef.current.setSelectionRange(value.cursorStart, value.cursorEnd);
       }
     }, [value.cursorStart, value.cursorEnd]);
-  
+
     const handleInputChange = (e) => {
       const { value, selectionStart, selectionEnd } = e.target;
   

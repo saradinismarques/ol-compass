@@ -229,6 +229,9 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     if (e.key === 'Escape') {
       setHoveredId(null);
       setSelectedComponents([]);
+      setTooltipPos({ x: 0, y: 0 });
+      setTooltipVisible(false);
+      setTooltipText('');
 
       if(resetState)
         resetState();

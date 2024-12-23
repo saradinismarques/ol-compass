@@ -42,11 +42,11 @@ const GetInspiredPage = () => {
   const [mode, setMode] = useState('get-inspired');
   const [resultsNumber, setResultsNumber] = useState(-1);
   const [searchLogic, setSearchLogic] = useState('AND');
-  const [firstClick, setFirstClick] = useState(true);
-  const [messageShown, setMessageShown] = useState(false);
   const [components, setComponents] = useState([]);
   const [currentComponents, setCurrentComponents] = useState();
-  
+  const [firstClick, setFirstClick] = useState(true);
+  const [messageShown, setMessageShown] = useState(false);
+
   const carouselModeRef = useRef(carouselMode);
   const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
@@ -73,14 +73,21 @@ const GetInspiredPage = () => {
 
   const resetState = useCallback(() => {
     setState(initialState);
+    setCaseStudies([]);
+    setCurrentIndex(0);
     setCarouselMode(true);
     carouselModeRef.current = true;
-    setResultsNumber(-1);
     setMode('get-inspired');
     modeRef.current = 'get-inspired';
-    setIsExplanationPage(true);
+    setResultsNumber(-1);
+    setSearchLogic('AND');
+    searchLogicRef.current = 'AND';
+    setComponents([]);
+    componentsRef.current = [];
+    setCurrentComponents();
     setFirstClick(true);
     setMessageShown(false);
+    setIsExplanationPage(true);
   }, [initialState, setIsExplanationPage]);
 
   // State to store window height
