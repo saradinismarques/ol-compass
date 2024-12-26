@@ -52,7 +52,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   const nodeRef = useRef(null);
   const initialComponentsRef = useRef(initialComponents);
   const textareaRefs = useRef({}); // Store refs dynamically for all textareas
-  const circleRefs = useRef({});   // Store refs dynamically for all circles
+  const rightTipsRefs = useRef({});   // Store refs dynamically for all circles
+  const leftTipsRefs = useRef({});   // Store refs dynamically for all circles
 
   useEffect(() => {
       activeIdRef.current = activeId;
@@ -107,8 +108,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   };
 
   const handleDragStop = (id, data) => {
-    let textAreaX, textAreaY, arrowX1, arrowY1, arrowX2, arrowY2;
-    const circleRect = circleRefs.current[id].getBoundingClientRect();
+    let textAreaX, textAreaY, arrowX1, arrowY1, arrowX2, arrowY2, rightTip;
+    let tipRect = rightTipsRefs.current[id].getBoundingClientRect();
     
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
@@ -120,12 +121,12 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     if(!selectedComponentsRef.current.includes(components[id].code)) {
         setComponents((prevComponents) => {
             const updatedComponents = [...prevComponents];
-            textAreaX = data.x;
-            textAreaY = data.y + 150;
-            arrowX1 = circleRect.left;
-            arrowY1 = circleRect.top + circleRect.height / 2;
-            arrowX2 = data.x;
-            arrowY2 = data.y + 150;
+            textAreaX = data.x + 100;
+            textAreaY = data.y + 180;
+            arrowX1 = tipRect.left + tipRect.width / 2;
+            arrowY1 = tipRect.top + tipRect.height / 2;
+            arrowX2 = data.x + 158;
+            arrowY2 = data.y + 238;
 
             updatedComponents[id].textAreaX = textAreaX;
             updatedComponents[id].textAreaY = textAreaY;
@@ -133,6 +134,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             updatedComponents[id].arrowY1 = arrowY1;
             updatedComponents[id].arrowX2 = arrowX2;
             updatedComponents[id].arrowY2 = arrowY2;
+
             return updatedComponents;
         });
     } 
@@ -151,12 +153,15 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     if (textareaRefs.current[id]) {
       const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
   
+      if(tipRect.left + tipRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) {
+        tipRect = leftTipsRefs.current[id].getBoundingClientRect();
+      }
         setComponents((prevComponents) => {
           const updatedComponents = [...prevComponents];
           textAreaX = components[id].textAreaX;
           textAreaY = components[id].textAreaY;
-          arrowX1 = circleRect.left + circleRect.width / 2 - 50;
-          arrowY1 = circleRect.top + circleRect.height / 2;
+          arrowX1 = tipRect.left + tipRect.width / 2;
+          arrowY1 = tipRect.top + tipRect.height / 2;
           arrowX2 = textAreaRect.left + textAreaRect.width / 2;
           arrowY2 = textAreaRect.top + textAreaRect.height / 2;
 
@@ -164,13 +169,12 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           updatedComponents[id].arrowY1 = arrowY1;
           updatedComponents[id].arrowX2 = arrowX2;
           updatedComponents[id].arrowY2 = arrowY2;
+          updatedComponents[id].rightTip = rightTip;
 
           return updatedComponents;
       });
     }
 
-    
-    
     setActiveRef(id);
 
     if (onDragStop) {
@@ -191,8 +195,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           arrowX1,
           arrowY1,
           arrowX2,
-          arrowY2
-        );
+          arrowY2,
+          );
       }
   };
 
@@ -232,9 +236,9 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
 
   // Other states
   const handleTextAreaDragStop = (id, data) => {
-    let arrowX1, arrowY1, arrowX2, arrowY2;
+    let arrowX1, arrowY1, arrowX2, arrowY2, onRightSide;
       
-    const circleRect = circleRefs.current[id].getBoundingClientRect();
+    const circleRect = rightTipsRefs.current[id].getBoundingClientRect();
     const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
     
     setComponents((prevComponents) => {
@@ -243,15 +247,19 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
         updatedComponents[id].textAreaX = data.x;
         updatedComponents[id].textAreaY = data.y;
 
-        arrowX1 = circleRect.left + circleRect.width / 2 - 50;
+        arrowX1 = circleRect.left + circleRect.width / 2;
         arrowY1 = circleRect.top + circleRect.height / 2;
         arrowX2 = textAreaRect.left + textAreaRect.width / 2;
         arrowY2 = textAreaRect.top + textAreaRect.height / 2;
+        
+        if(arrowX1 <= arrowX2) onRightSide = false;
+        else onRightSide = true;
 
         updatedComponents[id].arrowX1 = arrowX1;
         updatedComponents[id].arrowY1 = arrowY1;
         updatedComponents[id].arrowX2 = arrowX2;
         updatedComponents[id].arrowY2 = arrowY2;
+        updatedComponents[id].onRightSide = onRightSide;
 
         return updatedComponents;
     });
@@ -274,7 +282,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           arrowX1, 
           arrowY1,
           arrowX2,
-          arrowY2
+          arrowY2,
         );
       }
   };
@@ -285,7 +293,6 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   }
   
   const TextArea = ({ id, position, value }) => {
-    console.log(components);
     // Focus the textarea when the activeId changes
     useEffect(() => {
     if (textareaRefs.current[id] && id === activeIdRef.current && !isProjectNameFocused) {
@@ -340,7 +347,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             components[id].arrowX1,
             components[id].arrowY1,
             components[id].arrowX2,
-            components[id].arrowY2
+            components[id].arrowY2,
+            components[id].rightTip
         );
         }
     };
@@ -376,7 +384,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             placeholder="Enter your notes here"
             spellCheck="false"
             style={{
-              width: "200px",
+              width: "100px",
               height: "50px",
               fontFamily: "Handlee-Regular, sans-serif",
               fontSize: "14px",
@@ -561,9 +569,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 </svg>
               </div>
             </div>
-            {/* Tip of Arrow */}
+            {/* Right Tip of Arrow */}
             <div
-              
               style={{
                 position: 'absolute',
                 left: `${0.35*waveWidth/4}px`, // Adjust position for button size
@@ -576,14 +583,47 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
               <div
                 style={{
                   position: 'relative',
-                  left: "10px",
-                  top: "-2px",
+                  left: isFlipped(c.code) 
+                  ? (c.type === 'Principle' ? '130px' : '130px') 
+                  : (c.type === 'Principle' ? '3px' : '3px'), 
+                  top: isFlipped(c.code) 
+                  ? (c.type === 'Principle' ? '-3px' : '16px') 
+                  : (c.type === 'Principle' ? '9px' : '4px'),
                   pointerEvents: 'none',
                   userSelect: 'none'
                 }}
               >
                 <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none'}}>
-                  <circle ref={(el) => (circleRefs.current[i] = el)} cx="5" cy="5" r="1.5" fill="#72716f" />
+                  <circle ref={(el) => (rightTipsRefs.current[i] = el)} cx="5" cy="5" r="1.5" fill="red" />
+                </svg>
+              </div>
+            </div>
+            {/* Left Tip of Arrow */}
+            <div
+              style={{
+                position: 'absolute',
+                left: `${0.35*waveWidth/4}px`, // Adjust position for button size
+                transform:  `rotate(${c.angle}rad`,
+                zIndex: 10,
+                pointerEvents: 'none', // Disable pointer events for the inner div
+                userSelect: 'none'
+              }}
+            >
+              <div
+                style={{
+                  position: 'relative',
+                  left: isFlipped(c.code) 
+                  ? (c.type === 'Principle' ? '3px' : '3px') 
+                  : (c.type === 'Principle' ? '130px' : '130px'), 
+                  top: isFlipped(c.code) 
+                    ? (c.type === 'Principle' ? '9px' : '4px') 
+                    : (c.type === 'Principle' ? '-3px' : '16px'),
+                  pointerEvents: 'none',
+                  userSelect: 'none'
+                }}
+              >
+                <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none'}}>
+                  <circle ref={(el) => (leftTipsRefs.current[i] = el)} cx="5" cy="5" r="1.5" fill="#72716f" />
                 </svg>
               </div>
             </div>
@@ -608,7 +648,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none', // Ensure the line is not interactive
-                zIndex: 0,
+                zIndex: 50,
             }}
         >
             <line 
@@ -675,6 +715,7 @@ function getComponentsPositions(componentsData, type) {
     componentsData[i]["arrowY1"] = y;
     componentsData[i]["arrowX2"] = x;
     componentsData[i]["arrowY2"] = y+150;
+    componentsData[i]["rightTip"] = true;
 
   }
   return componentsData;

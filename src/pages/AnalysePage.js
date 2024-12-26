@@ -52,7 +52,7 @@ const AnalysePage = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
-    const handleDragStop = (code, title, label, headline, type, angle, x, y, textAreaX, textAreaY, textAreaData, arrowX1, arrowY1, arrowX2, arrowY2) => {
+    const handleDragStop = (code, title, label, headline, type, angle, x, y, textAreaX, textAreaY, textAreaData, arrowX1, arrowY1, arrowX2, arrowY2, onRightSide) => {
         setComponents((prevComponents) => {
             const componentExists = prevComponents.some((component) => component.code === code);
         
@@ -74,7 +74,8 @@ const AnalysePage = () => {
                                 arrowX1,
                                 arrowY1,
                                 arrowX2,
-                                arrowY2
+                                arrowY2,
+                                onRightSide
                             }
                           : component // Keep components that are not being updated as is
                   )
@@ -95,7 +96,8 @@ const AnalysePage = () => {
                           arrowX1,
                           arrowY1,
                           arrowX2,
-                          arrowY2
+                          arrowY2,
+                          onRightSide
                       },
                   ];
         
