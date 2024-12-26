@@ -6,6 +6,7 @@ import learnData from '../data/content/learn-data.json';
 import conceptsData from '../data/content/concepts-data.json';
 import getInspiredData from '../data/content/get-inspired-data.json';
 
+// Static
 export function getColorPallete(version) {
     try {
         // Find the color data for the given version
@@ -121,6 +122,7 @@ export function getModeTexts(mode) {
     }
 }
 
+// Content
 export function getGetStartedData() {
     try {
         // Process the JSON data

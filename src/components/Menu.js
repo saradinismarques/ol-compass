@@ -91,20 +91,20 @@ const Menu = () => {
             GET INSPIRED
           </Link>
         }
-        {(menuExpanded || activeButton === 'analyse') && 
-          <Link
-            to="/analyse"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'analyse' ? 'active' : ''}`}
-          >
-            ANALYSE
-          </Link>
-        }
         {(menuExpanded || activeButton === 'contribute') && 
           <Link
             to="/contribute"
             className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contribute' ? 'active' : ''}`}
           >
             CONTRIBUTE
+          </Link>
+        }
+        {(menuExpanded || activeButton === 'analyse') && 
+          <Link
+            to="/analyse"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'analyse' ? 'active' : ''}`}
+          >
+            ANALYSE
           </Link>
         }
         {showMore && (

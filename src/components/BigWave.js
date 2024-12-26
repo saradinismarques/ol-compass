@@ -112,7 +112,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
 
         return updatedComponents;
     });
-
+    console.log(data.x, data.y);
+    getLineCoordinates(id);
     if(!selectedComponentsRef.current.includes(components[id].code)) {
         setComponents((prevComponents) => {
             const updatedComponents = [...prevComponents];
@@ -199,6 +200,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
         return updatedComponents;
     });
 
+    getLineCoordinates(id);
+
     if (onDragStop) {
         const title = convertLabel(components[id].code);
 
@@ -222,24 +225,30 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     setActiveId(id);
     activeIdRef.current = id;
   }
+  
+  const textareaRefs = useRef({}); // Store refs dynamically for all textareas
+  const circleRefs = useRef({});   // Store refs dynamically for all circles
 
   const TextArea = ({ id, position, value }) => {
-    const textareaRef = useRef(null);
   
     // Focus the textarea when the activeId changes
     useEffect(() => {
-        if (textareaRef.current && id === activeIdRef.current && !isProjectNameFocused) {
-            textareaRef.current.focus();
-        }
-    }, [id]); // Only re-focus when the activeId changes
+    if (textareaRefs.current[id] && id === activeIdRef.current && !isProjectNameFocused) {
+      textareaRefs.current[id].focus();
+    }
+  }, [id]); // Only re-focus when the activeId changes
 
     // Preserve cursor position after value updates
     useEffect(() => {
-      if (textareaRef.current && value.cursorStart !== undefined) {
-        textareaRef.current.setSelectionRange(value.cursorStart, value.cursorEnd);
+      if (
+        textareaRefs.current[id] &&
+        value.cursorStart !== undefined &&
+        value.cursorEnd !== undefined
+      ) {
+        textareaRefs.current[id].setSelectionRange(value.cursorStart, value.cursorEnd);
       }
-    }, [value.cursorStart, value.cursorEnd]);
-
+    }, [id, value.cursorStart, value.cursorEnd]);
+  
     const handleInputChange = (e) => {
       const { value, selectionStart, selectionEnd } = e.target;
   
@@ -301,7 +310,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           }}
         >
           <textarea
-            ref={textareaRef}
+            ref={(el) => (textareaRefs.current[id] = el)}
             name={id}
             value={value.text}
             onChange={handleInputChange}
@@ -325,6 +334,24 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
       </div>
     );
   };
+
+   // Function to get coordinates dynamically
+   const getLineCoordinates = (id) => {
+    if (circleRefs.current[id] && textareaRefs.current[id]) {
+      const circleRect = circleRefs.current[id].getBoundingClientRect();
+      const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
+
+      setComponents((prevComponents) => {
+        const updatedComponents = [...prevComponents];
+        updatedComponents[id].arrowX1 = circleRect.left + circleRect.width / 2;
+        updatedComponents[id].arrowY1 = circleRect.top + circleRect.height / 2;
+        updatedComponents[id].arrowX2 = textAreaRect.left + textAreaRect.width / 2;
+        updatedComponents[id].arrowY2 =  textAreaRect.top + textAreaRect.height / 2;
+        
+        return updatedComponents;
+      });
+    }
+};
 
   return (
     <>       
@@ -493,15 +520,68 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 </svg>
               </div>
             </div>
+            {/* Tip of Arrow */}
+            {selectedComponentsRef.current.includes(c.code) &&
+            <div
+              ref={(el) => (circleRefs.current[i] = el)}
+              style={{
+                position: 'absolute',
+                left: `${0.35*waveWidth/4}px`, // Adjust position for button size
+                transform:  `rotate(${c.angle}rad`,
+                zIndex: 10,
+                pointerEvents: 'none', // Disable pointer events for the inner div
+                userSelect: 'none'
+              }}
+            >
+              <div
+                style={{
+                  position: 'relative',
+                  left: "10px",
+                  top: "-2px",
+                  pointerEvents: 'none',
+                  userSelect: 'none'
+                }}
+              >
+                <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
+                  <circle cx="5" cy="5" r="1.5" fill="#72716f" />
+                </svg>
+              </div>
+            </div>
+          }
           </div>
         </Draggable>
+        
         {selectedComponentsRef.current.includes(c.code) &&
+        <>
+        {/* Text Box */}
         <TextArea
             id={i}
             position={{x: c.textAreaX, y: c.textAreaY }}
             value={c.textAreaData}
             onDragStop={handleDragStop}
         />
+        {/* Arrow */}
+        <svg 
+            style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                pointerEvents: 'none', // Ensure the line is not interactive
+                zIndex: 0,
+            }}
+        >
+            <line 
+                x1={c.arrowX1}
+                y1={c.arrowY1}
+                x2={c.arrowX2}
+                y2={c.arrowY2}
+                stroke="#72716f"
+                strokeWidth="1"
+            />
+        </svg>
+        </>
         }
         </React.Fragment>
         ))}
@@ -552,6 +632,11 @@ function getComponentsPositions(componentsData, type) {
     componentsData[i]["textAreaX"] = x;
     componentsData[i]["textAreaY"] = y;
     componentsData[i]["textAreaData"] = "";
+    componentsData[i]["arrowX1"] = x;
+    componentsData[i]["arrowY1"] = y;
+    componentsData[i]["arrowX2"] = x;
+    componentsData[i]["arrowY2"] = y;
+
   }
   return componentsData;
 };
