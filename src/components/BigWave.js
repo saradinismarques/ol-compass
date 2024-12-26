@@ -51,7 +51,9 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   const activeIdRef = useRef(activeId);
   const nodeRef = useRef(null);
   const initialComponentsRef = useRef(initialComponents);
-  
+  const textareaRefs = useRef({}); // Store refs dynamically for all textareas
+  const circleRefs = useRef({});   // Store refs dynamically for all circles
+
   useEffect(() => {
       activeIdRef.current = activeId;
   }, [activeId]);
@@ -105,6 +107,9 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   };
 
   const handleDragStop = (id, data) => {
+    let textAreaX, textAreaY, arrowX1, arrowY1, arrowX2, arrowY2;
+    const circleRect = circleRefs.current[id].getBoundingClientRect();
+    
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
         updatedComponents[id].x = data.x;
@@ -112,28 +117,59 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
 
         return updatedComponents;
     });
-    console.log(data.x, data.y);
-    getLineCoordinates(id);
     if(!selectedComponentsRef.current.includes(components[id].code)) {
         setComponents((prevComponents) => {
             const updatedComponents = [...prevComponents];
-            updatedComponents[id].textAreaX = data.x;
-            updatedComponents[id].textAreaY = data.y + 150;
-    
+            textAreaX = data.x;
+            textAreaY = data.y + 150;
+            arrowX1 = circleRect.left;
+            arrowY1 = circleRect.top + circleRect.height / 2;
+            arrowX2 = data.x;
+            arrowY2 = data.y + 150;
+
+            updatedComponents[id].textAreaX = textAreaX;
+            updatedComponents[id].textAreaY = textAreaY;
+            updatedComponents[id].arrowX1 = arrowX1;
+            updatedComponents[id].arrowY1 = arrowY1;
+            updatedComponents[id].arrowX2 = arrowX2;
+            updatedComponents[id].arrowY2 = arrowY2;
             return updatedComponents;
         });
+    } 
+    
+    setSelectedComponents(prevComponents => {
+      if (!prevComponents.includes(components[id].code)) {
+          const newComponents = [...prevComponents, components[id].code]; // Add the component if it doesn't already exist
+          selectedComponentsRef.current = newComponents;
+          return newComponents; // Return updated state
+      }
+  
+      // If it already exists, just return the previous state
+      return prevComponents;
+    });
+    
+    if (textareaRefs.current[id]) {
+      const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
+  
+        setComponents((prevComponents) => {
+          const updatedComponents = [...prevComponents];
+          textAreaX = components[id].textAreaX;
+          textAreaY = components[id].textAreaY;
+          arrowX1 = circleRect.left + circleRect.width / 2 - 50;
+          arrowY1 = circleRect.top + circleRect.height / 2;
+          arrowX2 = textAreaRect.left + textAreaRect.width / 2;
+          arrowY2 = textAreaRect.top + textAreaRect.height / 2;
+
+          updatedComponents[id].arrowX1 = arrowX1;
+          updatedComponents[id].arrowY1 = arrowY1;
+          updatedComponents[id].arrowX2 = arrowX2;
+          updatedComponents[id].arrowY2 = arrowY2;
+
+          return updatedComponents;
+      });
     }
 
-    setSelectedComponents(prevComponents => {
-        if (!prevComponents.includes(components[id].code)) {
-            const newComponents = [...prevComponents, components[id].code]; // Add the component if it doesn't already exist
-            selectedComponentsRef.current = newComponents;
-            return newComponents; // Return updated state
-        }
     
-        // If it already exists, just return the previous state
-        return prevComponents;
-    });
     
     setActiveRef(id);
 
@@ -149,9 +185,13 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           components[id].angle,
           data.x,
           data.y,
-          components[id].textAreaX,
-          components[id].textAreaY,
-          components[id].textAreaData
+          textAreaX,
+          textAreaY,
+          components[id].textAreaData,
+          arrowX1,
+          arrowY1,
+          arrowX2,
+          arrowY2
         );
       }
   };
@@ -192,15 +232,29 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
 
   // Other states
   const handleTextAreaDragStop = (id, data) => {
+    let arrowX1, arrowY1, arrowX2, arrowY2;
+      
+    const circleRect = circleRefs.current[id].getBoundingClientRect();
+    const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
+    
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
+
         updatedComponents[id].textAreaX = data.x;
         updatedComponents[id].textAreaY = data.y;
 
+        arrowX1 = circleRect.left + circleRect.width / 2 - 50;
+        arrowY1 = circleRect.top + circleRect.height / 2;
+        arrowX2 = textAreaRect.left + textAreaRect.width / 2;
+        arrowY2 = textAreaRect.top + textAreaRect.height / 2;
+
+        updatedComponents[id].arrowX1 = arrowX1;
+        updatedComponents[id].arrowY1 = arrowY1;
+        updatedComponents[id].arrowX2 = arrowX2;
+        updatedComponents[id].arrowY2 = arrowY2;
+
         return updatedComponents;
     });
-
-    getLineCoordinates(id);
 
     if (onDragStop) {
         const title = convertLabel(components[id].code);
@@ -216,7 +270,11 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           components[id].y,
           data.x,
           data.y,
-          components[id].textAreaData
+          components[id].textAreaData,
+          arrowX1, 
+          arrowY1,
+          arrowX2,
+          arrowY2
         );
       }
   };
@@ -226,11 +284,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     activeIdRef.current = id;
   }
   
-  const textareaRefs = useRef({}); // Store refs dynamically for all textareas
-  const circleRefs = useRef({});   // Store refs dynamically for all circles
-
   const TextArea = ({ id, position, value }) => {
-  
+    console.log(components);
     // Focus the textarea when the activeId changes
     useEffect(() => {
     if (textareaRefs.current[id] && id === activeIdRef.current && !isProjectNameFocused) {
@@ -281,7 +336,11 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 text: value,
                 cursorStart: selectionStart,
                 cursorEnd: selectionEnd,
-            }  
+            }, 
+            components[id].arrowX1,
+            components[id].arrowY1,
+            components[id].arrowX2,
+            components[id].arrowY2
         );
         }
     };
@@ -334,24 +393,6 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
       </div>
     );
   };
-
-   // Function to get coordinates dynamically
-   const getLineCoordinates = (id) => {
-    if (circleRefs.current[id] && textareaRefs.current[id]) {
-      const circleRect = circleRefs.current[id].getBoundingClientRect();
-      const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
-
-      setComponents((prevComponents) => {
-        const updatedComponents = [...prevComponents];
-        updatedComponents[id].arrowX1 = circleRect.left + circleRect.width / 2;
-        updatedComponents[id].arrowY1 = circleRect.top + circleRect.height / 2;
-        updatedComponents[id].arrowX2 = textAreaRect.left + textAreaRect.width / 2;
-        updatedComponents[id].arrowY2 =  textAreaRect.top + textAreaRect.height / 2;
-        
-        return updatedComponents;
-      });
-    }
-};
 
   return (
     <>       
@@ -521,9 +562,8 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
               </div>
             </div>
             {/* Tip of Arrow */}
-            {selectedComponentsRef.current.includes(c.code) &&
             <div
-              ref={(el) => (circleRefs.current[i] = el)}
+              
               style={{
                 position: 'absolute',
                 left: `${0.35*waveWidth/4}px`, // Adjust position for button size
@@ -542,12 +582,11 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                   userSelect: 'none'
                 }}
               >
-                <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
-                  <circle cx="5" cy="5" r="1.5" fill="#72716f" />
+                <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none'}}>
+                  <circle ref={(el) => (circleRefs.current[i] = el)} cx="5" cy="5" r="1.5" fill="#72716f" />
                 </svg>
               </div>
             </div>
-          }
           </div>
         </Draggable>
         
@@ -635,7 +674,7 @@ function getComponentsPositions(componentsData, type) {
     componentsData[i]["arrowX1"] = x;
     componentsData[i]["arrowY1"] = y;
     componentsData[i]["arrowX2"] = x;
-    componentsData[i]["arrowY2"] = y;
+    componentsData[i]["arrowY2"] = y+150;
 
   }
   return componentsData;
