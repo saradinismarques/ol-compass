@@ -3,6 +3,7 @@ import OLCompass from '../components/OLCompass'
 import BigWave from '../components/BigWave.js'
 import CompassIcon from '../components/CompassIcon'
 import Menu from '../components/Menu';
+import Description from '../components/Description';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { encodedFonts } from '../utils/Fonts.js';
@@ -265,14 +266,12 @@ const AnalysePage = () => {
         );
 
         // Big Wave
-        console.log(componentsRef.current);
         await renderToCanvas(
             <State>
                 <BigWave 
                     className='a-ol-compass'
                     mode={currentMode}
-                    selected={componentsRef.current.map((component) => component.code)}
-                    positions = {componentsRef.current}
+                    pdfComponents = {componentsRef.current}
                 /> 
             </State>,
             pdf, -150, -10, 3, 0.4
@@ -352,6 +351,8 @@ const AnalysePage = () => {
             position={isExplanationPage ? "center-2" : "left-2"}
             resetState={resetState}
         /> 
+
+        {isExplanationPage && <Description mode="analyse" />}
         
         <div className='a-ol-compass'>
             <BigWave 

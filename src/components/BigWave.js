@@ -23,7 +23,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjectNameFocused  }) => {
+const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFocused  }) => {
   const {
     colors,
     isExplanationPage,
@@ -39,12 +39,15 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
   const initialComponents = principles.concat(perspectives, dimensions);
  
-  const [components, setComponents] = useState(positions || initialComponents);
+  const [components, setComponents] = useState(pdfComponents || initialComponents);
   
+  let pdfSelectedComponents;
+  if(pdfComponents)
+    pdfSelectedComponents = pdfComponents.map((component) => component.code);
   // Determine which components and setter to use based on mode
-  const [selectedComponents, setSelectedComponents] = useState(selected || []);
-  const [showSquare, setShowSquare] = useState(false);
+  const [selectedComponents, setSelectedComponents] = useState(pdfSelectedComponents || []);
 
+  const [showSquare, setShowSquare] = useState(false);
   const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
 
   const selectedComponentsRef = useRef(selectedComponents);
@@ -413,7 +416,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
         );
         }
     };
-    console.log(selected);
+
     return (
         <div>
         <style type="text/css">
@@ -437,7 +440,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             zIndex: 100,
           }}
         >
-          {!selected && 
+          {!pdfSelectedComponents && 
           <textarea
             ref={(el) => (textareaRefs.current[id] = el)}
             name={id}
@@ -462,7 +465,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           />
           }
 
-          {selected && 
+          {pdfSelectedComponents && 
           <div
             style={{
               width: "100px",
@@ -497,7 +500,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           ...containerStyle, 
         }}
       >
-        {(showSquare && !selected) &&
+        {(showSquare && !pdfSelectedComponents) &&
         <div 
             style={{
                 position: 'absolute',
@@ -580,7 +583,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 style={{
                   position: 'relative',
                   left: isFlipped(c.code) 
-                    ? (c.type === 'Principle' ? '6.5px' : '6.5px') 
+                    ? (c.type === 'Principle' ? '6.5px' : '7.5px') 
                     : (c.type === 'Principle' ? '-6.5px' : '-6.5px'), 
                   top: isFlipped(c.code) 
                     ? (c.type === 'Principle' ? '6px' : '-2px') 
@@ -590,6 +593,11 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 }}
               >
                 <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
+                  {/* <path 
+                    d={c.type === "Principle" ? svgTextPathInverted : svgTextPath } 
+                    fill={'none'} 
+                    stroke='black' 
+                  />  */}
                   <defs>
                     <style type="text/css">
                       {`
@@ -599,6 +607,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                         }
                       `}
                     </style>
+                    
                     <path 
                       id={`text-path-${i}`} 
                       d={c.type === "Principle" ? svgTextPathInverted : svgTextPath } 
@@ -661,7 +670,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           </div>
         </Draggable>
         
-        {selectedComponentsRef.current.includes(c.code) && (selected && c.textAreaData.length !== 0 || !selected) &&
+        {selectedComponentsRef.current.includes(c.code) && (pdfSelectedComponents && c.textAreaData.length !== 0 || !pdfSelectedComponents) &&
         <div
           style={{
             opacity: getWaveOpacity(mode, selectedComponents, c, opacityCounter, allComponents)
@@ -883,4 +892,4 @@ function convertLabel(label) {
   return label;
 }
 
-export default OLCompass;
+export default BigWave;

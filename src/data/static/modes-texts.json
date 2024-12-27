@@ -28,6 +28,13 @@
     "#?message?": "Fill the form with information about your OL content/initiative, select all the Principles/Perspectives/Dimensions it addresses and press 'Enter' to save it.\n\nOk, got it!"
   },
   {
+    "#MODE-LABEL": "ANALYSE",
+    "#headline": "Lorem ipsum dolor sit amet",
+    "#text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "#start-prompt": "Press 'Enter' to start the analysis.",
+    "#?message?": "/"
+  },
+  {
     "#MODE-LABEL": "CONTEXTUALIZE",
     "#headline": "See how OL applies to your locality",
     "#text": "/",

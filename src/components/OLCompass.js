@@ -428,8 +428,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                 }}
               >
                 <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
-                  <defs>
-                  
+                  <defs>             
                     <path 
                       id={`text-path-${i}`} 
                       d={c.type === "Principle" ? svgTextPathInverted : svgTextPath } 
