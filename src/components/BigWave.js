@@ -413,7 +413,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
         );
         }
     };
-  
+    console.log(selected);
     return (
         <div>
         <style type="text/css">
@@ -437,6 +437,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             zIndex: 100,
           }}
         >
+          {!selected && 
           <textarea
             ref={(el) => (textareaRefs.current[id] = el)}
             name={id}
@@ -455,8 +456,34 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
               background: "transparent",
               border: "0px solid transparent",
               resize: "none",
+              whiteSpace: "pre-wrap", // Preserve line breaks and whitespace
+              overflowWrap: "break-word", // Wrap long words onto the next line
             }}
           />
+          }
+
+          {selected && 
+          <div
+            style={{
+              width: "100px",
+              height: "50px",
+              fontFamily: "Handlee-Regular, sans-serif",
+              fontSize: "14px",
+              padding: "8px",
+              borderRadius: "4px",
+              border: "0px solid black",
+              color: "#72716f",
+              background: "transparent",
+              position: "absolute",
+              top: "0px",
+              left: "0px",
+              whiteSpace: "pre-wrap", // Preserve line breaks
+              overflowWrap: "break-word", // Wrap long words
+          }}>
+            {value.text}
+          </div>
+          }
+          
         </div>
       </Draggable>
       </div>
@@ -634,8 +661,12 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           </div>
         </Draggable>
         
-        {selectedComponentsRef.current.includes(c.code) &&
-        <>
+        {selectedComponentsRef.current.includes(c.code) && (selected && c.textAreaData.length !== 0 || !selected) &&
+        <div
+          style={{
+            opacity: getWaveOpacity(mode, selectedComponents, c, opacityCounter, allComponents)
+          }}
+        >
         {/* Text Box */}
         <TextArea
             id={i}
@@ -673,7 +704,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 fill="#72716f" // Circle color
             />
         </svg>
-        </>
+        </div>
         }
         </React.Fragment>
         ))}

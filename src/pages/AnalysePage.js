@@ -149,7 +149,6 @@ const AnalysePage = () => {
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
          
         document.body.removeChild(container);
- 
     };
 
     const addIconAndDefinitions = async(pdf, currentMode, type) => {
@@ -265,7 +264,8 @@ const AnalysePage = () => {
                 pdf, 20, 195, 3, 0.3
         );
 
-        // OL Compass
+        // Big Wave
+        console.log(componentsRef.current);
         await renderToCanvas(
             <State>
                 <BigWave 
