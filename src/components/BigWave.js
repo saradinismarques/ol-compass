@@ -52,8 +52,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   const nodeRef = useRef(null);
   const initialComponentsRef = useRef(initialComponents);
   const textareaRefs = useRef({}); // Store refs dynamically for all textareas
-  const rightTipsRefs = useRef({});   // Store refs dynamically for all circles
-  const leftTipsRefs = useRef({});   // Store refs dynamically for all circles
+  const waveRefs = useRef({});   // Store refs dynamically for all circles
 
   useEffect(() => {
       activeIdRef.current = activeId;
@@ -109,7 +108,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
 
   const handleDragStop = (id, data) => {
     let textAreaX, textAreaY, arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip;
-    let tipRect = rightTipsRefs.current[id].getBoundingClientRect();
+    let waveRect = waveRefs.current[id].getBoundingClientRect();
    
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
@@ -126,8 +125,13 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             const updatedComponents = [...prevComponents];
             textAreaX = data.x + 100;
             textAreaY = data.y + 180;
-            arrowX1 = tipRect.left + tipRect.width / 2;
-            arrowY1 = tipRect.top + tipRect.height / 2;
+            arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
+
+            if(components[id].type === 'Principle')
+              arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+            else
+              arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+
             arrowX2 = data.x + 158;
             arrowY2 = data.y + 238;
 
@@ -157,26 +161,35 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     if (textareaRefs.current[id]) {
       const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
   
-      if(tipRect.left + tipRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) {
-        tipRect = leftTipsRefs.current[id].getBoundingClientRect();
+      if(waveRect.left + waveRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) 
         rightTip = false;
-      } else {
-        tipRect = rightTipsRefs.current[id].getBoundingClientRect();
+      else 
         rightTip = true;
-      }
 
-      if(tipRect.top + tipRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) {
+      if(waveRect.top + waveRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) 
         topTip = false;
-      } else {
+      else 
         topTip = true;
-      }
 
         setComponents((prevComponents) => {
           const updatedComponents = [...prevComponents];
           textAreaX = components[id].textAreaX;
           textAreaY = components[id].textAreaY;
-          arrowX1 = tipRect.left + tipRect.width / 2;
-          arrowY1 = tipRect.top + tipRect.height / 2;
+          
+          if(rightTip) { 
+            arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
+            if(components[id].type === 'Principle') 
+              arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+            else 
+              arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+          } else {
+            arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3;
+            if(components[id].type === 'Principle') 
+              arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+            else 
+              arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+          }
+
           arrowX2 = textAreaRect.left + textAreaRect.width / 2;
 
           if(topTip)
@@ -188,6 +201,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
           updatedComponents[id].arrowY1 = arrowY1;
           updatedComponents[id].arrowX2 = arrowX2;
           updatedComponents[id].arrowY2 = arrowY2;
+          updatedComponents[id].topTip = topTip;
           updatedComponents[id].rightTip = rightTip;
 
           return updatedComponents;
@@ -241,7 +255,6 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
     };
   }, [handleKeyDown]); // Dependency array includes handleKeyDown
 
-  
   let containerStyle = {
       height: window.innerHeight,
       width: window.innerWidth,
@@ -258,23 +271,19 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
   // Other states
   const handleTextAreaDragStop = (id, data) => {
     let arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip;
-    let tipRect = rightTipsRefs.current[id].getBoundingClientRect();
+    let waveRect = waveRefs.current[id].getBoundingClientRect();
 
     const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
 
-    if(tipRect.left + tipRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) {
-      tipRect = leftTipsRefs.current[id].getBoundingClientRect();
+    if(waveRect.left + waveRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) 
       rightTip = false;
-    } else {
-      tipRect = rightTipsRefs.current[id].getBoundingClientRect();
+    else 
       rightTip = true;
-    }
 
-    if(tipRect.top + tipRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) {
+    if(waveRect.top + waveRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) 
       topTip = false;
-    } else {
+    else 
       topTip = true;
-    }
 
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
@@ -282,19 +291,32 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
         updatedComponents[id].textAreaX = data.x;
         updatedComponents[id].textAreaY = data.y;
 
-        arrowX1 = tipRect.left + tipRect.width / 2;
-        arrowY1 = tipRect.top + tipRect.height / 2;
+        if(rightTip) { 
+          arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
+          if(components[id].type === 'Principle') 
+            arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+          else 
+            arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+        } else {
+          arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3;
+          if(components[id].type === 'Principle') 
+            arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+          else 
+            arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+        }
+
         arrowX2 = textAreaRect.left + textAreaRect.width / 2;
+
         if(topTip)
           arrowY2 = textAreaRect.top + textAreaRect.height / 2;
         else
           arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 30;
 
-
         updatedComponents[id].arrowX1 = arrowX1;
         updatedComponents[id].arrowY1 = arrowY1;
         updatedComponents[id].arrowX2 = arrowX2;
         updatedComponents[id].arrowY2 = arrowY2;
+        updatedComponents[id].topTip = topTip;
         updatedComponents[id].rightTip = rightTip;
 
         return updatedComponents;
@@ -483,6 +505,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
             >
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
                 <path 
+                  ref={(el) => (waveRefs.current[i] = el)}
                   d={svgPath} 
                   fill={getWaveFill(mode, colors, selectedComponents, c)}  // Use the gradient fill
                   stroke="none" 
@@ -608,66 +631,6 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 </svg>
               </div>
             </div>
-            {/* Right Tip of Arrow */}
-            <div
-              style={{
-                position: 'absolute',
-                left: `${0.35*waveWidth/4}px`, // Adjust position for button size
-                transform:  `rotate(${c.angle}rad`,
-                zIndex: 10,
-                pointerEvents: 'none', // Disable pointer events for the inner div
-                userSelect: 'none'
-              }}
-            >
-              <div
-                style={{
-                  position: 'relative',
-                  left: isFlipped(c.code) 
-                  ? (c.type === 'Principle' ? '130px' : '130px') 
-                  : (c.type === 'Principle' ? '3px' : '3px'), 
-                  top: isFlipped(c.code) 
-                  ? (c.type === 'Principle' ? '-3px' : '16px') 
-                  : (c.type === 'Principle' ? '9px' : '4px'),
-                  pointerEvents: 'none',
-                  userSelect: 'none',
-                  opacity: c.rightTip && selectedComponentsRef.current.includes(c.code) ? 1 : 0
-                }}
-              >
-                <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none'}}>
-                  <circle ref={(el) => (rightTipsRefs.current[i] = el)} cx="5" cy="5" r="1.5" fill="#72716f" />
-                </svg>
-              </div>
-            </div>
-            {/* Left Tip of Arrow */}
-            <div
-              style={{
-                position: 'absolute',
-                left: `${0.35*waveWidth/4}px`, // Adjust position for button size
-                transform:  `rotate(${c.angle}rad`,
-                zIndex: 10,
-                pointerEvents: 'none', // Disable pointer events for the inner div
-                userSelect: 'none',
-                opacity: !c.rightTip && selectedComponentsRef.current.includes(c.code) ? 1 : 0
-              }}
-            >
-              <div
-                style={{
-                  position: 'relative',
-                  left: isFlipped(c.code) 
-                  ? (c.type === 'Principle' ? '3px' : '3px') 
-                  : (c.type === 'Principle' ? '130px' : '130px'), 
-                  top: isFlipped(c.code) 
-                    ? (c.type === 'Principle' ? '9px' : '4px') 
-                    : (c.type === 'Principle' ? '-3px' : '16px'),
-                  pointerEvents: 'none',
-                  userSelect: 'none'
-                }}
-              >
-                <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none'}}>
-                  <circle ref={(el) => (leftTipsRefs.current[i] = el)} cx="5" cy="5" r="1.5" fill="#72716f" />
-                </svg>
-              </div>
-            </div>
           </div>
         </Draggable>
         
@@ -692,6 +655,7 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 zIndex: 50,
             }}
         >
+            {/* Line */}
             <line 
                 x1={c.arrowX1}
                 y1={c.arrowY1}
@@ -699,6 +663,14 @@ const OLCompass = ({ mode, onDragStop, resetState, selected, positions, isProjec
                 y2={c.arrowY2}
                 stroke="#72716f"
                 strokeWidth="1"
+            />
+            
+            {/* Circle */}
+            <circle 
+                cx={c.arrowX1} // Center X position
+                cy={c.arrowY1} // Center Y position
+                r="2"          // Radius of the circle
+                fill="#72716f" // Circle color
             />
         </svg>
         </>
