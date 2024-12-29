@@ -7,11 +7,10 @@ import Draggable from "react-draggable";
 // Sizes and positions 
 let size;
 
-if(window.innerHeight > 700) {
+if(window.innerHeight > 700) 
   size = 490;
-} else {
+else
   size = 460;
-}
 
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
@@ -259,8 +258,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
   }, [handleKeyDown]); // Dependency array includes handleKeyDown
 
   let containerStyle = {
-      height: window.innerHeight,
       width: window.innerWidth,
+      height: window.innerHeight,
       backgroundColor: 'transparent',
       position: 'relative',  
     };
@@ -501,20 +500,18 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           ...containerStyle, 
         }}
       >
-        {(showSquare && !pdfSelectedComponents) &&
         <div 
             style={{
                 position: 'absolute',
-                top: '13vh',
-                left: '50vw',
+                top: '15.5vh',
+                left: '52vw',
                 width: '37vw',
-                height: '70vh',
+                height: '67vh',
                 border: '2px solid #cacbcb',
                 borderRadius: '10px'
             }}
         ></div>
-        }
-
+  
         {components.map((c, i) => (
         <React.Fragment key={i}> 
         <Draggable key={i} 
@@ -724,8 +721,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
 } 
 
 function getComponentsPositions(componentsData, type) {
-  const centerX = window.innerWidth * 0.16;
-  const centerY = window.innerHeight * 0.336;
+  const centerX = window.innerWidth * 0.1599;
+  const centerY = window.innerHeight * 0.359;
   let radius, numberOfComponents;
 
   if(type === 'Principle') {

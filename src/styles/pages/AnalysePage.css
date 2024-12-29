@@ -111,8 +111,9 @@
   
 .a-ol-compass {
     position: fixed;   
-    top: 0vh;           
-    left: 0vw;           
+    top: 50vh;           
+    left: 50vw;           
+    transform: translate(-50%, -50%);
 }
 
 .a-definitions-container {

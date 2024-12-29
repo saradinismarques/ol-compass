@@ -51,11 +51,11 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     if (position === "center")
       return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
     else if (position === "center-2")
-      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.485 };
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.508 };
     else if (position === "left") 
       return { x: window.innerWidth * 0.4, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
     else if (position === "left-2") 
-      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.485 };
+      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.508 };
   };
 
   const center = getCenter(position);

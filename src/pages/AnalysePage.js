@@ -119,7 +119,7 @@ const AnalysePage = () => {
         });
     };
 
-    const renderToCanvas = async(component, pdf, x, y, scale, resize) => {
+    const renderToCanvas = async(component, pdf, x, y, size, scale, resize) => {
         const container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.top = '-9999px';
@@ -139,9 +139,17 @@ const AnalysePage = () => {
         const imgData = canvas.toDataURL('image/png');
  
         // Original dimensions of the captured canvas
-        const imgWidth = canvas.width; // In pixels
-        const imgHeight = canvas.height; // In pixels
-  
+        let imgWidth, imgHeight;
+        if(size === 'auto') {
+            imgWidth = canvas.width; // In pixels
+            imgHeight = canvas.height; // In pixels
+        } else  {
+            imgWidth = size * scale; // In pixels
+            imgHeight = (730/1536) * imgWidth; // In pixels
+        }
+        console.log(window.innerWidth, window.innerHeight);
+        console.log(imgWidth, imgHeight);
+
         // Convert pixel dimensions to mm
         const pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
         const contentWidth = imgWidth * pixelToMm * resize;
@@ -160,7 +168,7 @@ const AnalysePage = () => {
                     mode={currentMode} 
                     type={type} />
             </State>,
-            pdf, 20, 5, 3, 0.4
+            pdf, 20, 5, 'auto', 3, 0.4
         );
 
         // Definitions
@@ -185,7 +193,7 @@ const AnalysePage = () => {
                         </div>
                     ))}
             </div>,
-            pdf, 20, 60, 3, 0.3
+            pdf, 20, 60, 'auto', 3, 0.3
         );
     };
 
@@ -262,15 +270,15 @@ const AnalysePage = () => {
                     D
                 </button>
             </div>,
-                pdf, 20, 195, 3, 0.3
+                pdf, 20, 195, 'auto', 3, 0.3
         );
 
         // Big Wave
         let x;
         if(currentMode === "analyse-a-all") 
-            x = -185;
+            x = -223;
         else
-            x = -150;
+            x = -188;
 
         await renderToCanvas(
             <State>
@@ -280,7 +288,7 @@ const AnalysePage = () => {
                     pdfComponents = {componentsRef.current}
                 /> 
             </State>,
-            pdf, x, -10, 3, 0.4   
+            pdf, x, -24, 1660, 3, 0.4   
         );
          
         if(currentMode === 'analyse-a-all')
