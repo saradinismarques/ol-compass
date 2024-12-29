@@ -136,7 +136,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
               arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
 
             arrowX2 = data.x + 158;
-            arrowY2 = data.y + 238;
+            arrowY2 = data.y + 246;
 
             updatedComponents[id].textAreaX = textAreaX;
             updatedComponents[id].textAreaY = textAreaY;
@@ -288,6 +288,23 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
     else 
       topTip = true;
 
+      const getTip = () => {
+        const textarea = textareaRefs.current[id];
+        let tip = 28;
+  
+        if (!textarea) return tip; // return base height if textarea is not available
+  
+        if(textarea.scrollHeight >= 90 && textarea.scrollHeight < 145)
+          tip = 60;
+        else if(textarea.scrollHeight >= 145 && textarea.scrollHeight < 182)
+          tip = 83;
+        else if(textarea.scrollHeight >= 182)
+          tip = 110;
+  
+        return tip;
+        ;
+      };
+
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
 
@@ -311,7 +328,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
         arrowX2 = textAreaRect.left + textAreaRect.width / 2;
 
         if(topTip)
-          arrowY2 = textAreaRect.top + textAreaRect.height / 2;
+          arrowY2 = textAreaRect.top + textAreaRect.height / 2 + getTip();
         else
           arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 30;
 
@@ -358,12 +375,11 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
   const TextArea = ({ id, position, value }) => {
     // Focus the textarea when the activeId changes
     useEffect(() => {
-    if (textareaRefs.current[id] && id === activeIdRef.current && !isProjectNameFocused) {
-      textareaRefs.current[id].focus();
-    }
-  }, [id]); // Only re-focus when the activeId changes
+      if (textareaRefs.current[id] && id === activeIdRef.current && !isProjectNameFocused) {
+        textareaRefs.current[id].focus();
+      }
+    }, [id]); // Only re-focus when the activeId changes
 
-    // Preserve cursor position after value updates
     useEffect(() => {
       if (
         textareaRefs.current[id] &&
@@ -376,7 +392,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
   
     const handleInputChange = (e) => {
       const { value, selectionStart, selectionEnd } = e.target;
-  
+          
       // Update the text and cursor position
       setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
@@ -417,6 +433,23 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
         }
     };
 
+    const getTextAreaHeight = () => {
+      const textarea = textareaRefs.current[id];
+      let height = 50;
+
+      if (!textarea) return height; // return base height if textarea is not available
+      console.log(textarea.scrollHeight);
+      if(textarea.scrollHeight >= 90 && textarea.scrollHeight < 145)
+        height = 100;
+      else if(textarea.scrollHeight >= 145 && textarea.scrollHeight < 182)
+        height = 150;
+      else if(textarea.scrollHeight >= 182)
+        height = 200;
+
+      return height;
+      ;
+    };
+
     return (
         <div>
         <style type="text/css">
@@ -450,7 +483,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             spellCheck="false"
             style={{
               width: "100px",
-              height: "50px",
+              height: `${getTextAreaHeight()}px`,
               fontFamily: "Handlee-Regular, sans-serif",
               fontSize: "14px",
               padding: "8px",
@@ -461,6 +494,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
               resize: "none",
               whiteSpace: "pre-wrap", // Preserve line breaks and whitespace
               overflowWrap: "break-word", // Wrap long words onto the next line
+              overflow: "hidden",
+              lineHeight: "normal"
             }}
           />
           }
@@ -469,7 +504,6 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           <div
             style={{
               width: "100px",
-              height: "50px",
               fontFamily: "Handlee-Regular, sans-serif",
               fontSize: "14px",
               padding: "8px",
