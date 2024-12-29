@@ -119,7 +119,7 @@ const AnalysePage = () => {
         });
     };
 
-    const renderToCanvas = async(component, pdf, x, y, size, scale, resize) => {
+    const renderToCanvas = async(component, pdf, x, y, size, resizeFactor) => {
         const container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.top = '-9999px';
@@ -127,12 +127,13 @@ const AnalysePage = () => {
 
         const root = createRoot(container);
         root.render(component);
+        
+        const scale = 3; // max = 9
 
         // Wait for the next frame to ensure the component is fully rendered
         await new Promise((resolve) => setTimeout(resolve, 0));
 
         const canvas = await html2canvas(container, { scale: scale, logging: true, backgroundColor: null });
-
         root.unmount(); // Clean up the root
 
         //let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
@@ -141,19 +142,17 @@ const AnalysePage = () => {
         // Original dimensions of the captured canvas
         let imgWidth, imgHeight;
         if(size === 'auto') {
-            imgWidth = canvas.width; // In pixels
-            imgHeight = canvas.height; // In pixels
+            imgWidth = canvas.width / scale; // In pixels
+            imgHeight = canvas.height / scale; // In pixels
         } else  {
-            imgWidth = size * scale; // In pixels
+            imgWidth = size; // In pixels
             imgHeight = (730/1536) * imgWidth; // In pixels
         }
-        console.log(window.innerWidth, window.innerHeight);
-        console.log(imgWidth, imgHeight);
 
         // Convert pixel dimensions to mm
         const pixelToMm = 25.4 / 96; // Conversion factor (1 inch = 25.4 mm, screen DPI = 96)
-        const contentWidth = imgWidth * pixelToMm * resize;
-        const contentHeight = imgHeight * pixelToMm * resize;
+        const contentWidth = imgWidth * pixelToMm * resizeFactor;
+        const contentHeight = imgHeight * pixelToMm * resizeFactor;
   
         pdf.addImage(imgData, 'PNG', x, y, contentWidth, contentHeight);
          
@@ -168,7 +167,7 @@ const AnalysePage = () => {
                     mode={currentMode} 
                     type={type} />
             </State>,
-            pdf, 20, 5, 'auto', 3, 0.4
+            pdf, 12, 5, 'auto', 1.2
         );
 
         // Definitions
@@ -193,7 +192,7 @@ const AnalysePage = () => {
                         </div>
                     ))}
             </div>,
-            pdf, 20, 60, 'auto', 3, 0.3
+            pdf, 20, 60, 'auto', 1
         );
     };
 
@@ -270,15 +269,15 @@ const AnalysePage = () => {
                     D
                 </button>
             </div>,
-                pdf, 20, 195, 'auto', 3, 0.3
+                pdf, 20, 195, 'auto', 1
         );
 
         // Big Wave
         let x;
         if(currentMode === "analyse-a-all") 
-            x = -223;
+            x = -225;
         else
-            x = -188;
+            x = -189;    ;
 
         await renderToCanvas(
             <State>
@@ -288,7 +287,7 @@ const AnalysePage = () => {
                     pdfComponents = {componentsRef.current}
                 /> 
             </State>,
-            pdf, x, -24, 1660, 3, 0.4   
+            pdf, x, -29, 2000, 1
         );
          
         if(currentMode === 'analyse-a-all')

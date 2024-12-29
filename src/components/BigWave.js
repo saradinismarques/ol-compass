@@ -500,10 +500,11 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           ...containerStyle, 
         }}
       >
+      {(showSquare && !pdfSelectedComponents) &&
         <div 
             style={{
                 position: 'absolute',
-                top: '15.5vh',
+                top: '17vh',
                 left: '52vw',
                 width: '37vw',
                 height: '67vh',
@@ -511,7 +512,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
                 borderRadius: '10px'
             }}
         ></div>
-  
+      }
         {components.map((c, i) => (
         <React.Fragment key={i}> 
         <Draggable key={i} 
