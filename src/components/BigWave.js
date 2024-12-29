@@ -724,8 +724,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
 } 
 
 function getComponentsPositions(componentsData, type) {
-  const centerX = size/2;
-  const centerY = size/2;
+  const centerX = window.innerWidth * 0.16;
+  const centerY = window.innerHeight * 0.336;
   let radius, numberOfComponents;
 
   if(type === 'Principle') {
