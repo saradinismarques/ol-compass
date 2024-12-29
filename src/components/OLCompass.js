@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useContext } from 'rea
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import { color } from 'd3';
 
 // Sizes and positions 
 let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
@@ -565,7 +566,7 @@ const getWaveFill = (mode, colors, component) => {
 const getTextFill = (mode, colors, component) => {
   // Analyse
   if(mode.startsWith("analyse")) 
-        return "#cacbcb";
+        return colors['Wave'][component.type];
   return colors['Label'][component.type];
 }
 
@@ -577,7 +578,7 @@ const getStroke = (mode, colors, selectedComponents, component) => {
 
   // Analyse
   if(mode.startsWith("analyse"))
-    return '#cacbcb';
+    return colors['Wave'][component.type];
   return 'none';
 };
 
