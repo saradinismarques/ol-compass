@@ -127,7 +127,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
         setComponents((prevComponents) => {
             const updatedComponents = [...prevComponents];
             textAreaX = data.x + 100;
-            textAreaY = data.y + 180;
+            textAreaY = data.y + 175;
             arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
 
             if(components[id].type === 'Principle')
@@ -135,8 +135,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             else
               arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
 
-            arrowX2 = data.x + 158;
-            arrowY2 = data.y + 246;
+            arrowX2 = data.x + 172;
+            arrowY2 = data.y + 242;
 
             updatedComponents[id].textAreaX = textAreaX;
             updatedComponents[id].textAreaY = textAreaY;
@@ -196,9 +196,9 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           arrowX2 = textAreaRect.left + textAreaRect.width / 2;
 
           if(topTip)
-            arrowY2 = textAreaRect.top + textAreaRect.height / 2;
+            arrowY2 = textAreaRect.top + textAreaRect.height / 2 + 34;
           else
-            arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 30;
+            arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
 
           updatedComponents[id].arrowX1 = arrowX1;
           updatedComponents[id].arrowY1 = arrowY1;
@@ -288,23 +288,6 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
     else 
       topTip = true;
 
-      const getTip = () => {
-        const textarea = textareaRefs.current[id];
-        let tip = 28;
-  
-        if (!textarea) return tip; // return base height if textarea is not available
-  
-        if(textarea.scrollHeight >= 90 && textarea.scrollHeight < 145)
-          tip = 60;
-        else if(textarea.scrollHeight >= 145 && textarea.scrollHeight < 182)
-          tip = 83;
-        else if(textarea.scrollHeight >= 182)
-          tip = 110;
-  
-        return tip;
-        ;
-      };
-
     setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
 
@@ -328,9 +311,9 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
         arrowX2 = textAreaRect.left + textAreaRect.width / 2;
 
         if(topTip)
-          arrowY2 = textAreaRect.top + textAreaRect.height / 2 + getTip();
+          arrowY2 = textAreaRect.top + textAreaRect.height / 2 + 34;
         else
-          arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 30;
+          arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
 
         updatedComponents[id].arrowX1 = arrowX1;
         updatedComponents[id].arrowY1 = arrowY1;
@@ -433,23 +416,6 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
         }
     };
 
-    const getTextAreaHeight = () => {
-      const textarea = textareaRefs.current[id];
-      let height = 50;
-
-      if (!textarea) return height; // return base height if textarea is not available
-      console.log(textarea.scrollHeight);
-      if(textarea.scrollHeight >= 90 && textarea.scrollHeight < 145)
-        height = 100;
-      else if(textarea.scrollHeight >= 145 && textarea.scrollHeight < 182)
-        height = 150;
-      else if(textarea.scrollHeight >= 182)
-        height = 200;
-
-      return height;
-      ;
-    };
-
     return (
         <div>
         <style type="text/css">
@@ -482,8 +448,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             placeholder="Enter your notes here"
             spellCheck="false"
             style={{
-              width: "100px",
-              height: `${getTextAreaHeight()}px`,
+              width: "130px",
+              height: "50px",
               fontFamily: "Handlee-Regular, sans-serif",
               fontSize: "14px",
               padding: "8px",
@@ -503,7 +469,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           {pdfSelectedComponents && 
           <div
             style={{
-              width: "100px",
+              width: "130px",
+              height: "50px",
               fontFamily: "Handlee-Regular, sans-serif",
               fontSize: "14px",
               padding: "8px",
