@@ -266,6 +266,12 @@ const AnalysePage = () => {
         );
 
         // Big Wave
+        let x;
+        if(currentMode === "analyse-a-all") 
+            x = -185;
+        else
+            x = -150;
+
         await renderToCanvas(
             <State>
                 <BigWave 
@@ -274,7 +280,7 @@ const AnalysePage = () => {
                     pdfComponents = {componentsRef.current}
                 /> 
             </State>,
-            pdf, -150, -10, 3, 0.4
+            pdf, x, -10, 3, 0.4   
         );
          
         if(currentMode === 'analyse-a-all')

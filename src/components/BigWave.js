@@ -670,7 +670,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           </div>
         </Draggable>
         
-        {selectedComponentsRef.current.includes(c.code) && (pdfSelectedComponents && c.textAreaData.length !== 0 || !pdfSelectedComponents) &&
+        {selectedComponentsRef.current.includes(c.code) && ((pdfSelectedComponents && c.textAreaData.length !== 0) || !pdfSelectedComponents) &&
         <div
           style={{
             opacity: getWaveOpacity(mode, selectedComponents, c, opacityCounter, allComponents)
