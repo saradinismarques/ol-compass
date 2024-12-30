@@ -26,7 +26,7 @@
     bottom: 5vh;
     left: 9vw; /* Positioning at the bottom of the page */
     display: flex;
-    gap: 20px; /* Space between buttons */
+    gap: 28px; /* Space between buttons */
     align-items: center;
     justify-items: center;
     background-color: transparent;
@@ -119,7 +119,13 @@
 .a-definitions-container {
     top: 15vh;
     left: 9vw;
-    width: 220px;
+}
+
+.a-definitions-top-line {
+    width: 260px;
+    height: 2px;
+    background-color: var(--background-color);
+    margin-bottom: -10px;
 }
 
 .a-definitions-container.fixed {
@@ -128,25 +134,26 @@
 
 .a-definition {
     margin-bottom: 5px;
+    width: 185px;
 }
 
 .a-definition-title {
-    font-size: 13px;
+    font-size: 10px;
     color: var(--title-color);
     background: linear-gradient(
         to right, 
         var(--background-color) 20%, /* Main color covers 70% of the area */
-        white 80%                  /* Fades into white by 100% */
+        transparent 70%                  /* Fades into white by 100% */
     );
-    padding: 3px;
+    padding: 2px;
     padding-left: 5px;
     text-transform: uppercase;
-    letter-spacing: 0.6px;
+    letter-spacing: 0.6px;  
     font-weight: 500;
 }
 
 .a-definition-text {
-    font-size: 13px;
+    font-size: 10px;
     font-weight: 300;
     margin-top: -10px;
 }

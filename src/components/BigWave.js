@@ -248,7 +248,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
     setActiveRef(id);
 
     if (onDragStop) {
-        const title = convertLabel(components[id].code);
+        const title = `${components[id].code} - ${components[id].label}`;
 
         onDragStop(
           components[id].code,
@@ -360,7 +360,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
     });
 
     if (onDragStop) {
-        const title = convertLabel(components[id].code);
+        const title = `${components[id].code} - ${components[id].label}`;
 
         onDragStop(
           components[id].code,
@@ -422,7 +422,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
       });
 
       if (onDragStop) {
-        const title = convertLabel(components[id].code);
+        const title = `${components[id].code} - ${components[id].label}`;
 
         onDragStop(
             components[id].code,
@@ -535,13 +535,13 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           ...containerStyle, 
         }}
       >
-      {(showSquare && !pdfSelectedComponents) &&
+      {(showSquare && !pdfSelectedComponents) && 
         <div 
             style={{
                 position: 'absolute',
                 top: '17vh',
-                left: '52vw',
-                width: '37vw',
+                left: '47vw',
+                width: '50vw',
                 height: '67vh',
                 border: '2px solid #cacbcb',
                 borderRadius: '10px'

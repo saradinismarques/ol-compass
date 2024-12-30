@@ -59,8 +59,8 @@ const CompassIcon = ({ mode, type }) => {
     <div 
       style={{
         ...containerStyle, 
-        left: `${16.5}vw`, 
-        top: `${21}vh`, 
+        left: '16.5vw', 
+        top: '21vh', 
       }}
     >
       {components.map((c, i) => (
@@ -92,8 +92,8 @@ const CompassIcon = ({ mode, type }) => {
         style={{
           position: 'absolute',
           top: '50%',            // Reset top for positioning
-          left: '50%',
-          transform: `${mode.startsWith('analyse') ? 'translate(-50%, -50%)' : 'translate(-50%, -50%)'}`,
+          left: '50%',            // Reset top for positioning
+          transform: 'translate(-50%, -50%)',
           pointerEvents: 'none',
           userSelect: 'none',
           zIndex: '10',

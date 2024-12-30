@@ -9,7 +9,8 @@ import jsPDF from "jspdf";
 import { encodedFonts } from '../utils/Fonts.js';
 import { State, StateContext } from "../State";
 import '../styles/pages/AnalysePage.css';
-import coverImage from '../assets/images/PDF-cover-background.png';
+import coverImage from '../assets/images/analyse/PDF-cover-background.png';
+import indexImage from '../assets/images/analyse/PDF-index.png';
 import { createRoot } from 'react-dom/client';
 
 const AnalysePage = () => {
@@ -179,12 +180,17 @@ const AnalysePage = () => {
                     mode={currentMode} 
                     type={type} />
             </State>,
-            pdf, 12, 5, 'auto', 1.2
+            pdf, 20, 6, 'auto', 1.1
         );
 
         // Definitions
         await renderToCanvas(
             <div className='a-definitions-container'>
+                {/* <div className="a-definitions-top-line"
+                    style={{
+                        background: `${colors['Intro Text'][type]}`,
+                    }}>
+                </div> */}
                 {components
                     .filter((c) => c.type === type) // Filter by the specific type
                     .map((c, i) => (
@@ -195,7 +201,7 @@ const AnalysePage = () => {
                                     background: `linear-gradient(
                                         to right, 
                                         ${colors['Wave'][type]} 20%, 
-                                        white 80%
+                                        white 85%
                                     )`,
                                 }}>
                                 {c.title}
@@ -204,25 +210,25 @@ const AnalysePage = () => {
                         </div>
                     ))}
             </div>,
-            pdf, 20, 60, 'auto', 1
+            pdf, 25, 55, 'auto', 1
         );
     };
 
     const addTaskPage = async(pdf, text, currentMode, task, type) => {
-        const a4Width = pdf.internal.pageSize.getWidth();
-        const a4Height = pdf.internal.pageSize.getHeight();
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
 
         pdf.addPage();
         
         // Margin
         pdf.setFillColor('#dfe9e9'); // RGB for green
-        pdf.rect(0, 0, a4Width, a4Height, 'F'); // Draw a filled rectangle covering the entire page
+        pdf.rect(0, 0, pageWidth, pageHeight, 'F'); // Draw a filled rectangle covering the entire page
 
-        const rectWidth = a4Width - 20;  // Width of the rectangle
-        const rectHeight = a4Height - 20; // Height of the rectangle
-        const rectX = (a4Width - rectWidth) / 2;  // Centered X position
-        const rectY = (a4Height - rectHeight) / 2; // Centered Y position
-        const borderRadius = 5; // Radius of the rounded corners
+        const rectWidth = pageWidth - 16;  // Width of the rectangle
+        const rectHeight = pageHeight - 16; // Height of the rectangle
+        const rectX = (pageWidth - rectWidth) / 2;  // Centered X position
+        const rectY = (pageHeight - rectHeight) / 2; // Centered Y position
+        const borderRadius = 3; // Radius of the rounded corners
                 
         pdf.setFillColor('white'); // RGB for green
         pdf.roundedRect(rectX, rectY, rectWidth, rectHeight, borderRadius, borderRadius, 'F'); // Draw a filled rectangle covering the entire page
@@ -234,32 +240,32 @@ const AnalysePage = () => {
         const remainingText = 'focus';
 
         pdf.setFont('Manrope', 'medium');
-        pdf.setFontSize(13);
+        pdf.setFontSize(12);
         pdf.setTextColor("#0a4461");
 
         let currentText;
         if(type === 'All' || task !== 'A') {
             currentText = text;
-            pdf.text(currentText, 20, 190);
+            pdf.text(currentText, 20, 151);
         } else {
             currentText = mainText.replace(highlightText, '').trim();
            
-            pdf.text(currentText, 20, 190);
+            pdf.text(currentText, 20, 151);
 
             // Set the highlight color for the key part (the word to be highlighted)
             pdf.setFont('Manrope', 'bold');
             pdf.setTextColor(colors['Wave'][type]);
-            pdf.text(highlightText, 112, 190);
+            pdf.text(highlightText, 105, 151);
 
             // Set the default color again for the 'focus' part
-            let padding = 118;
-            if(type === 'Principle') padding += 22; 
-            else if(type === 'Perspective') padding += 29; 
-            else if(type === 'Dimension') padding += 24; 
+            let padding = 105;
+            if(type === 'Principle') padding += 25.5; 
+            else if(type === 'Perspective') padding += 32; 
+            else if(type === 'Dimension') padding += 27.5; 
 
             pdf.setFont('Manrope', 'medium');
             pdf.setTextColor("#0a4461");
-            pdf.text(remainingText, padding, 190);
+            pdf.text(remainingText, padding, 151);
         }
 
         // Subtask Menu
@@ -281,15 +287,15 @@ const AnalysePage = () => {
                     D
                 </button>
             </div>,
-                pdf, 20, 195, 'auto', 1
+                pdf, 18, 155, 'auto', 0.74
         );
 
         // Big Wave
         let x;
         if(currentMode === "analyse-a-all") 
-            x = -225;
+            x = -135;
         else
-            x = -189;    ;
+            x = -100;    ;
 
         await renderToCanvas(
             <State>
@@ -299,7 +305,7 @@ const AnalysePage = () => {
                     pdfComponents = {componentsRef.current}
                 /> 
             </State>,
-            pdf, x, -29, 2000, 1
+            pdf, x, -17, 1485, 1
         );
          
         if(currentMode === 'analyse-a-all')
@@ -309,7 +315,11 @@ const AnalysePage = () => {
     };
 
     const handleDownloadPDF = async () => {
-        const pdf = new jsPDF("landscape", "mm", "a4");
+        // Define custom dimensions for a 16:9 aspect ratio
+        const pageWidth = 297; // Width in mm
+        const pageHeight = (9 / 16) * pageWidth; // Height in mm for 16:9
+
+        const pdf = new jsPDF("landscape", "mm", [pageWidth, pageHeight]); // Use custom dimensions
         
         // Loading Fonts
         pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium']);
@@ -319,24 +329,24 @@ const AnalysePage = () => {
         pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-Bold']);
         pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
 
-        // Add the image as a background
-        const pageWidth = pdf.internal.pageSize.getWidth();
-        const pageHeight = pdf.internal.pageSize.getHeight();
         pdf.addImage(coverImage, 'PNG', 0, 0, pageWidth, pageHeight);
 
-        // Add text on top of the background
+        // Cover Page
         pdf.setFont('Manrope', 'semi-bold');
         pdf.setTextColor('white'); // RGB for green
-        pdf.setFontSize(60);
-        pdf.text(projectName, 30, 40);
+        pdf.setFontSize(55);
+        pdf.text(projectName, 15, 40);
 
         // Index Page
         pdf.addPage();
+        pdf.addImage(indexImage, 'PNG', 0, 0, pageWidth, pageHeight);
 
         // Task A All Page
-        let text = 'The OL aspects/potential of your project that I could initially capture';
-        await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
-        
+        let text;
+        if (componentsRef.current.length !== 0) {
+            text = 'The OL aspects/potential of your project that I could initially capture';
+            await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
+        }
         // Task A Principles
         if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
             text = 'The OL aspects/potential of your project > PRINCIPLES focus';
@@ -355,7 +365,10 @@ const AnalysePage = () => {
         //Task B
         //Task C
         //Task D
-        pdf.save("Visual_Report.pdf");
+        if (projectName.length !== 0) 
+            pdf.save(`Visual_Report_${projectName.replace(/ /g, '_')}.pdf`);
+        else 
+            pdf.save(`Visual_Report.pdf`);
     };
 
     // Handle input change for project name
