@@ -54,69 +54,81 @@ const AnalysePage = () => {
     }, [handleKeyDown]);
 
     const handleDragStop = (code, title, label, headline, type, angle, x, y, textAreaX, textAreaY, textAreaData, arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip) => {
-        setComponents((prevComponents) => {
-            const componentExists = prevComponents.some((component) => component.code === code);
-        
-            const updatedComponents = componentExists
-                ? prevComponents.map((component) =>
-                      component.code === code
-                          ? {
-                                ...component, // Keep existing fields
-                                title,
-                                label,
-                                headline,
-                                type,
-                                angle,
-                                x,
-                                y,
-                                textAreaX,
-                                textAreaY,
-                                textAreaData,
-                                arrowX1,
-                                arrowY1,
-                                arrowX2,
-                                arrowY2,
-                                topTip,
-                                rightTip
-                            }
-                          : component // Keep components that are not being updated as is
-                  )
-                : [
-                      ...prevComponents,
-                      {
-                          code,
-                          title,
-                          label,
-                          headline,
-                          type,
-                          angle,
-                          x,
-                          y,
-                          textAreaX,
-                          textAreaY,
-                          textAreaData,
-                          arrowX1,
-                          arrowY1,
-                          arrowX2,
-                          arrowY2,
-                          topTip,
-                          rightTip
-                      },
-                  ];
-        
-            const sortedComponents = updatedComponents.sort((a, b) => {
-                const indexA = allComponents.indexOf(a.code);
-                const indexB = allComponents.indexOf(b.code);
-        
-                if (indexA === -1) return 1;
-                if (indexB === -1) return -1;
-        
-                return indexA - indexB;
+        // Delete if receives null
+        if(title === null) {
+            // Remove the component from selectedComponents
+            setComponents((prevComponents) => {
+                const updatedComponents = prevComponents.filter(
+                (component) => component.code !== code
+                );
+                componentsRef.current = updatedComponents; // Update the ref
+                return updatedComponents;
             });
-        
-            componentsRef.current = sortedComponents;
-            return sortedComponents;
-        });
+        } else {
+            setComponents((prevComponents) => {
+                const componentExists = prevComponents.some((component) => component.code === code);
+            
+                const updatedComponents = componentExists
+                    ? prevComponents.map((component) =>
+                          component.code === code
+                              ? {
+                                    ...component, // Keep existing fields
+                                    title,
+                                    label,
+                                    headline,
+                                    type,
+                                    angle,
+                                    x,
+                                    y,
+                                    textAreaX,
+                                    textAreaY,
+                                    textAreaData,
+                                    arrowX1,
+                                    arrowY1,
+                                    arrowX2,
+                                    arrowY2,
+                                    topTip,
+                                    rightTip
+                                }
+                              : component // Keep components that are not being updated as is
+                      )
+                    : [
+                          ...prevComponents,
+                          {
+                              code,  // New component
+                              title,
+                              label,
+                              headline,
+                              type,
+                              angle,
+                              x,
+                              y,
+                              textAreaX,
+                              textAreaY,
+                              textAreaData,
+                              arrowX1,
+                              arrowY1,
+                              arrowX2,
+                              arrowY2,
+                              topTip,
+                              rightTip
+                          },
+                      ];
+            
+                const sortedComponents = updatedComponents.sort((a, b) => {
+                    const indexA = allComponents.indexOf(a.code);
+                    const indexB = allComponents.indexOf(b.code);
+            
+                    if (indexA === -1) return 1;
+                    if (indexB === -1) return -1;
+            
+                    return indexA - indexB;
+                });
+            
+                componentsRef.current = sortedComponents;
+                return sortedComponents;
+            });
+        } 
     };
 
     const renderToCanvas = async(component, pdf, x, y, size, resizeFactor) => {

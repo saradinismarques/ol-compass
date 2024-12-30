@@ -55,6 +55,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
   const initialComponentsRef = useRef(initialComponents);
   const textareaRefs = useRef({}); // Store refs dynamically for all textareas
   const waveRefs = useRef({});   // Store refs dynamically for all circles
+  const compassRef = useRef({});
 
   useEffect(() => {
       activeIdRef.current = activeId;
@@ -79,8 +80,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
     setComponents((prevComponents) =>
         prevComponents.map((component) => ({
           ...component,
+          initialX: isExplanationPage ? component.x : component.x-window.innerWidth/2.94+window.innerWidth/11.1,
           x: isExplanationPage ? component.x : component.x-window.innerWidth/2.94+window.innerWidth/11.1,
-          y: isExplanationPage ? component.y : component.y
         }))
       );
   }, [isExplanationPage]);
@@ -119,7 +120,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
 
         return updatedComponents;
     });
-    // Initialization
+    // Initialization if doesn't exist already
     if(!selectedComponentsRef.current.includes(components[id].code)) {
         topTip = components[id].topTip;
         rightTip = components[id].rightTip;
@@ -146,68 +147,102 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
 
             return updatedComponents;
         });
-    } 
-    
-    setSelectedComponents(prevComponents => {
-      if (!prevComponents.includes(components[id].code)) {
-          const newComponents = [...prevComponents, components[id].code]; // Add the component if it doesn't already exist
-          selectedComponentsRef.current = newComponents;
-          return newComponents; // Return updated state
-      }
-  
-      // If it already exists, just return the previous state
-      return prevComponents;
-    });
-    
+        
+        setSelectedComponents(prevComponents => {
+              const newComponents = [...prevComponents, components[id].code]; // Add the component if it doesn't already exist
+              selectedComponentsRef.current = newComponents;
+              return newComponents; // Return updated state
+        });    
+    } else if (selectedComponentsRef.current.includes(components[id].code) && textareaRefs.current[id]) {
 
-    if (textareaRefs.current[id]) {
-      const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
-  
-      if(waveRect.left + waveRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) 
-        rightTip = false;
-      else 
-        rightTip = true;
+      // Get the compass circle dimensions and center
+      const compass = compassRef.current.getBoundingClientRect();
+      const compassCenterX = compass.left + compass.width / 2;
+      const compassCenterY = compass.top + compass.height / 2;
+      const compassRadius = compass.width / 2; // Assumes it's a perfect circle
 
-      if(waveRect.top + waveRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) 
-        topTip = false;
-      else 
-        topTip = true;
+      // Calculate the distance from the center of the compass to the component's final position
+      const componentCenterX = waveRect.left + waveRect.width / 2;
+      const componentCenterY = waveRect.top + waveRect.height / 2;
+      const distance = Math.sqrt(
+        Math.pow(componentCenterX - compassCenterX, 2) + Math.pow(componentCenterY - compassCenterY, 2)
+      );
+      // If we want to remove the component
+      if (distance <= compassRadius) {
+        // Remove the component from selectedComponents
+        setSelectedComponents((prevComponents) => {
+          const updatedComponents = prevComponents.filter(
+            (componentCode) => componentCode !== components[id].code
+          );
+          selectedComponentsRef.current = updatedComponents; // Update the ref
+          return updatedComponents;
+        });
 
+        // Go back to initial positions
         setComponents((prevComponents) => {
           const updatedComponents = [...prevComponents];
-          textAreaX = components[id].textAreaX;
-          textAreaY = components[id].textAreaY;
-          
-          if(rightTip) { 
-            arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
-            if(components[id].type === 'Principle') 
-              arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
-            else 
-              arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
-          } else {
-            arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3;
-            if(components[id].type === 'Principle') 
-              arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
-            else 
-              arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
-          }
-
-          arrowX2 = textAreaRect.left + textAreaRect.width / 2;
-
-          if(topTip)
-            arrowY2 = textAreaRect.top + textAreaRect.height / 2 + 34;
-          else
-            arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
-
-          updatedComponents[id].arrowX1 = arrowX1;
-          updatedComponents[id].arrowY1 = arrowY1;
-          updatedComponents[id].arrowX2 = arrowX2;
-          updatedComponents[id].arrowY2 = arrowY2;
-          updatedComponents[id].topTip = topTip;
-          updatedComponents[id].rightTip = rightTip;
-
+          updatedComponents[id].x = updatedComponents[id].initialX;
+          updatedComponents[id].y = updatedComponents[id].initialY;
+          updatedComponents[id].angle = updatedComponents[id].initialAngle;
+  
           return updatedComponents;
-      });
+        });
+
+        if (onDragStop) 
+          onDragStop(
+            components[id].code,
+            null
+          ); // send null code to Analyse to remove it there too
+        return; // Exit early as the component is removed
+      } else {
+        const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
+  
+        if(waveRect.left + waveRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) 
+          rightTip = false;
+        else 
+          rightTip = true;
+
+        if(waveRect.top + waveRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) 
+          topTip = false;
+        else 
+          topTip = true;
+
+          setComponents((prevComponents) => {
+            const updatedComponents = [...prevComponents];
+            textAreaX = components[id].textAreaX;
+            textAreaY = components[id].textAreaY;
+            
+            if(rightTip) { 
+              arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
+              if(components[id].type === 'Principle') 
+                arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+              else 
+                arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+            } else {
+              arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3;
+              if(components[id].type === 'Principle') 
+                arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+              else 
+                arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+            }
+
+            arrowX2 = textAreaRect.left + textAreaRect.width / 2;
+
+            if(topTip)
+              arrowY2 = textAreaRect.top + textAreaRect.height / 2 + 34;
+            else
+              arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
+
+            updatedComponents[id].arrowX1 = arrowX1;
+            updatedComponents[id].arrowY1 = arrowY1;
+            updatedComponents[id].arrowX2 = arrowX2;
+            updatedComponents[id].arrowY2 = arrowY2;
+            updatedComponents[id].topTip = topTip;
+            updatedComponents[id].rightTip = rightTip;
+
+            return updatedComponents;
+        });
+      }
     }
 
     setActiveRef(id);
@@ -513,6 +548,20 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             }}
         ></div>
       }
+      <div 
+        ref={compassRef}
+        style={{
+          position: 'absolute',
+          top: "50.8vh",
+          left: "25vw",
+          transform: "translate(-50%, -50%)",
+          width: `${size+size/6}px`,
+          height: `${size+size/6}px`,
+          backgroundColor: "transparent",
+          borderRadius: '50%'
+        }}
+      ></div>
+
         {components.map((c, i) => (
         <React.Fragment key={i}> 
         <Draggable key={i} 
@@ -757,9 +806,12 @@ function getComponentsPositions(componentsData, type) {
     else if(type === 'Dimension')
       angle = angle + Math.PI / 2 - Math.PI*0.005;
 
-    componentsData[i]["x"] = x - waveWidth/2 + window.innerWidth/2.94;
-    componentsData[i]["y"] = y - waveHeight/2 + window.innerHeight/6.85;
-    componentsData[i]["angle"] = angle;
+    componentsData[i]["initialX"] = x - waveWidth/2 + window.innerWidth/2.94;
+    componentsData[i]["initialY"] = y - waveHeight/2 + window.innerHeight/6.85;
+    componentsData[i]["initialAngle"] = angle;
+    componentsData[i]["x"] = componentsData[i]["initialX"];
+    componentsData[i]["y"] = componentsData[i]["initialY"];
+    componentsData[i]["angle"] = componentsData[i]["initialAngle"];
     componentsData[i]["textAreaX"] = x;
     componentsData[i]["textAreaY"] = y;
     componentsData[i]["textAreaData"] = "";
