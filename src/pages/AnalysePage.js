@@ -27,6 +27,8 @@ const AnalysePage = () => {
     const [components, setComponents] = useState([]);
     const [activeTask, setActiveTask] = useState('A'); // Track active button
     const [mode, setMode] = useState('analyse');
+    const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
+    const [isGenerating, setIsGenerating] = useState(false);
 
     const componentsRef = useRef(components);
 
@@ -142,7 +144,7 @@ const AnalysePage = () => {
         const root = createRoot(container);
         root.render(component);
         
-        const scale = 9; // max = 9
+        const scale = 2; // max = 9
 
         // Wait for the next frame to ensure the component is fully rendered
         await new Promise((resolve) => setTimeout(resolve, 0));
@@ -185,6 +187,8 @@ const AnalysePage = () => {
         );
 
         // Definitions
+        if(componentsRef.current.filter((c) => c.type === type).length === 0)
+            return;
         await renderToCanvas(
             <div className='a-definitions-container'>
                 {/* <div className="a-definitions-top-line"
@@ -192,7 +196,7 @@ const AnalysePage = () => {
                         background: `${colors['Intro Text'][type]}`,
                     }}>
                 </div> */}
-                {components
+                {componentsRef.current
                     .filter((c) => c.type === type) // Filter by the specific type
                     .map((c, i) => (
                         <div key={i} className='a-definition'>
@@ -322,12 +326,9 @@ const AnalysePage = () => {
     };
 
     const handleDownloadPDF = async () => {
-        // Define custom dimensions for a 16:9 aspect ratio
-        const pageWidth = 297; // Width in mm
-        const pageHeight = (9 / 16) * pageWidth; // Height in mm for 16:9
-
-        //const pdf = new jsPDF("landscape", "mm", [pageWidth, pageHeight]); // Use custom dimensions
-        
+        const pageWidth = 297; // mm
+        const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
+    
         const pages = [
             async (pdf) => {
                 // Loading Fonts
@@ -350,52 +351,59 @@ const AnalysePage = () => {
                 pdf.addImage(indexImage, "PNG", 0, 0, pageWidth, pageHeight);
             },
             async (pdf) => {
-                // Task A All Page
-                if (componentsRef.current.length !== 0) {
-                    const text = 'The OL aspects/potential of your project that I could initially capture';
-                    await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
-                }
+                 // Task A All Page
+                const text = 'The OL aspects/potential of your project that I could initially capture';
+                await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
             },
             async (pdf) => {
+                  
                 // Task A Principles
-                if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
-                    const text = 'The OL aspects/potential of your project > PRINCIPLES focus';
-                    await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
-                }
+                const text = 'The OL aspects/potential of your project > PRINCIPLES focus';
+                await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
             },
             async (pdf) => {
                 // Task A Perspectives
-                if (componentsRef.current.filter((c) => c.type === 'Perspective').length !== 0) {
-                    const text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-                    await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
-                }
+                const text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+                await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
             },
             async (pdf) => {
                 // Task A Dimensions
-                if (componentsRef.current.filter((c) => c.type === 'Dimension').length !== 0) {
-                    const text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-                    await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
-                }
+                const text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+                await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
             },
             //Task B
             //Task C
             //Task D
         ];
+    
         const pdfBlobs = []; // Store each PDF as a Blob
-        
+        setIsGenerating(true);
+
         try {
             // Generate individual PDFs
             for (let i = 0; i < pages.length; i++) {
+                console.log(`Generating page ${i + 1} of ${pages.length}...`);
+                
                 const pdf = new jsPDF("landscape", "mm", [pageWidth, pageHeight]);
-                await pages[i](pdf);
-    
-                const pdfBlob = pdf.output("blob"); // Save each PDF as a Blob
+                await pages[i](pdf); // Render content for the page
+                console.log(`Page ${i + 1} generated.`);
+                
+                const pdfBlob = pdf.output("blob");
+                console.log(`Blob for page ${i + 1} created:`, pdfBlob);
+                
                 pdfBlobs.push(pdfBlob);
+        
+                 // Use setTimeout to delay progress update (to avoid too many state updates)
+                setTimeout(() => {
+                    setDownloadProgress(((i + 1) / pages.length) * 100);
+                }, 50); // Delay progress updates by 50ms
+                console.log(`Progress updated: ${((i + 1) / pages.length) * 100}%`);
             }
     
             // Merge all individual PDFs
             const mergedPdf = await mergePDFChunks(pdfBlobs);
-    
+            setDownloadProgress(100); // Complete progress
+
             // Save the final merged PDF
             const link = document.createElement("a");
             link.href = URL.createObjectURL(mergedPdf);
@@ -406,9 +414,12 @@ const AnalysePage = () => {
             link.click();
         } catch (error) {
             console.error("Error generating PDF:", error);
-        }        
+        } finally {
+            setIsGenerating(false);
+            setDownloadProgress(0); // Reset progress once done
+        }
     };
-
+    
     // Merge PDF chunks using pdf-lib
     const mergePDFChunks = async (pdfBlobs) => {
         const mergedPdf = await PDFDocument.create();
@@ -494,9 +505,27 @@ const AnalysePage = () => {
                 </button>
                 <button 
                     className='a-generate-pdf-button'
-                    onClick={handleDownloadPDF}>
-                    Generate Visual Report
+                    onClick={handleDownloadPDF}
+                    disabled={isGenerating} // Disable the button while generating
+                    style={{
+                        background: isGenerating 
+                            ? `linear-gradient(to right, #0a4461 ${downloadProgress}%, white ${downloadProgress}%)`
+                            : 'white', // Change background to show progress
+                        color: isGenerating 
+                            ? 'transparent'
+                            : '#0a4461', // Change background to show progress
+                    }}
+                >
+                   Download Visual Report
                 </button>
+                <p style={{
+                        color: isGenerating 
+                            ? '#0a4461'
+                            : 'transparent', // Change background to show progress
+                    }}>
+                    {Math.round(downloadProgress)}% Complete
+                </p>  
+                      
             </div> 
 
             {activeTask === 'B' &&

@@ -30,7 +30,6 @@
     align-items: center;
     justify-items: center;
     background-color: transparent;
-
 }
 
 .a-tasks-nav.fixed {
@@ -63,18 +62,25 @@
 }
 
 .a-generate-pdf-button {
-    height: 25px;
+    height: 2px;
     border: 2px solid #0a4461;
     border-radius: 100px;
     background-color: white;
     font-size: 16px;
     color: #0a4461;
+    width: 200px;
 }
 
 .a-generate-pdf-button:hover {
     cursor: pointer;
-    background-color: #0a4461;
-    color: white;
+    border: 2px solid #136d9a;
+    color: #136d9a;
+}
+
+.a-download-progress {
+    color: #0a4461;
+    margin-left: -10px;
+    
 }
 
 .a-subtask-nav {
@@ -83,30 +89,6 @@
     left: 9vw; /* Positioning at the bottom of the page */
     display: flex;
     gap: 10px;
-}
-  
-.a-subtask-button {
-    width: 35px; /* Default size */
-    height: 35px;
-    border: 2px solid #7d909b;
-    border-radius: 50%;
-    background-color: white;
-    color: #7d909b;
-    font-size: 15px;
-    align-items: center;
-    justify-items: center;
-    outline: none;
-}
-  
-.a-subtask-button.active {
-    background-color: #7d909b;
-    color: white;
-}
-  
-.a-subtask-button:hover {
-    background-color: #7d909b; /* Slight hover effect */
-    color: white;
-    cursor: pointer;
 }
   
 .a-ol-compass {
