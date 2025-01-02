@@ -409,7 +409,11 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
   
     const handleInputChange = (e) => {
       const { value, selectionStart, selectionEnd } = e.target;
-          
+      const textareaHeight = textareaRefs.current[id].scrollHeight;
+
+      if(textareaHeight >= 90)
+        return;
+
       // Update the text and cursor position
       setComponents((prevComponents) => {
         const updatedComponents = [...prevComponents];
