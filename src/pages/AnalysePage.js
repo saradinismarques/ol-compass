@@ -216,11 +216,17 @@ const AnalysePage = () => {
     };
 
     const addTaskPage = async(pdf, text, currentMode, task, type) => {
+        // Loading Fonts
+        pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium']);
+        pdf.addFont('Manrope-Medium.ttf', 'Manrope', 'medium');
+        pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-SemiBold']);
+        pdf.addFont('Manrope-SemiBold.ttf', 'Manrope', 'semi-bold');
+        pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-Bold']);
+        pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
+
         const pageWidth = pdf.internal.pageSize.getWidth();
         const pageHeight = pdf.internal.pageSize.getHeight();
 
-        pdf.addPage();
-        
         // Margin
         pdf.setFillColor('#dfe9e9'); // RGB for green
         pdf.rect(0, 0, pageWidth, pageHeight, 'F'); // Draw a filled rectangle covering the entire page
@@ -316,11 +322,23 @@ const AnalysePage = () => {
     };
 
     const handleDownloadPDF = async () => {
-        const pageWidth = 297; // mm
-        const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
-    
+        // Define custom dimensions for a 16:9 aspect ratio
+        const pageWidth = 297; // Width in mm
+        const pageHeight = (9 / 16) * pageWidth; // Height in mm for 16:9
+
+        //const pdf = new jsPDF("landscape", "mm", [pageWidth, pageHeight]); // Use custom dimensions
+        
         const pages = [
             async (pdf) => {
+                // Loading Fonts
+                pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium']);
+                pdf.addFont('Manrope-Medium.ttf', 'Manrope', 'medium');
+                pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-SemiBold']);
+                pdf.addFont('Manrope-SemiBold.ttf', 'Manrope', 'semi-bold');
+                pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-Bold']);
+                pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
+
+                // Cover Page
                 pdf.addImage(coverImage, "PNG", 0, 0, pageWidth, pageHeight);
                 pdf.setFont("Manrope", "semi-bold");
                 pdf.setTextColor("white");
@@ -328,22 +346,43 @@ const AnalysePage = () => {
                 pdf.text(projectName, 15, 40);
             },
             async (pdf) => {
-                pdf.addPage();
+                // Index Page
                 pdf.addImage(indexImage, "PNG", 0, 0, pageWidth, pageHeight);
             },
             async (pdf) => {
-                const text = "The OL aspects/potential of your project that I could initially capture";
-                await addTaskPage(pdf, text, "analyse-a-all", "A", "All");
+                // Task A All Page
+                if (componentsRef.current.length !== 0) {
+                    const text = 'The OL aspects/potential of your project that I could initially capture';
+                    await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
+                }
             },
             async (pdf) => {
-                const text = "The OL aspects/potential of your project > PRINCIPLES focus";
-                await addTaskPage(pdf, text, "analyse-a-p", "A", "Principle");
+                // Task A Principles
+                if (componentsRef.current.filter((c) => c.type === 'Principle').length !== 0) {
+                    const text = 'The OL aspects/potential of your project > PRINCIPLES focus';
+                    await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
+                }
             },
-            // Add more pages as needed
+            async (pdf) => {
+                // Task A Perspectives
+                if (componentsRef.current.filter((c) => c.type === 'Perspective').length !== 0) {
+                    const text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+                    await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
+                }
+            },
+            async (pdf) => {
+                // Task A Dimensions
+                if (componentsRef.current.filter((c) => c.type === 'Dimension').length !== 0) {
+                    const text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+                    await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
+                }
+            },
+            //Task B
+            //Task C
+            //Task D
         ];
-    
         const pdfBlobs = []; // Store each PDF as a Blob
-    
+        
         try {
             // Generate individual PDFs
             for (let i = 0; i < pages.length; i++) {
@@ -360,28 +399,31 @@ const AnalysePage = () => {
             // Save the final merged PDF
             const link = document.createElement("a");
             link.href = URL.createObjectURL(mergedPdf);
-            link.download = `Visual_Report_${projectName.replace(/ /g, "_")}.pdf`;
+            if (projectName.length !== 0) 
+                link.download = `Visual_Report_${projectName.replace(/ /g, "_")}.pdf`;
+            else 
+                link.download = `Visual_Report.pdf`;
             link.click();
         } catch (error) {
             console.error("Error generating PDF:", error);
-        }
+        }        
     };
-    
+
     // Merge PDF chunks using pdf-lib
-const mergePDFChunks = async (pdfBlobs) => {
-    const mergedPdf = await PDFDocument.create();
+    const mergePDFChunks = async (pdfBlobs) => {
+        const mergedPdf = await PDFDocument.create();
 
-    for (const blob of pdfBlobs) {
-        const pdfBytes = await blob.arrayBuffer();
-        const pdf = await PDFDocument.load(pdfBytes);
+        for (const blob of pdfBlobs) {
+            const pdfBytes = await blob.arrayBuffer();
+            const pdf = await PDFDocument.load(pdfBytes);
 
-        const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-        copiedPages.forEach((page) => mergedPdf.addPage(page));
-    }
+            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+            copiedPages.forEach((page) => mergedPdf.addPage(page));
+        }
 
-    const mergedPdfBytes = await mergedPdf.save();
-    return new Blob([mergedPdfBytes], { type: "application/pdf" });
-};
+        const mergedPdfBytes = await mergedPdf.save();
+        return new Blob([mergedPdfBytes], { type: "application/pdf" });
+    };
 
     // Handle input change for project name
     const handleInputChange = (e) => {
