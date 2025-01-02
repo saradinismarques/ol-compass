@@ -136,7 +136,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             else
               arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
 
-            arrowX2 = data.x + 172;
+            arrowX2 = data.x + 130;
             arrowY2 = data.y + 207 + updatedComponents[id].textGapY2;
 
             updatedComponents[id].textAreaX = textAreaX;
@@ -227,7 +227,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
                 arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
             }
 
-            arrowX2 = textAreaRect.left + textAreaRect.width / 2;
+            arrowX2 = textAreaRect.left + textAreaRect.width / 2 - 42;
 
             if(topTip)
               arrowY2 = textAreaRect.top + textAreaRect.height / 2 + updatedComponents[id].textGapY2;
@@ -344,7 +344,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
         }
 
-        arrowX2 = textAreaRect.left + textAreaRect.width / 2;
+        arrowX2 = textAreaRect.left + textAreaRect.width / 2 - 42;
 
         if(topTip)
           arrowY2 = textAreaRect.top + textAreaRect.height / 2 + updatedComponents[id].textGapY2;
