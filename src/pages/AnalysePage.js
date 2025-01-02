@@ -57,7 +57,7 @@ const AnalysePage = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
     }, [handleKeyDown]);
 
-    const handleDragStop = (code, title, label, headline, type, angle, x, y, textAreaX, textAreaY, textAreaData, arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip) => {
+    const handleDragStop = (code, title, label, headline, type, angle, x, y, textAreaX, textAreaY, textAreaData, arrowX1, arrowY1, arrowX2, arrowY2, textGapY2, topTip, rightTip) => {
         // Delete if receives null
         if(title === null) {
             // Remove the component from selectedComponents
@@ -91,6 +91,7 @@ const AnalysePage = () => {
                                     arrowY1,
                                     arrowX2,
                                     arrowY2,
+                                    textGapY2,
                                     topTip,
                                     rightTip
                                 }
@@ -114,6 +115,7 @@ const AnalysePage = () => {
                               arrowY1,
                               arrowX2,
                               arrowY2,
+                              textGapY2,
                               topTip,
                               rightTip
                           },

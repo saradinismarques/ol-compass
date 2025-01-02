@@ -54,6 +54,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
   const nodeRef = useRef(null);
   const initialComponentsRef = useRef(initialComponents);
   const textareaRefs = useRef({}); // Store refs dynamically for all textareas
+  const textareaLinesRef = useRef({}); // Store refs dynamically for all textareas
   const waveRefs = useRef({});   // Store refs dynamically for all circles
   const compassRef = useRef({});
 
@@ -136,7 +137,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
               arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
 
             arrowX2 = data.x + 172;
-            arrowY2 = data.y + 242;
+            arrowY2 = data.y + 207 + updatedComponents[id].textGapY2;
 
             updatedComponents[id].textAreaX = textAreaX;
             updatedComponents[id].textAreaY = textAreaY;
@@ -229,7 +230,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             arrowX2 = textAreaRect.left + textAreaRect.width / 2;
 
             if(topTip)
-              arrowY2 = textAreaRect.top + textAreaRect.height / 2 + 34;
+              arrowY2 = textAreaRect.top + textAreaRect.height / 2 + updatedComponents[id].textGapY2;
             else
               arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
 
@@ -266,6 +267,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           arrowY1,
           arrowX2,
           arrowY2,
+          components[id].textGapY2,
           topTip,
           rightTip
           );
@@ -345,7 +347,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
         arrowX2 = textAreaRect.left + textAreaRect.width / 2;
 
         if(topTip)
-          arrowY2 = textAreaRect.top + textAreaRect.height / 2 + 34;
+          arrowY2 = textAreaRect.top + textAreaRect.height / 2 + updatedComponents[id].textGapY2;
         else
           arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
 
@@ -378,6 +380,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
           arrowY1,
           arrowX2,
           arrowY2,
+          components[id].textGapY2,
           topTip,
           rightTip      
         );
@@ -407,11 +410,51 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
       }
     }, [id, value.cursorStart, value.cursorEnd]);
   
+    function getTextWidth(text, font) {
+      // Create a canvas element (it won't be visible)
+      var canvas = document.createElement("canvas");
+      var context = canvas.getContext("2d");
+  
+      // Set the font style (matching the textarea's style)
+      context.font = font;
+  
+      // Measure the text width
+      var textWidth = context.measureText(text).width;
+      return textWidth;
+  }
+  
+  function getTextWidthFromTextarea(id) {
+      // Access the textarea element using its ref
+      const textarea = textareaRefs.current[id];
+  
+      if (textarea) {
+          // Get the current value of the textarea (the text the user has typed)
+          const text = textarea.value;
+  
+          // Get the computed font style of the textarea
+          const font = getComputedStyle(textarea).font; // This will include fontFamily, fontSize, etc.
+  
+          // Measure the width of the text
+          const textWidth = getTextWidth(text, font);
+  
+          console.log(`Text width for textarea ${id}:`, textWidth);
+          return textWidth;
+      } 
+  }
+
     const handleInputChange = (e) => {
       const { value, selectionStart, selectionEnd } = e.target;
-      const textareaHeight = textareaRefs.current[id].scrollHeight;
+      const textareaWidth = getTextWidthFromTextarea(id);
+      const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
+      let arrowY2, textGapY2;
 
-      if(textareaHeight >= 90)
+      if(textareaWidth < 130)
+        textGapY2 = -2
+      else if(textareaWidth >= 130 && textareaWidth < 260)
+        textGapY2 = 13;
+      else if(textareaWidth >= 260 && textareaWidth < 381)
+        textGapY2 = 34;
+      else if(textareaWidth >= 381)
         return;
 
       // Update the text and cursor position
@@ -421,6 +464,11 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             text: value,
             cursorStart: selectionStart,
             cursorEnd: selectionEnd,
+        }
+        if(updatedComponents[id].topTip) {
+          arrowY2 = textAreaRect.top + textAreaRect.height / 2 + textGapY2;
+          updatedComponents[id].arrowY2 = arrowY2;
+          updatedComponents[id].textGapY2 = textGapY2;
         }
         return updatedComponents;
       });
@@ -447,7 +495,8 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             components[id].arrowX1,
             components[id].arrowY1,
             components[id].arrowX2,
-            components[id].arrowY2,
+            arrowY2,
+            textGapY2,
             components[id].topTip,
             components[id].rightTip
         );
@@ -823,6 +872,7 @@ function getComponentsPositions(componentsData, type) {
     componentsData[i]["arrowY1"] = y;
     componentsData[i]["arrowX2"] = x;
     componentsData[i]["arrowY2"] = y+150;
+    componentsData[i]["textGapY2"] = -2;
     componentsData[i]["topTip"] = true;
     componentsData[i]["rightTip"] = true;
 
