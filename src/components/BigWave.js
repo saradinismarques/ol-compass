@@ -521,7 +521,6 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, stopTextAreaFocu
             position={position} // Controlled position from parent state
             onStart={() => setActiveRef(id)} // Set this textarea as active on drag
             onStop={(e, data) => handleTextAreaDragStop(id, data)} // Update position after drag
-            onClick={() => setActiveRef(id)}
         >
         <div
           style={{
@@ -635,7 +634,6 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, stopTextAreaFocu
                 ...buttonStyle,
                 transform: `rotate(${c.angle}rad) ${c.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
-                // Other styles go here
               }}
             >
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
