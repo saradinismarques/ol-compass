@@ -20,7 +20,7 @@ const GetInspiredPage = () => {
     newCaseStudies,
   } = useContext(StateContext);
 
-  const initialState = useMemo(() => ({
+  const initialCaseStudy = useMemo(() => ({
     title: '', 
     collection: '',
     mainTarget: '',
@@ -35,7 +35,7 @@ const GetInspiredPage = () => {
     bookmark: false,
   }), []);
 
-  const [state, setState] = useState(initialState);
+  const [currentCaseStudy, setCurrentCaseStudy] = useState(initialCaseStudy);
   const [caseStudies, setCaseStudies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [carouselMode, setCarouselMode] = useState(true);
@@ -72,7 +72,7 @@ const GetInspiredPage = () => {
   document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
 
   const resetState = useCallback(() => {
-    setState(initialState);
+    setCurrentCaseStudy(initialCaseStudy);
     setCaseStudies([]);
     setCurrentIndex(0);
     setCarouselMode(true);
@@ -88,7 +88,7 @@ const GetInspiredPage = () => {
     setFirstClick(true);
     setMessageShown(false);
     setIsExplanationPage(true);
-  }, [initialState, setIsExplanationPage]);
+  }, [initialCaseStudy, setIsExplanationPage]);
 
   // State to store window height
   //const [height, setHeight] = useState(window.innerHeight);
@@ -164,8 +164,8 @@ const GetInspiredPage = () => {
     if (filteredCaseStudies.length > 0) {
       setCurrentIndex(0); // Reset to first case study
       
-      setState((prevState) => ({
-        ...prevState,
+      setCurrentCaseStudy((prevCaseStudy) => ({
+        ...prevCaseStudy,
         title: filteredCaseStudies[0].title,
         collection: filteredCaseStudies[0].collection,
         mainTarget: filteredCaseStudies[0].mainTarget,
@@ -183,8 +183,8 @@ const GetInspiredPage = () => {
     }
 
     if (filteredCaseStudies.length === 0) {
-      setState((prevState) => ({
-        ...prevState,
+      setCurrentCaseStudy((prevCaseStudy) => ({
+        ...prevCaseStudy,
         title: "No cases found with those filters",
         collection: '',
         mainTarget: '',
@@ -233,8 +233,8 @@ const GetInspiredPage = () => {
       const nextIndex = currentIndex + 1;
       setCurrentIndex(nextIndex);
 
-      setState({
-        ...state,
+      setCurrentCaseStudy({
+        ...currentCaseStudy,
         title: caseStudies[nextIndex].title,
         collection: caseStudies[nextIndex].collection,
         mainTarget: caseStudies[nextIndex].mainTarget,
@@ -250,15 +250,15 @@ const GetInspiredPage = () => {
       });
       setCurrentComponents(caseStudies[nextIndex].components)
     }
-  }, [caseStudies, currentIndex, getBookmarkState, state]);
+  }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
       const prevIndex = currentIndex - 1;
       setCurrentIndex(prevIndex);
 
-      setState({
-        ...state,
+      setCurrentCaseStudy({
+        ...currentCaseStudy,
         title: caseStudies[prevIndex].title,
         collection: caseStudies[prevIndex].collection,
         mainTarget: caseStudies[prevIndex].mainTarget,
@@ -275,7 +275,7 @@ const GetInspiredPage = () => {
       setCurrentComponents(caseStudies[prevIndex].components)
 
     }
-  }, [caseStudies, currentIndex, getBookmarkState, state]);
+  }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy]);
 
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {
@@ -299,16 +299,16 @@ const GetInspiredPage = () => {
   const toggleBookmark = () => {
     setSavedCaseStudies((prevSavedComponents) => {
       // If the current title is already in the array, remove it
-      if (prevSavedComponents.includes(state.title)) {
-        return prevSavedComponents.filter(item => item !== state.title);
+      if (prevSavedComponents.includes(currentCaseStudy.title)) {
+        return prevSavedComponents.filter(item => item !== currentCaseStudy.title);
       }
       // Otherwise, add it to the array
-      return [...prevSavedComponents, state.title];
+      return [...prevSavedComponents, currentCaseStudy.title];
     });
 
-    setState({
-      ...state,
-      bookmark: !state.bookmark,
+    setCurrentCaseStudy({
+      ...currentCaseStudy,
+      bookmark: !currentCaseStudy.bookmark,
     });
   };
 
@@ -350,29 +350,29 @@ const GetInspiredPage = () => {
                 <div className="gi-card-container">
                   <button
                     onClick={toggleBookmark}
-                    className={`gi-bookmark-button ${state.bookmark ? 'active' : ''}`}
+                    className={`gi-bookmark-button ${currentCaseStudy.bookmark ? 'active' : ''}`}
                   >   
                     <BookmarkIcon className="gi-bookmark-icon" />
                   </button>
     
-                  <h1 className="gi-title">{state.title}</h1>
-                  <p className="gi-description">{state.description}</p>
+                  <h1 className="gi-title">{currentCaseStudy.title}</h1>
+                  <p className="gi-description">{currentCaseStudy.description}</p>
                   {/* <p>{height}</p> */}
-                  <p className="gi-credits">Credits: {state.credits}</p>
+                  <p className="gi-credits">Credits: {currentCaseStudy.credits}</p>
     
                   <div className='gi-boxes-container'>
                   <div className='gi-box-row'>
-                    <p className='gi-text-box type'>{state.type}</p>
-                    <p className='gi-text-box age'>{state.age}</p>
-                    <p className='gi-text-box time'>{state.time}</p>
+                    <p className='gi-text-box type'>{currentCaseStudy.type}</p>
+                    <p className='gi-text-box age'>{currentCaseStudy.age}</p>
+                    <p className='gi-text-box time'>{currentCaseStudy.time}</p>
                   </div>
                   <div className='gi-box-row'>
-                    <p className='gi-text-box languages'>{state.languages}</p>
-                    <p className='gi-text-box mainTarget'>{state.mainTarget}</p>
-                    <p className='gi-text-box year'>{state.year}</p>
+                    <p className='gi-text-box languages'>{currentCaseStudy.languages}</p>
+                    <p className='gi-text-box mainTarget'>{currentCaseStudy.mainTarget}</p>
+                    <p className='gi-text-box year'>{currentCaseStudy.year}</p>
                   </div>
                   <div className='gi-box-row'>
-                    <p className='gi-text-box collection'>{state.collection}</p>
+                    <p className='gi-text-box collection'>{currentCaseStudy.collection}</p>
                   </div>
                 </div>
               </div>

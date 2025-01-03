@@ -35,9 +35,9 @@ const IntroPage = () => {
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
-            setFrame((prevState) => (prevState + 1 <= 10 ? prevState + 1 : 10));
+            setFrame((prevFrame) => (prevFrame + 1 <= 10 ? prevFrame + 1 : 10));
         else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
-            setFrame((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
+            setFrame((prevFrame) => (prevFrame - 1 >= 0 ? prevFrame - 1 : 0));
     }, []);
 
     // useCallback ensures handleClick doesn't change unless its dependencies do
@@ -46,9 +46,9 @@ const IntroPage = () => {
         const clickPositionX = e.clientX;
 
         if (clickPositionX > screenWidth / 2) {
-            setFrame((prevState) => (prevState + 1 <= 10 ? prevState + 1 : 10));
+            setFrame((prevFrame) => (prevFrame + 1 <= 10 ? prevFrame + 1 : 10));
         } else {
-            setFrame((prevState) => (prevState - 1 >= 0 ? prevState - 1 : 0));
+            setFrame((prevFrame) => (prevFrame - 1 >= 0 ? prevFrame - 1 : 0));
         }
     }, []);
 

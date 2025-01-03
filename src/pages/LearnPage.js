@@ -25,7 +25,7 @@ const LearnPage = () => {
     setSavedComponents,
   } = useContext(StateContext);
 
-  const initialState = useMemo(() => ({
+  const initialComponent = useMemo(() => ({
     title: '',
     headline: '',
     paragraph: '',
@@ -42,39 +42,39 @@ const LearnPage = () => {
     index: null,
   }), []);
 
-  const [state, setState] = useState(initialState);
+  const [component, setComponent] = useState(initialComponent);
   const [concept, setConcept] = useState(initialConcept);
   const [firstClick, setFirstClick] = useState(true);
   const [messageShown, setMessageShown] = useState(false);
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
-  document.documentElement.style.setProperty('--text-color', colors['Text'][state.type]);
-  document.documentElement.style.setProperty('--image-color', colors['Wave'][state.type]);
+  document.documentElement.style.setProperty('--text-color', colors['Text'][component.type]);
+  document.documentElement.style.setProperty('--image-color', colors['Wave'][component.type]);
   
   const imageSrc =
-    state.code === 'P1'
+    component.code === 'P1'
       ? P1Image
-      : state.code === 'P2'
+      : component.code === 'P2'
       ? P2Image
-      : state.code === 'P3'
+      : component.code === 'P3'
       ? P3Image
-      : state.code === 'P4'
+      : component.code === 'P4'
       ? P4Image
-      : state.code === 'P5'
+      : component.code === 'P5'
       ? P5Image
-      : state.code === 'P6'
+      : component.code === 'P6'
       ? P6Image
-      : state.code === 'P7'
+      : component.code === 'P7'
       ? P7Image
       : null;
 
   const resetState = useCallback(() => {
-    setState(initialState);
+    setComponent(initialComponent);
     setConcept(initialConcept);
     setFirstClick(true);
     setMessageShown(false);
     setIsExplanationPage(true);
-  }, [initialState, initialConcept, setIsExplanationPage]);
+  }, [initialComponent, initialConcept, setIsExplanationPage]);
 
   const getBookmarkState = useCallback((code) => {
     return savedComponents.length !== 0 && savedComponents.includes(code);
@@ -87,13 +87,12 @@ const LearnPage = () => {
     }
 
     if (code === null) {
-      setState(initialState);
+      setComponent(initialComponent);
       setIsExplanationPage(true);
       return;
     }
-
-    setState((prevState) => ({
-      ...prevState,
+    setComponent((prevComponent) => ({
+      ...prevComponent,
       code,
       title,
       headline,
@@ -110,10 +109,10 @@ const LearnPage = () => {
 
     if (concepts !== null) {
       setConcept({
-        code: concepts[0].Code,
-        label: concepts[0].Label,
-        paragraph: concepts[0].Paragraph,
-        linkedTo: concepts[0].LinkedTo,
+        code: concepts[0].code,
+        label: concepts[0].label,
+        paragraph: concepts[0].paragraph,
+        linkedTo: concepts[0].linkedTo,
         index: 0,
       });
     }
@@ -121,27 +120,27 @@ const LearnPage = () => {
 
   const toggleBookmark = () => {
     setSavedComponents((prevSavedComponents) => {
-      if (prevSavedComponents.includes(state.code)) {
-        return prevSavedComponents.filter((item) => item !== state.code);
+      if (prevSavedComponents.includes(component.code)) {
+        return prevSavedComponents.filter((item) => item !== component.code);
       }
-      return [...prevSavedComponents, state.code];
+      return [...prevSavedComponents, component.code];
     });
 
-    setState((prevState) => ({
-      ...prevState,
-      bookmark: !prevState.bookmark,
+    setComponent((prevComponent) => ({
+      ...prevComponent,
+      bookmark: !prevComponent.bookmark,
     }));
   };
 
   const handleNext = () => {
     
-    if (concept.index < state.concepts.length - 1) {
+    if (concept.index < component.concepts.length - 1) {
       const nextIndex = concept.index + 1;
       setConcept({
-        code: state.concepts[nextIndex].Code,
-        label: state.concepts[nextIndex].Label,
-        paragraph: state.concepts[nextIndex].Paragraph,
-        linkedTo: state.concepts[nextIndex].LinkedTo,
+        code: component.concepts[nextIndex].code,
+        label: component.concepts[nextIndex].label,
+        paragraph: component.concepts[nextIndex].paragraph,
+        linkedTo: component.concepts[nextIndex].linkedTo,
         index: nextIndex,
       });
     }
@@ -190,17 +189,17 @@ const LearnPage = () => {
 
   const TextWithButtons = ({ text, currentConcept }) => {
     const handleButtonClick = (buttonText) => {
-        const matchingIndex = state.concepts.findIndex((concept) =>
-            concept.LinkedTo.toLowerCase().includes(buttonText.toLowerCase())
+        const matchingIndex = component.concepts.findIndex((concept) =>
+            concept.linkedTo.toLowerCase().includes(buttonText.toLowerCase())
         );
 
         if (matchingIndex !== -1) {
-            const matchingConcept = state.concepts[matchingIndex];
+            const matchingConcept = component.concepts[matchingIndex];
             setConcept({
-                code: matchingConcept.Code,
-                label: matchingConcept.Label,
-                paragraph: matchingConcept.Paragraph,
-                linkedTo: matchingConcept.LinkedTo,
+                code: matchingConcept.code,
+                label: matchingConcept.label,
+                paragraph: matchingConcept.paragraph,
+                linkedTo: matchingConcept.linkedTo,
                 index: matchingIndex,
             });
         } else {
@@ -280,7 +279,7 @@ const LearnPage = () => {
                 <div className="l-white-line"></div>
                 <button
                   onClick={toggleBookmark}
-                  className={`l-bookmark-button ${state.bookmark ? 'active' : ''}`}
+                  className={`l-bookmark-button ${component.bookmark ? 'active' : ''}`}
                 >
                   <BookmarkIcon className="l-bookmark-icon" />
                 </button>
@@ -290,18 +289,18 @@ const LearnPage = () => {
                 className="l-text-container"
                 style={{
                   width:
-                    state.code === 'P3' ? '369px' : state.code === 'P7' ? '369px' : '350px',
+                    component.code === 'P3' ? '369px' : component.code === 'P7' ? '369px' : '350px',
                 }}
               >
-                <h1 className='l-title'>{state.title}</h1>
-                <h2 className='l-headline'>{formatWithLineBreaks(state.headline)}</h2>
-                {state.type === "Principle" && (
+                <h1 className='l-title'>{component.title}</h1>
+                <h2 className='l-headline'>{formatWithLineBreaks(component.headline)}</h2>
+                {component.type === "Principle" && (
                   <>
-                    <TextWithButtons text={state.paragraph} currentConcept={concept} />
+                    <TextWithButtons text={component.paragraph} currentConcept={concept} />
                     <div className='l-concepts-container'>
                       <h1 className='l-title-concepts'>{concept.label}</h1>
 
-                      {concept.index < state.concepts.length - 1 && (
+                      {concept.index < component.concepts.length - 1 && (
                         <button className="l-arrow-button right" onClick={handleNext}>
                           <ArrowIcon className="l-arrow-icon" />
                         </button>
@@ -312,9 +311,9 @@ const LearnPage = () => {
                     </div>
                   </>
                 )}
-                {state.type !== "Principle" && (
+                {component.type !== "Principle" && (
                   <div className="l-text">
-                    <p>{formatWithBold(state.paragraph)}</p>
+                    <p>{formatWithBold(component.paragraph)}</p>
                   </div>
                 )}
               </div>
@@ -339,12 +338,12 @@ const LearnPage = () => {
                 zIndex: 5, // Ensure the overlay is on top
               }}
             />
-            <img src={imageSrc} alt={`Background ${state.code}`} className="l-principles-image" />
+            <img src={imageSrc} alt={`Background ${component.code}`} className="l-principles-image" />
           </div>
         )}
         {imageSrc === null && (
           <div className="l-image-container">
-            <img src={imageSrc} alt={`Background ${state.code}`} className="l-other-components-image" />
+            <img src={imageSrc} alt={`Background ${component.code}`} className="l-other-components-image" />
           </div>
         )}
       </div>

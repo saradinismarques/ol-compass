@@ -16,7 +16,7 @@ const ContributePage = () => {
   } = useContext(StateContext);
 
   // Initial state for the form
-  const initialState = useMemo(() => ({
+  const initialCaseStudy = useMemo(() => ({
     title: '',
     collection: '',
     mainTarget: '',
@@ -30,7 +30,7 @@ const ContributePage = () => {
     components: [],
   }), []);
 
-  const [state, setState] = useState(initialState);
+  const [caseStudy, setCaseStudy] = useState(initialCaseStudy);
   const [resetCompass, setResetCompass] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
@@ -38,13 +38,13 @@ const ContributePage = () => {
   const [firstClick, setFirstClick] = useState(true);
   const [messageShown, setMessageShown] = useState(false);
 
-  const stateRef = useRef(state);
+  const caseStudyRef = useRef(caseStudy);
   const componentsRef = useRef(components);
   const buttonsRef = useRef({}); // Stores button positions for dropdown alignment
 
   useEffect(() => {
-    stateRef.current = state; // Keep the ref in sync with the latest state
-  }, [state]);
+    caseStudyRef.current = caseStudy; // Keep the ref in sync with the latest state
+  }, [caseStudy]);
 
   useEffect(() => {
     componentsRef.current = components; // Keep the ref in sync with the latest state
@@ -52,8 +52,8 @@ const ContributePage = () => {
 
   // Reset state and UI elements
   const resetState = useCallback(() => {
-    setState(initialState);
-    stateRef.current = initialState;
+    setCaseStudy(initialCaseStudy);
+    caseStudyRef.current = initialCaseStudy;
     setOpenDropdown(null);
     setDropdownPosition({ top: 0, left: 0 });
     setComponents([]);
@@ -61,7 +61,7 @@ const ContributePage = () => {
     setFirstClick(true);
     setMessageShown(false);
     setIsExplanationPage(true);
-  }, [initialState, setIsExplanationPage]);
+  }, [initialCaseStudy, setIsExplanationPage]);
 
   // Trigger compass action
   const handleCompassClick = (code) => {
@@ -94,16 +94,16 @@ const ContributePage = () => {
   // Handle "Enter" button action
   const handleEnterClick  = useCallback((components) => {
     const newCaseStudy = {
-      title: stateRef.current.title,
-      collection: stateRef.current.collection,
-      mainTarget: stateRef.current.mainTarget,
-      age: stateRef.current.age,
-      time: stateRef.current.time,
-      type: stateRef.current.type,
-      languages: stateRef.current.languages,
-      year: stateRef.current.year,
-      description: stateRef.current.description,
-      credits: stateRef.current.credits,
+      title: caseStudyRef.current.title,
+      collection: caseStudyRef.current.collection,
+      mainTarget: caseStudyRef.current.mainTarget,
+      age: caseStudyRef.current.age,
+      time: caseStudyRef.current.time,
+      type: caseStudyRef.current.type,
+      languages: caseStudyRef.current.languages,
+      year: caseStudyRef.current.year,
+      description: caseStudyRef.current.description,
+      credits: caseStudyRef.current.credits,
       components: components,
     };
 
@@ -133,8 +133,8 @@ const ContributePage = () => {
   // Update form state
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setState((prevState) => ({
-      ...prevState,
+    setCaseStudy((prevCaseStudy) => ({
+      ...prevCaseStudy,
       [name]: value,
     }));
   };
@@ -160,7 +160,7 @@ const ContributePage = () => {
             type="checkbox"
             className="c-checkbox"
             value={value}
-            checked={state[dropdownName] === value}
+            checked={caseStudy[dropdownName] === value}
             onChange={handleInputChange}
           />
           {label}
@@ -245,7 +245,7 @@ const ContributePage = () => {
                       className="c-placeholder" 
                       type="text" 
                       placeholder="Insert Title"  
-                      value={state.title} 
+                      value={caseStudy.title} 
                       onChange={handleInputChange}
                     ></textarea>
                 </div>
@@ -254,7 +254,7 @@ const ContributePage = () => {
                       name="description"
                       className="c-placeholder" 
                       placeholder="Insert Description"
-                      value={state.description}
+                      value={caseStudy.description}
                       onChange={handleInputChange}
                     ></textarea>
                 </div>
@@ -264,7 +264,7 @@ const ContributePage = () => {
                       type="text"
                       className="c-placeholder" 
                       placeholder="Insert Source/Credits" 
-                      value={state.credits}
+                      value={caseStudy.credits}
                       onChange={handleInputChange}
                     />
                 </div>
