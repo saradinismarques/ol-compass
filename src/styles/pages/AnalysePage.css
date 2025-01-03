@@ -98,28 +98,48 @@
     transform: translate(-50%, -50%);
 }
 
+.a-compass-textarea::placeholder {
+    color: rgb(114, 113, 111, 0.5); /* Semi-transparent color */
+}
+
 .a-definitions-container {
     top: 15vh;
     left: 9vw;
-}
-
-.a-definitions-top-line {
-    width: 260px;
-    height: 2px;
-    background-color: var(--background-color);
-    margin-bottom: -10px;
 }
 
 .a-definitions-container.fixed {
     position: fixed;
 }
 
+.a-definitions-top-lines {
+    position: absolute;
+    top: 9px;
+    left: 0;
+    display: flex;
+}
+
+.a-definitions-horizontal-line {
+    width: 261px;
+    height: 1px;
+    background-color: var(--background-color);
+}
+
+.a-definitions-vertical-line {
+    width: 1px;
+    height: 320px; /* Total height of both lines */
+    background: linear-gradient(
+        to bottom, 
+        var(--background-color) 60px, /* Existing line color and height */
+        white 60px 100% /* White line starts after 60px and takes the rest */
+    );
+}
+
 .a-definition {
     margin-bottom: 5px;
-    width: 185px;
 }
 
 .a-definition-title {
+    width: 255px;
     font-size: 10px;
     color: var(--title-color);
     background: linear-gradient(
@@ -129,12 +149,12 @@
     );
     padding: 2px;
     padding-left: 5px;
-    text-transform: uppercase;
     letter-spacing: 0.6px;  
     font-weight: 500;
 }
 
 .a-definition-text {
+    width: 185px;
     font-size: 10px;
     font-weight: 300;
     margin-top: -10px;

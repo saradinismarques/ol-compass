@@ -7,7 +7,7 @@ export const StateContext = createContext();
 // Create a provider component
 export const State = ({ children }) => {
     // Global
-    const [colors, setColors] = useState(getColorPallete(1));
+    const [colors, setColors] = useState(getColorPallete(2));
     document.documentElement.style.setProperty('--selection-color', colors['Selection']);
 
     const initialFirstMessage = useMemo(

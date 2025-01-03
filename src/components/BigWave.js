@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { getGetStartedData } from '../utils/Data.js'; 
-import { encodedFonts } from '../utils/Fonts.js';
+import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { StateContext } from "../State";
 import Draggable from "react-draggable";
 
@@ -54,7 +54,6 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
   const nodeRef = useRef(null);
   const initialComponentsRef = useRef(initialComponents);
   const textareaRefs = useRef({}); // Store refs dynamically for all textareas
-  const textareaLinesRef = useRef({}); // Store refs dynamically for all textareas
   const waveRefs = useRef({});   // Store refs dynamically for all circles
   const compassRef = useRef({});
 
@@ -534,6 +533,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
             onChange={handleInputChange}
             placeholder="Enter your notes here"
             spellCheck="false"
+            className="a-compass-textarea"
             style={{
               width: "130px",
               height: "50px",
@@ -548,7 +548,7 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
               whiteSpace: "pre-wrap", // Preserve line breaks and whitespace
               overflowWrap: "break-word", // Wrap long words onto the next line
               overflow: "hidden",
-              lineHeight: "normal"
+              lineHeight: "normal",
             }}
           />
           }
@@ -967,34 +967,6 @@ function getLabelWidth(label) {
    const remainingLetters = label.length-countI;
 
    return remainingLetters*1 + countI*0.5;
-}
-
-function convertLabel(label) {
-  // Define a mapping of prefixes to their corresponding full names
-  const prefixMap = {
-      "D": "Dimension",
-      "Pe": "Perspective",
-      "P": "Principle"
-  };  
-
-  // Use a regular expression to capture the prefix and the number
-  const regex = /^([A-Za-z]+)(\d+)$/;
-  const match = label.match(regex);
-
-  if (match) {
-      const prefix = match[1];
-      const number = match[2];
-
-      // Find the corresponding full name for the prefix
-      const fullName = prefixMap[prefix];
-
-      if (fullName) {
-          return `${fullName} ${number}`;
-      }
-  }
-
-  // If the label doesn't match the expected pattern, return it unchanged
-  return label;
 }
 
 export default BigWave;

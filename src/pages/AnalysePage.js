@@ -7,7 +7,7 @@ import Description from '../components/Description';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { PDFDocument } from "pdf-lib"; // For merging PDFs
-import { encodedFonts } from '../utils/Fonts.js';
+import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { State, StateContext } from "../State";
 import '../styles/pages/AnalysePage.css';
 import coverImage from '../assets/images/analyse/PDF-cover-background.png';
@@ -185,7 +185,7 @@ const AnalysePage = () => {
                     mode={currentMode} 
                     type={type} />
             </State>,
-            pdf, 20, 6, 'auto', 1.1
+            pdf, 11, 6, 'auto', 1.1
         );
 
         // Definitions
@@ -193,11 +193,6 @@ const AnalysePage = () => {
             return;
         await renderToCanvas(
             <div className='a-definitions-container'>
-                {/* <div className="a-definitions-top-line"
-                    style={{
-                        background: `${colors['Intro Text'][type]}`,
-                    }}>
-                </div> */}
                 {componentsRef.current
                     .filter((c) => c.type === type) // Filter by the specific type
                     .map((c, i) => (
@@ -207,8 +202,8 @@ const AnalysePage = () => {
                                     color: `${colors['Label'][type]}`,
                                     background: `linear-gradient(
                                         to right, 
-                                        ${colors['Wave'][type]} 20%, 
-                                        white 85%
+                                        ${colors['Wave'][type]} 5%, 
+                                        white 60%
                                     )`,
                                 }}>
                                 {c.title}
@@ -216,8 +211,25 @@ const AnalysePage = () => {
                             <p className='a-definition-text'>{c.headline}</p>
                         </div>
                     ))}
+                    <div className="a-definitions-top-lines">
+                        <div className="a-definitions-horizontal-line"
+                            style={{
+                                background: `${colors['Intro Text'][type]}`,
+                            }}>
+                        </div>
+                        <div className="a-definitions-vertical-line"
+                            style={{
+                                background: `linear-gradient(
+                                    to bottom, 
+                                    ${colors['Intro Text'][type]} 60px, 
+                                    white 59px 100%
+                                )`,
+                            }}>
+                        </div>
+                        {/* <div class="a-definitions-white-line"></div> */}
+                    </div>
             </div>,
-            pdf, 25, 55, 'auto', 1
+            pdf, 16, 55, 'auto', 1
         );
     };
 
@@ -259,19 +271,19 @@ const AnalysePage = () => {
         let currentText;
         if(type === 'All' || task !== 'A') {
             currentText = text;
-            pdf.text(currentText, 20, 151);
+            pdf.text(currentText, 16, 151);
         } else {
             currentText = mainText.replace(highlightText, '').trim();
            
-            pdf.text(currentText, 20, 151);
+            pdf.text(currentText, 16, 151);
 
             // Set the highlight color for the key part (the word to be highlighted)
             pdf.setFont('Manrope', 'bold');
             pdf.setTextColor(colors['Wave'][type]);
-            pdf.text(highlightText, 105, 151);
+            pdf.text(highlightText, 101, 151);
 
             // Set the default color again for the 'focus' part
-            let padding = 105;
+            let padding = 101;
             if(type === 'Principle') padding += 25.5; 
             else if(type === 'Perspective') padding += 32; 
             else if(type === 'Dimension') padding += 27.5; 
@@ -300,7 +312,7 @@ const AnalysePage = () => {
                     D
                 </button>
             </div>,
-                pdf, 18, 155, 'auto', 0.74
+                pdf, 14, 155, 'auto', 0.74
         );
 
         // Big Wave
@@ -538,6 +550,38 @@ const AnalysePage = () => {
                 </div>
                 </>
             }
+              {/* <div className='a-definitions-container'>
+                {componentsRef.current
+                    .filter((c) => c.type === 'Dimension') // Filter by the specific type
+                    .map((c, i) => (
+                        <div key={i} className='a-definition'>
+                            <p className='a-definition-title' 
+                                style={{
+                                    color: `${colors['Label']['Dimension']}`,
+                                    background: `linear-gradient(
+                                        to right, 
+                                        ${colors['Wave']['Dimension']} 5%, 
+                                        white 60%
+                                    )`,
+                                }}>
+                                {c.title}
+                            </p>
+                            <p className='a-definition-text'>{c.headline}</p>
+                        </div>
+                    ))}
+                    <div className="a-definitions-top-lines">
+                        <div className="a-definitions-horizontal-line"
+                            style={{
+                                background: `${colors['Intro Text']['Dimension']}`,
+                            }}>
+                        </div>
+                        <div className="a-definitions-vertical-line"
+                            style={{
+                                background: `${colors['Intro Text']['Dimension']}`,
+                            }}>
+                        </div>
+                    </div>
+            </div>  */}
             </>
         )}
         <Menu />
