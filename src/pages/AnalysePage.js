@@ -23,7 +23,7 @@ const AnalysePage = () => {
       } = useContext(StateContext);
 
     const [projectName, setProjectName] = useState('');
-    const [isProjectNameFocused, setIsProjectNameFocused] = useState(false);
+    const [stopTextAreaFocus, setStopTextAreaFocus] = useState(false);
     const [components, setComponents] = useState([]);
     const [activeTask, setActiveTask] = useState('A'); // Track active button
     const [mode, setMode] = useState('analyse');
@@ -38,7 +38,7 @@ const AnalysePage = () => {
     
     const resetState = useCallback(() => {
         setProjectName('');
-        setIsProjectNameFocused(false);
+        setStopTextAreaFocus(false);
         setComponents([]);
         componentsRef.current = [];
         setActiveTask('A');
@@ -340,6 +340,7 @@ const AnalysePage = () => {
     };
 
     const handleDownloadPDF = async () => {
+        setStopTextAreaFocus(true);
         const pageWidth = 297; // mm
         const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
     
@@ -396,14 +397,10 @@ const AnalysePage = () => {
         try {
             // Generate individual PDFs
             for (let i = 0; i < pages.length; i++) {
-                console.log(`Generating page ${i + 1} of ${pages.length}...`);
-                
                 const pdf = new jsPDF("landscape", "mm", [pageWidth, pageHeight]);
                 await pages[i](pdf); // Render content for the page
-                console.log(`Page ${i + 1} generated.`);
                 
                 const pdfBlob = pdf.output("blob");
-                console.log(`Blob for page ${i + 1} created:`, pdfBlob);
                 
                 pdfBlobs.push(pdfBlob);
         
@@ -411,7 +408,6 @@ const AnalysePage = () => {
                 setTimeout(() => {
                     setDownloadProgress(((i + 1) / pages.length) * 100);
                 }, 50); // Delay progress updates by 50ms
-                console.log(`Progress updated: ${((i + 1) / pages.length) * 100}%`);
             }
     
             // Merge all individual PDFs
@@ -430,7 +426,6 @@ const AnalysePage = () => {
             setIsGenerating(false);
             setDownloadProgress(0); // Reset progress once done
         } catch (error) {
-            console.error("Error generating PDF:", error);
             setIsGenerating('Error');
             setDownloadProgress(0); // Reset progress once done
         } 
@@ -478,7 +473,7 @@ const AnalysePage = () => {
                 mode={mode}
                 resetState={resetState}
                 onDragStop={handleDragStop}
-                isProjectNameFocused={isProjectNameFocused}
+                stopTextAreaFocus={stopTextAreaFocus}
             /> 
         </div>
 
@@ -490,8 +485,8 @@ const AnalysePage = () => {
                 placeholder='Insert Project Name'
                 value={projectName} 
                 onChange={handleInputChange}
-                onFocus={() => setIsProjectNameFocused(true)}  // Set focus flag when focused
-                onBlur={() => setIsProjectNameFocused(false)} 
+                onFocus={() => setStopTextAreaFocus(true)}  // Set focus flag when focused
+                onBlur={() => setStopTextAreaFocus(false)} 
                 spellCheck="false"
             ></textarea>
             

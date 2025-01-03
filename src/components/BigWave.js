@@ -22,7 +22,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFocused  }) => {
+const BigWave = ({ mode, onDragStop, resetState, pdfComponents, stopTextAreaFocus }) => {
   const {
     colors,
     isExplanationPage,
@@ -394,8 +394,15 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
   const TextArea = ({ id, position, value }) => {
     // Focus the textarea when the activeId changes
     useEffect(() => {
-      if (textareaRefs.current[id] && id === activeIdRef.current && !isProjectNameFocused) {
+      if (textareaRefs.current[id] && id === activeIdRef.current) {
         textareaRefs.current[id].focus();
+      }
+    }, [id]); // Only re-focus when the activeId changes
+
+    useEffect(() => {
+      if (stopTextAreaFocus) {
+        setActiveId(null);
+        activeIdRef.current = null;
       }
     }, [id]); // Only re-focus when the activeId changes
 
@@ -429,14 +436,11 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, isProjectNameFoc
       if (textarea) {
           // Get the current value of the textarea (the text the user has typed)
           const text = textarea.value;
-  
           // Get the computed font style of the textarea
           const font = getComputedStyle(textarea).font; // This will include fontFamily, fontSize, etc.
-  
           // Measure the width of the text
           const textWidth = getTextWidth(text, font);
   
-          console.log(`Text width for textarea ${id}:`, textWidth);
           return textWidth;
       } 
   }
