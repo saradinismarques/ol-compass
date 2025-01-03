@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo, useContext } from 'react';
 import '../styles/pages/LearnPage.css';
 import OLCompass from '../components/OLCompass';
+import Compass from '../components/Compass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
@@ -259,7 +260,7 @@ const LearnPage = () => {
     <>
       <div className={`${messageShown ? "blur-background" : ""}`}>
         <div className={`l-background ${isExplanationPage ? '' : 'gradient'}`}>
-          <OLCompass
+          <Compass
             mode="learn"
             position={isExplanationPage ? "center" : "left"}
             onButtonClick={handleCompassClick}

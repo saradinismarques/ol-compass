@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import '../styles/pages/GetStartedPage.css';
 import OLCompass from '../components/OLCompass';
+import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
@@ -220,7 +221,7 @@ const GetStartedPage = () => {
   return (
     <>
       <div className={`gs-background ${afterSearch ? 'gradient' : ''}`}>
-        <OLCompass
+        <Compass
           mode={mode}
           position={afterSearch ? 'left' : 'center'}
           resetState={resetState}

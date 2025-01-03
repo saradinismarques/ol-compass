@@ -3,6 +3,7 @@ import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import Wave from "./Wave.js"
+
 // Sizes and positions 
 let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
 
@@ -26,16 +27,11 @@ if(window.innerHeight > 700) {
   bookmarkTopD = '9.5px';
 }
 
-const waveWidth = size/2.6;
-const waveHeight = waveWidth*3;
-
 const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
   const {
     colors,
     isExplanationPage,
     savedComponents,
-    allComponents,
-    opacityCounter,
   } = useContext(StateContext);
   
   // Function to determine the center based on position
@@ -97,13 +93,13 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     }
   }, [resetCompass]);
 
-  const handleClick = (id) => {
+  const handleClick = (component) => {
     if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode.startsWith("analyse")) 
       return;
     
     if (mode === "learn") {
       // Check if the clicked ID is already in clickedIds
-      if (selectedComponents === components[id].code) {
+      if (selectedComponents === component.code) {
         // If it is, remove it and reset state
         setHoveredId(null);
         setSelectedComponents([]);
@@ -113,87 +109,87 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
         }
 
       } else {
-        const title = convertLabel(components[id].code);
+        const title = convertLabel(component.code);
         let correspondingConcepts = null;
         
-        if (components[id].type === "Principle") {
-          correspondingConcepts = getCorrespondingConcepts(concepts, components[id].code);
+        if (component.type === "Principle") {
+          correspondingConcepts = getCorrespondingConcepts(concepts, component.code);
         }
-        setSelectedComponents(components[id].code);
+        setSelectedComponents(component.code);
 
         if (onButtonClick) {
           onButtonClick(
-            components[id].code,
+            component.code,
             title,
-            components[id].headline,
-            components[id].paragraph,
-            components[id].type,
+            component.headline,
+            component.paragraph,
+            component.type,
             correspondingConcepts
           );
         }
 
       }
     } else if(mode.startsWith("get-started")) {
-      const title = convertLabel(components[id].code);
+      const title = convertLabel(component.code);
 
       setSelectedComponents(prevComponents =>
-        prevComponents.includes(components[id].code)
-          ? prevComponents.filter(buttonId => buttonId !== components[id].code) // Remove ID if already clicked
-          : [...prevComponents, components[id].code] // Add ID if not already clicked
+        prevComponents.includes(component.code)
+          ? prevComponents.filter(buttonId => buttonId !== component.code) // Remove ID if already clicked
+          : [...prevComponents, component.code] // Add ID if not already clicked
       );
       
       if (onButtonClick) {
         onButtonClick(
-          components[id].code,
+          component.code,
           title,
-          components[id].headline,
-          components[id].type,
+          component.headline,
+          component.type,
         );
       }
     } else if(mode === "get-inspired" || mode === "get-inspired-search") {
       setSelectedComponents(prevComponents => {
-        const newComponents = prevComponents.includes(components[id].code)
-          ? prevComponents.filter(buttonId => buttonId !== components[id].code) // Remove ID if already clicked
-          : [...prevComponents, components[id].code]; // Add ID if not already clicked
+        const newComponents = prevComponents.includes(component.code)
+          ? prevComponents.filter(buttonId => buttonId !== component.code) // Remove ID if already clicked
+          : [...prevComponents, component.code]; // Add ID if not already clicked
         
         // Return the updated state
         return newComponents;
       });
       
-      if (onButtonClick) onButtonClick(components[id].code);
+      if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "contribute") {
       setSelectedComponents(prevComponents => {
-        const newComponents = prevComponents.includes(components[id].code)
-          ? prevComponents.filter(buttonId => buttonId !== components[id].code) // Remove ID if already clicked
-          : [...prevComponents, components[id].code]; // Add ID if not already clicked
+        const newComponents = prevComponents.includes(component.code)
+          ? prevComponents.filter(code => code !== component.code) // Remove ID if already clicked
+          : [...prevComponents, component.code]; // Add ID if not already clicked
         
         // Return the updated state
         return newComponents;
       });
       
-      if (onButtonClick) onButtonClick(components[id].code);
+      if (onButtonClick) onButtonClick(component.code);
     } 
   };
   
-  const handleMouseEnter = (e, id) => {
+  const handleMouseEnter = (e, component) => {
     if (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse")) 
       return;
 
-    setHoveredId(components[id].code);
-    hoveredIdRef.current = components[id].code; 
+    setHoveredId(component.code);
+    hoveredIdRef.current = component.code; 
 
     if(mode.startsWith("get-started"))
       return;
 
-    if(components[id].type === "Principle") {
+    if(component.type === "Principle") {
       // Clear any existing timeout to avoid overlaps
       clearTimeout(tooltipTimeout);
 
       // Set a timeout to delay the appearance of the tooltip by 1 second
       tooltipTimeout = setTimeout(() => {
-        if (hoveredIdRef.current === components[id].code) {  // Check if the tooltip was not cancelled
+        if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
           setTooltipPos({ x: e.clientX, y: e.clientY });
-          let cleanedText = components[id].tooltip.replace('<br>', '');
+          let cleanedText = component.tooltip.replace('<br>', '');
           setTooltipText(cleanedText);
           setTooltipVisible(true);
         }
@@ -248,12 +244,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       width: `${size}px`,
       height: `${size}px`,
     };
-
-  const buttonStyle = {
-    position: 'absolute',
-    cursor: (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse")) ? 'default' : 'pointer',
-    pointerEvents: 'none', // Ensure buttons are clickable
-  };
 
   const Tooltip = ({ text, position }) => (
     <div
@@ -340,25 +330,27 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
           top: `${center.y / window.innerHeight * 100}vh`,
         }}
       >
-        {components.map((c, i) => (
-        <div key={i}>
+        {components.map((component) => (
+        <div 
+            key={component.code}
+            onClick={() => handleClick(component)}
+            onMouseEnter={(e) => handleMouseEnter(e, component)}
+            onMouseLeave={() => handleMouseLeave(component)}
+        >
             <Wave 
-                component={c}
-                index={i}
-                resetState={resetState}
+                component={component}
+                size={size}
+                type={'default'}
                 mode={mode}
-                styles={{
-                    shapeLeft: c.x - waveWidth / 2,
-                    shapeTop: c.y - waveHeight / 2 - 2,
-                    pathRef: null,
-                    textLeft: c.x - (waveWidth * 0.83) / 2,
-                    textTop: c.y - waveHeight / 2 - 2,
-                }}
+                selectedComponents={selectedComponents}
+                currentComponent={currentComponent}
+                hoveredId={hoveredId}
+                waveRef={null}
             />
   
             {/* Bookmark */}
-            {mode === "learn" && !isExplanationPage && savedComponents.includes(c.code) &&
-              <Bookmark component={c} />
+            {mode === "learn" && !isExplanationPage && savedComponents.includes(component.code) &&
+              <Bookmark component={component} />
             }
           </div>
         ))}

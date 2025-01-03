@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
 import OLCompass from '../components/OLCompass'
+import Compass from '../components/Compass';
 import BigWave from '../components/BigWave.js'
+import DraggableCompass from '../components/DraggableCompass.js'
 import CompassIcon from '../components/CompassIcon'
 import Menu from '../components/Menu';
 import Description from '../components/Description';
@@ -324,7 +326,7 @@ const AnalysePage = () => {
 
         await renderToCanvas(
             <State>
-                <BigWave 
+                <DraggableCompass 
                     className='a-ol-compass'
                     mode={currentMode}
                     pdfComponents = {componentsRef.current}
@@ -460,7 +462,7 @@ const AnalysePage = () => {
 
     return (
     <>
-        <OLCompass 
+        <Compass 
             mode={mode}
             position={isExplanationPage ? "center-2" : "left-2"}
             resetState={resetState}
@@ -469,7 +471,7 @@ const AnalysePage = () => {
         {isExplanationPage && <Description mode="analyse" />}
         
         <div className='a-ol-compass'>
-            <BigWave 
+            <DraggableCompass 
                 mode={mode}
                 resetState={resetState}
                 onDragStop={handleDragStop}

@@ -348,7 +348,11 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
         }}
       >
         {components.map((c, i) => (
-          <div key={i}>
+          <div key={i}
+              onClick={() => handleClick(i)}
+              onMouseEnter={(e) => handleMouseEnter(e, i)}
+              onMouseLeave={() => handleMouseLeave(i)}
+          >
             {/* Shape */}
             <div
               style={{
@@ -358,10 +362,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                 transform: `rotate(${c.angle}rad) ${c.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
                 zIndex: 1 // Layer filled shapes at the base
               }}
-              onClick={() => handleClick(i)}
-              onMouseEnter={(e) => handleMouseEnter(e, i)}
-              onMouseLeave={() => handleMouseLeave(i)}
-
+              
             >
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
                 <path 
@@ -385,9 +386,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                 position: 'absolute', // Consistent positioning
                 zIndex: 30 // Ensures outlines are rendered on top of filled shapes
               }}
-              onClick={() => handleClick(i)}
-              onMouseEnter={(e) => handleMouseEnter(e, i)}
-              onMouseLeave={() => handleMouseLeave(i)}
             >
               <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
                 <path 
