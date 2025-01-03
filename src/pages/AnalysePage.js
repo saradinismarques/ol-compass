@@ -312,7 +312,7 @@ const AnalysePage = () => {
                     D
                 </button>
             </div>,
-                pdf, 14, 155, 'auto', 0.74
+                pdf, 14, 155, 'auto', 1
         );
 
         // Big Wave
@@ -426,12 +426,14 @@ const AnalysePage = () => {
             else 
                 link.download = `Visual_Report.pdf`;
             link.click();
-        } catch (error) {
-            console.error("Error generating PDF:", error);
-        } finally {
+
             setIsGenerating(false);
             setDownloadProgress(0); // Reset progress once done
-        }
+        } catch (error) {
+            console.error("Error generating PDF:", error);
+            setIsGenerating('Error');
+            setDownloadProgress(0); // Reset progress once done
+        } 
     };
     
     // Merge PDF chunks using pdf-lib
@@ -518,27 +520,32 @@ const AnalysePage = () => {
                     D
                 </button>
                 <button 
-                    className='a-generate-pdf-button'
+                    className={`a-generate-pdf-button ${isGenerating ? 'no-hover' : 'hover'}`}
                     onClick={handleDownloadPDF}
                     disabled={isGenerating} // Disable the button while generating
                     style={{
-                        background: isGenerating 
+                        background: isGenerating === true 
                             ? `linear-gradient(to right, #0a4461 ${downloadProgress}%, white ${downloadProgress}%)`
                             : 'white', // Change background to show progress
-                        color: isGenerating 
+                        color: isGenerating === true 
                             ? 'transparent'
-                            : '#0a4461', // Change background to show progress
+                            : '', // Change background to show progress
                     }}
                 >
-                   Download Visual Report
+                   {isGenerating !== 'Error' ? 'Download Visual Report' : 'Try again'}
                 </button>
-                <p style={{
-                        color: isGenerating 
-                            ? '#0a4461'
-                            : 'transparent', // Change background to show progress
-                    }}>
-                    {Math.round(downloadProgress)}% Complete
-                </p>  
+                <p className='a-download-progress' style={{
+                    color: isGenerating === 'Error' 
+                        ? 'red' 
+                        : isGenerating 
+                        ? '#0a4461' 
+                        : 'transparent', // Change text color based on isGenerating state
+                }}>
+                    {isGenerating === 'Error' 
+                        ? 'Error Generating PDF :(' 
+                        : `${Math.round(downloadProgress)}% Complete`
+                    }
+                </p>
                       
             </div> 
 
@@ -550,38 +557,6 @@ const AnalysePage = () => {
                 </div>
                 </>
             }
-              {/* <div className='a-definitions-container'>
-                {componentsRef.current
-                    .filter((c) => c.type === 'Dimension') // Filter by the specific type
-                    .map((c, i) => (
-                        <div key={i} className='a-definition'>
-                            <p className='a-definition-title' 
-                                style={{
-                                    color: `${colors['Label']['Dimension']}`,
-                                    background: `linear-gradient(
-                                        to right, 
-                                        ${colors['Wave']['Dimension']} 5%, 
-                                        white 60%
-                                    )`,
-                                }}>
-                                {c.title}
-                            </p>
-                            <p className='a-definition-text'>{c.headline}</p>
-                        </div>
-                    ))}
-                    <div className="a-definitions-top-lines">
-                        <div className="a-definitions-horizontal-line"
-                            style={{
-                                background: `${colors['Intro Text']['Dimension']}`,
-                            }}>
-                        </div>
-                        <div className="a-definitions-vertical-line"
-                            style={{
-                                background: `${colors['Intro Text']['Dimension']}`,
-                            }}>
-                        </div>
-                    </div>
-            </div>  */}
             </>
         )}
         <Menu />

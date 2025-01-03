@@ -23,10 +23,8 @@
 }
 
 .a-tasks-nav {
-    bottom: 5vh;
-    left: 9vw; /* Positioning at the bottom of the page */
     display: flex;
-    gap: 28px; /* Space between buttons */
+    gap: 22px; /* Space between buttons */
     align-items: center;
     justify-items: center;
     background-color: transparent;
@@ -34,11 +32,14 @@
 
 .a-tasks-nav.fixed {
     position: fixed;
+    bottom: 9vh;
+    left: 9vw; /* Positioning at the bottom of the page */
+    transform: translateY(50%);
 }
   
 .a-task-button {
-    width: 17px; /* Default size */
-    height: 17px;
+    width: 14px; /* Default size */
+    height: 14px;
     border-radius: 50%;
     background-color: #0a4461;
     color: white;
@@ -51,9 +52,9 @@
 }
   
 .a-task-button.active {
-    width: 40px; /* Increase size for the active button */
-    height: 40px;
-    font-size: 18px; /* Make the text bigger in the active button */
+    width: 29px; /* Increase size for the active button */
+    height: 29px;
+    font-size: 16px; /* Make the text bigger in the active button */
 }
   
 .a-task-button:hover {
@@ -62,13 +63,16 @@
 }
 
 .a-generate-pdf-button {
-    height: 22px;
+    height: 18px;
     border: 2px solid #0a4461;
     border-radius: 100px;
     background-color: white;
-    font-size: 16px;
+    font-size: 14px;
+    width: 190px;
     color: #0a4461;
-    width: 200px;
+    display: flex; /* Add Flexbox */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
 }
 
 .a-generate-pdf-button:hover {
@@ -77,20 +81,23 @@
     color: #136d9a;
 }
 
-.a-download-progress {
-    color: #0a4461;
-    margin-left: -10px;
-    
+.a-generate-pdf-button.no-hover:hover {
+    border: 2px solid #0a4461;
+    cursor:default; /* Optional: Show disabled cursor */
 }
 
-.a-subtask-nav {
-    position: fixed;
-    bottom: 3vh;
-    left: 9vw; /* Positioning at the bottom of the page */
-    display: flex;
-    gap: 10px;
+.a-download-progress {
+    height: 18px;
+    border: 2px solid transparent;
+    border-radius: 100px;
+    background-color: white;
+    font-size: 14px;
+    width: 200px;
+    color: #0a4461;
+    display: flex; /* Add Flexbox */
+    align-items: center; /* Center vertically */
 }
-  
+
 .a-ol-compass {
     position: fixed;   
     top: 50vh;           
