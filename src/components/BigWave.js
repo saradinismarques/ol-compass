@@ -91,14 +91,14 @@ const BigWave = ({ mode, onDragStop, resetState, pdfComponents, stopTextAreaFocu
 
     if(components[id].type === "Principle") {
         if(isFlipped(components[id].code))
-            newAngle = -0.025*Math.PI;
+            newAngle = -0.0273*Math.PI;
         else
-            newAngle = -Math.PI-0.025*Math.PI;
+            newAngle = -Math.PI-0.0273*Math.PI;
     } else {
         if(isFlipped(components[id].code))
-            newAngle = 0.025*Math.PI;
+            newAngle = 0.0273*Math.PI;
         else
-            newAngle = -Math.PI+0.025*Math.PI;
+            newAngle = -Math.PI+0.0273*Math.PI;
     }
 
     setComponents((prevComponents) => {
