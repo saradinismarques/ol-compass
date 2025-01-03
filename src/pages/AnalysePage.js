@@ -146,7 +146,7 @@ const AnalysePage = () => {
         const root = createRoot(container);
         root.render(component);
         
-        const scale = 2; // max = 9
+        const scale = 1; // max = 9
 
         // Wait for the next frame to ensure the component is fully rendered
         await new Promise((resolve) => setTimeout(resolve, 0));
@@ -515,9 +515,9 @@ const AnalysePage = () => {
                     D
                 </button>
                 <button 
-                    className={`a-generate-pdf-button ${isGenerating ? 'no-hover' : 'hover'}`}
+                    className={`a-generate-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}
                     onClick={handleDownloadPDF}
-                    disabled={isGenerating} // Disable the button while generating
+                    disabled={isGenerating === true} // Disable the button while generating
                     style={{
                         background: isGenerating === true 
                             ? `linear-gradient(to right, #0a4461 ${downloadProgress}%, white ${downloadProgress}%)`
