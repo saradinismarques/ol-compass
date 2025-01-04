@@ -9,9 +9,10 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const Wave = ({ component, size, type, mode, selectedComponents, currentComponent, hoveredId, styles, waveRef }) => {
+const Wave = ({ component, size, type, mode, selectedComponents, currentComponent, hoveredId, waveRef, currentType }) => {
     const {
         colors,
+        isExplanationPage,
         allComponents,
         opacityCounter,
     } = useContext(StateContext);
@@ -19,26 +20,54 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
     const waveWidth = size/2.6;
     const waveHeight = waveWidth*3;
 
+    const getCursor = () => {
+      if(mode.startsWith("intro") || mode === "default" 
+      || (type === "default" && mode.startsWith("analyse"))
+      || (mode.startsWith("analyse") && isExplanationPage) ||
+      type === "icon")
+        return 'default';
+      return 'pointer';
+    }
+
     const buttonStyle = {
       position: 'absolute',
-      cursor: (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse")) ? 'default' : 'pointer',
+      cursor: getCursor(),
       pointerEvents: 'none', // Ensure buttons are clickable
     };
 
     let waveStyles;
-    if(type === "default") 
+    if(type === "default") {
       waveStyles = {
         left: component.x - waveWidth / 2,
         top: component.y - waveHeight / 2 - 2,
         textLeft: component.x - (waveWidth * 0.83) / 2,
         textTop: component.y - waveHeight / 2 - 2,
       }
-    else if(type === "draggable") 
+    }
+    else if(type === "draggable") {
       waveStyles = {
         left: null,
         top: null,
         textLeft: 0.35*waveWidth/4,
-        textTop: component.y - waveHeight / 2 - 2,
+        textTop: null,
+      }
+    }
+    else if(type === "icon") {
+      let gapX, gapY;
+      if(mode.startsWith("analyse")) {
+        gapX = 54;
+        gapY = 53;
+      } else {
+        gapX = 0;
+        gapY = -2;
+      }
+
+      waveStyles = {
+        left: component.x - waveWidth / 2 + gapX,
+        top: component.y - waveHeight / 2 + gapY,
+        textLeft: 0.35*waveWidth/4,
+        textTop: null,
+      }
     }
 
     const getWaveFill = () => {
@@ -49,6 +78,10 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
         return colors['Wave'][component.type];
       } else if(type === "draggable") {
         return colors['Wave'][component.type];
+      } else if(type === "icon") {
+        if(component.type === currentType)
+          return colors['Wave'][currentType];
+        return "#e3e4e3";
       }
     }
     
@@ -136,7 +169,14 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
             return 0.3;
         }
         // Get Started
-        if(mode === "get-started") {
+        if(mode.startsWith("get-started-search")) {
+          if(currentComponent === component.code)
+            return 1;
+          else if(hoveredId === component.code) 
+            return 0.8;
+          else
+            return 0.2;
+        } else if(mode.startsWith("get-started")) {
           if(selectedComponents.length === 0) 
             return 1;
           if (selectedComponents.includes(component.code)) 
@@ -144,14 +184,6 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
           if (hoveredId === component.code) 
               return 0.8;
           return 0.3;
-        }
-        if(mode === "get-started-search") {
-          if(currentComponent === component.code)
-            return 1;
-          else if(hoveredId === component.code) 
-            return 0.8;
-          else
-            return 0.2;
         }
       
         // Get Inspired
@@ -210,13 +242,17 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
           else
             return 0.3;
         }
-      }
+      } else if(type === "icon") {
+        if(component.type === currentType)
+          return 0.9;
+        return 0.3;
+      } 
     };
     
     const isFlipped = () => {
       const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
     
-      if(flippedTexts.includes(component.label)) 
+      if(flippedTexts.includes(component.code)) 
         return false;
       return true;
     };

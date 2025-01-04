@@ -3,6 +3,7 @@ import '../styles/pages/GetStartedPage.css';
 import OLCompass from '../components/OLCompass';
 import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon';
+import Icon from '../components/Icon';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
@@ -232,7 +233,7 @@ const GetStartedPage = () => {
 
         {!isExplanationPage && (
           <>
-            <CompassIcon 
+            <Icon 
               mode={mode}
               type={selectedType} 
             />

@@ -4,6 +4,7 @@ import Compass from '../components/Compass';
 import BigWave from '../components/BigWave.js'
 import DraggableCompass from '../components/DraggableCompass.js'
 import CompassIcon from '../components/CompassIcon'
+import Icon from '../components/Icon'
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import html2canvas from "html2canvas";
@@ -183,7 +184,7 @@ const AnalysePage = () => {
         // Compass Icon
         await renderToCanvas(
             <State>
-                <CompassIcon 
+                <Icon 
                     mode={currentMode} 
                     type={type} />
             </State>,
