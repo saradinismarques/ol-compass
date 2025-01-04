@@ -16,9 +16,11 @@ else
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
-
 const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextAreaFocus }) => {
+  // Compass Type
   const compassType = "draggable";
+
+  // Global Variables
   const {
     isExplanationPage,
   } = useContext(StateContext);
@@ -36,9 +38,9 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   let pdfSelectedComponents;
   if(pdfComponents)
     pdfSelectedComponents = pdfComponents.map((component) => component.code);
+  
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(pdfSelectedComponents || []);
-
   const [showSquare, setShowSquare] = useState(false);
   const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
 
@@ -79,98 +81,47 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       );
   }, [isExplanationPage]);
 
+  // Handlers
   const handleDragStart = (id) => {
     let newAngle;
 
     if(components[id].type === "Principle") {
-        if(isFlipped(components[id].code))
-            newAngle = -0.0273*Math.PI;
-        else
-            newAngle = -Math.PI-0.0273*Math.PI;
+      if(isFlipped(components[id].code))
+        newAngle = -0.0273*Math.PI;
+      else
+        newAngle = -Math.PI-0.0273*Math.PI;
     } else {
-        if(isFlipped(components[id].code))
-            newAngle = 0.0273*Math.PI;
-        else
-            newAngle = -Math.PI+0.0273*Math.PI;
+      if(isFlipped(components[id].code))
+        newAngle = 0.0273*Math.PI;
+      else
+        newAngle = -Math.PI+0.0273*Math.PI;
     }
 
     setComponents((prevComponents) => {
-        const updatedComponents = [...prevComponents];
-        updatedComponents[id].angle = newAngle;
+      const updatedComponents = [...prevComponents];
+      updatedComponents[id].angle = newAngle;
 
-        return updatedComponents;
+      return updatedComponents;
     });
   };
 
   const handleDragStop = (id, data) => {
-    let textAreaX, textAreaY, arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip;
-    let waveRect = waveRefs.current[id].getBoundingClientRect();
-   
-    setComponents((prevComponents) => {
-        const updatedComponents = [...prevComponents];
-        updatedComponents[id].x = data.x;
-        updatedComponents[id].y = data.y;
+    let init = true;
 
-        return updatedComponents;
-    });
-    // Initialization if doesn't exist already
-    if(!selectedComponentsRef.current.includes(components[id].code)) {
-        topTip = components[id].topTip;
-        rightTip = components[id].rightTip;
-        setComponents((prevComponents) => {
-            const updatedComponents = [...prevComponents];
-            textAreaX = data.x + 100;
-            textAreaY = data.y + 175;
-            arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
-
-            if(components[id].type === 'Principle')
-              arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
-            else
-              arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
-
-            arrowX2 = data.x + 130;
-            arrowY2 = data.y + 207 + updatedComponents[id].textGapY2;
-
-            updatedComponents[id].textAreaX = textAreaX;
-            updatedComponents[id].textAreaY = textAreaY;
-            updatedComponents[id].arrowX1 = arrowX1;
-            updatedComponents[id].arrowY1 = arrowY1;
-            updatedComponents[id].arrowX2 = arrowX2;
-            updatedComponents[id].arrowY2 = arrowY2;
-
-            return updatedComponents;
-        });
-        
-        setSelectedComponents(prevComponents => {
-              const newComponents = [...prevComponents, components[id].code]; // Add the component if it doesn't already exist
-              selectedComponentsRef.current = newComponents;
-              return newComponents; // Return updated state
-        });    
-    } else if (selectedComponentsRef.current.includes(components[id].code) && textareaRefs.current[id]) {
-
-      // Get the compass circle dimensions and center
-      const compass = compassRef.current.getBoundingClientRect();
-      const compassCenterX = compass.left + compass.width / 2;
-      const compassCenterY = compass.top + compass.height / 2;
-      const compassRadius = compass.width / 2; // Assumes it's a perfect circle
-
-      // Calculate the distance from the center of the compass to the component's final position
-      const componentCenterX = waveRect.left + waveRect.width / 2;
-      const componentCenterY = waveRect.top + waveRect.height / 2;
-      const distance = Math.sqrt(
-        Math.pow(componentCenterX - compassCenterX, 2) + Math.pow(componentCenterY - compassCenterY, 2)
-      );
+    if (selectedComponentsRef.current.includes(components[id].code)) {
+      init = false;
       // If we want to remove the component
-      if (distance <= compassRadius) {
+      if (isInsideCompassArea(id)) {
         // Remove the component from selectedComponents
         setSelectedComponents((prevComponents) => {
           const updatedComponents = prevComponents.filter(
             (componentCode) => componentCode !== components[id].code
           );
           selectedComponentsRef.current = updatedComponents; // Update the ref
+          
           return updatedComponents;
         });
-
+    
         // Go back to initial positions
         setComponents((prevComponents) => {
           const updatedComponents = [...prevComponents];
@@ -186,214 +137,231 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
             components[id].code,
             null
           ); // send null code to Analyse to remove it there too
+        
         return; // Exit early as the component is removed
-      } else {
-        const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
-  
-        if(waveRect.left + waveRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) 
-          rightTip = false;
-        else 
-          rightTip = true;
-
-        if(waveRect.top + waveRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) 
-          topTip = false;
-        else 
-          topTip = true;
-
-          setComponents((prevComponents) => {
-            const updatedComponents = [...prevComponents];
-            textAreaX = components[id].textAreaX;
-            textAreaY = components[id].textAreaY;
-            
-            if(rightTip) { 
-              arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
-              if(components[id].type === 'Principle') 
-                arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
-              else 
-                arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
-            } else {
-              arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3;
-              if(components[id].type === 'Principle') 
-                arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
-              else 
-                arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
-            }
-
-            arrowX2 = textAreaRect.left + textAreaRect.width / 2 - 42;
-
-            if(topTip)
-              arrowY2 = textAreaRect.top + textAreaRect.height / 2 + updatedComponents[id].textGapY2;
-            else
-              arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
-
-            updatedComponents[id].arrowX1 = arrowX1;
-            updatedComponents[id].arrowY1 = arrowY1;
-            updatedComponents[id].arrowX2 = arrowX2;
-            updatedComponents[id].arrowY2 = arrowY2;
-            updatedComponents[id].topTip = topTip;
-            updatedComponents[id].rightTip = rightTip;
-
-            return updatedComponents;
-        });
-      }
+      } 
     }
-
-    setActiveRef(id);
-
-    if (onDragStop) {
-        const title = `${components[id].code} - ${components[id].label}`;
-
-        onDragStop(
-          components[id].code,
-          title,
-          components[id].label,
-          components[id].headline,
-          components[id].type,
-          components[id].angle,
-          data.x,
-          data.y,
-          textAreaX,
-          textAreaY,
-          components[id].textAreaData,
-          arrowX1,
-          arrowY1,
-          arrowX2,
-          arrowY2,
-          components[id].textGapY2,
-          topTip,
-          rightTip
-          );
-      }
-  };
-
-  // Memoize handleKeyDown to avoid creating a new reference on each render
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === 'Escape') {
-        setComponents(initialComponentsRef.current)
-        setSelectedComponents([]);
-        selectedComponentsRef.current = [];
-        setShowSquare(false);
-        setActiveId(null);
-      if(resetState)
-        resetState();
-    }
-  }, [resetState]);
     
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [handleKeyDown]); // Dependency array includes handleKeyDown
+    const tip = getArrowTipsPositions(id, init, data.x, data.y, null, null);
 
-  let containerStyle = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-      backgroundColor: 'transparent',
-      position: 'relative',  
+    setComponents((prevComponents) => {
+      const updatedComponents = [...prevComponents];   
+
+      updatedComponents[id].x = tip.x;
+      updatedComponents[id].y = tip.y;
+      updatedComponents[id].textAreaX = tip.textAreaX;
+      updatedComponents[id].textAreaY = tip.textAreaY;
+      updatedComponents[id].arrowX1 = tip.arrowX1;
+      updatedComponents[id].arrowY1 = tip.arrowY1;
+      updatedComponents[id].arrowX2 = tip.arrowX2;
+      updatedComponents[id].arrowY2 = tip.arrowY2;
+      updatedComponents[id].topTip = tip.topTip;
+      updatedComponents[id].rightTip = tip.rightTip;
+
+      return updatedComponents;
+    });
+
+    if (onDragStop) 
+      sendNewData(id, data.x, data.y, tip.textAreaX, tip.textAreaY, components[id].textAreaData, tip.arrowX1, tip.arrowY1, tip.arrowX2, tip.arrowY2, components[id].textGapY2, tip.topTip, tip.rightTip)
+
+    setActiveId(id);
+    activeIdRef.current = id;
   };
 
-  const getTextAreaOpacity = (component, type) => {
-    if(mode === "analyse-a" && (type === 'All' || !currentType)) 
-        return 1;
+  const handleTextAreaDragStop = (id, data) => {
+    const tip = getArrowTipsPositions(id, false, null, null, data.x, data.y);
+
+    setComponents((prevComponents) => {
+        const updatedComponents = [...prevComponents];
+
+        updatedComponents[id].textAreaX = tip.textAreaX;
+        updatedComponents[id].textAreaY = tip.textAreaY;
+        updatedComponents[id].arrowX1 = tip.arrowX1;
+        updatedComponents[id].arrowY1 = tip.arrowY1;
+        updatedComponents[id].arrowX2 = tip.arrowX2;
+        updatedComponents[id].arrowY2 = tip.arrowY2;
+        updatedComponents[id].topTip = tip.topTip;
+        updatedComponents[id].rightTip = tip.rightTip;
+
+        return updatedComponents;
+    });
+
+    if (onDragStop) 
+      sendNewData(id, components[id].x, components[id].y, tip.textAreaX, tip.textAreaY, components[id].textAreaData, tip.arrowX1, tip.arrowY1, tip.arrowX2, tip.arrowY2, components[id].textGapY2, tip.topTip, tip.rightTip)
+  };
+
+    // Memoize handleKeyDown to avoid creating a new reference on each render
+    const handleKeyDown = useCallback((e) => {
+      if (e.key === 'Escape') {
+          setComponents(initialComponentsRef.current)
+          setSelectedComponents([]);
+          selectedComponentsRef.current = [];
+          setShowSquare(false);
+          setActiveId(null);
+        if(resetState)
+          resetState();
+      }
+    }, [resetState]);
+      
+    useEffect(() => {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }, [handleKeyDown]); // Dependency array includes handleKeyDown
+  
+
+  // Functions
+  const isFlipped = (label) => {
+    const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
+  
+    if(flippedTexts.includes(label)) 
+      return false;
+    return true;
+  };
+
+  const getArrowTipsPositions = (id, init, dataX, dataY, dataTextAreaX, dataTextAreaY) => {
+    let x, y, textAreaX, textAreaY, arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip;
+    let waveRect = waveRefs.current[id].getBoundingClientRect();
+
+    // Initialization if doesn't exist already
+    if(init) {
+      x = dataX;
+      y = dataY;
+      textAreaX = dataX + 100;
+      textAreaY = dataY + 175;
+      topTip = components[id].topTip;
+      rightTip = components[id].rightTip;
+
+      arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
+
+      if(components[id].type === 'Principle')
+        arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+      else
+        arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+
+      arrowX2 = dataX + 130;
+      arrowY2 = dataY + 207 + components[id].textGapY2;
+
+    } else {
+      x = (dataX || components[id].x);
+      y = (dataY || components[id].y);
+      textAreaX = (dataTextAreaX || components[id].textAreaX);
+      textAreaY = (dataTextAreaX || components[id].textAreaY);
+
+      const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
+
+      if(waveRect.left + waveRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) 
+        rightTip = false;
+      else 
+        rightTip = true;
+
+      if(waveRect.top + waveRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) 
+        topTip = false;
+      else 
+        topTip = true;
+
+      if(rightTip) { 
+        arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
+        if(components[id].type === 'Principle') 
+          arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+        else 
+          arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+      } else {
+        arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3;
+        if(components[id].type === 'Principle') 
+          arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+        else 
+          arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+      }
+
+      arrowX2 = textAreaRect.left + textAreaRect.width / 2 - 42;
+
+      if(topTip)
+        arrowY2 = textAreaRect.top + textAreaRect.height / 2 + components[id].textGapY2;
+      else
+        arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
+    }
+    
+    return {
+      x: x,
+      y: y,
+      textAreaX: textAreaX,
+      textAreaY: textAreaY,
+      arrowX1: arrowX1,
+      arrowY1: arrowY1,
+      arrowX2: arrowX2,
+      arrowY2: arrowY2,
+      topTip: topTip,
+      rightTip: rightTip
+    }
+  };
+
+  const isInsideCompassArea = (id) => {
+    let waveRect = waveRefs.current[id].getBoundingClientRect();
+    
+    // Get the compass circle dimensions and center
+    const compass = compassRef.current.getBoundingClientRect();
+    const compassCenterX = compass.left + compass.width / 2;
+    const compassCenterY = compass.top + compass.height / 2;
+    const compassRadius = compass.width / 2; // Assumes it's a perfect circle
+
+    // Calculate the distance from the center of the compass to the component's final position
+    const componentCenterX = waveRect.left + waveRect.width / 2;
+    const componentCenterY = waveRect.top + waveRect.height / 2;
+    const distance = Math.sqrt(
+      Math.pow(componentCenterX - compassCenterX, 2) + Math.pow(componentCenterY - compassCenterY, 2)
+    );
+
+    if (distance <= compassRadius) 
+      return true;
+    else
+      return false;
+  }
+
+  const sendNewData = (id, x, y, textAreaX, textAreaY, textAreaData, arrowX1, arrowY1, arrowX2, arrowY2, textGapY2, topTip, rightTip) => {
+    const title = `${components[id].code} - ${components[id].label}`;
+
+    onDragStop(
+      components[id].code,
+      title,
+      components[id].label,
+      components[id].headline,
+      components[id].type,
+      components[id].angle,
+      x,
+      y,
+      textAreaX,
+      textAreaY,
+      textAreaData,
+      arrowX1, 
+      arrowY1,
+      arrowX2,
+      arrowY2,
+      textGapY2,
+      topTip,
+      rightTip      
+    );
+  }
+
+  // Styles
+  let containerStyle = {
+    width: window.innerWidth,
+    height: window.innerHeight,
+    backgroundColor: 'transparent',
+    position: 'relative',  
+  };
+  
+  const getTextAreaOpacity = (component) => {
+    if(mode === "analyse-a" && (currentType === 'All' || !currentType)) 
+      return 1;
     else if(component.type === currentType)
       return 1;
     else
       return 0.3;
   } 
 
-  const isFlipped = (label) => {
-    const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
-
-    if(flippedTexts.includes(label)) 
-      return false;
-    return true;
-  };
-
-  const handleTextAreaDragStop = (id, data) => {
-    let arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip;
-    let waveRect = waveRefs.current[id].getBoundingClientRect();
-
-    const textAreaRect = textareaRefs.current[id].getBoundingClientRect();
-
-    if(waveRect.left + waveRect.width / 2 > textAreaRect.left + textAreaRect.width / 2) 
-      rightTip = false;
-    else 
-      rightTip = true;
-
-    if(waveRect.top + waveRect.height / 2 <= textAreaRect.top + textAreaRect.height / 2) 
-      topTip = false;
-    else 
-      topTip = true;
-
-    setComponents((prevComponents) => {
-        const updatedComponents = [...prevComponents];
-
-        updatedComponents[id].textAreaX = data.x;
-        updatedComponents[id].textAreaY = data.y;
-
-        if(rightTip) { 
-          arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
-          if(components[id].type === 'Principle') 
-            arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
-          else 
-            arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
-        } else {
-          arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3;
-          if(components[id].type === 'Principle') 
-            arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
-          else 
-            arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
-        }
-
-        arrowX2 = textAreaRect.left + textAreaRect.width / 2 - 42;
-
-        if(topTip)
-          arrowY2 = textAreaRect.top + textAreaRect.height / 2 + updatedComponents[id].textGapY2;
-        else
-          arrowY2 = textAreaRect.top + textAreaRect.height / 2 - 34;
-
-        updatedComponents[id].arrowX1 = arrowX1;
-        updatedComponents[id].arrowY1 = arrowY1;
-        updatedComponents[id].arrowX2 = arrowX2;
-        updatedComponents[id].arrowY2 = arrowY2;
-        updatedComponents[id].topTip = topTip;
-        updatedComponents[id].rightTip = rightTip;
-
-        return updatedComponents;
-    });
-
-    if (onDragStop) {
-        const title = `${components[id].code} - ${components[id].label}`;
-
-        onDragStop(
-          components[id].code,
-          title,
-          components[id].label,
-          components[id].headline,
-          components[id].type,
-          components[id].angle,
-          components[id].x,
-          components[id].y,
-          data.x,
-          data.y,
-          components[id].textAreaData,
-          arrowX1, 
-          arrowY1,
-          arrowX2,
-          arrowY2,
-          components[id].textGapY2,
-          topTip,
-          rightTip      
-        );
-      }
-  };
-
-  const setActiveRef = (id) => {
-    setActiveId(id);
-    activeIdRef.current = id;
-  }
-  
+  // Other Components
   const TextArea = ({ id, position, value }) => {
     // Focus the textarea when the activeId changes
     useEffect(() => {
@@ -479,36 +447,15 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         return updatedComponents;
       });
 
-      if (onDragStop) {
-        const title = `${components[id].code} - ${components[id].label}`;
+      const textAreaData = {
+        text: value,
+        cursorStart: selectionStart,
+        cursorEnd: selectionEnd,
+      };
 
-        onDragStop(
-            components[id].code,
-            title,
-            components[id].label,
-            components[id].headline,
-            components[id].type,
-            components[id].angle,
-            components[id].x,
-            components[id].y,
-            components[id].textAreaX,
-            components[id].textAreaY,
-            {
-                text: value,
-                cursorStart: selectionStart,
-                cursorEnd: selectionEnd,
-            }, 
-            components[id].arrowX1,
-            components[id].arrowY1,
-            components[id].arrowX2,
-            arrowY2,
-            textGapY2,
-            components[id].topTip,
-            components[id].rightTip
-        );
-        }
-    };
-
+      if (onDragStop)
+        sendNewData(id, components[id].x, components[id].y, components[id].textAreaX, components[id].textAreaY, textAreaData, components[id].arrowX1, components[id].arrowY1, components[id].arrowX2, arrowY2, textGapY2, components[id].topTip, components[id].rightTip)
+    }
     return (
         <div>
         <style type="text/css">
@@ -522,7 +469,10 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         <Draggable
             nodeRef={nodeRef}
             position={position} // Controlled position from parent state
-            onStart={() => setActiveRef(id)} // Set this textarea as active on drag
+            onStart={() => {
+              setActiveId(id);
+              activeIdRef.current = id;
+            }} // Set this textarea as active on drag
             onStop={(e, data) => handleTextAreaDragStop(id, data)} // Update position after drag
         >
         <div
@@ -646,7 +596,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         {selectedComponentsRef.current.includes(component.code) && ((pdfSelectedComponents && component.textAreaData.length !== 0) || !pdfSelectedComponents) &&
         <div
           style={{
-            opacity: getTextAreaOpacity(mode, component, currentType)
+            opacity: getTextAreaOpacity(component)
           }}
         >
         {/* Text Box */}

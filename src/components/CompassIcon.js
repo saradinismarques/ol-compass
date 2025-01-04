@@ -7,7 +7,10 @@ import Wave, { getComponentsPositions } from "./Wave.js"
 let size = 90;
 
 const CompassIcon = ({ mode, currentType }) => {
+  // Compass Type
   const compassType = "icon";
+  
+  // Global Variables
   const {colors} = useContext(StateContext);
   
   // Dictionary with all information
@@ -16,7 +19,7 @@ const CompassIcon = ({ mode, currentType }) => {
   const dimensions = getComponentsPositions(compassType, [], 'Dimension', size);
   const components = principles.concat(perspectives, dimensions);
 
-  // Container styles for the circle menu
+  // Styles
   let containerStyle;
   if(mode.startsWith('analyse')) {
     // Container styles for the circle menu
@@ -88,7 +91,7 @@ const CompassIcon = ({ mode, currentType }) => {
         </div>
       </div>
       ))}
-      </div>
+    </div>
   ); 
 };
 

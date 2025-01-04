@@ -28,7 +28,10 @@ if(window.innerHeight > 700) {
 }
 
 const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
+  // Compass Type
   const compassType = "default";
+  
+  // Global Variables
   const {
     colors,
     isExplanationPage,
