@@ -1,12 +1,11 @@
 import React from 'react';
-import OLCompass from '../components/OLCompass'
-import Compass from '../components/Compass';
+import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 
 const HomePage = () => {
   return (
     <>
-      <Compass 
+      <OLCompass 
         mode="default"
         position="center" 
       /> 

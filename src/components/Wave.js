@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import { StateContext } from "../State";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 
@@ -9,7 +9,7 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 
 const bigLabels = ['P6', 'D10'];
 
-const Wave = ({ component, size, type, mode, selectedComponents, currentComponent, hoveredId, waveRef, currentType }) => {
+const Wave = ({ compassType, component, currentType, size, mode, selectedComponents, currentComponent, hoveredId, waveRef }) => {
     const {
         colors,
         isExplanationPage,
@@ -22,9 +22,9 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
 
     const getCursor = () => {
       if(mode.startsWith("intro") || mode === "default" 
-      || (type === "default" && mode.startsWith("analyse"))
+      || (compassType === "default" && mode.startsWith("analyse"))
       || (mode.startsWith("analyse") && isExplanationPage) ||
-      type === "icon")
+      compassType === "icon")
         return 'default';
       return 'pointer';
     }
@@ -36,7 +36,7 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
     };
 
     let waveStyles;
-    if(type === "default") {
+    if(compassType === "default") {
       waveStyles = {
         left: component.x - waveWidth / 2,
         top: component.y - waveHeight / 2 - 2,
@@ -44,15 +44,15 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
         textTop: component.y - waveHeight / 2 - 2,
       }
     }
-    else if(type === "draggable") {
+    else if(compassType === "draggable") {
       waveStyles = {
-        left: null,
-        top: null,
+        left: 0,
+        top: 0,
         textLeft: 0.35*waveWidth/4,
-        textTop: null,
+        textTop: 0,
       }
     }
-    else if(type === "icon") {
+    else if(compassType === "icon") {
       let gapX, gapY;
       if(mode.startsWith("analyse")) {
         gapX = 54;
@@ -65,20 +65,18 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
       waveStyles = {
         left: component.x - waveWidth / 2 + gapX,
         top: component.y - waveHeight / 2 + gapY,
-        textLeft: 0.35*waveWidth/4,
-        textTop: null,
       }
     }
 
     const getWaveFill = () => {
-      if(type === "default") {
+      if(compassType === "default") {
         // Analyse
         if(mode.startsWith("analyse"))
           return "transparent";
         return colors['Wave'][component.type];
-      } else if(type === "draggable") {
+      } else if(compassType === "draggable") {
         return colors['Wave'][component.type];
-      } else if(type === "icon") {
+      } else if(compassType === "icon") {
         if(component.type === currentType)
           return colors['Wave'][currentType];
         return "#e3e4e3";
@@ -86,18 +84,18 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
     }
     
     const getTextFill = () => {
-      if(type === "default") {
+      if(compassType === "default") {
         // Analyse
         if(mode.startsWith("analyse")) 
           return colors['Wave'][component.type];
         return colors['Label'][component.type];
-      } else if(type === "draggable") {
+      } else if(compassType === "draggable") {
         return colors['Label'][component.type];
       }
     }
     
     const getStrokeFill = () => {
-      if(type === "default") {
+      if(compassType === "default") {
         // Get Started
         if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
           if(selectedComponents.includes(component.code)) 
@@ -106,23 +104,23 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
         if(mode.startsWith("analyse"))
           return colors['Wave'][component.type];
         return 'none';
-      } else if(type === "draggable") {
+      } else if(compassType === "draggable") {
         return 'none';
       } 
     };
     
     const getStrokeWidth = () => {
-      if(type === "default") {
+      if(compassType === "default") {
         if(mode.startsWith("analyse"))
           return "0.6px";
         return "1.5px";
-      } else if(type === "draggable") {
+      } else if(compassType === "draggable") {
         return "0.6px";
       }  
     };
     
     const getWaveOpacity = () => {
-      if(type === "default") {
+      if(compassType === "default") {
         // Intro
         if (mode === "intro-0")
           return 0.3;
@@ -219,30 +217,15 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
         // Analyse    
         if(mode.startsWith("analyse")) 
             return 1;
-      } else if(type === "draggable") {
+      } else if(compassType === "draggable") {
         // Analyse    
-        if(mode === "analyse" || mode === "analyse-a-all") {
+        if(mode === "analyse-a" && (currentType === 'All' || !currentType)) 
           return 1;
-        }
-        if(mode === "analyse-a-p") {
-          if(component.type === "Principle")
-            return 1;
-          else
-            return 0.3;
-        }
-        if(mode === "analyse-a-pe") {
-          if(component.type === "Perspective")
-            return 1;
-          else
-            return 0.3;
-        }
-        if(mode === "analyse-a-d") {
-          if(component.type === "Dimension")
-            return 1;
-          else
-            return 0.3;
-        }
-      } else if(type === "icon") {
+        else if(component.type === currentType)
+          return 1;
+        else
+          return 0.3;
+      } else if(compassType === "icon") {
         if(component.type === currentType)
           return 0.9;
         return 0.3;
@@ -351,6 +334,7 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
             </div>
   
             {/* Text */}
+            {compassType !== 'icon' && 
             <div
               style={{
                 position: 'absolute',
@@ -405,6 +389,8 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
                   {/* Text on Path */}
                   <text
                     fill={getTextFill()}
+                    fontFamily='Manrope'
+                    fontWeight={500}
                     fontSize="8px"
                     letterSpacing={getLabelWidth() > 10 ? "0.5px" : "0.9px"}
                     dy={bigLabels.includes(component.code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
@@ -451,6 +437,7 @@ const Wave = ({ component, size, type, mode, selectedComponents, currentComponen
                 </svg>
               </div>
             </div>
+            }
         </>
     );
 };

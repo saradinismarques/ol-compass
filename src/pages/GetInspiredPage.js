@@ -1,7 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef, useContext } from 'react';
-import '../styles/pages/GetInspiredPage.css';
-import OLCompass from '../components/OLCompass';
-import Compass from '../components/Compass';
+import OLCompass from '../components/OLCompass.js';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
@@ -9,6 +7,7 @@ import { getGetInspiredData } from '../utils/Data.js';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import '../styles/pages/GetInspiredPage.css';
 
 const GetInspiredPage = () => {
   const {
@@ -326,7 +325,7 @@ const GetInspiredPage = () => {
   return (
     <>
       <div className={`${messageShown ? "blur-background" : ""}`}>
-        <Compass
+        <OLCompass
           mode={mode}
           position={isExplanationPage ? "center" : "left"}
           resetState={resetState} // Passing resetState to OLCompass

@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
-import '../styles/pages/GetStartedPage.css';
 import OLCompass from '../components/OLCompass';
-import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon';
-import Icon from '../components/Icon';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import '../styles/pages/GetStartedPage.css';
 
 const GetStartedPage = () => {
   const {
@@ -222,7 +220,7 @@ const GetStartedPage = () => {
   return (
     <>
       <div className={`gs-background ${afterSearch ? 'gradient' : ''}`}>
-        <Compass
+        <OLCompass
           mode={mode}
           position={afterSearch ? 'left' : 'center'}
           resetState={resetState}
@@ -233,9 +231,9 @@ const GetStartedPage = () => {
 
         {!isExplanationPage && (
           <>
-            <Icon 
+            <CompassIcon 
               mode={mode}
-              type={selectedType} 
+              currentType={selectedType} 
             />
 
             {afterSearch && (

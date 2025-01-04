@@ -17,11 +17,9 @@ const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
 
-const DraggableCompass = ({ mode, onDragStop, resetState, pdfComponents, stopTextAreaFocus }) => {
+const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextAreaFocus }) => {
   const {
     isExplanationPage,
-    allComponents,
-    opacityCounter,
   } = useContext(StateContext);
   
   // Dictionary with all information
@@ -617,9 +615,10 @@ const DraggableCompass = ({ mode, onDragStop, resetState, pdfComponents, stopTex
         >
           <div key={id} ref={nodeRef}>
             <Wave 
+                compassType={'draggable'}
                 component={component}
+                currentType={currentType}
                 size={size}
-                type={'draggable'}
                 mode={mode}
                 selectedComponents={selectedComponents}
                 waveRef={(el) => (waveRefs.current[id] = el)}
@@ -630,7 +629,7 @@ const DraggableCompass = ({ mode, onDragStop, resetState, pdfComponents, stopTex
         {selectedComponentsRef.current.includes(component.code) && ((pdfSelectedComponents && component.textAreaData.length !== 0) || !pdfSelectedComponents) &&
         <div
           style={{
-            opacity: getTextAreaOpacity(mode, component)
+            opacity: getTextAreaOpacity(mode, component, currentType)
           }}
         >
         {/* Text Box */}
@@ -736,28 +735,13 @@ function getComponentsPositions(componentsData, type) {
   return componentsData;
 };
 
-const getTextAreaOpacity = (mode, component) => {
-    if(mode === "analyse" || mode === "analyse-a-all") {
+const getTextAreaOpacity = (mode, component, type) => {
+    if(mode === "analyse-a" && (type === 'All' || !type)) 
         return 1;
-      }
-      if(mode === "analyse-a-p") {
-        if(component.type === "Principle")
-          return 1;
-        else
-          return 0.3;
-      }
-      if(mode === "analyse-a-pe") {
-        if(component.type === "Perspective")
-          return 1;
-        else
-          return 0.3;
-      }
-      if(mode === "analyse-a-d") {
-        if(component.type === "Dimension")
-          return 1;
-        else
-          return 0.3;
-      }
+    else if(component.type === type)
+      return 1;
+    else
+      return 0.3;
 }
 
 

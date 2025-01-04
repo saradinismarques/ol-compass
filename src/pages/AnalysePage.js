@@ -1,10 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
-import OLCompass from '../components/OLCompass'
-import Compass from '../components/Compass';
-import BigWave from '../components/BigWave.js'
+import OLCompass from '../components/OLCompass.js';
 import DraggableCompass from '../components/DraggableCompass.js'
-import CompassIcon from '../components/CompassIcon'
-import Icon from '../components/Icon'
+import CompassIcon from '../components/CompassIcon.js'
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import html2canvas from "html2canvas";
@@ -12,10 +9,10 @@ import jsPDF from "jspdf";
 import { PDFDocument } from "pdf-lib"; // For merging PDFs
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { State, StateContext } from "../State";
-import '../styles/pages/AnalysePage.css';
 import coverImage from '../assets/images/analyse/PDF-cover-background.png';
 import indexImage from '../assets/images/analyse/PDF-index.png';
 import { createRoot } from 'react-dom/client';
+import '../styles/pages/AnalysePage.css';
 
 const AnalysePage = () => {
     const {
@@ -29,7 +26,7 @@ const AnalysePage = () => {
     const [stopTextAreaFocus, setStopTextAreaFocus] = useState(false);
     const [components, setComponents] = useState([]);
     const [activeTask, setActiveTask] = useState('A'); // Track active button
-    const [mode, setMode] = useState('analyse');
+    const [mode, setMode] = useState('analyse-a');
     const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
     const [isGenerating, setIsGenerating] = useState(false);
 
@@ -45,7 +42,7 @@ const AnalysePage = () => {
         setComponents([]);
         componentsRef.current = [];
         setActiveTask('A');
-        setMode('analyse');
+        setMode('analyse-a');
         setIsExplanationPage(true);
     }, [setIsExplanationPage]);
 
@@ -180,13 +177,13 @@ const AnalysePage = () => {
         document.body.removeChild(container);
     };
 
-    const addIconAndDefinitions = async(pdf, currentMode, type) => {
+    const addIconAndDefinitions = async(pdf, task, type) => {
         // Compass Icon
         await renderToCanvas(
             <State>
-                <Icon 
-                    mode={currentMode} 
-                    type={type} />
+                <CompassIcon 
+                    mode={"analyse-" + task.toLowerCase()} 
+                    currentType={type} />
             </State>,
             pdf, 11, 6, 'auto', 1.1
         );
@@ -236,7 +233,7 @@ const AnalysePage = () => {
         );
     };
 
-    const addTaskPage = async(pdf, text, currentMode, task, type) => {
+    const addTaskPage = async(pdf, text, task, type) => {
         // Loading Fonts
         pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium']);
         pdf.addFont('Manrope-Medium.ttf', 'Manrope', 'medium');
@@ -320,7 +317,7 @@ const AnalysePage = () => {
 
         // Big Wave
         let x;
-        if(currentMode === "analyse-a-all") 
+        if(type === "All") 
             x = -135;
         else
             x = -100;    ;
@@ -329,17 +326,17 @@ const AnalysePage = () => {
             <State>
                 <DraggableCompass 
                     className='a-ol-compass'
-                    mode={currentMode}
+                    mode={'analyse-' + task.toLowerCase()}
+                    currentType={type}
                     pdfComponents = {componentsRef.current}
                 /> 
             </State>,
             pdf, x, -17, 1485, 1
         );
          
-        if(currentMode === 'analyse-a-all')
+        if(task === 'A' && type === 'All')
             return;
-        if(currentMode.startsWith('analyse-a-'))
-            await addIconAndDefinitions(pdf, currentMode, type);
+        await addIconAndDefinitions(pdf, task, type);
     };
 
     const handleDownloadPDF = async () => {
@@ -371,23 +368,23 @@ const AnalysePage = () => {
             async (pdf) => {
                  // Task A All Page
                 const text = 'The OL aspects/potential of your project that I could initially capture';
-                await addTaskPage(pdf, text, 'analyse-a-all', 'A', 'All'); 
+                await addTaskPage(pdf, text, 'A', 'All'); 
             },
             async (pdf) => {
                   
                 // Task A Principles
                 const text = 'The OL aspects/potential of your project > PRINCIPLES focus';
-                await addTaskPage(pdf, text, 'analyse-a-p', 'A', 'Principle'); 
+                await addTaskPage(pdf, text, 'A', 'Principle'); 
             },
             async (pdf) => {
                 // Task A Perspectives
                 const text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
-                await addTaskPage(pdf, text, 'analyse-a-pe', 'A', 'Perspective'); 
+                await addTaskPage(pdf, text, 'A', 'Perspective'); 
             },
             async (pdf) => {
                 // Task A Dimensions
                 const text = 'The OL aspects/potential of your project > DIMENSIONS focus';
-                await addTaskPage(pdf, text, 'analyse-a-d', 'A', 'Dimension'); 
+                await addTaskPage(pdf, text, 'A', 'Dimension'); 
             },
             //Task B
             //Task C
@@ -463,7 +460,7 @@ const AnalysePage = () => {
 
     return (
     <>
-        <Compass 
+        <OLCompass 
             mode={mode}
             position={isExplanationPage ? "center-2" : "left-2"}
             resetState={resetState}

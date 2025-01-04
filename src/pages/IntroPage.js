@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OLCompass from '../components/OLCompass';
-import Compass from '../components/Compass';
+import OLCompass from '../components/OLCompass.js';
 import { getIntroTexts } from '../utils/Data.js';
 import { formatText } from '../utils/Text.js';
-import '../styles/pages/IntroPage.css';
 import { StateContext } from "../State";
+import '../styles/pages/IntroPage.css';
 
 const IntroPage = () => {
     const {
@@ -356,7 +355,7 @@ const IntroPage = () => {
 
     return (
         <div>
-            <Compass 
+            <OLCompass 
                 mode={mode} 
                 position="center"
             /> 

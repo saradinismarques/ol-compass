@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
-import '../styles/pages/ContributePage.css';
 import OLCompass from '../components/OLCompass';
-import Compass from '../components/Compass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import '../styles/pages/ContributePage.css';
 
 const ContributePage = () => {
   const {
@@ -226,7 +225,7 @@ const ContributePage = () => {
   return (
     <>
       <div className={messageShown ? 'blur-background' : ''}>
-        <Compass
+        <OLCompass
           mode="contribute"
           position={isExplanationPage ? 'center' : 'left'}
           resetState={resetState}

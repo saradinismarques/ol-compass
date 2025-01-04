@@ -1,7 +1,5 @@
 import React, { useState, useCallback, useMemo, useContext } from 'react';
-import '../styles/pages/LearnPage.css';
 import OLCompass from '../components/OLCompass';
-import Compass from '../components/Compass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
@@ -15,6 +13,7 @@ import P7Image from '../assets/images/learn/P7.png';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
+import '../styles/pages/LearnPage.css';
 
 const LearnPage = () => {
   const {
@@ -260,7 +259,7 @@ const LearnPage = () => {
     <>
       <div className={`${messageShown ? "blur-background" : ""}`}>
         <div className={`l-background ${isExplanationPage ? '' : 'gradient'}`}>
-          <Compass
+          <OLCompass
             mode="learn"
             position={isExplanationPage ? "center" : "left"}
             onButtonClick={handleCompassClick}
