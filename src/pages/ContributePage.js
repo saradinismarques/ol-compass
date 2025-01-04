@@ -121,9 +121,7 @@ const ContributePage = () => {
       }
       setIsExplanationPage(false);
       handleEnterClick(componentsRef.current);
-    },
-    [firstClick, firstMessage, setIsExplanationPage, handleEnterClick]
-  );
+  }, [firstClick, firstMessage, setIsExplanationPage, handleEnterClick]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);

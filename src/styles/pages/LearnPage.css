@@ -37,10 +37,6 @@
     display: block;
 }
 
-.l-text b{
-    font-weight: 500;
-}
-
 .l-text button {
     border: none;
     background: none;
@@ -218,7 +214,7 @@
 
 /* Scroll Features */
 .l-scroller {
-    overflow:auto;
+    overflow: auto;
     display: block;
 }
     

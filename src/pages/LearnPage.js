@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useContext } from 'react';
+import React, { useState, useCallback, useMemo, useContext, useRef, useEffect } from 'react';
 import OLCompass from '../components/OLCompass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
@@ -45,7 +45,13 @@ const LearnPage = () => {
   const [component, setComponent] = useState(initialComponent);
   const [concept, setConcept] = useState(initialConcept);
   const [firstClick, setFirstClick] = useState(true);
-  const [messageShown, setMessageShown] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
+
+  const showMessageRef = useRef(showMessage);
+
+  useEffect(() => {
+    showMessageRef.current = showMessage;
+  }, [showMessage]);
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--text-color', colors['Text'][component.type]);
@@ -72,7 +78,8 @@ const LearnPage = () => {
     setComponent(initialComponent);
     setConcept(initialConcept);
     setFirstClick(true);
-    setMessageShown(false);
+    setShowMessage(false);
+    showMessageRef.current = false;
     setIsExplanationPage(true);
   }, [initialComponent, initialConcept, setIsExplanationPage]);
 
@@ -83,7 +90,8 @@ const LearnPage = () => {
   const handleCompassClick = (code, title, headline, paragraph, type, concepts) => {
     if (firstClick && firstMessage["learn"]) {
       setFirstClick(false);
-      setMessageShown(true);
+      setShowMessage(true);
+      showMessageRef.current = true;
     }
 
     if (code === null) {
@@ -116,6 +124,11 @@ const LearnPage = () => {
         index: 0,
       });
     }
+  };
+
+  const messageStateChange = (state) => {
+    setShowMessage(state);
+    showMessageRef.current = state;
   };
 
   const toggleBookmark = () => {
@@ -257,7 +270,7 @@ const LearnPage = () => {
 
   return (
     <>
-      <div className={`${messageShown ? "blur-background" : ""}`}>
+      <div className={`${showMessageRef.current ? "blur-background" : ""}`}>
         <div className={`l-background ${isExplanationPage ? '' : 'gradient'}`}>
           <OLCompass
             mode="learn"
@@ -272,7 +285,7 @@ const LearnPage = () => {
               <Message
                 mode={'learn'}
                 type={'button'}
-                setMessageShown={setMessageShown}
+                messageStateChange={messageStateChange}  
               />
 
               <div className='l-bookmark-container'>
@@ -352,8 +365,8 @@ const LearnPage = () => {
         <Message
           mode={'learn'}
           type={'message'}
-          messageShown={messageShown}
-          setMessageShown={setMessageShown}
+          showMessage={showMessageRef.current}
+          messageStateChange={messageStateChange}  
         />
       )}
     </>

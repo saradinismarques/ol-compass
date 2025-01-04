@@ -45,12 +45,13 @@ const GetInspiredPage = () => {
   const [components, setComponents] = useState([]);
   const [currentComponents, setCurrentComponents] = useState();
   const [firstClick, setFirstClick] = useState(true);
-  const [messageShown, setMessageShown] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   const carouselModeRef = useRef(carouselMode);
   const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
   const componentsRef = useRef(components);
+  const showMessageRef = useRef(showMessage);
 
   useEffect(() => {
     componentsRef.current = components;
@@ -67,6 +68,10 @@ const GetInspiredPage = () => {
   useEffect(() => {
     searchLogicRef.current = searchLogic;
   }, [searchLogic]);
+
+  useEffect(() => {
+    showMessageRef.current = showMessage;
+  }, [showMessage]);
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
@@ -86,7 +91,8 @@ const GetInspiredPage = () => {
     componentsRef.current = [];
     setCurrentComponents();
     setFirstClick(true);
-    setMessageShown(false);
+    setShowMessage(false);
+    showMessageRef.current = false;
     setIsExplanationPage(true);
   }, [initialCaseStudy, setIsExplanationPage]);
 
@@ -116,7 +122,8 @@ const GetInspiredPage = () => {
   const handleCompassClick = (code) => {
     if(firstClick && firstMessage["get-inspired"]) {
       setFirstClick(false);
-      setMessageShown(true);
+      setShowMessage(true);
+      showMessageRef.current = true;
     }
 
     setComponents(prevComponents => {
@@ -134,6 +141,11 @@ const GetInspiredPage = () => {
     carouselModeRef.current = false;
     setMode('get-inspired');
     modeRef.current = 'get-inspired';
+  };
+
+  const messageStateChange = (state) => {
+    setShowMessage(state);
+    showMessageRef.current = state;
   };
 
   const searchCaseStudies = useCallback(() => {
@@ -202,7 +214,6 @@ const GetInspiredPage = () => {
 
   const handleDefaultSearch = useCallback(() => {
     if(carouselModeRef.current) return;
-
     setMode('get-inspired-search');
     modeRef.current = 'get-inspired-search';
     searchCaseStudies();
@@ -215,7 +226,8 @@ const GetInspiredPage = () => {
     carouselModeRef.current = true;
 
     if(firstClick && firstMessage["get-inspired"]) {
-      setMessageShown(true);
+      setShowMessage(true);
+      showMessageRef.current = true;
       setFirstClick(false);
     }
 
@@ -279,9 +291,9 @@ const GetInspiredPage = () => {
 
   // Keyboard event handler
   const handleKeyPress = useCallback((e) => {
-    if(e.key === 'Enter' && carouselModeRef.current) 
+    if(e.key === 'Enter' && carouselModeRef.current && !showMessageRef.current) 
       handleCarouselSearch();
-    else if(e.key === 'Enter' && !carouselModeRef.current) 
+    else if(e.key === 'Enter' && !carouselModeRef.current && !showMessageRef.current) 
       handleDefaultSearch();
     else if (e.key === 'ArrowUp') 
       handlePrev();
@@ -324,7 +336,7 @@ const GetInspiredPage = () => {
 
   return (
     <>
-      <div className={`${messageShown ? "blur-background" : ""}`}>
+      <div className={`${showMessageRef.current ? "blur-background" : ""}`}>
         <OLCompass
           mode={mode}
           position={isExplanationPage ? "center" : "left"}
@@ -339,7 +351,7 @@ const GetInspiredPage = () => {
           <Message
             mode={'get-inspired'}
             type={'button'}
-            setMessageShown={setMessageShown}
+            messageStateChange={messageStateChange}  
           />
         )}
   
@@ -438,8 +450,8 @@ const GetInspiredPage = () => {
         <Message
           mode={'get-inspired'}
           type={'message'}
-          messageShown={messageShown} // Pass whether to show the message
-          setMessageShown={setMessageShown} // Pass the setter to control it
+          showMessage={showMessageRef.current} // Pass whether to show the message
+          messageStateChange={messageStateChange}
         />
       )}
     </>
