@@ -3,7 +3,7 @@ import { getGetStartedData } from '../utils/Data.js';
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { StateContext } from "../State";
 import Draggable from "react-draggable";
-import Wave from "./Wave.js"
+import Wave, { getComponentsPositions } from "./Wave.js"
 
 // Sizes and positions 
 let size;
@@ -18,6 +18,7 @@ const waveHeight = waveWidth*3;
 
 
 const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextAreaFocus }) => {
+  const compassType = "draggable";
   const {
     isExplanationPage,
   } = useContext(StateContext);
@@ -25,9 +26,9 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   // Dictionary with all information
   let componentsData = getGetStartedData();
 
-  const principles = getComponentsPositions(componentsData['Principle'], 'Principle');
-  const perspectives = getComponentsPositions(componentsData['Perspective'], 'Perspective');
-  const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
+  const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size);
+  const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size);
+  const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size);
   const initialComponents = principles.concat(perspectives, dimensions);
  
   const [components, setComponents] = useState(pdfComponents || initialComponents);
@@ -290,9 +291,25 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       height: window.innerHeight,
       backgroundColor: 'transparent',
       position: 'relative',  
-    };
+  };
 
-  // Other states
+  const getTextAreaOpacity = (component, type) => {
+    if(mode === "analyse-a" && (type === 'All' || !currentType)) 
+        return 1;
+    else if(component.type === currentType)
+      return 1;
+    else
+      return 0.3;
+  } 
+
+  const isFlipped = (label) => {
+    const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
+
+    if(flippedTexts.includes(label)) 
+      return false;
+    return true;
+  };
+
   const handleTextAreaDragStop = (id, data) => {
     let arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip;
     let waveRect = waveRefs.current[id].getBoundingClientRect();
@@ -615,7 +632,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         >
           <div key={id} ref={nodeRef}>
             <Wave 
-                compassType={'draggable'}
+                compassType={compassType}
                 component={component}
                 currentType={currentType}
                 size={size}
@@ -677,80 +694,5 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     </>
   );
 } 
-
-function getComponentsPositions(componentsData, type) {
-  const centerX = window.innerWidth * 0.1599;
-  const centerY = window.innerHeight * 0.359;
-  let radius, numberOfComponents;
-
-  if(type === 'Principle') {
-    radius = size/6.9;
-    numberOfComponents = 7;
-  } else if(type === 'Perspective') {
-    radius = size/2.93;
-    numberOfComponents = 7;
-  } else if(type === 'Dimension') {
-    radius = size/2;
-    numberOfComponents = 10;
-  }
-
-  const angleStep = (2 * Math.PI) / numberOfComponents;
-  let startAngle
-
-  if(type === 'Principle')
-    startAngle = -Math.PI/1.55;
-  else
-    startAngle = -Math.PI/2;
-
-  for (let i = 0; i < numberOfComponents; i++) {
-    let angle = i * angleStep + startAngle;
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
-
-    if(type === 'Principle')
-      angle = angle + 2*Math.PI / 2 + Math.PI*0.02;
-    else if(type === 'Perspective')
-      angle = angle + Math.PI / 2 - Math.PI*0.01;
-    else if(type === 'Dimension')
-      angle = angle + Math.PI / 2 - Math.PI*0.005;
-
-    componentsData[i]["initialX"] = x - waveWidth/2 + window.innerWidth/2.94;
-    componentsData[i]["initialY"] = y - waveHeight/2 + window.innerHeight/6.85;
-    componentsData[i]["initialAngle"] = angle;
-    componentsData[i]["x"] = componentsData[i]["initialX"];
-    componentsData[i]["y"] = componentsData[i]["initialY"];
-    componentsData[i]["angle"] = componentsData[i]["initialAngle"];
-    componentsData[i]["textAreaX"] = x;
-    componentsData[i]["textAreaY"] = y;
-    componentsData[i]["textAreaData"] = "";
-    componentsData[i]["arrowX1"] = x;
-    componentsData[i]["arrowY1"] = y;
-    componentsData[i]["arrowX2"] = x;
-    componentsData[i]["arrowY2"] = y+150;
-    componentsData[i]["textGapY2"] = -2;
-    componentsData[i]["topTip"] = true;
-    componentsData[i]["rightTip"] = true;
-
-  }
-  return componentsData;
-};
-
-const getTextAreaOpacity = (mode, component, type) => {
-    if(mode === "analyse-a" && (type === 'All' || !type)) 
-        return 1;
-    else if(component.type === type)
-      return 1;
-    else
-      return 0.3;
-}
-
-
-const isFlipped = (label) => {
-  const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
-
-  if(flippedTexts.includes(label)) 
-    return false;
-  return true;
-};
 
 export default DraggableCompass;

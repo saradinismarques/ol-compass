@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback, useContext } from 'rea
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State.js";
-import Wave from "./Wave.js"
+import Wave, { getComponentsPositions } from "./Wave.js"
 
 // Sizes and positions 
 let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
@@ -28,6 +28,7 @@ if(window.innerHeight > 700) {
 }
 
 const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
+  const compassType = "default";
   const {
     colors,
     isExplanationPage,
@@ -56,9 +57,9 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   else
     componentsData = getLearnData();
 
-  const principles = getComponentsPositions(componentsData['Principle'], 'Principle');
-  const perspectives = getComponentsPositions(componentsData['Perspective'], 'Perspective');
-  const dimensions = getComponentsPositions(componentsData['Dimension'], 'Dimension');
+  const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size);
+  const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size);
+  const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size);
   const components = principles.concat(perspectives, dimensions);
   const concepts = getConceptsData();
 
@@ -245,6 +246,43 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       height: `${size}px`,
     };
 
+  
+  function convertLabel(label) {
+    // Define a mapping of prefixes to their corresponding full names
+    const prefixMap = {
+        "D": "Dimension",
+        "Pe": "Perspective",
+        "P": "Principle"
+    };  
+
+    // Use a regular expression to capture the prefix and the number
+    const regex = /^([A-Za-z]+)(\d+)$/;
+    const match = label.match(regex);
+
+    if (match) {
+        const prefix = match[1];
+        const number = match[2];
+
+        // Find the corresponding full name for the prefix
+        const fullName = prefixMap[prefix];
+
+        if (fullName) {
+            return `${fullName} ${number}`;
+        }
+    }
+
+    // If the label doesn't match the expected pattern, return it unchanged
+    return label;
+  }
+
+  function getCorrespondingConcepts(concepts, code) {
+    // Extract the number from the given tag (e.g. P1 -> 1, P2 -> 2)
+    const codeNumber = code.slice(1);
+
+    // Filter the array by matching the number in the `#code` (e.g., C1.a, C1.b... for P1)
+    return concepts.filter(c => c.code.startsWith(`C${codeNumber}.`));
+  }
+
   const Tooltip = ({ text, position }) => (
     <div
       style={{
@@ -338,7 +376,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
             onMouseLeave={() => handleMouseLeave(component)}
         >
             <Wave 
-                compassType={'default'}
+                compassType={compassType}
                 component={component}
                 size={size}
                 mode={mode}
@@ -366,85 +404,5 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     </>
   );
 } 
-
-function getComponentsPositions(componentsData, type) {
-  const centerX = size/2;
-  const centerY = size/2;
-  let radius, numberOfComponents;
-
-  if(type === 'Principle') {
-    radius = size/6.9;
-    numberOfComponents = 7;
-  } else if(type === 'Perspective') {
-    radius = size/2.93;
-    numberOfComponents = 7;
-  } else if(type === 'Dimension') {
-    radius = size/2;
-    numberOfComponents = 10;
-  }
-
-  const angleStep = (2 * Math.PI) / numberOfComponents;
-  let startAngle
-
-  if(type === 'Principle')
-    startAngle = -Math.PI/1.55;
-  else
-    startAngle = -Math.PI/2;
-
-  for (let i = 0; i < numberOfComponents; i++) {
-    let angle = i * angleStep + startAngle;
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
-
-    if(type === 'Principle')
-      angle = angle + 2*Math.PI / 2 + Math.PI*0.02;
-    else if(type === 'Perspective')
-      angle = angle + Math.PI / 2 - Math.PI*0.01;
-    else if(type === 'Dimension')
-      angle = angle + Math.PI / 2 - Math.PI*0.005;
-
-    componentsData[i]["x"] = x;
-    componentsData[i]["y"] = y;
-    componentsData[i]["angle"] = angle;
-  }
-  return componentsData;
-};
-
-function convertLabel(label) {
-  // Define a mapping of prefixes to their corresponding full names
-  const prefixMap = {
-      "D": "Dimension",
-      "Pe": "Perspective",
-      "P": "Principle"
-  };  
-
-  // Use a regular expression to capture the prefix and the number
-  const regex = /^([A-Za-z]+)(\d+)$/;
-  const match = label.match(regex);
-
-  if (match) {
-      const prefix = match[1];
-      const number = match[2];
-
-      // Find the corresponding full name for the prefix
-      const fullName = prefixMap[prefix];
-
-      if (fullName) {
-          return `${fullName} ${number}`;
-      }
-  }
-
-  // If the label doesn't match the expected pattern, return it unchanged
-  return label;
-}
-
-function getCorrespondingConcepts(concepts, code) {
-  // Extract the number from the given tag (e.g. P1 -> 1, P2 -> 2)
-  const codeNumber = code.slice(1);
-
-  // Filter the array by matching the number in the `#code` (e.g., C1.a, C1.b... for P1)
-  return concepts.filter(c => c.code.startsWith(`C${codeNumber}.`));
-}
-
 
 export default OLCompass;

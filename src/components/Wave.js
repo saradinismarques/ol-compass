@@ -442,4 +442,86 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     );
 };
 
+function getComponentsPositions(compassType, componentsData, type, size) {
+  const waveWidth = size/2.6;
+  const waveHeight = waveWidth*3;
+  let centerX, centerY;
+
+  if(compassType === "draggable") {
+    centerX = window.innerWidth * 0.1599;
+    centerY = window.innerHeight * 0.359;
+  } else {
+    centerX = size/2;
+    centerY = size/2;
+  }
+
+  let radius, numberOfComponents;
+
+  if(type === 'Principle') {
+    radius = size/6.9;
+    numberOfComponents = 7;
+  } else if(type === 'Perspective') {
+    radius = size/2.93;
+    numberOfComponents = 7;
+  } else if(type === 'Dimension') {
+    radius = size/2;
+    numberOfComponents = 10;
+  }
+
+  const angleStep = (2 * Math.PI) / numberOfComponents;
+  let startAngle
+
+  if(type === 'Principle')
+    startAngle = -Math.PI/1.55;
+  else
+    startAngle = -Math.PI/2;
+
+  for (let i = 0; i < numberOfComponents; i++) {
+    let angle = i * angleStep + startAngle;
+    const x = centerX + radius * Math.cos(angle);
+    const y = centerY + radius * Math.sin(angle);
+
+    if(type === 'Principle')
+      angle = angle + 2*Math.PI / 2 + Math.PI*0.02;
+    else if(type === 'Perspective')
+      angle = angle + Math.PI / 2 - Math.PI*0.01;
+    else if(type === 'Dimension')
+      angle = angle + Math.PI / 2 - Math.PI*0.005;
+
+    if(compassType === "default") {
+      componentsData[i]["x"] = x;
+      componentsData[i]["y"] = y;
+      componentsData[i]["angle"] = angle;
+    } else if(compassType === "draggable") {
+      componentsData[i]["initialX"] = x - waveWidth/2 + window.innerWidth/2.94;
+      componentsData[i]["initialY"] = y - waveHeight/2 + window.innerHeight/6.85;
+      componentsData[i]["initialAngle"] = angle;
+      componentsData[i]["x"] = componentsData[i]["initialX"];
+      componentsData[i]["y"] = componentsData[i]["initialY"];
+      componentsData[i]["angle"] = componentsData[i]["initialAngle"];
+      componentsData[i]["textAreaX"] = x;
+      componentsData[i]["textAreaY"] = y;
+      componentsData[i]["textAreaData"] = "";
+      componentsData[i]["arrowX1"] = x;
+      componentsData[i]["arrowY1"] = y;
+      componentsData[i]["arrowX2"] = x;
+      componentsData[i]["arrowY2"] = y+150;
+      componentsData[i]["textGapY2"] = -2;
+      componentsData[i]["topTip"] = true;
+      componentsData[i]["rightTip"] = true;
+    } else if(compassType === "icon") {
+      componentsData.push({
+        type: type,
+        x: x,
+        y: y,
+        angle: angle
+      });
+    }
+  }
+  return componentsData;
+}
+
+// Export both the Wave component and the function
+export { Wave, getComponentsPositions };
+
 export default Wave;

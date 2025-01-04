@@ -169,7 +169,7 @@ const LearnPage = () => {
                         return (
                             <button
                                 key={partIndex}
-                                style={{ fontWeight: isHighlighted ? 500 : 'normal' }}
+                                style={{ fontWeight: isHighlighted ? 500 : 300 }}
                                 onClick={() => onClickHandler(buttonText)}
                             >
                                 {buttonText}

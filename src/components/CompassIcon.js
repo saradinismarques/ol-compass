@@ -1,18 +1,19 @@
 import React, { useContext } from 'react';
 import { StateContext } from "../State.js";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
-import Wave from "./Wave.js"
+import Wave, { getComponentsPositions } from "./Wave.js"
 
 // Sizes and positions 
 let size = 90;
 
 const CompassIcon = ({ mode, currentType }) => {
+  const compassType = "icon";
   const {colors} = useContext(StateContext);
   
   // Dictionary with all information
-  const principles = getComponentsPositions('Principle');
-  const perspectives = getComponentsPositions('Perspective');
-  const dimensions = getComponentsPositions('Dimension');
+  const principles = getComponentsPositions(compassType, [], 'Principle', size);
+  const perspectives = getComponentsPositions(compassType,[], 'Perspective', size);
+  const dimensions = getComponentsPositions(compassType, [], 'Dimension', size);
   const components = principles.concat(perspectives, dimensions);
 
   // Container styles for the circle menu
@@ -89,53 +90,6 @@ const CompassIcon = ({ mode, currentType }) => {
       ))}
       </div>
   ); 
-};
-
-function getComponentsPositions(type) {
-  const centerX = size/2;
-  const centerY = size/2;
-  let radius, numberOfComponents;
-  let componentsData = [];
-
-  if(type === 'Principle') {
-    radius = size/6.9;
-    numberOfComponents = 7;
-  } else if(type === 'Perspective') {
-    radius = size/3.1;
-    numberOfComponents = 7;
-  } else if(type === 'Dimension') {
-    radius = size/2.075;
-    numberOfComponents = 10;
-  }
-
-  const angleStep = (2 * Math.PI) / numberOfComponents;
-  let startAngle
-  if(type === 'Principle')
-    startAngle = -Math.PI/1.6;
-  else
-    startAngle = -Math.PI/2;
-
-  for (let i = 0; i < numberOfComponents; i++) {
-    let angle = i * angleStep + startAngle;
-    const x = centerX + radius * Math.cos(angle);
-    const y = centerY + radius * Math.sin(angle);
-    
-    if(type === 'Principle')
-      angle = angle + 2*Math.PI / 2 - Math.PI*0.03;
-    else if(type === 'Perspective')
-      angle = angle + Math.PI / 2 - Math.PI*0.01;
-    else if(type === 'Dimension')
-      angle = angle + Math.PI / 2 - Math.PI*0.005;
-    
-     // Add an object to the array
-     componentsData.push({
-        type: type,
-        x: x,
-        y: y,
-        angle: angle
-      });
-  }
-  return componentsData;
 };
 
 export default CompassIcon;
