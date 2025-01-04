@@ -290,7 +290,7 @@ const GetInspiredPage = () => {
   }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy]);
 
   // Keyboard event handler
-  const handleKeyPress = useCallback((e) => {
+  const handleKeyDown = useCallback((e) => {
     if(e.key === 'Enter' && carouselModeRef.current && !showMessageRef.current) 
       handleCarouselSearch();
     else if(e.key === 'Enter' && !carouselModeRef.current && !showMessageRef.current) 
@@ -302,11 +302,11 @@ const GetInspiredPage = () => {
   }, [handlePrev, handleNext, handleDefaultSearch, handleCarouselSearch]);
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
-        window.removeEventListener('keydown', handleKeyPress);
+        window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [handleCarouselSearch, handleKeyPress]); // Dependency array includes carouselHandleEnterClick
+  }, [handleCarouselSearch, handleKeyDown]); // Dependency array includes carouselHandleEnterClick
 
   const toggleBookmark = () => {
     setSavedCaseStudies((prevSavedComponents) => {
@@ -344,9 +344,8 @@ const GetInspiredPage = () => {
           onButtonClick={handleCompassClick}
           current={currentComponents}
         />
-        {isExplanationPage && 
-          <Description mode={'get-inspired'} 
-        />}
+        {isExplanationPage && <Description mode={'get-inspired'} />}
+
         {((!isExplanationPage && carouselMode) || !carouselMode) && (
           <Message
             mode={'get-inspired'}

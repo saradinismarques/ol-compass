@@ -36,11 +36,12 @@ const ContributePage = () => {
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const [components, setComponents] = useState([]);
   const [firstClick, setFirstClick] = useState(true);
-  const [messageShown, setMessageShown] = useState(false);
+  const [showMessage, setShowMessage] = useState(false);
 
   const caseStudyRef = useRef(caseStudy);
   const componentsRef = useRef(components);
   const buttonsRef = useRef({}); // Stores button positions for dropdown alignment
+  const showMessageRef = useRef(showMessage);
 
   useEffect(() => {
     caseStudyRef.current = caseStudy; // Keep the ref in sync with the latest state
@@ -49,6 +50,10 @@ const ContributePage = () => {
   useEffect(() => {
     componentsRef.current = components; // Keep the ref in sync with the latest state
   }, [components]);
+
+  useEffect(() => {
+    showMessageRef.current = showMessage;
+  }, [showMessage]);
 
   // Reset state and UI elements
   const resetState = useCallback(() => {
@@ -59,7 +64,8 @@ const ContributePage = () => {
     setComponents([]);
     componentsRef.current = [];
     setFirstClick(true);
-    setMessageShown(false);
+    setShowMessage(false);
+    showMessageRef.current = false;
     setIsExplanationPage(true);
   }, [initialCaseStudy, setIsExplanationPage]);
 
@@ -67,7 +73,8 @@ const ContributePage = () => {
   const handleCompassClick = (code) => {
     if (firstClick && firstMessage["contribute"]) {
       setFirstClick(false);
-      setMessageShown(true);
+      setShowMessage(true);
+      showMessageRef.current = true;
     }
 
     setComponents(prevComponents => {
@@ -83,7 +90,12 @@ const ContributePage = () => {
     setIsExplanationPage(false);
   };
 
-  
+  const messageStateChange = (state) => {
+    console.log(state);
+    setShowMessage(state);
+    showMessageRef.current = state;
+  };
+
   // Reset compass and state
   const resetStateAndCompass = useCallback(() => {
     resetState();
@@ -113,14 +125,15 @@ const ContributePage = () => {
 
   // Handle Enter key
   const handleKeyDown = useCallback((e) => {
-      if (e.key !== 'Enter') return;
-
+    if(e.key === 'Enter' && !showMessageRef.current) {
       if (firstClick && firstMessage["contribute"]) {
         setFirstClick(false);
-        setMessageShown(true);
+        setShowMessage(true);
+        showMessageRef.current = true;
       }
       setIsExplanationPage(false);
       handleEnterClick(componentsRef.current);
+    }
   }, [firstClick, firstMessage, setIsExplanationPage, handleEnterClick]);
 
   useEffect(() => {
@@ -222,7 +235,7 @@ const ContributePage = () => {
 
   return (
     <>
-      <div className={messageShown ? 'blur-background' : ''}>
+      <div className={showMessageRef.current ? 'blur-background' : ''}>
         <OLCompass
           mode="contribute"
           position={isExplanationPage ? 'center' : 'left'}
@@ -234,7 +247,12 @@ const ContributePage = () => {
 
         {!isExplanationPage && (
           <>
-            <Message mode="contribute" type="button" setMessageShown={setMessageShown} />
+            <Message 
+              mode={"contribute"} 
+              type={"button"} 
+              messageStateChange={messageStateChange}  
+            />
+
             <div className='c-text-container'>
               <div className="c-textarea-container">
                 <div className="c-title">
@@ -289,10 +307,10 @@ const ContributePage = () => {
       </div>
       {!isExplanationPage && (
         <Message
-          mode="contribute"
-          type="message"
-          messageShown={messageShown}
-          setMessageShown={setMessageShown}
+          mode={"contribute"}
+          type={"message"}
+          showMessage={showMessageRef.current} // Pass whether to show the message
+          messageStateChange={messageStateChange}
         />
       )}
     </>
