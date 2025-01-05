@@ -270,7 +270,7 @@ const LearnPage = () => {
 
   return (
     <>
-      <div className={`${showMessageRef.current ? "blur-background" : ""}`}>
+      <div className={`${showMessage ? "blur-background" : ""}`}>
         <div className={`l-background ${isExplanationPage ? '' : 'gradient'}`}>
           <OLCompass
             mode="learn"
@@ -278,7 +278,9 @@ const LearnPage = () => {
             onButtonClick={handleCompassClick}
             resetState={resetState}
           />
-          {isExplanationPage && <Description colors={colors} mode={'learn'} />}
+          {isExplanationPage && 
+            <Description colors={colors} mode={'learn'} />
+          }
 
           {!isExplanationPage && (
             <>
@@ -365,7 +367,7 @@ const LearnPage = () => {
         <Message
           mode={'learn'}
           type={'message'}
-          showMessage={showMessageRef.current}
+          showMessage={showMessage}
           messageStateChange={messageStateChange}  
         />
       )}

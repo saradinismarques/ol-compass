@@ -48,7 +48,6 @@ const GetInspiredPage = () => {
   const [showMessage, setShowMessage] = useState(false);
 
   const carouselModeRef = useRef(carouselMode);
-  const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
   const componentsRef = useRef(components);
   const showMessageRef = useRef(showMessage);
@@ -60,10 +59,6 @@ const GetInspiredPage = () => {
   useEffect(() => {
     carouselModeRef.current = carouselMode;
   }, [carouselMode]);
-
-  useEffect(() => {
-    modeRef.current = mode;
-  }, [mode]);
 
   useEffect(() => {
     searchLogicRef.current = searchLogic;
@@ -83,7 +78,6 @@ const GetInspiredPage = () => {
     setCarouselMode(true);
     carouselModeRef.current = true;
     setMode('get-inspired');
-    modeRef.current = 'get-inspired';
     setResultsNumber(-1);
     setSearchLogic('AND');
     searchLogicRef.current = 'AND';
@@ -140,7 +134,6 @@ const GetInspiredPage = () => {
     setCarouselMode(false);
     carouselModeRef.current = false;
     setMode('get-inspired');
-    modeRef.current = 'get-inspired';
   };
 
   const messageStateChange = (state) => {
@@ -213,15 +206,11 @@ const GetInspiredPage = () => {
   }, [newCaseStudies, getBookmarkState]);
 
   const handleDefaultSearch = useCallback(() => {
-    if(carouselModeRef.current) return;
     setMode('get-inspired-search');
-    modeRef.current = 'get-inspired-search';
     searchCaseStudies();
   }, [searchCaseStudies]);
 
   const handleCarouselSearch = useCallback(() => {
-    if(!carouselModeRef.current) return;
-
     setCarouselMode(true);
     carouselModeRef.current = true;
 
@@ -236,7 +225,6 @@ const GetInspiredPage = () => {
     setIsExplanationPage(false);
     searchCaseStudies(null);
     setMode('get-inspired-carousel');
-    modeRef.current = 'get-inspired-carousel';
 
   }, [firstMessage, isExplanationPage, searchCaseStudies, firstClick, setIsExplanationPage]);
   
@@ -304,7 +292,7 @@ const GetInspiredPage = () => {
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
     return () => {
-        window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleCarouselSearch, handleKeyDown]); // Dependency array includes carouselHandleEnterClick
 
@@ -336,7 +324,7 @@ const GetInspiredPage = () => {
 
   return (
     <>
-      <div className={`${showMessageRef.current ? "blur-background" : ""}`}>
+      <div className={`${showMessage ? "blur-background" : ""}`}>
         <OLCompass
           mode={mode}
           position={isExplanationPage ? "center" : "left"}
@@ -344,7 +332,9 @@ const GetInspiredPage = () => {
           onButtonClick={handleCompassClick}
           current={currentComponents}
         />
-        {isExplanationPage && <Description mode={'get-inspired'} />}
+        {isExplanationPage && 
+          <Description mode={'get-inspired'} />
+        }
 
         {((!isExplanationPage && carouselMode) || !carouselMode) && (
           <Message
@@ -449,7 +439,7 @@ const GetInspiredPage = () => {
         <Message
           mode={'get-inspired'}
           type={'message'}
-          showMessage={showMessageRef.current} // Pass whether to show the message
+          showMessage={showMessage} // Pass whether to show the message
           messageStateChange={messageStateChange}
         />
       )}

@@ -43,6 +43,8 @@ const AnalysePage = () => {
         componentsRef.current = [];
         setActiveTask('A');
         setMode('analyse-a');
+        setDownloadProgress(0);
+        setIsGenerating(false);
         setIsExplanationPage(true);
     }, [setIsExplanationPage]);
 

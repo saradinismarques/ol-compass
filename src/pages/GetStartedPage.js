@@ -26,26 +26,16 @@ const GetStartedPage = () => {
 
   const [currentComponent, setCurrentComponent] = useState(initialComponent);
   const [afterSearch, setAfterSearch] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [mode, setMode] = useState('get-started');
   const [components, setComponents] = useState([]);
   const [selectedType, setSelectedType] = useState(null);
 
   const componentsRef = useRef(components);
-  const currentIndexRef = useRef(currentIndex);
-  const modeRef = useRef(mode);
+  const currentIndexRef = useRef(0);
 
   useEffect(() => {
     componentsRef.current = components;
   }, [components]);
-
-  useEffect(() => {
-    currentIndexRef.current = currentIndex;
-  }, [currentIndex]);
-
-  useEffect(() => {
-    modeRef.current = mode;
-  }, [mode]);
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
@@ -54,10 +44,8 @@ const GetStartedPage = () => {
   const resetState = useCallback(() => {
     setCurrentComponent(initialComponent);
     setAfterSearch(false);
-    setCurrentIndex(0);
     currentIndexRef.current = 0;
     setMode('get-started');
-    modeRef.current = 'get-started';
     setComponents([]);
     componentsRef.current = [];
     setSelectedType(null);
@@ -98,18 +86,15 @@ const GetStartedPage = () => {
 
     setIsExplanationPage(false);
     setMode('get-started');
-    modeRef.current = 'get-started';
   };
 
   const handleSearch = useCallback(() => {
     if (componentsRef.current.length === 0) return;
 
-    const currentIndex = 0;
-    setCurrentIndex(currentIndex);
-    currentIndexRef.current = currentIndex;
+    currentIndexRef.current = 0;
 
     setCurrentComponent((prevCurrentComponent) => {
-      const firstComponent = componentsRef.current[currentIndex];
+      const firstComponent = componentsRef.current[0];
       setSelectedType(firstComponent.type);
 
       document.documentElement.style.setProperty('--text-color', colors['Text'][firstComponent.type]);
@@ -127,7 +112,6 @@ const GetStartedPage = () => {
     });
 
     setMode('get-started-search');
-    modeRef.current = 'get-started-search';
 
     setIsExplanationPage(false);
     setAfterSearch(true);
@@ -136,7 +120,6 @@ const GetStartedPage = () => {
   const handleNext = useCallback(() => {
     if (currentIndexRef.current < componentsRef.current.length - 1) {
       const nextIndex = currentIndexRef.current + 1;
-      setCurrentIndex(nextIndex);
       currentIndexRef.current = nextIndex;
 
       setCurrentComponent((prevCurrentComponent) => {
@@ -162,7 +145,6 @@ const GetStartedPage = () => {
   const handlePrev = useCallback(() => {
     if (currentIndexRef.current > 0) {
       const prevIndex = currentIndexRef.current - 1;
-      setCurrentIndex(prevIndex);
       currentIndexRef.current = prevIndex;
 
       setCurrentComponent((prevCurrentComponent) => {
@@ -227,7 +209,9 @@ const GetStartedPage = () => {
           onButtonClick={handleCompassClick}
           current={currentComponent.code}
         />
-        {isExplanationPage && <Description mode={'get-started'} />}
+        {isExplanationPage && 
+          <Description mode={'get-started'} />
+        }
 
         {!isExplanationPage && (
           <>

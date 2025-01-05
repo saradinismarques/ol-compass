@@ -235,7 +235,7 @@ const ContributePage = () => {
 
   return (
     <>
-      <div className={showMessageRef.current ? 'blur-background' : ''}>
+      <div className={showMessage ? 'blur-background' : ''}>
         <OLCompass
           mode="contribute"
           position={isExplanationPage ? 'center' : 'left'}
@@ -243,7 +243,9 @@ const ContributePage = () => {
           resetCompass={resetCompass}
           onButtonClick={handleCompassClick}
         />
-        {isExplanationPage && <Description mode="contribute" />}
+        {isExplanationPage && 
+          <Description mode="contribute" />
+        }
 
         {!isExplanationPage && (
           <>
@@ -309,7 +311,7 @@ const ContributePage = () => {
         <Message
           mode={"contribute"}
           type={"message"}
-          showMessage={showMessageRef.current} // Pass whether to show the message
+          showMessage={showMessage} // Pass whether to show the message
           messageStateChange={messageStateChange}
         />
       )}
