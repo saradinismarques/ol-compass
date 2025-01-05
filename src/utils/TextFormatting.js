@@ -4,7 +4,6 @@ import '../styles/pages/IntroPage.css';
 export function replaceLineBreaks (text, textStyle) {
     // Split the text by <br> tags
     const parts = text.split('<br>').map(part => part.trim());
-    console.log(parts);
     return (
         <div className={textStyle}>
             {parts.map((part, index) => (

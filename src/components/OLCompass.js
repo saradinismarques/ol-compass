@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
-import { getGetStartedData, getLearnData, getConceptsData } from '../utils/Data.js'; 
+import { getGetStartedData, getLearnData, getConceptsData } from '../utils/DataExtraction.js'; 
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State.js";
 import Wave, { getComponentsPositions } from "./Wave.js"

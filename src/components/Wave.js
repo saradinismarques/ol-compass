@@ -477,8 +477,10 @@ function getComponentsPositions(compassType, componentsData, type, size) {
     const x = centerX + radius * Math.cos(angle);
     const y = centerY + radius * Math.sin(angle);
 
-    if(type === 'Principle')
+    if(type === 'Principle' && compassType !== "icon")
       angle = angle + 2*Math.PI / 2 + Math.PI*0.02;
+    else if(type === 'Principle' && compassType == "icon")
+      angle = angle + 2*Math.PI / 2 - Math.PI*0.03;
     else if(type === 'Perspective')
       angle = angle + Math.PI / 2 - Math.PI*0.01;
     else if(type === 'Dimension')
@@ -495,9 +497,9 @@ function getComponentsPositions(compassType, componentsData, type, size) {
       componentsData[i]["x"] = componentsData[i]["initialX"];
       componentsData[i]["y"] = componentsData[i]["initialY"];
       componentsData[i]["angle"] = componentsData[i]["initialAngle"];
-      componentsData[i]["textAreaX"] = x;
-      componentsData[i]["textAreaY"] = y;
-      componentsData[i]["textAreaData"] = "";
+      componentsData[i]["textareaX"] = x;
+      componentsData[i]["textareaY"] = y;
+      componentsData[i]["textareaData"] = "";
       componentsData[i]["arrowX1"] = x;
       componentsData[i]["arrowY1"] = y;
       componentsData[i]["arrowX2"] = x;
@@ -508,7 +510,7 @@ function getComponentsPositions(compassType, componentsData, type, size) {
     } else if(compassType === "icon") {
       componentsData.push({
         type: type,
-        x: x,
+        x: x ,
         y: y,
         angle: angle
       });

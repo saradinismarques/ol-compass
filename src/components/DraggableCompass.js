@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
-import { getGetStartedData } from '../utils/Data.js'; 
+import { getGetStartedData } from '../utils/DataExtraction.js'; 
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { StateContext } from "../State";
 import Draggable from "react-draggable";

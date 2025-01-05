@@ -328,7 +328,6 @@ const AnalysePage = () => {
         await addIconAndDefinitions(pdf, task, type);
     };
 
-    
     const addIconAndDefinitions = async(pdf, task, type) => {
         // Compass Icon
         await renderToCanvas(
@@ -394,7 +393,7 @@ const AnalysePage = () => {
         const root = createRoot(container);
         root.render(component);
         
-        const scale = 1; // max = 9
+        const scale = 2; // max = 9
 
         // Wait for the next frame to ensure the component is fully rendered
         await new Promise((resolve) => setTimeout(resolve, 0));

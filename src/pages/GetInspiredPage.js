@@ -3,7 +3,7 @@ import OLCompass from '../components/OLCompass.js';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
-import { getGetInspiredData } from '../utils/Data.js'; 
+import { getGetInspiredData } from '../utils/DataExtraction.js'; 
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";

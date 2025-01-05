@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useContext } from 'react';
-import { getModeTexts } from '../utils/Data.js'; 
+import { getModeTexts } from '../utils/DataExtraction.js'; 
 import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
