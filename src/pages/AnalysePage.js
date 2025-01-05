@@ -317,10 +317,10 @@ const AnalysePage = () => {
                     className='a-ol-compass'
                     mode={'analyse-' + task.toLowerCase()}
                     currentType={type}
-                    pdfComponents = {componentsRef.current}
+                    pdfComponents={componentsRef.current}
                 /> 
             </State>,
-            pdf, x, -17, 1485, 1
+            pdf, x, -17, 'auto', 1
         );
          
         if(task === 'A' && type === 'All')
@@ -361,37 +361,37 @@ const AnalysePage = () => {
                             </p>
                             <p className='a-definition-text'>{c.headline}</p>
                         </div>
-                    ))}
-                    <div className="a-definitions-top-lines">
-                        <div className="a-definitions-horizontal-line"
-                            style={{
-                                background: `${colors['Intro Text'][type]}`,
-                            }}>
-                        </div>
-                        <div className="a-definitions-vertical-line"
-                            style={{
-                                background: `linear-gradient(
-                                    to bottom, 
-                                    ${colors['Intro Text'][type]} 60px, 
-                                    white 59px 100%
-                                )`,
-                            }}>
-                        </div>
-                        {/* <div class="a-definitions-white-line"></div> */}
+                ))}
+                <div className="a-definitions-top-lines">
+                    <div className="a-definitions-horizontal-line"
+                        style={{
+                            background: `${colors['Intro Text'][type]}`,
+                        }}>
                     </div>
+                    <div className="a-definitions-vertical-line"
+                        style={{
+                            background: `linear-gradient(
+                                to bottom, 
+                                ${colors['Intro Text'][type]} 60px, 
+                                white 59px 100%
+                            )`,
+                        }}>
+                    </div>
+                </div>
             </div>,
             pdf, 16, 55, 'auto', 1
         );
     };
 
-    const renderToCanvas = async(component, pdf, x, y, size, resizeFactor) => {
+    const renderToCanvas = async(html, pdf, x, y, size, resizeFactor) => {
+        console.log("component: ", x, y);
         const container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.top = '-9999px';
         document.body.appendChild(container);
 
         const root = createRoot(container);
-        root.render(component);
+        root.render(html);
         
         const scale = 2; // max = 9
 
@@ -410,7 +410,7 @@ const AnalysePage = () => {
             imgWidth = canvas.width / scale; // In pixels
             imgHeight = canvas.height / scale; // In pixels
         } else  {
-            imgWidth = size; // In pixels
+            imgWidth = size / scale; // In pixels
             imgHeight = (730/1536) * imgWidth; // In pixels
         }
 

@@ -17,6 +17,9 @@ const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
 const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextareaFocus }) => {
+  if(pdfComponents) {
+    console.log("DRAGGABLE: ", mode, pdfComponents, currentType);
+  }
   // Compass Type
   const compassType = "draggable";
 
@@ -346,10 +349,11 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
 
   // Styles
   let containerStyle = {
-    width: window.innerWidth,
-    height: window.innerHeight,
+    width: window.innerWidth/2.2,
+    height: window.innerHeight/1.5,
     backgroundColor: 'transparent',
-    position: 'relative',  
+    border: '2px solid #cacbcb',
+    borderRadius: '10px'
   };
   
   const getTextareaOpacity = (component) => {
@@ -528,19 +532,19 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         ...containerStyle, 
       }}
     >
-      {(showSquare && !pdfSelectedComponents) && 
+      {/* {(showSquare && !pdfSelectedComponents) && 
         <div 
           style={{
             position: 'absolute',
             top: '17vh',
             left: '47vw',
-            width: '50vw',
-            height: '67vh',
+            width: '700px',
+            height: '500px',
             border: '2px solid #cacbcb',
             borderRadius: '10px'
           }}
         ></div>
-      }
+      } */}
       <div 
         ref={compassRef}
         style={{
@@ -556,7 +560,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       ></div>
 
       {components.map((component, id) => (
-        <React.Fragment key={id}> 
+        <div key={id}> 
           <Draggable key={id} 
             nodeRef={nodeRef} 
             position={{ x: component.x, y: component.y }} // Let Draggable manage the position if no positions are defined
@@ -622,7 +626,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
               </svg>
             </div>
           }
-        </React.Fragment>
+        </div>
       ))}
     </div>  
   );

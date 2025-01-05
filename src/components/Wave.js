@@ -23,7 +23,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
 
   // Styles
   const getCursor = () => {
-    if(mode.startsWith("intro") || mode === "default" 
+    if(compassType === "icon")
+      return 'default';
+    else if(mode.startsWith("intro") || mode === "default" 
     || (compassType === "default" && mode.startsWith("analyse"))
     || (mode.startsWith("analyse") && isExplanationPage) ||
     compassType === "icon")
@@ -77,8 +79,10 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     } else if(compassType === "draggable") {
       return colors['Wave'][component.type];
     } else if(compassType === "icon") {
+      if(currentType === null)
+        return colors['Wave'][component.type];
       if(component.type === currentType)
-        return colors['Wave'][currentType];
+        return colors['Wave'][component.type];
       return "#e3e4e3";
     }
   }
@@ -222,6 +226,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       else
         return 0.3;
     } else if(compassType === "icon") {
+      if(currentType === null)
+        return 1;
       if(component.type === currentType)
         return 0.9;
       return 0.3;
@@ -491,8 +497,8 @@ function getComponentsPositions(compassType, componentsData, type, size) {
       componentsData[i]["y"] = y;
       componentsData[i]["angle"] = angle;
     } else if(compassType === "draggable") {
-      componentsData[i]["initialX"] = x - waveWidth/2 + window.innerWidth/2.94;
-      componentsData[i]["initialY"] = y - waveHeight/2 + window.innerHeight/6.85;
+      componentsData[i]["initialX"] = x - waveWidth/2 - window.innerWidth*0.13;
+      componentsData[i]["initialY"] = y - waveHeight/2 - window.innerHeight*0.02;
       componentsData[i]["initialAngle"] = angle;
       componentsData[i]["x"] = componentsData[i]["initialX"];
       componentsData[i]["y"] = componentsData[i]["initialY"];

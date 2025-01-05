@@ -7,6 +7,7 @@ import Wave, { getComponentsPositions } from "./Wave.js"
 let size = 90;
 
 const CompassIcon = ({ mode, currentType }) => {
+  console.log("ICON: ", mode, currentType);
   // Compass Type
   const compassType = "icon";
   
@@ -23,7 +24,7 @@ const CompassIcon = ({ mode, currentType }) => {
   let containerStyle;
   if(mode.startsWith('analyse')) {
     // Container styles for the circle menu
-      containerStyle = {
+    containerStyle = {
       height: 200,
       width: 200,
     };
