@@ -26,23 +26,25 @@
     font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
     text-transform: uppercase;
-    margin-top: 10px;
+    margin-top: 3px;
 }
   
 .l-text {
     font-size: 1em;
+    margin-top: 23px;
     font-weight: 300;
-    margin-top: 20px;
     overflow-y: auto; /* Hide overflow initially */
     display: block;
 }
 
-.l-text.princples {
-    margin-top: 0px;
+.l-text.bold {
+    font-weight: 500;
+    display: inline;
 }
 
-.l-text.bold{
-    font-weight: 500;
+.l-text.principles {
+    margin-top: 0px;
+
 }
 
 .l-text button {

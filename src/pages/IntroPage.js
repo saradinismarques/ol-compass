@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useContext } from 're
 import { useNavigate } from 'react-router-dom';
 import OLCompass from '../components/OLCompass.js';
 import { getIntroTexts } from '../utils/Data.js';
-import { formatText } from '../utils/Text.js';
+import { replaceBolds, replaceBoldsBreaksPlaceholders } from '../utils/TextFormatting.js';
 import { StateContext } from "../State";
 import '../styles/pages/IntroPage.css';
 
@@ -129,55 +129,55 @@ const IntroPage = () => {
     const getDisplayText = () => {
         if (frame === 0) {
             const title = introTexts.Title;
-            return <>{formatText(title, "i-title-container", "i-welcome", "i-title", null, false)}</>;
+            return <>{replaceBolds(title, "i-title-container", "i-welcome", "i-title")}</>;
         
         } else if (frame === 1) {
             const introDef = introTexts.IntroDef;
-            return <>{formatText(introDef, "i-explanation-container", "i-explanation", null, null, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(introDef, "i-explanation-container", "i-explanation", null)}</>;
         
         } else if (frame === 2) {
             const introWho = introTexts.IntroWho;
-            return <>{formatText(introWho, "i-explanation-container", "i-subjects", "i-subjects bold", null, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(introWho, "i-explanation-container", "i-subjects", "i-subjects bold", null)}</>;
         
         } else if (frame === 3) {
             const introSubject = introTexts.IntroSubject;
-            return <>{formatText(introSubject, "i-explanation-container", "i-subjects", "i-subjects bold", null, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(introSubject, "i-explanation-container", "i-subjects", "i-subjects bold", null)}</>;
         
         } else if (frame === 4) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             const defineP = introTexts.DefineP;
-            return <>{formatText(defineP, "i-text-container", "i-text", "i-text colored", countersMap, false, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(defineP, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
 
         } else if (frame === 5) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             const clarifyP = introTexts.ClarifyP;
-            return <>{formatText(clarifyP, "i-text-container", "i-text", "i-text colored", countersMap, false, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(clarifyP, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
 
         } else if(frame === 6) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             const definePe = introTexts.DefinePe;
-            return <>{formatText(definePe, "i-text-container", "i-text", "i-text colored", countersMap, false, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(definePe, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
 
         } else if(frame === 7) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             const clarifyPe = introTexts.ClarifyPe;
-            return <>{formatText(clarifyPe, "i-text-container", "i-text", "i-text colored", countersMap, false, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(clarifyPe, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
 
         } else if(frame === 8) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             const defineD = introTexts.DefineD;
-            return <>{formatText(defineD, "i-text-container", "i-text", "i-text colored", countersMap, false, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(defineD, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
             
         } else if(frame === 9) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             const clarifyD = introTexts.ClarifyD;
-            return <>{formatText(clarifyD, "i-text-container", "i-text", "i-text colored", countersMap, false, false)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(clarifyD, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } 
     };
 

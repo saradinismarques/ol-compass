@@ -5,7 +5,7 @@ import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg';
 import { StateContext } from "../State";
-import { formatText } from '../utils/Text.js';
+import { replacePlaceholdersWithIcons } from '../utils/TextFormatting.js';
 import '../styles/components/Message.css';
 
 const Message = ({ mode, type, showMessage, messageStateChange }) => {
@@ -76,7 +76,7 @@ const Message = ({ mode, type, showMessage, messageStateChange }) => {
               <QuestionIcon className="question-icon message" />
             </div>
             
-            {formatText(message, "message-text", null, null, iconsMap, false, true)}
+            {replacePlaceholdersWithIcons(message, "message-text", iconsMap)}
 
             <button className="got-it-button" onClick={handleRemoveMessage}>
               Ok, got it!

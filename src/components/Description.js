@@ -6,7 +6,7 @@ import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.sv
 import { ReactComponent as CtaArrow } from '../assets/icons/cta-arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as LockIcon } from '../assets/icons/lock-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
-import { formatText } from '../utils/Text.js';
+import { replaceLineBreaks, replacePlaceholdersWithIcons } from '../utils/TextFormatting.js';
 import '../styles/components/Description.css';
 
 const Description = ({ mode }) => {
@@ -33,14 +33,14 @@ const Description = ({ mode }) => {
       {/* Available */}
       {description.Text !== '/' && 
         <>
-          {formatText(description.Text, "description-text", null, null, null, true, false)}
-          {formatText(description.StartPrompt, "description-start-prompt", null, null, iconsMap, false, true)}
+          {replaceLineBreaks(description.Text, "description-text")}
+          {replacePlaceholdersWithIcons(description.StartPrompt, "description-start-prompt", iconsMap)}
         </>
       }
       {/* Not Available */}
       {description.Text === '/' && 
         <>
-          {formatText(description.StartPrompt, "not-available", null, null, iconsMap, false, true)}
+          {replacePlaceholdersWithIcons(description.StartPrompt, "not-available", iconsMap)}
         </>
       } 
     </div>

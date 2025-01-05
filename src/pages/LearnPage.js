@@ -13,7 +13,7 @@ import P7Image from '../assets/images/learn/P7.png';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
-import { formatText, formatButtons } from '../utils/Text.js';
+import { replaceBolds, replaceLineBreaks, replaceUnderlines } from '../utils/TextFormatting.js';
 import '../styles/pages/LearnPage.css';
 
 const LearnPage = () => {
@@ -180,9 +180,9 @@ const LearnPage = () => {
     };
 
     return (
-        <div className="l-text princples">
+        <div className="l-text principles">
             <p>
-                {formatButtons(text, currentConcept, handleButtonClick)}
+                {replaceUnderlines(text, currentConcept, handleButtonClick)}
             </p>
         </div>
     );
@@ -228,7 +228,7 @@ const LearnPage = () => {
                 }}
               >
                 <h1 className='l-title'>{component.title}</h1>
-                {formatText(component.headline, 'l-headline', null, null, null, false, false)}
+                {replaceLineBreaks(component.headline, 'l-headline')}
                 {component.type === "Principle" && (
                   <>
                     <TextWithButtons text={component.paragraph} currentConcept={concept} />
@@ -248,7 +248,7 @@ const LearnPage = () => {
                 )}
                 {component.type !== "Principle" && 
                   <>
-                    {formatText(component.paragraph, 'l-text', null, 'l-text bold', null, false, false)}
+                    {replaceBolds(component.paragraph, 'l-text', null, 'l-text bold')}
                   </>
                 }
               </div>
