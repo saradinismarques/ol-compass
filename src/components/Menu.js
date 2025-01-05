@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import '../styles/components/Menu.css';
 import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import '../styles/components/Menu.css';
 
 const Menu = () => {
   const {isExplanationPage} = useContext(StateContext);

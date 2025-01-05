@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import { getModeTexts } from '../utils/Data.js'; 
-import '../styles/components/Description.css';
 import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as CtaArrow } from '../assets/icons/cta-arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as LockIcon } from '../assets/icons/lock-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import { formatText } from '../utils/Text.js';
+import '../styles/components/Description.css';
 
 const Description = ({ mode }) => {
   const {colors} = useContext(StateContext);
 
   const description = getModeTexts(mode);
-  const textLines = description.Text.split("<br>");
   
   // Placeholder-to-Component mapping
   const iconsMap = {
@@ -51,21 +51,15 @@ const Description = ({ mode }) => {
       {/* Available */}
       {description.Text !== '/' && 
         <>
-          <div className='description-text'>
-            {textLines.map((line, index) => (
-              <p key={index}>{line}</p>
-            ))}
-          </div>
-          <p className='description-start-prompt'>
-            {renderTextWithIcons(description.StartPrompt, iconsMap)}  
-          </p>
+          {formatText(description.Text, "description-text", null, null, null, true, false)}
+          {formatText(description.StartPrompt, "description-start-prompt", null, null, iconsMap, false, true)}
         </>
       }
       {/* Not Available */}
       {description.Text === '/' && 
-        <p className='not-available'>
-          {renderTextWithIcons(description.StartPrompt, iconsMap)}  
-        </p>
+        <>
+          {formatText(description.StartPrompt, "not-available", null, null, iconsMap, false, true)}
+        </>
       } 
     </div>
   );

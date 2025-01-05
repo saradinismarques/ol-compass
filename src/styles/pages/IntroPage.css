@@ -5,7 +5,7 @@
 /* Title (Frame 00) */
 .i-title-container {
     position: absolute;
-    top: 47vh; /* Position item 50% from the top */
+    top: 45vh; /* Position item 50% from the top */
     left: 50vw; 
     transform: translate(-50%, -50%);
     max-width: 250px;
@@ -39,16 +39,16 @@
 .i-explanation {
     font-size: 1.4em;
     font-weight: 600;
-    line-height: 0.3;
+    line-height: 1.4;
 }
 
-.i-explanation.smaller {
+.i-subjects {
     font-size: 1.3em;
     font-weight: 500;
+    line-height: 1.4;
 }
 
-
-.i-bold-text {
+.i-subjects.bold {
     font-weight: 700;
 }
 

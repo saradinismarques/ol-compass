@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useContext } from 'react';
 import { getModeTexts } from '../utils/Data.js'; 
-import '../styles/components/Message.css';
 import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg';
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg';
 import { StateContext } from "../State";
+import '../styles/components/Message.css';
 
 const Message = ({ mode, type, showMessage, messageStateChange }) => {
   const { firstMessage, setFirstMessage } = useContext(StateContext);

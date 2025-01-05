@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/pages/IntroPage.css';
 
 // Replace placeholders with values from countersMap
 const replacePlaceholders = (text, map) => {
@@ -7,76 +8,115 @@ const replacePlaceholders = (text, map) => {
     });
 };
 
-export function formatText(text, containerStyle, textStyle, boldStyle, PlaceholderMap) {
-    // Process the input to replace placeholders
-    let textWithouPlaceholders = text;
+// Function to replace placeholders with React components
+const renderTextWithIcons = (text, placeholders) => {
+    // Use regex to find all placeholders like [PLACEHOLDER]
+    const parts = text.split(/(\[[A-Z-]+\])/g); // Splits into text and placeholders
 
-    if(PlaceholderMap != null)
-        textWithouPlaceholders = replacePlaceholders(text, PlaceholderMap);
+    return (
+      <>
+        {parts.map((part, index) =>
+          placeholders[part] ? (
+            <React.Fragment key={index}>{placeholders[part]}</React.Fragment> // Render component for placeholder
+          ) : (
+            <React.Fragment key={index}>{part}</React.Fragment> // Render plain text
+          )
+        )}
+      </>
+    );
+  };
+
+
+const replaceBolds = (text, textStyle, boldStyle) => {
+    let elements = [];
+    let remainingText = text;
+    let isInsideBold = false;
+
+    while (remainingText) {
+        const startB = remainingText.indexOf('<b>');
+        const endB = remainingText.indexOf('</b>');
+
+        if (startB !== -1 && (endB === -1 || startB < endB)) {
+            // Text before <b> (if any)
+            if (startB > 0) {
+                elements.push(
+                    <span key={`before-${remainingText.slice(0, startB)}`} className={textStyle}>
+                        {remainingText.slice(0, startB)}
+                    </span>
+                );
+            }
+            // Move into bold
+            isInsideBold = true;
+            remainingText = remainingText.slice(startB + 3); // Skip `<b>`
+        } else if (endB !== -1) {
+            // Text inside <b> until </b>
+            if (isInsideBold) {
+                elements.push(
+                    <span key={`inside-${remainingText.slice(0, endB)}`} className={boldStyle}>
+                        {remainingText.slice(0, endB)}
+                    </span>
+                );
+            }
+            // Exit bold
+            isInsideBold = false;
+            remainingText = remainingText.slice(endB + 4); // Skip `</b>`
+        } else {
+            // Handle remaining text (no <b> or </b>)
+            elements.push(
+                <span key={`remaining-${remainingText}`} className={isInsideBold ? boldStyle : textStyle}>
+                    {remainingText}
+                </span>
+            );
+            remainingText = ""; // Done with this part
+        }
+    }
+
+    return elements;
+};
+
+export function formatText(text, containerStyle, textStyle, boldStyle, placeholderMap, hasParagraph, hasIcons) {
+    if (placeholderMap != null && !hasIcons) 
+        text = replacePlaceholders(text, placeholderMap);
+
+    // If `boldStyle` is `null`, skip bold processing
+    const processText = (part) => {
+        if(boldStyle !== null) 
+            return replaceBolds(part, textStyle, boldStyle)
+        else if(hasIcons)
+            return (
+                <>
+                {renderTextWithIcons(text, placeholderMap)}  
+                </>
+            );
+        else if(hasParagraph)
+            return (
+                <p key={part} className={textStyle}>
+                    {part}
+                </p>
+            );
+        else 
+            return (
+                <span key={part} className={textStyle}>
+                    {part}
+                </span>
+            );
+    };
 
     // Split the string by the <br> tag to handle line breaks
-    const parts = textWithouPlaceholders.split('<br>').map(part => part.trim()).filter(part => part !== "");
-    let isInsideColoredBlock = false; // Tracks if we are inside a <c> block
-    
+    const parts = text.split('<br>').map(part => part.trim()).filter(part => part !== "");
+
     return (
         <div className={containerStyle}>
             <p>
-                {parts.map((part, index) => {
-                    let elements = []; // Collect parts of the current line
-                    let remainingText = part;
-    
-                    // Handle coloring for <c> and </c> tags within the part
-                    while (remainingText) {
-                        // Check for <c> and </c> tags
-                        const startB = remainingText.indexOf('<b>');
-                        const endB = remainingText.indexOf('</b>');
-    
-                        if (startB !== -1 && (endB === -1 || startB < endB)) {
-                            // Text before <c> (if any)
-                            if (startB > 0) {
-                                elements.push(
-                                    <span key={`text-before-c-${index}`} className={textStyle}>
-                                        {remainingText.slice(0, startB)}
-                                    </span>
-                                );
-                            }
-                            // Move inside <c>
-                            isInsideColoredBlock = true;
-                            remainingText = remainingText.slice(startB + 3); // Remove `<c>`
-                        } else if (endB !== -1) {
-                            // Inside <c>: Text up to </c>
-                            if (isInsideColoredBlock) {
-                                elements.push(
-                                    <span key={`text-inside-c-${index}`} className={boldStyle}>
-                                        {remainingText.slice(0, endB)}
-                                    </span>
-                                );
-                            }
-                            // Exit <c>
-                            isInsideColoredBlock = false;
-                            remainingText = remainingText.slice(endB + 4); // Remove `</c>`
-                        } else {
-                            // No <c> or </c>: Handle remaining text
-                            elements.push(
-                                <span key={`text-default-${index}`} className={`${isInsideColoredBlock ? boldStyle : textStyle}`}>
-                                    {remainingText}
-                                </span>
-                            );
-                            remainingText = ""; // All done for this part
-                        }
-                    }
-    
-                    return (
-                        <React.Fragment key={index}>
-                            {elements}
-                            {/* Add <br /> for line breaks */}
-                            {index < parts.length - 1 && <br />}
-                        </React.Fragment>
-                    );
-                })}
+                {parts.map((part, index) => (
+                    <React.Fragment key={`line-${index}`}>
+                        {processText(part)}
+                        {/* Add <br /> for line breaks */}
+                        {!hasParagraph && index < parts.length - 1 && <br />}
+                    </React.Fragment>
+                ))}
             </p>
         </div>
     );
-};
-
+}
 
