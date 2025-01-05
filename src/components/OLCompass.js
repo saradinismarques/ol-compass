@@ -67,7 +67,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   // Declare a timeout variable to store the reference to the timeout
   let tooltipTimeout = null;
 
-  // Refs to update the state instantly
   const hoveredIdRef = useRef(hoveredId);
   
   useEffect(() => {

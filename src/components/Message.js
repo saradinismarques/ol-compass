@@ -10,7 +10,7 @@ import { StateContext } from "../State";
 const Message = ({ mode, type, showMessage, messageStateChange }) => {
   const { firstMessage, setFirstMessage } = useContext(StateContext);
   const message = getModeTexts(mode).Message;
-  console.log("Message", showMessage);
+
   let width;
   if (mode === 'learn') width = '200px';
   else if (mode === 'get-inspired') width = '290px';

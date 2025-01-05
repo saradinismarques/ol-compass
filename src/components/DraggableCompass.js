@@ -42,19 +42,14 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(pdfSelectedComponents || []);
   const [showSquare, setShowSquare] = useState(false);
-  const [activeId, setActiveId] = useState(null); // Track the active clicked component ID
 
   const selectedComponentsRef = useRef(selectedComponents);
-  const activeIdRef = useRef(activeId);
+  const activeIdRef = useRef(null);
   const nodeRef = useRef(null);
   const initialComponentsRef = useRef(initialComponents);
   const textareaRefs = useRef({}); // Store refs dynamically for all textareas
   const waveRefs = useRef({});   // Store refs dynamically for all circles
   const compassRef = useRef({});
-
-  useEffect(() => {
-      activeIdRef.current = activeId;
-  }, [activeId]);
 
   useEffect(() => {
     selectedComponentsRef.current = selectedComponents;
@@ -138,7 +133,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
             null
           ); // send null code to Analyse to remove it there too
         
-        setActiveId(null);
         activeIdRef.current = null;
 
         return; // Exit early as the component is removed
@@ -173,7 +167,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     if (onDragStop) 
       sendNewData(id, data.x, data.y, tip.textareaX, tip.textareaY, components[id].textareaData, tip.arrowX1, tip.arrowY1, tip.arrowX2, tip.arrowY2, components[id].textGapY2, tip.topTip, tip.rightTip)
 
-    setActiveId(id);
     activeIdRef.current = id;
   };
 
@@ -206,7 +199,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       setSelectedComponents([]);
       selectedComponentsRef.current = [];
       setShowSquare(false);
-      setActiveId(null);
       activeIdRef.current = null;
       if(resetState)
         resetState();
@@ -379,10 +371,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     }, [id]); // Only re-focus when the activeId changes
 
     useEffect(() => {
-      if (stopTextareaFocus) {
-        setActiveId(null);
+      if (stopTextareaFocus) 
         activeIdRef.current = null;
-      }
     }, [id]); // Only re-focus when the activeId changes
 
     useEffect(() => {
@@ -468,10 +458,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         <Draggable
           nodeRef={nodeRef}
           position={position} // Controlled position from parent state
-          onStart={() => {
-            setActiveId(id);
-            activeIdRef.current = id;
-          }} // Set this textarea as active on drag
+          onStart={() => activeIdRef.current = id} // Set this textarea as active on drag
           onStop={(e, data) => handleTextareaDragStop(id, data)} // Update position after drag
         >
           <div
@@ -590,7 +577,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
             </div>
           </Draggable>
           
-          {selectedComponentsRef.current.includes(component.code) && ((pdfSelectedComponents && component.textareaData.length !== 0) || !pdfSelectedComponents) &&
+          {selectedComponents.includes(component.code) && ((pdfSelectedComponents && component.textareaData.length !== 0) || !pdfSelectedComponents) &&
             <div
               style={{
                 opacity: getTextareaOpacity(component)
