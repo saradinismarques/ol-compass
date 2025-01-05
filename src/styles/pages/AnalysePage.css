@@ -3,6 +3,7 @@
     --title-color: #000000;
 }
 
+/* Project Name Textarea */
 .a-textarea {
     position: fixed;
     top: 7vh;
@@ -22,6 +23,7 @@
     padding-top: 3px;
 }
 
+/* ABCD Tasks Menu */
 .a-tasks-nav {
     display: flex;
     gap: 22px; /* Space between buttons */
@@ -62,6 +64,7 @@
     cursor: pointer;
 }
 
+/* Generate PDF Button and Loading Bar */
 .a-generate-pdf-button {
     height: 18px;
     border: 2px solid #0a4461;
@@ -98,17 +101,7 @@
     align-items: center; /* Center vertically */
 }
 
-.a-ol-compass {
-    position: fixed;   
-    top: 50vh;           
-    left: 50vw;           
-    transform: translate(-50%, -50%);
-}
-
-.a-compass-textarea::placeholder {
-    color: rgb(114, 113, 111, 0.5); /* Semi-transparent color */
-}
-
+/* Definitions (PDF) */
 .a-definitions-container {
     top: 15vh;
     left: 9vw;
@@ -167,21 +160,17 @@
     margin-top: -10px;
 }
 
-.a-changed-components {
-    position: fixed;
-    top: 6vh;
-    left: 50vw;
-    transform: translateX(-50%);
-    font-size: 13px;
-    display: flex;
-    gap: 20px;
+/* OL Compass (PDF) */
+.a-ol-compass {
+    position: fixed;   
+    top: 50vh;           
+    left: 50vw;           
+    transform: translate(-50%, -50%);
 }
 
-.a-removed-components {
-    color: #dc645c;
+/* Placeholder on Textareas in Compass */
+.a-compass-textarea::placeholder {
+    color: rgb(114, 113, 111, 0.5); /* Semi-transparent color */
 }
 
-.a-added-components {
-    color: #4cb245;
-}
 

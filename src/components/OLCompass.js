@@ -38,20 +38,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     savedComponents,
   } = useContext(StateContext);
   
-  // Function to determine the center based on position
-  const getCenter = (position) => {
-    if (position === "center")
-      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
-    else if (position === "center-2")
-      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.508 };
-    else if (position === "left") 
-      return { x: window.innerWidth * 0.4, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
-    else if (position === "left-2") 
-      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.508 };
-  };
-
-  const center = getCenter(position);
-
   // Dictionary with all information
   let componentsData;
 
@@ -97,6 +83,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     }
   }, [resetCompass]);
 
+  // Handlers
   const handleClick = (component) => {
     if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode.startsWith("analyse")) 
       return;
@@ -108,17 +95,16 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
         setHoveredId(null);
         setSelectedComponents([]);
 
-        if (onButtonClick) {
+        if (onButtonClick) 
           onButtonClick(null);
-        }
 
       } else {
         const title = convertLabel(component.code);
         let correspondingConcepts = null;
         
-        if (component.type === "Principle") {
+        if (component.type === "Principle") 
           correspondingConcepts = getCorrespondingConcepts(concepts, component.code);
-        }
+        
         setSelectedComponents(component.code);
 
         if (onButtonClick) {
@@ -131,7 +117,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
             correspondingConcepts
           );
         }
-
       }
     } else if(mode.startsWith("get-started")) {
       const title = convertLabel(component.code);
@@ -156,7 +141,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
           ? prevComponents.filter(buttonId => buttonId !== component.code) // Remove ID if already clicked
           : [...prevComponents, component.code]; // Add ID if not already clicked
         
-        // Return the updated state
         return newComponents;
       });
       
@@ -167,7 +151,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
           ? prevComponents.filter(code => code !== component.code) // Remove ID if already clicked
           : [...prevComponents, component.code]; // Add ID if not already clicked
         
-        // Return the updated state
         return newComponents;
       });
       
@@ -237,19 +220,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]); // Dependency array includes handleKeyDown
-
   
-  let containerStyle = {
-      position: 'fixed',   // Fixed position to stay in the specified location
-      top: '0',            // Reset top for positioning
-      left: '0',           // Reset left for positioning
-      transform: `translate(-50%, -50%)`, // Centered offset
-      borderRadius: '50%', // To make it a circular background if desired
-      width: `${size}px`,
-      height: `${size}px`,
-    };
-
-  
+  // Functions
   function convertLabel(label) {
     // Define a mapping of prefixes to their corresponding full names
     const prefixMap = {
@@ -286,6 +258,32 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     return concepts.filter(c => c.code.startsWith(`C${codeNumber}.`));
   }
 
+  // Function to determine the center based on position
+  const getCenter = (position) => {
+    if (position === "center")
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
+    else if (position === "center-2")
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.508 };
+    else if (position === "left") 
+      return { x: window.innerWidth * 0.4, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
+    else if (position === "left-2") 
+      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.508 };
+  };
+
+  const center = getCenter(position);
+
+  // Styles
+  let containerStyle = {
+    position: 'fixed',   // Fixed position to stay in the specified location
+    top: '0',            // Reset top for positioning
+    left: '0',           // Reset left for positioning
+    transform: `translate(-50%, -50%)`, // Centered offset
+    borderRadius: '50%', // To make it a circular background if desired
+    width: `${size}px`,
+    height: `${size}px`,
+  };
+
+  // Other Components
   const Tooltip = ({ text, position }) => (
     <div
       style={{
@@ -372,28 +370,28 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
         }}
       >
         {components.map((component, id) => (
-        <div 
-            key={id}
-            onClick={() => handleClick(component)}
-            onMouseEnter={(e) => handleMouseEnter(e, component)}
-            onMouseLeave={() => handleMouseLeave(component)}
-        >
-            <Wave 
-                compassType={compassType}
-                component={component}
-                size={size}
-                mode={mode}
-                selectedComponents={selectedComponents}
-                currentComponent={currentComponent}
-                hoveredId={hoveredId}
-                waveRef={null}
-            />
-  
-            {/* Bookmark */}
-            {mode === "learn" && !isExplanationPage && savedComponents.includes(component.code) &&
-              <Bookmark component={component} />
-            }
-          </div>
+          <div 
+              key={id}
+              onClick={() => handleClick(component)}
+              onMouseEnter={(e) => handleMouseEnter(e, component)}
+              onMouseLeave={() => handleMouseLeave(component)}
+          >
+              <Wave 
+                  compassType={compassType}
+                  component={component}
+                  size={size}
+                  mode={mode}
+                  selectedComponents={selectedComponents}
+                  currentComponent={currentComponent}
+                  hoveredId={hoveredId}
+                  waveRef={null}
+              />
+    
+              {/* Bookmark */}
+              {mode === "learn" && !isExplanationPage && savedComponents.includes(component.code) &&
+                <Bookmark component={component} />
+              }
+            </div>
         ))}
       </div>
   
@@ -403,7 +401,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
           position={tooltipPos} 
         />
       }
-  
     </>
   );
 } 

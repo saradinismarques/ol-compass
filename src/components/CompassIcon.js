@@ -48,48 +48,48 @@ const CompassIcon = ({ mode, currentType }) => {
       }}
     >
       {components.map((component, id) => (
-      <div key={id}>
-        <Wave 
-            compassType={'icon'}
-            component={component}
-            currentType={currentType}
-            size={size}
-            mode={mode}
-            waveRef={null}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '50%',            // Reset top for positioning
-            left: '50%',            // Reset top for positioning
-            transform: 'translate(-50%, -50%)',
-            pointerEvents: 'none',
-            userSelect: 'none',
-            zIndex: '10',
-          }}
-        >
-          <style>
-            {`
-              @font-face {
-                font-family: 'Manrope';
-                src: url(data:font/ttf;base64,${encodedFonts['Manrope-Regular']}) format('truetype');
-              }
-            `}
-          </style>
-          <p
+        <div key={id}>
+          <Wave 
+              compassType={'icon'}
+              component={component}
+              currentType={currentType}
+              size={size}
+              mode={mode}
+              waveRef={null}
+          />
+          <div
             style={{
-              color: `${colors['Label'][currentType]}`,
-              fontFamily: "Manrope", // Use Manrope font
-              fontWeight: 400, // Medium weight for this text
-              fontSize: "11px",
-              textTransform: "uppercase", // Converts text to uppercase
-              letterSpacing: "2px", // Increases the spacing between letters
+              position: 'absolute',
+              top: '50%',            // Reset top for positioning
+              left: '50%',            // Reset top for positioning
+              transform: 'translate(-50%, -50%)',
+              pointerEvents: 'none',
+              userSelect: 'none',
+              zIndex: '10',
             }}
           >
-            {`${currentType}s`}
-          </p>
+            <style>
+              {`
+                @font-face {
+                  font-family: 'Manrope';
+                  src: url(data:font/ttf;base64,${encodedFonts['Manrope-Regular']}) format('truetype');
+                }
+              `}
+            </style>
+            <p
+              style={{
+                color: `${colors['Label'][currentType]}`,
+                fontFamily: "Manrope", // Use Manrope font
+                fontWeight: 400, // Medium weight for this text
+                fontSize: "11px",
+                textTransform: "uppercase", // Converts text to uppercase
+                letterSpacing: "2px", // Increases the spacing between letters
+              }}
+            >
+              {`${currentType}s`}
+            </p>
+          </div>
         </div>
-      </div>
       ))}
     </div>
   ); 
