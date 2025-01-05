@@ -193,7 +193,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
     clearTimeout(tooltipTimeout);
 
-    if(mode === "learn" || mode === "contribute" || mode === "get-inspired" || mode === "get-started"  || mode === "get-started-search") {
+    if(mode === "learn" || mode === "contribute" || mode.startsWith("get-inspired") || mode === "get-started"  || mode === "get-started-search") {
       // Set the cancellation flag to prevent tooltip from showing
       setTooltipVisible(false);
       setTooltipText(""); // Clear the tooltip text
