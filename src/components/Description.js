@@ -25,24 +25,6 @@ const Description = ({ mode }) => {
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
 
-  // Function to replace placeholders with React components
-  const renderTextWithIcons = (text, placeholders) => {
-    // Use regex to find all placeholders like [PLACEHOLDER]
-    const parts = text.split(/(\[[A-Z-]+\])/g); // Splits into text and placeholders
-
-    return (
-      <>
-        {parts.map((part, index) =>
-          placeholders[part] ? (
-            <React.Fragment key={index}>{placeholders[part]}</React.Fragment> // Render component for placeholder
-          ) : (
-            <React.Fragment key={index}>{part}</React.Fragment> // Render plain text
-          )
-        )}
-      </>
-    );
-  };
-
   return (
     <div className='description-container'>
       <p className='description-headline'>

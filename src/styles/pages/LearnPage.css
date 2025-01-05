@@ -26,15 +26,23 @@
     font-size: 1.8em; /* Smaller size for h2 */
     font-weight: 500;
     text-transform: uppercase;
-    margin-top: 3px;
+    margin-top: 10px;
 }
   
 .l-text {
     font-size: 1em;
     font-weight: 300;
-    margin-top: -25px;
+    margin-top: 20px;
     overflow-y: auto; /* Hide overflow initially */
     display: block;
+}
+
+.l-text.princples {
+    margin-top: 0px;
+}
+
+.l-text.bold{
+    font-weight: 500;
 }
 
 .l-text button {
@@ -214,7 +222,7 @@
 
 /* Scroll Features */
 .l-scroller {
-    overflow: auto;
+    overflow:auto;
     display: block;
 }
     

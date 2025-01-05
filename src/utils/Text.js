@@ -24,8 +24,7 @@ const renderTextWithIcons = (text, placeholders) => {
         )}
       </>
     );
-  };
-
+};
 
 const replaceBolds = (text, textStyle, boldStyle) => {
     let elements = [];
@@ -74,15 +73,40 @@ const replaceBolds = (text, textStyle, boldStyle) => {
     return elements;
 };
 
+const replaceBoldsNoLineBreaks = (text) => {
+    // Regex to match text between <b> and </b> tags
+    const parts = text.split(/(<b>.*?<\/b>)/g); // Split by <b>...</b> while keeping the tags in the array
+
+    return (
+        <>
+            {parts.map((part, index) => {
+                if (part.startsWith('<b>') && part.endsWith('</b>')) {
+                    // Remove the <b> and </b> tags, render the content as bold
+                    return (
+                        <b key={index}>
+                            {part.replace('<b>', '').replace('</b>', '')}
+                        </b>
+                    );
+                } else {
+                    // Render non-bold text as plain text
+                    return <span key={index}>{part}</span>;
+                }
+            })}
+        </>
+    );
+  };
+
 export function formatText(text, containerStyle, textStyle, boldStyle, placeholderMap, hasParagraph, hasIcons) {
     if (placeholderMap != null && !hasIcons) 
         text = replacePlaceholders(text, placeholderMap);
 
     // If `boldStyle` is `null`, skip bold processing
     const processText = (part) => {
-        if(boldStyle !== null) 
+        if(boldStyle !== null && !hasNoLineBreaks) 
             return replaceBolds(part, textStyle, boldStyle)
-        else if(hasIcons)
+        else if(boldStyle !== null && hasNoLineBreaks)
+            return replaceBoldsNoLineBreaks(part, textStyle, boldStyle)
+        else if(hasIcons && hasNoLineBreaks)
             return (
                 <>
                 {renderTextWithIcons(text, placeholderMap)}  
@@ -104,19 +128,70 @@ export function formatText(text, containerStyle, textStyle, boldStyle, placehold
 
     // Split the string by the <br> tag to handle line breaks
     const parts = text.split('<br>').map(part => part.trim()).filter(part => part !== "");
+    const hasNoLineBreaks = parts.length === 1;
 
     return (
         <div className={containerStyle}>
-            <p>
-                {parts.map((part, index) => (
-                    <React.Fragment key={`line-${index}`}>
-                        {processText(part)}
-                        {/* Add <br /> for line breaks */}
-                        {!hasParagraph && index < parts.length - 1 && <br />}
-                    </React.Fragment>
-                ))}
-            </p>
+            <>
+                {!hasNoLineBreaks &&
+                    <>
+                        {parts.map((part, index) => (
+                        <React.Fragment key={`line-${index}`}>
+                            {processText(part)}
+                            {/* Add <br /> for line breaks */}
+                            {!hasParagraph && index < parts.length - 1 && <br />}
+                        </React.Fragment>
+                        ))}
+                    </>
+                }
+                {hasNoLineBreaks &&
+                    <>
+                        {processText(text)}
+                    </>
+                }     
+            </>
         </div>
     );
 }
+
+export function formatButtons(text, currentConcept, onClickHandler) {
+    // Split the text by <br> to handle line breaks
+    const lineParts = text.split('<br>');
+
+    return lineParts.map((line, lineIndex) => {
+        // Handle <u> tags within each line
+        const parts = line.split(/(<u>.*?<\/u>)/g);
+
+        return (
+            <React.Fragment key={lineIndex}>
+                {parts.map((part, partIndex) => {
+                    if (part.startsWith('<u>') && part.endsWith('</u>')) {
+                        // Extract the content inside <u>...</u>
+                        const buttonText = part.replace('<u>', '').replace('</u>', '');
+
+                        // Check if the buttonText matches the currentConcept's linkedTo
+                        const isHighlighted = currentConcept.linkedTo
+                            .toLowerCase()
+                            .includes(buttonText.toLowerCase());
+
+                        return (
+                            <button
+                                key={partIndex}
+                                style={{ fontWeight: isHighlighted ? 500 : 300 }}
+                                onClick={() => onClickHandler(buttonText)}
+                            >
+                                {buttonText}
+                            </button>
+                        );
+                    } else {
+                        // Render normal text
+                        return <span key={partIndex}>{part}</span>;
+                    }
+                })}
+                {/* Add a line break after each line, except the last one */}
+                {lineIndex < lineParts.length - 1 && <br />}
+            </React.Fragment>
+        );
+    });
+};
 

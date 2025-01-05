@@ -5,6 +5,7 @@ import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { ReactComponent as QuestionIcon } from '../assets/icons/question-icon.svg';
 import { StateContext } from "../State";
+import { formatText } from '../utils/Text.js';
 import '../styles/components/Message.css';
 
 const Message = ({ mode, type, showMessage, messageStateChange }) => {
@@ -23,23 +24,7 @@ const Message = ({ mode, type, showMessage, messageStateChange }) => {
     "[BOOKMARK-I]": <BookmarkIcon className="message-icon smaller" />,
   };
 
-  const renderTextWithIcons = (text, placeholders) => {
-    const parts = text.split(/(\[[A-Z-]+\])/g);
-    return (
-      <>
-        {parts.map((part, index) =>
-          placeholders[part] ? (
-            <React.Fragment key={index}>{placeholders[part]}</React.Fragment>
-          ) : (
-            <React.Fragment key={index}>{part}</React.Fragment>
-          )
-        )}
-      </>
-    );
-  };
-
   const handleShowMessage = () => {
-    console.log("Clicled");
     if (messageStateChange) {
       messageStateChange(true);
     }
@@ -90,9 +75,9 @@ const Message = ({ mode, type, showMessage, messageStateChange }) => {
             <div className="message-question">
               <QuestionIcon className="question-icon message" />
             </div>
-            <p className="message-text">
-              {renderTextWithIcons(message, iconsMap)}
-            </p>
+            
+            {formatText(message, "message-text", null, null, iconsMap, false, true)}
+
             <button className="got-it-button" onClick={handleRemoveMessage}>
               Ok, got it!
             </button>
