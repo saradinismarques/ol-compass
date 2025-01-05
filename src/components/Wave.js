@@ -10,436 +10,432 @@ const svgTextPathInverted = "m119.67,8.31c-6.61-3.38-15.85-8.69-32.31-8-14.77.62
 const bigLabels = ['P6', 'D10'];
 
 const Wave = ({ compassType, component, currentType, size, mode, selectedComponents, currentComponent, hoveredId, waveRef }) => {
-    const {
-        colors,
-        isExplanationPage,
-        allComponents,
-        opacityCounter,
-    } = useContext(StateContext);
+  // Global Variables  
+  const {
+    colors,
+    isExplanationPage,
+    allComponents,
+    opacityCounter,
+  } = useContext(StateContext);
       
-    const waveWidth = size/2.6;
-    const waveHeight = waveWidth*3;
+  const waveWidth = size/2.6;
+  const waveHeight = waveWidth*3;
 
-    const getCursor = () => {
-      if(mode.startsWith("intro") || mode === "default" 
-      || (compassType === "default" && mode.startsWith("analyse"))
-      || (mode.startsWith("analyse") && isExplanationPage) ||
-      compassType === "icon")
-        return 'default';
-      return 'pointer';
+  // Styles
+  const getCursor = () => {
+    if(mode.startsWith("intro") || mode === "default" 
+    || (compassType === "default" && mode.startsWith("analyse"))
+    || (mode.startsWith("analyse") && isExplanationPage) ||
+    compassType === "icon")
+      return 'default';
+    return 'pointer';
+  }
+
+  const buttonStyle = {
+    position: 'absolute',
+    cursor: getCursor(),
+    pointerEvents: 'none', // Ensure buttons are clickable
+  };
+
+  let waveStyles;
+  if(compassType === "default") {
+    waveStyles = {
+      left: component.x - waveWidth / 2,
+      top: component.y - waveHeight / 2 - 2,
+      textLeft: component.x - (waveWidth * 0.83) / 2,
+      textTop: component.y - waveHeight / 2 - 2,
+    }
+  } else if(compassType === "draggable") {
+    waveStyles = {
+      left: 0,
+      top: 0,
+      textLeft: 0.35*waveWidth/4,
+      textTop: 0,
+    }
+  } else if(compassType === "icon") {
+    let gapX, gapY;
+    if(mode.startsWith("analyse")) {
+      gapX = 54;
+      gapY = 53;
+    } else {
+      gapX = 0;
+      gapY = -2;
     }
 
-    const buttonStyle = {
-      position: 'absolute',
-      cursor: getCursor(),
-      pointerEvents: 'none', // Ensure buttons are clickable
-    };
+    waveStyles = {
+      left: component.x - waveWidth / 2 + gapX,
+      top: component.y - waveHeight / 2 + gapY,
+    }
+  }
 
-    let waveStyles;
+  const getWaveFill = () => {
     if(compassType === "default") {
-      waveStyles = {
-        left: component.x - waveWidth / 2,
-        top: component.y - waveHeight / 2 - 2,
-        textLeft: component.x - (waveWidth * 0.83) / 2,
-        textTop: component.y - waveHeight / 2 - 2,
-      }
+      // Analyse
+      if(mode.startsWith("analyse"))
+        return "transparent";
+      return colors['Wave'][component.type];
+    } else if(compassType === "draggable") {
+      return colors['Wave'][component.type];
+    } else if(compassType === "icon") {
+      if(component.type === currentType)
+        return colors['Wave'][currentType];
+      return "#e3e4e3";
     }
-    else if(compassType === "draggable") {
-      waveStyles = {
-        left: 0,
-        top: 0,
-        textLeft: 0.35*waveWidth/4,
-        textTop: 0,
-      }
-    }
-    else if(compassType === "icon") {
-      let gapX, gapY;
-      if(mode.startsWith("analyse")) {
-        gapX = 54;
-        gapY = 53;
-      } else {
-        gapX = 0;
-        gapY = -2;
-      }
-
-      waveStyles = {
-        left: component.x - waveWidth / 2 + gapX,
-        top: component.y - waveHeight / 2 + gapY,
-      }
-    }
-
-    const getWaveFill = () => {
-      if(compassType === "default") {
-        // Analyse
-        if(mode.startsWith("analyse"))
-          return "transparent";
+  }
+    
+  const getTextFill = () => {
+    if(compassType === "default") {
+      // Analyse
+      if(mode.startsWith("analyse")) 
         return colors['Wave'][component.type];
-      } else if(compassType === "draggable") {
+      return colors['Label'][component.type];
+    } else if(compassType === "draggable") {
+      return colors['Label'][component.type];
+    }
+  }
+    
+  const getStrokeFill = () => {
+    if(compassType === "default") {
+      // Get Started
+      if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
+        if(selectedComponents.includes(component.code)) 
+          return colors['Selection'];
+      // Analyse
+      if(mode.startsWith("analyse"))
         return colors['Wave'][component.type];
-      } else if(compassType === "icon") {
-        if(component.type === currentType)
-          return colors['Wave'][currentType];
-        return "#e3e4e3";
-      }
-    }
+      return 'none';
+    } else if(compassType === "draggable" || compassType === "icon") {
+      return 'none';
+    } 
+  };
     
-    const getTextFill = () => {
-      if(compassType === "default") {
-        // Analyse
-        if(mode.startsWith("analyse")) 
-          return colors['Wave'][component.type];
-        return colors['Label'][component.type];
-      } else if(compassType === "draggable") {
-        return colors['Label'][component.type];
-      }
-    }
-    
-    const getStrokeFill = () => {
-      if(compassType === "default") {
-        // Get Started
-        if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
-          if(selectedComponents.includes(component.code)) 
-            return colors['Selection'];
-        // Analyse
-        if(mode.startsWith("analyse"))
-          return colors['Wave'][component.type];
-        return 'none';
-      } else if(compassType === "draggable") {
-        return 'none';
-      } 
-    };
-    
-    const getStrokeWidth = () => {
-      if(compassType === "default") {
-        if(mode.startsWith("analyse"))
-          return "0.6px";
-        return "1.5px";
-      } else if(compassType === "draggable") {
+  const getStrokeWidth = () => {
+    if(compassType === "default") {
+      if(mode.startsWith("analyse"))
         return "0.6px";
-      }  
-    };
+      return "1.5px";
+    } 
+  };
     
-    const getWaveOpacity = () => {
-      if(compassType === "default") {
-        // Intro
-        if (mode === "intro-0")
-          return 0.3;
-        else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
-          return 0.15;
-        else if (mode === "intro-4" || mode === "intro-5") 
-          if(component.type === "Principle") 
-            if(allComponents.indexOf(component.code) <= opacityCounter['Principle'])
-              return 1;
-            else
-              return 0.15;
-          else 
-            return 0.15;
-        else if (mode === "intro-6" || mode === "intro-7") 
-          if(component.type === "Principle")
-            return 0.55;
-          else if(component.type === "Perspective")
-            if(allComponents.indexOf(component.code) <= opacityCounter['Perspective']+7)
-              return 1;
-            else
-              return 0.15;
-          else
-            return 0.15;
-        else if (mode === "intro-8" || mode === "intro-9") 
-          if(component.type === "Principle")
-            return 0.55;
-          else if(component.type === "Perspective")
-            return 0.55;
-          else 
-            if(allComponents.indexOf(component.code) <= opacityCounter['Dimension']+14)
-              return 1;
-            else
-              return 0.15;
-      
-        // Learn
-        if(mode === "learn") {
-          if(selectedComponents.length === 0)
-            return 1;
-          if(selectedComponents === component.code)
-            return 1;
-          else if(hoveredId === component.code) 
-            return 0.8;
-          else
-            return 0.3;
-        }
-        // Get Started
-        if(mode.startsWith("get-started-search")) {
-          if(currentComponent === component.code)
-            return 1;
-          else if(hoveredId === component.code) 
-            return 0.8;
-          else
-            return 0.2;
-        } else if(mode.startsWith("get-started")) {
-          if(selectedComponents.length === 0) 
-            return 1;
-          if (selectedComponents.includes(component.code)) 
-            return 1;
-          if (hoveredId === component.code) 
-              return 0.8;
-          return 0.3;
-        }
-      
-        // Get Inspired
-        if(mode === "get-inspired") {
-          if(selectedComponents.length === 0) 
-            return 1;
-          if (selectedComponents.includes(component.code)) 
-            return 1;
-          if (hoveredId === component.code) 
-              return 0.8;
-          return 0.3;
-        }
-        if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-          if(currentComponent.includes(component.code))
-            return 1;
-          else if(hoveredId === component.code) 
-            return 0.8;
-          else
-            return 0.2;
-        }
-      
-        // Contribute
-        if(mode === "contribute") {
-          if(selectedComponents.length === 0) 
-            return 1;
-          if (selectedComponents.includes(component.code)) 
-            return 1;
-          if (hoveredId === component.code) 
-              return 0.8;
-          return 0.3;
-        }
-      
-        // Analyse    
-        if(mode.startsWith("analyse")) 
-            return 1;
-      } else if(compassType === "draggable") {
-        // Analyse    
-        if(mode === "analyse-a" && (currentType === 'All' || !currentType)) 
-          return 1;
-        else if(component.type === currentType)
-          return 1;
-        else
-          return 0.3;
-      } else if(compassType === "icon") {
-        if(component.type === currentType)
-          return 0.9;
-        return 0.3;
-      } 
-    };
-    
-    const isFlipped = () => {
-      const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
-    
-      if(flippedTexts.includes(component.code)) 
-        return false;
-      return true;
-    };
-    
-    const getText = (part) => {
+  const getWaveOpacity = () => {
+    if(compassType === "default") {
       // Intro
-      if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
-        return "";
+      if (mode === "intro-0")
+        return 0.3;
+      else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
+        return 0.15;
       else if (mode === "intro-4" || mode === "intro-5") {
-        if(component.type !== "Principle")
-            return "";
-      }
-      else if (mode === "intro-6" || mode === "intro-7") {
-        if(component.type === "Dimension") {
-          return "";
-        }
-      }
-      if(bigLabels.includes(component.code)) {
-        let firstIndex = component.label.indexOf(' ');
-        let secondIndex = component.label.indexOf(' ', firstIndex + 1);
-        let firstPart, secondPart;
-    
-        firstPart = component.label.substring(0, firstIndex); // "a"
-    
-        if (firstPart.length > 6) {
-            // Case 1: Only one space ("a b")
-            firstPart = component.label.substring(0, firstIndex); // "a"
-            secondPart = component.label.substring(firstIndex + 1); // "b"
-        } else {
-            // Case 2: Two spaces ("a b c")
-            firstPart = component.label.substring(0, secondIndex); // "a b"
-            secondPart = component.label.substring(secondIndex + 1); // "c"
-        }
-    
-        if(part === 0)
-          return firstPart;
+        if(component.type === "Principle") 
+          if(allComponents.indexOf(component.code) <= opacityCounter['Principle'])
+            return 1;
+          else
+            return 0.15;
+        else 
+          return 0.15;
+      } else if (mode === "intro-6" || mode === "intro-7") {
+        if(component.type === "Principle")
+          return 0.55;
+        else if(component.type === "Perspective")
+          if(allComponents.indexOf(component.code) <= opacityCounter['Perspective']+7)
+            return 1;
+          else
+            return 0.15;
         else
-          return secondPart;
+          return 0.15;
+      } else if (mode === "intro-8" || mode === "intro-9") {
+        if(component.type === "Principle")
+          return 0.55;
+        else if(component.type === "Perspective")
+          return 0.55;
+        else 
+          if(allComponents.indexOf(component.code) <= opacityCounter['Dimension']+14)
+            return 1;
+          else
+            return 0.15;
       }
-      return component.label;
-    };
+      // Learn
+      if(mode === "learn") {
+        if(selectedComponents.length === 0)
+          return 1;
+        if(selectedComponents === component.code)
+          return 1;
+        else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.3;
+      }
+      // Get Started
+      if(mode.startsWith("get-started-search")) {
+        if(currentComponent === component.code)
+          return 1;
+        else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.2;
+      } else if(mode.startsWith("get-started")) {
+        if(selectedComponents.length === 0) 
+          return 1;
+        if (selectedComponents.includes(component.code)) 
+          return 1;
+        if (hoveredId === component.code) 
+            return 0.8;
+        return 0.3;
+      }
     
-    const getLabelWidth = () => {
-       // Count the number of "I" characters in the label
-       const countI = component.label.split('I').length - 1;
-       const remainingLetters = component.label.length-countI;
+      // Get Inspired
+      if(mode === "get-inspired") {
+        if(selectedComponents.length === 0) 
+          return 1;
+        if (selectedComponents.includes(component.code)) 
+          return 1;
+        if (hoveredId === component.code) 
+            return 0.8;
+        return 0.3;
+      }
+      if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
+        if(currentComponent.includes(component.code))
+          return 1;
+        else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.2;
+      }
+      // Contribute
+      if(mode === "contribute") {
+        if(selectedComponents.length === 0) 
+          return 1;
+        if (selectedComponents.includes(component.code)) 
+          return 1;
+        if (hoveredId === component.code) 
+            return 0.8;
+        return 0.3;
+      }
+      // Analyse    
+      if(mode.startsWith("analyse")) 
+          return 1;
+    } else if(compassType === "draggable") {
+      // Analyse    
+      if(mode === "analyse-a" && (currentType === 'All' || !currentType)) 
+        return 1;
+      else if(component.type === currentType)
+        return 1;
+      else
+        return 0.3;
+    } else if(compassType === "icon") {
+      if(component.type === currentType)
+        return 0.9;
+      return 0.3;
+    } 
+  };
+  
+  const isFlipped = () => {
+    const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
+  
+    if(flippedTexts.includes(component.code)) 
+      return false;
+    return true;
+  };
     
-       return remainingLetters*1 + countI*0.5;    
+  const getText = (part) => {
+    // Intro
+    if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
+      return "";
+    else if (mode === "intro-4" || mode === "intro-5") {
+      if(component.type !== "Principle")
+        return "";
     }
+    else if (mode === "intro-6" || mode === "intro-7") {
+      if(component.type === "Dimension") {
+        return "";
+      }
+    }
+    if(bigLabels.includes(component.code)) {
+      let firstIndex = component.label.indexOf(' ');
+      let secondIndex = component.label.indexOf(' ', firstIndex + 1);
+      let firstPart, secondPart;
+  
+      firstPart = component.label.substring(0, firstIndex); // "a"
+  
+      if (firstPart.length > 6) {
+        // Case 1: Only one space ("a b")
+        firstPart = component.label.substring(0, firstIndex); // "a"
+        secondPart = component.label.substring(firstIndex + 1); // "b"
+      } else {
+        // Case 2: Two spaces ("a b c")
+        firstPart = component.label.substring(0, secondIndex); // "a b"
+        secondPart = component.label.substring(secondIndex + 1); // "c"
+      }
+  
+      if(part === 0)
+        return firstPart;
+      else
+        return secondPart;
+    }
+    return component.label;
+  };
+  
+  const getLabelWidth = () => {
+    // Count the number of "I" characters in the label
+    const countI = component.label.split('I').length - 1;
+    const remainingLetters = component.label.length-countI;
 
-    return (
-        <>
-            {/* Shape */}
-            <div
-              style={{
-                ...buttonStyle,
-                left: `${waveStyles.left}px`, // Adjust position for button size
-                top: `${waveStyles.top}px`,
-                transform: `rotate(${component.angle}rad) ${component.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
-                zIndex: 1 // Layer filled shapes at the base
-              }}
-            >
-              <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
-                <path 
-                    ref={waveRef}
-                    d={svgPath} 
-                    fill={getWaveFill()}  // Use the gradient fill
-                    stroke="none" 
-                    style={{ pointerEvents: 'all' }}
-                    transition="opacity 1s ease"
-                    opacity={getWaveOpacity()} // Change opacity on hover
-                />
-              </svg>
-            </div>
-  
-            {/* Outline Shape */}
-            <div
-              style={{
-                ...buttonStyle,
-                left: `${waveStyles.left}px`,
-                top: `${waveStyles.top}px`,
-                transform: `rotate(${component.angle}rad) ${component.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
-                position: 'absolute', // Consistent positioning
-                zIndex: 30 // Ensures outlines are rendered on top of filled shapes
-              }}
-            >
-              <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
-                <path 
-                  d={svgPath} 
-                  fill="none"
-                  stroke={getStrokeFill()}
-                  strokeWidth={getStrokeWidth()}
-                  style={{ pointerEvents: 'all' }} 
-                />
-              </svg>
-            </div>
-  
-            {/* Text */}
-            {compassType !== 'icon' && 
-            <div
-              style={{
-                position: 'absolute',
-                left: `${waveStyles.textLeft}px`, // Adjust position for button size
-                top: `${waveStyles.textTop}px`,
-                transform: isFlipped() ? `rotate(${component.angle + Math.PI}rad)` : `rotate(${component.angle}rad)`,
-                opacity: getWaveOpacity(), // Change opacity on hover
-                zIndex: 10,
-                pointerEvents: 'none', // Disable pointer events for the inner div
-                userSelect: 'none'
-              }}
-            >
-              <div
-                style={{
-                  position: 'relative',
-                  left: isFlipped() 
-                    ? (component.type === 'Principle' ? '6.5px' : '6.5px') 
-                    : (component.type === 'Principle' ? '-6.5px' : '-6.5px'), 
-                  top: isFlipped() 
-                    ? (component.type === 'Principle' ? '6px' : '-2px') 
-                    : (component.type === 'Principle' ? '-2px' : '6px'),
-                  pointerEvents: 'none',
-                  userSelect: 'none'
-                }}
-              >
-                <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
-                  {/* <path 
-                    d={c.type === "Principle" ? svgTextPathInverted : svgTextPath } 
-                    fill={'none'} 
-                    stroke='black' 
-                  />  */}
-                  <defs>        
-                    <style type="text/css">
-                      {`
-                        @font-face {
-                          font-family: 'Manrope';
-                          src: url(data:font/ttf;base64,${encodedFonts['Manrope-Medium']}) format('truetype');
-                        }
-                      `}
-                    </style>
+    return remainingLetters*1 + countI*0.5;    
+  }
 
-                    <path 
-                      id={`text-path-${component.code}`} 
-                      d={component.type === "Principle" ? svgTextPathInverted : svgTextPath } 
-                      style={{ 
-                        pointerEvents: 'none',
-                        userSelect: 'none'
-                      }} 
-                    />
-                  </defs>
-  
-                  {/* Text on Path */}
-                  <text
-                    fill={getTextFill()}
-                    fontFamily='Manrope'
-                    fontWeight={500}
-                    fontSize="8px"
-                    letterSpacing={getLabelWidth() > 10 ? "0.5px" : "0.9px"}
-                    dy={bigLabels.includes(component.code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
-                    style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
-                    >
-                    <textPath
-                      href={`#text-path-${component.code}`}
-                      startOffset="50%" // Center text along the path
-                      textAnchor="middle" // Ensure the text centers based on its length
-                      style={{ 
-                        pointerEvents: 'none',  
-                        userSelect: 'none'
-                      }} // Ensure textPath doesn't interfere
-                    >
-                      {getText(0)}
-                    </textPath>
-                  </text>
-  
-                  {/* Second Line (if it has one) */}
-                  {bigLabels.includes(component.code) &&
-                    <text
-                      fill={getTextFill()}
-                      fontSize="8px"
-                      letterSpacing={getLabelWidth() > 10 ? "0.5px" : "0.9px"}
-                      dy="0.84em" // Adjust this to center the text vertically on the path
-                      style={{ 
-                        pointerEvents: 'none', 
-                        userSelect: 'none'
-                      }} // Ensure text doesn't interfere
-                    >
-                      <textPath
-                        href={`#text-path-${component.code}`}
-                        startOffset="50%" // Center text along the path
-                        textAnchor="middle" // Ensure the text centers based on its length
-                        style={{ 
-                          pointerEvents: 'none', 
-                          userSelect: 'none'
-                        }} // Ensure textPath doesn't interfere
-                      >
-                        {getText(1)}
-                      </textPath>
-                    </text>
-                  }
-                </svg>
-              </div>
-            </div>
-            }
-        </>
-    );
+  return (
+    <>
+      {/* Shape */}
+      <div
+        style={{
+          ...buttonStyle,
+          left: `${waveStyles.left}px`, // Adjust position for button size
+          top: `${waveStyles.top}px`,
+          transform: `rotate(${component.angle}rad) ${component.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+          zIndex: 1 // Layer filled shapes at the base
+        }}
+      >
+        <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
+          <path 
+            ref={waveRef}
+            d={svgPath} 
+            fill={getWaveFill()}  // Use the gradient fill
+            stroke="none" 
+            style={{ pointerEvents: 'all' }}
+            transition="opacity 1s ease"
+            opacity={getWaveOpacity()} // Change opacity on hover
+          />
+        </svg>
+      </div>
+
+      {/* Outline Shape */}
+      <div
+        style={{
+          ...buttonStyle,
+          left: `${waveStyles.left}px`,
+          top: `${waveStyles.top}px`,
+          transform: `rotate(${component.angle}rad) ${component.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+          position: 'absolute', // Consistent positioning
+          zIndex: 30 // Ensures outlines are rendered on top of filled shapes
+        }}
+      >
+        <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
+          <path 
+            d={svgPath} 
+            fill="none"
+            stroke={getStrokeFill()}
+            strokeWidth={getStrokeWidth()}
+            style={{ pointerEvents: 'all' }} 
+          />
+        </svg>
+      </div>
+
+      {/* Text */}
+      {compassType !== 'icon' && 
+        <div
+          style={{
+            position: 'absolute',
+            left: `${waveStyles.textLeft}px`, // Adjust position for button size
+            top: `${waveStyles.textTop}px`,
+            transform: isFlipped() ? `rotate(${component.angle + Math.PI}rad)` : `rotate(${component.angle}rad)`,
+            opacity: getWaveOpacity(), // Change opacity on hover
+            zIndex: 10,
+            pointerEvents: 'none', // Disable pointer events for the inner div
+            userSelect: 'none'
+          }}
+        >
+          <div
+            style={{
+              position: 'relative',
+              left: isFlipped() 
+                ? (component.type === 'Principle' ? '6.5px' : '6.5px') 
+                : (component.type === 'Principle' ? '-6.5px' : '-6.5px'), 
+              top: isFlipped() 
+                ? (component.type === 'Principle' ? '6px' : '-2px') 
+                : (component.type === 'Principle' ? '-2px' : '6px'),
+              pointerEvents: 'none',
+              userSelect: 'none'
+            }}
+          >
+            <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
+              {/* <path 
+                d={c.type === "Principle" ? svgTextPathInverted : svgTextPath } 
+                fill={'none'} 
+                stroke='black' 
+              />  */}
+              <defs>        
+                <style type="text/css">
+                  {`
+                    @font-face {
+                      font-family: 'Manrope';
+                      src: url(data:font/ttf;base64,${encodedFonts['Manrope-Medium']}) format('truetype');
+                    }
+                  `}
+                </style>
+
+                <path 
+                  id={`text-path-${component.code}`} 
+                  d={component.type === "Principle" ? svgTextPathInverted : svgTextPath } 
+                  style={{ 
+                    pointerEvents: 'none',
+                    userSelect: 'none'
+                  }} 
+                />
+              </defs>
+
+              {/* Text on Path */}
+              <text
+                fill={getTextFill()}
+                fontFamily='Manrope'
+                fontWeight={500}
+                fontSize="8px"
+                letterSpacing={getLabelWidth() > 10 ? "0.5px" : "0.9px"}
+                dy={bigLabels.includes(component.code) ? '-0.11em' : '0.35em'} // Adjust this to center the text vertically on the path
+                style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
+                >
+                <textPath
+                  href={`#text-path-${component.code}`}
+                  startOffset="50%" // Center text along the path
+                  textAnchor="middle" // Ensure the text centers based on its length
+                  style={{ 
+                    pointerEvents: 'none',  
+                    userSelect: 'none'
+                  }} // Ensure textPath doesn't interfere
+                >
+                  {getText(0)}
+                </textPath>
+              </text>
+
+              {/* Second Line (if it has one) */}
+              {bigLabels.includes(component.code) &&
+                <text
+                  fill={getTextFill()}
+                  fontSize="8px"
+                  letterSpacing={getLabelWidth() > 10 ? "0.5px" : "0.9px"}
+                  dy="0.84em" // Adjust this to center the text vertically on the path
+                  style={{ 
+                    pointerEvents: 'none', 
+                    userSelect: 'none'
+                  }} // Ensure text doesn't interfere
+                >
+                  <textPath
+                    href={`#text-path-${component.code}`}
+                    startOffset="50%" // Center text along the path
+                    textAnchor="middle" // Ensure the text centers based on its length
+                    style={{ 
+                      pointerEvents: 'none', 
+                      userSelect: 'none'
+                    }} // Ensure textPath doesn't interfere
+                  >
+                    {getText(1)}
+                  </textPath>
+                </text>
+              }
+            </svg>
+          </div>
+        </div>
+      }
+    </>
+  );
 };
 
 function getComponentsPositions(compassType, componentsData, type, size) {
