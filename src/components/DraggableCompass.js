@@ -113,37 +113,37 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     if (selectedComponentsRef.current.includes(components[id].code)) {
       init = false;
       // If we want to remove the component
-    //   if (isInsideCompassArea(id)) {
-    //     // Go back to initial positions
-    //     setComponents((prevComponents) => {
-    //       const updatedComponents = [...prevComponents];
-    //       updatedComponents[id].x = updatedComponents[id].initialX;
-    //       updatedComponents[id].y = updatedComponents[id].initialY;
-    //       updatedComponents[id].angle = updatedComponents[id].initialAngle;
+      if (isInsideCompassArea(id)) {
+        // Go back to initial positions
+        setComponents((prevComponents) => {
+          const updatedComponents = [...prevComponents];
+          updatedComponents[id].x = updatedComponents[id].initialX;
+          updatedComponents[id].y = updatedComponents[id].initialY;
+          updatedComponents[id].angle = updatedComponents[id].initialAngle;
   
-    //       return updatedComponents;
-    //     });
+          return updatedComponents;
+        });
 
-    //     // Remove the component from selectedComponents
-    //     setSelectedComponents((prevComponents) => {
-    //       const updatedComponents = prevComponents.filter(
-    //         (componentCode) => componentCode !== components[id].code
-    //       );
-    //       selectedComponentsRef.current = updatedComponents; // Update the ref
+        // Remove the component from selectedComponents
+        setSelectedComponents((prevComponents) => {
+          const updatedComponents = prevComponents.filter(
+            (componentCode) => componentCode !== components[id].code
+          );
+          selectedComponentsRef.current = updatedComponents; // Update the ref
           
-    //       return updatedComponents;
-    //     });
+          return updatedComponents;
+        });
 
-    //     if (onDragStop) 
-    //       onDragStop(
-    //         components[id].code,
-    //         null
-    //       ); // send null code to Analyse to remove it there too
+        if (onDragStop) 
+          onDragStop(
+            components[id].code,
+            null
+          ); // send null code to Analyse to remove it there too
         
-    //     activeIdRef.current = null;
+        activeIdRef.current = null;
 
-    //     return; // Exit early as the component is removed
-    //   } 
+        return; // Exit early as the component is removed
+      } 
     }
     
     const positions = getPositions(id, init, data.x, data.y, null, null);
@@ -541,33 +541,32 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         ...containerStyle, 
       }}
     >
-      {/* {(showSquare && !pdfSelectedComponents) && 
+      {/* Area of the Compass*/}
+      {!pdfComponents && 
         <div 
           style={{
-            position: 'absolute',
-            top: '17vh',
-            left: '47vw',
-            width: '700px',
-            height: '500px',
-            border: '2px solid #cacbcb',
-            borderRadius: '10px'
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            pointerEvents: 'none', // Ensure the line is not interactive
           }}
-        ></div>
-      } */}
-      <div 
-        ref={compassRef}
-        style={{
-          position: 'absolute',
-          top: "50.8vh",
-          left: "25vw",
-          transform: "translate(-50%, -50%)",
-          width: `${size+size/6}px`,
-          height: `${size+size/6}px`,
-          backgroundColor: "transparent",
-          borderRadius: '50%'
-        }}
-      ></div>
-
+        >
+          <svg 
+            width={window.innerWidth} 
+            height={window.innerHeight} 
+            viewBox={`${0} ${0} ${window.innerWidth} ${window.innerHeight}`}
+          >
+            {/* Circle */}
+            <circle 
+              ref={compassRef}
+              cx={window.innerWidth * 0.25} // Center X position
+              cy={window.innerHeight * 0.508} // Center Y position
+              r={size/1.6}          // Radius of the circle
+              fill="transparent" // Circle color
+            />
+          </svg>
+        </div>
+      }
       {components.map((component, id) => (
         <div key={id}> 
           <Draggable key={id} 

@@ -501,8 +501,6 @@ function getComponentsPositions(compassType, componentsData, type, size, draggab
       componentsData[i]["y"] = y;
       componentsData[i]["angle"] = angle;
     } else if(compassType === "draggable") {
-      // componentsData[i]["initialX"] = x - waveWidth/2 - window.innerWidth/7.54;
-      // componentsData[i]["initialY"] = y - waveHeight/2 - window.innerHeight/48.78;
       componentsData[i]["initialX"] = x - waveWidth/2 + window.innerWidth/2.95 - draggableLeftPosition;
       componentsData[i]["initialY"] = y - waveHeight/2 + window.innerHeight/6.95 - draggableTopPosition;
       componentsData[i]["initialAngle"] = angle;
