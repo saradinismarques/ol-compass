@@ -48,11 +48,8 @@
     transform: translate(-50%, -50%);
 }
 
-/* Home Button */
-.home-button {
+.circle-button {
     position: fixed;
-    top: 9vh;
-    left: 9vw;
     width: 29px; /* Set an explicit width */
     height: 29px; /* Set an explicit height */
     transform: translateY(-50%);
@@ -67,7 +64,19 @@
     box-sizing: border-box;
 }
 
-.home-button.active {
+/* Home Button */
+.circle-button.home {
+    top: 9vh;
+    left: 9vw;   
+}
+
+/* Home Button */
+.circle-button.go-back {
+    top: 9vh;
+    left: 12vw;   
+}
+
+.circle-button.active {
     background-color: black; /* Active state background color */
     color: white; /* Active state text color */
     border: 2px solid black; /* Border remains black to match the background */
@@ -75,8 +84,8 @@
 
 .menu-button.active .home-icon, 
 .menu-button.hover .home-icon, 
-.home-button.active .home-icon, 
-.home-button.hover .home-icon {
+.circle-button.active .home-icon, 
+.circle-button.hover .home-icon {
     stroke: #f5f5f5; /* White stroke for active or hover states */
 }
 
@@ -86,6 +95,15 @@
     fill: none; /* Set default color for the bookmark */
     stroke: black;
     stroke-width: 2.5px;
+    margin-bottom: 1px;
+}
+
+.go-back-icon {
+    width: 15px;
+    height: 15px;
+    fill: black; /* Set default color for the bookmark */
+    stroke: black;
+    stroke-width: 1px;
     margin-bottom: 1px;
 }
 

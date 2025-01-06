@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as GoBackIcon } from '../assets/icons/go-back-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import '../styles/components/Menu.css';
 
@@ -27,6 +28,8 @@ const Menu = () => {
   // Determine the active button based on the current path
   const getActiveButton = (path) => {
     switch (path) {
+      case '/':
+        return 'intro-page';
       case '/home':
         return 'home';
       case '/get-started':
@@ -57,12 +60,22 @@ const Menu = () => {
     <>
       <Link
         to="/home"
-        className={`home-button ${activeButton === 'home' ? 'active' : ''}`}
+        className={`circle-button home ${activeButton === 'home' ? 'active' : ''}`}
       >
         <HomeIcon 
           className="home-icon" 
         />
       </Link>
+      {menuExpanded &&
+        <Link
+          to="/"
+          className={`circle-button go-back ${activeButton === 'intro-page' ? 'active' : ''}`}
+        >
+        <GoBackIcon 
+          className="go-back-icon" 
+        />
+      </Link>
+      }
       <div className="left-menu">
         {menuExpanded && 
           <p className='i-want-to-text'>I want to</p>
