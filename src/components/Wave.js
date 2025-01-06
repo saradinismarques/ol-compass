@@ -444,18 +444,18 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   );
 };
 
-function getComponentsPositions(compassType, componentsData, type, size) {
+function getComponentsPositions(compassType, componentsData, type, size, draggableContainerPositions) {
   const waveWidth = size/2.6;
   const waveHeight = waveWidth*3;
   let centerX, centerY;
-
   // Container Position
-  const draggableTopPosition = 0.17 * window.innerHeight;
-  const draggableLeftPosition = 0.472 * window.innerWidth
+  let draggableTopPosition, draggableLeftPosition;
   
   if(compassType === "draggable") {
     centerX = window.innerWidth * 0.1599;
     centerY = window.innerHeight * 0.359;
+    draggableTopPosition = draggableContainerPositions[0];
+    draggableLeftPosition = draggableContainerPositions[1];
   } else {
     centerX = size/2;
     centerY = size/2;

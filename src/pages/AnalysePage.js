@@ -307,7 +307,7 @@ const AnalysePage = () => {
         // Big Wave
         let x;
         if(type === "All") 
-            x = -135;
+            x = 30;
         else
             x = -100;    ;
 
@@ -320,7 +320,7 @@ const AnalysePage = () => {
                     pdfComponents={componentsRef.current}
                 /> 
             </State>,
-            pdf, x, -17, 'auto', 1
+            pdf, x, 50, 600, 1
         );
          
         if(task === 'A' && type === 'All')

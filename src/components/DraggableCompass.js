@@ -25,12 +25,19 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     isExplanationPage,
   } = useContext(StateContext);
   
+  // Container Position
+  const topPosition = 0.17 * window.innerHeight;
+  const leftPosition = 0.472 * window.innerWidth;
+  
+  document.documentElement.style.setProperty('--top-position', `${topPosition}px`);
+  document.documentElement.style.setProperty('--left-position', `${leftPosition}px`);
+  
   // Dictionary with all information
   let componentsData = getGetStartedData();
 
-  const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size);
-  const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size);
-  const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size);
+  const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size, [topPosition, leftPosition]);
+  const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size, [topPosition, leftPosition]);
+  const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size, [topPosition, leftPosition]);
   const initialComponents = principles.concat(perspectives, dimensions);
  
   const [components, setComponents] = useState(pdfComponents || initialComponents);
@@ -39,13 +46,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   if(pdfComponents)
     pdfSelectedComponents = pdfComponents.map((component) => component.code);
   
-  // Container Position
-  const topPosition = 0.17 * window.innerHeight;
-  const leftPosition = 0.472 * window.innerWidth
-
-  document.documentElement.style.setProperty('--top-position', `${topPosition}px`);
-  document.documentElement.style.setProperty('--left-position', `${leftPosition}px`);
-
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(pdfSelectedComponents || []);
   const [showSquare, setShowSquare] = useState(false);
@@ -77,8 +77,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     setComponents((prevComponents) =>
         prevComponents.map((component) => ({
           ...component,
-          initialX: isExplanationPage ? component.x : component.x - leftPosition + window.innerWidth/4.5,
-          x: isExplanationPage ? component.x : component.x - leftPosition + window.innerWidth/4.5,
+          initialX: isExplanationPage ? component.x : component.x - window.innerWidth/4,
+          x: isExplanationPage ? component.x : component.x - window.innerWidth/4,
         }))
       );
   }, [isExplanationPage]);
@@ -146,21 +146,21 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     //   } 
     }
     
-    const tip = getPositions(id, init, data.x, data.y, null, null);
+    const positions = getPositions(id, init, data.x, data.y, null, null);
 
     setComponents((prevComponents) => {
       const updatedComponents = [...prevComponents];   
 
-      updatedComponents[id].x = tip.x;
-      updatedComponents[id].y = tip.y;
-      updatedComponents[id].textareaX = tip.textareaX;
-      updatedComponents[id].textareaY = tip.textareaY;
-      updatedComponents[id].arrowX1 = tip.arrowX1;
-      updatedComponents[id].arrowY1 = tip.arrowY1;
-      updatedComponents[id].arrowX2 = tip.arrowX2;
-      updatedComponents[id].arrowY2 = tip.arrowY2;
-      updatedComponents[id].topTip = tip.topTip;
-      updatedComponents[id].rightTip = tip.rightTip;
+      updatedComponents[id].x = positions.x;
+      updatedComponents[id].y = positions.y;
+      updatedComponents[id].textareaX = positions.textareaX;
+      updatedComponents[id].textareaY = positions.textareaY;
+      updatedComponents[id].arrowX1 = positions.arrowX1;
+      updatedComponents[id].arrowY1 = positions.arrowY1;
+      updatedComponents[id].arrowX2 = positions.arrowX2;
+      updatedComponents[id].arrowY2 = positions.arrowY2;
+      updatedComponents[id].topTip = positions.topTip;
+      updatedComponents[id].rightTip = positions.rightTip;
 
       return updatedComponents;
     });
@@ -172,7 +172,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     });   
 
     if (onDragStop) 
-      sendNewData(id, data.x, data.y, tip.textareaX, tip.textareaY, components[id].textareaData, tip.arrowX1, tip.arrowY1, tip.arrowX2, tip.arrowY2, components[id].textGapY2, tip.topTip, tip.rightTip)
+      sendNewData(id, data.x, data.y, positions.textareaX, positions.textareaY, components[id].textareaData, positions.arrowX1, positions.arrowY1, positions.arrowX2, positions.arrowY2, components[id].textGapY2, positions.topTip, positions.rightTip)
 
     activeIdRef.current = id;
   };
@@ -201,8 +201,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
 
   // Memoize handleKeyDown to avoid creating a new reference on each render
   const handleKeyDown = useCallback((e) => {
-    console.log(window.innerWidth, window.innerHeight)
-
     if (e.key === 'Escape') {
       setComponents(initialComponentsRef.current)
       setSelectedComponents([]);
@@ -226,31 +224,36 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     let x, y, textareaX, textareaY, arrowX1, arrowY1, arrowX2, arrowY2, topTip, rightTip;
     let waveRect = waveRefs.current[id].getBoundingClientRect();
 
+    const waveX = waveRect.left + waveRect.width / 2 - leftPosition;
+    const waveY = waveRect.top + waveRect.height / 2 - topPosition;
     // Initialization if doesn't exist already
     if(init) {
       x = dataX;
       y = dataY;
-      textareaX = waveRect.left + waveRect.width / 2 + waveWidth / 6 - leftPosition;
+      textareaX = dataX + 100;
       textareaY = dataY + 175;
       topTip = components[id].topTip;
       rightTip = components[id].rightTip;
 
-      arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3 - leftPosition;
+      arrowX1 = waveX + waveWidth / 3;
 
       if(components[id].type === 'Principle')
-        arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02 - topPosition;
+        arrowY1 = waveY - waveHeight * 0.02;
       else
-        arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02 - topPosition;
+        arrowY1 = waveY + waveHeight * 0.02;
 
       arrowX2 = dataX + 130;
       arrowY2 = dataY + 207 + components[id].textGapY2;
+
     } else {
       x = (dataX || components[id].x);
       y = (dataY || components[id].y);
-      textareaX = (dataTextareaX  || components[id].texareaX);
+      textareaX = (dataTextareaX  || components[id].textareaX);
       textareaY = (dataTextareaY || components[id].textareaY);
 
       const textareaRect = textareaRefs.current[id].getBoundingClientRect();
+      const textX = textareaRect.left + textareaRect.width / 2 - leftPosition;
+      const textY = textareaRect.top + textareaRect.height / 2 - topPosition;
 
       if(waveRect.left + waveRect.width / 2 > textareaRect.left + textareaRect.width / 2) 
         rightTip = false;
@@ -263,25 +266,25 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         topTip = true;
 
       if(rightTip) { 
-        arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3 - leftPosition;
+        arrowX1 = waveX + waveWidth / 3;
         if(components[id].type === 'Principle') 
-          arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02 - topPosition;
+          arrowY1 = waveY - waveHeight * 0.02;
         else 
-          arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02 - topPosition;
+          arrowY1 = waveY + waveHeight * 0.02;
       } else {
-        arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3 - leftPosition;
+        arrowX1 = waveX - waveWidth / 3;
         if(components[id].type === 'Principle') 
-          arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02 - topPosition;
+          arrowY1 = waveY + waveHeight * 0.02;
         else 
-          arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02 - topPosition;
+          arrowY1 = waveY - waveHeight * 0.02;
       }
 
-      arrowX2 = textareaRect.left + textareaRect.width / 2 - 42 - leftPosition;
+      arrowX2 = textX - 42;
 
       if(topTip)
-        arrowY2 = textareaRect.top + textareaRect.height / 2 + components[id].textGapY2 - topPosition;
+        arrowY2 = textY + components[id].textGapY2;
       else
-        arrowY2 = textareaRect.top + textareaRect.height / 2 - 34 - topPosition;
+        arrowY2 = textY - 34;
     }
     
     return {
@@ -445,7 +448,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         const updatedComponents = [...prevComponents];
         updatedComponents[id].textareaData = textareaData;
         if(updatedComponents[id].topTip) {
-          arrowY2 = textareaRect.top + textareaRect.height / 2 + textGapY2;
+          arrowY2 = textareaRect.top + textareaRect.height / 2 + textGapY2 - topPosition;
           updatedComponents[id].arrowY2 = arrowY2;
           updatedComponents[id].textGapY2 = textGapY2;
         }
