@@ -91,7 +91,6 @@ const ContributePage = () => {
   };
 
   const messageStateChange = (state) => {
-    console.log(state);
     setShowMessage(state);
     showMessageRef.current = state;
   };
@@ -125,14 +124,18 @@ const ContributePage = () => {
 
   // Handle Enter key
   const handleKeyDown = useCallback((e) => {
-    if(e.key === 'Enter' && !showMessageRef.current) {
+    if (e.key !== 'Enter') return;
+
+    if(!showMessageRef.current) {
       if (firstClick && firstMessage["contribute"]) {
         setFirstClick(false);
         setShowMessage(true);
         showMessageRef.current = true;
       }
-      setIsExplanationPage(false);
-      handleEnterClick(componentsRef.current);
+      if(isExplanationPage)
+        setIsExplanationPage(false);
+      else
+        handleEnterClick(componentsRef.current);
     }
   }, [firstClick, firstMessage, setIsExplanationPage, handleEnterClick]);
 

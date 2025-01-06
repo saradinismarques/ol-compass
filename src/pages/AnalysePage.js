@@ -384,7 +384,6 @@ const AnalysePage = () => {
     };
 
     const renderToCanvas = async(html, pdf, x, y, size, resizeFactor) => {
-        console.log("component: ", x, y);
         const container = document.createElement('div');
         container.style.position = 'absolute';
         container.style.top = '-9999px';

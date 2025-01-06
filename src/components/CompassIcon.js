@@ -7,7 +7,6 @@ import Wave, { getComponentsPositions } from "./Wave.js"
 let size = 90;
 
 const CompassIcon = ({ mode, currentType }) => {
-  console.log("ICON: ", mode, currentType);
   // Compass Type
   const compassType = "icon";
   

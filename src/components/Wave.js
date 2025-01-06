@@ -449,6 +449,10 @@ function getComponentsPositions(compassType, componentsData, type, size) {
   const waveHeight = waveWidth*3;
   let centerX, centerY;
 
+  // Container Position
+  const draggableTopPosition = 0.17 * window.innerHeight;
+  const draggableLeftPosition = 0.472 * window.innerWidth
+  
   if(compassType === "draggable") {
     centerX = window.innerWidth * 0.1599;
     centerY = window.innerHeight * 0.359;
@@ -497,8 +501,10 @@ function getComponentsPositions(compassType, componentsData, type, size) {
       componentsData[i]["y"] = y;
       componentsData[i]["angle"] = angle;
     } else if(compassType === "draggable") {
-      componentsData[i]["initialX"] = x - waveWidth/2 - window.innerWidth*0.13;
-      componentsData[i]["initialY"] = y - waveHeight/2 - window.innerHeight*0.02;
+      // componentsData[i]["initialX"] = x - waveWidth/2 - window.innerWidth/7.54;
+      // componentsData[i]["initialY"] = y - waveHeight/2 - window.innerHeight/48.78;
+      componentsData[i]["initialX"] = x - waveWidth/2 + window.innerWidth/2.95 - draggableLeftPosition;
+      componentsData[i]["initialY"] = y - waveHeight/2 + window.innerHeight/6.95 - draggableTopPosition;
       componentsData[i]["initialAngle"] = angle;
       componentsData[i]["x"] = componentsData[i]["initialX"];
       componentsData[i]["y"] = componentsData[i]["initialY"];

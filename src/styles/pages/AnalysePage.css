@@ -1,6 +1,8 @@
 :root {
     --background-color: #ffffff; /* Default color */
     --title-color: #000000;
+    --top-position: 0vh;
+    --left-position: 0vw;
 }
 
 /* Project Name Textarea */
@@ -163,9 +165,8 @@
 /* OL Compass (PDF) */
 .a-ol-compass {
     position: fixed;   
-    top: 50vh;           
-    left: 70vw;           
-    transform: translate(-50%, -50%);
+    top: var(--top-position);           
+    left: var(--left-position);           
 }
 
 /* Placeholder on Textareas in Compass */

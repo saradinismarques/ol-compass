@@ -17,9 +17,6 @@ const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
 const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextareaFocus }) => {
-  if(pdfComponents) {
-    console.log("DRAGGABLE: ", mode, pdfComponents, currentType);
-  }
   // Compass Type
   const compassType = "draggable";
 
@@ -42,6 +39,13 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   if(pdfComponents)
     pdfSelectedComponents = pdfComponents.map((component) => component.code);
   
+  // Container Position
+  const topPosition = 0.17 * window.innerHeight;
+  const leftPosition = 0.472 * window.innerWidth
+
+  document.documentElement.style.setProperty('--top-position', `${topPosition}px`);
+  document.documentElement.style.setProperty('--left-position', `${leftPosition}px`);
+
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(pdfSelectedComponents || []);
   const [showSquare, setShowSquare] = useState(false);
@@ -73,8 +77,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     setComponents((prevComponents) =>
         prevComponents.map((component) => ({
           ...component,
-          initialX: isExplanationPage ? component.x : component.x-window.innerWidth/2.94+window.innerWidth/11.1,
-          x: isExplanationPage ? component.x : component.x-window.innerWidth/2.94+window.innerWidth/11.1,
+          initialX: isExplanationPage ? component.x : component.x - leftPosition + window.innerWidth/4.5,
+          x: isExplanationPage ? component.x : component.x - leftPosition + window.innerWidth/4.5,
         }))
       );
   }, [isExplanationPage]);
@@ -109,37 +113,37 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     if (selectedComponentsRef.current.includes(components[id].code)) {
       init = false;
       // If we want to remove the component
-      if (isInsideCompassArea(id)) {
-        // Go back to initial positions
-        setComponents((prevComponents) => {
-          const updatedComponents = [...prevComponents];
-          updatedComponents[id].x = updatedComponents[id].initialX;
-          updatedComponents[id].y = updatedComponents[id].initialY;
-          updatedComponents[id].angle = updatedComponents[id].initialAngle;
+    //   if (isInsideCompassArea(id)) {
+    //     // Go back to initial positions
+    //     setComponents((prevComponents) => {
+    //       const updatedComponents = [...prevComponents];
+    //       updatedComponents[id].x = updatedComponents[id].initialX;
+    //       updatedComponents[id].y = updatedComponents[id].initialY;
+    //       updatedComponents[id].angle = updatedComponents[id].initialAngle;
   
-          return updatedComponents;
-        });
+    //       return updatedComponents;
+    //     });
 
-        // Remove the component from selectedComponents
-        setSelectedComponents((prevComponents) => {
-          const updatedComponents = prevComponents.filter(
-            (componentCode) => componentCode !== components[id].code
-          );
-          selectedComponentsRef.current = updatedComponents; // Update the ref
+    //     // Remove the component from selectedComponents
+    //     setSelectedComponents((prevComponents) => {
+    //       const updatedComponents = prevComponents.filter(
+    //         (componentCode) => componentCode !== components[id].code
+    //       );
+    //       selectedComponentsRef.current = updatedComponents; // Update the ref
           
-          return updatedComponents;
-        });
+    //       return updatedComponents;
+    //     });
 
-        if (onDragStop) 
-          onDragStop(
-            components[id].code,
-            null
-          ); // send null code to Analyse to remove it there too
+    //     if (onDragStop) 
+    //       onDragStop(
+    //         components[id].code,
+    //         null
+    //       ); // send null code to Analyse to remove it there too
         
-        activeIdRef.current = null;
+    //     activeIdRef.current = null;
 
-        return; // Exit early as the component is removed
-      } 
+    //     return; // Exit early as the component is removed
+    //   } 
     }
     
     const tip = getPositions(id, init, data.x, data.y, null, null);
@@ -197,6 +201,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
 
   // Memoize handleKeyDown to avoid creating a new reference on each render
   const handleKeyDown = useCallback((e) => {
+    console.log(window.innerWidth, window.innerHeight)
+
     if (e.key === 'Escape') {
       setComponents(initialComponentsRef.current)
       setSelectedComponents([]);
@@ -224,24 +230,24 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     if(init) {
       x = dataX;
       y = dataY;
-      textareaX = dataX + 100;
+      textareaX = waveRect.left + waveRect.width / 2 + waveWidth / 6 - leftPosition;
       textareaY = dataY + 175;
       topTip = components[id].topTip;
       rightTip = components[id].rightTip;
 
-      arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
+      arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3 - leftPosition;
 
       if(components[id].type === 'Principle')
-        arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+        arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02 - topPosition;
       else
-        arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+        arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02 - topPosition;
 
       arrowX2 = dataX + 130;
       arrowY2 = dataY + 207 + components[id].textGapY2;
     } else {
       x = (dataX || components[id].x);
       y = (dataY || components[id].y);
-      textareaX = (dataTextareaX || components[id].texareaX);
+      textareaX = (dataTextareaX  || components[id].texareaX);
       textareaY = (dataTextareaY || components[id].textareaY);
 
       const textareaRect = textareaRefs.current[id].getBoundingClientRect();
@@ -257,25 +263,25 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
         topTip = true;
 
       if(rightTip) { 
-        arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3;
+        arrowX1 = waveRect.left + waveRect.width / 2 + waveWidth / 3 - leftPosition;
         if(components[id].type === 'Principle') 
-          arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+          arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02 - topPosition;
         else 
-          arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+          arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02 - topPosition;
       } else {
-        arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3;
+        arrowX1 = waveRect.left + waveRect.width / 2 - waveWidth / 3 - leftPosition;
         if(components[id].type === 'Principle') 
-          arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02;
+          arrowY1 = waveRect.top + waveRect.height / 2 + waveHeight * 0.02 - topPosition;
         else 
-          arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02;
+          arrowY1 = waveRect.top + waveRect.height / 2 - waveHeight * 0.02 - topPosition;
       }
 
-      arrowX2 = textareaRect.left + textareaRect.width / 2 - 42;
+      arrowX2 = textareaRect.left + textareaRect.width / 2 - 42 - leftPosition;
 
       if(topTip)
-        arrowY2 = textareaRect.top + textareaRect.height / 2 + components[id].textGapY2;
+        arrowY2 = textareaRect.top + textareaRect.height / 2 + components[id].textGapY2 - topPosition;
       else
-        arrowY2 = textareaRect.top + textareaRect.height / 2 - 34;
+        arrowY2 = textareaRect.top + textareaRect.height / 2 - 34 - topPosition;
     }
     
     return {
