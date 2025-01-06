@@ -16,7 +16,7 @@ else
 const waveWidth = size/2.6;
 const waveHeight = waveWidth*3;
 
-const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextareaFocus }) => {
+const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextareaFocus, isPDFGenerating }) => {
   // Compass Type
   const compassType = "draggable";
 
@@ -421,9 +421,9 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       let arrowY2, textGapY2;
 
       if(textareaWidth < 130)
-        textGapY2 = -2
+        textGapY2 = 2
       else if(textareaWidth >= 130 && textareaWidth < 260)
-        textGapY2 = 13;
+        textGapY2 = 17;
       else if(textareaWidth >= 260 && textareaWidth < 381)
         textGapY2 = 34;
       else if(textareaWidth >= 381)
