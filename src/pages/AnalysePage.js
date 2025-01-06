@@ -216,6 +216,7 @@ const AnalysePage = () => {
 
             setIsGenerating(false);
             setDownloadProgress(0); // Reset progress once done
+            setStopTextareaFocus(false);
         } catch (error) {
             setIsGenerating('Error');
             setDownloadProgress(0); // Reset progress once done
@@ -307,9 +308,9 @@ const AnalysePage = () => {
         // Big Wave
         let x;
         if(type === "All") 
-            x = 30;
+            x = 52.5;
         else
-            x = -100;    ;
+            x = 93;    ;
 
         await renderToCanvas(
             <State>
@@ -320,7 +321,7 @@ const AnalysePage = () => {
                     pdfComponents={componentsRef.current}
                 /> 
             </State>,
-            pdf, x, 50, 600, 1
+            pdf, x, 12, 1450, 1
         );
          
         if(task === 'A' && type === 'All')
@@ -392,7 +393,7 @@ const AnalysePage = () => {
         const root = createRoot(container);
         root.render(html);
         
-        const scale = 2; // max = 9
+        const scale = 2; // max = 10
 
         // Wait for the next frame to ensure the component is fully rendered
         await new Promise((resolve) => setTimeout(resolve, 0));
@@ -400,7 +401,6 @@ const AnalysePage = () => {
         const canvas = await html2canvas(container, { scale: scale, logging: true, backgroundColor: null });
         root.unmount(); // Clean up the root
 
-        //let canvas = await html2canvas(container, { scale: 3, logging: true, backgroundColor: null });
         const imgData = canvas.toDataURL('image/png');
  
         // Original dimensions of the captured canvas
@@ -409,8 +409,8 @@ const AnalysePage = () => {
             imgWidth = canvas.width / scale; // In pixels
             imgHeight = canvas.height / scale; // In pixels
         } else  {
-            imgWidth = size / scale; // In pixels
-            imgHeight = (730/1536) * imgWidth; // In pixels
+            imgWidth = size / 2; // In pixels
+            imgHeight = ((730/1.5)/(1536/2.2)) * imgWidth; // In pixels
         }
 
         // Convert pixel dimensions to mm

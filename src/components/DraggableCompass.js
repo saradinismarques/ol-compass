@@ -48,7 +48,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(pdfSelectedComponents || []);
-  const [showSquare, setShowSquare] = useState(false);
 
   const selectedComponentsRef = useRef(selectedComponents);
   const activeIdRef = useRef(null);
@@ -61,12 +60,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   useEffect(() => {
     selectedComponentsRef.current = selectedComponents;
   }, [selectedComponents]);
-
-  useEffect(() => {
-    if (!isExplanationPage) {
-        setShowSquare(true);
-    }
-  }, [isExplanationPage]);
 
    // Update the ref whenever originalComponents changes
    useEffect(() => {
@@ -205,7 +198,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       setComponents(initialComponentsRef.current)
       setSelectedComponents([]);
       selectedComponentsRef.current = [];
-      setShowSquare(false);
       activeIdRef.current = null;
       if(resetState)
         resetState();
@@ -361,7 +353,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     width: window.innerWidth/2.2,
     height: window.innerHeight/1.5,
     backgroundColor: 'transparent',
-    border: '2px solid #cacbcb',
+    border: pdfComponents || isExplanationPage ? '2px solid transparent' : '2px solid #cacbcb',
     borderRadius: '10px'
   };
   
