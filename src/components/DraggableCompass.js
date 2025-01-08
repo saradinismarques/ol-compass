@@ -317,7 +317,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
 
   const sendNewData = (id, x, y, textareaX, textareaY, textareaData, arrowX1, arrowY1, arrowX2, arrowY2, textGapY2, topTip, rightTip) => {
     const title = `${components[id].code} - ${components[id].label}`;
-
+    console.log(topTip);
     onDragStop(
       components[id].code,
       title,
@@ -418,7 +418,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       const { value, selectionStart, selectionEnd } = e.target;
       const textareaWidth = getTextWidthFromTextarea(id);
       const textareaRect = textareaRefs.current[id].getBoundingClientRect();
-      let arrowY2, textGapY2;
+      let arrowY2 = components[id].arrowY2;
+      let textGapY2 = components[id].textGapY2;
 
       if(textareaWidth < 130)
         textGapY2 = 2
@@ -443,7 +444,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
           arrowY2 = textareaRect.top + textareaRect.height / 2 + textGapY2 - topPosition;
           updatedComponents[id].arrowY2 = arrowY2;
           updatedComponents[id].textGapY2 = textGapY2;
-        }
+        } 
         return updatedComponents;
       });
 

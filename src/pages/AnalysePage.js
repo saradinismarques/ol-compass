@@ -311,7 +311,6 @@ const AnalysePage = () => {
             x = 52.5;
         else
             x = 93;    ;
-
         await renderToCanvas(
             <State>
                 <DraggableCompass 
