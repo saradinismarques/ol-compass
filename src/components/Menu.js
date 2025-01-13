@@ -57,7 +57,7 @@ const Menu = () => {
   const menuExpanded = (activeButton === 'home' || isExplanationPage);
 
   return (
-    <>
+    <div>
       <Link
         to="/home"
         className={`circle-button home ${activeButton === 'home' ? 'active' : ''}`}
@@ -154,7 +154,7 @@ const Menu = () => {
           </button>
         }
       </div>
-    </>
+    </div>
   );
 };
 

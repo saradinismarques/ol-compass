@@ -5,37 +5,36 @@
 /* Description Container */
 .description-container {
     position: fixed;
-    top: 25vh; 
+    top: 20.5vh; 
     left: 73vw; 
 }
 
 .description-headline {
-    max-width: 200px;
-    font-size: 1.5em; /* Smaller size for h2 */
+    width: 30vh;
+    font-size: 3.5vh; /* Smaller size for h2 */
     font-weight: 600;
     color: rgb(0, 0, 0); 
-    margin-top: -8px;
 }
 
 .description-text {
-    margin-top: -20px;
-    max-width: 200px;
-    font-size: 1.1em;
+    margin-top: -1.8vh;
+    width: 30vh;
+    font-size: 2.5vh;
     line-height: 1.3;
     font-weight: 400;
     color: rgb(151, 151, 150); 
     overflow-y: hidden; /* Hide overflow initially */
 }
-
+/* 
 .description-text div {
-    margin-top: 10px;
-}
+    margin-top: 1.2vh;
+} */
 
 .description-start-prompt {
-    margin-top: 20px;
-    max-width: 236px;
+    margin-top: 2.2vh;
+    width: 38vh;
     font-weight: 600;
-    font-size: 1em;
+    font-size: 2.4vh;
     color: var(--selection-color);
     text-transform: uppercase;
 }
@@ -47,41 +46,39 @@
     fill: var(--selection-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--selection-color);
-    stroke-width: 0px;
     margin-left: 1px;
     margin-right: 1px;
 
 }
 
 .text-icon.wave {
-    margin-bottom: -4px;
+    margin-bottom: -0.8vh;
 }
 
-.text-icon.wave-space {
+/* .text-icon.wave-space {
     margin-left: 5px;
-}
+} */
 
 .text-icon.cta-arrow {
     width: 0.8em;
     height: 0.8em;
-    margin-right: 5px;
+    margin-right: 0.3vw;
 }
 
 /* "Not Available" Message */
 .not-available {
-    margin-top: -10px;
+    margin-top: -0.5vh;
     display: flex;
     align-items: center;
-    font-size: 1em; /* Smaller size for h2 */
+    font-size: 2.4vh; /* Smaller size for h2 */
     font-weight: 500;
     color: #841321;
-    max-width: 250px;
 } 
 
 .lock-icon {
     fill: #841321;
-    height: 16px;
-    width: 16px;
-    margin-right: 5px;
+    height: 1.1em;
+    width: 1.1em;
+    margin-right: 0.5vw;
     margin-top: -1px;
 }

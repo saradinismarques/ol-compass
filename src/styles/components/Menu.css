@@ -11,21 +11,20 @@
 
 /* Modes Button */
 .menu-button {
-    margin-bottom: 6px; /* Space between buttons */
-    width: 9.5vw;
-    height: 26px;
+    margin-bottom: 1vh; /* Space between buttons */
+    width: 21vh;
+    height: 3.9vh;
     border: 2px solid black;
     border-radius: 100px;
     cursor: pointer;
     text-decoration: none; /* Ensure links have no underline */
     font-family: 'Manrope', sans-serif;
-    font-size: 14.5px;
+    font-size: 2.2vh;
     font-weight: 600;
     color: #747474;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    margin-left: 5px;
 }
 
 .menu-button:hover,
@@ -43,15 +42,14 @@
 .menu-button.solo {
     position: fixed;
     top: 9vh;
-    margin: 0px;
-    left: 16.5vw;
+    margin-left: calc(11vh + 20px);
     transform: translate(-50%, -50%);
 }
 
 .circle-button {
     position: fixed;
-    width: 29px; /* Set an explicit width */
-    height: 29px; /* Set an explicit height */
+    width: 4.2vh; /* Set an explicit width */
+    height: 4.2vh; /* Set an explicit height */
     transform: translateY(-50%);
     background-color: transparent;
     border: 2px solid black;
@@ -70,7 +68,7 @@
     left: 9vw;   
 }
 
-/* Home Button */
+/* Go back button Button */
 .circle-button.go-back {
     top: 9vh;
     left: 12vw;   
@@ -90,8 +88,8 @@
 }
 
 .home-icon {
-    width: 15px;
-    height: 15px;
+    width: 2.1vh;
+    height: 2.1vh;
     fill: none; /* Set default color for the bookmark */
     stroke: black;
     stroke-width: 2.5px;
@@ -99,12 +97,11 @@
 }
 
 .go-back-icon {
-    width: 15px;
-    height: 15px;
+    width: 2.1vh;
+    height: 2.1vh;
     fill: black; /* Set default color for the bookmark */
     stroke: black;
     stroke-width: 1px;
-    margin-bottom: 1px;
 }
 
 /* Text Above Modes Buttons ("I Want To") */
@@ -112,7 +109,7 @@
     position: fixed;
     left: 9.7vw;
     top: 15vh;
-    font-size: 19px;
+    font-size: 2.8vh;
 }
 
 /* Disabled Mode Button */
@@ -131,8 +128,8 @@
     border: 2px solid  #a2a1a1;
     background-color: transparent;
     color: #a2a1a1;
-    width: 9.7vw;    /* Ensure it's the same width as other buttons */
-    height: 29px;
+    width: 21.4vh;    /* Ensure it's the same width as other buttons */
+    height: 4.3vh;
 }
 
 
