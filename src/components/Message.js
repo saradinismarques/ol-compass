@@ -13,15 +13,15 @@ const Message = ({ mode, type, showMessage, messageStateChange }) => {
   const message = getModeTexts(mode).Message;
 
   let width;
-  if (mode === 'learn') width = '200px';
-  else if (mode === 'get-inspired') width = '290px';
-  else if (mode === 'contribute') width = '290px';
+  if (mode === 'learn') width = '37vh';
+  else if (mode === 'get-inspired') width = '51vh';
+  else if (mode === 'contribute') width = '52vh';
   else width = '200px';
 
   const iconsMap = {
     "[WAVE-I]": <WaveIcon className="message-icon wave" />,
-    "[ARROW-I]": <ArrowIcon className="message-icon smaller" />,
-    "[BOOKMARK-I]": <BookmarkIcon className="message-icon smaller" />,
+    "[ARROW-I]": <ArrowIcon className="message-icon" />,
+    "[BOOKMARK-I]": <BookmarkIcon className="message-icon" />,
   };
 
   const handleShowMessage = () => {

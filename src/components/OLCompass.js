@@ -5,10 +5,9 @@ import { StateContext } from "../State.js";
 import Wave, { getComponentsPositions } from "./Wave.js"
 
 // Sizes and positions 
-let size, bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
+let bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
 
 if(window.innerHeight > 700) {
-  size = 490;
   bookmarkSize = '16px';
   bookmarkLeftP = '40px';
   bookmarkLeftPe = '-26px';
@@ -17,7 +16,6 @@ if(window.innerHeight > 700) {
   bookmarkTopPe = '10px';
   bookmarkTopD = '10px';
 } else {
-  size = 460;
   bookmarkSize = '15px';
   bookmarkLeftP = '40px';
   bookmarkLeftPe = '-26px';
@@ -28,6 +26,22 @@ if(window.innerHeight > 700) {
 }
 
 const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
+  // Size and screen resize handler
+  const [size, setSize] = useState(window.innerHeight/1.47);
+
+  useEffect(() => {
+    // Function to update height on window resize
+    const handleResize = () => {
+      setSize(window.innerHeight/1.47);
+    };
+    // Add event listener for resize
+    window.addEventListener('resize', handleResize);
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   // Compass Type
   const compassType = "default";
   

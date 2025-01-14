@@ -364,7 +364,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           >
             <svg viewBox="0 0 119.78 16.4" width={waveWidth * 0.83} height={waveHeight} style={{ pointerEvents: 'none' }}>
               {/* <path 
-                d={c.type === "Principle" ? svgTextPathInverted : svgTextPath } 
+                d={component.type === "Principle" ? svgTextPathInverted : svgTextPath } 
                 fill={'none'} 
                 stroke='black' 
               />  */}
@@ -415,6 +415,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
               {bigLabels.includes(component.code) &&
                 <text
                   fill={getTextFill()}
+                  fontFamily='Manrope'
+                  fontWeight={500}
                   fontSize="8px"
                   letterSpacing={getLabelWidth() > 10 ? "0.5px" : "0.9px"}
                   dy="0.84em" // Adjust this to center the text vertically on the path

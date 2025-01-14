@@ -46,8 +46,8 @@
     fill: var(--selection-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--selection-color);
-    margin-left: 1px;
-    margin-right: 1px;
+    margin-left: 0.3vh;
+    margin-right: 0.3vh;
 
 }
 
@@ -80,5 +80,5 @@
     height: 1.1em;
     width: 1.1em;
     margin-right: 0.5vw;
-    margin-top: -1px;
+    margin-top: 0.1vh;
 }
