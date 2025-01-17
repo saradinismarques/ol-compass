@@ -8,12 +8,10 @@
 /* Text Container */
 .gs-text-container {
     position: fixed;
-    top: 10.6vh; 
+    top: 9vh; 
     left: 64.5vw;
-    padding: 0px;
-    margin: 0px;
     z-index: 30;
-    max-width: 260px;
+    max-width: 36vh;
     display: flex;
     flex-direction: column;
     align-items: center;   /* Center items horizontally */
@@ -21,26 +19,26 @@
 }
   
 .gs-white-line{
-    height: 1px;
-    width: 260px;
+    height: 0.1vh;
+    width: 36vh;
     background-color:  var(--text-color);
     z-index: 40;
 }
 
 .gs-title {
-    font-size: 1.4em; /* Larger size for h1 */
+    font-size: 3vh; /* Larger size for h1 */
     font-weight: 300;
     text-transform: uppercase;
-    margin-top: 7px;
+    margin-top: 2vh;
     text-align: left; /* Align text within itself */
     align-self: flex-start; /* Override center alignment */
 }
 
 .gs-headline {
-    font-size: 1.8em; /* Smaller size for h2 */
+    font-size: 4vh; /* Smaller size for h2 */
     font-weight: 500;
     line-height: 1.2;
-    margin-top: -5px;
+    margin-top: -0.3vh;
 }
 
 .gs-text b {
@@ -77,27 +75,30 @@
 .gs-search-outline {
     position: fixed;
     transform: translate(-50%, -50%);
-    border: 2px solid #dedede;
+    border: 0.3vh solid #dedede;
     border-radius: 50px;
     overflow: hidden;
     box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-items: center;
 }
 
 .gs-search-button {
     color: white;
     border: none;
     cursor: pointer;
-    height: 37px;
-    width: 84px;
+    height: 5.1vh;
+    width: 12vh;
+    padding: 0.3vh;
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
-    font-size: 11px;
+    font-size: 1.6vh;
     background-color:  var(--selection-color);
     border-radius: 50px; /* Rounded on the right side */
     z-index: 10;
     outline: none;
-    margin: 2px;
-    margin-left: 1.8px;
+    margin: 0.4vh;
 }
 
 .gs-search-button:hover,
@@ -108,7 +109,7 @@
 /* Arrow Icon */
 .gs-arrow-button {
     background-color: transparent;
-    border: 2px solid transparent; /* Set initial border to transparent */
+    border: 0.3vh solid transparent; /* Set initial border to transparent */
     cursor: pointer;
     position: fixed;
     transform: translate(-50%);
@@ -129,12 +130,12 @@
 }
 
 .gs-arrow-icon {
-    width: 17px;
-    height: 17px;
+    width: 2.5vh;
+    height: 2.5vh;
     fill: var(--selection-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--selection-color);
-    stroke-width: 0px;
+    stroke-width: 0;
 }
 
 

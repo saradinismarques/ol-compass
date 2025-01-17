@@ -4,30 +4,30 @@
     top: 18.5vh; 
     left: 75vw; 
     transform: translateX(-50%);
-    width: 338px;
+    width: 46vh;
     text-align: center;
 }
 
 /* Textarea and Input Fields */
 .c-textarea-container {
-    border: 2px solid #ceceda; /* Define border width, style, and color */
-    border-radius: 6px; /* You can increase the radius to make it more rounded */
-    padding: 5px;
+    border: 0.3vh solid #ceceda; /* Define border width, style, and color */
+    border-radius: 0.8vh; /* You can increase the radius to make it more rounded */
+    padding: 0.8vh;
 }
 
 .c-title textarea,
 .c-description textarea,
 .c-insert-sources input {
     width: 100%;
-    padding: 10px;
+    padding: 2vh;
     background-color: #f5f5f7;
     border: none;
-    border-radius: 4px;
+    border-radius: 0.5vh;
     box-sizing: border-box;
     font-family: 'Manrope', sans-serif;
     color: #454574; /* Set placeholder color to white */
     resize: none;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
   
 .c-placeholder::placeholder {
@@ -36,17 +36,18 @@
 }
 
 .c-title textarea {
-    font-size: 1.5em;
-    height: 80px;
+    font-size: 3vh;
+    height: 12vh;
 }
 
 .c-description textarea {
-    font-size: 1.2em;
-    height: 230px;
+    font-size: 2.7vh;
+    height: 32vh;
 }
 
 .c-insert-sources input {
-    font-size: 0.8em;
+    height: 7vh;
+    font-size: 1.8vh;
     font-weight: 300;
 }
 
@@ -55,20 +56,21 @@
     position: relative; 
     display: grid;
     grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
-    grid-gap: 8px 5px;
-    margin-top: 20px;
+    grid-gap: 0.8vh 0.6vh;
+    margin-top: 2vh;
     width: 100%;
 }
 
 .c-filters button {
     position: relative; 
-    width: 109px; /* Set a fixed width (adjust as needed) */
+    width: 15vh; /* Set a fixed width (adjust as needed) */
     font-family: 'Manrope', sans-serif;
-    font-size: 0.7em;
+    font-size: 1.5vh;
     padding: 5px 8px; /* Add padding for the oval look */
     border: none;
     border-radius: 25px; /* Oval shape */
-    background-color: #e8e8e8;
+    color: #6d6c6c;
+    background-color: #efeded;
     outline: none;
     cursor: pointer; /* Pointer cursor on hover */
     text-align: left;
@@ -81,10 +83,11 @@
     position: absolute;
     background-color: #f5f5f5;
     font-family: 'Manrope', sans-serif;
-    font-size: 0.7em;
+    font-size: 1.6vh;
     border: none;
-    border-radius: 5px;
-    padding: 10px;
+    border-radius: 1vh;
+    padding: 1.5vh;
+    color: #6d6c6c;
 }
 
 .c-checkbox-label {
@@ -95,15 +98,15 @@
 
 /* Icons */
 .c-arrow-icon {
-    width: 5px;
-    height: 5px;
-    fill: #b1b1b1;
+    width: 0.9vh;
+    height: 0.9vh;
+    fill: #6d6c6c;
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: #b1b1b1;
-    stroke-width: 0px;
+    stroke-width: 0;
     rotate: 90deg;
     position: absolute; /* Absolute positioning */
-    right: 10px; /* Position from the right edge */
+    right: 1.6vh; /* Position from the right edge */
     top: 40%; /* Center vertically */
     transform: translateY(-50%); /* Adjust vertical alignment */
 }

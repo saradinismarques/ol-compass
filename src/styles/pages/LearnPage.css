@@ -232,7 +232,7 @@
         
 .l-scroller::-webkit-scrollbar-thumb {
     background: var(--text-color); /* Use the CSS variable here */
-    border-radius: 2vh;
+    border-radius: 10px;
 }
 
 

@@ -116,7 +116,7 @@
 /* Disabled Mode Button */
 .menu-button.disabled {
     color: #adadad; /* Light gray text color */
-    border: 0.35vh solid #b3b3b2; /* Light gray border */
+    border: 0.3vh solid #b3b3b2; /* Light gray border */
 }
 
 .menu-button.disabled:hover,
@@ -126,7 +126,7 @@
 
 /* "Show More" Button */
 .menu-button.show-more {
-    border: 0.35vh solid  #a2a1a1;
+    border: 0.3vh solid  #a2a1a1;
     background-color: transparent;
     color: #a2a1a1;
     width: 21.4vh;    /* Ensure it's the same width as other buttons */
