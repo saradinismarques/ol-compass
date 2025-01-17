@@ -13,9 +13,9 @@ const Message = ({ mode, type, showMessage, messageStateChange }) => {
   const message = getModeTexts(mode).Message;
 
   let width;
-  if (mode === 'learn') width = '37vh';
-  else if (mode === 'get-inspired') width = '51vh';
-  else if (mode === 'contribute') width = '52vh';
+  if (mode === 'learn') width = '30vh';
+  else if (mode === 'get-inspired') width = '41vh';
+  else if (mode === 'contribute') width = '42vh';
   else width = '200px';
 
   const iconsMap = {

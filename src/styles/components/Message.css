@@ -15,17 +15,17 @@
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
-    padding: 8vh;
+    padding: 7vh;
     margin: 0;
     background-color: white;
-    border-radius: 3.5vh;
+    border-radius: 2vh;
     border: 0.1vh solid #bcbcbc; /* Add a light grey border */
     text-align: center;
     z-index: 100;
 }
 
 .message-text {
-   font-size: 2.6vh;
+   font-size: 2.1vh;
    margin: 0;
    color: #333;
 }
@@ -34,7 +34,7 @@
     position: fixed;
     transform: translate(-50%);
     padding-top: 2vh;
-    font-size: 2.4vh;
+    font-size: 2.1vh;
     font-weight: 100;
     background-color: transparent; /* Use 'transparent' instead of 'none' */
     color: #cdcdcc;
@@ -52,7 +52,7 @@
     background-color: white;
     border: 0.2vh solid #bcbcbc;
     border-radius: 50%;
-    padding: 3vh;
+    padding: 2vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -67,7 +67,7 @@
     height: 4.3vh; /* Set an explicit height */
     transform: translateY(50%);
     background-color: transparent;
-    border: 0.35vh solid #bcbcbc;
+    border: 0.3vh solid #bcbcbc;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -86,7 +86,7 @@
 
 .question-button:hover, 
 .question-button:active {
-    border: 0.35vh solid #dcdcdc; /* Lighter gray border on interaction */
+    border: 0.3vh solid #dcdcdc; /* Lighter gray border on interaction */
 }
 
 /* Icons */
@@ -101,8 +101,8 @@
 }
 
 .question-icon.message {
-    width: 3.5vh;
-    height: 3.5vh;
+    width: 3vh;
+    height: 3vh;
 }
 
 .message-icon {

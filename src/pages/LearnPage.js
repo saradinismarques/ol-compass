@@ -224,7 +224,7 @@ const LearnPage = () => {
                 className="l-text-container"
                 style={{
                   width:
-                    component.code === 'P3' ? '369px' : component.code === 'P7' ? '369px' : '350px',
+                    component.code === 'P3' || component.code === 'P7' ? '52vh' : '48vh',
                 }}
               >
                 <h1 className='l-title'>{component.title}</h1>

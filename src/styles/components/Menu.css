@@ -14,7 +14,7 @@
     margin-bottom: 1vh; /* Space between buttons */
     width: 21vh;
     height: 3.9vh;
-    border: 0.35vh solid black;
+    border: 0.3vh solid black;
     border-radius: 100px;
     cursor: pointer;
     text-decoration: none; /* Ensure links have no underline */
@@ -52,7 +52,7 @@
     height: 4.3vh; /* Set an explicit height */
     transform: translateY(-50%);
     background-color: transparent;
-    border: 0.35vh solid black;
+    border: 0.3vh solid black;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -77,7 +77,7 @@
 .circle-button.active {
     background-color: black; /* Active state background color */
     color: white; /* Active state text color */
-    border: 0.35vh solid black; /* Border remains black to match the background */
+    border: 0.3vh solid black; /* Border remains black to match the background */
 }
 
 .menu-button.active .home-icon, 
@@ -92,7 +92,7 @@
     height: 2.3vh;
     fill: none; /* Set default color for the bookmark */
     stroke: black;
-    stroke-width: 0.25vh;
+    stroke-width: 0.35vh;
     margin-bottom: 0.35vh;
     margin-left: -0.05vh;
 }

@@ -9,29 +9,28 @@
     position: fixed;
     top: 14vh; 
     left: 65vw;
-    padding: 0px;
-    margin: 0px;
     color: var(--text-color); 
     z-index: 30;
 }
   
 .l-title {
-    font-size: 1.4em; /* Larger size for h1 */
+    font-size: 3vh; /* Larger size for h1 */
     font-weight: 400;
     text-transform: uppercase;
     margin: 0;
 }
 
 .l-headline {
-    font-size: 1.8em; /* Smaller size for h2 */
+    font-size: 4.2vh; /* Smaller size for h2 */
     font-weight: 500;
+    width: 50vh;
     text-transform: uppercase;
-    margin-top: 3px;
+    margin-top: 0.4vh;
 }
   
 .l-text {
-    font-size: 1em;
-    margin-top: 23px;
+    font-size: 2.2vh;
+    margin-top: 3vh;
     font-weight: 300;
     overflow-y: auto; /* Hide overflow initially */
     display: block;
@@ -43,7 +42,7 @@
 }
 
 .l-text.principles {
-    margin-top: 0px;
+    margin-top: 0;
 
 }
 
@@ -85,22 +84,22 @@
 }
 
 .l-white-line {
-    width: 342px;
-    height: 1.5px;
+    width: 50vh;
+    height: 0.2vh;
     background-color: var(--text-color);
 }
   
 .l-bookmark-button {
     background-color: transparent;
-    border: 2px solid var(--text-color);
+    border: 0.3vh solid var(--text-color);
     border-radius: 50%;
-    margin-left: 10px; /* Add space between the line and the button */
+    margin-left: 1.2vh; /* Add space between the line and the button */
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 29px; /* Set an explicit width */
-    height: 29px; /* Set an explicit height */
+    width: 4.3vh; /* Set an explicit width */
+    height: 4.3vh; /* Set an explicit height */
     padding: 0; /* Remove padding to match the exact size */
     box-sizing: border-box; /* Includes padding and border in total size */
 }
@@ -120,12 +119,12 @@
 }
   
 .l-bookmark-icon {
-    width: 15px;
-    height: 15px;
+    width: 2.2vh;
+    height: 2.2vh;
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--text-color);
-    stroke-width: 2px;
+    stroke-width: 0.3vh;
 }
 
 /* Images */
@@ -137,20 +136,20 @@
     z-index: 10;
     opacity: 40%;
     border-radius: 50%; /* Make the container circular */
-    width: 225px; /* Set the desired width */
-    height: 225px; 
+    width: 32vh; /* Set the desired width */
+    height: 32vh; 
 }
 
 .l-principles-image {
-    width: 225px; /* Set the desired width */
-    height: 225px; /* Maintain the aspect ratio */
+    width: 32vh; /* Set the desired width */
+    height: 32vh; /* Maintain the aspect ratio */
     opacity: 100%;
     z-index: 10;
 }
 
 .l-other-components-image {
-    width: 225px; /* Set the desired width */
-    height: 225px; /* Maintain the aspect ratio */
+    width: 32vh; /* Set the desired width */
+    height: 32vh; /* Maintain the aspect ratio */
     opacity: 0%;
     z-index: 10;
 }
@@ -170,35 +169,33 @@
 /* Concepts Container */
 .l-concepts-container {
     display: flex;
-    padding-top: 10px;
+    padding-top: 2.2vh;
 }
 
 .l-title-concepts {
-    font-size: 1em; /* Larger size for h1 */
+    font-size: 2.3vh; /* Larger size for h1 */
     font-weight: 600;
     margin: 0;
 }
 
 .l-text-concepts {
-    font-size: 0.9em;
+    font-size: 2vh;
     font-weight: 300;
     display: block;
-    max-height: 90px; /* Set a max height for scrolling */
     overflow-y: auto;
 }
 
 .l-text-concepts.expanded {
     overflow-y: auto; /* Enable vertical scroll */
     height: 100vh;
-    max-height: 90px; /* Show full content when expanded */
-    margin-top: 0px;
-    padding-right: 15px;
+    max-height: 13vh; /* Show full content when expanded */
+    margin-top: 0;
 }
 
 /* Arrow Button */
 .l-arrow-button {
     background-color: transparent;
-    border: 0px solid transparent; /* Set initial border to transparent */
+    border: 0 solid transparent; /* Set initial border to transparent */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -214,11 +211,11 @@
 }
 
 .l-arrow-icon {
-    width: 11px;
-    height: 11px;
+    width: 1.5vh;
+    height: 1.5vh;
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: rgb(0, 0, 0);
-    stroke-width: 0px;
+    stroke-width: 0;
     fill: var(--text-color);
 }
 
@@ -229,13 +226,13 @@
 }
     
 .l-scroller::-webkit-scrollbar {
-    width:2px;
+    width: 0.3vh;
     background-color:transparent;
 }
         
 .l-scroller::-webkit-scrollbar-thumb {
     background: var(--text-color); /* Use the CSS variable here */
-    border-radius: 10px;
+    border-radius: 2vh;
 }
 
 
