@@ -8,19 +8,19 @@
     top: 45vh; /* Position item 50% from the top */
     left: 50vw; 
     transform: translate(-50%, -50%);
-    max-width: 45vh;
+    max-width: 43vh;
     text-align: center; /* Center the text inside the element */
     color: rgb(0,40,112);    
 }
 
 .i-welcome {
-    font-size: 4vh;
+    font-size: 3.5vh;
     font-weight: 400;
     letter-spacing: 0.1vh;
 }
 
 .i-title {
-    font-size: 8vh;
+    font-size: 7vh;
     font-weight: 600;
     line-height: 0.9;
 }
@@ -36,13 +36,13 @@
 }
 
 .i-explanation {
-    font-size: 4vh;
+    font-size: 3.5vh;
     font-weight: 600;
     line-height: 1.4;
 }
 
 .i-subjects {
-    font-size: 3.8vh;
+    font-size: 3.3vh;
     font-weight: 500;
     line-height: 1.4;
 }
@@ -61,7 +61,7 @@
 
 .i-text {
     color: black;
-    font-size: 3.8vh;
+    font-size: 3.5vh;
     font-weight: 300;
     line-height: 1.35;
 }

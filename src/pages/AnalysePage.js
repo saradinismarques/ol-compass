@@ -285,20 +285,20 @@ const AnalysePage = () => {
 
         // Subtask Menu
         await renderToCanvas(
-            <div className="a-tasks-nav">
-                <button className={`a-task-button ${'A' === task ? 'active' : ''}`} >
+            <div className="a-tasks-nav-pdf">
+                <button className={`a-task-button-pdf ${'A' === task ? 'active' : ''}`} >
                     A
                 </button>
                             
-                <button className={`a-task-button ${'B' === task ? 'active' : ''}`} >
+                <button className={`a-task-button-pdf ${'B' === task ? 'active' : ''}`} >
                     B
                 </button>
         
-                <button className={`a-task-button ${'C' === task ? 'active' : ''}`} >
+                <button className={`a-task-button-pdf ${'C' === task ? 'active' : ''}`} >
                     C
                 </button>
         
-                <button className={`a-task-button ${'D' === task ? 'active' : ''}`} >
+                <button className={`a-task-button-pdf ${'D' === task ? 'active' : ''}`} >
                     D
                 </button>
             </div>,
@@ -470,7 +470,7 @@ const AnalysePage = () => {
                     spellCheck="false"
                 ></textarea>
                 
-                <div className="a-tasks-nav fixed">
+                <div className="a-tasks-nav">
                     <button 
                         className={`a-task-button ${'A' === activeTask ? 'active' : ''}`} 
                         onClick={() => handleTaskChange('A')}>
