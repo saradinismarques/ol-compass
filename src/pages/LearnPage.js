@@ -227,7 +227,7 @@ const LearnPage = () => {
                     component.code === 'P3' || component.code === 'P7' ? '52vh' : '48vh',
                 }}
               >
-                <h1 className='l-title'>{component.title}</h1>
+                <h1 className='l-title'>{window.innerWidth}</h1>
                 {replaceLineBreaks(component.headline, 'l-headline')}
                 {component.type === "Principle" && (
                   <>
