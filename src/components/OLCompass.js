@@ -272,22 +272,22 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center") {
-      if(window.innerWidth > 1250)
+      if(window.innerWidth/window.innerHeight > 16/9)
         return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
       else 
         return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.45 };
     } else if (position === "center-2") {
-      if(window.innerWidth > 1250)
+      if(window.innerWidth/window.innerHeight > 16/9)
         return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.508 };
       else 
         return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.48 };
     } else if (position === "left") {
-      if(window.innerWidth > 1250)
+      if(window.innerWidth/window.innerHeight > 16/9)
         return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
       else 
         return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.45 };  
     } else if (position === "left-2") {
-      if(window.innerWidth > 1250)
+      if(window.innerWidth/window.innerHeight > 16/9)
         return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.508 };
       else 
         return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.48 };

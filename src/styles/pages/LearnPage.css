@@ -13,7 +13,7 @@
     z-index: 30;
 }
   
-@media (max-width: 1250px) {
+@media (max-aspect-ratio: 16/9) {
     /* Your styles for smaller screens go here */
     .l-text-container {
         right: 9vw;
@@ -96,7 +96,7 @@
     background-color: var(--text-color);
 }
   
-@media (max-width: 1250px) {
+@media (max-aspect-ratio: 16/9) {
     /* Your styles for smaller screens go here */
     .l-white-line {
         right: 13vw;
@@ -158,7 +158,7 @@
     height: 32vh; 
 }
 
-@media (max-width: 1250px) {
+@media (max-aspect-ratio: 16/9) {
     /* Your styles for smaller screens go here */
     .l-image-container {
         right: 24vw;

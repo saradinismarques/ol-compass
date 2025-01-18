@@ -9,7 +9,7 @@
     left: 73vw; 
 }
 
-@media (max-width: 1200px) {
+@media (max-aspect-ratio: 16/9) {
     /* Your styles for smaller screens go here */
     .description-container {
         left: 75vw;

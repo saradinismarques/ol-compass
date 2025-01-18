@@ -59,7 +59,7 @@
     width: 36vh;
 }
 
-@media (max-width: 1250px) {
+@media (max-aspect-ratio: 16/9) {
     /* Your styles for smaller screens go here */
     .i-text-container {
         left: 76.5vw;
