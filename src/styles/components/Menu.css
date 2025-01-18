@@ -75,7 +75,7 @@
     left: 12vw;   
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
     /* Your styles for smaller screens go here */
     .circle-button.go-back {
         left: 13vw;

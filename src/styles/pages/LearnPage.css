@@ -13,11 +13,10 @@
     z-index: 30;
 }
   
-@media (max-width: 768px) {
+@media (max-width: 1250px) {
     /* Your styles for smaller screens go here */
     .l-text-container {
-        color: #e5007e;
-        right: 8vw;
+        right: 9vw;
     }
 }
 
@@ -97,11 +96,11 @@
     background-color: var(--text-color);
 }
   
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
     /* Your styles for smaller screens go here */
     .l-white-line {
         right: 13vw;
-        width: 43vh;
+        width: 41vh;
     }
 }
 
@@ -157,6 +156,13 @@
     border-radius: 50%; /* Make the container circular */
     width: 32vh; /* Set the desired width */
     height: 32vh; 
+}
+
+@media (max-width: 1250px) {
+    /* Your styles for smaller screens go here */
+    .l-image-container {
+        right: 24vw;
+    }
 }
 
 .l-principles-image {

@@ -59,10 +59,10 @@
     width: 40vh;
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1250px) {
     /* Your styles for smaller screens go here */
     .i-text-container {
-        right: 1vw;
+        right: 0.5vw;
     }
 }
 
