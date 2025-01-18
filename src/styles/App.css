@@ -17,7 +17,7 @@ body {
     position: fixed;
     top: 50vh;
     left: 50vw;
-    width: 100vw;
+    width: 65vw;
     transform: translate(-50%, -50%);
     background-color: white;
     color: black;
@@ -27,10 +27,10 @@ body {
 
 .orientation-warning h2 {
     font-weight: 400;
-    font-size: 3.5vw;
+    font-size: 3.8vw;
 }
 
 .orientation-warning p {
     font-weight: 300;
-    font-size: 3vw;
+    font-size: 3.3vw;
 }

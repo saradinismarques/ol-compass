@@ -52,8 +52,8 @@ function App() {
   if (!isLandscape) {
     return (
       <div className="orientation-warning">
-        <h2>Oh no! We can’t fit everything on your screen :(</h2>
-        <p>Please rotate your device to landscape mode.</p>
+        <h2>We don't support portrait mode yet :(</h2>
+        <p>Please rotate your device to landscape mode for the best experience!</p>
       </div>
     );
   }
