@@ -9,6 +9,13 @@
     left: 73vw; 
 }
 
+@media (max-width: 1200px) {
+    /* Your styles for smaller screens go here */
+    .description-container {
+        left: 74vw;
+    }
+}
+
 .description-headline {
     width: 30vh;
     font-size: 3.5vh; /* Smaller size for h2 */

@@ -8,6 +8,13 @@
     text-align: center;
 }
 
+@media (max-width: 1200px) {
+    /* Your styles for smaller screens go here */
+    .c-text-container {
+        left: 77vw;
+    }
+}
+
 /* Textarea and Input Fields */
 .c-textarea-container {
     border: 0.3vh solid #ceceda; /* Define border width, style, and color */

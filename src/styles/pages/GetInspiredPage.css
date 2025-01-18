@@ -14,6 +14,13 @@
     align-items: center;   /* Center items horizontally */
 }
 
+@media (max-width: 1200px) {
+    /* Your styles for smaller screens go here */
+    .gi-text-container {
+        left: 77vw;
+    }
+}
+
 /* Card Container */
 .gi-card-container {
     width: 45vh;

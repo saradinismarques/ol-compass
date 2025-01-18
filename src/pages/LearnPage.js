@@ -57,7 +57,7 @@ const LearnPage = () => {
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--text-color', colors['Text'][component.type]);
   document.documentElement.style.setProperty('--image-color', colors['Wave'][component.type]);
-  
+
   const imageSrc =
     component.code === 'P1'
       ? P1Image

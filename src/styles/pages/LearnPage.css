@@ -8,11 +8,18 @@
 .l-text-container {
     position: fixed;
     top: 14vh; 
-    left: 65vw;
+    right: 14vw;
     color: var(--text-color); 
     z-index: 30;
 }
   
+@media (max-width: 1200px) {
+    /* Your styles for smaller screens go here */
+    .l-text-container {
+        right: 10vw;
+    }
+}
+
 .l-title {
     font-size: 3vh; /* Larger size for h1 */
     font-weight: 400;
@@ -74,26 +81,37 @@
 
 /* White Line and Bookmark Button */
 .l-bookmark-container {
-    position: fixed;
-    top: 9vh;
-    left: 64.5vw;
     display: flex; /* Align items in a row */
     align-items: center; /* Center them vertically */
     z-index: 30;
-    transform: translateY(-50%);
 }
 
 .l-white-line {
-    width: 50vh;
+    position: fixed;
+    top: 9vh;
+    right: 11.5vw;
+    transform: translateY(-50%);
+    width: 53.5vh;
     height: 0.2vh;
     background-color: var(--text-color);
 }
   
+@media (max-width: 1200px) {
+    /* Your styles for smaller screens go here */
+    .l-white-line {
+        right: 13vw;
+        width: 43vh;
+    }
+}
+
 .l-bookmark-button {
     background-color: transparent;
+    position: fixed;
+    top: 9vh;
+    right: 9vw;
+    transform: translateY(-50%);
     border: 0.3vh solid var(--text-color);
     border-radius: 50%;
-    margin-left: 1.2vh; /* Add space between the line and the button */
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -132,7 +150,7 @@
     position: fixed;
     overflow: hidden; /* To prevent any overflow issues */
     top: 6vh;
-    right: 28vw;
+    right: 30vw;
     z-index: 10;
     opacity: 40%;
     border-radius: 50%; /* Make the container circular */
