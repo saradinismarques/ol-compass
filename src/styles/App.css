@@ -8,3 +8,29 @@ body {
     font-family: 'Manrope', sans-serif;
     user-select: none;
 }
+
+.orientation-warning {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    width: 100vw;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    color: black;
+    z-index: 9999;
+    text-align: center;
+}
+
+.orientation-warning h2 {
+    font-weight: 400;
+    font-size: 3.5vw;
+}
+
+.orientation-warning p {
+    font-weight: 300;
+    font-size: 3vw;
+}

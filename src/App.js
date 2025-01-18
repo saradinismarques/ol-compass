@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import IntroPage from './pages/IntroPage';
 import HomePage from './pages/HomePage';
@@ -18,6 +18,7 @@ function App() {
     setIsExplanationPage,
   } = useContext(StateContext);
 
+  const [isLandscape, setIsLandscape] = useState(window.matchMedia("(orientation: landscape)").matches);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -30,9 +31,32 @@ function App() {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []); // Run only on the initial mount
 
+  // Effect to handle orientation changes
+  useEffect(() => {
+    const handleOrientationChange = () => {
+      setIsLandscape(window.matchMedia("(orientation: landscape)").matches);
+    };
+
+    // Listen for orientation changes
+    window.addEventListener("resize", handleOrientationChange);
+
+    // Cleanup listener on unmount
+    return () => window.removeEventListener("resize", handleOrientationChange);
+  }, []);
+
   useEffect(() => {
     setIsExplanationPage(true); // Reset to initial state when the page changes
   }, [location.pathname, setIsExplanationPage]);
+
+  // If not in landscape, show warning message
+  if (!isLandscape) {
+    return (
+      <div className="orientation-warning">
+        <h2>Oh no! We can’t fit everything on your screen :(</h2>
+        <p>Please rotate your device to landscape mode.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="App">
