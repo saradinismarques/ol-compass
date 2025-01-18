@@ -353,7 +353,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     width: window.innerWidth/2.2,
     height: window.innerHeight/1.5,
     backgroundColor: 'transparent',
-    border: pdfComponents || isExplanationPage ? '2px solid #cacbcb' : '2px solid #cacbcb',
+    border: pdfComponents || isExplanationPage ? '2px solid transparent' : '2px solid #cacbcb',
     borderRadius: '10px'
   };
   
