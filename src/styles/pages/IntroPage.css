@@ -56,13 +56,13 @@
     position: absolute;
     top: 32vh;
     right: 7vw;
-    width: 45vh;
+    width: 40vh;
 }
 
 @media (max-width: 1300px) {
     /* Your styles for smaller screens go here */
     .i-text-container {
-        right: 2vw;
+        right: 1vw;
     }
 }
 
