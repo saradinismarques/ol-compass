@@ -14,9 +14,10 @@
     align-items: center;   /* Center items horizontally */
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
     /* Your styles for smaller screens go here */
     .gi-text-container {
+        top: 12vh;
         left: 77vw;
     }
 }
@@ -185,6 +186,13 @@
     font-size: 2.4vh;
     font-weight: 200;
     color: var(--selection-color);
+}
+
+@media (max-width: 1250px) {
+    /* Your styles for smaller screens go here */
+    .gi-results {
+        left: 77vw;
+    }
 }
 
 /* Search Logic Menu */

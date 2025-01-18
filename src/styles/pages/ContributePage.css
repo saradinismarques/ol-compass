@@ -8,9 +8,10 @@
     text-align: center;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1250px) {
     /* Your styles for smaller screens go here */
     .c-text-container {
+        top: 12vh;
         left: 77vw;
     }
 }

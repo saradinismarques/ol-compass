@@ -55,20 +55,20 @@
 .i-text-container {
     position: absolute;
     top: 32vh;
-    right: 7vw;
-    width: 40vh;
+    left: 72vw;
+    width: 36vh;
 }
 
 @media (max-width: 1250px) {
     /* Your styles for smaller screens go here */
     .i-text-container {
-        right: 0.5vw;
+        left: 76.5vw;
     }
 }
 
 .i-text {
     color: black;
-    font-size: 3.3vh;
+    font-size: 3.2vh;
     font-weight: 300;
     line-height: 1.35;
 }
