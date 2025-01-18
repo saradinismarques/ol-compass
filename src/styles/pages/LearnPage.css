@@ -13,10 +13,11 @@
     z-index: 30;
 }
   
-@media (max-width: 1200px) {
+@media (max-width: 768px) {
     /* Your styles for smaller screens go here */
     .l-text-container {
-        right: 10vw;
+        color: #e5007e;
+        right: 8vw;
     }
 }
 
