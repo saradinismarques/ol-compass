@@ -198,7 +198,7 @@
 /* Search Logic Menu */
 .gi-search-logic-menu {
     position: fixed;
-    left: 40vw;
+    left: 35vw;
     transform: translateX(-50%);
     width: 27.5vh;
     height: 4.4vh;

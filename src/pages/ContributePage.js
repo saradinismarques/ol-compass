@@ -103,7 +103,7 @@ const ContributePage = () => {
   }, [resetState]);
 
   // Handle "Enter" button action
-  const handleEnterClick  = useCallback((components) => {
+  const handleSubmit = () => {
     const newCaseStudy = {
       title: caseStudyRef.current.title,
       collection: caseStudyRef.current.collection,
@@ -115,12 +115,12 @@ const ContributePage = () => {
       year: caseStudyRef.current.year,
       description: caseStudyRef.current.description,
       credits: caseStudyRef.current.credits,
-      components: components,
+      components: componentsRef.current,
     };
 
     setNewCaseStudies((prev) => [...prev, newCaseStudy]);
     resetStateAndCompass();
-  }, [setNewCaseStudies, resetStateAndCompass]);
+  };
 
   // Handle Enter key
   const handleKeyDown = useCallback((e) => {
@@ -135,9 +135,9 @@ const ContributePage = () => {
       if(isExplanationPage)
         setIsExplanationPage(false);
       else
-        handleEnterClick(componentsRef.current);
+        handleSubmit();
     }
-  }, [firstClick, firstMessage, setIsExplanationPage, handleEnterClick]);
+  }, [firstClick, firstMessage, setIsExplanationPage, handleSubmit]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -303,6 +303,9 @@ const ContributePage = () => {
                   </button>
                 ))}
               </div>
+              <button className="c-submit-button" onClick={handleSubmit}>
+                Submit
+              </button>
             </div>
 
             {openDropdown && renderDropdownContent(openDropdown, dropdownOptions[openDropdown])}

@@ -132,3 +132,21 @@
     fill: #ffffff; /* Change this color to whatever you need */
 }
 
+/* Submit Button */
+.c-submit-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.3vh;
+    font-weight: 200;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: rgb(131, 131, 131);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+    margin-top: 9vh;
+}
+
+.c-submit-button:hover, .c-submit-button:active {
+    color: rgb(161, 160, 160);
+}
+
