@@ -1,12 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { StateContext } from "../State.js";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import Wave, { getComponentsPositions } from "./Wave.js"
 
-// Sizes and positions 
-let size = 90;
-
 const CompassIcon = ({ mode, currentType }) => {
+  // Size and screen resize handler
+  const [size, setSize] = useState(window.innerHeight/8.11);
+  
+  useEffect(() => {
+    // Function to update height on window resize
+    const handleResize = () => {
+      setSize(window.innerHeight/8.11);
+    };
+    // Add event listener for resize
+    window.addEventListener('resize', handleResize);
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+  
   // Compass Type
   const compassType = "icon";
   
@@ -15,9 +28,19 @@ const CompassIcon = ({ mode, currentType }) => {
   
   // Dictionary with all information
   const principles = getComponentsPositions(compassType, [], 'Principle', size);
-  const perspectives = getComponentsPositions(compassType,[], 'Perspective', size);
+  const perspectives = getComponentsPositions(compassType, [], 'Perspective', size);
   const dimensions = getComponentsPositions(compassType, [], 'Dimension', size);
   const components = principles.concat(perspectives, dimensions);
+
+  // Function to determine the center 
+  const getCenter = () => {
+    if(window.innerWidth/window.innerHeight > 16/9)
+      return { x: window.innerWidth * 0.12 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
+    else 
+      return { x: window.innerWidth * 0.13 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
+  };
+
+  const center = getCenter();
 
   // Styles
   let containerStyle;
@@ -43,8 +66,8 @@ const CompassIcon = ({ mode, currentType }) => {
     <div 
       style={{
         ...containerStyle, 
-        left: '16.5vw', 
-        top: '21vh', 
+        left: `${center.x / window.innerWidth * 100}vw`, 
+        top: `${center.y / window.innerHeight * 100}vh`,
       }}
     >
       {components.map((component, id) => (
@@ -81,9 +104,9 @@ const CompassIcon = ({ mode, currentType }) => {
                 color: `${colors['Label'][currentType]}`,
                 fontFamily: "Manrope", // Use Manrope font
                 fontWeight: 400, // Medium weight for this text
-                fontSize: "11px",
+                fontSize: "1.6vh",
                 textTransform: "uppercase", // Converts text to uppercase
-                letterSpacing: "2px", // Increases the spacing between letters
+                letterSpacing: "0.3vh", // Increases the spacing between letters
               }}
             >
               {`${currentType}s`}

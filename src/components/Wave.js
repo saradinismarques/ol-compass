@@ -116,8 +116,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   const getStrokeWidth = () => {
     if(compassType === "default") {
       if(mode.startsWith("analyse"))
-        return "0.1vh";
-      return "0.2vh";
+        return "0.5px";
+      return "1.5px";
     } 
   };
     
@@ -477,8 +477,10 @@ function getComponentsPositions(compassType, componentsData, type, size, draggab
       angle = angle + 2*Math.PI / 2 + Math.PI*0.01;
     else if(type === 'Principle' && size < 215 && size >= 120)
       angle = angle + 2*Math.PI / 2 - Math.PI*0;
-    else if(type === 'Principle' && size < 120)
+    else if(type === 'Principle' && size < 120  && size >= 100)
       angle = angle + 2*Math.PI / 2 - Math.PI*0.01;
+    else if(type === 'Principle' && size < 100)
+      angle = angle + 2*Math.PI / 2 - Math.PI*0.03;
     else if(type === 'Perspective')
       angle = angle + Math.PI / 2 - Math.PI*0.01;
     else if(type === 'Dimension')

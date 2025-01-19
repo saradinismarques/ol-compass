@@ -17,7 +17,6 @@ body {
     position: fixed;
     top: 45vh;
     left: 50vw;
-    width: 65vw;
     transform: translate(-50%, -50%);
     background-color: white;
     color: black;
@@ -31,6 +30,7 @@ body {
 }
 
 .orientation-warning p {
+    width: 65vw;
     font-weight: 300;
     font-size: 3.3vw;
 }
