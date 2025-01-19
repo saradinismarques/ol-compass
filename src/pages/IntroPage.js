@@ -42,8 +42,16 @@ const IntroPage = () => {
 
     // useCallback ensures handleClick doesn't change unless its dependencies do
     const handleClick = useCallback((e) => {
+        let clickPositionX;
+
+        // Determine whether it's a mouse click or touch event
+        if (e.type === "click") {
+            clickPositionX = e.clientX;
+        } else if (e.type === "touchstart") {
+            clickPositionX = e.touches[0].clientX; // Get the X position of the first touch
+        }
+
         const screenWidth = window.innerWidth;
-        const clickPositionX = e.clientX;
 
         if (clickPositionX > screenWidth / 2) {
             setFrame((prevFrame) => (prevFrame + 1 <= 10 ? prevFrame + 1 : 10));
@@ -69,21 +77,24 @@ const IntroPage = () => {
 
     useEffect(() => {
         if (listenersActive) {
-            // Add event listeners
-            window.addEventListener('keydown', handleKeyDown);
-            window.addEventListener('click', handleClick);
+          // Add event listeners for both desktop and mobile interactions
+          window.addEventListener("keydown", handleKeyDown);
+          window.addEventListener("click", handleClick);
+          window.addEventListener("touchstart", handleClick);
         } else {
-            // Remove event listeners if they are active
-            window.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('click', handleClick);
+          // Remove event listeners when they are not active
+          window.removeEventListener("keydown", handleKeyDown);
+          window.removeEventListener("click", handleClick);
+          window.removeEventListener("touchstart", handleClick);
         }
-            
-        // Cleanup on unmount
+    
         return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('click', handleClick);
+          // Cleanup event listeners
+          window.removeEventListener("keydown", handleKeyDown);
+          window.removeEventListener("click", handleClick);
+          window.removeEventListener("touchstart", handleClick);
         };
-    }, [listenersActive, handleKeyDown, handleClick]); // Add handleKeyPress to the dependency array
+    }, [listenersActive, handleKeyDown, handleClick]);
 
     useEffect(() => {
         if (frame === 10) {

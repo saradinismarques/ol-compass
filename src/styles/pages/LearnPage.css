@@ -150,7 +150,7 @@
     position: fixed;
     overflow: hidden; /* To prevent any overflow issues */
     top: 6vh;
-    right: 30vw;
+    right: 28vw;
     z-index: 10;
     opacity: 40%;
     border-radius: 50%; /* Make the container circular */

@@ -32,6 +32,7 @@
     color: rgb(151, 151, 150); 
     overflow-y: hidden; /* Hide overflow initially */
 }
+
 /* 
 .description-text div {
     margin-top: 1.2vh;

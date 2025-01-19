@@ -37,6 +37,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     position: 'absolute',
     cursor: getCursor(),
     pointerEvents: 'none', // Ensure buttons are clickable
+    outline: 'none', // Prevent blue rectangle
   };
 
   let waveStyles;
