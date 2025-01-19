@@ -5,6 +5,16 @@
     --left-position: 0vw;
 }
 
+/* Area to click to start Analyse mode */
+.a-mouse-click-area {
+    position: fixed;
+    top: 0vh;
+    left: 27vw;
+    width: 80vw;
+    height: 100vh;
+    z-index: 200;
+}
+
 /* Project Name Textarea */
 .a-textarea {
     position: fixed;

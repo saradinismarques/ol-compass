@@ -31,7 +31,7 @@
     "#MODE-LABEL": "ANALYSE",
     "#headline": "Lorem ipsum dolor sit amet",
     "#text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "#start-prompt": "Press 'Enter' to start the analysis.",
+    "#start-prompt": "Press 'Enter' or click anywhere to start the analysis.",
     "#?message?": "/"
   },
   {

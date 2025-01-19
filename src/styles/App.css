@@ -15,7 +15,7 @@ body {
     flex-direction: column;
     justify-content: center;
     position: fixed;
-    top: 50vh;
+    top: 45vh;
     left: 50vw;
     width: 65vw;
     transform: translate(-50%, -50%);

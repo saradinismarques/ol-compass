@@ -31,6 +31,7 @@ const AnalysePage = () => {
     const [isGenerating, setIsGenerating] = useState(false);
 
     const componentsRef = useRef(components);
+    const areaRef = useRef(null); // Ref for the clickable area
 
     useEffect(() => {
         componentsRef.current = components;
@@ -114,10 +115,22 @@ const AnalysePage = () => {
         setIsExplanationPage(false);
     }, [setIsExplanationPage]);
 
+    const handleMouseDown = useCallback((e) => {
+        if (areaRef.current && areaRef.current.contains(e.target)) {
+            // The click happened inside the target area
+            setIsExplanationPage(false);
+        }
+    }, [setIsExplanationPage]);
+
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, [handleKeyDown]);
+        window.addEventListener('mousedown', handleMouseDown); // Listen for mouse clicks
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('mousedown', handleMouseDown); // Cleanup listeners
+        };
+    }, [handleKeyDown, handleMouseDown]);
 
     // Handle input change for project name
     const handleInputChange = (e) => {
@@ -446,7 +459,12 @@ const AnalysePage = () => {
                 resetState={resetState}
             /> 
 
-            {isExplanationPage && <Description mode="analyse" />}
+            {isExplanationPage && 
+                <>
+                    <Description mode="analyse" />
+                    <div ref={areaRef} className='a-mouse-click-area'></div>
+                </>
+            }
         
             <div className='a-ol-compass'>
                 <DraggableCompass 
