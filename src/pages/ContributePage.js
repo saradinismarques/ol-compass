@@ -103,7 +103,7 @@ const ContributePage = () => {
   }, [resetState]);
 
   // Handle "Enter" button action
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     const newCaseStudy = {
       title: caseStudyRef.current.title,
       collection: caseStudyRef.current.collection,
@@ -120,7 +120,7 @@ const ContributePage = () => {
 
     setNewCaseStudies((prev) => [...prev, newCaseStudy]);
     resetStateAndCompass();
-  };
+  }, [resetStateAndCompass, setNewCaseStudies]);
 
   // Handle Enter key
   const handleKeyDown = useCallback((e) => {
@@ -137,7 +137,7 @@ const ContributePage = () => {
       else
         handleSubmit();
     }
-  }, [firstClick, firstMessage, setIsExplanationPage, handleSubmit]);
+  }, [firstClick, firstMessage, setIsExplanationPage, handleSubmit, isExplanationPage]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
