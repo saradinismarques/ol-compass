@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponentsPositions } from "./Wave.js"
 

@@ -20,7 +20,7 @@ const CompassIcon = ({ mode, currentType }) => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [initialSize, mode]);
   
   // Compass Type
   const compassType = "icon";
@@ -28,7 +28,6 @@ const CompassIcon = ({ mode, currentType }) => {
   // Global Variables  
   const {
     colors,
-    isExplanationPage,
   } = useContext(StateContext);
       
   // Dictionary with all information
