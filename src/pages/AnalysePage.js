@@ -486,6 +486,7 @@ const AnalysePage = () => {
                     onFocus={() => setStopTextareaFocus(true)}  // Set focus flag when focused
                     onBlur={() => setStopTextareaFocus(false)} 
                     spellCheck="false"
+                    disabled={window.innerWidth > 1300 ? false : true}
                 ></textarea>
                 
                 <div className="a-tasks-nav">

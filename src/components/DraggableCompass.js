@@ -591,7 +591,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
             </div>
           </Draggable>
           
-          {selectedComponents.includes(component.code) && ((pdfSelectedComponents && component.textareaData.length !== 0) || !pdfSelectedComponents) &&
+          {selectedComponents.includes(component.code) && ((pdfSelectedComponents && component.textareaData.length !== 0) || !pdfSelectedComponents && window.innerWidth > 1300) &&
             <div
               style={{
                 opacity: getTextareaOpacity(component)

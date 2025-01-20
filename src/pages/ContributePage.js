@@ -268,6 +268,7 @@ const ContributePage = () => {
                       placeholder="Insert Title"  
                       value={caseStudy.title} 
                       onChange={handleInputChange}
+                      disabled={window.innerWidth > 1300 ? false : true}
                     ></textarea>
                 </div>
                 <div className="c-description">
@@ -277,6 +278,7 @@ const ContributePage = () => {
                       placeholder="Insert Description"
                       value={caseStudy.description}
                       onChange={handleInputChange}
+                      disabled={window.innerWidth > 1300 ? false : true}
                     ></textarea>
                 </div>
                 <div className="c-insert-sources">
@@ -287,6 +289,7 @@ const ContributePage = () => {
                       placeholder="Insert Source/Credits" 
                       value={caseStudy.credits}
                       onChange={handleInputChange}
+                      disabled={window.innerWidth > 1300 ? false : true}
                     />
                 </div>
               </div>
