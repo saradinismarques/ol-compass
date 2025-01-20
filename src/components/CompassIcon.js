@@ -5,12 +5,14 @@ import Wave, { getComponentsPositions } from "./Wave.js"
 
 const CompassIcon = ({ mode, currentType }) => {
   // Size and screen resize handler
-  const [size, setSize] = useState(window.innerHeight/8.11);
+  const initialSize = mode.startsWith("analyse") ? 90 : window.innerHeight / 8.11;
+  const [size, setSize] = useState(initialSize);
   
   useEffect(() => {
     // Function to update height on window resize
     const handleResize = () => {
-      setSize(window.innerHeight/8.11);
+      if(!mode.startsWith("analyse"))
+        setSize(initialSize);
     };
     // Add event listener for resize
     window.addEventListener('resize', handleResize);
@@ -35,9 +37,9 @@ const CompassIcon = ({ mode, currentType }) => {
   // Function to determine the center 
   const getCenter = () => {
     if(mode.startsWith('analyse'))
-      return { x: window.innerWidth * 0.165, y: window.innerHeight * 0.21 };
+      return { x:`${730 * 0.165}px` , y: `${1536 * 0.121}px` };
     else
-      return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
+      return { x: `${window.innerWidth * 0.125 + window.innerHeight * 0.216/2 / window.innerWidth * 100}vw`, y: `${window.innerHeight * 0.21 / window.innerHeight * 100}vh`};
   };
 
   const center = getCenter();
@@ -66,8 +68,8 @@ const CompassIcon = ({ mode, currentType }) => {
     <div 
       style={{
         ...containerStyle, 
-        left: `${center.x / window.innerWidth * 100}vw`, 
-        top: `${center.y / window.innerHeight * 100}vh`,
+        left: center.x, 
+        top: center.y,
       }}
     >
       {components.map((component, id) => (
@@ -104,9 +106,9 @@ const CompassIcon = ({ mode, currentType }) => {
                 color: `${colors['Label'][currentType]}`,
                 fontFamily: "Manrope", // Use Manrope font
                 fontWeight: 400, // Medium weight for this text
-                fontSize: "1.6vh",
+                fontSize: `${mode.startsWith("analyse") ? "11px" : "1.6vh"}`,
                 textTransform: "uppercase", // Converts text to uppercase
-                letterSpacing: "0.3vh", // Increases the spacing between letters
+                letterSpacing: `${mode.startsWith("analyse") ? "2px" : "0.3vh"}`, // Increases the spacing between letters
               }}
             >
               {`${currentType}s`}

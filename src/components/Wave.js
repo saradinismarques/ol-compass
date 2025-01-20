@@ -511,8 +511,8 @@ function getComponentsPositions(compassType, componentsData, type, size, draggab
       componentsData[i]["arrowX1"] = x;
       componentsData[i]["arrowY1"] = y;
       componentsData[i]["arrowX2"] = x;
-      componentsData[i]["arrowY2"] = y+150;
-      componentsData[i]["textGapY2"] = 2;
+      componentsData[i]["arrowY2"] = y+window.innerHeight/4.87;
+      componentsData[i]["textGapY2"] = window.innerHeight/365;
       componentsData[i]["topTip"] = true;
       componentsData[i]["rightTip"] = true;
     } else if(compassType === "icon") {

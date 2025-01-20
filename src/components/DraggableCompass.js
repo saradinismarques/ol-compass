@@ -280,12 +280,12 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
           arrowY1 = waveY - waveHeight * 0.02;
       }
 
-      arrowX2 = textX - 42;
+      arrowX2 = textX - window.innerHeight/17.38;
 
       if(topTip)
         arrowY2 = textY + components[id].textGapY2;
       else
-        arrowY2 = textY - 34;
+        arrowY2 = textY - window.innerHeight/21.47;
     }
     
     return {
@@ -431,11 +431,11 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       let textGapY2 = components[id].textGapY2;
 
       if(textareaWidth < 0.18*window.innerHeight)
-        textGapY2 = 2
+        textGapY2 = window.innerHeight/365;
       else if(textareaWidth >= 0.18*window.innerHeight && textareaWidth < 0.36*window.innerHeight)
-        textGapY2 = 17;
+        textGapY2 = window.innerHeight/42.94;
       else if(textareaWidth >= 0.36*window.innerHeight && textareaWidth < 0.53*window.innerHeight)
-        textGapY2 = 34;
+        textGapY2 = window.innerHeight/21.47;
       else if(textareaWidth >= 0.53*window.innerHeight)
         return;
 
@@ -513,12 +513,12 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
             {pdfSelectedComponents && 
               <div
                 style={{
-                  width: "130px",
-                  height: "50px",
+                  width: "18vh",
+                  height: "7.6vh",
                   fontFamily: "Handlee-Regular, sans-serif",
-                  fontSize: "14px",
-                  padding: "8px",
-                  borderRadius: "4px",
+                  fontSize: "2vh",
+                  padding: "1.2vh",
+                  borderRadius: "0.6vh",
                   border: "0 solid black",
                   color: "#72716f",
                   background: "transparent",
