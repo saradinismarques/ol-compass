@@ -1,29 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
 import { getGetStartedData, getLearnData, getConceptsData } from '../utils/DataExtraction.js'; 
-import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
-import { StateContext } from "../State.js";
 import Wave, { getComponentsPositions } from "./Wave.js"
-
-// Sizes and positions 
-let bookmarkSize, bookmarkLeftP, bookmarkLeftPe, bookmarkLeftD, bookmarkTopP, bookmarkTopPe, bookmarkTopD;
-
-if(window.innerHeight > 700) {
-  bookmarkSize = '16px';
-  bookmarkLeftP = '40px';
-  bookmarkLeftPe = '-26px';
-  bookmarkLeftD = '-26px';
-  bookmarkTopP = '19px';
-  bookmarkTopPe = '10px';
-  bookmarkTopD = '10px';
-} else {
-  bookmarkSize = '15px';
-  bookmarkLeftP = '40px';
-  bookmarkLeftPe = '-26px';
-  bookmarkLeftD = '-26px';
-  bookmarkTopP = '17.5px';
-  bookmarkTopPe = '9.5px';
-  bookmarkTopD = '9.5px';
-}
 
 const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
   // Size and screen resize handler
@@ -44,13 +21,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
 
   // Compass Type
   const compassType = "default";
-  
-  // Global Variables
-  const {
-    colors,
-    isExplanationPage,
-    savedComponents,
-  } = useContext(StateContext);
   
   // Dictionary with all information
   let componentsData;
@@ -318,11 +288,11 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
         zIndex: 1000,
         backgroundColor: '#acaaaa', // Tooltip background color
         color: 'white', // Tooltip text color
-        padding: '10px', // Padding inside the tooltip
-        borderRadius: '5px', // Rounded corners
+        padding: '1vh', // Padding inside the tooltip
+        borderRadius: '0.5vh', // Rounded corners
         fontFamily: 'Manrope',
-        fontSize: '15px',
-        width: `${text.length * 4.2}px`, // Dynamic width based on text length
+        fontSize: '2vh',
+        width: `${text.length * 0.6}vh`, // Dynamic width based on text length
         pointerEvents: 'none', // Prevents tooltip from interfering with hover
         opacity: 0.9
       }}
@@ -334,53 +304,15 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
           position: 'fixed',
           top: '100%', // Positions pointer below the tooltip box
           left: '50%',
-          marginLeft: '-5px', // Centers the pointer
+          marginLeft: '-1vh', // Centers the pointer
           width: '0',
           height: '0',
-          borderLeft: '5px solid transparent',
-          borderRight: '5px solid transparent',
-          borderTop: '10px solid #acaaaa', // Matches tooltip background
+          borderLeft: '1vh solid transparent',
+          borderRight: '1vh solid transparent',
+          borderTop: '2vh solid #acaaaa', // Matches tooltip background
           opacity: 0.9
         }}
       />
-    </div>
-  );
-
-  const Bookmark = ({ component }) => (
-    <div
-      style={{
-        position: 'absolute',
-        left: `${component.x-8}px`, // Adjust position for button size
-        top: `${component.y-8-2}px`,
-        transform: `rotate(${component.angle + Math.PI}rad)`,
-        zIndex: 20
-      }}
-    >
-      <div
-        style={{
-          position: 'relative',
-          left: `${component.type === "Principle" 
-            ? bookmarkLeftP 
-            : component.type === "Perspective" 
-              ? bookmarkLeftPe  // Add your condition for 'dimension' here
-              : bookmarkLeftD }`,
-          top: `${component.type === "Principle" 
-            ? bookmarkTopP 
-            : component.type === "Perspective" 
-              ? bookmarkTopPe  // Add your condition for 'dimension' here
-              : bookmarkTopD }`,
-          transform: `${component.type === "Principle" ? `rotate(${-Math.PI * 0.14}rad)` : `rotate(${-Math.PI * 0.11 + Math.PI/4}rad)` }`
-        }}  
-      >
-        <BookmarkIcon
-          style={{
-            width: bookmarkSize ,
-            height: bookmarkSize,
-            fill: colors['Selection'],
-            stroke: 'none'
-          }}
-        />
-      </div>
     </div>
   );
 
@@ -410,11 +342,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                   hoveredId={hoveredId}
                   waveRef={null}
               />
-    
-              {/* Bookmark */}
-              {mode === "learn" && !isExplanationPage && savedComponents.includes(component.code) &&
-                <Bookmark component={component} />
-              }
             </div>
         ))}
       </div>
