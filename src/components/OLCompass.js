@@ -250,7 +250,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       if(window.innerWidth/window.innerHeight > 16/9)
         return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.505 };
       else 
-        return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
+        return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.475 };
     } else if (position === "left") {
       if(window.innerWidth/window.innerHeight > 16/9)
         return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
@@ -260,7 +260,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       if(window.innerWidth/window.innerHeight > 16/9)
         return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.505 };
       else 
-        return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.47 };
+        return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.475 };
     }
   };
 
