@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ol-compass/static/css/main.6254c8a8.css",
-    "main.js": "/ol-compass/static/js/main.76851325.js",
+    "main.js": "/ol-compass/static/js/main.d7623152.js",
     "static/js/213.8f03509e.chunk.js": "/ol-compass/static/js/213.8f03509e.chunk.js",
     "static/js/732.beb7b8aa.chunk.js": "/ol-compass/static/js/732.beb7b8aa.chunk.js",
     "static/media/PDF-cover-background.png": "/ol-compass/static/media/PDF-cover-background.a4a453b36fe01c382937.png",
@@ -23,12 +23,12 @@
     "static/media/cta-arrow-icon.svg": "/ol-compass/static/media/cta-arrow-icon.433bc48be0a8eda660440669896a06cb.svg",
     "static/media/arrow-icon.svg": "/ol-compass/static/media/arrow-icon.1f5acd6d92eb94971900eff54a74df42.svg",
     "main.6254c8a8.css.map": "/ol-compass/static/css/main.6254c8a8.css.map",
-    "main.76851325.js.map": "/ol-compass/static/js/main.76851325.js.map",
+    "main.d7623152.js.map": "/ol-compass/static/js/main.d7623152.js.map",
     "213.8f03509e.chunk.js.map": "/ol-compass/static/js/213.8f03509e.chunk.js.map",
     "732.beb7b8aa.chunk.js.map": "/ol-compass/static/js/732.beb7b8aa.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.6254c8a8.css",
-    "static/js/main.76851325.js"
+    "static/js/main.d7623152.js"
   ]
 }
