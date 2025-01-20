@@ -25,9 +25,12 @@ const CompassIcon = ({ mode, currentType }) => {
   // Compass Type
   const compassType = "icon";
   
-  // Global Variables
-  const {colors} = useContext(StateContext);
-  
+  // Global Variables  
+  const {
+    colors,
+    isExplanationPage,
+  } = useContext(StateContext);
+      
   // Dictionary with all information
   const principles = getComponentsPositions(compassType, [], 'Principle', size);
   const perspectives = getComponentsPositions(compassType, [], 'Perspective', size);
@@ -38,8 +41,10 @@ const CompassIcon = ({ mode, currentType }) => {
   const getCenter = () => {
     if(mode.startsWith('analyse'))
       return { x:730 * 0.165 , y: 1536 * 0.121 };
-    else
+    else if(mode === "get-started")
       return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
+    else if(mode === "get-started-search")
+      return { x: window.innerWidth * 0.105 + window.innerHeight * 0.049/2, y: window.innerHeight * 0.21 };
   };
 
   const center = getCenter();
