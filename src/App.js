@@ -22,6 +22,15 @@ function App() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  function adjustVH() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+  
+  // Call once and attach listener
+  adjustVH();
+  window.addEventListener('resize', adjustVH);
+  
   // useEffect(() => {
   //   // Redirect to /ol-compass when the app is loaded (on refresh)
   //   if (location.pathname !== '/ol-compass') {

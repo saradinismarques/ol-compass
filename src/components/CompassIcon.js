@@ -37,9 +37,9 @@ const CompassIcon = ({ mode, currentType }) => {
   // Function to determine the center 
   const getCenter = () => {
     if(mode.startsWith('analyse'))
-      return { x:`${730 * 0.165}px` , y: `${1536 * 0.121}px` };
+      return { x:730 * 0.165 , y: 1536 * 0.121 };
     else
-      return { x: `${window.innerWidth * 0.125 + window.innerHeight * 0.216/2 / window.innerWidth * 100}vw`, y: `${window.innerHeight * 0.21 / window.innerHeight * 100}vh`};
+      return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
   };
 
   const center = getCenter();
@@ -68,8 +68,8 @@ const CompassIcon = ({ mode, currentType }) => {
     <div 
       style={{
         ...containerStyle, 
-        left: center.x, 
-        top: center.y,
+        left: `${center.x}px`, 
+        top: `${center.y}px`,
       }}
     >
       {components.map((component, id) => (

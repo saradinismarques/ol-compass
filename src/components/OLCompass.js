@@ -242,25 +242,13 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center") {
-      if(window.innerWidth/window.innerHeight > 16/9)
-        return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
-      else 
-        return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.45 };
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
     } else if (position === "center-2") {
-      if(window.innerWidth/window.innerHeight > 16/9)
-        return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.505 };
-      else 
-        return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.465 };
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.505 };
     } else if (position === "left") {
-      if(window.innerWidth/window.innerHeight > 16/9)
-        return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
-      else 
-        return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.45 };  
+      return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
     } else if (position === "left-2") {
-      if(window.innerWidth/window.innerHeight > 16/9)
-        return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.505 };
-      else 
-        return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.465 };
+      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.505 };
     }
   };
 
@@ -321,8 +309,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       <div 
         style={{
           ...containerStyle, 
-          left: `${center.x / window.innerWidth * 100}vw`, 
-          top: `${center.y / window.innerHeight * 100}vh`,
+          left: `${center.x}px`, 
+          top: `${center.y}px`,
         }}
       >
         {components.map((component, id) => (
