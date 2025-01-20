@@ -5,18 +5,27 @@ import { StateContext } from "../State";
 import Draggable from "react-draggable";
 import Wave, { getComponentsPositions } from "./Wave.js"
 
-// Sizes and positions 
-let size;
+const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextareaFocus }) => {
+  // Size and screen resize handler
+  const [size, setSize] = useState(window.innerHeight/1.47);
+  const [waveWidth, setWaveWidth] = useState((window.innerHeight/1.47)/2.6);
+  const [waveHeight, setWaveHeight] = useState((window.innerHeight/1.47)*(3/2.6));
+  
+  useEffect(() => {
+    // Function to update height on window resize
+    const handleResize = () => {
+      setSize(window.innerHeight/1.47);
+      setWaveWidth((window.innerHeight/1.47)/2.6);
+      setWaveHeight((window.innerHeight/1.47)*(3/2.6));
+    };
+    // Add event listener for resize
+    window.addEventListener('resize', handleResize);
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
-if(window.innerHeight > 700) 
-  size = 490;
-else
-  size = 460;
-
-const waveWidth = size/2.6;
-const waveHeight = waveWidth*3;
-
-const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextareaFocus, isPDFGenerating }) => {
   // Compass Type
   const compassType = "draggable";
 
@@ -222,8 +231,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     if(init) {
       x = dataX;
       y = dataY;
-      textareaX = dataX + 100;
-      textareaY = dataY + 175;
+      textareaX = dataX + window.innerHeight/7.4;
+      textareaY = dataY + window.innerHeight/4.3;
       topTip = components[id].topTip;
       rightTip = components[id].rightTip;
 
@@ -234,8 +243,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       else
         arrowY1 = waveY + waveHeight * 0.02;
 
-      arrowX2 = dataX + 130;
-      arrowY2 = dataY + 207 + components[id].textGapY2;
+      arrowX2 = dataX + window.innerHeight/5.55;
+      arrowY2 = dataY + window.innerHeight/3.5 + components[id].textGapY2;
 
     } else {
       x = (dataX || components[id].x);
@@ -353,8 +362,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     width: window.innerWidth/2.2,
     height: window.innerHeight/1.5,
     backgroundColor: 'transparent',
-    border: pdfComponents || isExplanationPage ? '2px solid transparent' : '2px solid #cacbcb',
-    borderRadius: '10px'
+    border: pdfComponents || isExplanationPage ? '0.3vh solid transparent' : '0.3vh solid #cacbcb',
+    borderRadius: '1.5vh'
   };
   
   const getTextareaOpacity = (component) => {
@@ -421,13 +430,13 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
       let arrowY2 = components[id].arrowY2;
       let textGapY2 = components[id].textGapY2;
 
-      if(textareaWidth < 130)
+      if(textareaWidth < 0.18*window.innerHeight)
         textGapY2 = 2
-      else if(textareaWidth >= 130 && textareaWidth < 260)
+      else if(textareaWidth >= 0.18*window.innerHeight && textareaWidth < 0.36*window.innerHeight)
         textGapY2 = 17;
-      else if(textareaWidth >= 260 && textareaWidth < 381)
+      else if(textareaWidth >= 0.36*window.innerHeight && textareaWidth < 0.53*window.innerHeight)
         textGapY2 = 34;
-      else if(textareaWidth >= 381)
+      else if(textareaWidth >= 0.53*window.innerHeight)
         return;
 
       const textareaData = {
@@ -483,15 +492,15 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
                 spellCheck="false"
                 className="a-compass-textarea"
                 style={{
-                  width: "130px",
-                  height: "50px",
+                  width: "18vh",
+                  height: "7.6vh",
                   fontFamily: "Handlee-Regular, sans-serif",
-                  fontSize: "14px",
-                  padding: "8px",
-                  borderRadius: "4px",
+                  fontSize: "2vh",
+                  padding: "1.2vh",
+                  borderRadius: "0.6vh",
                   color: "#72716f",
                   background: "transparent",
-                  border: "0px solid transparent",
+                  border: "0 solid transparent",
                   resize: "none",
                   whiteSpace: "pre-wrap", // Preserve line breaks and whitespace
                   overflowWrap: "break-word", // Wrap long words onto the next line
@@ -510,12 +519,12 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
                   fontSize: "14px",
                   padding: "8px",
                   borderRadius: "4px",
-                  border: "0px solid black",
+                  border: "0 solid black",
                   color: "#72716f",
                   background: "transparent",
                   position: "absolute",
-                  top: "0px",
-                  left: "0px",
+                  top: "0",
+                  left: "0",
                   whiteSpace: "pre-wrap", // Preserve line breaks
                   overflowWrap: "break-word", // Wrap long words
               }}>

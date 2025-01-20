@@ -19,7 +19,7 @@
 .a-textarea {
     position: fixed;
     top: 9vh;
-    left: 24.5vw;
+    left: calc(12.5vw + 21.6vh + 1.7vw);
     transform: translateY(-50%);
     width: 27vh;
     height: 3.5vh;
