@@ -50,14 +50,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size, [topPosition, leftPosition]);
   const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size, [topPosition, leftPosition]);
   const initialComponents = principles.concat(perspectives, dimensions);
- 
-  let startingComponents = initialComponents;
 
-  if(pdfComponents)
-    startingComponents = pdfComponents;
-
-  console.log(startingComponents);
-  const [components, setComponents] = useState(startingComponents);
+  const [components, setComponents] = useState(initialComponents);
   
   let pdfSelectedComponents;
   if(pdfComponents)

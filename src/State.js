@@ -33,7 +33,7 @@ export const State = ({ children }) => {
     const [newCaseStudies, setNewCaseStudies] = useState([]);
 
     // Ideate
-    const [components, setComponents] = useState([]);
+    const [ideateComponents, setIdeateComponents] = useState([]);
 
     const allComponents = [
         'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
@@ -64,8 +64,8 @@ export const State = ({ children }) => {
                 setSavedCaseStudies,
                 newCaseStudies,
                 setNewCaseStudies,
-                components,
-                setComponents,
+                ideateComponents,
+                setIdeateComponents,
                 allComponents,
                 opacityCounter,
                 setOpacityCounter,

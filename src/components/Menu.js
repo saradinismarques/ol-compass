@@ -36,6 +36,8 @@ const Menu = () => {
         return 'get-started';
       case '/learn':
         return 'learn';
+      case '/learn2':
+        return 'learn2';
       case '/get-inspired':
         return 'get-inspired';
       case '/ideate':
@@ -92,6 +94,14 @@ const Menu = () => {
             className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn' ? 'active' : ''}`}
           >
             LEARN
+          </Link>
+        }
+        {(menuExpanded || activeButton === 'learn2') && 
+          <Link
+            to="/learn2"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn2' ? 'active' : ''}`}
+          >
+            LEARN 2.0
           </Link>
         }
         {(menuExpanded || activeButton === 'get-inspired') && 

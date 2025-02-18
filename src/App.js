@@ -3,6 +3,7 @@ import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'r
 import IntroPage from './pages/IntroPage';
 import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
+import Learn2Page from './pages/Learn2Page';
 import GetStartedPage from './pages/GetStartedPage';
 import GetInspiredPage from './pages/GetInspiredPage';
 import IdeatePage from './pages/IdeatePage';
@@ -17,12 +18,8 @@ function App() {
     setIsExplanationPage,
   } = useContext(StateContext);
 
-  // State to track the components from IdeatePage
-  //const [components, setComponents] = useState(ideateComponents || []);
-
   const [isLandscape, setIsLandscape] = useState(window.matchMedia("(orientation: landscape)").matches);
   const location = useLocation();
-  const navigate = useNavigate();
 
   function adjustVH() {
     const vh = window.innerHeight * 0.01;
@@ -59,22 +56,6 @@ function App() {
     setIsExplanationPage(true); // Reset to initial state when the page changes
   }, [location.pathname, setIsExplanationPage]);
 
-  // // Track when navigating away from the IdeatePage
-  // useEffect(() => {
-  //   const currentPath = location.pathname;
-  //   // Check if we are leaving IdeatePage
-  //   if (currentPath === "/ideate") {
-  //     return;
-  //   }
-
-  //   // Check if ideateComponents is dirty and save them
-  //   const isDirty = JSON.stringify(components) !== JSON.stringify(components);; // Check if there are unsaved components
-  //   if (isDirty) {
-  //     console.log("Saving changes before navigating away from IdeatePage");
-  //     setIdeateComponents(components)
-  //   }
-  // }, [location.pathname, components]); // Whenever the path or components change
-
   // If not in landscape, show warning message
   if (!isLandscape) {
     return (
@@ -105,6 +86,10 @@ function App() {
           <Route
             path="/learn"
             element={<LearnPage />}
+          />
+          <Route
+            path="/learn2"
+            element={<Learn2Page />}
           />
           <Route
             path="/get-inspired"

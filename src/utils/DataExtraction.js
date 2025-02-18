@@ -123,6 +123,15 @@ export function getModeTexts(mode) {
 }
 
 // Content
+export function getComponentsData(type) {
+    if(type === 'default')
+        return getLearnData();
+    else if(type === 'simple')
+        return getGetStartedData();
+    else if(type === 'with-links')
+        return null;
+}
+
 export function getGetStartedData() {
     try {
         // Process the JSON data
@@ -178,6 +187,14 @@ export function getLearnData() {
         console.error("Error processing JSON:", error);
         throw error;
     }
+}
+
+function getPrinciplesLinks() {
+
+}
+
+function getPerspectivesDimensionsLinks() {
+    
 }
 
 function getType(code) {

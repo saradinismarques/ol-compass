@@ -20,13 +20,11 @@ const IdeatePage = () => {
         isExplanationPage,
         setIsExplanationPage,
         allComponents,
-        ideateComponents,
-        setIdeateComponents,
       } = useContext(StateContext);
 
     const [projectName, setProjectName] = useState('');
     const [stopTextareaFocus, setStopTextareaFocus] = useState(false);
-    const [components, setComponents] = useState(ideateComponents || []);
+    const [components, setComponents] = useState([]);
     const [mode, setMode] = useState('ideate');
     const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
     const [isGenerating, setIsGenerating] = useState(false);

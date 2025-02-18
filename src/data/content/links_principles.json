@@ -1,0 +1,86 @@
+[
+  {
+    "Princ-ID": "P1",
+    "Principle-def": "Covering 70% of Earth, the ocean is an interconnected system that regulates climate and supports life.",
+    "Phy-L": "Ocean currents connect regions, moving heat, water, and nutrients. They influence climate, marine habitats, and species migration.",
+    "Phy-L_links": "P1, P2, P6",
+    "Geo-L": "Tectonic activity and seafloor spreading constantly reshape the ocean floor, forming ridges, trenches, and volcanoes.",
+    "Geo-L_links": "P3, P4, P6",
+    "Che-L": "Salinity and temperature variations drive ocean circulation, influencing climate and marine life distribution.",
+    "Che-L_links": "P2, P3, P4",
+    "Bio-L": "The ocean supports diverse food webs, from microscopic plankton to top predators, sustaining marine and terrestrial life.",
+    "Bio-L_links": "P1, P3, P6, P7"
+  },
+  {
+    "Princ-ID": "P2",
+    "Principle-def": "Life in the ocean shapes Earth's features and drives geophysical processes, influencing landscapes and climate.",
+    "Phy-L": "Waves, currents, and tides shape coastlines over time, influencing erosion, sediment transport, and marine landscapes.",
+    "Phy-L_links": "P1, P2, P6",
+    "Geo-L": "Marine sediments record Earth's history, from climate shifts to ancient ecosystems, shaping coastlines and seabeds.",
+    "Geo-L_links": "P3, P4, P6",
+    "Che-L": "The ocean stores and cycles carbon, playing a key role in Earth's carbon balance and climate regulation.",
+    "Che-L_links": "P2, P3, P4",
+    "Bio-L": "Marine organisms shape ecosystems, from coral reefs to kelp forests, supporting biodiversity and ecological balance.",
+    "Bio-L_links": "P1, P3, P6, P7"
+  },
+  {
+    "Princ-ID": "P3",
+    "Principle-def": "Acting as a climate engine, the ocean drives weather systems and regulates global temperatures.",
+    "Phy-L": "The ocean absorbs solar heat, storing and redistributing energy through currents, regulating global climate.",
+    "Phy-L_links": "P1, P2, P6",
+    "Geo-L": "Seafloor structures influence ocean circulation, affecting climate and marine ecosystems.",
+    "Geo-L_links": "P3, P4, P6",
+    "Che-L": "The ocean absorbs CO₂, influencing acidification, pH changes, and climate feedback loops.",
+    "Che-L_links": "P2, P3, P4",
+    "Bio-L": "Climate-driven shifts in temperature and acidity affect marine species, disrupting ecosystems and food chains.",
+    "Bio-L_links": "P1, P3, P6, P7"
+  },
+  {
+    "Princ-ID": "P4",
+    "Principle-def": "Earth’s habitability depends on the ocean, which provides oxygen, cycles water, and stabilizes temperature.",
+    "Phy-L": "Water cycles through the ocean via evaporation, precipitation, and circulation, affecting global temperature and atmospheric moisture.",
+    "Phy-L_links": "P1, P2, P6",
+    "Geo-L": "Hydrothermal vents and undersea volcanoes release gases and minerals, playing a role in ocean chemistry and habitats.",
+    "Geo-L_links": "P3, P4, P6",
+    "Che-L": "Seawater chemistry affects nutrient cycles, supporting marine food webs and oxygen production.",
+    "Che-L_links": "P2, P3, P4",
+    "Bio-L": "Oceans produce oxygen through phytoplankton, supporting all aerobic life on Earth.",
+    "Bio-L_links": "P1, P3, P6, P7"
+  },
+  {
+    "Princ-ID": "P5",
+    "Principle-def": "A vast diversity of life and ecosystems thrive in the ocean, crucial for planetary health and human well-being.",
+    "Phy-L": "Currents transport nutrients and oxygen, shaping habitats, species migration, and ecosystem stability.",
+    "Phy-L_links": "P1, P2, P6",
+    "Geo-L": "Reefs, trenches, and continental shelves create diverse marine habitats, supporting species and ecosystems.",
+    "Geo-L_links": "P3, P4, P6",
+    "Che-L": "Salinity, pH, and dissolved gases determine species survival. Acidification threatens coral reefs and shellfish.",
+    "Che-L_links": "P2, P3, P4",
+    "Bio-L": "Marine ecosystems range from coral reefs to deep-sea trenches, ensuring biodiversity and resilience.",
+    "Bio-L_links": "P1, P3, P6, P7"
+  },
+  {
+    "Princ-ID": "P6",
+    "Principle-def": "Humans and the ocean are deeply connected through resources, economy, health, and culture.",
+    "Phy-L": "Humans rely on ocean currents for trade, fisheries, and transport, while climate change alters these patterns.",
+    "Phy-L_links": "P1, P2, P6",
+    "Geo-L": "Coastal erosion, sea level rise, and human activities reshape marine landscapes, affecting communities and ecosystems.",
+    "Geo-L_links": "P3, P4, P6",
+    "Che-L": "Pollution and human activities alter ocean chemistry, impacting marine life and ecosystems.",
+    "Che-L_links": "P2, P3, P4",
+    "Bio-L": "Fisheries, aquaculture, and marine resources sustain human populations but require conservation for long-term viability.",
+    "Bio-L_links": "P1, P3, P6, P7"
+  },
+  {
+    "Princ-ID": "P7",
+    "Principle-def": "Most of the ocean remains unexplored, with its life, processes, and Earth system roles still largely unknown.",
+    "Phy-L": "Deep ocean currents and unknown physical processes shape the ocean’s unexplored regions, affecting circulation and marine life.",
+    "Phy-L_links": "P1, P2, P6",
+    "Geo-L": "Seafloor mapping reveals deep-sea features and potential new ecosystems, with much of it unexplored.",
+    "Geo-L_links": "P3, P4, P6",
+    "Che-L": "Deep-sea chemistry reveals unknown compounds and potential for medical and industrial discoveries.",
+    "Che-L_links": "P2, P3, P4",
+    "Bio-L": "New species and adaptations in deep-sea environments reveal the complexity and resilience of life in extreme conditions.",
+    "Bio-L_links": "P1, P3, P6, P7"
+  }
+]
