@@ -38,14 +38,12 @@ const Menu = () => {
         return 'learn';
       case '/get-inspired':
         return 'get-inspired';
-      case '/analyse':
-        return 'analyse';
+      case '/ideate':
+        return 'ideate';
       case '/contribute':
         return 'contribute';
       case '/contextualize':
         return 'contextualize';
-      case '/ideate':
-        return 'ideate';
       case '/compare':
         return 'compare';
       default:
@@ -112,12 +110,12 @@ const Menu = () => {
             CONTRIBUTE
           </Link>
         }
-        {(menuExpanded || activeButton === 'analyse') && 
+        {(menuExpanded || activeButton === 'ideate') && 
           <Link
-            to="/analyse"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'analyse' ? 'active' : ''}`}
+            to="/ideate"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'ideate' ? 'active' : ''}`}
           >
-            ANALYSE
+            IDEATE
           </Link>
         }
         {showMore && (
@@ -128,14 +126,6 @@ const Menu = () => {
                 className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contextualize' ? 'active' : 'disabled'}`}
               >
                 CONTEXTUALIZE
-              </Link>
-            }
-            {(menuExpanded || activeButton === 'ideate') && 
-              <Link
-                to="/ideate"
-                className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'ideate' ? 'active' : 'disabled'}`}
-              >
-                IDEATE
               </Link>
             }
             {(menuExpanded || activeButton === 'compare') && 

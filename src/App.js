@@ -5,10 +5,9 @@ import HomePage from './pages/HomePage';
 import LearnPage from './pages/LearnPage';
 import GetStartedPage from './pages/GetStartedPage';
 import GetInspiredPage from './pages/GetInspiredPage';
-import AnalysePage from './pages/AnalysePage';
+import IdeatePage from './pages/IdeatePage';
 import ContributePage from './pages/ContributePage';
 import ContextualizePage from './pages/ContextualizePage';
-import IdeatePage from './pages/IdeatePage';
 import ComparePage from './pages/ComparePage';
 import './styles/App.css';
 import { State, StateContext } from "./State";
@@ -17,6 +16,9 @@ function App() {
   const {
     setIsExplanationPage,
   } = useContext(StateContext);
+
+  // State to track the components from IdeatePage
+  //const [components, setComponents] = useState(ideateComponents || []);
 
   const [isLandscape, setIsLandscape] = useState(window.matchMedia("(orientation: landscape)").matches);
   const location = useLocation();
@@ -57,6 +59,22 @@ function App() {
     setIsExplanationPage(true); // Reset to initial state when the page changes
   }, [location.pathname, setIsExplanationPage]);
 
+  // // Track when navigating away from the IdeatePage
+  // useEffect(() => {
+  //   const currentPath = location.pathname;
+  //   // Check if we are leaving IdeatePage
+  //   if (currentPath === "/ideate") {
+  //     return;
+  //   }
+
+  //   // Check if ideateComponents is dirty and save them
+  //   const isDirty = JSON.stringify(components) !== JSON.stringify(components);; // Check if there are unsaved components
+  //   if (isDirty) {
+  //     console.log("Saving changes before navigating away from IdeatePage");
+  //     setIdeateComponents(components)
+  //   }
+  // }, [location.pathname, components]); // Whenever the path or components change
+
   // If not in landscape, show warning message
   if (!isLandscape) {
     return (
@@ -92,9 +110,9 @@ function App() {
             path="/get-inspired"
             element={<GetInspiredPage />}
           />
-          <Route
-            path="/analyse"
-            element={<AnalysePage />}
+          <Route 
+            path="/ideate" 
+            element={<IdeatePage />} 
           />
           <Route
             path="/contribute"
@@ -103,10 +121,6 @@ function App() {
           <Route
             path="/contextualize"
             element={<ContextualizePage />}
-          />
-          <Route
-            path="/ideate"
-            element={<IdeatePage />}
           />
           <Route
             path="/compare"

@@ -32,6 +32,8 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   // Global Variables
   const {
     isExplanationPage,
+    ideateComponents,
+    setIdeateComponents,
   } = useContext(StateContext);
   
   // Container Position
@@ -49,7 +51,13 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size, [topPosition, leftPosition]);
   const initialComponents = principles.concat(perspectives, dimensions);
  
-  const [components, setComponents] = useState(pdfComponents || initialComponents);
+  let startingComponents = initialComponents;
+
+  if(pdfComponents)
+    startingComponents = pdfComponents;
+
+  console.log(startingComponents);
+  const [components, setComponents] = useState(startingComponents);
   
   let pdfSelectedComponents;
   if(pdfComponents)
@@ -140,7 +148,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
           onDragStop(
             components[id].code,
             null
-          ); // send null code to Analyse to remove it there too
+          ); // send null code to Ideate to remove it there too
         
         activeIdRef.current = null;
 
@@ -326,7 +334,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
 
   const sendNewData = (id, x, y, textareaX, textareaY, textareaData, arrowX1, arrowY1, arrowX2, arrowY2, textGapY2, topTip, rightTip) => {
     const title = `${components[id].code} - ${components[id].label}`;
-    console.log(topTip);
+
     onDragStop(
       components[id].code,
       title,
@@ -367,7 +375,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   };
   
   const getTextareaOpacity = (component) => {
-    if(mode === "analyse-a" && (currentType === 'All' || !currentType)) 
+    if(currentType === 'All' || !currentType) 
       return 1;
     else if(component.type === currentType)
       return 1;

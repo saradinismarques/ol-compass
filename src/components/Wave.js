@@ -16,7 +16,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     isExplanationPage,
     allComponents,
     opacityCounter,
-    savedComponents
+    savedComponents,
   } = useContext(StateContext);
       
   const waveWidth = size/2.6;
@@ -27,8 +27,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     if(compassType === "icon")
       return 'default';
     else if(mode.startsWith("intro") || mode === "default" 
-    || (compassType === "default" && mode.startsWith("analyse"))
-    || (mode.startsWith("analyse") && isExplanationPage) ||
+    || (compassType === "default" && mode.startsWith("ideate"))
+    || (mode.startsWith("ideate") && isExplanationPage) ||
     compassType === "icon")
       return 'default';
     return 'pointer';
@@ -58,7 +58,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     }
   } else if(compassType === "icon") {
     let gapX, gapY;
-    if(mode.startsWith("analyse")) {
+    if(mode.startsWith("ideate")) {
       gapX = 54;
       gapY = 53;
     } else {
@@ -74,8 +74,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
 
   const getWaveFill = () => {
     if(compassType === "default") {
-      // Analyse
-      if(mode.startsWith("analyse"))
+      // Ideate
+      if(mode.startsWith("ideate"))
         return "transparent";
       return colors['Wave'][component.type];
     } else if(compassType === "draggable") {
@@ -91,8 +91,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
   const getTextFill = () => {
     if(compassType === "default") {
-      // Analyse
-      if(mode.startsWith("analyse")) 
+      // Ideate
+      if(mode.startsWith("ideate")) 
         return colors['Wave'][component.type];
       return colors['Label'][component.type];
     } else if(compassType === "draggable") {
@@ -106,8 +106,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
         if(selectedComponents.includes(component.code)) 
           return colors['Selection'];
-      // Analyse
-      if(mode.startsWith("analyse"))
+      // Ideate
+      if(mode.startsWith("ideate"))
         return colors['Wave'][component.type];
       return 'none';
     } else if(compassType === "draggable" || compassType === "icon") {
@@ -117,7 +117,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
   const getStrokeWidth = () => {
     if(compassType === "default") {
-      if(mode.startsWith("analyse"))
+      if(mode.startsWith("ideate"))
         return "0.5px";
       return "1.5px";
     } 
@@ -216,12 +216,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return 0.8;
         return 0.3;
       }
-      // Analyse    
-      if(mode.startsWith("analyse")) 
+      // Ideate    
+      if(mode === "ideate") 
           return 1;
     } else if(compassType === "draggable") {
-      // Analyse    
-      if(mode === "analyse-a" && (currentType === 'All' || !currentType)) 
+      // Ideate    
+      if(currentType === 'All' || !currentType) 
         return 1;
       else if(component.type === currentType)
         return 1;
@@ -436,7 +436,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   );
 };
 
-function getComponentsPositions(compassType, componentsData, type, size, draggableContainerPositions) {
+function getComponentsPositions(compassType, componentsData, type, size, draggableContainerPositions, ideateComponents) {
   const waveWidth = size/2.6;
   const waveHeight = waveWidth*3;
   let centerX, centerY;
@@ -499,6 +499,7 @@ function getComponentsPositions(compassType, componentsData, type, size, draggab
       componentsData[i]["y"] = y;
       componentsData[i]["angle"] = angle;
     } else if(compassType === "draggable") {
+
       componentsData[i]["initialX"] = x - waveWidth/2 + window.innerWidth/2.95 - draggableLeftPosition;
       componentsData[i]["initialY"] = y - waveHeight/2 + window.innerHeight/7.083 - draggableTopPosition;
       componentsData[i]["initialAngle"] = angle;

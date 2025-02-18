@@ -23,9 +23,17 @@ export const State = ({ children }) => {
     const [firstMessage, setFirstMessage] = useState(initialFirstMessage);
     const [isExplanationPage, setIsExplanationPage] = useState(true);
 
+    // Learn
     const [savedComponents, setSavedComponents] = useState([]);
+    
+    // Get Inspired
     const [savedCaseStudies, setSavedCaseStudies] = useState([]);
+    
+    // Contribute
     const [newCaseStudies, setNewCaseStudies] = useState([]);
+
+    // Ideate
+    const [components, setComponents] = useState([]);
 
     const allComponents = [
         'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
@@ -56,6 +64,8 @@ export const State = ({ children }) => {
                 setSavedCaseStudies,
                 newCaseStudies,
                 setNewCaseStudies,
+                components,
+                setComponents,
                 allComponents,
                 opacityCounter,
                 setOpacityCounter,

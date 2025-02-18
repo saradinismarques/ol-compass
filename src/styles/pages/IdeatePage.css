@@ -5,8 +5,8 @@
     --left-position: 0vw;
 }
 
-/* Area to click to start Analyse mode */
-.a-mouse-click-area {
+/* Area to click to start Ideate mode */
+.i-mouse-click-area {
     position: fixed;
     top: 0vh;
     left: 27vw;
@@ -16,7 +16,7 @@
 }
 
 /* Project Name Textarea */
-.a-textarea {
+.i-textarea {
     position: fixed;
     top: 9vh;
     left: calc(12.5vw + 21.6vh + 1.7vw);
@@ -34,12 +34,12 @@
     border-radius: 100px;
     background-color: white;
 }
-
-/* ABCD Tasks Menu */
-.a-tasks-nav {
+  
+/* Generate PDF Button and Loading Bar */
+.i-download-container {
     position: fixed;
     bottom: 9vh;
-    left: 9vw; /* Positioning at the bottom of the page */
+    left: 18.5vw; /* Positioning at the bottom of the page */
     transform: translateY(50%);
     display: flex;
     gap: 2.95vh; /* Space between buttons */
@@ -48,33 +48,38 @@
     background-color: transparent;
 }
 
-.a-task-button {
-    width: 2vh; /* Default size */
-    height: 2vh;
-    border-radius: 50%;
-    background-color: #0a4461;
-    color: white;
-    border: none;
-    font-size: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    outline: none;
+.i-download-pdf-button {
+    height: 3.5vh;
+    border: 0.3vh solid #0a4461;
+    border-radius: 100px;
+    background-color: white;
+    font-size: 2vh;
+    width: 26vh;
+    color: #0a4461;
+    display: flex; /* Add Flexbox */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
 }
 
-.a-task-button.active {
-    width: 4.4vh; /* Increase size for the active button */
-    height: 4.4vh;
-    font-size: 2.3vh; /* Make the text bigger in the active button */
-}
-
-.a-task-button:hover {
-    background-color: #0e587c; /* Slight hover effect */
+.i-download-pdf-button:hover {
     cursor: pointer;
+    border: 0.3vh solid #136d9a;
+    color: #136d9a;
+}
+
+.i-download-pdf-button.no-hover:hover {
+    border: 0.3vh solid #0a4461;
+    cursor:default; /* Optional: Show disabled cursor */
+}
+
+.i-download-progress {
+    background-color: white;
+    font-size: 2.1vh;
+    color: #0a4461;
 }
 
 /* ABCD Tasks Menu (PDF) */
-.a-tasks-nav-pdf {
+.i-tasks-nav-pdf {
     display: flex;
     gap: 22px; /* Space between buttons */
     align-items: center;
@@ -82,7 +87,7 @@
     background-color: transparent;
 }
 
-.a-task-button-pdf {
+.i-task-button-pdf {
     width: 14px; /* Default size */
     height: 14px;
     border-radius: 50%;
@@ -96,67 +101,36 @@
     outline: none;
 }
   
-.a-task-button-pdf.active {
+.i-task-button-pdf.active {
     width: 29px; /* Increase size for the active button */
     height: 29px;
     font-size: 16px; /* Make the text bigger in the active button */
 }
-  
-/* Generate PDF Button and Loading Bar */
-.a-generate-pdf-button {
-    height: 2.5vh;
-    border: 0.3vh solid #0a4461;
-    border-radius: 100px;
-    background-color: white;
-    font-size: 1.8vh;
-    width: 26vh;
-    color: #0a4461;
-    display: flex; /* Add Flexbox */
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-}
-
-.a-generate-pdf-button:hover {
-    cursor: pointer;
-    border: 0.3vh solid #136d9a;
-    color: #136d9a;
-}
-
-.a-generate-pdf-button.no-hover:hover {
-    border: 0.3vh solid #0a4461;
-    cursor:default; /* Optional: Show disabled cursor */
-}
-
-.a-download-progress {
-    background-color: white;
-    font-size: 2.1vh;
-    color: #0a4461;
-}
 
 /* Definitions (PDF) */
-.a-definitions-container {
+.i-definitions-container {
     top: 15vh;
     left: 9vw;
 }
 
-.a-definitions-container.fixed {
+.i-definitions-container.fixed {
     position: fixed;
 }
 
-.a-definitions-top-lines {
+.i-definitions-top-lines {
     position: absolute;
     top: 9px;
     left: 0;
     display: flex;
 }
 
-.a-definitions-horizontal-line {
+.i-definitions-horizontal-line {
     width: 261px;
     height: 1px;
     background-color: var(--background-color);
 }
 
-.a-definitions-vertical-line {
+.i-definitions-vertical-line {
     width: 1px;
     height: 320px; /* Total height of both lines */
     background: linear-gradient(
@@ -166,11 +140,11 @@
     );
 }
 
-.a-definition {
+.i-definition {
     margin-bottom: 5px;
 }
 
-.a-definition-title {
+.i-definition-title {
     width: 255px;
     font-size: 10px;
     color: var(--title-color);
@@ -185,7 +159,7 @@
     font-weight: 500;
 }
 
-.a-definition-text {
+.i-definition-text {
     width: 185px;
     font-size: 10px;
     font-weight: 300;
@@ -193,14 +167,14 @@
 }
 
 /* OL Compass (PDF) */
-.a-ol-compass {
+.i-ol-compass {
     position: fixed;   
     top: var(--top-position);           
     left: var(--left-position);           
 }
 
 /* Placeholder on Textareas in Compass */
-.a-compass-textarea::placeholder {
+.i-compass-textarea::placeholder {
     color: rgb(114, 113, 111, 0.5); /* Semi-transparent color */
 }
 

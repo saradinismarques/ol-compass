@@ -5,13 +5,13 @@ import Wave, { getComponentsPositions } from "./Wave.js"
 
 const CompassIcon = ({ mode, currentType }) => {
   // Size and screen resize handler
-  const initialSize = mode.startsWith("analyse") ? 90 : window.innerHeight / 8.11;
+  const initialSize = mode === "ideate" ? 90 : window.innerHeight / 8.11;
   const [size, setSize] = useState(initialSize);
   
   useEffect(() => {
     // Function to update height on window resize
     const handleResize = () => {
-      if(!mode.startsWith("analyse"))
+      if(mode === "ideate")
         setSize(initialSize);
     };
     // Add event listener for resize
@@ -38,7 +38,7 @@ const CompassIcon = ({ mode, currentType }) => {
 
   // Function to determine the center 
   const getCenter = () => {
-    if(mode.startsWith('analyse'))
+    if(mode === "ideate")
       return { x:730 * 0.165 , y: 1536 * 0.121 };
     else if(mode === "get-started")
       return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
@@ -50,7 +50,7 @@ const CompassIcon = ({ mode, currentType }) => {
 
   // Styles
   let containerStyle;
-  if(mode.startsWith('analyse')) {
+  if(mode === "ideate") {
     // Container styles for the circle menu
     containerStyle = {
       height: 200,
@@ -110,9 +110,9 @@ const CompassIcon = ({ mode, currentType }) => {
                 color: `${colors['Label'][currentType]}`,
                 fontFamily: "Manrope", // Use Manrope font
                 fontWeight: 400, // Medium weight for this text
-                fontSize: `${mode.startsWith("analyse") ? "11px" : "1.6vh"}`,
+                fontSize: `${mode === "ideate" ? "11px" : "1.6vh"}`,
                 textTransform: "uppercase", // Converts text to uppercase
-                letterSpacing: `${mode.startsWith("analyse") ? "2px" : "0.3vh"}`, // Increases the spacing between letters
+                letterSpacing: `${mode === "ideate" ? "2px" : "0.3vh"}`, // Increases the spacing between letters
               }}
             >
               {`${currentType}s`}

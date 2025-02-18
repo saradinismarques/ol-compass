@@ -25,7 +25,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   // Dictionary with all information
   let componentsData;
 
-  if(mode.startsWith("get-started") || mode.startsWith("analyse")) 
+  if(mode.startsWith("get-started") || mode === "ideate") 
     componentsData = getGetStartedData();
   else
     componentsData = getLearnData();
@@ -68,7 +68,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
 
   // Handlers
   const handleClick = (component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode.startsWith("analyse")) 
+    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode === "ideate") 
       return;
     
     if (mode === "learn") {
@@ -142,7 +142,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   };
   
   const handleMouseEnter = (e, component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode.startsWith("analyse")) 
+    if (mode.startsWith("intro") || mode === "default" || mode === "ideate") 
       return;
 
     setHoveredId(component.code);
