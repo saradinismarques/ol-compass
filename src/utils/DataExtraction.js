@@ -3,6 +3,9 @@ import introTexts from '../data/static/intro-texts.json'
 import modesTexts from '../data/static/modes-texts.json'
 import getStartedData from '../data/content/get-started-data.json';
 import learnData from '../data/content/learn-data.json';
+import linksPrinciples from '../data/content/links_principles.json';
+import linksPerspectives from '../data/content/links_perspectives.json';
+import linksDimensions from '../data/content/links_dimensions.json';
 import conceptsData from '../data/content/concepts-data.json';
 import getInspiredData from '../data/content/get-inspired-data.json';
 
@@ -124,12 +127,38 @@ export function getModeTexts(mode) {
 
 // Content
 export function getComponentsData(type) {
-    if(type === 'default')
-        return getLearnData();
-    else if(type === 'simple')
-        return getGetStartedData();
-    else if(type === 'with-links')
-        return null;
+    if(type === 'default') return getDefaultData();
+    else if(type === 'get-started') return getGetStartedData();
+    else if(type === 'learn') return getLearnData();
+    else if(type === 'learn-2') return getLinksData();
+    else if(type === 'concepts') return getConceptsData();
+}
+
+export function getDefaultData() {
+    try {
+        // Process the JSON data
+        const result = learnData.map(item => ({
+            code: item["#code"],
+            label: item["#label"],
+            tooltip: item["#headline"],
+            type: getType(item['#code'])
+        }));
+
+        // Organize into three parts by Type
+        const organizeComponents = result.reduce((acc, item) => {
+            const type = item.type;
+            if (!acc[type]) {
+                acc[type] = []; // Initialize the array for each type if it doesn't exist
+            }
+            acc[type].push(item);
+            return acc;
+        }, {});
+
+        return organizeComponents;
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
 }
 
 export function getGetStartedData() {
@@ -189,12 +218,90 @@ export function getLearnData() {
     }
 }
 
-function getPrinciplesLinks() {
+function getLinksData() {
+    try {
+        // Create a map of labels from learnData for easy lookup
+        const labelsMap = learnData.reduce((acc, item) => {
+            acc[item["#code"]] = item["#label"];
+            return acc;
+        }, {});
 
-}
+        // Process the principles JSON
+        let principlesData = linksPrinciples.map(item => ({
+            code: item["Princ-ID"],
+            label: labelsMap[item["Princ-ID"]] || "", // Get label from map
+            paragraph: item["Principle-def"],
+            phy: item["Phy-L"],
+            phy_links: item["Phy-L_links"],
+            geo: item["Geo-L"],
+            geo_links: item["Geo-L_links"],
+            che: item["Che-L"],
+            che_links: item["Che-L_links"],
+            bio: item["Bio-L"],
+            bio_links: item["Bio-L_links"],
+            type: getType(item["Princ-ID"])
+        }));
 
-function getPerspectivesDimensionsLinks() {
-    
+        // Process the perspectives JSON
+        let perspectivesData = linksPerspectives.map(item => {
+            let Py1 = Object.keys(item).find(key => item[key] === "y1" && key.startsWith("P")) || "";
+            let Py2 = Object.keys(item).find(key => item[key] === "y2" && key.startsWith("P")) || "";
+                    
+            // Return the object with the necessary fields
+            return {
+                code: item["Per-ID"],
+                label: labelsMap[item["Per-ID"]] || "", // Get label from map
+                paragraph: item["What-PAR"],
+                compared_paragraph: item["Compared with-PAR"],
+                compared_code: item["Compared with-ID"],
+                example_1: item["Example 1"],
+                example_2: item["Example 2"],
+                Py1,   // Single P code with "y1"
+                Py2,   // Single P code with "y2"
+                type: getType(item["Per-ID"])
+            };
+        });
+
+        // Process the perspectives JSON
+        let dimensionsData = linksDimensions.map(item => {
+            let Py1 = Object.keys(item).find(key => item[key] === "y1" && key.startsWith("P")) || "";
+            let Py2 = Object.keys(item).find(key => item[key] === "y2" && key.startsWith("P")) || "";
+            let Pey1 = Object.keys(item).find(key => item[key] === "y1" && key.startsWith("Pe")) || "";
+            let Pey2 = Object.keys(item).find(key => item[key] === "y2" && key.startsWith("Pe")) || "";
+            
+            return {
+                code: item["Dim-ID"],
+                label: labelsMap[item["Dim-ID"]] || "", // Get label from map
+                paragraph: item["What-PAR"],
+                compared_paragraph: item["Compared with-PAR"],
+                compared_code: item["Compared with-ID"],
+                example_1: item["Example 1"],
+                example_2: item["Example 2"],
+                Py1,   // Single P code with "y1"
+                Py2,   // Single P code with "y2"
+                Pey1,   // Single P code with "y1"
+                Pey2,   // Single P code with "y2"
+                type: getType(item["Dim-ID"])
+            };
+        });
+
+        // Combine both datasets
+        let mergedData = [...principlesData, ...perspectivesData, ...dimensionsData];
+
+        // Organize into three parts by Type
+        const organizedData = mergedData.reduce((acc, item) => {
+            if (!acc[item.type]) {
+                acc[item.type] = []; // Initialize array for type if not exists
+            }
+            acc[item.type].push(item);
+            return acc;
+        }, {});
+
+        return organizedData;
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
 }
 
 function getType(code) {

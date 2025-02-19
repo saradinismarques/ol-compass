@@ -34,7 +34,7 @@ const CompassIcon = ({ mode, currentType }) => {
   const principles = getComponentsPositions(compassType, [], 'Principle', size);
   const perspectives = getComponentsPositions(compassType, [], 'Perspective', size);
   const dimensions = getComponentsPositions(compassType, [], 'Dimension', size);
-  const components = principles.concat(perspectives, dimensions);
+  const components = [...principles, ...perspectives, ...dimensions];
 
   // Function to determine the center 
   const getCenter = () => {

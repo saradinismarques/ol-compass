@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { getGetStartedData, getLearnData, getConceptsData } from '../utils/DataExtraction.js'; 
+import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponentsPositions } from "./Wave.js"
 
 const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
@@ -25,16 +25,20 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   // Dictionary with all information
   let componentsData;
 
-  if(mode.startsWith("get-started") || mode === "ideate") 
-    componentsData = getGetStartedData();
+  if(mode.startsWith("get-started")) 
+    componentsData = getComponentsData('get-started');
+  else if(mode === "learn")
+    componentsData = getComponentsData('learn');
+  else if(mode === "learn-2")
+    componentsData = getComponentsData('learn-2');
   else
-    componentsData = getLearnData();
+    componentsData = getComponentsData('default');
 
   const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size);
   const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size);
   const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size);
-  const components = principles.concat(perspectives, dimensions);
-  const concepts = getConceptsData();
+  const components = [...principles, ...perspectives, ...dimensions];
+  const concepts = getComponentsData('concepts');
 
   // State of clicks and hovers
   const [hoveredId, setHoveredId] = useState(null);
@@ -101,6 +105,46 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
           );
         }
       }
+    } else if (mode === "learn-2") {
+      // Check if the clicked ID is already in clickedIds
+      if (selectedComponents === component.code) {
+        // If it is, remove it and reset state
+        setHoveredId(null);
+        setSelectedComponents([]);
+
+        if (onButtonClick) 
+          onButtonClick(null);
+
+      } else {
+        const title = convertLabel(component.code);
+        
+        setSelectedComponents(component.code);
+
+        if (onButtonClick) {
+          if(component.type === 'Principle') {
+            onButtonClick(
+              component.code,
+              title,
+              component.paragraph,
+              component.type,
+              component.phy,
+              component.geo,
+              component.che,
+              component.bio,
+            );
+          } else {
+            onButtonClick(
+              component.code,
+              title,
+              component.paragraph,
+              component.type,
+              component.compared_paragraph,
+              component.example_1,
+              component.example_2,
+            );
+          }
+        }
+      }
     } else if(mode.startsWith("get-started")) {
       const title = convertLabel(component.code);
 
@@ -148,7 +192,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
     setHoveredId(component.code);
     hoveredIdRef.current = component.code; 
 
-    if(mode.startsWith("get-started"))
+    if(mode.startsWith("get-started") || mode === 'learn-2')
       return;
 
     if(component.type === "Principle") {
@@ -170,7 +214,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   const handleMouseLeave = () => {
     setHoveredId(null);
 
-    if(mode.startsWith("get-started"))
+    if(mode.startsWith("get-started") || mode === "learn-2")
       return;
 
     // Clear the tooltip timeout to prevent it from showing if mouse leaves

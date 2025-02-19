@@ -29,21 +29,11 @@ const Learn2Page = () => {
     title: '',
     headline: '',
     paragraph: '',
-    concepts: [],
     type: null,
     bookmark: false,
   }), []);
 
-  const initialConcept = useMemo(() => ({
-    code: '',
-    label: '',
-    paragraph: '',
-    linkedTo: '',
-    index: null,
-  }), []);
-
   const [component, setComponent] = useState(initialComponent);
-  const [concept, setConcept] = useState(initialConcept);
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
 
@@ -76,18 +66,17 @@ const Learn2Page = () => {
 
   const resetState = useCallback(() => {
     setComponent(initialComponent);
-    setConcept(initialConcept);
     setFirstClick(true);
     setShowMessage(false);
     showMessageRef.current = false;
     setIsExplanationPage(true);
-  }, [initialComponent, initialConcept, setIsExplanationPage]);
+  }, [initialComponent, setIsExplanationPage]);
 
   const getBookmarkState = useCallback((code) => {
     return savedComponents.length !== 0 && savedComponents.includes(code);
   }, [savedComponents]);
 
-  const handleCompassClick = (code, title, headline, paragraph, type, concepts) => {
+  const handleCompassClick = (code, title, paragraph, type, phy = null, geo = null, che = null, bio = null, compared_paragraph = null, example_1 = null, example_2 = null) => {
     if (firstClick && firstMessage["learn"]) {
       setFirstClick(false);
       setShowMessage(true);
@@ -99,31 +88,38 @@ const Learn2Page = () => {
       setIsExplanationPage(true);
       return;
     }
-    setComponent((prevComponent) => ({
-      ...prevComponent,
-      code,
-      title,
-      headline,
-      paragraph,
-      concepts,
-      type,
-      bookmark: getBookmarkState(code),
-    }));
+
+    if(type === 'Principle') {
+      setComponent((prevComponent) => ({
+        ...prevComponent,
+        code,
+        title,
+        paragraph,
+        phy,
+        geo,
+        che,
+        bio,
+        type,
+        bookmark: getBookmarkState(code),
+      }));
+    } else {
+      setComponent((prevComponent) => ({
+        ...prevComponent,
+        code,
+        title,
+        paragraph,
+        compared_paragraph,
+        example_1,
+        example_2,
+        type,
+        bookmark: getBookmarkState(code),
+      }));
+    }
 
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
 
     setIsExplanationPage(false);
-
-    if (concepts !== null) {
-      setConcept({
-        code: concepts[0].code,
-        label: concepts[0].label,
-        paragraph: concepts[0].paragraph,
-        linkedTo: concepts[0].linkedTo,
-        index: 0,
-      });
-    }
   };
 
   const messageStateChange = (state) => {
@@ -150,7 +146,7 @@ const Learn2Page = () => {
       <div className={`${showMessage ? "blur-background" : ""}`}>
         <div className={`l-background ${isExplanationPage ? '' : 'gradient'}`}>
           <OLCompass
-            mode="learn"
+            mode="learn-2"
             position={isExplanationPage ? "center" : "left"}
             onButtonClick={handleCompassClick}
             resetState={resetState}

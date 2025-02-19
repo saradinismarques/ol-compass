@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
-import { getGetStartedData } from '../utils/DataExtraction.js'; 
+import { getComponentsData } from '../utils/DataExtraction.js'; 
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { StateContext } from "../State";
 import Draggable from "react-draggable";
@@ -44,12 +44,12 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   document.documentElement.style.setProperty('--left-position', `${leftPosition}px`);
   
   // Dictionary with all information
-  let componentsData = getGetStartedData();
+  let componentsData = getComponentsData('default');
 
   const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size, [topPosition, leftPosition]);
   const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size, [topPosition, leftPosition]);
   const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size, [topPosition, leftPosition]);
-  const initialComponents = principles.concat(perspectives, dimensions);
+  const initialComponents = [...principles, ...perspectives, ...dimensions];
 
   const [components, setComponents] = useState(initialComponents);
   

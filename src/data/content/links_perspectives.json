@@ -1,6 +1,6 @@
 [
   {
-    "": "P1",
+    "Per-ID": "Pe1",
     "What-PAR": "Science helps us explore and understand the ocean through observation, experimentation, and data analysis. It allows us to make informed decisions about the marine environment.",
     "Compared with-PAR": "Unlike History, which looks at the past, Science focuses on present-day data and predictions to help us understand ocean processes.",
     "Compared with-ID": "Pe2",
@@ -15,7 +15,7 @@
     "P7": ""
   },
   {
-    "": "P2",
+    "Per-ID": "Pe2",
     "What-PAR": "History helps us understand how people and the ocean have interacted over time. It shows us how past ocean-related decisions still impact us today.",
     "Compared with-PAR": "Unlike Geography, which focuses on spatial relationships, History focuses on how human interactions with the ocean have evolved through time.",
     "Compared with-ID": "Pe3",
@@ -30,7 +30,7 @@
     "P7": ""
   },
   {
-    "": "P3",
+    "Per-ID": "Pe3",
     "What-PAR": "Geography examines the ocean’s physical features and human interactions across different locations. It helps us understand regional variations in marine ecosystems and human impact.",
     "Compared with-PAR": "Unlike Science, which focuses on processes and experimentation, Geography looks at spatial relationships and how ocean conditions vary by location.",
     "Compared with-ID": "Pe1",
@@ -45,7 +45,7 @@
     "P7": ""
   },
   {
-    "": "P4",
+    "Per-ID": "Pe4",
     "What-PAR": "Gender equality in ocean literacy means recognizing that men and women experience and impact the ocean differently. It highlights the importance of inclusivity in marine-related opportunities and policies.",
     "Compared with-PAR": "Unlike Culture, which focuses on traditions, Gender Equality looks at social roles and fairness in access to ocean resources and decision-making.",
     "Compared with-ID": "Pe6",
@@ -60,7 +60,7 @@
     "P7": ""
   },
   {
-    "": "P5",
+    "Per-ID": "Pe5",
     "What-PAR": "Values shape how people prioritize ocean conservation and resource use. They help communities make decisions that balance economic, environmental, and social needs.",
     "Compared with-PAR": "Unlike Sustainability, which focuses on long-term strategies, Values focus on personal and collective priorities in ocean decision-making.",
     "Compared with-ID": "Pe7",
@@ -75,7 +75,7 @@
     "P7": ""
   },
   {
-    "": "P6",
+    "Per-ID": "Pe6",
     "What-PAR": "Culture reflects how different communities connect with the ocean through traditions, stories, and livelihoods. It shapes how people interact with and protect marine environments.",
     "Compared with-PAR": "Unlike History, which looks at past events, Culture focuses on how present communities maintain and adapt their ocean-related traditions.",
     "Compared with-ID": "Pe2",
@@ -90,7 +90,7 @@
     "P7": "y2"
   },
   {
-    "": "P7",
+    "Per-ID": "Pe7",
     "What-PAR": "Sustainability is about protecting ocean ecosystems while ensuring resources remain available for future generations. It balances environmental, social, and economic needs.",
     "Compared with-PAR": "Unlike Science, which studies ocean phenomena, Sustainability focuses on practical solutions to maintain healthy marine ecosystems and human communities.",
     "Compared with-ID": "Pe1",
