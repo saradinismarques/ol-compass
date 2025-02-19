@@ -120,7 +120,7 @@ const Menu = () => {
             IDEATE
           </Link>
         }
-        {showMore && (
+        {/* {showMore && (
           <>
             {(menuExpanded || activeButton === 'learn') && 
               <Link
@@ -152,7 +152,7 @@ const Menu = () => {
           <button onClick={toggleShowMore} className="menu-button show-more">
             {showMore ? '-' : '+'}
           </button>
-        }
+        } */}
       </div>
     </div>
   );

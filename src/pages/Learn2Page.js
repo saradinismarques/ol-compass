@@ -163,7 +163,7 @@ const Learn2Page = () => {
         currentParagraph = componentRef.current.paragraph;
       } else if(index === 1) {
         currentParagraph = componentRef.current.compared_paragraph;
-        currentTerm = 'Unlike';
+        currentTerm = '/';
         currentLinks = componentRef.current.compared_code;
       } else if(index === 2) {
         currentParagraph = componentRef.current.example_1;
