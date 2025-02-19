@@ -169,9 +169,12 @@ const GetStartedPage = () => {
 
   const handleKeyPress = useCallback(
     (e) => {
-      if (e.key === 'Enter') handleSearch();
-      else if (e.key === 'ArrowUp' || e.key === 'ArrowRight') handlePrev();
-      else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') handleNext();
+      if (e.key === 'Enter') 
+        handleSearch();
+      else if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
+        handlePrev();
+      else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
+        handleNext();
     },
     [handleSearch, handlePrev, handleNext]
   );

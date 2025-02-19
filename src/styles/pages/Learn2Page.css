@@ -2,7 +2,6 @@
     --selection-color: #e5007e; /* Default color */
     --text-color: #ffffff; /* Default color */
     --image-color: transparent; /* Default color */
-    --line-width: 30vh; /* Default color */
 }
 
 /* Text Container */
@@ -37,7 +36,7 @@
     font-size: 2.5vh; /* Larger size for h1 */
     font-weight: 500;
     text-transform: uppercase;
-    width: 10vh;
+    width: 13vh;
     color: var(--text-color); 
 }
 

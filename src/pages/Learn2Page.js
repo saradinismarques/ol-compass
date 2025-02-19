@@ -21,6 +21,8 @@ const Learn2Page = () => {
   const initialComponent = useMemo(() => ({
     title: '',
     paragraph: '',
+    currentTerm: null,
+    currentLinks: null,
     type: null,
     bookmark: false,
   }), []);
@@ -96,10 +98,9 @@ const Learn2Page = () => {
       compared_paragraph = null,
       example_1 = null,
       example_2 = null,
-      py1 = null,
-      py2 = null,
-      pey1 = null,
-      pey2 = null,
+      compared_code = null,
+      example_1_codes = null,
+      example_2_codes = null
     } = data;
 
     setComponent((prevComponent) => {
@@ -109,11 +110,14 @@ const Learn2Page = () => {
         title,
         paragraph,
         type,
-        slidesMaxIndex: type === 'Principle' ? 4 : 3,
+        currentParagraph: paragraph,
+        currentTerm: null,
+        currentLinks: null,
+        slideMax: type === 'Principle' ? 4 : 3,
         bookmark: getBookmarkState(code),
         ...(type === 'Principle'
           ? { phy, geo, che, bio, phy_links, geo_links, che_links, bio_links }
-          : { compared_paragraph, example_1, example_2, py1, py2, pey1, pey2 }),
+          : { compared_paragraph, example_1, example_2, compared_code, example_1_codes, example_2_codes }),
       };
   
       // Update the ref
@@ -125,68 +129,86 @@ const Learn2Page = () => {
     setSlideIndex(0);
     slideIndexRef.current = 0;
 
-    let lineWidth;
-    if(type === 'Principle') lineWidth = '14.1vw';
-    else if(type === 'Perspective') lineWidth = '11.7vw';
-    else if(type === 'Dimension') lineWidth = '13.4vw';
-
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
-    document.documentElement.style.setProperty('--line-width', lineWidth);
 
     setIsExplanationPage(false);
   };
 
-  const getParagraph = () => {
-    if(slideIndexRef.current === 0) return componentRef.current.paragraph;
+  const updateSlide = (index) => {
+    let currentParagraph, currentTerm = null, currentLinks = null;
 
-    if(component.type === 'Principle') {
-      if(slideIndexRef.current === 1) return componentRef.current.geo;
-      else if(slideIndexRef.current === 2) return componentRef.current.phy;
-      else if(slideIndexRef.current === 3) return componentRef.current.che;
-      else if(slideIndexRef.current === 4) return componentRef.current.bio;
+    if(componentRef.current.type === 'Principle') {
+      if(index === 0) {
+        currentParagraph = componentRef.current.paragraph;
+      } else if(index === 1) {
+        currentParagraph = componentRef.current.geo;
+        currentTerm = 'Ocean Geology';
+        currentLinks = componentRef.current.geo_links;
+      } else if(index === 2) {
+        currentParagraph = componentRef.current.phy;
+        currentTerm = 'Ocean Physics';
+        currentLinks = componentRef.current.phy_links;
+      } else if(index === 3) {
+        currentParagraph = componentRef.current.che;
+        currentTerm = 'Ocean Chemistry';
+        currentLinks = componentRef.current.che_links;
+      } else if(index === 4) {
+        currentParagraph = componentRef.current.bio;
+        currentTerm = 'Ocean Biology';
+        currentLinks = componentRef.current.bio_links;
+      }
     } else {
-      if(slideIndexRef.current === 1) return componentRef.current.compared_paragraph;
-      else if(slideIndexRef.current === 2) return componentRef.current.example_1;
-      else if(slideIndexRef.current === 3) return componentRef.current.example_2;
+      if(index === 0) {
+        currentParagraph = componentRef.current.paragraph;
+      } else if(index === 1) {
+        currentParagraph = componentRef.current.compared_paragraph;
+        currentTerm = 'Unlike';
+        currentLinks = componentRef.current.compared_code;
+      } else if(index === 2) {
+        currentParagraph = componentRef.current.example_1;
+        currentTerm = 'Example 1';
+        currentLinks = componentRef.current.example_1_codes;
+      } else if(index === 3) {
+        currentParagraph = componentRef.current.example_2;
+        currentTerm = 'Example 2';
+        currentLinks = componentRef.current.example_2_codes;
+      }
     }
-  };
 
-  const getTerms = () => {
-    if(component.type !== 'Principle' || slideIndexRef.current === 0) return;
+    setComponent((prevComponent) => ({
+      ...prevComponent,
+      currentParagraph: currentParagraph,
+      currentTerm: currentTerm,
+      currentLinks: currentLinks,
+    }));
+  }
 
-    if(slideIndexRef.current === 1) return 'Ocean Geology';
-    else if(slideIndexRef.current === 2) return 'Ocean Physics';
-    else if(slideIndexRef.current === 3) return 'Ocean Chemistry';
-    else if(slideIndexRef.current === 4) return 'Ocean Biology';
-  };
-
-  const getLinks = () => {
-    if(component.type !== 'Principle' || slideIndexRef.current === 0) return null;
-
-    if(slideIndexRef.current === 1) return componentRef.current.geo_links;
-    else if(slideIndexRef.current === 2) return componentRef.current.phy_links;
-    else if(slideIndexRef.current === 3) return componentRef.current.che_links;
-    else if(slideIndexRef.current === 4) return componentRef.current.bio_links;
-  };
+  const handlePrev = useCallback(() => {
+    if(slideIndexRef.current > 0) {
+      let prevIndex = slideIndexRef.current - 1;
+      setSlideIndex(prevIndex);
+      slideIndexRef.current = prevIndex;
+      updateSlide(prevIndex);
+    }  
+  }, []);
+  
+  const handleNext = useCallback(() => {
+    if(slideIndexRef.current < componentRef.current.slideMax) {
+      let nextIndex = slideIndexRef.current + 1;
+      setSlideIndex(nextIndex);
+      slideIndexRef.current = nextIndex;
+      updateSlide(nextIndex);
+    }
+  }, []);
 
   // Keyboard event handler
   const handleKeyDown = useCallback((e) => {
-    if (e.key === 'ArrowUp') {
-      if(slideIndexRef.current > 0) {
-        let prevIndex = slideIndexRef.current - 1;
-        setSlideIndex(prevIndex);
-        slideIndexRef.current = prevIndex;
-      }
-    }
-    else if (e.key === 'ArrowDown') {
-      if(slideIndexRef.current < componentRef.current.slidesMaxIndex) {
-        let nextIndex = slideIndexRef.current + 1;
-        setSlideIndex(nextIndex);
-        slideIndexRef.current = nextIndex;
-      }
-    }
-  }, []);
+    if (e.key === 'ArrowUp') 
+      handlePrev();
+    else if (e.key === 'ArrowDown') 
+      handleNext();
+  }, [handlePrev, handleNext]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -221,7 +243,7 @@ const Learn2Page = () => {
           <Compass
             mode="learn-2"
             position={isExplanationPage ? "center" : "left-3"}
-            currentLinks={getLinks()}
+            currentLinks={component.currentLinks}
             onButtonClick={handleCompassClick}
             resetState={resetState}
           />
@@ -254,10 +276,10 @@ const Learn2Page = () => {
               </div>
               
               <div className="l2-text-container">
-                <p className='l2-text'>{getParagraph()}</p>
+                <p className='l2-text'>{component.currentParagraph}</p>
               </div>
 
-              <p className='l2-terms'>{getTerms()}</p>
+              <p className='l2-terms'>{component.currentTerm}</p>
             </>
           )}
           <Menu />

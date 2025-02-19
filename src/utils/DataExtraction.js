@@ -246,8 +246,6 @@ function getLinksData() {
         let perspectivesData = linksPerspectives.map(item => {
             let Py1 = Object.keys(item).find(key => item[key] === "y1" && key.startsWith("P")) || "";
             let Py2 = Object.keys(item).find(key => item[key] === "y2" && key.startsWith("P")) || "";
-            let Pey1 = null;
-            let Pey2 = null;
                     
             // Return the object with the necessary fields
             return {
@@ -258,10 +256,8 @@ function getLinksData() {
                 compared_code: item["Compared with-ID"],
                 example_1: item["Example 1"],
                 example_2: item["Example 2"],
-                Py1,   // Single P code with "y1"
-                Py2,   // Single P code with "y2"
-                Pey1,   // Single P code with "y1"
-                Pey2,   // Single P code with "y2"
+                example_1_codes: [Py1],   // Single P code with "y1"
+                example_2_codes: [Py2],   // Single P code with "y1"
                 type: getType(item["Per-ID"])
             };
         });
@@ -281,10 +277,8 @@ function getLinksData() {
                 compared_code: item["Compared with-ID"],
                 example_1: item["Example 1"],
                 example_2: item["Example 2"],
-                Py1,   // Single P code with "y1"
-                Py2,   // Single P code with "y2"
-                Pey1,   // Single P code with "y1"
-                Pey2,   // Single P code with "y2"
+                example_1_codes: [Py1, Pey1],   // Single P code with "y1"
+                example_2_codes: [Py2, Pey2],   // Single P code with "y1"
                 type: getType(item["Dim-ID"])
             };
         });

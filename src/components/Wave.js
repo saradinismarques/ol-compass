@@ -77,10 +77,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Ideate
       if(mode.startsWith("ideate"))
         return "transparent";
+      // Learn 2.0
       else if (mode === "learn-2") {
-        if(component.type === 'Principle' && currentLinks !== null) {
-          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return "url(#waveGradient)"; // Return gradient reference if conditions are met
+        if(currentLinks !== null) {
+          if(getType(selectedComponents) === 'Principle')
+            if(currentLinks.includes(component.code) && selectedComponents !== component.code)
+              return "url(#waveGradient)"; // Return gradient reference if conditions are met
         }
       }
       return colors['Wave'][component.type];
@@ -115,6 +117,16 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Ideate
       if(mode.startsWith("ideate"))
         return colors['Wave'][component.type];
+      // Learn 2.0
+      if (mode === "learn-2" && currentLinks !== null) {
+        if(getType(selectedComponents) !== 'Principle' && component.type === getType(selectedComponents)) { // For the unlike, only of the same type
+          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
+            return colors['Wave'][component.type]; // Return gradient reference if conditions are met
+        } else if(getType(selectedComponents) !== 'Principle' && component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
+          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
+            return colors['Wave'][component.type]; // Return gradient reference if conditions are met
+        }
+      }
       return 'none';
     } else if(compassType === "draggable" || compassType === "icon") {
       return 'none';
@@ -125,6 +137,15 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     if(compassType === "default") {
       if(mode.startsWith("ideate"))
         return "0.5px";
+      else if(mode === "learn-2" && currentLinks !== null) {
+        if(getType(selectedComponents) !== 'Principle' && component.type === getType(selectedComponents)) { // For the unlike, only of the same type
+          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
+            return "1px"; // Return gradient reference if conditions are met
+        } else if(getType(selectedComponents) !== 'Principle' && component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
+          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
+            return "2px"; // Return gradient reference if conditions are met
+        }
+      }
       return "1.5px";
     } 
   };
@@ -182,11 +203,10 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           return 1;
         if(selectedComponents === component.code)
           return 1;
-        if(component.type === 'Principle' && currentLinks !== null) {
+        if(getType(selectedComponents) === 'Principle' && currentLinks !== null){
           if(currentLinks.includes(component.code) && currentComponent !== component.code)
             return 1; // Return gradient reference if conditions are met
-        }
-        if(hoveredId === component.code) 
+        }if(hoveredId === component.code) 
           return 0.8;
         else
           return 0.3;
@@ -303,6 +323,32 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     }
     return component.label;
   };
+
+  function getType(code) {
+    // Define a mapping of prefixes to their corresponding full names
+    const prefixMap = {
+        "D": "Dimension",
+        "Pe": "Perspective",
+        "P": "Principle"
+    };  
+  
+    // Use a regular expression to capture the prefix and the number
+    const regex = /^([A-Za-z]+)(\d+)$/;
+    const match = code.match(regex);
+  
+    if (match) {
+        const prefix = match[1];
+  
+        // Find the corresponding full name for the prefix
+        const type = prefixMap[prefix];
+  
+        if (type) {
+            return type;
+        }
+    }
+    // If the label doesn't match the expected pattern, return it unchanged
+    return code;
+  }
   
   const getLabelWidth = () => {
     // Count the number of "I" characters in the label

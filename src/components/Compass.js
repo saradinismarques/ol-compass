@@ -145,10 +145,9 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
               compared_paragraph: component.compared_paragraph ?? null,
               example_1: component.example_1 ?? null,
               example_2: component.example_2 ?? null,
-              py1: component.py1 ?? null,
-              py2: component.py2 ?? null,
-              pey1: component.pey1 ?? null,
-              pey: component.pey2 ?? null,
+              compared_code: component.compared_code ?? null,
+              example_1_codes: component.example_1_codes ?? null,
+              example_2_codes: component.example_2_codes ?? null,
             });
           }
         
