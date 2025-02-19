@@ -44,9 +44,9 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   // Dictionary with all information
   let componentsData = getComponentsData('default');
 
-  const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size, [topPosition, leftPosition]);
-  const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size, [topPosition, leftPosition]);
-  const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size, [topPosition, leftPosition]);
+  const principles = getComponentsPositions(compassType, componentsData, 'Principle', size, [topPosition, leftPosition]);
+  const perspectives = getComponentsPositions(compassType, componentsData, 'Perspective', size, [topPosition, leftPosition]);
+  const dimensions = getComponentsPositions(compassType, componentsData, 'Dimension', size, [topPosition, leftPosition]);
   const initialComponents = principles.concat(perspectives, dimensions);
 
   const [components, setComponents] = useState(initialComponents);

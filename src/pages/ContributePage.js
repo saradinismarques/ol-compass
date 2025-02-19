@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
-import OLCompass from '../components/OLCompass';
+import Compass from '../components/Compass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
@@ -239,7 +239,7 @@ const ContributePage = () => {
   return (
     <>
       <div className={showMessage ? 'blur-background' : ''}>
-        <OLCompass
+        <Compass
           mode="contribute"
           position={isExplanationPage ? 'center' : 'left'}
           resetState={resetState}

@@ -34,9 +34,9 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   else
     componentsData = getComponentsData('default');
 
-  const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size);
-  const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size);
-  const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size);
+  const principles = getComponentsPositions(compassType, componentsData, 'Principle', size);
+  const perspectives = getComponentsPositions(compassType, componentsData, 'Perspective', size);
+  const dimensions = getComponentsPositions(compassType, componentsData, 'Dimension', size);
   const components = principles.concat(perspectives, dimensions);
 
   const concepts = getComponentsData('concepts');

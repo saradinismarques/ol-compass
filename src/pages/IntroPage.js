@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import OLCompass from '../components/OLCompass.js';
+import Compass from '../components/Compass.js';
 import { getIntroTexts } from '../utils/DataExtraction.js';
 import { replaceBolds, replaceBoldsBreaksPlaceholders } from '../utils/TextFormatting.js';
 import { StateContext } from "../State";
@@ -194,7 +194,7 @@ const IntroPage = () => {
 
     return (
         <div>
-            <OLCompass 
+            <Compass 
                 mode={mode} 
                 position="center"
             /> 

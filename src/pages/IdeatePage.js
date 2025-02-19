@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
-import OLCompass from '../components/OLCompass.js';
-import DraggableCompass from '../components/DraggableCompass.js'
+import Compass from '../components/Compass.js';
+import CompassDraggable from '../components/CompassDraggable.js'
 import CompassIcon from '../components/CompassIcon.js'
 import Menu from '../components/Menu.js';
 import Description from '../components/Description.js';
@@ -319,7 +319,7 @@ const IdeatePage = () => {
             x = 93;    ;
         await renderToCanvas(
             <State>
-                <DraggableCompass 
+                <CompassDraggable 
                     className='i-ol-compass'
                     mode='ideate'
                     currentType={type}
@@ -446,7 +446,7 @@ const IdeatePage = () => {
 
     return (
         <>
-            <OLCompass 
+            <Compass 
                 mode={mode}
                 position={isExplanationPage ? "center-2" : "left-2"}
                 resetState={resetState}
@@ -460,7 +460,7 @@ const IdeatePage = () => {
             }
         
             <div className='i-ol-compass'>
-                <DraggableCompass 
+                <CompassDraggable 
                     mode={mode}
                     resetState={resetState}
                     onDragStop={handleDragStop}

@@ -362,7 +362,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                       : `none` // Not flipped but not 'Principle'
                   )
                 }
-                letterSpacing={getLabelWidth() > 10 ? "0.08em" : "0.2em"}
+                letterSpacing={getLabelWidth() > 10 ? "0.06em" : "0.15em"}
                 dy={bigLabels.includes(component.code) ? '-0.13em' : '0.35em'} // Adjust this to center the text vertically on the path
                 style={{ pointerEvents: 'none' }} // Ensure text doesn't interfere
               >
@@ -436,7 +436,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   );
 };
 
-function getComponentsPositions(compassType, componentsData, type, size, draggableContainerPositions, ideateComponents) {
+function getComponentsPositions(compassType, data, type, size, draggableContainerPositions, ideateComponents) {
+  const componentsData = data[type] || [];
   const waveWidth = size/2.6;
   const waveHeight = waveWidth*3;
   let centerX, centerY;
@@ -453,19 +454,14 @@ function getComponentsPositions(compassType, componentsData, type, size, draggab
     centerY = size/2;
   }
 
-  let radius, numberOfComponents;
+  const numberOfComponents = componentsData.length;
 
-  if(type === 'Principle') {
-    radius = size/6.9;
-    numberOfComponents = 7;
-  } else if(type === 'Perspective') {
-    radius = size/2.93;
-    numberOfComponents = 7;
-  } else if(type === 'Dimension') {
-    radius = size/2;
-    numberOfComponents = 10;
-  }
+  let radius;
 
+  if(type === 'Principle') radius = size/6.9;
+  else if(type === 'Perspective') radius = size/2.93;
+  else if(type === 'Dimension') radius = size/2;
+  
   const angleStep = (2 * Math.PI) / numberOfComponents;
   let startAngle
 
@@ -517,12 +513,9 @@ function getComponentsPositions(compassType, componentsData, type, size, draggab
       componentsData[i]["topTip"] = true;
       componentsData[i]["rightTip"] = true;
     } else if(compassType === "icon") {
-      componentsData.push({
-        type: type,
-        x: x ,
-        y: y,
-        angle: angle
-      });
+      componentsData[i]["x"] = x;
+      componentsData[i]["y"] = y;
+      componentsData[i]["angle"] = angle;
     }
   }
   return componentsData;

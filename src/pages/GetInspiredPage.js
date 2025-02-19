@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef, useContext } from 'react';
-import OLCompass from '../components/OLCompass.js';
+import Compass from '../components/Compass.js';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
@@ -325,7 +325,7 @@ const GetInspiredPage = () => {
   return (
     <>
       <div className={`${showMessage ? "blur-background" : ""}`}>
-        <OLCompass
+        <Compass
           mode={mode}
           position={isExplanationPage ? "center" : "left"}
           resetState={resetState} // Passing resetState to OLCompass

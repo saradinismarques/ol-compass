@@ -88,14 +88,6 @@ const Menu = () => {
             GET STARTED
           </Link>
         }
-        {(menuExpanded || activeButton === 'learn') && 
-          <Link
-            to="/learn"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn' ? 'active' : ''}`}
-          >
-            LEARN
-          </Link>
-        }
         {(menuExpanded || activeButton === 'learn2') && 
           <Link
             to="/learn2"
@@ -130,6 +122,14 @@ const Menu = () => {
         }
         {showMore && (
           <>
+            {(menuExpanded || activeButton === 'learn') && 
+              <Link
+                to="/learn"
+                className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn' ? 'active' : 'disabled'}`}
+              >
+                LEARN
+              </Link>
+            }
             {(menuExpanded || activeButton === 'contextualize') && 
               <Link
                 to="/contextualize"

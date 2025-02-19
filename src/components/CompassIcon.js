@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StateContext } from "../State.js";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
+import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponentsPositions } from "./Wave.js"
 
 const CompassIcon = ({ mode, currentType }) => {
@@ -30,12 +31,14 @@ const CompassIcon = ({ mode, currentType }) => {
     colors,
   } = useContext(StateContext);
       
-  // Dictionary with all information
-  const principles = getComponentsPositions(compassType, [], 'Principle', size);
-  const perspectives = getComponentsPositions(compassType, [], 'Perspective', size);
-  const dimensions = getComponentsPositions(compassType, [], 'Dimension', size);
-  const components = [...principles, ...perspectives, ...dimensions];
+  let componentsData = getComponentsData('default');
 
+  // Dictionary with all information
+  const principles = getComponentsPositions(compassType, componentsData, 'Principle', size);
+  const perspectives = getComponentsPositions(compassType, componentsData, 'Perspective', size);
+  const dimensions = getComponentsPositions(compassType, componentsData, 'Dimension', size);
+  const components = principles.concat(perspectives, dimensions);
+  
   // Function to determine the center 
   const getCenter = () => {
     if(mode === "ideate")
