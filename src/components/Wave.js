@@ -9,7 +9,7 @@ const svgTextPath = "m119.67,8.06c-7.54,3.59-12.67,7.32-27.44,8.01-16.45.77-25.7
 
 const bigLabels = ['P6', 'D10'];
 
-const Wave = ({ compassType, component, currentType, size, mode, selectedComponents, currentComponent, hoveredId, waveRef }) => {
+const Wave = ({ compassType, component, currentType, size, mode, selectedComponents, currentComponent, currentLinks, hoveredId, waveRef }) => {
   // Global Variables  
   const {
     colors,
@@ -77,6 +77,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Ideate
       if(mode.startsWith("ideate"))
         return "transparent";
+      else if (mode === "learn-2") {
+        if(component.type === 'Principle' && currentLinks !== null) {
+          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
+            return "url(#waveGradient)"; // Return gradient reference if conditions are met
+        }
+      }
       return colors['Wave'][component.type];
     } else if(compassType === "draggable") {
       return colors['Wave'][component.type];
@@ -159,13 +165,28 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           else
             return 0.15;
       }
-      // Learn and Learn 2.0
-      if(mode === "learn" || mode === "learn-2") {
+      // Learn 
+      if(mode === "learn") {
         if(selectedComponents.length === 0)
           return 1;
         if(selectedComponents === component.code)
           return 1;
         else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.3;
+      }
+      // Learn 2.0
+      if(mode === "learn-2") {
+        if(selectedComponents.length === 0)
+          return 1;
+        if(selectedComponents === component.code)
+          return 1;
+        if(component.type === 'Principle' && currentLinks !== null) {
+          if(currentLinks.includes(component.code) && currentComponent !== component.code)
+            return 1; // Return gradient reference if conditions are met
+        }
+        if(hoveredId === component.code) 
           return 0.8;
         else
           return 0.3;
@@ -303,6 +324,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         }}
       >
         <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
+          <defs>
+            <linearGradient id="waveGradient" gradientTransform="rotate(0)">
+              <stop offset="50%" stopColor={colors['Wave'][component.type]} stopOpacity="0.2" />
+              <stop offset="80%" stopColor={colors['Wave'][component.type]} stopOpacity="1" />
+            </linearGradient>
+          </defs>
           {/* Shape */}
           <path 
             ref={waveRef}

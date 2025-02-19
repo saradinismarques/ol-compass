@@ -207,7 +207,7 @@ const GetStartedPage = () => {
           position={afterSearch ? 'left' : 'center'}
           resetState={resetState}
           onButtonClick={handleCompassClick}
-          current={currentComponent.code}
+          currentComponent={currentComponent.code}
         />
         {isExplanationPage && 
           <Description mode={'get-started'} />

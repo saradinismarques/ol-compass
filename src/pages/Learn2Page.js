@@ -89,9 +89,17 @@ const Learn2Page = () => {
       geo = null,
       che = null,
       bio = null,
+      phy_links = null,
+      geo_links = null,
+      che_links = null,
+      bio_links = null,
       compared_paragraph = null,
       example_1 = null,
       example_2 = null,
+      py1 = null,
+      py2 = null,
+      pey1 = null,
+      pey2 = null,
     } = data;
 
     setComponent((prevComponent) => {
@@ -104,8 +112,8 @@ const Learn2Page = () => {
         slidesMaxIndex: type === 'Principle' ? 4 : 3,
         bookmark: getBookmarkState(code),
         ...(type === 'Principle'
-          ? { phy, geo, che, bio }
-          : { compared_paragraph, example_1, example_2 }),
+          ? { phy, geo, che, bio, phy_links, geo_links, che_links, bio_links }
+          : { compared_paragraph, example_1, example_2, py1, py2, pey1, pey2 }),
       };
   
       // Update the ref
@@ -133,8 +141,8 @@ const Learn2Page = () => {
     if(slideIndexRef.current === 0) return componentRef.current.paragraph;
 
     if(component.type === 'Principle') {
-      if(slideIndexRef.current === 1) return componentRef.current.phy;
-      else if(slideIndexRef.current === 2) return componentRef.current.geo;
+      if(slideIndexRef.current === 1) return componentRef.current.geo;
+      else if(slideIndexRef.current === 2) return componentRef.current.phy;
       else if(slideIndexRef.current === 3) return componentRef.current.che;
       else if(slideIndexRef.current === 4) return componentRef.current.bio;
     } else {
@@ -151,6 +159,15 @@ const Learn2Page = () => {
     else if(slideIndexRef.current === 2) return 'Ocean Physics';
     else if(slideIndexRef.current === 3) return 'Ocean Chemistry';
     else if(slideIndexRef.current === 4) return 'Ocean Biology';
+  };
+
+  const getLinks = () => {
+    if(component.type !== 'Principle' || slideIndexRef.current === 0) return null;
+
+    if(slideIndexRef.current === 1) return componentRef.current.geo_links;
+    else if(slideIndexRef.current === 2) return componentRef.current.phy_links;
+    else if(slideIndexRef.current === 3) return componentRef.current.che_links;
+    else if(slideIndexRef.current === 4) return componentRef.current.bio_links;
   };
 
   // Keyboard event handler
@@ -204,6 +221,7 @@ const Learn2Page = () => {
           <Compass
             mode="learn-2"
             position={isExplanationPage ? "center" : "left-3"}
+            currentLinks={getLinks()}
             onButtonClick={handleCompassClick}
             resetState={resetState}
           />

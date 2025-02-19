@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponentsPositions } from "./Wave.js"
 
-const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, current }) => {
+const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, currentComponent, currentLinks }) => {
   // Size and screen resize handler
   const [size, setSize] = useState(window.innerHeight/1.47);
 
@@ -46,7 +46,6 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
    
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(selected || []);
-  let currentComponent = current || null;
 
   // Tooltip
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -135,12 +134,21 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
               geo: component.geo ?? null,
               che: component.che ?? null,
               bio: component.bio ?? null,
+              phy_links: component.phy_links ?? null,
+              geo_links: component.geo_links ?? null,
+              che_links: component.che_links ?? null,
+              bio_links: component.bio_links ?? null,
+
             });
           } else {
             Object.assign(componentData, {
               compared_paragraph: component.compared_paragraph ?? null,
               example_1: component.example_1 ?? null,
               example_2: component.example_2 ?? null,
+              py1: component.py1 ?? null,
+              py2: component.py2 ?? null,
+              pey1: component.pey1 ?? null,
+              pey: component.pey2 ?? null,
             });
           }
         
@@ -374,6 +382,7 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
                   mode={mode}
                   selectedComponents={selectedComponents}
                   currentComponent={currentComponent}
+                  currentLinks={currentLinks}
                   hoveredId={hoveredId}
                   waveRef={null}
               />
@@ -391,4 +400,4 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   );
 } 
 
-export default OLCompass;
+export default Compass;

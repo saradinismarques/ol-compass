@@ -232,13 +232,13 @@ function getLinksData() {
             label: labelsMap[item["Princ-ID"]] || "", // Get label from map
             paragraph: item["Principle-def"],
             phy: item["Phy-L"],
-            phy_links: item["Phy-L_links"],
+            phy_links: item["Phy-L_links"] ? item["Phy-L_links"].split(",").map(link => link.trim()) : [], // Convert to array
             geo: item["Geo-L"],
-            geo_links: item["Geo-L_links"],
+            geo_links: item["Geo-L_links"] ? item["Geo-L_links"].split(",").map(link => link.trim()) : [], // Convert to array
             che: item["Che-L"],
-            che_links: item["Che-L_links"],
+            che_links: item["Che-L_links"] ? item["Che-L_links"].split(",").map(link => link.trim()) : [], // Convert to array
             bio: item["Bio-L"],
-            bio_links: item["Bio-L_links"],
+            bio_links: item["Bio-L_links"] ? item["Bio-L_links"].split(",").map(link => link.trim()) : [], // Convert to array
             type: getType(item["Princ-ID"])
         }));
 
@@ -246,6 +246,8 @@ function getLinksData() {
         let perspectivesData = linksPerspectives.map(item => {
             let Py1 = Object.keys(item).find(key => item[key] === "y1" && key.startsWith("P")) || "";
             let Py2 = Object.keys(item).find(key => item[key] === "y2" && key.startsWith("P")) || "";
+            let Pey1 = null;
+            let Pey2 = null;
                     
             // Return the object with the necessary fields
             return {
@@ -258,6 +260,8 @@ function getLinksData() {
                 example_2: item["Example 2"],
                 Py1,   // Single P code with "y1"
                 Py2,   // Single P code with "y2"
+                Pey1,   // Single P code with "y1"
+                Pey2,   // Single P code with "y2"
                 type: getType(item["Per-ID"])
             };
         });
