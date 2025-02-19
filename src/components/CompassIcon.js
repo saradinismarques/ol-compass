@@ -39,11 +39,13 @@ const CompassIcon = ({ mode, currentType }) => {
   // Function to determine the center 
   const getCenter = () => {
     if(mode === "ideate")
-      return { x:730 * 0.165 , y: 1536 * 0.121 };
+      return { x: 730 * 0.165 , y: 1536 * 0.121 };
     else if(mode === "get-started")
       return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
     else if(mode === "get-started-search")
       return { x: window.innerWidth * 0.105 + window.innerHeight * 0.049/2, y: window.innerHeight * 0.21 };
+    else if(mode === "learn-2")
+      return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
   };
 
   const center = getCenter();
@@ -101,7 +103,7 @@ const CompassIcon = ({ mode, currentType }) => {
               {`
                 @font-face {
                   font-family: 'Manrope';
-                  src: url(data:font/ttf;base64,${encodedFonts['Manrope-Regular']}) format('truetype');
+                  src: url(data:font/ttf;base64,${encodedFonts['Manrope-Light']}) format('truetype');
                 }
               `}
             </style>
@@ -109,7 +111,7 @@ const CompassIcon = ({ mode, currentType }) => {
               style={{
                 color: `${colors['Label'][currentType]}`,
                 fontFamily: "Manrope", // Use Manrope font
-                fontWeight: 400, // Medium weight for this text
+                fontWeight: 300, // Medium weight for this text
                 fontSize: `${mode === "ideate" ? "11px" : "1.6vh"}`,
                 textTransform: "uppercase", // Converts text to uppercase
                 letterSpacing: `${mode === "ideate" ? "2px" : "0.3vh"}`, // Increases the spacing between letters

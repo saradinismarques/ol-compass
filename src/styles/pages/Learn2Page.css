@@ -2,67 +2,47 @@
     --selection-color: #e5007e; /* Default color */
     --text-color: #ffffff; /* Default color */
     --image-color: transparent; /* Default color */
+    --line-width: 30vh; /* Default color */
 }
 
 /* Text Container */
-.l-text-container {
+.l2-text-container {
     position: fixed;
-    top: 14vh; 
-    left: 62vw;
+    top: 15vh; 
+    left: 64vw;
     color: var(--text-color); 
     z-index: 30;
-    width: 50vh;
+    width: 40vh;
 }
   
 @media (max-aspect-ratio: 16/9) {
     /* Your styles for smaller screens go here */
-    .l-text-container {
+    .l2-text-container {
         right: 9vw;
     }
 }
 
-.l-title {
-    font-size: 3vh; /* Larger size for h1 */
-    font-weight: 400;
-    text-transform: uppercase;
-    margin: 0;
-}
-
-.l-headline {
-    font-size: 4.2vh; /* Smaller size for h2 */
-    font-weight: 500;
-    width: 50vh;
-    text-transform: uppercase;
-    margin-top: 0.4vh;
-}
-  
-.l-text {
-    font-size: 2.2vh;
+.l2-text {
+    font-size: 3.5vh;
     margin-top: 3vh;
-    font-weight: 300;
+    font-weight: 400;
     overflow-y: auto; /* Hide overflow initially */
     display: block;
 }
 
-.l-text.bold {
+.l2-terms {
+    position: fixed;
+    bottom: 4vh; 
+    right: 6vw;
+    font-size: 2.5vh; /* Larger size for h1 */
     font-weight: 500;
-    display: inline;
+    text-transform: uppercase;
+    width: 10vh;
+    color: var(--text-color); 
 }
 
-.l-text button {
-    border: none;
-    background: none;
-    text-decoration: underline;
-    color: inherit;
-    cursor: pointer;
-    font: inherit;
-    padding: 0;
-    margin: 0;
-    font-weight: inherit;
-}
-  
 /* Gradient Background */
-.l-background {
+.l2-background {
     position: fixed;
     top: 0;
     left: 0;
@@ -71,41 +51,47 @@
     z-index: 20; /* Ensure this doesn't interfere with other content */
 }
 
-.l-background.gradient {
+.l2-background.gradient {
     background: linear-gradient(to right, transparent 25%, var(--wave-color) 100%);
 }
 
-/* White Line and Bookmark Button */
-.l-bookmark-container {
+/* Title, White Line and Bookmark Button */
+.l2-title-bookmark-container {
     display: flex; /* Align items in a row */
     align-items: center; /* Center them vertically */
     z-index: 30;
+    position: fixed;
+    width: 50vh; /* Ensures it always takes full width */
+    top: 9vh;
+    left: 64vw;
+    transform: translateY(-50%);
+    gap: 2vh;
 }
 
-.l-white-line {
-    position: fixed;
-    top: 9vh;
-    left: 62vw;
-    transform: translateY(-50%);
-    width: 53.5vh;
+.l2-title {
+    font-size: 3.2vh; /* Larger size for h1 */
+    font-weight: 300;
+    text-transform: uppercase;
+    margin: 0;
+    color: var(--text-color); 
+}
+
+.l2-white-line {
+    flex-grow: 1;
     height: 0.2vh;
     background-color: var(--text-color);
 }
   
 @media (max-aspect-ratio: 16/9) {
     /* Your styles for smaller screens go here */
-    .l-white-line {
+    .l2-white-line {
         right: 13vw;
         width: 42vh;
     }
 }
 
-.l-bookmark-button {
+.l2-bookmark-button {
     background-color: transparent;
-    position: fixed;
-    top: 9vh;
-    right: 9vw;
-    transform: translateY(-50%);
     border: 0.3vh solid var(--text-color);
     border-radius: 50%;
     cursor: pointer;
@@ -116,23 +102,24 @@
     height: 4.3vh; /* Set an explicit height */
     padding: 0; /* Remove padding to match the exact size */
     box-sizing: border-box; /* Includes padding and border in total size */
+    flex-shrink: 0; /* Ensures the bookmark never shrinks */
 }
   
-.l-bookmark-button:hover {
+.l2-bookmark-button:hover {
     border-color: var(--text-color); /* Change border color on hover */
     background-color:  rgba(255, 255, 255, 0.2);
 }
   
-.l-bookmark-button:active {
+.l2-bookmark-button:active {
     border-color: var(--text-color); /* Change border color on hover */
     background-color:  rgba(199, 181, 181, 0.2);
 }
 
-.l-bookmark-button.active {
+.l2-bookmark-button.active {
     background-color: var(--selection-color); /* Active state background color */
 }
   
-.l-bookmark-icon {
+.l2-bookmark-icon {
     width: 2.2vh;
     height: 2.2vh;
     fill: none; /* Set default color for the bookmark */
@@ -140,8 +127,5 @@
     stroke: var(--text-color);
     stroke-width: 0.3vh;
 }
-
-
-
 
 

@@ -32,8 +32,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   // Global Variables
   const {
     isExplanationPage,
-    ideateComponents,
-    setIdeateComponents,
   } = useContext(StateContext);
   
   // Container Position
@@ -49,7 +47,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size, [topPosition, leftPosition]);
   const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size, [topPosition, leftPosition]);
   const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size, [topPosition, leftPosition]);
-  const initialComponents = [...principles, ...perspectives, ...dimensions];
+  const initialComponents = principles.concat(perspectives, dimensions);
 
   const [components, setComponents] = useState(initialComponents);
   

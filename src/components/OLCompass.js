@@ -37,7 +37,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
   const principles = getComponentsPositions(compassType, componentsData['Principle'], 'Principle', size);
   const perspectives = getComponentsPositions(compassType, componentsData['Perspective'], 'Perspective', size);
   const dimensions = getComponentsPositions(compassType, componentsData['Dimension'], 'Dimension', size);
-  const components = [...principles, ...perspectives, ...dimensions];
+  const components = principles.concat(perspectives, dimensions);
+
   const concepts = getComponentsData('concepts');
 
   // State of clicks and hovers
@@ -121,28 +122,29 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
         setSelectedComponents(component.code);
 
         if (onButtonClick) {
-          if(component.type === 'Principle') {
-            onButtonClick(
-              component.code,
-              title,
-              component.paragraph,
-              component.type,
-              component.phy,
-              component.geo,
-              component.che,
-              component.bio,
-            );
+          const componentData = {
+            code: component.code,
+            title,
+            paragraph: component.paragraph,
+            type: component.type,
+          };
+        
+          if (component.type === 'Principle') {
+            Object.assign(componentData, {
+              phy: component.phy ?? null,
+              geo: component.geo ?? null,
+              che: component.che ?? null,
+              bio: component.bio ?? null,
+            });
           } else {
-            onButtonClick(
-              component.code,
-              title,
-              component.paragraph,
-              component.type,
-              component.compared_paragraph,
-              component.example_1,
-              component.example_2,
-            );
+            Object.assign(componentData, {
+              compared_paragraph: component.compared_paragraph ?? null,
+              example_1: component.example_1 ?? null,
+              example_2: component.example_2 ?? null,
+            });
           }
+        
+          onButtonClick(componentData);
         }
       }
     } else if(mode.startsWith("get-started")) {
@@ -293,6 +295,8 @@ const OLCompass = ({ mode, position, onButtonClick, resetState, resetCompass, se
       return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
     else if (position === "left-2") 
       return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.505 };
+    else if (position === "left-3") 
+      return { x: window.innerWidth * 0.41, y: window.innerHeight * 0.47 };
   };
 
   const center = getCenter(position);

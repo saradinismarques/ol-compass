@@ -159,8 +159,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           else
             return 0.15;
       }
-      // Learn
-      if(mode === "learn") {
+      // Learn and Learn 2.0
+      if(mode === "learn" || mode === "learn-2") {
         if(selectedComponents.length === 0)
           return 1;
         if(selectedComponents === component.code)
@@ -417,7 +417,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                 </text>
               }
               {/* Bookmark */}
-              {mode === "learn" && !isExplanationPage && savedComponents.includes(component.code) &&
+              {(mode === "learn" || mode === "learn-2") && !isExplanationPage && savedComponents.includes(component.code) &&
                 <g transform={component.type === 'Principle' ? `scale(0.5) translate(2, 10.8) rotate(24)` : `scale(0.5) translate(160, 42.5) rotate(-155.5)`} 
                 >
                   <BookmarkIcon
