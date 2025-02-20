@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import CompassDraggable from '../components/CompassDraggable.js'
 import CompassIcon from '../components/CompassIcon.js'
@@ -28,6 +29,7 @@ const IdeatePage = () => {
     const [mode, setMode] = useState('ideate');
     const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
     const [isGenerating, setIsGenerating] = useState(false);
+    const navigate = useNavigate(); // Initialize the navigate function
 
     const componentsRef = useRef(components);
     const areaRef = useRef(null); // Ref for the clickable area
@@ -36,16 +38,12 @@ const IdeatePage = () => {
         componentsRef.current = components;
     }, [components]);
 
+    document.documentElement.style.setProperty('--gray-color', colors['Gray']);
+    document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
+
     const resetState = useCallback(() => {
-        setProjectName('');
-        setStopTextareaFocus(false);
-        setComponents([]);
-        componentsRef.current = [];
-        setMode('ideate');
-        setDownloadProgress(0);
-        setIsGenerating(false);
-        setIsExplanationPage(true);
-    }, [setIsExplanationPage]);
+        navigate('/home');
+      }, [navigate]);
 
     const handleDragStop = (code, title, label, headline, type, angle, x, y, textareaX, textareaY, textareaData, arrowX1, arrowY1, arrowX2, arrowY2, textGapY2, topTip, rightTip) => {
         // Delete if receives null

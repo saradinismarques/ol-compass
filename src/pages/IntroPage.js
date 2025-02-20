@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import { getIntroTexts } from '../utils/DataExtraction.js';
 import { replaceBolds, replaceBoldsBreaksPlaceholders } from '../utils/TextFormatting.js';
+import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import '../styles/pages/IntroPage.css';
 
@@ -32,6 +33,18 @@ const IntroPage = () => {
         "[COUNTER-D]": opacityCounter['Dimension'] + 1,
     };
     
+    document.documentElement.style.setProperty('--gray-color', colors['Gray']);
+    document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
+
+    // Handlers
+    const handleNext = useCallback(() => {
+        setFrame((prevFrame) => (prevFrame + 1 <= 10 ? prevFrame + 1 : 10));
+    }, []);
+
+    const handlePrev = useCallback(() => {
+        setFrame((prevFrame) => (prevFrame - 1 >= 0 ? prevFrame - 1 : 0));
+    }, []);
+
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
@@ -54,11 +67,11 @@ const IntroPage = () => {
         const screenWidth = window.innerWidth;
 
         if (clickPositionX > screenWidth / 2) {
-            setFrame((prevFrame) => (prevFrame + 1 <= 10 ? prevFrame + 1 : 10));
+            handleNext();
         } else {
-            setFrame((prevFrame) => (prevFrame - 1 >= 0 ? prevFrame - 1 : 0));
+            handlePrev();
         }
-    }, []);
+    }, [handleNext, handlePrev]);
 
     useEffect(() => {   
         const isComplete =
@@ -192,13 +205,40 @@ const IntroPage = () => {
         } 
     };
 
+    const toggleSkipButton = () => {
+        setFrame(10);
+    };
+
     return (
         <div>
             <Compass 
                 mode={mode} 
                 position="center"
             /> 
-            {getDisplayText()}    
+            {getDisplayText()} 
+            <button
+                className={'i-skip-button'}
+                onClick={toggleSkipButton}
+            >
+                skip
+            </button>  
+
+            {frame !== 0 &&
+                <button 
+                    className={'i-arrow-button left'} 
+                    onClick={handlePrev}
+                >
+                    <ArrowIcon className="i-arrow-icon" />
+                </button> 
+            }
+            
+            {frame !== 10 &&
+                <button 
+                    className={'i-arrow-button right'} 
+                    onClick={handleNext}>
+                    <ArrowIcon className="i-arrow-icon" />
+                </button> 
+            }
         </div>
     );
 };

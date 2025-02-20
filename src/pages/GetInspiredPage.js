@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
@@ -46,6 +47,7 @@ const GetInspiredPage = () => {
   const [currentComponents, setCurrentComponents] = useState();
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const carouselModeRef = useRef(carouselMode);
   const searchLogicRef = useRef(searchLogic);
@@ -70,26 +72,13 @@ const GetInspiredPage = () => {
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
+  document.documentElement.style.setProperty('--bookmark-cs-color', colors['CSBookmark']);
+  document.documentElement.style.setProperty('--bookmark-cs-hover-color', colors['CSBookmark Hover']);
 
   const resetState = useCallback(() => {
-    setCurrentCaseStudy(initialCaseStudy);
-    setCaseStudies([]);
-    setCurrentIndex(0);
-    setCarouselMode(true);
-    carouselModeRef.current = true;
-    setMode('get-inspired');
-    setResultsNumber(-1);
-    setSearchLogic('AND');
-    searchLogicRef.current = 'AND';
-    setComponents([]);
-    componentsRef.current = [];
-    setCurrentComponents();
-    setFirstClick(true);
-    setShowMessage(false);
-    showMessageRef.current = false;
-    setIsExplanationPage(true);
-  }, [initialCaseStudy, setIsExplanationPage]);
-
+      navigate('/home');
+  }, [navigate]);
+  
   // State to store window height
   //const [height, setHeight] = useState(window.innerHeight);
 
@@ -330,7 +319,7 @@ const GetInspiredPage = () => {
           position={isExplanationPage ? "center" : "left"}
           resetState={resetState} // Passing resetState to OLCompass
           onButtonClick={handleCompassClick}
-          current={currentComponents}
+          currentComponent={currentComponents}
         />
         {isExplanationPage && 
           <Description mode={'get-inspired'} />
@@ -415,13 +404,13 @@ const GetInspiredPage = () => {
                       className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
                       onClick={() => handleSearchLogicChange("AND")}
                     >
-                      AND
+                      ALL
                     </button>
                     <button
                       className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
                       onClick={() => handleSearchLogicChange("OR")}
                     >
-                      OR
+                      AT LEAST ONE
                     </button>
                   </div>
                 </div>

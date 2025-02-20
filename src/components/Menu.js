@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as GoBackIcon } from '../assets/icons/go-back-icon.svg'; // Adjust the path as necessary
@@ -6,24 +6,29 @@ import { StateContext } from "../State";
 import '../styles/components/Menu.css';
 
 const Menu = () => {
-  const {isExplanationPage} = useContext(StateContext);
+  const {
+    colors,
+    isExplanationPage
+  } = useContext(StateContext);
 
   const location = useLocation();
   const currentPath = location.pathname;
   // Load the initial state from localStorage or set default to false
-  const [showMore, setShowMore] = useState(() => {
-    const storedShowMore = localStorage.getItem('showMore');
-    return storedShowMore === 'true'; // Convert string to boolean
-  });
+  // const [showMore, setShowMore] = useState(() => {
+  //   const storedShowMore = localStorage.getItem('showMore');
+  //   return storedShowMore === 'true'; // Convert string to boolean
+  // });
 
   // Update localStorage whenever showMore changes
-  useEffect(() => {
-    localStorage.setItem('showMore', showMore.toString());
-  }, [showMore]);
+  // useEffect(() => {
+  //   localStorage.setItem('showMore', showMore.toString());
+  // }, [showMore]);
 
-  const toggleShowMore = () => {
-    setShowMore(!showMore);
-  };
+  // const toggleShowMore = () => {
+  //   setShowMore(!showMore);
+  // };
+
+  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
 
   // Determine the active button based on the current path
   const getActiveButton = (path) => {
@@ -80,20 +85,12 @@ const Menu = () => {
         {menuExpanded && 
           <p className='i-want-to-text'>I want to</p>
         }
-        {(menuExpanded || activeButton === 'get-started') && 
-          <Link
-            to="/get-started"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'get-started' ? 'active' : ''}`}
-          >
-            GET STARTED
-          </Link>
-        }
         {(menuExpanded || activeButton === 'learn2') && 
           <Link
             to="/learn2"
             className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn2' ? 'active' : ''}`}
           >
-            LEARN 2.0
+            LEARN
           </Link>
         }
         {(menuExpanded || activeButton === 'get-inspired') && 
@@ -102,14 +99,6 @@ const Menu = () => {
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
           >
             GET INSPIRED
-          </Link>
-        }
-        {(menuExpanded || activeButton === 'contribute') && 
-          <Link
-            to="/contribute"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contribute' ? 'active' : ''}`}
-          >
-            CONTRIBUTE
           </Link>
         }
         {(menuExpanded || activeButton === 'ideate') && 
@@ -122,6 +111,22 @@ const Menu = () => {
         }
         {/* {showMore && (
           <>
+            {(menuExpanded || activeButton === 'get-started') && 
+            <Link
+              to="/get-started"
+              className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'get-started' ? 'active' : ''}`}
+            >
+              GET STARTED
+            </Link>
+          }
+            {(menuExpanded || activeButton === 'contribute') && 
+          <Link
+            to="/contribute"
+            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'contribute' ? 'active' : ''}`}
+          >
+            CONTRIBUTE
+          </Link>
+        }
             {(menuExpanded || activeButton === 'learn') && 
               <Link
                 to="/learn"

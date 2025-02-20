@@ -1,5 +1,7 @@
 :root {
     --intro-text-color: #000000; /* Default color */
+    --gray-color: #000000; /* Default color */
+    --gray-hover-color: #000000; /* Default color */
 }
 
 /* Title (Frame 00) */
@@ -77,4 +79,61 @@
     font-weight: 500;
     white-space: nowrap;
     color: var(--intro-text-color);
+}
+
+/* Skip button */
+.i-skip-button {
+    position: fixed;
+    top: 6vh;
+    right: 5vw;
+    font-family: 'Manrope', sans-serif;
+    font-size: 2vh;
+    font-weight: 200;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: var(--gray-color);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+    text-decoration: underline;
+}
+
+.i-skip-button:hover, .i-skip-button:active {
+    color: var(--gray-hover-color);
+}
+
+/* Arrow Icon */
+.i-arrow-button {
+    position: fixed;
+    background-color: transparent;
+    border: 0.3vh solid transparent; /* Set initial border to transparent */
+    cursor: pointer;
+    display: flex;
+    align-items: center; 
+    outline: none; /* Removes the focus outline */
+    top: 47vh;
+    transform: translateY(-50%);
+}
+
+.i-arrow-button.left {
+    left: 5vw;
+    transform: scale(-1); /* Rotate the arrow for left button */
+}
+
+.i-arrow-button.right {
+    right: 5vw;
+    transform: scale(1); /* Rotate the arrow for left button */
+}
+
+.i-arrow-button:hover .i-arrow-icon,
+.i-arrow-button:active .i-arrow-icon {
+    fill: var(--gray-hover-color); /* Change fill color on hover */
+}
+
+.i-arrow-icon {
+    width: 2.5vh;
+    height: 2.5vh;
+    fill: var(--gray-color); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: var(--gray-color);
+    stroke-width: 0;
 }

@@ -74,17 +74,15 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
 
   const getWaveFill = () => {
     if(compassType === "default") {
-      // Ideate
-      if(mode.startsWith("ideate"))
-        return "transparent";
       // Learn 2.0
-      else if (mode === "learn-2") {
-        if(currentLinks !== null) {
+      if (mode === "learn-2" && currentLinks !== null) {
           if(getType(selectedComponents) === 'Principle')
             if(currentLinks.includes(component.code) && selectedComponents !== component.code)
               return "url(#waveGradient)"; // Return gradient reference if conditions are met
-        }
-      }
+      } 
+      // Ideate
+      if(mode.startsWith("ideate"))
+        return "transparent";
       return colors['Wave'][component.type];
     } else if(compassType === "draggable") {
       return colors['Wave'][component.type];
@@ -110,13 +108,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
   const getStrokeFill = () => {
     if(compassType === "default") {
-      // Get Started
-      if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
-        if(selectedComponents.includes(component.code)) 
-          return colors['Selection'];
-      // Ideate
-      if(mode.startsWith("ideate"))
-        return colors['Wave'][component.type];
       // Learn 2.0
       if (mode === "learn-2" && currentLinks !== null) {
         if(getType(selectedComponents) !== 'Principle' && component.type === getType(selectedComponents)) { // For the unlike, only of the same type
@@ -124,9 +115,16 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return colors['Wave'][component.type]; // Return gradient reference if conditions are met
         } else if(getType(selectedComponents) !== 'Principle' && component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
           if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return colors['Wave'][component.type]; // Return gradient reference if conditions are met
+            return '#000000'; // Return gradient reference if conditions are met
         }
       }
+      // Get Started
+      if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
+        if(selectedComponents.includes(component.code)) 
+          return colors['Selection'];
+      // Ideate
+      if(mode.startsWith("ideate"))
+        return colors['Wave'][component.type];
       return 'none';
     } else if(compassType === "draggable" || compassType === "icon") {
       return 'none';
@@ -135,17 +133,19 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
   const getStrokeWidth = () => {
     if(compassType === "default") {
-      if(mode.startsWith("ideate"))
-        return "0.5px";
-      else if(mode === "learn-2" && currentLinks !== null) {
+      // Learn 2.0
+      if(mode === "learn-2" && currentLinks !== null) {
         if(getType(selectedComponents) !== 'Principle' && component.type === getType(selectedComponents)) { // For the unlike, only of the same type
           if(currentLinks.includes(component.code) && selectedComponents !== component.code)
             return "1px"; // Return gradient reference if conditions are met
         } else if(getType(selectedComponents) !== 'Principle' && component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
           if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return "2px"; // Return gradient reference if conditions are met
+            return "1px"; // Return gradient reference if conditions are met
         }
-      }
+      }    
+      // Ideate
+      if(mode.startsWith("ideate"))
+        return "0.5px";
       return "1.5px";
     } 
   };
@@ -206,7 +206,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         if(getType(selectedComponents) === 'Principle' && currentLinks !== null){
           if(currentLinks.includes(component.code) && currentComponent !== component.code)
             return 1; // Return gradient reference if conditions are met
-        }if(hoveredId === component.code) 
+        } if(hoveredId === component.code) 
           return 0.8;
         else
           return 0.3;
@@ -256,6 +256,133 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         if (hoveredId === component.code) 
             return 0.8;
         return 0.3;
+      }
+      // Ideate    
+      if(mode === "ideate") 
+          return 1;
+    } else if(compassType === "draggable") {
+      // Ideate    
+      if(currentType === 'All' || !currentType) 
+        return 1;
+      else if(component.type === currentType)
+        return 1;
+      else
+        return 0.3;
+    } else if(compassType === "icon") {
+      if(currentType === null)
+        return 1;
+      if(component.type === currentType)
+        return 0.9;
+      return 0.3;
+    } 
+  };
+
+  const getTextOpacity = () => {
+    if(compassType === "default") {
+      // Intro
+      if (mode === "intro-0")
+        return 0.3;
+      else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
+        return 0.15;
+      else if (mode === "intro-4" || mode === "intro-5") {
+        if(component.type === "Principle") 
+          if(allComponents.indexOf(component.code) <= opacityCounter['Principle'])
+            return 1;
+          else
+            return 0.15;
+        else 
+          return 0.15;
+      } else if (mode === "intro-6" || mode === "intro-7") {
+        if(component.type === "Principle")
+          return 0.55;
+        else if(component.type === "Perspective")
+          if(allComponents.indexOf(component.code) <= opacityCounter['Perspective']+7)
+            return 1;
+          else
+            return 0.15;
+        else
+          return 0.15;
+      } else if (mode === "intro-8" || mode === "intro-9") {
+        if(component.type === "Principle")
+          return 0.55;
+        else if(component.type === "Perspective")
+          return 0.55;
+        else 
+          if(allComponents.indexOf(component.code) <= opacityCounter['Dimension']+14)
+            return 1;
+          else
+            return 0.15;
+      }
+      // Learn 
+      if(mode === "learn") {
+        if(selectedComponents.length === 0)
+          return 1;
+        if(selectedComponents === component.code)
+          return 1;
+        else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.8;
+      }
+      // Learn 2.0
+      if(mode === "learn-2") {
+        if(selectedComponents.length === 0)
+          return 1;
+        if(selectedComponents === component.code)
+          return 1;
+        if(getType(selectedComponents) === 'Principle' && currentLinks !== null){
+          if(currentLinks.includes(component.code) && currentComponent !== component.code)
+            return 1; // Return gradient reference if conditions are met
+        } if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.5;
+      }
+      // Get Started
+      if(mode.startsWith("get-started-search")) {
+        if(currentComponent === component.code)
+          return 1;
+        else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.2;
+      } else if(mode.startsWith("get-started")) {
+        if(selectedComponents.length === 0) 
+          return 1;
+        if (selectedComponents.includes(component.code)) 
+          return 1;
+        if (hoveredId === component.code) 
+            return 0.8;
+        return 0.3;
+      }
+    
+      // Get Inspired
+      if(mode === "get-inspired") {
+        if(selectedComponents.length === 0) 
+          return 1;
+        if (selectedComponents.includes(component.code)) 
+          return 1;
+        if (hoveredId === component.code) 
+            return 0.8;
+        return 0.5;
+      }
+      if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
+        if(currentComponent.includes(component.code))
+          return 1;
+        else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.5;
+      }
+      // Contribute
+      if(mode === "contribute") {
+        if(selectedComponents.length === 0) 
+          return 1;
+        if (selectedComponents.includes(component.code)) 
+          return 1;
+        if (hoveredId === component.code) 
+            return 0.8;
+        return 0.8;
       }
       // Ideate    
       if(mode === "ideate") 
@@ -425,7 +552,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                 fontFamily='Manrope'
                 fontWeight={500}
                 fontSize="0.35em"
-                opacity={getWaveOpacity()} // Change opacity on hover
+                opacity={getTextOpacity()} // Change opacity on hover
                 transform={isFlipped() 
                   ? (component.type === 'Principle' 
                       ? `rotate(180) translate(-84, -10.5) scale(1, -1)`  // Flipped and 'Principle' type
@@ -459,7 +586,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                   fontFamily='Manrope'
                   fontWeight={500}
                   fontSize="0.35em"
-                  opacity={getWaveOpacity()} // Change opacity on hover
+                  opacity={getTextOpacity()} // Change opacity on hover
                   transform={isFlipped() 
                     ? (component.type === 'Principle' 
                         ? `rotate(180) translate(-84, -10.5) scale(1, -1)`  // Flipped and 'Principle' type
@@ -490,12 +617,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                 </text>
               }
               {/* Bookmark */}
-              {(mode === "learn" || mode === "learn-2") && !isExplanationPage && savedComponents.includes(component.code) &&
+              {!isExplanationPage && savedComponents.includes(component.code) &&
                 <g transform={component.type === 'Principle' ? `scale(0.5) translate(2, 10.8) rotate(24)` : `scale(0.5) translate(160, 42.5) rotate(-155.5)`} 
                 >
                   <BookmarkIcon
                     style={{
-                      fill: colors['Selection'],
+                      fill: colors['CBookmark'],
                       stroke: 'none'
                     }}
                 />

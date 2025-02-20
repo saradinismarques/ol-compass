@@ -1,5 +1,6 @@
 :root {
     --selection-color: #e5007e; /* Default color */
+    --gray-color: #e5007e; /* Default color */
 }
 
 /* Description Container */
@@ -29,7 +30,7 @@
     font-size: 2.5vh;
     line-height: 1.3;
     font-weight: 400;
-    color: rgb(151, 151, 150); 
+    color: var(--gray-color); 
     overflow-y: hidden; /* Hide overflow initially */
 }
 

@@ -230,7 +230,10 @@ const GetStartedPage = () => {
                   <h1 className="gs-title">{currentComponent.title}</h1>
                   <h2 className='gs-headline'>{formatWithLineBreaks(currentComponent.headline)}</h2>
 
-                  <button className={'gs-arrow-button down'} onClick={handleNext}>
+                  <button 
+                    className={'gs-arrow-button down'} 
+                    onClick={handleNext}
+                  >
                     <ArrowIcon className="gs-arrow-icon" />
                   </button>
                 </div>

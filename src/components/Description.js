@@ -24,6 +24,7 @@ const Description = ({ mode }) => {
   };
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
+  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
 
   return (
     <div className='description-container'>

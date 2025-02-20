@@ -1,6 +1,8 @@
 :root {
     --selection-color: #e5007e; /* Default color */
     --selection-hover-color: #841321; /* Default color */
+    --bookmark-cs-color: #e5007e; /* Default color */
+    --bookmark-cs-hover-color: #841321; /* Default color */
 }
 
 /* Text Container */
@@ -108,6 +110,7 @@
     height: 4.3vh; /* Set an explicit height */
     padding: 0;
     box-sizing: border-box;
+    outline: none;
 }
  
 .gi-bookmark-button:hover,
@@ -117,8 +120,13 @@
 }
 
 .gi-bookmark-button.active {
-    background-color: var(--selection-color); /* Active state background color */
+    background-color: var(--bookmark-cs-color); /* Active state background color */
     color: white; /* Active state text color */
+}
+
+.gi-bookmark-button.active:hover,
+.gi-bookmark-button.active:active {
+    background-color: var(--bookmark-cs-hover-color); /* Active state background color */
 }
  
 .gi-bookmark-icon {
@@ -127,7 +135,7 @@
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: white;
-    stroke-width: 0.3vh;
+    stroke-width: 0.2vh;
 }
 
 /* Arrow Buttons  */
@@ -200,7 +208,7 @@
     position: fixed;
     left: 35vw;
     transform: translateX(-50%);
-    width: 27.5vh;
+    width: 30vh;
     height: 4.4vh;
     display: flex;
     align-items: center;
@@ -232,20 +240,21 @@
     margin-left: -0.2vh;
     gap: 0.6vh;
     z-index: 20; /* Ensure it’s on top */
+    width: 18vh;
 }
 
 .gi-logic-button {
     border: none;
     background-color: #bcbcbc;
-    padding: 0.4vh;
+    padding: 0.4vh 0.8vh;
     border-radius: 50px;
-    width: 7.8vh;
     cursor: pointer;
     color: #7a7a79;
     font-family: 'Manrope', sans-serif;
     font-weight: 600;
     font-size: 1.7vh;
     outline: none;
+    width: auto;
 }
 
 .gi-logic-button:hover,
@@ -259,10 +268,10 @@
 
 .gi-search-button {
     position: relative;
-    left: -7%;
+    left: -9%;
     color: white;
     border: none;
-    padding: 1vh 2.5vh 0.9vh 0; /* Adjusted left padding */;
+    padding: 1vh 2.7vh 0.9vh 0; /* Adjusted left padding */;
     cursor: pointer;
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
@@ -270,7 +279,7 @@
     background-color: var(--selection-color);
     border-radius: 0 50px 50px 0; /* Rounded on the right side */
     z-index: 10;
-    text-indent: 3.5vh; /* Move text 10px to the right */
+    text-indent: 4.7vh; /* Move text 10px to the right */
     outline: none;
 }
 

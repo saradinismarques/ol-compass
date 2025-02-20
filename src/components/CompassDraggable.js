@@ -31,6 +31,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
 
   // Global Variables
   const {
+    colors,
     isExplanationPage,
   } = useContext(StateContext);
   
@@ -65,7 +66,16 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   const textareaRefs = useRef({}); // Store refs dynamically for all textareas
   const waveRefs = useRef({});   // Store refs dynamically for all circles
   const compassRef = useRef({});
+  // const hoveredIdRef = useRef(null);
 
+  //  // Tooltip
+  // const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  // const [tooltipVisible, setTooltipVisible] = useState(false);
+  // const [tooltipText, setTooltipText] = useState('');
+  
+  // // Declare a timeout variable to store the reference to the timeout
+  // let tooltipTimeout = null;
+  
   useEffect(() => {
     selectedComponentsRef.current = selectedComponents;
   }, [selectedComponents]);
@@ -107,6 +117,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
 
       return updatedComponents;
     });
+    activeIdRef.current = id;
   };
 
   const handleDragStop = (id, data) => {
@@ -176,7 +187,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     if (onDragStop) 
       sendNewData(id, data.x, data.y, positions.textareaX, positions.textareaY, components[id].textareaData, positions.arrowX1, positions.arrowY1, positions.arrowX2, positions.arrowY2, components[id].textGapY2, positions.topTip, positions.rightTip)
 
-    activeIdRef.current = id;
+    // activeIdRef.current = id;
   };
 
   const handleTextareaDragStop = (id, data) => {
@@ -200,6 +211,32 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     if (onDragStop) 
       sendNewData(id, components[id].x, components[id].y, positions.textareaX, positions.textareaY, components[id].textareaData, positions.arrowX1, positions.arrowY1, positions.arrowX2, positions.arrowY2, components[id].textGapY2, positions.topTip, positions.rightTip)
   };
+
+  // const handleMouseEnter = (e, component) => {
+  //   if(component.type === "Principle") {
+  //     // Clear any existing timeout to avoid overlaps
+  //     clearTimeout(tooltipTimeout);
+
+  //     // Set a timeout to delay the appearance of the tooltip by 1 second
+  //     tooltipTimeout = setTimeout(() => {
+  //       if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
+  //         setTooltipPos({ x: e.clientX, y: e.clientY });
+  //         let cleanedText = component.tooltip.replace('<br>', '');
+  //         setTooltipText(cleanedText);
+  //         setTooltipVisible(true);
+  //       }
+  //     }, 500); // 1-second delay
+  //   }
+  // };
+
+  // const handleMouseLeave = () => {
+  //   // Clear the tooltip timeout to prevent it from showing if mouse leaves
+  //   clearTimeout(tooltipTimeout);
+
+  //   // Set the cancellation flag to prevent tooltip from showing
+  //   setTooltipVisible(false);
+  //   setTooltipText(""); // Clear the tooltip text
+  // };
 
   // Memoize handleKeyDown to avoid creating a new reference on each render
   const handleKeyDown = useCallback((e) => {
@@ -362,7 +399,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     width: window.innerWidth/2.2,
     height: window.innerHeight/1.5,
     backgroundColor: 'transparent',
-    border: pdfComponents || isExplanationPage ? '0.3vh solid transparent' : '0.3vh solid #cacbcb',
+    border: (pdfComponents || isExplanationPage) ? '0.3vh solid transparent' : `0.3vh solid ${colors['Gray']}`,
     borderRadius: '1.5vh'
   };
   

@@ -56,12 +56,14 @@ export function getColorPallete(version) {
 
         colors.Selection = versionData["Selection"];
         colors["Selection Hover"] = versionData["Selection [Hover]"];
-        colors["Selection Method"] = versionData["Selection Method"];
-        
-        colors.Opacity.Max = versionData["Opacity [Max]"];
-        colors.Opacity.Hover = versionData["Opacity [Hover]"];
-        colors.Opacity.Intro = versionData["Opacity [Intro]"];
-        colors.Opacity["Not Selected"] = versionData["Opacity [Not Selected]"];
+
+        colors["CBookmark"] = versionData["Bookmark Component"];
+        colors["CBookmark Hover"] = versionData["Bookmark Component [Hover]"];
+        colors["CSBookmark"] = versionData["Bookmark CaseStudies"];
+        colors["CSBookmark Hover"] = versionData["Bookmark CaseStudies [Hover]"];
+        colors["Gray"] = versionData["Gray Text"];
+        colors["Gray Hover"] = versionData["Gray Text [Hover]"];
+
 
         // Return the colors for the specific version
         return colors;

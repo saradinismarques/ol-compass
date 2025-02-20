@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo, useContext, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon';
 import Menu from '../components/Menu';
@@ -31,6 +32,7 @@ const Learn2Page = () => {
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [slideIndex, setSlideIndex] = useState(0);
+  const navigate = useNavigate(); // Initialize the navigate function
   
   const componentRef = useRef(component);
   const slideIndexRef = useRef(slideIndex);
@@ -49,20 +51,14 @@ const Learn2Page = () => {
     showMessageRef.current = showMessage;
   }, [showMessage]);
 
-  document.documentElement.style.setProperty('--selection-color', colors['Selection']);
+  document.documentElement.style.setProperty('--component-bookmark-color', colors['CBookmark']);
+  document.documentElement.style.setProperty('--component-bookmark-hover-color', colors['CBookmark Hover']);
   document.documentElement.style.setProperty('--text-color', colors['Text'][component.type]);
   document.documentElement.style.setProperty('--image-color', colors['Wave'][component.type]);
 
   const resetState = useCallback(() => {
-    setComponent(initialComponent);
-    componentRef.current = initialComponent;
-    setFirstClick(true);
-    setShowMessage(false);
-    showMessageRef.current = false;
-    setIsExplanationPage(true);
-    setSlideIndex(0);
-    slideIndexRef.current = 0;
-  }, [initialComponent, setIsExplanationPage]);
+    navigate('/home');
+  }, [navigate]);
 
   const getBookmarkState = useCallback((code) => {
     return savedComponents.length !== 0 && savedComponents.includes(code);

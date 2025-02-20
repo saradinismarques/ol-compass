@@ -1,5 +1,6 @@
 :root {
-    --selection-color: #e5007e; /* Default color */
+    --component-bookmark-color: #e5007e; /* Default color */
+    --component-bookmark-hover-color: #e5007e; /* Default color */
     --text-color: #ffffff; /* Default color */
     --image-color: transparent; /* Default color */
 }
@@ -104,18 +105,19 @@
     flex-shrink: 0; /* Ensures the bookmark never shrinks */
 }
   
-.l2-bookmark-button:hover {
+.l2-bookmark-button:hover,
+.l2-bookmark-button:active {
     border-color: var(--text-color); /* Change border color on hover */
     background-color:  rgba(255, 255, 255, 0.2);
 }
   
-.l2-bookmark-button:active {
-    border-color: var(--text-color); /* Change border color on hover */
-    background-color:  rgba(199, 181, 181, 0.2);
+.l2-bookmark-button.active {
+    background-color: var(--component-bookmark-color); /* Active state background color */
 }
 
-.l2-bookmark-button.active {
-    background-color: var(--selection-color); /* Active state background color */
+.l2-bookmark-button.active:hover,
+.l2-bookmark-button.active:active {
+    background-color: var(--component-bookmark-hover-color); /* Active state background color */
 }
   
 .l2-bookmark-icon {
@@ -124,7 +126,7 @@
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--text-color);
-    stroke-width: 0.3vh;
+    stroke-width: 0.2vh;
 }
 
 

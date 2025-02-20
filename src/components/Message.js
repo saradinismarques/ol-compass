@@ -9,6 +9,7 @@ import { replacePlaceholdersWithIcons } from '../utils/TextFormatting.js';
 import '../styles/components/Message.css';
 
 const Message = ({ mode, type, showMessage, messageStateChange }) => {
+  const {colors} = useContext(StateContext);
   const { firstMessage, setFirstMessage } = useContext(StateContext);
   const message = getModeTexts(mode).Message;
 
@@ -23,6 +24,9 @@ const Message = ({ mode, type, showMessage, messageStateChange }) => {
     "[ARROW-I]": <ArrowIcon className="message-icon" />,
     "[BOOKMARK-I]": <BookmarkIcon className="message-icon" />,
   };
+
+  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
+  document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
 
   const handleShowMessage = () => {
     if (messageStateChange) {
