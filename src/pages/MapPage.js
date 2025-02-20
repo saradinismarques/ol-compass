@@ -10,12 +10,12 @@ import jsPDF from "jspdf";
 import { PDFDocument } from "pdf-lib"; // For merging PDFs
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { State, StateContext } from "../State.js";
-import coverImage from '../assets/images/ideate/PDF-cover-background.png';
-import indexImage from '../assets/images/ideate/PDF-index.png';
+import coverImage from '../assets/images/map/PDF-cover-background.png';
+import indexImage from '../assets/images/map/PDF-index.png';
 import { createRoot } from 'react-dom/client';
-import '../styles/pages/IdeatePage.css';
+import '../styles/pages/MapPage.css';
 
-const IdeatePage = () => {
+const MapPage = () => {
     const {
         colors,
         isExplanationPage,
@@ -26,7 +26,6 @@ const IdeatePage = () => {
     const [projectName, setProjectName] = useState('');
     const [stopTextareaFocus, setStopTextareaFocus] = useState(false);
     const [components, setComponents] = useState([]);
-    const [mode, setMode] = useState('ideate');
     const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
     const [isGenerating, setIsGenerating] = useState(false);
     const navigate = useNavigate(); // Initialize the navigate function
@@ -135,6 +134,7 @@ const IdeatePage = () => {
     
     // PDF Generation Functions
     const handleDownloadPDF = async () => {
+        console.log(componentsRef.current);
         setStopTextareaFocus(true);
         const pageWidth = 297; // mm
         const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
@@ -319,7 +319,7 @@ const IdeatePage = () => {
             <State>
                 <CompassDraggable 
                     className='i-ol-compass'
-                    mode='ideate'
+                    mode='map'
                     currentType={type}
                     pdfComponents={componentsRef.current}
                 /> 
@@ -337,7 +337,7 @@ const IdeatePage = () => {
         await renderToCanvas(
             <State>
                 <CompassIcon 
-                    mode="ideate" 
+                    mode="map" 
                     currentType={type} />
             </State>,
             pdf, 11, 6, 'auto', 1.1
@@ -445,21 +445,21 @@ const IdeatePage = () => {
     return (
         <>
             <Compass 
-                mode={mode}
+                mode={"map"}
                 position={isExplanationPage ? "center-2" : "left-2"}
                 resetState={resetState}
             /> 
 
             {isExplanationPage && 
                 <>
-                    <Description mode="ideate" />
+                    <Description mode="map" />
                     <div ref={areaRef} className='i-mouse-click-area'></div>
                 </>
             }
         
             <div className='i-ol-compass'>
                 <CompassDraggable 
-                    mode={mode}
+                    mode={"map"}
                     resetState={resetState}
                     onDragStop={handleDragStop}
                     stopTextareaFocus={stopTextareaFocus}
@@ -517,4 +517,4 @@ const IdeatePage = () => {
     );
 };
 
-export default IdeatePage;
+export default MapPage;

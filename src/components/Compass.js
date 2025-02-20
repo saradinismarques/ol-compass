@@ -72,7 +72,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
 
   // Handlers
   const handleClick = (component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode === "ideate") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode === "map") 
       return;
     
     if (mode === "learn") {
@@ -195,7 +195,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   };
   
   const handleMouseEnter = (e, component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "ideate") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "map") 
       return;
 
     setHoveredId(component.code);

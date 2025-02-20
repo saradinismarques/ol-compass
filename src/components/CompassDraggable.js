@@ -43,14 +43,14 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   document.documentElement.style.setProperty('--left-position', `${leftPosition}px`);
   
   // Dictionary with all information
-  let componentsData = getComponentsData('default');
+  let componentsData = getComponentsData('get-started');
 
   const principles = getComponentsPositions(compassType, componentsData, 'Principle', size, [topPosition, leftPosition]);
   const perspectives = getComponentsPositions(compassType, componentsData, 'Perspective', size, [topPosition, leftPosition]);
   const dimensions = getComponentsPositions(compassType, componentsData, 'Dimension', size, [topPosition, leftPosition]);
   const initialComponents = principles.concat(perspectives, dimensions);
 
-  const [components, setComponents] = useState(initialComponents);
+  const [components, setComponents] = useState(pdfComponents || initialComponents);
   
   let pdfSelectedComponents;
   if(pdfComponents)
@@ -151,7 +151,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
           onDragStop(
             components[id].code,
             null
-          ); // send null code to Ideate to remove it there too
+          ); // send null code to Map to remove it there too
         
         activeIdRef.current = null;
 

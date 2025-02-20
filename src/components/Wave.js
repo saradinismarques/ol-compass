@@ -27,8 +27,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     if(compassType === "icon")
       return 'default';
     else if(mode.startsWith("intro") || mode === "default" 
-    || (compassType === "default" && mode.startsWith("ideate"))
-    || (mode.startsWith("ideate") && isExplanationPage) ||
+    || (compassType === "default" && mode === "map")
+    || (mode === "map" && isExplanationPage) ||
     compassType === "icon")
       return 'default';
     return 'pointer';
@@ -58,7 +58,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     }
   } else if(compassType === "icon") {
     let gapX, gapY;
-    if(mode.startsWith("ideate")) {
+    if(mode === "map") {
       gapX = 54;
       gapY = 53;
     } else {
@@ -80,8 +80,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             if(currentLinks.includes(component.code) && selectedComponents !== component.code)
               return "url(#waveGradient)"; // Return gradient reference if conditions are met
       } 
-      // Ideate
-      if(mode.startsWith("ideate"))
+      // Map
+      if(mode === "map")
         return "transparent";
       return colors['Wave'][component.type];
     } else if(compassType === "draggable") {
@@ -97,8 +97,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
   const getTextFill = () => {
     if(compassType === "default") {
-      // Ideate
-      if(mode.startsWith("ideate")) 
+      // Map
+      if(mode === "map")
         return colors['Wave'][component.type];
       return colors['Label'][component.type];
     } else if(compassType === "draggable") {
@@ -122,8 +122,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
         if(selectedComponents.includes(component.code)) 
           return colors['Selection'];
-      // Ideate
-      if(mode.startsWith("ideate"))
+      // Map
+      if(mode === "map")
         return colors['Wave'][component.type];
       return 'none';
     } else if(compassType === "draggable" || compassType === "icon") {
@@ -143,8 +143,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return "1px"; // Return gradient reference if conditions are met
         }
       }    
-      // Ideate
-      if(mode.startsWith("ideate"))
+      // Map
+      if(mode === "map")
         return "0.5px";
       return "1.5px";
     } 
@@ -257,11 +257,11 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return 0.8;
         return 0.3;
       }
-      // Ideate    
-      if(mode === "ideate") 
+      // Map    
+      if(mode === "map") 
           return 1;
     } else if(compassType === "draggable") {
-      // Ideate    
+      // Map    
       if(currentType === 'All' || !currentType) 
         return 1;
       else if(component.type === currentType)
@@ -384,11 +384,11 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return 0.8;
         return 0.8;
       }
-      // Ideate    
-      if(mode === "ideate") 
+      // Map    
+      if(mode === "map") 
           return 1;
     } else if(compassType === "draggable") {
-      // Ideate    
+      // Map    
       if(currentType === 'All' || !currentType) 
         return 1;
       else if(component.type === currentType)
@@ -636,7 +636,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   );
 };
 
-function getComponentsPositions(compassType, data, type, size, draggableContainerPositions, ideateComponents) {
+function getComponentsPositions(compassType, data, type, size, draggableContainerPositions) {
   const componentsData = data[type] || [];
   const waveWidth = size/2.6;
   const waveHeight = waveWidth*3;

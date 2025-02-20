@@ -28,7 +28,7 @@
     "#?message?": "Fill the form with information about your OL content/initiative, select all the Principles/Perspectives/Dimensions it addresses and press 'Enter' to save it.\n\nOk, got it!"
   },
   {
-    "#MODE-LABEL": "IDEATE",
+    "#MODE-LABEL": "MAP",
     "#headline": "Lorem ipsum dolor sit amet",
     "#text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     "#start-prompt": "Press 'Enter' or click anywhere to start the analysis.",

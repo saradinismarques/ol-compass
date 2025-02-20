@@ -6,7 +6,7 @@ import LearnPage from './pages/LearnPage';
 import Learn2Page from './pages/Learn2Page';
 import GetStartedPage from './pages/GetStartedPage';
 import GetInspiredPage from './pages/GetInspiredPage';
-import IdeatePage from './pages/IdeatePage';
+import MapPage from './pages/MapPage';
 import ContributePage from './pages/ContributePage';
 import ContextualizePage from './pages/ContextualizePage';
 import ComparePage from './pages/ComparePage';
@@ -96,8 +96,8 @@ function App() {
             element={<GetInspiredPage />}
           />
           <Route 
-            path="/ideate" 
-            element={<IdeatePage />} 
+            path="/map" 
+            element={<MapPage />} 
           />
           <Route
             path="/contribute"
