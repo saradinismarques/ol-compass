@@ -287,28 +287,6 @@ const MapPage = () => {
             pdf.text(remainingText, padding, 151);
         }
 
-        // Subtask Menu
-        await renderToCanvas(
-            <div className="i-tasks-nav-pdf">
-                <button className={`i-task-button-pdf ${'A' === task ? 'active' : ''}`} >
-                    A
-                </button>
-                            
-                <button className={`i-task-button-pdf ${'B' === task ? 'active' : ''}`} >
-                    B
-                </button>
-        
-                <button className={`i-task-button-pdf ${'C' === task ? 'active' : ''}`} >
-                    C
-                </button>
-        
-                <button className={`i-task-button-pdf ${'D' === task ? 'active' : ''}`} >
-                    D
-                </button>
-            </div>,
-                pdf, 14, 155, 'auto', 1
-        );
-
         // Big Wave
         let x;
         if(type === "All") 
@@ -469,7 +447,7 @@ const MapPage = () => {
             {!isExplanationPage && (
                 <>
                 <textarea
-                    className="i-textarea" 
+                    className="i-project-name-textarea" 
                     type="text" 
                     placeholder='Insert Project Name'
                     value={projectName} 
@@ -479,37 +457,36 @@ const MapPage = () => {
                     spellCheck="false"
                     disabled={window.innerWidth > 1300 ? false : true}
                 ></textarea>
-                
-                <div className="i-download-container">
-                    <button 
-                        className={`i-download-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}
-                        onClick={handleDownloadPDF}
-                        disabled={isGenerating === true} // Disable the button while generating
-                        style={{
-                            background: isGenerating === true 
-                                ? `linear-gradient(to right, #0a4461 ${downloadProgress}%, white ${downloadProgress}%)`
-                                : 'white', // Change background to show progress
-                            color: isGenerating === true 
-                                ? 'transparent'
-                                : '', // Change background to show progress
-                        }}
-                    >
-                    {isGenerating !== 'Error' ? 'Download Visual Report' : 'Try again'}
-                    </button>
-                    <p className='i-download-progress' style={{
-                        color: isGenerating === 'Error' 
-                            ? 'red' 
-                            : isGenerating 
-                            ? '#0a4461' 
-                            : 'transparent', // Change text color based on isGenerating state
-                    }}>
-                        {isGenerating === 'Error' 
-                            ? 'Error Generating PDF :(' 
-                            : `${Math.round(downloadProgress)}% Complete`
-                        }
-                    </p>
-                        
-                </div> 
+
+                <p className="i-mapping-area-title">Mapping Area</p>
+            
+                <button 
+                    className={`i-download-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}
+                    onClick={handleDownloadPDF}
+                    disabled={isGenerating === true} // Disable the button while generating
+                    style={{
+                        background: isGenerating === true 
+                            ? `linear-gradient(to right, ${colors['Gray']} ${downloadProgress}%, white ${downloadProgress}%)`
+                            : 'white', // Change background to show progress
+                        color: isGenerating === true 
+                            ? 'transparent'
+                            : '', // Change background to show progress
+                    }}
+                >
+                {isGenerating !== 'Error' ? 'Download Visual Report' : 'Try again'}
+                </button>
+                <p className='i-download-progress' style={{
+                    color: isGenerating === 'Error' 
+                        ? 'red' 
+                        : isGenerating 
+                        ? `${colors['Gray']}` 
+                        : 'transparent', // Change text color based on isGenerating state
+                }}>
+                    {isGenerating === 'Error' 
+                        ? 'Error Generating PDF :(' 
+                        : `${Math.round(downloadProgress)}% Complete`
+                    }
+                </p>    
                 </>
             )}
             <Menu />

@@ -18,41 +18,45 @@
 }
 
 /* Project Name Textarea */
-.i-textarea {
+.i-project-name-textarea {
     position: fixed;
-    top: 9vh;
-    left: calc(12.5vw + 21.6vh + 1.7vw);
+    top: 20vh;
+    left: 47.5vw;
     transform: translateY(-50%);
     width: 27vh;
     height: 3.5vh;
     padding-left: 1vh;
     font-family: 'Manrope', sans-serif;
     font-size: 2.3vh;
-    color: #000000; /* Set placeholder color to white */
+    color: var(--gray-color); /* Set placeholder color to white */
     resize: none;
     margin-bottom: 0;
-    border: 0.3vh solid #000000;
-    border-radius: 100px;
+    border: 0.3vh solid var(--gray-color);
+    border-radius: 1.2vh;
     background-color: white;
+    cursor: pointer;
 }
   
 .i-textarea::placeholder {
     color: var(--gray-color); /* Set placeholder color to white */
 }
-/* Generate PDF Button and Loading Bar */
-.i-download-container {
+
+/* Mapping Area */
+.i-mapping-area-title {
     position: fixed;
-    bottom: 9vh;
-    left: 18.5vw; /* Positioning at the bottom of the page */
-    transform: translateY(50%);
-    display: flex;
-    gap: 2.95vh; /* Space between buttons */
-    align-items: center;
-    justify-items: center;
-    background-color: transparent;
+    top: 9vh;
+    left: calc(47.2vw + (100 / 4.2) * 1vw); /* Use consistent units */
+    transform: translate(-50%, -50%);
+    width: 27vh;
+    font-size: 3vh;
+    color: var(--gray-color); /* Set placeholder color to white */
 }
 
+/* Download button */
 .i-download-pdf-button {
+    position: fixed;
+    bottom: 9vh;
+    right: 7.2vw; /* Positioning at the bottom of the page */
     height: 3.5vh;
     border: 0.3vh solid var(--gray-color);
     border-radius: 100px;
@@ -77,6 +81,9 @@
 }
 
 .i-download-progress {
+    position: fixed;
+    right: 7.5vw; /* Positioning at the bottom of the page */
+    bottom: 3vh;
     background-color: white;
     font-size: 2.1vh;
     color: var(--gray-color);

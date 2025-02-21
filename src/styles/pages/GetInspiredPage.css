@@ -217,7 +217,7 @@
     position: fixed;
     left: 35vw;
     transform: translateX(-50%);
-    width: 30vh;
+    width: 35vh;
     height: 4.4vh;
     display: flex;
     align-items: center;
@@ -249,13 +249,13 @@
     margin-left: -0.2vh;
     gap: 0.6vh;
     z-index: 20; /* Ensure it’s on top */
-    width: 18vh;
+    width: 22.3vh;
 }
 
 .gi-logic-button {
     border: none;
     background-color: #bcbcbc;
-    padding: 0.4vh 0.8vh;
+    padding: 0.4vh 1.2vh;
     border-radius: 50px;
     cursor: pointer;
     color: #7a7a79;
@@ -263,7 +263,8 @@
     font-weight: 600;
     font-size: 1.7vh;
     outline: none;
-    width: auto;
+    flex: 0 1 auto; /* Allow buttons to shrink and grow */   
+    min-width: 8vh;
 }
 
 .gi-logic-button:hover,
@@ -277,10 +278,10 @@
 
 .gi-search-button {
     position: relative;
-    left: -9%;
+    left: -6%;
     color: white;
     border: none;
-    padding: 1vh 2.7vh 0.9vh 0; /* Adjusted left padding */;
+    padding: 1vh 2.9vh 0.9vh 0; /* Adjusted left padding */;
     cursor: pointer;
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
@@ -288,7 +289,7 @@
     background-color: var(--selection-color);
     border-radius: 0 50px 50px 0; /* Rounded on the right side */
     z-index: 10;
-    text-indent: 4.7vh; /* Move text 10px to the right */
+    text-indent: 4.5vh; /* Move text 10px to the right */
     outline: none;
 }
 
@@ -299,7 +300,7 @@
 
 .gi-show-bookmarks-button {
     position: fixed;
-    left: 43vw;
+    left: 44.5vw;
     background-color: transparent;
     border: 0.3vh solid var(--gray-color);
     border-radius: 50%;
