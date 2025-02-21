@@ -29,12 +29,12 @@ export function getColorPallete(version) {
             Selection: "",
             "Selection Hover": "",
             "Selection Method": "",
-            Opacity: {
-                Max: 0,
-                Hover: 0,
-                Intro: 0,
-                "Not Selected": 0
-            }
+            "CBookmark": "",
+            "CBookmark Hover": "",
+            "CSBookmark": "",
+            "CSBookmark Hover": "",
+            "Gray": "",
+            "Gray Hover": "",
         };
 
         // Manually map colors for the selected version
@@ -57,12 +57,12 @@ export function getColorPallete(version) {
         colors.Selection = versionData["Selection"];
         colors["Selection Hover"] = versionData["Selection [Hover]"];
 
-        colors["CBookmark"] = versionData["Bookmark Component"];
-        colors["CBookmark Hover"] = versionData["Bookmark Component [Hover]"];
-        colors["CSBookmark"] = versionData["Bookmark CaseStudies"];
-        colors["CSBookmark Hover"] = versionData["Bookmark CaseStudies [Hover]"];
-        colors["Gray"] = versionData["Gray Text"];
-        colors["Gray Hover"] = versionData["Gray Text [Hover]"];
+        colors["CBookmark"] = versionData["Bookmark Component"] || "#000000";
+        colors["CBookmark Hover"] = versionData["Bookmark Component [Hover]"] || "#000000";
+        colors["CSBookmark"] = versionData["Bookmark CaseStudies"] || "#000000";
+        colors["CSBookmark Hover"] = versionData["Bookmark CaseStudies [Hover]"] || "#000000";
+        colors["Gray"] = versionData["Gray Text"] || "#000000";
+        colors["Gray Hover"] = versionData["Gray Text [Hover]"] || "#000000";
 
 
         // Return the colors for the specific version

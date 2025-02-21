@@ -224,18 +224,13 @@ const IntroPage = () => {
             </button>  
 
             {frame !== 0 &&
-                <button 
-                    className={'i-arrow-button left'} 
-                    onClick={handlePrev}
-                >
+                <button className={'i-arrow-button left'} >
                     <ArrowIcon className="i-arrow-icon" />
                 </button> 
             }
             
             {frame !== 10 &&
-                <button 
-                    className={'i-arrow-button right'} 
-                    onClick={handleNext}>
+                <button className={'i-arrow-button right'} >
                     <ArrowIcon className="i-arrow-icon" />
                 </button> 
             }

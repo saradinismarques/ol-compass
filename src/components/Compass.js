@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useContext, useState, useEffect, useRef, useCallback } from 'react';
+import { StateContext } from "../State.js";
 import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponentsPositions } from "./Wave.js"
 
@@ -22,6 +23,9 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   // Compass Type
   const compassType = "default";
   
+  // Global Variables  
+  const {colors} = useContext(StateContext);
+        
   // Dictionary with all information
   let componentsData;
 
@@ -328,7 +332,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
         left: `${position.x}px`,
         transform: 'translate(-50%, -110%)', // Adjusts the position above the button
         zIndex: 1000,
-        backgroundColor: '#acaaaa', // Tooltip background color
+        backgroundColor: colors['Gray Hover'], // Tooltip background color
         color: 'white', // Tooltip text color
         padding: '1vh', // Padding inside the tooltip
         borderRadius: '0.5vh', // Rounded corners

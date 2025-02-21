@@ -1,13 +1,19 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StateContext } from "../State.js";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
-import { getComponentsData } from '../utils/DataExtraction.js'; 
+import { getComponentsData } from '../utils/DataExtraction.js';
+import { getIntroTexts } from '../utils/DataExtraction.js';
 import Wave, { getComponentsPositions } from "./Wave.js"
 
 const CompassIcon = ({ mode, currentType }) => {
   // Size and screen resize handler
   const initialSize = mode === "map" ? 90 : window.innerHeight / 8.11;
   const [size, setSize] = useState(initialSize);
+  const introTexts = getIntroTexts('English');
+  
+  // Tooltip
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipText, setTooltipText] = useState('');
   
   useEffect(() => {
     // Function to update height on window resize
@@ -27,9 +33,7 @@ const CompassIcon = ({ mode, currentType }) => {
   const compassType = "icon";
   
   // Global Variables  
-  const {
-    colors,
-  } = useContext(StateContext);
+  const {colors} = useContext(StateContext);
       
   let componentsData = getComponentsData('default');
 
@@ -39,6 +43,29 @@ const CompassIcon = ({ mode, currentType }) => {
   const dimensions = getComponentsPositions(compassType, componentsData, 'Dimension', size);
   const components = principles.concat(perspectives, dimensions);
   
+  const handleMouseEnter = () => {
+    if (mode === "map") 
+      return;
+
+    let dataType;
+    if(currentType === 'Principle') dataType = introTexts.ClarifyP;
+    else if(currentType === 'Perspective') dataType = introTexts.ClarifyPe;
+    else if(currentType === 'Dimension') dataType = introTexts.ClarifyD;
+    
+    let cleanedText = dataType.replace(/<br>/g, ' ').replace(/<\/?b>/g, ''); // Remove <b> and </b>
+    setTooltipText(cleanedText);
+    setTooltipVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    if(mode === "map")
+      return;
+
+    // Set the cancellation flag to prevent tooltip from showing
+    setTooltipVisible(false);
+    setTooltipText(""); // Clear the tooltip text
+  };
+
   // Function to determine the center 
   const getCenter = () => {
     if(mode === "map")
@@ -69,9 +96,33 @@ const CompassIcon = ({ mode, currentType }) => {
       transform: `translate(-50%, -50%)`, // Centered offset
       borderRadius: '50%', // To make it a circular background if desired
       width: `${size}px`,
-      height: `${size}px`
+      height: `${size}px`,
     };
   }
+
+  // Other Components
+  const Tooltip = ({ text }) => (
+    <div
+      style={{
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 1000,
+        backgroundColor: colors['Gray Hover'], // Tooltip background color
+        color: 'white', // Tooltip text color
+        padding: '1vh', // Padding inside the tooltip
+        borderRadius: '0.5vh', // Rounded corners
+        fontFamily: 'Manrope',
+        fontSize: '1.8vh',
+        width: '30vh', // Dynamic width based on text length
+        pointerEvents: 'none', // Prevents tooltip from interfering with hover
+        opacity: 0.95
+      }}
+    >
+      {text}
+    </div>
+  );
 
   return (
     <div 
@@ -80,6 +131,8 @@ const CompassIcon = ({ mode, currentType }) => {
         left: `${center.x}px`, 
         top: `${center.y}px`,
       }}
+      onMouseEnter={() => handleMouseEnter()}
+      onMouseLeave={() => handleMouseLeave()}
     >
       {components.map((component, id) => (
         <div key={id}>
@@ -125,6 +178,11 @@ const CompassIcon = ({ mode, currentType }) => {
           </div>
         </div>
       ))}
+      {mode !== "map" && tooltipVisible &&
+        <Tooltip 
+          text={tooltipText} 
+        />
+      }
     </div>
   ); 
 };

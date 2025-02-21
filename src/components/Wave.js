@@ -336,7 +336,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         } if(hoveredId === component.code) 
           return 0.8;
         else
-          return 0.5;
+          return 0.7;
       }
       // Get Started
       if(mode.startsWith("get-started-search")) {
@@ -345,7 +345,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else if(hoveredId === component.code) 
           return 0.8;
         else
-          return 0.2;
+          return 0.7;
       } else if(mode.startsWith("get-started")) {
         if(selectedComponents.length === 0) 
           return 1;
@@ -353,7 +353,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           return 1;
         if (hoveredId === component.code) 
             return 0.8;
-        return 0.3;
+        return 0.7;
       }
     
       // Get Inspired
@@ -364,7 +364,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           return 1;
         if (hoveredId === component.code) 
             return 0.8;
-        return 0.5;
+        return 0.7;
       }
       if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
         if(currentComponent.includes(component.code))
@@ -372,7 +372,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else if(hoveredId === component.code) 
           return 0.8;
         else
-          return 0.5;
+          return 0.7;
       }
       // Contribute
       if(mode === "contribute") {
@@ -382,7 +382,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           return 1;
         if (hoveredId === component.code) 
             return 0.8;
-        return 0.8;
+        return 0.7;
       }
       // Map    
       if(mode === "map") 
