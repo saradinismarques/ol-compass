@@ -181,7 +181,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   };
   
   const handleMouseEnter = (e, component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "map") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "map" || mode === "get-inspired-carousel") 
       return;
 
     setHoveredId(component.code);

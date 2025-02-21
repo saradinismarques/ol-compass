@@ -74,6 +74,8 @@ const GetInspiredPage = () => {
   document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
   document.documentElement.style.setProperty('--bookmark-cs-color', colors['CSBookmark']);
   document.documentElement.style.setProperty('--bookmark-cs-hover-color', colors['CSBookmark Hover']);
+  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
+  document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
 
   const resetState = useCallback(() => {
       navigate('/home');
@@ -113,9 +115,12 @@ const GetInspiredPage = () => {
   };
 
   const searchCaseStudies = useCallback((searchedComponents) => {
-    const fetchedCaseStudies = getGetInspiredData();
-    // Concatenate the fetched case studies with newCaseStudies
-    const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
+    let allCaseStudies;
+    if(searchLogicRef.current === 'SAVED')
+      allCaseStudies = savedCaseStudies;
+    else 
+      // Concatenate the fetched case studies with newCaseStudies
+      allCaseStudies = [...getGetInspiredData(), ...newCaseStudies];
 
     // Process the JSON data
     let filteredCaseStudies = allCaseStudies;
@@ -199,6 +204,16 @@ const GetInspiredPage = () => {
 
   }, [firstMessage, isExplanationPage, searchCaseStudies, firstClick, setIsExplanationPage]);
   
+  const handleSavedCaseStudiesSearch = useCallback(() => {
+    setMode('get-inspired-carousel');
+    carouselModeRef.current = true;
+
+    setSearchLogic('SAVED');
+    searchLogicRef.current = 'SAVED';
+
+    searchCaseStudies(null);
+  }, [searchCaseStudies]);
+
   const handleNext = useCallback(() => {
     if (currentIndex < caseStudies.length - 1) {
       const nextIndex = currentIndex + 1;
@@ -254,9 +269,9 @@ const GetInspiredPage = () => {
       handleCarouselSearch();
     else if(e.key === 'Enter' && !carouselModeRef.current && !showMessageRef.current) 
       handleDefaultSearch();
-    else if (e.key === 'ArrowUp') 
+    else if (e.key === 'ArrowLeft') 
       handlePrev();
-    else if (e.key === 'ArrowDown') 
+    else if (e.key === 'ArrowRight') 
       handleNext();
   }, [handlePrev, handleNext, handleDefaultSearch, handleCarouselSearch]);
 
@@ -359,7 +374,7 @@ const GetInspiredPage = () => {
               {/* Navigation Arrows */}
               {(currentIndex > 0 || resultsNumber === -1) && (
                 <button
-                  className={`gi-arrow-button up ${resultsNumber === 0 ? "disabled" : ""}`}
+                  className={`gi-arrow-button left ${resultsNumber === 0 ? "disabled" : ""}`}
                   onClick={handlePrev}
                 >
                   <ArrowIcon className='gi-arrow-icon' />
@@ -368,7 +383,7 @@ const GetInspiredPage = () => {
     
               {(currentIndex < caseStudies.length - 1 || resultsNumber === -1) && (
                 <button
-                  className={`gi-arrow-button down ${resultsNumber === 0 ? "disabled" : ""}`}
+                  className={`gi-arrow-button right ${resultsNumber === 0 ? "disabled" : ""}`}
                   onClick={handleNext}
                 >
                   <ArrowIcon className='gi-arrow-icon' />
@@ -377,33 +392,42 @@ const GetInspiredPage = () => {
               </div>
     
               <div className='gi-search-results-container'>
-              {resultsNumber !== -1 && (
-                <p className='gi-results'>
-                  <span className='gi-bold-text'>{resultsNumber}</span> results
-                </p>
-              )}
-              <div className="gi-search-logic-menu">
-                <div className="gi-logic-button-background">
-                  <div className="gi-logic-buttons">
-                    <button
-                      className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
-                      onClick={() => handleSearchLogicChange("OR")}
-                    >
-                      AT LEAST ONE
-                    </button>
-                    <button
-                      className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
-                      onClick={() => handleSearchLogicChange("AND")}
-                    >
-                      ALL
-                    </button>
+                {resultsNumber !== -1 && (
+                  <p className={`gi-results ${searchLogic === 'SAVED' ? 'bookmarked' : ''}`}>
+                    <span className='gi-bold-text'>{resultsNumber}</span> results
+                  </p>
+                )}
+                <div className="gi-search-logic-menu">
+                  <div className="gi-logic-button-background">
+                    <div className="gi-logic-buttons">
+                      <button
+                        className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
+                        onClick={() => handleSearchLogicChange("OR")}
+                      >
+                        AT LEAST ONE
+                      </button>
+                      <button
+                        className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
+                        onClick={() => handleSearchLogicChange("AND")}
+                      >
+                        ALL
+                      </button>
+                    </div>
                   </div>
+                  <button 
+                    className="gi-search-button" 
+                    onClick={handleDefaultSearch}
+                  >
+                    SEARCH
+                  </button>
                 </div>
-                <button className="gi-search-button" onClick={handleDefaultSearch}>
-                  SEARCH
+                <button
+                    onClick={handleSavedCaseStudiesSearch}
+                    className={`gi-show-bookmarks-button ${searchLogic === 'SAVED' ? 'active' : ''}`}
+                  >   
+                    <BookmarkIcon className="gi-bookmark-icon show" />
                 </button>
               </div>
-            </div>
           </>
         )}
         <Menu isExplanationPage={isExplanationPage} />

@@ -28,7 +28,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     if(compassType === "icon")
       return 'default';
     else if(mode.startsWith("intro") || mode === "default" 
-    || (compassType === "default" && mode === "map")
+    || (compassType === "default" && (mode === "map" || mode === "get-inspired-carousel"))
     || (mode === "map" && isExplanationPage) ||
     compassType === "icon")
       return 'default';
@@ -243,7 +243,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         return 0.3;
       }
       if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-        console.log(currentComponent);
         if(currentComponent.includes(component.code))
           return 1;
         else if(hoveredId === component.code) 

@@ -3,6 +3,8 @@
     --selection-hover-color: #841321; /* Default color */
     --bookmark-cs-color: #e5007e; /* Default color */
     --bookmark-cs-hover-color: #841321; /* Default color */
+    --gray-color: #841321; /* Default color */
+    --gray-hover-color: #841321; /* Default color */
 }
 
 /* Text Container */
@@ -144,6 +146,9 @@
     border: 0 solid transparent; /* Set initial border to transparent */
     cursor: pointer;
     position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    outline: none;
 }
 
 .gi-arrow-button.disabled {
@@ -152,29 +157,29 @@
 }
 
 /* Left arrow button */
-.gi-arrow-button.up {
-    rotate: -90deg; /* Rotate the arrow for left button */
-    top: -7%; 
+.gi-arrow-button.left {
+    transform: translateY(-50%) scale(-1); /* Rotate the arrow for left button */
+    left: -10%; 
 }
 
 /* Right arrow button (default position) */
-.gi-arrow-button.down {
-    rotate: 90deg; /* Rotate the arrow for left button */
-    bottom: -7%;
+.gi-arrow-button.right {
+    transform: translateY(-50%) scale(1); /* Rotate the arrow for left button */
+    right: -10%;
 }
 
 /* Change icon color on hover */
 .gi-arrow-button:hover .gi-arrow-icon,
 .gi-arrow-button:active .gi-arrow-icon {
-    fill: var(--selection-hover-color); /* Change fill color on hover */
+    fill: var(--gray-hover-color); /* Change fill color on hover */
 }
 
 .gi-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
-    fill: var(--selection-color); /* Set default color for the bookmark */
+    fill: var(--gray-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: var(--selection-color);
+    stroke: var(--gray-color);
     stroke-width: 0;
 }
 
@@ -194,6 +199,10 @@
     font-size: 2.4vh;
     font-weight: 200;
     color: var(--selection-color);
+}
+
+.gi-results.bookmarked {
+    color: var(--bookmark-cs-color);
 }
 
 @media (max-aspect-ratio: 16/9) {
@@ -287,6 +296,54 @@
 .gi-search-button:active {
     background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }
+
+.gi-show-bookmarks-button {
+    position: fixed;
+    left: 43vw;
+    background-color: transparent;
+    border: 0.3vh solid var(--gray-color);
+    border-radius: 50%;
+    cursor: pointer;
+    width: 4.3vh; /* Set an explicit width */
+    height: 4.3vh; /* Set an explicit height */
+    padding: 0;
+    box-sizing: border-box;
+    right: 5%;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.gi-bookmark-icon.show {
+    width: 2.2vh;
+    height: 2.2vh;
+    fill: none; /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: var(--gray-color);
+    stroke-width: 0.2vh;
+}
+
+.gi-show-bookmarks-button:hover,
+.gi-show-bookmarks-button:active {
+    border: 0.3vh solid var(--gray-hover-color);
+}
+
+.gi-show-bookmarks-button.active {
+    background-color: var(--bookmark-cs-color); /* Active state background color */
+}
+
+.gi-show-bookmarks-button.active:hover,
+.gi-show-bookmarks-button.active:active {
+    background-color: var(--bookmark-cs-color); /* Active state background color */
+}
+
+.gi-bookmark-icon.show:hover,
+.gi-bookmark-icon.show:active {
+    stroke: var(--gray-hover-color);
+}
+
+/* Bold text */
 
 .gi-bold-text {
     font-weight: 500;
