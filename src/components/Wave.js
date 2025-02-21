@@ -243,6 +243,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         return 0.3;
       }
       if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
+        console.log(currentComponent);
         if(currentComponent.includes(component.code))
           return 1;
         else if(hoveredId === component.code) 
@@ -517,6 +518,19 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             opacity={getWaveOpacity()} // Change opacity on hover
           />
 
+          {/* Bookmark */}
+          {!isExplanationPage && savedComponents.some(item => item.code === component.code) &&
+            <g transform={component.type === 'Principle' ? `scale(0.5) translate(2, 10.8) rotate(24)` : `scale(0.5) translate(160, 42.5) rotate(-155.5)`} 
+            >
+              <BookmarkIcon
+                style={{
+                  fill: colors['CBookmark'],
+                  stroke: 'none'
+                }}
+            />
+            </g>
+          }
+
           {/* Outline Shape */}
           <path 
             d={svgPath} 
@@ -618,18 +632,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                     {getText(1)}
                   </textPath>
                 </text>
-              }
-              {/* Bookmark */}
-              {!isExplanationPage && savedComponents.some(item => item.code === component.code) &&
-                <g transform={component.type === 'Principle' ? `scale(0.5) translate(2, 10.8) rotate(24)` : `scale(0.5) translate(160, 42.5) rotate(-155.5)`} 
-                >
-                  <BookmarkIcon
-                    style={{
-                      fill: colors['CBookmark'],
-                      stroke: 'none'
-                    }}
-                />
-               </g>
               }
             </>
           }

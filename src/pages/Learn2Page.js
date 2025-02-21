@@ -192,7 +192,6 @@ const Learn2Page = () => {
       slideIndexRef.current = nextIndex;
       updateSlide(nextIndex);
     }
-    console.log(savedComponents);
   }, []);
 
   // Keyboard event handler

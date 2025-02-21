@@ -103,6 +103,7 @@
     padding: 0; /* Remove padding to match the exact size */
     box-sizing: border-box; /* Includes padding and border in total size */
     flex-shrink: 0; /* Ensures the bookmark never shrinks */
+    outline: none;
 }
   
 .l2-bookmark-button:hover,

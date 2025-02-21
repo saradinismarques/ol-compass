@@ -42,7 +42,7 @@ const GetInspiredPage = () => {
   const [carouselMode, setCarouselMode] = useState(true);
   const [mode, setMode] = useState('get-inspired');
   const [resultsNumber, setResultsNumber] = useState(-1);
-  const [searchLogic, setSearchLogic] = useState('AND');
+  const [searchLogic, setSearchLogic] = useState('OR');
   const [components, setComponents] = useState([]);
   const [currentComponents, setCurrentComponents] = useState();
   const [firstClick, setFirstClick] = useState(true);
@@ -79,27 +79,9 @@ const GetInspiredPage = () => {
       navigate('/home');
   }, [navigate]);
   
-  // State to store window height
-  //const [height, setHeight] = useState(window.innerHeight);
-
-  // useEffect(() => {
-  //   // Function to update height on window resize
-  //   const handleResize = () => {
-  //     setHeight(window.innerHeight);
-  //   };
-
-  //   // Add event listener for resize
-  //   window.addEventListener('resize', handleResize);
-
-  //   // Cleanup the event listener on component unmount
-  //   return () => {
-  //   window.removeEventListener('resize', handleResize);
-  //   };
-  // }, []);
-
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((title) => {
-    return savedCaseStudies.length !== 0 && savedCaseStudies.includes(title);
+    return savedCaseStudies.length !== 0 && savedCaseStudies.some(item => item.title === title);
   }, [savedCaseStudies]);
 
   const handleCompassClick = (code) => {
@@ -130,7 +112,7 @@ const GetInspiredPage = () => {
     showMessageRef.current = state;
   };
 
-  const searchCaseStudies = useCallback(() => {
+  const searchCaseStudies = useCallback((searchedComponents) => {
     const fetchedCaseStudies = getGetInspiredData();
     // Concatenate the fetched case studies with newCaseStudies
     const allCaseStudies = [...fetchedCaseStudies, ...newCaseStudies];
@@ -138,19 +120,19 @@ const GetInspiredPage = () => {
     // Process the JSON data
     let filteredCaseStudies = allCaseStudies;
     
-    if (componentsRef.current !== null) {
+    if (searchedComponents !== null) {
       filteredCaseStudies = allCaseStudies.filter(item => {
         if (searchLogicRef.current === 'AND') {
           // AND mode: all components must be present in the item's Components array
-          return componentsRef.current.every(component => item.components.includes(component));
+          return searchedComponents.every(component => item.components.includes(component));
         } else if (searchLogicRef.current === 'OR') {
           // OR mode: at least one component must be present in the item's Components array
-          return componentsRef.current.some(component => item.components.includes(component));
+          return searchedComponents.some(component => item.components.includes(component));
         } else {
-          return componentsRef.current;
+          return searchedComponents;
         }
       });
-    }
+    } 
 
     setCaseStudies(filteredCaseStudies);
     setResultsNumber(filteredCaseStudies.length);
@@ -196,7 +178,7 @@ const GetInspiredPage = () => {
 
   const handleDefaultSearch = useCallback(() => {
     setMode('get-inspired-search');
-    searchCaseStudies();
+    searchCaseStudies(componentsRef.current);
   }, [searchCaseStudies]);
 
   const handleCarouselSearch = useCallback(() => {
@@ -286,20 +268,23 @@ const GetInspiredPage = () => {
   }, [handleCarouselSearch, handleKeyDown]); // Dependency array includes carouselHandleEnterClick
 
   const toggleBookmark = () => {
-    setSavedCaseStudies((prevSavedComponents) => {
-      // If the current title is already in the array, remove it
-      if (prevSavedComponents.includes(currentCaseStudy.title)) {
-        return prevSavedComponents.filter(item => item !== currentCaseStudy.title);
+    setSavedCaseStudies((prevSavedCaseStudies) => {
+      const exists = prevSavedCaseStudies.some(item => item.title === currentCaseStudy.title);
+  
+      if (exists) {
+        // Remove the case study if it already exists
+        return prevSavedCaseStudies.filter(item => item.title !== currentCaseStudy.title);
       }
-      // Otherwise, add it to the array
-      return [...prevSavedComponents, currentCaseStudy.title];
+  
+      // Otherwise, add the entire case study object
+      return [...prevSavedCaseStudies, currentCaseStudy];
     });
-
+  
     setCurrentCaseStudy({
       ...currentCaseStudy,
       bookmark: !currentCaseStudy.bookmark,
     });
-  };
+  };  
 
   const handleSearchLogicChange = useCallback((mode) => {
     if(mode === "AND") {
@@ -401,16 +386,16 @@ const GetInspiredPage = () => {
                 <div className="gi-logic-button-background">
                   <div className="gi-logic-buttons">
                     <button
-                      className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
-                      onClick={() => handleSearchLogicChange("AND")}
-                    >
-                      ALL
-                    </button>
-                    <button
                       className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
                       onClick={() => handleSearchLogicChange("OR")}
                     >
                       AT LEAST ONE
+                    </button>
+                    <button
+                      className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
+                      onClick={() => handleSearchLogicChange("AND")}
+                    >
+                      ALL
                     </button>
                   </div>
                 </div>
