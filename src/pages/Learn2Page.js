@@ -61,7 +61,7 @@ const Learn2Page = () => {
   }, [navigate]);
 
   const getBookmarkState = useCallback((code) => {
-    return savedComponents.length !== 0 && savedComponents.includes(code);
+    return savedComponents.length !== 0 && savedComponents.some(item => item.code === code);
   }, [savedComponents]);
 
   const handleCompassClick = (data) => {
@@ -71,12 +71,8 @@ const Learn2Page = () => {
       showMessageRef.current = true;
     }
 
-    if (data === null) {
-      setComponent(initialComponent);
-      componentRef.current = initialComponent;
-      setIsExplanationPage(true);
+    if (data === null) 
       return;
-    }
 
     const {
       code,
@@ -196,6 +192,7 @@ const Learn2Page = () => {
       slideIndexRef.current = nextIndex;
       updateSlide(nextIndex);
     }
+    console.log(savedComponents);
   }, []);
 
   // Keyboard event handler
@@ -220,12 +217,18 @@ const Learn2Page = () => {
 
   const toggleBookmark = () => {
     setSavedComponents((prevSavedComponents) => {
-      if (prevSavedComponents.includes(component.code)) {
-        return prevSavedComponents.filter((item) => item !== component.code);
+      // Check if the component already exists in the saved components list
+      const exists = prevSavedComponents.some(item => item.code === component.code);
+  
+      if (exists) {
+        // Remove the component from saved components
+        return prevSavedComponents.filter(item => item.code !== component.code);
       }
-      return [...prevSavedComponents, component.code];
+      
+      // Add the entire component object instead of just the code
+      return [...prevSavedComponents, { ...component }];
     });
-
+  
     setComponent((prevComponent) => ({
       ...prevComponent,
       bookmark: !prevComponent.bookmark,

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useRef, useCallback } from 'react';
 import { StateContext } from "../State.js";
 import { getComponentsData } from '../utils/DataExtraction.js'; 
-import Wave, { getComponentsPositions } from "./Wave.js"
+import Wave, { getComponents } from "./Wave.js"
 
 const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, currentComponent, currentLinks }) => {
   // Size and screen resize handler
@@ -26,22 +26,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   // Global Variables  
   const {colors} = useContext(StateContext);
         
-  // Dictionary with all information
-  let componentsData;
-
-  if(mode.startsWith("get-started")) 
-    componentsData = getComponentsData('get-started');
-  else if(mode === "learn")
-    componentsData = getComponentsData('learn');
-  else if(mode === "learn-2")
-    componentsData = getComponentsData('learn-2');
-  else
-    componentsData = getComponentsData('default');
-
-  const principles = getComponentsPositions(compassType, componentsData, 'Principle', size);
-  const perspectives = getComponentsPositions(compassType, componentsData, 'Perspective', size);
-  const dimensions = getComponentsPositions(compassType, componentsData, 'Dimension', size);
-  const components = principles.concat(perspectives, dimensions);
+  const components = getComponents(mode, compassType, size);
 
   const concepts = getComponentsData('concepts');
 
@@ -113,9 +98,6 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
       // Check if the clicked ID is already in clickedIds
       if (selectedComponents === component.code) {
         // If it is, remove it and reset state
-        setHoveredId(null);
-        setSelectedComponents([]);
-
         if (onButtonClick) 
           onButtonClick(null);
 
@@ -216,8 +198,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
       tooltipTimeout = setTimeout(() => {
         if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
           setTooltipPos({ x: e.clientX, y: e.clientY });
-          let cleanedText = component.tooltip.replace('<br>', '');
-          setTooltipText(cleanedText);
+          setTooltipText(component.tooltip);
           setTooltipVisible(true);
         }
       }, 500); // 1-second delay

@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from 'react';
-import { getComponentsData } from '../utils/DataExtraction.js'; 
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { StateContext } from "../State";
 import Draggable from "react-draggable";
-import Wave, { getComponentsPositions } from "./Wave.js"
+import Wave, { getComponents } from "./Wave.js"
 
 const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfComponents, stopTextareaFocus }) => {
   // Size and screen resize handler
@@ -42,13 +41,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   document.documentElement.style.setProperty('--top-position', `${topPosition}px`);
   document.documentElement.style.setProperty('--left-position', `${leftPosition}px`);
   
-  // Dictionary with all information
-  let componentsData = getComponentsData('get-started');
-
-  const principles = getComponentsPositions(compassType, componentsData, 'Principle', size, [topPosition, leftPosition]);
-  const perspectives = getComponentsPositions(compassType, componentsData, 'Perspective', size, [topPosition, leftPosition]);
-  const dimensions = getComponentsPositions(compassType, componentsData, 'Dimension', size, [topPosition, leftPosition]);
-  const initialComponents = principles.concat(perspectives, dimensions);
+  const initialComponents = getComponents(mode, compassType, size, [topPosition, leftPosition]);
 
   const [components, setComponents] = useState(pdfComponents || initialComponents);
   
@@ -66,15 +59,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   const textareaRefs = useRef({}); // Store refs dynamically for all textareas
   const waveRefs = useRef({});   // Store refs dynamically for all circles
   const compassRef = useRef({});
-  // const hoveredIdRef = useRef(null);
-
-  //  // Tooltip
-  // const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
-  // const [tooltipVisible, setTooltipVisible] = useState(false);
-  // const [tooltipText, setTooltipText] = useState('');
-  
-  // // Declare a timeout variable to store the reference to the timeout
-  // let tooltipTimeout = null;
   
   useEffect(() => {
     selectedComponentsRef.current = selectedComponents;
@@ -211,32 +195,6 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     if (onDragStop) 
       sendNewData(id, components[id].x, components[id].y, positions.textareaX, positions.textareaY, components[id].textareaData, positions.arrowX1, positions.arrowY1, positions.arrowX2, positions.arrowY2, components[id].textGapY2, positions.topTip, positions.rightTip)
   };
-
-  // const handleMouseEnter = (e, component) => {
-  //   if(component.type === "Principle") {
-  //     // Clear any existing timeout to avoid overlaps
-  //     clearTimeout(tooltipTimeout);
-
-  //     // Set a timeout to delay the appearance of the tooltip by 1 second
-  //     tooltipTimeout = setTimeout(() => {
-  //       if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
-  //         setTooltipPos({ x: e.clientX, y: e.clientY });
-  //         let cleanedText = component.tooltip.replace('<br>', '');
-  //         setTooltipText(cleanedText);
-  //         setTooltipVisible(true);
-  //       }
-  //     }, 500); // 1-second delay
-  //   }
-  // };
-
-  // const handleMouseLeave = () => {
-  //   // Clear the tooltip timeout to prevent it from showing if mouse leaves
-  //   clearTimeout(tooltipTimeout);
-
-  //   // Set the cancellation flag to prevent tooltip from showing
-  //   setTooltipVisible(false);
-  //   setTooltipText(""); // Clear the tooltip text
-  // };
 
   // Memoize handleKeyDown to avoid creating a new reference on each render
   const handleKeyDown = useCallback((e) => {

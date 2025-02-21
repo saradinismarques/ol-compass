@@ -1,5 +1,8 @@
 import React from 'react';
-import '../styles/pages/IntroPage.css';
+
+export function cleanText(text) {
+    return text.replace(/<br>/g, ' ').replace(/<\/?b>/g, ''); // Remove <b> and </b>
+}
 
 export function replaceLineBreaks (text, textStyle) {
     // Split the text by <br> tags

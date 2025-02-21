@@ -8,6 +8,7 @@ import linksPerspectives from '../data/content/links_perspectives.json';
 import linksDimensions from '../data/content/links_dimensions.json';
 import conceptsData from '../data/content/concepts-data.json';
 import getInspiredData from '../data/content/get-inspired-data.json';
+import { cleanText } from './TextFormatting.js';
 
 // Static
 export function getColorPallete(version) {
@@ -142,7 +143,7 @@ export function getDefaultData() {
         const result = learnData.map(item => ({
             code: item["#code"],
             label: item["#label"],
-            tooltip: item["#headline"],
+            tooltip: cleanText(item["#headline"]),
             type: getType(item['#code'])
         }));
 
@@ -199,7 +200,7 @@ export function getLearnData() {
             label: item["#label"],
             headline: item["#headline"],
             paragraph: item["#paragraph"],
-            tooltip: item["#headline"],
+            tooltip: cleanText(item["#headline"]),
             type: getType(item['#code'])
         }));
 

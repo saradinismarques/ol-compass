@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StateContext } from "../State.js";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
-import { getComponentsData } from '../utils/DataExtraction.js';
 import { getIntroTexts } from '../utils/DataExtraction.js';
-import Wave, { getComponentsPositions } from "./Wave.js"
+import Wave, { getComponents } from "./Wave.js"
+import { cleanText } from '../utils/TextFormatting.js';
 
 const CompassIcon = ({ mode, currentType }) => {
   // Size and screen resize handler
@@ -35,25 +35,18 @@ const CompassIcon = ({ mode, currentType }) => {
   // Global Variables  
   const {colors} = useContext(StateContext);
       
-  let componentsData = getComponentsData('default');
-
-  // Dictionary with all information
-  const principles = getComponentsPositions(compassType, componentsData, 'Principle', size);
-  const perspectives = getComponentsPositions(compassType, componentsData, 'Perspective', size);
-  const dimensions = getComponentsPositions(compassType, componentsData, 'Dimension', size);
-  const components = principles.concat(perspectives, dimensions);
+  const components = getComponents(mode, compassType, size);
   
   const handleMouseEnter = () => {
     if (mode === "map") 
       return;
 
-    let dataType;
-    if(currentType === 'Principle') dataType = introTexts.ClarifyP;
-    else if(currentType === 'Perspective') dataType = introTexts.ClarifyPe;
-    else if(currentType === 'Dimension') dataType = introTexts.ClarifyD;
+    let tooltipText;
+    if(currentType === 'Principle') tooltipText = introTexts.ClarifyP;
+    else if(currentType === 'Perspective') tooltipText = introTexts.ClarifyPe;
+    else if(currentType === 'Dimension') tooltipText = introTexts.ClarifyD;
     
-    let cleanedText = dataType.replace(/<br>/g, ' ').replace(/<\/?b>/g, ''); // Remove <b> and </b>
-    setTooltipText(cleanedText);
+    setTooltipText(cleanText(tooltipText));
     setTooltipVisible(true);
   };
 
