@@ -7,7 +7,7 @@ import Description from '../components/Description';
 import Message from '../components/Message';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
-import { replaceStyledText } from '../utils/TextFormatting.js';
+import { replaceBoldsUnderlinesHighlights } from '../utils/TextFormatting.js';
 import '../styles/pages/Learn2Page.css';
 
 const Learn2Page = () => {
@@ -24,12 +24,12 @@ const Learn2Page = () => {
   const initialComponent = useMemo(() => ({
     title: '',
     paragraph: '',
-    currentLinks: null,
     type: null,
     bookmark: false,
   }), []);
 
   const [component, setComponent] = useState(initialComponent);
+  const [currentLinks, setCurrentLinks] = useState(null);
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   // Initialize activeButton as an object with all entries set to 0
@@ -61,6 +61,8 @@ const Learn2Page = () => {
   document.documentElement.style.setProperty('--image-color', colors['Wave'][component.type]);
   document.documentElement.style.setProperty('--highlightP-color', colors['Wave']['Principle']);
   document.documentElement.style.setProperty('--highlightPe-color', colors['Wave']['Perspective']);
+  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
+  document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
 
   const resetState = useCallback(() => {
     navigate('/home');
@@ -106,7 +108,6 @@ const Learn2Page = () => {
         title,
         paragraph,
         type,
-        currentLinks: null,
         bookmark: getBookmarkState(code),
         ...(type === 'Principle'
           ? { wbc_links, region_feature, country_e1, ce1_links, country_e2, ce2_links }
@@ -118,7 +119,15 @@ const Learn2Page = () => {
   
       return updatedComponent;
     });
-  
+
+    const currentButton = activeButtonRef.current[code];
+    if(currentButton === 0)
+      setCurrentLinks(null);
+    else if(currentButton === 1)
+      setCurrentLinks(componentRef.current.wbc_links);
+    else if(currentButton === 2)
+      setCurrentLinks(componentRef.current.ce1_links);
+
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
   
@@ -130,16 +139,16 @@ const Learn2Page = () => {
 
     if(activeButton === 0) {
       if(buttonIndex === 0) {
-        return replaceStyledText(component.paragraph, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+        return replaceBoldsUnderlinesHighlights(component.paragraph, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
       } else if(buttonIndex === 1) {
         return (
-          <div className='l2-button'>
+          <div className='l2-question'>
             How does it apply to the Atlantic Ocean?
           </div>
         );
       } else if(buttonIndex === 2) {
         return (
-          <div className='l2-button'>
+          <div className='l2-question'>
             How does it apply to Portugal?
           </div>
         );
@@ -147,15 +156,15 @@ const Learn2Page = () => {
     } else if(activeButton === 1) {
       if(buttonIndex === 0) {
         return (
-          <div className='l2-button'>
+          <div className='l2-question'>
             In short
           </div>
         );
       } else if(buttonIndex === 1) {
-        return replaceStyledText(component.region_feature, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+        return replaceBoldsUnderlinesHighlights(component.region_feature, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
       } else if(buttonIndex === 2) {
         return (
-          <div className='l2-button'>
+          <div className='l2-question'>
             How does it apply to Portugal?
           </div>
         );
@@ -163,18 +172,38 @@ const Learn2Page = () => {
     } else if(activeButton === 2) {
       if(buttonIndex === 0) {
         return (
-          <div className='l2-button'>
+          <div className='l2-question'>
             In short
           </div>
         );
       } else if(buttonIndex === 1) {
         return (
-          <div className='l2-button'>
+          <div className='l2-question'>
             How does it apply to the Atlantic Ocean?
           </div>
         );
       } else if(buttonIndex === 2) {
-        return replaceStyledText(component.country_e1, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+        return replaceBoldsUnderlinesHighlights(component.country_e1, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+      }
+    } else if(activeButton === null) {
+      if(buttonIndex === 0) {
+        return (
+          <div className='l2-question'>
+            In short
+          </div>
+        );
+      } else if(buttonIndex === 1) {
+        return (
+          <div className='l2-question'>
+            How does it apply to the Atlantic Ocean?
+          </div>
+        );
+      } else if(buttonIndex === 2) {
+        return (
+          <div className='l2-question'>
+            How does it apply to Portugal?
+          </div>
+        );
       }
     }
   }
@@ -185,17 +214,11 @@ const Learn2Page = () => {
         const currentValue = prevState[componentRef.current.code];
         // If it's 0, 1, or 2, cycle to the next value, unless it's already at that value, in which case set it to null
         const newIndex = currentValue === index ? null : index;
-        console.log(currentValue, newIndex);
+
         if(newIndex === 1)
-          setComponent((prevComponent) => ({
-            ...prevComponent,
-            currentLinks: componentRef.current.wbc_links,
-          }));
+          setCurrentLinks(componentRef.current.wbc_links);
         else if(newIndex === 2)
-          setComponent((prevComponent) => ({
-            ...prevComponent,
-            currentLinks: componentRef.current.ce1_links,
-          }));
+          setCurrentLinks(componentRef.current.ce1_links);
 
         const updatedState = {
           ...prevState,
@@ -239,7 +262,7 @@ const Learn2Page = () => {
           <Compass
             mode="learn-2"
             position={isExplanationPage ? "center" : "left-3"}
-            currentLinks={component.currentLinks}
+            currentLinks={currentLinks}
             onButtonClick={handleCompassClick}
             resetState={resetState}
           />
@@ -273,16 +296,19 @@ const Learn2Page = () => {
               
               <div className='l2-text-buttons-container'>
                 <button 
+                  className='l2-button'
                   onClick={() => handleButtonClick(0)} 
                 >
                   {getButtonsText(0)}
                 </button>
                 <button 
+                  className='l2-button'
                   onClick={() => handleButtonClick(1)} 
                 >
                   {getButtonsText(1)}
                 </button>
                 <button 
+                  className='l2-button'
                   onClick={() => handleButtonClick(2)} 
                 >
                   {getButtonsText(2)}

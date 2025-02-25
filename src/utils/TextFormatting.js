@@ -180,9 +180,9 @@ export function replaceUnderlines(text, currentConcept, onClickHandler) {
     });
 };
 
-export function replaceStyledText(text, containerStyle, textStyle, boldStyle, underlineStyle, hPStyle, hPeStyle) {
+export function replaceBoldsUnderlinesHighlights(text, textStyle, boldStyle, underlineStyle, hPStyle, hPeStyle) {
     return (
-        <div className={containerStyle} style={{ display: "inline" }}>
+        <div style={{ display: "inline" }}>
             {text
                 .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||")
                 .replace(/<i>(.*?)<\/i>/g, "||I||$1||I||")
