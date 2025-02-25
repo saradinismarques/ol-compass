@@ -145,143 +145,99 @@ const Learn2Page = () => {
 
   const getButtonsText = (buttonIndex) => {
     const activeButton = activeButtonRef.current[componentRef.current.code];
-    let currentText;
-
-    if(activeButton === 0) {
-      if(buttonIndex === 0) {
-        return replaceBoldsUnderlinesHighlights(componentRef.current.paragraph, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
-      } else if(buttonIndex === 1) {
-        return (
-          <span className='l2-question'>
-            {componentRef.current.type === 'Principle' ? "How does it apply to the Atlantic Ocean?" : "How does it differ from AWARENESS?"}
-          </span>
-        );
-      } else if(buttonIndex === 2) {
-        return (
-          <span className='l2-question'>
-            {componentRef.current.type === 'Principle' ? "How does it apply to Portugal?" : "How can it be applied in practice?"}  
-          </span>
-        );
-      }
-    } else if(activeButton === 1) {
-      if(buttonIndex === 0) {
-        return (
-          <span className='l2-question'>
-            In short
-          </span>
-        );
-      } else if(buttonIndex === 1) {
-        if(componentRef.current.type === 'Principle') 
-          currentText = componentRef.current.region_feature;
-        else
-          currentText = componentRef.current.diff_paragraph;
-        return replaceBoldsUnderlinesHighlights(currentText, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
-      } else if(buttonIndex === 2) {
-        return (
-          <span className='l2-question'>
-            How does it apply to Portugal?
-          </span>
-        );
-      }
-    } else if(activeButton === 2) {
-      if(buttonIndex === 0) {
-        return (
-          <span className='l2-question'>
-            In short
-          </span>
-        );
-      } else if(buttonIndex === 1) {
-        return (
-          <span className='l2-question'>
-            How does it apply to the Atlantic Ocean?
-          </span>
-        );
-      } else if(buttonIndex === 2) {
-        if(componentRef.current.type === 'Principle') 
-          currentText = componentRef.current.country_e1;
-        else
-          currentText = componentRef.current.example_1;
-        return replaceBoldsUnderlinesHighlights(currentText, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
-      } 
-    } else if(activeButton === 3) {
-      if(buttonIndex === 0) {
-        return (
-          <span className='l2-question'>
-            In short
-          </span>
-        );
-      } else if(buttonIndex === 1) {
-        return (
-          <span className='l2-question'>
-            How does it apply to the Atlantic Ocean?
-          </span>
-        );
-      } else if(buttonIndex === 2) {
-        if(componentRef.current.type === 'Principle')   
-          currentText = componentRef.current.country_e2;
-        else
-          currentText = componentRef.current.example_2;
-        return replaceBoldsUnderlinesHighlights(currentText, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
-      } 
-    
-    } else if(activeButton === null) {
-      if(buttonIndex === 0) {
-        return (
-          <span className='l2-question'>
-            In short
-          </span>
-        );
-      } else if(buttonIndex === 1) {
-        return (
-          <span className='l2-question'>
-            How does it apply to the Atlantic Ocean?
-          </span>
-        );
-      } else if(buttonIndex === 2 || buttonIndex === 3) {
-        return (
-          <span className='l2-question'>
-            How does it apply to Portugal?
-          </span>
-        );
-      }
-    }
-  }
+    const type = componentRef.current.type;
+  
+    // Define button text mappings
+    const buttonTexts = {
+      0: {
+        0: replaceBoldsUnderlinesHighlights(
+          componentRef.current.paragraph,
+          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+        ),
+        1: <span className='l2-question'>{type === 'Principle' ? "How does it apply to the Atlantic Ocean?" : "How does it differ from AWARENESS?"}</span>,
+        2: <span className='l2-question'>{type === 'Principle' ? "How does it apply to Portugal?" : "How can it be applied in practice?"}</span>,
+      },
+      1: {
+        0: <span className='l2-question'>In short</span>,
+        1: replaceBoldsUnderlinesHighlights(
+          type === 'Principle' ? componentRef.current.region_feature : componentRef.current.diff_paragraph,
+          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+        ),
+        2: <span className='l2-question'>How does it apply to Portugal?</span>,
+      },
+      2: {
+        0: <span className='l2-question'>In short</span>,
+        1: <span className='l2-question'>How does it apply to the Atlantic Ocean?</span>,
+        2: replaceBoldsUnderlinesHighlights(
+          type === 'Principle' ? componentRef.current.country_e1 : componentRef.current.example_1,
+          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+        ),
+      },
+      3: {
+        0: <span className='l2-question'>In short</span>,
+        1: <span className='l2-question'>How does it apply to the Atlantic Ocean?</span>,
+        2: replaceBoldsUnderlinesHighlights(
+          type === 'Principle' ? componentRef.current.country_e2 : componentRef.current.example_2,
+          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+        ),
+      },
+      null: {
+        0: <span className='l2-question'>In short</span>,
+        1: <span className='l2-question'>How does it apply to the Atlantic Ocean?</span>,
+        2: <span className='l2-question'>How does it apply to Portugal?</span>,
+      },
+    };
+  
+    return buttonTexts[activeButton]?.[buttonIndex] || null;
+  };  
 
   // Keyboard event handler
-    const handleButtonClick = (index) => {
-      setActiveButton((prevState) => {
-        const currentValue = prevState[componentRef.current.code];
-        // If it's 0, 1, or 2, cycle to the next value, unless it's already at that value, in which case set it to null
-        const newIndex = currentValue === index ? null : index;
-
-        if(newIndex === 0 || newIndex === null)
-          setCurrentLinks(null);
-        else if(newIndex === 1)
-          if(componentRef.current.type === 'Principle')
-            setCurrentLinks(componentRef.current.wbc_links);
-          else 
-            setCurrentLinks(componentRef.current.diff_code);
-        else if(newIndex === 2)
-          if(componentRef.current.type === 'Principle')
-            setCurrentLinks(componentRef.current.ce1_links);
-          else 
-            setCurrentLinks(componentRef.current.e1_codes);
-        else if(newIndex === 3)
-          if(componentRef.current.type === 'Principle')
-            setCurrentLinks(componentRef.current.ce2_links);
-          else 
-            setCurrentLinks(componentRef.current.e1_codes);
-
-        const updatedState = {
-          ...prevState,
-          [componentRef.current.code]: newIndex,
-        };
-        activeButtonRef.current = updatedState; 
-
-        return updatedState;
-      });
+  const handleButtonClick = (index) => {
+    setActiveButton((prevState) => {
+      const currentValue = prevState[componentRef.current.code];
+      const newIndex = currentValue === index ? null : index;
+  
+      // Clear links for 0 or null
+      if (newIndex === 0 || newIndex === null) {
+        setCurrentLinks(null);
+        return updateState(prevState, newIndex);
+      }
+  
+      // Define link mappings based on component type and newIndex
+      const linkMappings = {
+        1: {
+          principle: componentRef.current.wbc_links,
+          default: componentRef.current.diff_code,
+        },
+        2: {
+          principle: componentRef.current.ce1_links,
+          default: componentRef.current.e1_codes,
+        },
+        3: {
+          principle: componentRef.current.ce2_links,
+          default: componentRef.current.e1_codes,
+        },
+      };
+  
+      // Set the appropriate links based on the new index and type
+      const links = linkMappings[newIndex]?.[componentRef.current.type === 'Principle' ? 'principle' : 'default'];
+      setCurrentLinks(links);
+  
+      // Update state
+      return updateState(prevState, newIndex);
+    });
+  };
+  
+  // Helper function to update the state and activeButtonRef
+  const updateState = (prevState, newIndex) => {
+    const updatedState = {
+      ...prevState,
+      [componentRef.current.code]: newIndex,
     };
-
+    activeButtonRef.current = updatedState;
+    return updatedState;
+  };
+  
   const messageStateChange = (state) => {
     setShowMessage(state);
     showMessageRef.current = state;
@@ -347,44 +303,34 @@ const Learn2Page = () => {
               </div>
               
               <div className='l2-text-buttons-container'>
-                <button 
-                  className='l2-button'
-                  onClick={() => handleButtonClick(0)} 
-                >
-                  <ArrowIcon className={`l2-arrow-icon ${activeButton[component.code] === 0 ? "active" : ""}`} />
-                  {getButtonsText(0)}
-                </button>
-                <button 
-                  className='l2-button'
-                  onClick={() => handleButtonClick(1)} 
-                >
-                  <ArrowIcon className={`l2-arrow-icon ${activeButton[component.code] === 1 ? "active" : ""}`} />
-                  {getButtonsText(1)}
-                </button>
-                <button 
-                  className='l2-button'
-                  onClick={() => handleButtonClick(2)} 
-                >
-                  <ArrowIcon className={`l2-arrow-icon ${activeButton[component.code] === 2 || activeButton[component.code] === 3 ? "active" : ""}`} />
-                  {getButtonsText(2)}
-                </button>
+                {[0, 1, 2].map((index) => (
+                  <button 
+                    key={index} // Add a unique key for each button
+                    className='l2-button'
+                    onClick={() => handleButtonClick(index)} 
+                  >
+                    <ArrowIcon className={`l2-arrow-icon ${activeButton[component.code] === index ? "active" : ""}`} />
+                    {getButtonsText(index)}
+                  </button>
+                ))}
+                
                 {activeButton[component.code] > 1 && (
-                  <>
+                  <div className="l2-arrow-controls">
                     <button
                       className={`l2-example-arrow left ${activeButton[component.code] === 2 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(2)}
                     >
                       <ArrowIcon className='l2-example-arrow-icon' />
                     </button>
-                    <span>{activeButton[component.code]-1}</span>
+                    <span>{activeButton[component.code] - 1}</span>
                     <span>/2</span>
                     <button
-                      className={`l2-example-arrow  right ${activeButton[component.code] === 3 ? "disabled" : ""}`}
+                      className={`l2-example-arrow right ${activeButton[component.code] === 3 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(3)}
                     >
                       <ArrowIcon className='l2-example-arrow-icon' />
                     </button>
-                  </>
+                  </div>
                 )}
               </div>
             </>
