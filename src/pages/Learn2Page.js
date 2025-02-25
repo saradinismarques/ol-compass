@@ -152,23 +152,23 @@ const Learn2Page = () => {
         return replaceBoldsUnderlinesHighlights(componentRef.current.paragraph, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
       } else if(buttonIndex === 1) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             {componentRef.current.type === 'Principle' ? "How does it apply to the Atlantic Ocean?" : "How does it differ from AWARENESS?"}
-          </div>
+          </span>
         );
       } else if(buttonIndex === 2) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             {componentRef.current.type === 'Principle' ? "How does it apply to Portugal?" : "How can it be applied in practice?"}  
-          </div>
+          </span>
         );
       }
     } else if(activeButton === 1) {
       if(buttonIndex === 0) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             In short
-          </div>
+          </span>
         );
       } else if(buttonIndex === 1) {
         if(componentRef.current.type === 'Principle') 
@@ -178,23 +178,23 @@ const Learn2Page = () => {
         return replaceBoldsUnderlinesHighlights(currentText, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
       } else if(buttonIndex === 2) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             How does it apply to Portugal?
-          </div>
+          </span>
         );
       }
     } else if(activeButton === 2) {
       if(buttonIndex === 0) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             In short
-          </div>
+          </span>
         );
       } else if(buttonIndex === 1) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             How does it apply to the Atlantic Ocean?
-          </div>
+          </span>
         );
       } else if(buttonIndex === 2) {
         if(componentRef.current.type === 'Principle') 
@@ -206,15 +206,15 @@ const Learn2Page = () => {
     } else if(activeButton === 3) {
       if(buttonIndex === 0) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             In short
-          </div>
+          </span>
         );
       } else if(buttonIndex === 1) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             How does it apply to the Atlantic Ocean?
-          </div>
+          </span>
         );
       } else if(buttonIndex === 2) {
         if(componentRef.current.type === 'Principle')   
@@ -227,21 +227,21 @@ const Learn2Page = () => {
     } else if(activeButton === null) {
       if(buttonIndex === 0) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             In short
-          </div>
+          </span>
         );
       } else if(buttonIndex === 1) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             How does it apply to the Atlantic Ocean?
-          </div>
+          </span>
         );
       } else if(buttonIndex === 2 || buttonIndex === 3) {
         return (
-          <div className='l2-question'>
+          <span className='l2-question'>
             How does it apply to Portugal?
-          </div>
+          </span>
         );
       }
     }
@@ -307,8 +307,6 @@ const Learn2Page = () => {
     }));
   };
 
-  console.log(activeButtonRef.current[componentRef.current.code])
-
   return (
     <>
       <div className={`${showMessage ? "blur-background" : ""}`}>
@@ -353,35 +351,38 @@ const Learn2Page = () => {
                   className='l2-button'
                   onClick={() => handleButtonClick(0)} 
                 >
+                  <ArrowIcon className={`l2-arrow-icon ${activeButton[component.code] === 0 ? "active" : ""}`} />
                   {getButtonsText(0)}
                 </button>
                 <button 
                   className='l2-button'
                   onClick={() => handleButtonClick(1)} 
                 >
+                  <ArrowIcon className={`l2-arrow-icon ${activeButton[component.code] === 1 ? "active" : ""}`} />
                   {getButtonsText(1)}
                 </button>
                 <button 
                   className='l2-button'
                   onClick={() => handleButtonClick(2)} 
                 >
+                  <ArrowIcon className={`l2-arrow-icon ${activeButton[component.code] === 2 || activeButton[component.code] === 3 ? "active" : ""}`} />
                   {getButtonsText(2)}
                 </button>
                 {activeButton[component.code] > 1 && (
                   <>
                     <button
-                      className={`l2-arrow-button left ${activeButton[component.code] === 2 ? "disabled" : ""}`}
+                      className={`l2-example-arrow left ${activeButton[component.code] === 2 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(2)}
                     >
-                      <ArrowIcon className='l2-arrow-icon' />
+                      <ArrowIcon className='l2-example-arrow-icon' />
                     </button>
                     <span>{activeButton[component.code]-1}</span>
                     <span>/2</span>
                     <button
-                      className={`l2-arrow-button right ${activeButton[component.code] === 3 ? "disabled" : ""}`}
+                      className={`l2-example-arrow  right ${activeButton[component.code] === 3 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(3)}
                     >
-                      <ArrowIcon className='l2-arrow-icon' />
+                      <ArrowIcon className='l2-example-arrow-icon' />
                     </button>
                   </>
                 )}

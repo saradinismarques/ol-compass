@@ -26,6 +26,24 @@
     }
 }
 
+/* Arrow Buttons  */
+.l2-arrow-icon {
+    width: 2.5vh;
+    height: 2.5vh;
+    fill: var(--gray-color); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: var(--gray-color);
+    stroke-width: 0;
+    padding-right: 2vh;
+    position: relative;
+}
+
+.l2-arrow-icon.active {
+    rotate: 90deg;
+    top: 1vh;
+    left: -1vh;
+}
+
 .l2-button {
     background-color: transparent;
     border: none;
@@ -47,44 +65,42 @@
     font-size: 2.3vh;
     font-weight: 400;
     overflow-y: auto; /* Hide overflow initially */
-    display: block;
     color: var(--gray-color); 
 }
 
-/* Arrow Buttons  */
-.l2-arrow-button {
+/* Example Arrow Buttons  */
+.l2-example-arrow {
     background-color: transparent;
     border: 0 solid transparent; /* Set initial border to transparent */
     cursor: pointer;
     outline: none;
-    position: fixed;
     position: relative;
 }
 
-.l2-arrow-button.disabled {
+.l2-example-arrow.disabled {
     pointer-events: none;
     opacity: 30%;
 }
 
 /* Left arrow button */
-.l2-arrow-button.left {
+.l2-example-arrow.left {
     transform: scale(-1); /* Rotate the arrow for left button */
     top: 0;
 }
 
 /* Right arrow button (default position) */
-.l2-arrow-button.right {
+.l2-example-arrow.right {
     transform: scale(1); /* Rotate the arrow for left button */
     top: 0.4vh;
 }
 
 /* Change icon color on hover */
-.l2-arrow-button:hover .l2-arrow-icon,
-.l2-arrow-button:active  .l2-arrow-icon {
+.l2-example-arrow:hover .l2-example-arrow-icon,
+.l2-example-arrow:active  .l2-example-arrow-icon {
     fill: var(--gray-hover-color); /* Change fill color on hover */
 }
 
-.l2-arrow-icon {
+.l2-example-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
     fill: var(--gray-color); /* Set default color for the bookmark */
