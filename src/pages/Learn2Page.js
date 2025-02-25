@@ -307,6 +307,8 @@ const Learn2Page = () => {
     }));
   };
 
+  console.log(activeButtonRef.current[componentRef.current.code])
+
   return (
     <>
       <div className={`${showMessage ? "blur-background" : ""}`}>
@@ -365,16 +367,18 @@ const Learn2Page = () => {
                 >
                   {getButtonsText(2)}
                 </button>
-                {activeButtonRef.current[component.code] > 1 && (
+                {activeButton[component.code] > 1 && (
                   <>
                     <button
-                      className='l2-arrow-button left'
+                      className={`l2-arrow-button left ${activeButton[component.code] === 2 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(2)}
                     >
                       <ArrowIcon className='l2-arrow-icon' />
                     </button>
+                    <span>{activeButton[component.code]-1}</span>
+                    <span>/2</span>
                     <button
-                      className='l2-arrow-button right'
+                      className={`l2-arrow-button right ${activeButton[component.code] === 3 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(3)}
                     >
                       <ArrowIcon className='l2-arrow-icon' />

@@ -57,18 +57,25 @@
     border: 0 solid transparent; /* Set initial border to transparent */
     cursor: pointer;
     outline: none;
+    position: fixed;
+    position: relative;
+}
+
+.l2-arrow-button.disabled {
+    pointer-events: none;
+    opacity: 30%;
 }
 
 /* Left arrow button */
 .l2-arrow-button.left {
     transform: scale(-1); /* Rotate the arrow for left button */
-    left: -10%; 
+    top: 0;
 }
 
 /* Right arrow button (default position) */
 .l2-arrow-button.right {
     transform: scale(1); /* Rotate the arrow for left button */
-    right: -10%;
+    top: 0.4vh;
 }
 
 /* Change icon color on hover */
@@ -86,6 +93,7 @@
     stroke-width: 0;
 }
 
+/* Text Styles */
 .l2-text.bold {
     font-weight: 700;
 }
