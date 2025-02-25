@@ -130,6 +130,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
           } else {
             Object.assign(componentData, {
               diff_code: component.diff_code ?? null,
+              diff_label: component.diff_label ?? null,
               diff_paragraph: component.diff_paragraph ?? null,
               example_1: component.example_1 ?? null,
               example_2: component.example_2 ?? null,

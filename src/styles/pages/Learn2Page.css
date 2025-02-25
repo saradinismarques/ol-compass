@@ -15,7 +15,7 @@
     top: 15vh; 
     left: 63.8vw;
     z-index: 30;
-    width: 45vh;
+    width: 48vh;
     font-weight: 400;
 }
 
@@ -34,7 +34,7 @@
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--gray-color);
     stroke-width: 0;
-    padding-right: 2vh;
+    padding-right: 1vh;
     position: relative;
 }
 
@@ -66,6 +66,10 @@
     font-weight: 400;
     overflow-y: auto; /* Hide overflow initially */
     color: var(--gray-color); 
+}
+
+.l2-question.bold {
+    font-weight: 600;
 }
 
 /* Example Arrow Buttons  */

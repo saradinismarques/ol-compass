@@ -95,6 +95,7 @@ const Learn2Page = () => {
       country_e2 = null,
       ce2_links = null,
       diff_code = null,
+      diff_label = null,
       diff_paragraph = null,
       example_1 = null,
       example_2 = null,
@@ -112,7 +113,7 @@ const Learn2Page = () => {
         bookmark: getBookmarkState(code),
         ...(type === 'Principle'
           ? { wbc_links, region_feature, country_e1, ce1_links, country_e2, ce2_links }
-          : { diff_code, diff_paragraph, example_1, example_2, e1_codes, e2_codes }),
+          : { diff_code, diff_label, diff_paragraph, example_1, example_2, e1_codes, e2_codes }),
       };
   
       // Update the ref
@@ -123,7 +124,6 @@ const Learn2Page = () => {
 
     const currentButton = activeButtonRef.current[code];
     
-    console.log(wbc_links, diff_code, ce1_links, e1_codes)
     if(currentButton === 0)
       setCurrentLinks(null);
     else if(currentButton === 1)
@@ -154,8 +154,16 @@ const Learn2Page = () => {
           componentRef.current.paragraph,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
-        1: <span className='l2-question'>{type === 'Principle' ? "How does it apply to the Atlantic Ocean?" : "How does it differ from AWARENESS?"}</span>,
-        2: <span className='l2-question'>{type === 'Principle' ? "How does it apply to Portugal?" : "How can it be applied in practice?"}</span>,
+        1: <span className='l2-question'>
+          {type === 'Principle'  
+            ? <>How does it apply to the <span className="l2-question bold">Atlantic Ocean</span>?</> 
+            : <>How does it differ from <span className="l2-question bold">{component.diff_label.toUpperCase()}</span>?</>
+          }</span>,
+        2: <span className='l2-question'>
+          {type === 'Principle' 
+            ? <>How does it apply to <span className="l2-question bold">Portugal</span>?</> 
+            : "How can it be applied in practice?"
+          }</span>,
       },
       1: {
         0: <span className='l2-question'>In short</span>,
@@ -163,11 +171,19 @@ const Learn2Page = () => {
           type === 'Principle' ? componentRef.current.region_feature : componentRef.current.diff_paragraph,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
-        2: <span className='l2-question'>How does it apply to Portugal?</span>,
+        2: <span className='l2-question'>
+          {type === 'Principle' 
+            ? <>How does it apply to <span className="l2-question bold">Portugal</span>?</> 
+            : "How can it be applied in practice?"
+          }</span>,
       },
       2: {
         0: <span className='l2-question'>In short</span>,
-        1: <span className='l2-question'>How does it apply to the Atlantic Ocean?</span>,
+        1: <span className='l2-question'>
+          {type === 'Principle' 
+            ? <>How does it apply to the <span className="l2-question bold">Atlantic Ocean</span>?</>  
+            : <>How does it differ from <span className="l2-question bold">{component.diff_label.toUpperCase()}</span>?</>
+          }</span>,
         2: replaceBoldsUnderlinesHighlights(
           type === 'Principle' ? componentRef.current.country_e1 : componentRef.current.example_1,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
@@ -175,7 +191,11 @@ const Learn2Page = () => {
       },
       3: {
         0: <span className='l2-question'>In short</span>,
-        1: <span className='l2-question'>How does it apply to the Atlantic Ocean?</span>,
+        1: <span className='l2-question'>
+          {type === 'Principle' 
+            ? <>How does it apply to the <span className="l2-question bold">Atlantic Ocean</span>?</> 
+            : <>How does it differ from <span className="l2-question bold">{component.diff_label.toUpperCase()}</span>?</>
+          }</span>,
         2: replaceBoldsUnderlinesHighlights(
           type === 'Principle' ? componentRef.current.country_e2 : componentRef.current.example_2,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
@@ -183,8 +203,16 @@ const Learn2Page = () => {
       },
       null: {
         0: <span className='l2-question'>In short</span>,
-        1: <span className='l2-question'>How does it apply to the Atlantic Ocean?</span>,
-        2: <span className='l2-question'>How does it apply to Portugal?</span>,
+        1: <span className='l2-question'>
+          {type === 'Principle' 
+            ? <>How does it apply to the <span className="l2-question bold">Atlantic Ocean</span>?</>  
+            : <>How does it differ from <span className="l2-question bold">{component.diff_label.toUpperCase()}</span>?</>
+          }</span>,
+        2: <span className='l2-question'>
+          {type === 'Principle' 
+            ? <>How does it apply to <span className="l2-question bold">Portugal</span>?</>  
+            : "How can it be applied in practice?"
+          }</span>,
       },
     };
   
