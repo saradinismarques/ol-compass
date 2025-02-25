@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { StateContext } from "../State.js";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
-import { getIntroTexts } from '../utils/DataExtraction.js';
+import { getTypeTooltip } from '../utils/DataExtraction.js';
 import Wave, { getComponents } from "./Wave.js"
 import { cleanText } from '../utils/TextFormatting.js';
 
@@ -9,7 +9,7 @@ const CompassIcon = ({ mode, currentType }) => {
   // Size and screen resize handler
   const initialSize = mode === "map" ? 90 : window.innerHeight / 8.11;
   const [size, setSize] = useState(initialSize);
-  const introTexts = getIntroTexts('English');
+  const typeTooltips = getTypeTooltip();
   
   // Tooltip
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -41,12 +41,7 @@ const CompassIcon = ({ mode, currentType }) => {
     if (mode === "map") 
       return;
 
-    let tooltipText;
-    if(currentType === 'Principle') tooltipText = introTexts.ClarifyP;
-    else if(currentType === 'Perspective') tooltipText = introTexts.ClarifyPe;
-    else if(currentType === 'Dimension') tooltipText = introTexts.ClarifyD;
-    
-    setTooltipText(cleanText(tooltipText));
+    setTooltipText(typeTooltips[currentType]);
     setTooltipVisible(true);
   };
 

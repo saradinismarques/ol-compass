@@ -30,6 +30,10 @@
     display: block;
 }
 
+.l2-text.bold {
+    font-weight: 700;
+}
+
 .l2-terms {
     position: fixed;
     bottom: 4vh; 

@@ -116,24 +116,22 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
         
           if (component.type === 'Principle') {
             Object.assign(componentData, {
-              phy: component.phy ?? null,
-              geo: component.geo ?? null,
-              che: component.che ?? null,
-              bio: component.bio ?? null,
-              phy_links: component.phy_links ?? null,
-              geo_links: component.geo_links ?? null,
-              che_links: component.che_links ?? null,
-              bio_links: component.bio_links ?? null,
+              wbc_links: component.wbc_links ?? null,
+              region_feature: component.region_feature ?? null,
+              country_e1: component.country_e1 ?? null,
+              ce1_links: component.ce1_links ?? null,
+              country_e2: component.country_e2 ?? null,
+              ce2_links: component.ce2_links ?? null,
 
             });
           } else {
             Object.assign(componentData, {
-              compared_paragraph: component.compared_paragraph ?? null,
+              diff_code: component.diff_code ?? null,
+              diff_paragraph: component.diff_paragraph ?? null,
               example_1: component.example_1 ?? null,
               example_2: component.example_2 ?? null,
-              compared_code: component.compared_code ?? null,
-              example_1_codes: component.example_1_codes ?? null,
-              example_2_codes: component.example_2_codes ?? null,
+              e1_codes: component.e1_codes ?? null,
+              e2_codes: component.e2_codes ?? null,
             });
           }
         
@@ -190,19 +188,17 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
     if(mode.startsWith("get-started") || mode === 'learn-2')
       return;
 
-    if(component.type === "Principle") {
-      // Clear any existing timeout to avoid overlaps
-      clearTimeout(tooltipTimeout);
+    // Clear any existing timeout to avoid overlaps
+    clearTimeout(tooltipTimeout);
 
-      // Set a timeout to delay the appearance of the tooltip by 1 second
-      tooltipTimeout = setTimeout(() => {
-        if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
-          setTooltipPos({ x: e.clientX, y: e.clientY });
-          setTooltipText(component.tooltip);
-          setTooltipVisible(true);
-        }
-      }, 500); // 1-second delay
-    }
+    // Set a timeout to delay the appearance of the tooltip by 1 second
+    tooltipTimeout = setTimeout(() => {
+      if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
+        setTooltipPos({ x: e.clientX, y: e.clientY });
+        setTooltipText(component.tooltip);
+        setTooltipVisible(true);
+      }
+    }, 500); // 1-second delay
   };
 
   const handleMouseLeave = () => {

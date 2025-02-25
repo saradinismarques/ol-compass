@@ -1,11 +1,12 @@
 import colorPalletData from '../data/static/color-pallete-data.json'
 import introTexts from '../data/static/intro-texts.json'
 import modesTexts from '../data/static/modes-texts.json'
+import tooltipsTexts from '../data/content/tooltips-texts.json'
 import getStartedData from '../data/content/get-started-data.json';
 import learnData from '../data/content/learn-data.json';
-import linksPrinciples from '../data/content/links_principles.json';
-import linksPerspectives from '../data/content/links_perspectives.json';
-import linksDimensions from '../data/content/links_dimensions.json';
+import linksPrinciples from '../data/content/links-principles.json';
+import linksPerspectives from '../data/content/links-perspectives.json';
+import linksDimensions from '../data/content/links-dimensions.json';
 import conceptsData from '../data/content/concepts-data.json';
 import getInspiredData from '../data/content/get-inspired-data.json';
 import { cleanText } from './TextFormatting.js';
@@ -116,7 +117,7 @@ export function getModeTexts(mode) {
                 Headline: item["#headline"],
                 Text: item["#text"],
                 StartPrompt: item["#start-prompt"],
-                Message: item["#?message?"],
+                Message: item["#?message NB - NOT AUTOMATIC"],
             };
         }
 
@@ -129,6 +130,27 @@ export function getModeTexts(mode) {
 }
 
 // Content
+export function getTypeTooltip() {
+    try {
+       // Filter only the required labels
+       const filteredData = tooltipsTexts.filter(item =>
+            ["PRINCIPLES", "PERSPECTIVES", "DIMENSIONS"].includes(item["#label"])
+        );
+
+        // Convert to the required format
+        const result = {
+            Principle: filteredData.find(item => item["#label"] === "PRINCIPLES")?.["#TOOLTIP"],
+            Perspective: filteredData.find(item => item["#label"] === "PERSPECTIVES")?.["#TOOLTIP"],
+            Dimension: filteredData.find(item => item["#label"] === "DIMENSIONS")?.["#TOOLTIP"]
+        };
+
+        return result;
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
+}
+
 export function getComponentsData(type) {
     if(type === 'default') return getDefaultData();
     else if(type === 'get-started') return getGetStartedData();
@@ -139,11 +161,18 @@ export function getComponentsData(type) {
 
 export function getDefaultData() {
     try {
+
+        // Create a map of labels from learnData for easy lookup
+        const tooltipsMap = tooltipsTexts.reduce((acc, item) => {
+            acc[item["#label"]] = item["#TOOLTIP"];
+            return acc;
+        }, {});
+
         // Process the JSON data
         const result = learnData.map(item => ({
             code: item["#code"],
             label: item["#label"],
-            tooltip: cleanText(item["#headline"]),
+            tooltip: tooltipsMap[item["#code"]] || "",
             type: getType(item['#code'])
         }));
 
@@ -231,18 +260,16 @@ function getLinksData() {
 
         // Process the principles JSON
         let principlesData = linksPrinciples.map(item => ({
-            code: item["Princ-ID"],
-            label: labelsMap[item["Princ-ID"]] || "", // Get label from map
-            paragraph: item["Principle-def"],
-            phy: item["Phy-L"],
-            phy_links: item["Phy-L_links"] ? item["Phy-L_links"].split(",").map(link => link.trim()) : [], // Convert to array
-            geo: item["Geo-L"],
-            geo_links: item["Geo-L_links"] ? item["Geo-L_links"].split(",").map(link => link.trim()) : [], // Convert to array
-            che: item["Che-L"],
-            che_links: item["Che-L_links"] ? item["Che-L_links"].split(",").map(link => link.trim()) : [], // Convert to array
-            bio: item["Bio-L"],
-            bio_links: item["Bio-L_links"] ? item["Bio-L_links"].split(",").map(link => link.trim()) : [], // Convert to array
-            type: getType(item["Princ-ID"])
+            code: item["P-ID"],
+            label: labelsMap[item["P-ID"]] || "", // Get label from map
+            paragraph: item["P-GEN"],
+            wbc_links: item["WBC-P_links"] ? item["WBC-P_links"].split(",").map(link => link.trim()) : [], // Convert to array
+            region_feature: item["REGION+FEATURE (WBC)"],
+            country_e1: item["COUNTRY-E1 (Ce1)"],
+            ce1_links: item["Ce1-Pe_links"] ? item["Ce1-Pe_links"].split(",").map(link => link.trim()) : [], // Convert to array
+            country_e2: item["COUNTRY-E2 (Ce2)"],
+            ce2_links: item["Ce2-Pe_links"] ? item["Ce2-Pe_links"].split(",").map(link => link.trim()) : [], // Convert to array
+            type: getType(item["P-ID"])
         }));
 
         // Process the perspectives JSON
@@ -252,16 +279,16 @@ function getLinksData() {
                     
             // Return the object with the necessary fields
             return {
-                code: item["Per-ID"],
-                label: labelsMap[item["Per-ID"]] || "", // Get label from map
+                code: item["Pe-ID"],
+                label: labelsMap[item["Pe-ID"]] || "", // Get label from map
                 paragraph: item["What-PAR"],
-                compared_paragraph: item["Compared with-PAR"],
-                compared_code: item["Compared with-ID"],
+                diff_code: item["Diff-from"],
+                diff_paragraph: item["Diff-from-PAR"],
                 example_1: item["Example 1"],
                 example_2: item["Example 2"],
-                example_1_codes: [Py1],   // Single P code with "y1"
-                example_2_codes: [Py2],   // Single P code with "y1"
-                type: getType(item["Per-ID"])
+                e1_codes: [Py1],   // Single P code with "y1"
+                e2_codes: [Py2],   // Single P code with "y1"
+                type: getType(item["Pe-ID"])
             };
         });
 
@@ -273,16 +300,16 @@ function getLinksData() {
             let Pey2 = Object.keys(item).find(key => item[key] === "y2" && key.startsWith("Pe")) || "";
             
             return {
-                code: item["Dim-ID"],
-                label: labelsMap[item["Dim-ID"]] || "", // Get label from map
+                code: item["D-ID"],
+                label: labelsMap[item["D-ID"]] || "", // Get label from map
                 paragraph: item["What-PAR"],
-                compared_paragraph: item["Compared with-PAR"],
-                compared_code: item["Compared with-ID"],
+                diff_code: item["Diff-from"],
+                diff_paragraph: item["Diff-from-PAR"],
                 example_1: item["Example 1"],
                 example_2: item["Example 2"],
-                example_1_codes: [Py1, Pey1],   // Single P code with "y1"
-                example_2_codes: [Py2, Pey2],   // Single P code with "y1"
-                type: getType(item["Dim-ID"])
+                e1_codes: [Py1, Pey1],   // Single P code with "y1"
+                e2_codes: [Py2, Pey2],   // Single P code with "y1"
+                type: getType(item["D-ID"])
             };
         });
 

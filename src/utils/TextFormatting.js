@@ -180,3 +180,52 @@ export function replaceUnderlines(text, currentConcept, onClickHandler) {
     });
 };
 
+export function replaceStyledText(text, containerStyle, textStyle, boldStyle, italicStyle, hPStyle, hPeStyle) {
+    return (
+        <div className={containerStyle} style={{ display: "inline" }}>
+            {text
+                .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||")
+                .replace(/<i>(.*?)<\/i>/g, "||I||$1||I||")
+                .replace(/<hP>(.*?)<\/hP>/g, "||HP||$1||HP||")
+                .replace(/<hPe>(.*?)<\/hPe>/g, "||HPE||$1||HPE||")
+                .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|I\|\|.*?\|\|I\|\||\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\|)/g)
+                .map((part, index) => {
+                    const uniqueKey = `${Date.now()}-${index}`; // Unique key based on timestamp and index
+                    if (part.startsWith("||B||")) {
+                        return (
+                            <span key={uniqueKey} className={boldStyle} style={{ display: "inline" }}>
+                                {part.replace(/\|\|B\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    if (part.startsWith("||I||")) {
+                        return (
+                            <span key={uniqueKey} className={italicStyle} style={{ display: "inline" }}>
+                                {part.replace(/\|\|I\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    if (part.startsWith("||HP||")) {
+                        return (
+                            <span key={uniqueKey} className={hPStyle} style={{ display: "inline" }}>
+                                {part.replace(/\|\|HP\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    if (part.startsWith("||HPE||")) {
+                        return (
+                            <span key={uniqueKey} className={hPeStyle} style={{ display: "inline" }}>
+                                {part.replace(/\|\|HPE\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    return (
+                        <span key={uniqueKey} className={textStyle} style={{ display: "inline" }}>
+                            {part}
+                        </span>
+                    );
+                })}
+        </div>
+    );
+}
+

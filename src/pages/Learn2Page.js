@@ -7,6 +7,7 @@ import Description from '../components/Description';
 import Message from '../components/Message';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
+import { replaceStyledText } from '../utils/TextFormatting.js';
 import '../styles/pages/Learn2Page.css';
 
 const Learn2Page = () => {
@@ -79,20 +80,18 @@ const Learn2Page = () => {
       title,
       paragraph,
       type,
-      phy = null,
-      geo = null,
-      che = null,
-      bio = null,
-      phy_links = null,
-      geo_links = null,
-      che_links = null,
-      bio_links = null,
-      compared_paragraph = null,
+      wbc_links = null,
+      region_feature = null,
+      country_e1 = null,
+      ce1_links = null,
+      country_e2 = null,
+      ce2_links = null,
+      diff_code = null,
+      diff_paragraph = null,
       example_1 = null,
       example_2 = null,
-      compared_code = null,
-      example_1_codes = null,
-      example_2_codes = null
+      e1_codes = null,
+      e2_codes = null
     } = data;
 
     setComponent((prevComponent) => {
@@ -105,11 +104,11 @@ const Learn2Page = () => {
         currentParagraph: paragraph,
         currentTerm: null,
         currentLinks: null,
-        slideMax: type === 'Principle' ? 4 : 3,
+        slideMax: type === 'Principle' ? 3 : 3,
         bookmark: getBookmarkState(code),
         ...(type === 'Principle'
-          ? { phy, geo, che, bio, phy_links, geo_links, che_links, bio_links }
-          : { compared_paragraph, example_1, example_2, compared_code, example_1_codes, example_2_codes }),
+          ? { wbc_links, region_feature, country_e1, ce1_links, country_e2, ce2_links }
+          : { diff_code, diff_paragraph, example_1, example_2, e1_codes, e2_codes }),
       };
   
       // Update the ref
@@ -134,37 +133,27 @@ const Learn2Page = () => {
       if(index === 0) {
         currentParagraph = componentRef.current.paragraph;
       } else if(index === 1) {
-        currentParagraph = componentRef.current.geo;
-        currentTerm = 'Ocean Geology';
-        currentLinks = componentRef.current.geo_links;
+        currentParagraph = componentRef.current.region_feature;
+        currentLinks = componentRef.current.wbc_links;
       } else if(index === 2) {
-        currentParagraph = componentRef.current.phy;
-        currentTerm = 'Ocean Physics';
-        currentLinks = componentRef.current.phy_links;
+        currentParagraph = componentRef.current.country_e1;
+        currentLinks = componentRef.current.ce1_links;
       } else if(index === 3) {
-        currentParagraph = componentRef.current.che;
-        currentTerm = 'Ocean Chemistry';
-        currentLinks = componentRef.current.che_links;
-      } else if(index === 4) {
-        currentParagraph = componentRef.current.bio;
-        currentTerm = 'Ocean Biology';
-        currentLinks = componentRef.current.bio_links;
-      }
+        currentParagraph = componentRef.current.country_e2;
+        currentLinks = componentRef.current.ce2_links;
+      } 
     } else {
       if(index === 0) {
         currentParagraph = componentRef.current.paragraph;
       } else if(index === 1) {
-        currentParagraph = componentRef.current.compared_paragraph;
-        currentTerm = '/';
-        currentLinks = componentRef.current.compared_code;
+        currentParagraph = componentRef.current.diff_paragraph;
+        currentLinks = componentRef.current.diff_code;
       } else if(index === 2) {
         currentParagraph = componentRef.current.example_1;
-        currentTerm = 'Example 1';
-        currentLinks = componentRef.current.example_1_codes;
+        currentLinks = componentRef.current.e1_codes;
       } else if(index === 3) {
         currentParagraph = componentRef.current.example_2;
-        currentTerm = 'Example 2';
-        currentLinks = componentRef.current.example_2_codes;
+        currentLinks = componentRef.current.e2_codes;
       }
     }
 
@@ -273,11 +262,7 @@ const Learn2Page = () => {
                 </button>
               </div>
               
-              <div className="l2-text-container">
-                <p className='l2-text'>{component.currentParagraph}</p>
-              </div>
-
-              <p className='l2-terms'>{component.currentTerm}</p>
+                {replaceStyledText(component.currentParagraph, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text bold', 'l2-text bold', 'l2-text bold')}
             </>
           )}
           <Menu />
