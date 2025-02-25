@@ -121,12 +121,20 @@ const Learn2Page = () => {
     });
 
     const currentButton = activeButtonRef.current[code];
+    
+    console.log(wbc_links, diff_code, ce1_links, e1_codes)
     if(currentButton === 0)
       setCurrentLinks(null);
     else if(currentButton === 1)
-      setCurrentLinks(componentRef.current.wbc_links);
+      if(type === 'Principle')
+        setCurrentLinks(wbc_links);
+      else 
+        setCurrentLinks(diff_code);
     else if(currentButton === 2)
-      setCurrentLinks(componentRef.current.ce1_links);
+      if(type === 'Principle')
+        setCurrentLinks(ce1_links);
+      else 
+        setCurrentLinks(e1_codes);
 
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
@@ -136,20 +144,21 @@ const Learn2Page = () => {
 
   const getButtonsText = (buttonIndex) => {
     const activeButton = activeButtonRef.current[componentRef.current.code];
+    let currentText;
 
     if(activeButton === 0) {
       if(buttonIndex === 0) {
-        return replaceBoldsUnderlinesHighlights(component.paragraph, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+        return replaceBoldsUnderlinesHighlights(componentRef.current.paragraph, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
       } else if(buttonIndex === 1) {
         return (
           <div className='l2-question'>
-            How does it apply to the Atlantic Ocean?
+            {componentRef.current.type === 'Principle' ? "How does it apply to the Atlantic Ocean?" : "How does it differ from AWARENESS?"}
           </div>
         );
       } else if(buttonIndex === 2) {
         return (
           <div className='l2-question'>
-            How does it apply to Portugal?
+            {componentRef.current.type === 'Principle' ? "How does it apply to Portugal?" : "How can it be applied in practice?"}  
           </div>
         );
       }
@@ -161,7 +170,11 @@ const Learn2Page = () => {
           </div>
         );
       } else if(buttonIndex === 1) {
-        return replaceBoldsUnderlinesHighlights(component.region_feature, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+        if(componentRef.current.type === 'Principle') 
+          currentText = componentRef.current.region_feature;
+        else
+          currentText = componentRef.current.diff_paragraph;
+        return replaceBoldsUnderlinesHighlights(currentText, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
       } else if(buttonIndex === 2) {
         return (
           <div className='l2-question'>
@@ -183,7 +196,11 @@ const Learn2Page = () => {
           </div>
         );
       } else if(buttonIndex === 2) {
-        return replaceBoldsUnderlinesHighlights(component.country_e1, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+        if(componentRef.current.type === 'Principle') 
+          currentText = componentRef.current.country_e1;
+        else
+          currentText = componentRef.current.example_1;
+        return replaceBoldsUnderlinesHighlights(currentText, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
       }
     } else if(activeButton === null) {
       if(buttonIndex === 0) {
@@ -215,10 +232,18 @@ const Learn2Page = () => {
         // If it's 0, 1, or 2, cycle to the next value, unless it's already at that value, in which case set it to null
         const newIndex = currentValue === index ? null : index;
 
-        if(newIndex === 1)
-          setCurrentLinks(componentRef.current.wbc_links);
+        if(newIndex === 0)
+          setCurrentLinks(null);
+        else if(newIndex === 1)
+          if(componentRef.current.type === 'Principle')
+            setCurrentLinks(componentRef.current.wbc_links);
+          else 
+            setCurrentLinks(componentRef.current.diff_code);
         else if(newIndex === 2)
-          setCurrentLinks(componentRef.current.ce1_links);
+          if(componentRef.current.type === 'Principle')
+            setCurrentLinks(componentRef.current.wbc_links);
+          else 
+            setCurrentLinks(componentRef.current.e1_codes);
 
         const updatedState = {
           ...prevState,
