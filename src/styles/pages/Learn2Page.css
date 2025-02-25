@@ -51,6 +51,41 @@
     color: var(--gray-color); 
 }
 
+/* Arrow Buttons  */
+.l2-arrow-button {
+    background-color: transparent;
+    border: 0 solid transparent; /* Set initial border to transparent */
+    cursor: pointer;
+    outline: none;
+}
+
+/* Left arrow button */
+.l2-arrow-button.left {
+    transform: scale(-1); /* Rotate the arrow for left button */
+    left: -10%; 
+}
+
+/* Right arrow button (default position) */
+.l2-arrow-button.right {
+    transform: scale(1); /* Rotate the arrow for left button */
+    right: -10%;
+}
+
+/* Change icon color on hover */
+.l2-arrow-button:hover .l2-arrow-icon,
+.l2-arrow-button:active  .l2-arrow-icon {
+    fill: var(--gray-hover-color); /* Change fill color on hover */
+}
+
+.l2-arrow-icon {
+    width: 2.5vh;
+    height: 2.5vh;
+    fill: var(--gray-color); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: var(--gray-color);
+    stroke-width: 0;
+}
+
 .l2-text.bold {
     font-weight: 700;
 }

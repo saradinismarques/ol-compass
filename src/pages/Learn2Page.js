@@ -8,6 +8,7 @@ import Message from '../components/Message';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
 import { replaceBoldsUnderlinesHighlights } from '../utils/TextFormatting.js';
+import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import '../styles/pages/Learn2Page.css';
 
 const Learn2Page = () => {
@@ -201,8 +202,8 @@ const Learn2Page = () => {
         else
           currentText = componentRef.current.example_1;
         return replaceBoldsUnderlinesHighlights(currentText, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
-      }
-    } else if(activeButton === null) {
+      } 
+    } else if(activeButton === 3) {
       if(buttonIndex === 0) {
         return (
           <div className='l2-question'>
@@ -216,6 +217,27 @@ const Learn2Page = () => {
           </div>
         );
       } else if(buttonIndex === 2) {
+        if(componentRef.current.type === 'Principle')   
+          currentText = componentRef.current.country_e2;
+        else
+          currentText = componentRef.current.example_2;
+        return replaceBoldsUnderlinesHighlights(currentText, 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+      } 
+    
+    } else if(activeButton === null) {
+      if(buttonIndex === 0) {
+        return (
+          <div className='l2-question'>
+            In short
+          </div>
+        );
+      } else if(buttonIndex === 1) {
+        return (
+          <div className='l2-question'>
+            How does it apply to the Atlantic Ocean?
+          </div>
+        );
+      } else if(buttonIndex === 2 || buttonIndex === 3) {
         return (
           <div className='l2-question'>
             How does it apply to Portugal?
@@ -232,7 +254,7 @@ const Learn2Page = () => {
         // If it's 0, 1, or 2, cycle to the next value, unless it's already at that value, in which case set it to null
         const newIndex = currentValue === index ? null : index;
 
-        if(newIndex === 0)
+        if(newIndex === 0 || newIndex === null)
           setCurrentLinks(null);
         else if(newIndex === 1)
           if(componentRef.current.type === 'Principle')
@@ -241,7 +263,12 @@ const Learn2Page = () => {
             setCurrentLinks(componentRef.current.diff_code);
         else if(newIndex === 2)
           if(componentRef.current.type === 'Principle')
-            setCurrentLinks(componentRef.current.wbc_links);
+            setCurrentLinks(componentRef.current.ce1_links);
+          else 
+            setCurrentLinks(componentRef.current.e1_codes);
+        else if(newIndex === 3)
+          if(componentRef.current.type === 'Principle')
+            setCurrentLinks(componentRef.current.ce2_links);
           else 
             setCurrentLinks(componentRef.current.e1_codes);
 
@@ -338,6 +365,22 @@ const Learn2Page = () => {
                 >
                   {getButtonsText(2)}
                 </button>
+                {activeButtonRef.current[component.code] > 1 && (
+                  <>
+                    <button
+                      className='l2-arrow-button left'
+                      onClick={() => handleButtonClick(2)}
+                    >
+                      <ArrowIcon className='l2-arrow-icon' />
+                    </button>
+                    <button
+                      className='l2-arrow-button right'
+                      onClick={() => handleButtonClick(3)}
+                    >
+                      <ArrowIcon className='l2-arrow-icon' />
+                    </button>
+                  </>
+                )}
               </div>
             </>
           )}
