@@ -577,7 +577,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                     d={svgTextPath} // Same path as text
                     fill="none"
                     stroke={getBackgroundColor()} // Apply gradient for opacity fade
-                    strokeWidth="12" // Dynamic stroke width
+                    strokeWidth="15" // Dynamic stroke width
                     strokeLinecap="round"
                     transform={component.type === 'Principle' ? "translate(0, 7) rotate(0.5) scale(0.7)" : "translate(0, 8) rotate(-0.5) scale(0.7)"}
                   />

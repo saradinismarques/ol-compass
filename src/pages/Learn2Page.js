@@ -156,12 +156,12 @@ const Learn2Page = () => {
         ),
         1: <span className='l2-question'>
           {type === 'Principle'  
-            ? <>How does it apply to the <span className="l2-question bold">Atlantic Ocean</span>?</> 
-            : <>How does it differ from <span className="l2-question bold">{component.diff_label.toUpperCase()}</span>?</>
+            ? <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</> 
+            : <>How does it differ from <span className="l2-question-bold">{component.diff_label.toUpperCase()}</span>?</>
           }</span>,
         2: <span className='l2-question'>
           {type === 'Principle' 
-            ? <>How does it apply to <span className="l2-question bold">Portugal</span>?</> 
+            ? <>How does it apply to <span className="l2-question-bold">Portugal</span>?</> 
             : "How can it be applied in practice?"
           }</span>,
       },
@@ -173,7 +173,7 @@ const Learn2Page = () => {
         ),
         2: <span className='l2-question'>
           {type === 'Principle' 
-            ? <>How does it apply to <span className="l2-question bold">Portugal</span>?</> 
+            ? <>How does it apply to <span className="l2-question-bold">Portugal</span>?</> 
             : "How can it be applied in practice?"
           }</span>,
       },
@@ -181,8 +181,8 @@ const Learn2Page = () => {
         0: <span className='l2-question'>In short</span>,
         1: <span className='l2-question'>
           {type === 'Principle' 
-            ? <>How does it apply to the <span className="l2-question bold">Atlantic Ocean</span>?</>  
-            : <>How does it differ from <span className="l2-question bold">{component.diff_label.toUpperCase()}</span>?</>
+            ? <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>  
+            : <>How does it differ from <span className="l2-question-bold">{component.diff_label.toUpperCase()}</span>?</>
           }</span>,
         2: replaceBoldsUnderlinesHighlights(
           type === 'Principle' ? componentRef.current.country_e1 : componentRef.current.example_1,
@@ -193,8 +193,8 @@ const Learn2Page = () => {
         0: <span className='l2-question'>In short</span>,
         1: <span className='l2-question'>
           {type === 'Principle' 
-            ? <>How does it apply to the <span className="l2-question bold">Atlantic Ocean</span>?</> 
-            : <>How does it differ from <span className="l2-question bold">{component.diff_label.toUpperCase()}</span>?</>
+            ? <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</> 
+            : <>How does it differ from <span className="l2-question-bold">{component.diff_label.toUpperCase()}</span>?</>
           }</span>,
         2: replaceBoldsUnderlinesHighlights(
           type === 'Principle' ? componentRef.current.country_e2 : componentRef.current.example_2,
@@ -205,12 +205,12 @@ const Learn2Page = () => {
         0: <span className='l2-question'>In short</span>,
         1: <span className='l2-question'>
           {type === 'Principle' 
-            ? <>How does it apply to the <span className="l2-question bold">Atlantic Ocean</span>?</>  
-            : <>How does it differ from <span className="l2-question bold">{component.diff_label.toUpperCase()}</span>?</>
+            ? <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>  
+            : <>How does it differ from <span className="l2-question-bold">{component.diff_label.toUpperCase()}</span>?</>
           }</span>,
         2: <span className='l2-question'>
           {type === 'Principle' 
-            ? <>How does it apply to <span className="l2-question bold">Portugal</span>?</>  
+            ? <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>  
             : "How can it be applied in practice?"
           }</span>,
       },
@@ -337,7 +337,9 @@ const Learn2Page = () => {
                     className='l2-button'
                     onClick={() => handleButtonClick(index)} 
                   >
-                    <Arrow2Icon className={`l2-arrow-icon ${activeButton[component.code] === index ? "active" : ""}`} />
+                    <div>
+                      <Arrow2Icon className={`l2-arrow-icon ${activeButton[component.code] === index || (index === 2 && activeButton[component.code] === 3) ? "active" : ""}`} />
+                    </div>
                     {getButtonsText(index)}
                   </button>
                 ))}
