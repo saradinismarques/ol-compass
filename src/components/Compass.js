@@ -24,7 +24,10 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   const compassType = "default";
   
   // Global Variables  
-  const {colors} = useContext(StateContext);
+  const {
+    isExplanationPage, 
+    colors
+  } = useContext(StateContext);
         
   const components = getComponents(mode, compassType, size);
 
@@ -179,13 +182,13 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   };
   
   const handleMouseEnter = (e, component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "map" || mode === "get-inspired-carousel") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel") 
       return;
 
     setHoveredId(component.code);
     hoveredIdRef.current = component.code; 
 
-    if(mode.startsWith("get-started") || mode === 'learn-2')
+    if(mode.startsWith("get-started"))
       return;
 
     // Clear any existing timeout to avoid overlaps
@@ -204,7 +207,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   const handleMouseLeave = () => {
     setHoveredId(null);
 
-    if(mode.startsWith("get-started") || mode === "learn-2")
+    if(mode.startsWith("get-started"))
       return;
 
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
@@ -370,7 +373,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
         ))}
       </div>
   
-      {(mode === "learn" || mode === "contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 
+      {!isExplanationPage && (mode === "learn" || mode === "learn-2" || mode === "contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 
         <Tooltip 
           text={tooltipText} 
           position={tooltipPos} 

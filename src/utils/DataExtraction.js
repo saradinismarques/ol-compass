@@ -223,13 +223,20 @@ export function getGetStartedData() {
 
 export function getLearnData() {
     try {
+
+        // Create a map of labels from learnData for easy lookup
+        const tooltipsMap = tooltipsTexts.reduce((acc, item) => {
+            acc[item["#label"]] = item["#TOOLTIP"];
+            return acc;
+        }, {});
+
         // Process the JSON data
         const result = learnData.map(item => ({
             code: item["#code"],
             label: item["#label"],
             headline: item["#headline"],
             paragraph: item["#paragraph"],
-            tooltip: cleanText(item["#headline"]),
+            tooltip: tooltipsMap[item["#code"]] || "",
             type: getType(item['#code'])
         }));
 
@@ -252,6 +259,13 @@ export function getLearnData() {
 
 function getLinksData() {
     try {
+
+         // Create a map of labels from learnData for easy lookup
+         const tooltipsMap = tooltipsTexts.reduce((acc, item) => {
+            acc[item["#label"]] = item["#TOOLTIP"];
+            return acc;
+        }, {});
+
         // Create a map of labels from learnData for easy lookup
         const labelsMap = learnData.reduce((acc, item) => {
             acc[item["#code"]] = item["#label"];
@@ -269,6 +283,7 @@ function getLinksData() {
             ce1_links: item["Ce1-Pe_links"] ? item["Ce1-Pe_links"].split(",").map(link => link.trim()) : [], // Convert to array
             country_e2: item["COUNTRY-E2 (Ce2)"],
             ce2_links: item["Ce2-Pe_links"] ? item["Ce2-Pe_links"].split(",").map(link => link.trim()) : [], // Convert to array
+            tooltip: tooltipsMap[item["P-ID"]] || "",
             type: getType(item["P-ID"])
         }));
 
@@ -288,6 +303,7 @@ function getLinksData() {
                 example_2: item["Example 2"],
                 e1_codes: [Py1],   // Single P code with "y1"
                 e2_codes: [Py2],   // Single P code with "y1"
+                tooltip: tooltipsMap[item["Pe-ID"]] || "",
                 type: getType(item["Pe-ID"])
             };
         });
@@ -309,6 +325,7 @@ function getLinksData() {
                 example_2: item["Example 2"],
                 e1_codes: [Py1, Pey1],   // Single P code with "y1"
                 e2_codes: [Py2, Pey2],   // Single P code with "y1"
+                tooltip: tooltipsMap[item["D-ID"]] || "",
                 type: getType(item["D-ID"])
             };
         });
