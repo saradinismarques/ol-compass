@@ -79,7 +79,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(hoveredId === component.code)
         return colors['Wave'][component.type];
       else if (mode === "learn-2" && currentLinks !== null) {
-          if(getType(selectedComponents) === 'Principle')
+          if(getType(selectedComponents) === 'Principle' && getType(component.code) === 'Principle')
             if(currentLinks.includes(component.code) && selectedComponents !== component.code)
               return "url(#waveGradient)"; // Return gradient reference if conditions are met
       } 
@@ -112,13 +112,13 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   const getStrokeFill = () => {
     if(compassType === "default") {
       // Learn 2.0
-      if (mode === "learn-2" && currentLinks !== null) {
-        if(getType(selectedComponents) !== 'Principle' && component.type === getType(selectedComponents)) { // For the unlike, only of the same type
+      if (mode === "learn-2" && currentLinks !== null && !(getType(selectedComponents) === 'Principle' && getType(component.code) === 'Principle')) {
+        if(component.type === getType(selectedComponents)) { // For the unlike, only of the same type
           if(currentLinks.includes(component.code) && selectedComponents !== component.code)
             return colors['Wave'][component.type]; // Return gradient reference if conditions are met
-        } else if(getType(selectedComponents) !== 'Principle' && component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
+        } else if(component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
           if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return '#000000'; // Return gradient reference if conditions are met
+            return colors['Wave'][component.type]; // Return gradient reference if conditions are met
         }
       }
       // Get Started
@@ -137,13 +137,13 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   const getStrokeWidth = () => {
     if(compassType === "default") {
       // Learn 2.0
-      if(mode === "learn-2" && currentLinks !== null) {
-        if(getType(selectedComponents) !== 'Principle' && component.type === getType(selectedComponents)) { // For the unlike, only of the same type
+      if(mode === "learn-2" && currentLinks !== null ) {
+        if(component.type === getType(selectedComponents)) { // For the unlike, only of the same type
           if(currentLinks.includes(component.code) && selectedComponents !== component.code)
             return "1px"; // Return gradient reference if conditions are met
-        } else if(getType(selectedComponents) !== 'Principle' && component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
+        } else if(component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
           if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return "1px"; // Return gradient reference if conditions are met
+            return "2px"; // Return gradient reference if conditions are met
         }
       }    
       // Map
@@ -208,7 +208,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           return 1;
         else if(hoveredId === component.code) 
           return 0.8;
-        else if(getType(selectedComponents) === 'Principle' && currentLinks !== null) {
+        else if(getType(selectedComponents) === 'Principle' && getType(component.code) === 'Principle' && currentLinks !== null) {
           if(currentLinks.includes(component.code) && currentComponent !== component.code)
             return 1; // Return gradient reference if conditions are met
         }
@@ -335,7 +335,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           return 1;
         else if(hoveredId === component.code) 
           return 0.8;
-        else if(getType(selectedComponents) === 'Principle' && currentLinks !== null){
+        else if(currentLinks !== null){
           if(currentLinks.includes(component.code) && currentComponent !== component.code)
             return 1; // Return gradient reference if conditions are met
         }
@@ -518,7 +518,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           />
 
           {/* Bookmark */}
-          {!isExplanationPage && savedComponents.some(item => item.code === component.code) &&
+          {compassType === 'default' && !isExplanationPage && savedComponents.some(item => item.code === component.code) &&
             <g transform={component.type === 'Principle' ? `scale(0.5) translate(2, 10.8) rotate(24)` : `scale(0.5) translate(160, 42.5) rotate(-155.5)`} 
             >
               <BookmarkIcon

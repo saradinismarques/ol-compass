@@ -180,7 +180,7 @@ export function replaceUnderlines(text, currentConcept, onClickHandler) {
     });
 };
 
-export function replaceStyledText(text, containerStyle, textStyle, boldStyle, italicStyle, hPStyle, hPeStyle) {
+export function replaceStyledText(text, containerStyle, textStyle, boldStyle, underlineStyle, hPStyle, hPeStyle) {
     return (
         <div className={containerStyle} style={{ display: "inline" }}>
             {text
@@ -200,7 +200,7 @@ export function replaceStyledText(text, containerStyle, textStyle, boldStyle, it
                     }
                     if (part.startsWith("||I||")) {
                         return (
-                            <span key={uniqueKey} className={italicStyle} style={{ display: "inline" }}>
+                            <span key={uniqueKey} className={underlineStyle} style={{ display: "inline" }}>
                                 {part.replace(/\|\|I\|\|/g, "")}
                             </span>
                         );

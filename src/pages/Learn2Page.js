@@ -56,6 +56,8 @@ const Learn2Page = () => {
   document.documentElement.style.setProperty('--component-bookmark-hover-color', colors['CBookmark Hover']);
   document.documentElement.style.setProperty('--text-color', colors['Text'][component.type]);
   document.documentElement.style.setProperty('--image-color', colors['Wave'][component.type]);
+  document.documentElement.style.setProperty('--highlightP-color', colors['Wave']['Principle']);
+  document.documentElement.style.setProperty('--highlightPe-color', colors['Wave']['Perspective']);
 
   const resetState = useCallback(() => {
     navigate('/home');
@@ -122,7 +124,7 @@ const Learn2Page = () => {
 
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
-
+  
     setIsExplanationPage(false);
   };
 
@@ -184,6 +186,14 @@ const Learn2Page = () => {
   }, []);
 
   // Keyboard event handler
+  // const handleButtonClick = (index) => {
+  //   if (index === 0)  {
+
+  //   } else if (index === 1) {} 
+  //   else if (index === 2)  
+  // };
+
+  // Keyboard event handler
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'ArrowUp') 
       handlePrev();
@@ -221,6 +231,12 @@ const Learn2Page = () => {
       ...prevComponent,
       bookmark: !prevComponent.bookmark,
     }));
+  };
+
+  const getButtonsText = (index) => {
+    if(slideIndexRef.current)
+      return replaceStyledText(component.currentParagraph, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+      
   };
 
   return (
@@ -262,7 +278,24 @@ const Learn2Page = () => {
                 </button>
               </div>
               
-                {replaceStyledText(component.currentParagraph, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text bold', 'l2-text bold', 'l2-text bold')}
+              {/* <div>
+                <button 
+                  onClick={() => handleButtonClick(0)} 
+                >
+                  {getButtonsText(0)}
+                </button>
+                <button 
+                  onClick={() => handleButtonClick(1)} 
+                >
+                  {getButtonsText(1)}
+                </button>
+                <button 
+                  onClick={() => handleButtonClick(2)} 
+                >
+                  {getButtonsText(2)}
+                </button>
+              </div> */}
+              {replaceStyledText(component.currentParagraph, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe')}
             </>
           )}
           <Menu />

@@ -3,6 +3,8 @@
     --component-bookmark-hover-color: #e5007e; /* Default color */
     --text-color: #ffffff; /* Default color */
     --image-color: transparent; /* Default color */
+    --highlightP-color: transparent; /* Default color */
+    --highlightPe-color: transparent; /* Default color */
 }
 
 /* Text Container */
@@ -32,6 +34,21 @@
 
 .l2-text.bold {
     font-weight: 700;
+}
+
+.l2-text.underline {
+    text-decoration: underline;
+}
+
+.l2-text.highlightP {
+    background-color: var(--highlightP-color); /* You can change the color as needed */
+    padding: 0em; /* Optional: adds some space around the text */
+}
+
+.l2-text.highlightPe {
+    background-color: var(--highlightPe-color); /* You can change the color as needed */
+    padding: 0em; /* Optional: adds some space around the text */
+    line-height: 0.5; /* Optional: adds some space around the text */
 }
 
 .l2-terms {
