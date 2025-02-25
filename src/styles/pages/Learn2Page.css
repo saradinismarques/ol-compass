@@ -8,12 +8,17 @@
 }
 
 /* Text Container */
-.l2-text-container {
+.l2-text-buttons-container {
     position: fixed;
     top: 15vh; 
     left: 64vw;
     color: var(--text-color); 
     z-index: 30;
+    width: 40vh;
+}
+
+.l2-text-container {
+    color: var(--text-color); 
     width: 40vh;
 }
   

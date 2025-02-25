@@ -103,7 +103,7 @@ const CompassIcon = ({ mode, currentType }) => {
         borderRadius: '0.5vh', // Rounded corners
         fontFamily: 'Manrope',
         fontSize: '1.8vh',
-        width: '30vh', // Dynamic width based on text length
+        width: '25vh', // Dynamic width based on text length
         pointerEvents: 'none', // Prevents tooltip from interfering with hover
         opacity: 0.95
       }}

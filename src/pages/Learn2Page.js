@@ -18,12 +18,12 @@ const Learn2Page = () => {
     setIsExplanationPage,
     savedComponents,
     setSavedComponents,
+    allComponents
   } = useContext(StateContext);
 
   const initialComponent = useMemo(() => ({
     title: '',
     paragraph: '',
-    currentTerm: null,
     currentLinks: null,
     type: null,
     bookmark: false,
@@ -32,11 +32,15 @@ const Learn2Page = () => {
   const [component, setComponent] = useState(initialComponent);
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
-  const [slideIndex, setSlideIndex] = useState(0);
+  // Initialize activeButton as an object with all entries set to 0
+  const [activeButton, setActiveButton] = useState(
+    allComponents.reduce((acc, key) => ({ ...acc, [key]: 0 }), {})
+  );
+
   const navigate = useNavigate(); // Initialize the navigate function
   
   const componentRef = useRef(component);
-  const slideIndexRef = useRef(slideIndex);
+  const activeButtonRef = useRef(activeButton);
   const showMessageRef = useRef(showMessage);
 
   useEffect(() => {
@@ -44,9 +48,8 @@ const Learn2Page = () => {
   }, [component]);
 
   useEffect(() => {
-    slideIndexRef.current = slideIndex;
-}, [slideIndex]);
-
+    activeButtonRef.current = activeButton;
+}, [activeButton]);
 
   useEffect(() => {
     showMessageRef.current = showMessage;
@@ -103,10 +106,7 @@ const Learn2Page = () => {
         title,
         paragraph,
         type,
-        currentParagraph: paragraph,
-        currentTerm: null,
         currentLinks: null,
-        slideMax: type === 'Principle' ? 3 : 3,
         bookmark: getBookmarkState(code),
         ...(type === 'Principle'
           ? { wbc_links, region_feature, country_e1, ce1_links, country_e2, ce2_links }
@@ -119,94 +119,93 @@ const Learn2Page = () => {
       return updatedComponent;
     });
   
-    setSlideIndex(0);
-    slideIndexRef.current = 0;
-
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
   
     setIsExplanationPage(false);
   };
 
-  const updateSlide = (index) => {
-    let currentParagraph, currentTerm = null, currentLinks = null;
+  const getButtonsText = (buttonIndex) => {
+    const activeButton = activeButtonRef.current[componentRef.current.code];
 
-    if(componentRef.current.type === 'Principle') {
-      if(index === 0) {
-        currentParagraph = componentRef.current.paragraph;
-      } else if(index === 1) {
-        currentParagraph = componentRef.current.region_feature;
-        currentLinks = componentRef.current.wbc_links;
-      } else if(index === 2) {
-        currentParagraph = componentRef.current.country_e1;
-        currentLinks = componentRef.current.ce1_links;
-      } else if(index === 3) {
-        currentParagraph = componentRef.current.country_e2;
-        currentLinks = componentRef.current.ce2_links;
-      } 
-    } else {
-      if(index === 0) {
-        currentParagraph = componentRef.current.paragraph;
-      } else if(index === 1) {
-        currentParagraph = componentRef.current.diff_paragraph;
-        currentLinks = componentRef.current.diff_code;
-      } else if(index === 2) {
-        currentParagraph = componentRef.current.example_1;
-        currentLinks = componentRef.current.e1_codes;
-      } else if(index === 3) {
-        currentParagraph = componentRef.current.example_2;
-        currentLinks = componentRef.current.e2_codes;
+    if(activeButton === 0) {
+      if(buttonIndex === 0) {
+        return replaceStyledText(component.paragraph, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+      } else if(buttonIndex === 1) {
+        return (
+          <div className='l2-button'>
+            How does it apply to the Atlantic Ocean?
+          </div>
+        );
+      } else if(buttonIndex === 2) {
+        return (
+          <div className='l2-button'>
+            How does it apply to Portugal?
+          </div>
+        );
+      }
+    } else if(activeButton === 1) {
+      if(buttonIndex === 0) {
+        return (
+          <div className='l2-button'>
+            In short
+          </div>
+        );
+      } else if(buttonIndex === 1) {
+        return replaceStyledText(component.region_feature, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
+      } else if(buttonIndex === 2) {
+        return (
+          <div className='l2-button'>
+            How does it apply to Portugal?
+          </div>
+        );
+      }
+    } else if(activeButton === 2) {
+      if(buttonIndex === 0) {
+        return (
+          <div className='l2-button'>
+            In short
+          </div>
+        );
+      } else if(buttonIndex === 1) {
+        return (
+          <div className='l2-button'>
+            How does it apply to the Atlantic Ocean?
+          </div>
+        );
+      } else if(buttonIndex === 2) {
+        return replaceStyledText(component.country_e1, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
       }
     }
-
-    setComponent((prevComponent) => ({
-      ...prevComponent,
-      currentParagraph: currentParagraph,
-      currentTerm: currentTerm,
-      currentLinks: currentLinks,
-    }));
   }
 
-  const handlePrev = useCallback(() => {
-    if(slideIndexRef.current > 0) {
-      let prevIndex = slideIndexRef.current - 1;
-      setSlideIndex(prevIndex);
-      slideIndexRef.current = prevIndex;
-      updateSlide(prevIndex);
-    }  
-  }, []);
-  
-  const handleNext = useCallback(() => {
-    if(slideIndexRef.current < componentRef.current.slideMax) {
-      let nextIndex = slideIndexRef.current + 1;
-      setSlideIndex(nextIndex);
-      slideIndexRef.current = nextIndex;
-      updateSlide(nextIndex);
-    }
-  }, []);
-
   // Keyboard event handler
-  // const handleButtonClick = (index) => {
-  //   if (index === 0)  {
+    const handleButtonClick = (index) => {
+      setActiveButton((prevState) => {
+        const currentValue = prevState[componentRef.current.code];
+        // If it's 0, 1, or 2, cycle to the next value, unless it's already at that value, in which case set it to null
+        const newIndex = currentValue === index ? null : index;
+        console.log(currentValue, newIndex);
+        if(newIndex === 1)
+          setComponent((prevComponent) => ({
+            ...prevComponent,
+            currentLinks: componentRef.current.wbc_links,
+          }));
+        else if(newIndex === 2)
+          setComponent((prevComponent) => ({
+            ...prevComponent,
+            currentLinks: componentRef.current.ce1_links,
+          }));
 
-  //   } else if (index === 1) {} 
-  //   else if (index === 2)  
-  // };
+        const updatedState = {
+          ...prevState,
+          [componentRef.current.code]: newIndex,
+        };
+        activeButtonRef.current = updatedState; 
 
-  // Keyboard event handler
-  const handleKeyDown = useCallback((e) => {
-    if (e.key === 'ArrowUp') 
-      handlePrev();
-    else if (e.key === 'ArrowDown') 
-      handleNext();
-  }, [handlePrev, handleNext]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+        return updatedState;
+      });
     };
-  }, [handleKeyDown]); // Dependency array includes carouselHandleEnterClick
 
   const messageStateChange = (state) => {
     setShowMessage(state);
@@ -231,12 +230,6 @@ const Learn2Page = () => {
       ...prevComponent,
       bookmark: !prevComponent.bookmark,
     }));
-  };
-
-  const getButtonsText = (index) => {
-    if(slideIndexRef.current)
-      return replaceStyledText(component.currentParagraph, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe');
-      
   };
 
   return (
@@ -278,7 +271,7 @@ const Learn2Page = () => {
                 </button>
               </div>
               
-              {/* <div>
+              <div className='l2-text-buttons-container'>
                 <button 
                   onClick={() => handleButtonClick(0)} 
                 >
@@ -294,8 +287,7 @@ const Learn2Page = () => {
                 >
                   {getButtonsText(2)}
                 </button>
-              </div> */}
-              {replaceStyledText(component.currentParagraph, "l2-text-container", 'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe')}
+              </div>
             </>
           )}
           <Menu />
