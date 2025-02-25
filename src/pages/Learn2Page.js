@@ -345,7 +345,7 @@ const Learn2Page = () => {
                 ))}
                 
                 {activeButton[component.code] > 1 && (
-                  <div className="l2-arrow-controls">
+                  <div className="l2-example-arrow-container">
                     <button
                       className={`l2-example-arrow left ${activeButton[component.code] === 2 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(2)}

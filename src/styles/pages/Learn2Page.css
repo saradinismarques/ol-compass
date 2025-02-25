@@ -15,7 +15,7 @@
     top: 15vh; 
     left: 63.8vw;
     z-index: 30;
-    width: 45vh;
+    width: 43vh;
     font-weight: 400;
 }
 
@@ -24,30 +24,6 @@
     .l2-text-container {
         right: 9vw;
     }
-}
-
-/* Arrow Buttons  */
-.l2-arrow-icon {
-    width: 2.5vh;
-    height: 2.5vh;
-    fill: #646363; /* Set default color for the bookmark */
-    transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: #646363;
-    stroke-width: 0;
-    padding-right: 1vh;
-    position: relative;
-    top: 0.4vh;
-}
-
-.l2-arrow-icon.active {
-    rotate: 90deg;
-    top: 0.6vh;
-    left: -0.1vh;
-}
-
-.l2-button:hover .l2-arrow-icon,
-.l2-button:active  .l2-arrow-icon {
-    fill: var(--gray-color); /* Change fill color on hover */
 }
 
 .l2-button {
@@ -83,59 +59,28 @@
     font-weight: 600;
 }
 
-.l2-arrow-controls {
-    position: relative;
-    top: -2vh;
-    left: 4vh;
-}
-
-.l2-example-number {
-   font-weight: 400;
-   color: #646363; 
-}
-
-.l2-example-number.bold {
-    font-weight: 600;
-}
-
-/* Example Arrow Buttons  */
-.l2-example-arrow {
-    background-color: transparent;
-    border: 0 solid transparent; /* Set initial border to transparent */
-    cursor: pointer;
-    outline: none;
-    position: relative;
-}
-
-.l2-example-arrow.disabled {
-    pointer-events: none;
-    opacity: 30%;
-}
-
-/* Left arrow button */
-.l2-example-arrow.left {
-    transform: scale(-1); /* Rotate the arrow for left button */
-    top: 0.2vh;
-}
-
-/* Right arrow button (default position) */
-.l2-example-arrow.right {
-    transform: scale(1); /* Rotate the arrow for left button */
-    top: 0.6vh;
-}
-
-/* Change icon color on hover */
-.l2-example-arrow:hover .l2-example-arrow-icon,
-.l2-example-arrow:active  .l2-example-arrow-icon {
-    fill: var(--gray-color); /* Change fill color on hover */
-}
-
-.l2-example-arrow-icon {
+/* Arrow Buttons  */
+.l2-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
     fill: #646363; /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: #646363;
     stroke-width: 0;
+    padding-right: 1vh;
+    position: relative;
+    top: 0.4vh;
+}
+
+.l2-arrow-icon.active {
+    rotate: 90deg;
+    top: 0.6vh;
+    left: -0.1vh;
+}
+
+.l2-button:hover .l2-arrow-icon,
+.l2-button:active  .l2-arrow-icon {
+    fill: var(--gray-color); /* Change fill color on hover */
 }
 
 /* Text Styles */
@@ -157,15 +102,56 @@
     padding: 0; /* Optional: adds some space around the text */
 }
 
-.l2-terms {
-    position: fixed;
-    bottom: 4vh; 
-    right: 6vw;
-    font-size: 2.5vh; /* Larger size for h1 */
-    font-weight: 500;
-    text-transform: uppercase;
-    width: 13vh;
-    color: var(--text-color); 
+/* Examples Container */
+.l2-example-arrow-container {
+    position: relative;
+    top: -2vh;
+    left: 4vh;
+}
+
+.l2-example-number {
+   font-weight: 400;
+   color: #646363; 
+}
+
+.l2-example-number.bold {
+    font-weight: 600;
+}
+
+.l2-example-arrow {
+    background-color: transparent;
+    border: 0 solid transparent; /* Set initial border to transparent */
+    cursor: pointer;
+    outline: none;
+    position: relative;
+}
+
+.l2-example-arrow.disabled {
+    pointer-events: none;
+    opacity: 30%;
+}
+
+.l2-example-arrow.left {
+    transform: scale(-1); /* Rotate the arrow for left button */
+    top: -0.22vh;
+}
+
+.l2-example-arrow.right {
+    transform: scale(1); /* Rotate the arrow for left button */
+    top: 0.4vh;
+}
+
+.l2-example-arrow:hover .l2-example-arrow-icon,
+.l2-example-arrow:active  .l2-example-arrow-icon {
+    fill: var(--gray-color); /* Change fill color on hover */
+}
+
+.l2-example-arrow-icon {
+    width: 2.5vh;
+    height: 2.5vh;
+    fill: #646363; /* Set default color for the bookmark */
+    stroke: #646363;
+    stroke-width: 0;
 }
 
 /* Gradient Background */
