@@ -30,18 +30,19 @@
 .l2-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
-    fill: var(--gray-color); /* Set default color for the bookmark */
+    fill: #646363; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: var(--gray-color);
+    stroke: #646363;
     stroke-width: 0;
     padding-right: 1vh;
     position: relative;
+    top: 0.4vh;
 }
 
 .l2-arrow-icon.active {
     rotate: 90deg;
-    top: 1vh;
-    left: -1vh;
+    top: 0.6vh;
+    left: -0.1vh;
 }
 
 .l2-button {
@@ -65,11 +66,20 @@
     font-size: 2.3vh;
     font-weight: 400;
     overflow-y: auto; /* Hide overflow initially */
-    color: var(--gray-color); 
+    color: #646363; 
 }
 
 .l2-question.bold {
     font-weight: 600;
+}
+
+.l2-example-number {
+   font-weight: 400;
+   color: #646363; 
+}
+
+.l2-example-number.bold {
+    font-weight: 500;
 }
 
 /* Example Arrow Buttons  */
@@ -89,13 +99,13 @@
 /* Left arrow button */
 .l2-example-arrow.left {
     transform: scale(-1); /* Rotate the arrow for left button */
-    top: 0;
+    top: 0.2vh;
 }
 
 /* Right arrow button (default position) */
 .l2-example-arrow.right {
     transform: scale(1); /* Rotate the arrow for left button */
-    top: 0.4vh;
+    top: 0.6vh;
 }
 
 /* Change icon color on hover */
@@ -107,15 +117,15 @@
 .l2-example-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
-    fill: var(--gray-color); /* Set default color for the bookmark */
+    fill: #646363; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: var(--gray-color);
+    stroke: #646363;
     stroke-width: 0;
 }
 
 /* Text Styles */
 .l2-text.bold {
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .l2-text.underline {

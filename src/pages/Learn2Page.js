@@ -8,7 +8,7 @@ import Message from '../components/Message';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
 import { replaceBoldsUnderlinesHighlights } from '../utils/TextFormatting.js';
-import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import '../styles/pages/Learn2Page.css';
 
 const Learn2Page = () => {
@@ -243,7 +243,7 @@ const Learn2Page = () => {
         },
         3: {
           principle: componentRef.current.ce2_links,
-          default: componentRef.current.e1_codes,
+          default: componentRef.current.e2_codes,
         },
       };
   
@@ -337,7 +337,7 @@ const Learn2Page = () => {
                     className='l2-button'
                     onClick={() => handleButtonClick(index)} 
                   >
-                    <ArrowIcon className={`l2-arrow-icon ${activeButton[component.code] === index ? "active" : ""}`} />
+                    <Arrow2Icon className={`l2-arrow-icon ${activeButton[component.code] === index ? "active" : ""}`} />
                     {getButtonsText(index)}
                   </button>
                 ))}
@@ -348,15 +348,15 @@ const Learn2Page = () => {
                       className={`l2-example-arrow left ${activeButton[component.code] === 2 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(2)}
                     >
-                      <ArrowIcon className='l2-example-arrow-icon' />
+                      <Arrow2Icon className='l2-example-arrow-icon' />
                     </button>
-                    <span>{activeButton[component.code] - 1}</span>
-                    <span>/2</span>
+                    <span className='l2-example-number bold'>{activeButton[component.code] - 1}</span>
+                    <span className='l2-example-number'> / 2</span>
                     <button
                       className={`l2-example-arrow right ${activeButton[component.code] === 3 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(3)}
                     >
-                      <ArrowIcon className='l2-example-arrow-icon' />
+                      <Arrow2Icon className='l2-example-arrow-icon' />
                     </button>
                   </div>
                 )}

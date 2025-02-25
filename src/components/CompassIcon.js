@@ -3,7 +3,6 @@ import { StateContext } from "../State.js";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { getTypeTooltip } from '../utils/DataExtraction.js';
 import Wave, { getComponents } from "./Wave.js"
-import { cleanText } from '../utils/TextFormatting.js';
 
 const CompassIcon = ({ mode, currentType }) => {
   // Size and screen resize handler

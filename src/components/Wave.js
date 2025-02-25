@@ -103,24 +103,34 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Map
       if(mode === "map")
         return colors['Wave'][component.type];
+      // Learn 2.0
+      if (mode === "learn-2" && currentLinks !== null && !(getType(selectedComponents) === 'Principle' && getType(component.code) === 'Principle')) {
+        if(component.type === getType(selectedComponents)) { // For the unlike, only of the same type
+          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
+            return "#b84854"; // Return gradient reference if conditions are met
+        } 
+      }
       return colors['Label'][component.type];
     } else if(compassType === "draggable") {
       return colors['Label'][component.type];
     }
   }
+
+  const getBackgroundColor = () => {
+    if(compassType === "default") {
+      // Learn 2.0
+      if (mode === "learn-2" && currentLinks !== null) {
+        if(component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
+          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
+            return `url(#highlight-gradient-${component.code}-${currentLinks})`; // Return gradient reference if conditions are met
+        }
+      }
+    } 
+    return 'none';
+  }
     
   const getStrokeFill = () => {
     if(compassType === "default") {
-      // Learn 2.0
-      if (mode === "learn-2" && currentLinks !== null && !(getType(selectedComponents) === 'Principle' && getType(component.code) === 'Principle')) {
-        if(component.type === getType(selectedComponents)) { // For the unlike, only of the same type
-          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return colors['Wave'][component.type]; // Return gradient reference if conditions are met
-        } else if(component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
-          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return colors['Wave'][component.type]; // Return gradient reference if conditions are met
-        }
-      }
       // Get Started
       if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
         if(selectedComponents.includes(component.code)) 
@@ -136,16 +146,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
   const getStrokeWidth = () => {
     if(compassType === "default") {
-      // Learn 2.0
-      if(mode === "learn-2" && currentLinks !== null ) {
-        if(component.type === getType(selectedComponents)) { // For the unlike, only of the same type
-          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return "1px"; // Return gradient reference if conditions are met
-        } else if(component.type !== getType(selectedComponents)) { // For the unlike, only of the same type
-          if(currentLinks.includes(component.code) && selectedComponents !== component.code)
-            return "2px"; // Return gradient reference if conditions are met
-        }
-      }    
       // Map
       if(mode === "map")
         return "0.5px";
@@ -547,7 +547,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                   {`
                     @font-face {
                       font-family: 'Manrope';
-                      src: url(data:font/ttf;base64,${encodedFonts['Manrope-Medium']}) format('truetype');
+                      src: url(data:font/ttf;base64,${encodedFonts['Manrope-SemiBold']}) format('truetype');
                     }
                   `}
                 </style>
@@ -561,13 +561,34 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                     userSelect: 'none'
                   }} 
                 />
+
+                {/* Define the Gradient for Fading Highlight */}
+                <linearGradient id={`highlight-gradient-${component.code}-${currentLinks}`} gradientUnits="userSpaceOnUse" x1="0%" x2="100%">
+                  <stop offset="30%" stopColor={colors['Wave'][component.type]} stopOpacity="0"/>  {/* Start Transparent */}
+                  <stop offset="60%" stopColor={colors['Wave'][component.type]} stopOpacity="1"/>  {/* Peak Opacity in the Middle */}
+                  <stop offset="90%" stopColor={colors['Wave'][component.type]} stopOpacity="0"/>  {/* End Transparent */}
+                </linearGradient>
               </defs>
+
+              {/* Highlight */}
+              {Array.from({ length: 5 }).map((_, index) => (
+                  <path
+                    key={`highlight-path-${component.code}-${index}`} // Unique key for each path
+                    d={svgTextPath} // Same path as text
+                    fill="none"
+                    stroke={getBackgroundColor()} // Apply gradient for opacity fade
+                    strokeWidth="12" // Dynamic stroke width
+                    strokeLinecap="round"
+                    transform={component.type === 'Principle' ? "translate(0, 7) rotate(0.5) scale(0.7)" : "translate(0, 8) rotate(-0.5) scale(0.7)"}
+                  />
+              ))}
 
               <text
                 fill={getTextFill()}
                 fontFamily='Manrope'
-                fontWeight={500}
+                fontWeight={600}
                 fontSize="0.35em"
+                backgroundColor={getBackgroundColor()}
                 opacity={getTextOpacity()} // Change opacity on hover
                 transform={isFlipped() 
                   ? (component.type === 'Principle' 
@@ -602,6 +623,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                   fontFamily='Manrope'
                   fontWeight={500}
                   fontSize="0.35em"
+                  backgroundColor={getBackgroundColor()}
                   opacity={getTextOpacity()} // Change opacity on hover
                   transform={isFlipped() 
                     ? (component.type === 'Principle' 

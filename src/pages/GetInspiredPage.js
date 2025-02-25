@@ -179,7 +179,7 @@ const GetInspiredPage = () => {
         components: []
       }));
     }
-  }, [newCaseStudies, getBookmarkState]);
+  }, [newCaseStudies, getBookmarkState, savedCaseStudies]);
 
   const handleDefaultSearch = useCallback(() => {
     setMode('get-inspired-search');

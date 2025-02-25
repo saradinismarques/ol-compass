@@ -9,7 +9,6 @@ import linksPerspectives from '../data/content/links-perspectives.json';
 import linksDimensions from '../data/content/links-dimensions.json';
 import conceptsData from '../data/content/concepts-data.json';
 import getInspiredData from '../data/content/get-inspired-data.json';
-import { cleanText } from './TextFormatting.js';
 
 // Static
 export function getColorPallete(version) {
