@@ -74,11 +74,11 @@ const Learn2Page = () => {
   }, [savedComponents]);
 
   const handleCompassClick = (data) => {
-    if (firstClick && firstMessage["learn"]) {
-      setFirstClick(false);
-      setShowMessage(true);
-      showMessageRef.current = true;
-    }
+    // if (firstClick && firstMessage["learn"]) {
+    //   setFirstClick(false);
+    //   setShowMessage(true);
+    //   showMessageRef.current = true;
+    // }
 
     if (data === null) 
       return;

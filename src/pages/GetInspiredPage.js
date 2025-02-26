@@ -87,11 +87,11 @@ const GetInspiredPage = () => {
   }, [savedCaseStudies]);
 
   const handleCompassClick = (code) => {
-    if(firstClick && firstMessage["get-inspired"]) {
-      setFirstClick(false);
-      setShowMessage(true);
-      showMessageRef.current = true;
-    }
+    // if(firstClick && firstMessage["get-inspired"]) {
+    //   setFirstClick(false);
+    //   setShowMessage(true);
+    //   showMessageRef.current = true;
+    // }
 
     setComponents(prevComponents => {
       const newComponents = prevComponents.includes(code)

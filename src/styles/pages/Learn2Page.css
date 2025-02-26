@@ -133,7 +133,7 @@
 
 .l2-example-arrow.left {
     transform: scale(-1); /* Rotate the arrow for left button */
-    top: -0.22vh;
+    top: -0.25vh;
 }
 
 .l2-example-arrow.right {
