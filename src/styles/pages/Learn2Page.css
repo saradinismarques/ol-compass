@@ -13,7 +13,7 @@
 .l2-text-buttons-container {
     position: fixed;
     top: 15vh; 
-    left: 63.8vw;
+    left: 63.5vw;
     z-index: 30;
     width: 43vh;
     font-weight: 400;
@@ -34,25 +34,22 @@
     text-align: left; /* Ensure text is aligned left */
     outline: none;
     font-family: 'Manrope', sans-serif;
+    display: flex;
+    margin-bottom: 2vh;
 }
 
 .l2-text {
-    position: relative;
-    top: -4vh;
-    left: 4vh;
     font-size: 3.3vh;
     font-weight: 400;
     color: var(--text-color); 
 }
 
 .l2-question {
-    position: relative;
-    top: -3vh;
-    left: 4vh;
     font-size: 2.3vh;
     font-weight: 400;
     overflow-y: auto; /* Hide overflow initially */
-    color: #646363; 
+    color: #444343; 
+    opacity: 0.6;
 }
 
 .l2-question-bold {
@@ -63,19 +60,20 @@
 .l2-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
-    fill: #646363; /* Set default color for the bookmark */
+    fill: #444343; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: #646363;
+    stroke: #444343;
     stroke-width: 0;
     padding-right: 1vh;
     position: relative;
     top: 0.4vh;
+    opacity: 0.6;
 }
 
 .l2-arrow-icon.active {
     rotate: 90deg;
-    top: 0.6vh;
-    left: -0.1vh;
+    top: 1.5vh;
+    left: -0.5vh;
 }
 
 .l2-button:hover .l2-arrow-icon,
@@ -105,13 +103,17 @@
 /* Examples Container */
 .l2-example-arrow-container {
     position: relative;
-    top: -2vh;
-    left: 4vh;
+    display: flex; /* Enables flexbox */
+    align-items: left; /* Aligns items vertically in the center */
+    justify-content: flex-start; /* Centers everything horizontally */
+    margin-left: 3.2vh;
+    margin-top: 1vh;
+    opacity: 0.6;
 }
 
 .l2-example-number {
    font-weight: 400;
-   color: #646363; 
+   color: #444343; 
 }
 
 .l2-example-number.bold {
@@ -123,7 +125,12 @@
     border: 0 solid transparent; /* Set initial border to transparent */
     cursor: pointer;
     outline: none;
-    position: relative;
+    display: flex; /* Ensures button content (icon) is properly aligned */
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: none;
+    cursor: pointer;
 }
 
 .l2-example-arrow.disabled {
@@ -133,12 +140,10 @@
 
 .l2-example-arrow.left {
     transform: scale(-1); /* Rotate the arrow for left button */
-    top: -0.25vh;
 }
 
 .l2-example-arrow.right {
-    transform: scale(1); /* Rotate the arrow for left button */
-    top: 0.4vh;
+    rotate: 0deg;
 }
 
 .l2-example-arrow:hover .l2-example-arrow-icon,
@@ -149,8 +154,8 @@
 .l2-example-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
-    fill: #646363; /* Set default color for the bookmark */
-    stroke: #646363;
+    fill: #444343; /* Set default color for the bookmark */
+    stroke: #444343;
     stroke-width: 0;
 }
 

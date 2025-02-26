@@ -331,7 +331,7 @@ const Learn2Page = () => {
               </div>
               
               <div className='l2-text-buttons-container'>
-                {[0, 1, 2].map((index) => (
+                {Array.from({ length: 3 }).map((_, index) => (
                   <button 
                     key={index} // Add a unique key for each button
                     className='l2-button'
