@@ -288,7 +288,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
     else if (position === "left-2") 
       return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.505 };
     else if (position === "left-3") 
-      return { x: window.innerWidth * 0.41, y: window.innerHeight * 0.47 };
+      return { x: window.innerWidth * 0.40, y: window.innerHeight * 0.47 };
   };
 
   const center = getCenter(position);

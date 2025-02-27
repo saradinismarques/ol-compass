@@ -170,7 +170,7 @@
 }
 
 .l2-background.gradient {
-    background: linear-gradient(to right, transparent 25%, var(--wave-color) 100%);
+    background: linear-gradient(to right, transparent 50%, var(--wave-color) 100%);
 }
 
 /* Title, White Line and Bookmark Button */

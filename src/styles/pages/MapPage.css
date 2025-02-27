@@ -20,11 +20,12 @@
 /* Project Name Textarea */
 .i-project-name-textarea {
     position: fixed;
-    top: 20vh;
-    left: 47.5vw;
-    transform: translateY(-50%);
-    width: 27vh;
+    top: 13vh;
+    left: calc(47.2vw + (100 / 4.4) * 1vw); /* Use consistent units */
+    transform: translate(-50%, -50%);
+    width: calc((100 / 2.2) * 1vw - 1.25vh);
     height: 3.5vh;
+    margin-left: 0.25vh;
     padding-left: 1vh;
     font-family: 'Manrope', sans-serif;
     font-size: 2.3vh;
@@ -44,18 +45,20 @@
 /* Mapping Area */
 .i-mapping-area-title {
     position: fixed;
-    top: 9vh;
-    left: calc(47.2vw + (100 / 4.2) * 1vw); /* Use consistent units */
-    transform: translate(-50%, -50%);
-    width: 27vh;
-    font-size: 3vh;
+    top: 17vh;
+    left: 48vw;
+    transform: translateY(-50%);
+    font-size: 2.5vh;
+    font-weight: 200;
+    letter-spacing: 0.3vh;
+    text-transform: uppercase;
     color: var(--gray-color); /* Set placeholder color to white */
 }
 
 /* Download button */
 .i-download-pdf-button {
     position: fixed;
-    bottom: 9vh;
+    bottom: 10vh;
     right: 7.2vw; /* Positioning at the bottom of the page */
     height: 3.5vh;
     border: 0.3vh solid var(--gray-color);

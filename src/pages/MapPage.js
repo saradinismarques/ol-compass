@@ -449,7 +449,7 @@ const MapPage = () => {
                 <textarea
                     className="i-project-name-textarea" 
                     type="text" 
-                    placeholder='Insert Project Name'
+                    placeholder='Insert Map Title'
                     value={projectName} 
                     onChange={handleInputChange}
                     onFocus={() => setStopTextareaFocus(true)}  // Set focus flag when focused
