@@ -117,10 +117,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   }
 
   const getFontWeight = () => {
-    if(compassType === "default")
-      // Learn 2
-      if(mode === "learn-2" && selectedComponents === component.code)
-        return '800';
+    // Learn 2
+    if(mode === "learn-2" && selectedComponents === component.code)
+      return '700';
     return '600';
   }
 
@@ -293,6 +292,13 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       return 0.3;
     } 
   };
+
+  const getWaveTransition = () => {
+    if(mode.startsWith("intro")) 
+      return "opacity 0.15s ease-in-out";
+    else
+      return "none";
+  }
 
   const getTextOpacity = () => {
     if(compassType === "default") {
@@ -526,7 +532,10 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             d={svgPath} 
             fill={getWaveFill()}  // Use the gradient fill
             stroke="none" 
-            style={{ pointerEvents: 'all' }}
+            style={{ 
+              pointerEvents: 'all',
+              transition: getWaveTransition() // Slower and smoother
+            }}
             transition="opacity 1s ease"
             opacity={getWaveOpacity()} // Change opacity on hover
           />

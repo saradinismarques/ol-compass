@@ -8,6 +8,7 @@
     position: fixed;
     top: 20.5vh; 
     left: 73vw; 
+    width: 30vh;
 }
 
 @media (max-aspect-ratio: 16/9) {
@@ -18,15 +19,14 @@
 }
 
 .description-headline {
-    width: 30vh;
     font-size: 3.5vh; /* Smaller size for h2 */
     font-weight: 600;
     color: rgb(0, 0, 0); 
+    width: 34vh;
 }
 
 .description-text {
     margin-top: -1.8vh;
-    width: 30vh;
     font-size: 2.5vh;
     line-height: 1.3;
     font-weight: 400;
@@ -41,7 +41,6 @@
 
 .description-start-prompt {
     margin-top: 2.2vh;
-    width: 38vh;
     font-weight: 600;
     font-size: 2.4vh;
     color: var(--selection-color);

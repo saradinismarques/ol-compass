@@ -7,7 +7,7 @@
 /* Title (Frame 00) */
 .i-title-container {
     position: absolute;
-    top: 45vh; /* Position item 50% from the top */
+    top: 48.5vh; /* Position item 50% from the top */
     left: 50vw; 
     transform: translate(-50%, -50%);
     max-width: 43vh;
@@ -30,7 +30,7 @@
 /* Explanation (Frame 01) */
 .i-explanation-container {
     position: absolute;
-    top: 47vh; /* Position item 50% from the top */
+    top: 48.5vh; /* Position item 50% from the top */
     left: 50vw; 
     transform: translate(-50%, -50%);
     text-align: center; /* Center the text inside the element */
@@ -56,9 +56,10 @@
 /* Text Container (Frames 02-07) */
 .i-text-container {
     position: absolute;
-    top: 32vh;
+    top: 48.5vh;
     left: 72vw;
     width: 36vh;
+    transform: translateY(-50%);
 }
 
 @media (max-aspect-ratio: 16/9) {
@@ -110,7 +111,7 @@
     display: flex;
     align-items: center; 
     outline: none; /* Removes the focus outline */
-    top: 45vh;
+    top: 45.5vh;
     display: flex; /* Ensures button content (icon) is properly aligned */
     align-items: center;
     justify-content: center;

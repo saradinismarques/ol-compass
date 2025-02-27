@@ -280,15 +280,15 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   // Function to determine the center based on position
   const getCenter = (position) => {
     if (position === "center")
-      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.47 };
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.49 };
     else if (position === "center-2") 
-      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.505 };
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.49 };
     else if (position === "left") 
-      return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.47 }; // Adjust y for better positioning
+      return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.5 }; // Adjust y for better positioning
     else if (position === "left-2") 
-      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.505 };
+      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.5 };
     else if (position === "left-3") 
-      return { x: window.innerWidth * 0.40, y: window.innerHeight * 0.47 };
+      return { x: window.innerWidth * 0.40, y: window.innerHeight * 0.5 };
   };
 
   const center = getCenter(position);
@@ -299,6 +299,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
     top: '0',            // Reset top for positioning
     left: '0',           // Reset left for positioning
     transform: `translate(-50%, -50%)`, // Centered offset
+    //transition: 'left 0.1s ease, top 0.1s ease',
     borderRadius: '50%', // To make it a circular background if desired
     width: `${size}px`,
     height: `${size}px`,
@@ -318,10 +319,12 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
         padding: '1vh', // Padding inside the tooltip
         borderRadius: '0.5vh', // Rounded corners
         fontFamily: 'Manrope',
+        fontWeight: '500',
         fontSize: '2vh',
-        width: `${text.length * 0.6}vh`, // Dynamic width based on text length
+        width: `${text.length * 0.60}vh`, // Dynamic width based on text length
         pointerEvents: 'none', // Prevents tooltip from interfering with hover
-        opacity: 0.9
+        opacity: 0.9,
+        textAlign: 'center'
       }}
     >
       {text}

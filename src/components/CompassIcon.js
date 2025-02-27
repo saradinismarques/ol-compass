@@ -62,7 +62,7 @@ const CompassIcon = ({ mode, currentType }) => {
     else if(mode === "get-started-search")
       return { x: window.innerWidth * 0.105 + window.innerHeight * 0.049/2, y: window.innerHeight * 0.21 };
     else if(mode === "learn-2")
-      return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.205 };
+      return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
   };
 
   const center = getCenter();
@@ -101,10 +101,12 @@ const CompassIcon = ({ mode, currentType }) => {
         padding: '1vh', // Padding inside the tooltip
         borderRadius: '0.5vh', // Rounded corners
         fontFamily: 'Manrope',
+        fontWeight: '500',
         fontSize: '1.8vh',
         width: '25vh', // Dynamic width based on text length
         pointerEvents: 'none', // Prevents tooltip from interfering with hover
-        opacity: 0.95
+        opacity: 0.95,
+        textAlign: 'center'
       }}
     >
       {text}
