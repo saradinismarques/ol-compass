@@ -391,12 +391,14 @@ const GetInspiredPage = () => {
               )}
               </div>
     
-              <div className='gi-search-results-container'>
+              <div className='gi-results-container'>
                 {resultsNumber !== -1 && (
                   <p className={`gi-results ${searchLogic === 'SAVED' ? 'bookmarked' : ''}`}>
-                    <span className='gi-bold-text'>{resultsNumber}</span> results
+                    <span className='gi-bold-text'>{resultsNumber}</span>&nbsp;results
                   </p>
                 )}
+              </div>
+              <div className='gi-search-container'>
                 <div className="gi-search-logic-menu">
                   <div className="gi-logic-button-background">
                     <div className="gi-logic-buttons">
@@ -421,13 +423,14 @@ const GetInspiredPage = () => {
                     SEARCH
                   </button>
                 </div>
-                <button
-                    onClick={handleSavedCaseStudiesSearch}
-                    className={`gi-show-bookmarks-button ${searchLogic === 'SAVED' ? 'active' : ''}`}
-                  >   
-                    <BookmarkIcon className="gi-bookmark-icon show" />
-                </button>
               </div>
+              <button
+                onClick={handleSavedCaseStudiesSearch}
+                className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''}`}
+              >   
+                <p className='gi-bookmark-saved'>SAVED</p>
+                <BookmarkIcon className="gi-bookmark-icon show" />
+              </button>
           </>
         )}
         <Menu isExplanationPage={isExplanationPage} />
