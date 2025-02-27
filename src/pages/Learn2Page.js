@@ -34,9 +34,7 @@ const Learn2Page = () => {
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   // Initialize activeButton as an object with all entries set to 0
-  const [activeButton, setActiveButton] = useState(
-    allComponents.reduce((acc, key) => ({ ...acc, [key]: 0 }), {})
-  );
+  const [activeButton, setActiveButton] = useState(0);
 
   const navigate = useNavigate(); // Initialize the navigate function
   
@@ -122,20 +120,9 @@ const Learn2Page = () => {
       return updatedComponent;
     });
 
-    const currentButton = activeButtonRef.current[code];
-    
-    if(currentButton === 0)
-      setCurrentLinks(null);
-    else if(currentButton === 1)
-      if(type === 'Principle')
-        setCurrentLinks(wbc_links);
-      else 
-        setCurrentLinks(diff_code);
-    else if(currentButton === 2)
-      if(type === 'Principle')
-        setCurrentLinks(ce1_links);
-      else 
-        setCurrentLinks(e1_codes);
+    setActiveButton(0);
+    activeButtonRef.current = 0;
+    setCurrentLinks(null);
 
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
@@ -144,7 +131,6 @@ const Learn2Page = () => {
   };
 
   const getButtonsText = (buttonIndex) => {
-    const activeButton = activeButtonRef.current[componentRef.current.code];
     const type = componentRef.current.type;
   
     // Define button text mappings
@@ -215,20 +201,20 @@ const Learn2Page = () => {
           }</span>,
       },
     };
-  
-    return buttonTexts[activeButton]?.[buttonIndex] || null;
+    return buttonTexts[activeButtonRef.current]?.[buttonIndex] || null;
   };  
 
   // Keyboard event handler
   const handleButtonClick = (index) => {
     setActiveButton((prevState) => {
-      const currentValue = prevState[componentRef.current.code];
-      const newIndex = currentValue === index ? null : index;
+      const currentValue = prevState;
+      const newIndex = (currentValue === index  || (currentValue === 3 && index === 2)) ? null : index;
   
       // Clear links for 0 or null
       if (newIndex === 0 || newIndex === null) {
         setCurrentLinks(null);
-        return updateState(prevState, newIndex);
+        activeButtonRef.current = newIndex;
+        return newIndex;
       }
   
       // Define link mappings based on component type and newIndex
@@ -252,18 +238,9 @@ const Learn2Page = () => {
       setCurrentLinks(links);
   
       // Update state
-      return updateState(prevState, newIndex);
+      activeButtonRef.current = newIndex;
+      return newIndex;
     });
-  };
-  
-  // Helper function to update the state and activeButtonRef
-  const updateState = (prevState, newIndex) => {
-    const updatedState = {
-      ...prevState,
-      [componentRef.current.code]: newIndex,
-    };
-    activeButtonRef.current = updatedState;
-    return updatedState;
   };
   
   const messageStateChange = (state) => {
@@ -338,24 +315,24 @@ const Learn2Page = () => {
                     onClick={() => handleButtonClick(index)} 
                   >
                     <div>
-                      <Arrow2Icon className={`l2-arrow-icon ${activeButton[component.code] === index || (index === 2 && activeButton[component.code] === 3) ? "active" : ""}`} />
+                      <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
                     </div>
                     {getButtonsText(index)}
                   </button>
                 ))}
                 
-                {activeButton[component.code] > 1 && (
+                {activeButton > 1 && (
                   <div className="l2-example-arrow-container">
                     <button
-                      className={`l2-example-arrow left ${activeButton[component.code] === 2 ? "disabled" : ""}`}
+                      className={`l2-example-arrow left ${activeButton === 2 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(2)}
                     >
                       <Arrow2Icon className='l2-example-arrow-icon' />
                     </button>
-                    <span className='l2-example-number bold'>{activeButton[component.code] - 1}</span>
+                    <span className='l2-example-number bold'>{activeButton - 1}</span>
                     <span className='l2-example-number'> / 2</span>
                     <button
-                      className={`l2-example-arrow right ${activeButton[component.code] === 3 ? "disabled" : ""}`}
+                      className={`l2-example-arrow right ${activeButton === 3 ? "disabled" : ""}`}
                       onClick={() => handleButtonClick(3)}
                     >
                       <Arrow2Icon className='l2-example-arrow-icon' />

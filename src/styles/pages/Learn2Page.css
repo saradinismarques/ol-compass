@@ -190,6 +190,7 @@
     font-size: 3.2vh; /* Larger size for h1 */
     font-weight: 300;
     text-transform: uppercase;
+    white-space: nowrap;
     margin: 0;
     color: var(--text-color); 
 }

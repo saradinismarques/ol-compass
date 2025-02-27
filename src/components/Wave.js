@@ -588,7 +588,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                 fontFamily='Manrope'
                 fontWeight={600}
                 fontSize="0.35em"
-                backgroundColor={getBackgroundColor()}
                 opacity={getTextOpacity()} // Change opacity on hover
                 transform={isFlipped() 
                   ? (component.type === 'Principle' 
@@ -623,7 +622,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                   fontFamily='Manrope'
                   fontWeight={500}
                   fontSize="0.35em"
-                  backgroundColor={getBackgroundColor()}
                   opacity={getTextOpacity()} // Change opacity on hover
                   transform={isFlipped() 
                     ? (component.type === 'Principle' 
