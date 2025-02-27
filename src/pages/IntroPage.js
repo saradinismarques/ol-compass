@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import { getIntroTexts } from '../utils/DataExtraction.js';
 import { replaceBolds, replaceBoldsBreaksPlaceholders } from '../utils/TextFormatting.js';
-import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import '../styles/pages/IntroPage.css';
 
@@ -17,7 +17,10 @@ const IntroPage = () => {
     const introTexts = getIntroTexts('English');
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
-    
+    const [isHoverLeft, setIsHoverLeft] = useState(false);
+    const [isHoverRight, setIsHoverRight] = useState(false);
+    const [cursorType, setCursorType] = useState("default");
+
     const maxCounters = useMemo(() => ({
         Principle: 6,
         Perspective: 6,
@@ -73,6 +76,29 @@ const IntroPage = () => {
         }
     }, [handleNext, handlePrev]);
 
+    useEffect(() => {
+        const handleMouseMove = (e) => {
+            const screenWidth = window.innerWidth;
+            const isLeft = e.clientX < screenWidth / 2;
+            const isRight = e.clientX >= screenWidth / 2;
+
+            setIsHoverLeft(isLeft);
+            setIsHoverRight(isRight);
+            // Change cursor type based on screen side
+            setCursorType(isLeft || isRight ? "pointer" : "default");
+        };
+    
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+
+    useEffect(() => {
+        document.body.style.cursor = cursorType;
+        return () => {
+            document.body.style.cursor = "default"; // Reset cursor when component unmounts
+        };
+    }, [cursorType]);
+    
     useEffect(() => {   
         const isComplete =
             (frame === 0 || frame === 1) ||
@@ -223,17 +249,17 @@ const IntroPage = () => {
                 skip
             </button>  
 
-            {frame !== 0 &&
-                <button className={'i-arrow-button left'} >
-                    <ArrowIcon className="i-arrow-icon" />
-                </button> 
-            }
-            
-            {frame !== 10 &&
-                <button className={'i-arrow-button right'} >
-                    <ArrowIcon className="i-arrow-icon" />
-                </button> 
-            }
+            {frame !== 0 && (
+                <button className={`i-arrow-button left ${isHoverLeft ? "hover" : ""}`}>
+                    <Arrow2Icon className="i-arrow-icon" />
+                </button>
+            )}
+
+            {frame !== 10 && (
+                <button className={`i-arrow-button right ${isHoverRight ? "hover" : ""}`}>
+                    <Arrow2Icon className="i-arrow-icon" />
+                </button>
+            )}
         </div>
     );
 };

@@ -110,8 +110,10 @@
     display: flex;
     align-items: center; 
     outline: none; /* Removes the focus outline */
-    top: 47vh;
-    transform: translateY(-50%);
+    top: 45vh;
+    display: flex; /* Ensures button content (icon) is properly aligned */
+    align-items: center;
+    justify-content: center;
 }
 
 .i-arrow-button.left {
@@ -121,19 +123,33 @@
 
 .i-arrow-button.right {
     right: 5vw;
-    transform: scale(1); /* Rotate the arrow for left button */
+    rotate: 0deg;    /* Rotate the arrow for left button */
 }
 
 .i-arrow-button:hover .i-arrow-icon,
 .i-arrow-button:active .i-arrow-icon {
     fill: var(--gray-hover-color); /* Change fill color on hover */
+    transform: scale(1.2);
+}
+
+/* Apply hover effect when mouse is on the left half of the screen */
+.i-arrow-button.left.hover .i-arrow-icon {
+    fill: var(--gray-hover-color);
+    transform: scale(1.2);
+}
+
+/* Apply hover effect when mouse is on the right half of the screen */
+.i-arrow-button.right.hover .i-arrow-icon {
+    fill: var(--gray-hover-color);
+    transform: scale(1.2);
 }
 
 .i-arrow-icon {
-    width: 2.5vh;
-    height: 2.5vh;
+    width: 5vh;
+    height: 5vh;
     fill: var(--gray-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--gray-color);
     stroke-width: 0;
+    transition: transform 0.2s ease-in-out, fill 0.2s ease-in-out;
 }
