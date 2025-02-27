@@ -17,6 +17,9 @@
     z-index: 30;
     width: 43vh;
     font-weight: 400;
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically */
+    gap: 3vh; /* Adds spacing between buttons */
 }
 
 @media (max-aspect-ratio: 16/9) {
@@ -35,7 +38,6 @@
     outline: none;
     font-family: 'Manrope', sans-serif;
     display: flex;
-    margin-bottom: 2vh;
 }
 
 .l2-text {

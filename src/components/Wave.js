@@ -116,6 +116,14 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     }
   }
 
+  const getFontWeight = () => {
+    if(compassType === "default")
+      // Learn 2
+      if(mode === "learn-2" && selectedComponents === component.code)
+        return '800';
+    return '600';
+  }
+
   const getBackgroundColor = () => {
     if(compassType === "default") {
       // Learn 2.0
@@ -135,6 +143,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
         if(selectedComponents.includes(component.code)) 
           return colors['Selection'];
+      // Learn 2
+      if(mode === "learn-2" && selectedComponents === component.code)
+        return colors['Wave'][component.type];
       // Map
       if(mode === "map")
         return colors['Wave'][component.type];
@@ -146,6 +157,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
   const getStrokeWidth = () => {
     if(compassType === "default") {
+      // Learn 2
+      if(mode === "learn-2" && selectedComponents === component.code)
+        return "1.5px";
       // Map
       if(mode === "map")
         return "0.5px";
@@ -586,7 +600,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
               <text
                 fill={getTextFill()}
                 fontFamily='Manrope'
-                fontWeight={600}
+                fontWeight={getFontWeight()}
                 fontSize="0.35em"
                 opacity={getTextOpacity()} // Change opacity on hover
                 transform={isFlipped() 
@@ -620,7 +634,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                 <text
                   fill={getTextFill()}
                   fontFamily='Manrope'
-                  fontWeight={500}
+                  fontWeight={getFontWeight()}
                   fontSize="0.35em"
                   opacity={getTextOpacity()} // Change opacity on hover
                   transform={isFlipped() 

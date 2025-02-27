@@ -92,9 +92,6 @@ const Learn2Page = () => {
       ce1_links = null,
       country_e2 = null,
       ce2_links = null,
-      diff_code = null,
-      diff_label = null,
-      diff_paragraph = null,
       example_1 = null,
       example_2 = null,
       e1_codes = null,
@@ -111,7 +108,7 @@ const Learn2Page = () => {
         bookmark: getBookmarkState(code),
         ...(type === 'Principle'
           ? { wbc_links, region_feature, country_e1, ce1_links, country_e2, ce2_links }
-          : { diff_code, diff_label, diff_paragraph, example_1, example_2, e1_codes, e2_codes }),
+          : { example_1, example_2, e1_codes, e2_codes }),
       };
   
       // Update the ref
@@ -130,9 +127,7 @@ const Learn2Page = () => {
     setIsExplanationPage(false);
   };
 
-  const getButtonsText = (buttonIndex) => {
-    const type = componentRef.current.type;
-  
+  const getButtonsTextPrinciples = (buttonIndex) => {
     // Define button text mappings
     const buttonTexts = {
       0: {
@@ -141,74 +136,97 @@ const Learn2Page = () => {
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         1: <span className='l2-question'>
-          {type === 'Principle'  
-            ? <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</> 
-            : <>How does it differ from <span className="l2-question-bold">{component.diff_label.toUpperCase()}</span>?</>
-          }</span>,
+            <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</> 
+          </span>,
         2: <span className='l2-question'>
-          {type === 'Principle' 
-            ? <>How does it apply to <span className="l2-question-bold">Portugal</span>?</> 
-            : "How can it be applied in practice?"
-          }</span>,
+            <>How does it apply to <span className="l2-question-bold">Portugal</span>?</> 
+          </span>,
       },
       1: {
         0: <span className='l2-question'>In short</span>,
         1: replaceBoldsUnderlinesHighlights(
-          type === 'Principle' ? componentRef.current.region_feature : componentRef.current.diff_paragraph,
+          componentRef.current.region_feature,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         2: <span className='l2-question'>
-          {type === 'Principle' 
-            ? <>How does it apply to <span className="l2-question-bold">Portugal</span>?</> 
-            : "How can it be applied in practice?"
-          }</span>,
+            <>How does it apply to <span className="l2-question-bold">Portugal</span>?</> 
+          </span>,
       },
       2: {
         0: <span className='l2-question'>In short</span>,
         1: <span className='l2-question'>
-          {type === 'Principle' 
-            ? <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>  
-            : <>How does it differ from <span className="l2-question-bold">{component.diff_label.toUpperCase()}</span>?</>
-          }</span>,
+            <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>  
+          </span>,
         2: replaceBoldsUnderlinesHighlights(
-          type === 'Principle' ? componentRef.current.country_e1 : componentRef.current.example_1,
+          componentRef.current.country_e1,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
       },
       3: {
         0: <span className='l2-question'>In short</span>,
         1: <span className='l2-question'>
-          {type === 'Principle' 
-            ? <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</> 
-            : <>How does it differ from <span className="l2-question-bold">{component.diff_label.toUpperCase()}</span>?</>
-          }</span>,
+            <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</> 
+          </span>,
         2: replaceBoldsUnderlinesHighlights(
-          type === 'Principle' ? componentRef.current.country_e2 : componentRef.current.example_2,
+          componentRef.current.country_e2,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
       },
       null: {
         0: <span className='l2-question'>In short</span>,
         1: <span className='l2-question'>
-          {type === 'Principle' 
-            ? <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>  
-            : <>How does it differ from <span className="l2-question-bold">{component.diff_label.toUpperCase()}</span>?</>
-          }</span>,
+            <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>  
+          </span>,
         2: <span className='l2-question'>
-          {type === 'Principle' 
-            ? <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>  
-            : "How can it be applied in practice?"
-          }</span>,
+            <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>  
+          </span>,
       },
     };
     return buttonTexts[activeButtonRef.current]?.[buttonIndex] || null;
   };  
 
+  
+  const getButtonsTextOthers = (buttonIndex) => {
+    // Define button text mappings
+    const buttonTexts = {
+      0: {
+        0: replaceBoldsUnderlinesHighlights(
+          componentRef.current.paragraph,
+          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+        ),
+        1: <span className='l2-question'>
+            How can it be applied in practice?
+          </span>,
+      },
+      1: {
+        0: <span className='l2-question'>In short</span>,
+        1: replaceBoldsUnderlinesHighlights(
+          componentRef.current.example_1,
+          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+        ),
+      },
+      2: {
+        0: <span className='l2-question'>In short</span>,
+        1: replaceBoldsUnderlinesHighlights(
+          componentRef.current.example_2,
+          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+        ),
+      },
+      null: {
+        0: <span className='l2-question'>In short</span>,
+        1: <span className='l2-question'>
+            How can it be applied in practice? 
+          </span>,
+      },
+    };
+    return buttonTexts[activeButtonRef.current]?.[buttonIndex] || null;
+  }; 
+
   // Keyboard event handler
-  const handleButtonClick = (index) => {
+  const handleButtonClickPrinciple = (index, text) => {
     setActiveButton((prevState) => {
       const currentValue = prevState;
-      const newIndex = (currentValue === index  || (currentValue === 3 && index === 2)) ? null : index;
+      const newIndex = (currentValue === index  || (text === 'paragraph' && (currentValue === 3 && index === 2))) ? null : index;
   
       // Clear links for 0 or null
       if (newIndex === 0 || newIndex === null) {
@@ -219,22 +237,42 @@ const Learn2Page = () => {
   
       // Define link mappings based on component type and newIndex
       const linkMappings = {
-        1: {
-          principle: componentRef.current.wbc_links,
-          default: componentRef.current.diff_code,
-        },
-        2: {
-          principle: componentRef.current.ce1_links,
-          default: componentRef.current.e1_codes,
-        },
-        3: {
-          principle: componentRef.current.ce2_links,
-          default: componentRef.current.e2_codes,
-        },
+        1: componentRef.current.wbc_links,
+        2: componentRef.current.ce1_links,
+        3: componentRef.current.ce2_links,
       };
-  
+
       // Set the appropriate links based on the new index and type
-      const links = linkMappings[newIndex]?.[componentRef.current.type === 'Principle' ? 'principle' : 'default'];
+      const links = linkMappings[newIndex];
+      setCurrentLinks(links);
+  
+      // Update state
+      activeButtonRef.current = newIndex;
+      return newIndex;
+    });
+  };
+
+  // Keyboard event handler
+  const handleButtonClickOthers = (index, text) => {
+    setActiveButton((prevState) => {
+      const currentValue = prevState;
+      const newIndex = (currentValue === index  || (text === 'paragraph' && (currentValue === 2 && index === 1))) ? null : index;
+  
+      // Clear links for 0 or null
+      if (newIndex === 0 || newIndex === null) {
+        setCurrentLinks(null);
+        activeButtonRef.current = newIndex;
+        return newIndex;
+      }
+  
+      // Define link mappings based on component type and newIndex
+      const linkMappings = {
+        1: componentRef.current.e1_codes,
+        2: componentRef.current.e2_codes,
+      };
+
+      // Set the appropriate links based on the new index and type
+      const links = linkMappings[newIndex];
       setCurrentLinks(links);
   
       // Update state
@@ -307,39 +345,76 @@ const Learn2Page = () => {
                 </button>
               </div>
               
-              <div className='l2-text-buttons-container'>
-                {Array.from({ length: 3 }).map((_, index) => (
-                  <button 
-                    key={index} // Add a unique key for each button
-                    className='l2-button'
-                    onClick={() => handleButtonClick(index)} 
-                  >
-                    <div>
-                      <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
+              {component.type === 'Principle' &&
+                <div className='l2-text-buttons-container'>
+                  {Array.from({ length: 3 }).map((_, index) => (
+                    <button 
+                      key={index} // Add a unique key for each button
+                      className='l2-button'
+                      onClick={() => handleButtonClickPrinciple(index, 'paragraph')} 
+                    >
+                      <div>
+                        <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
+                      </div>
+                      {getButtonsTextPrinciples(index)}
+                    </button>
+                  ))}
+                  
+                  {activeButton > 1 && (
+                    <div className="l2-example-arrow-container">
+                      <button
+                        className={`l2-example-arrow left ${activeButton === 2 ? "disabled" : ""}`}
+                        onClick={() => handleButtonClickPrinciple(2, 'example')}
+                      >
+                        <Arrow2Icon className='l2-example-arrow-icon' />
+                      </button>
+                      <span className='l2-example-number bold'>{activeButton - 1}</span>
+                      <span className='l2-example-number'> / 2</span>
+                      <button
+                        className={`l2-example-arrow right ${activeButton === 3 ? "disabled" : ""}`}
+                        onClick={() => handleButtonClickPrinciple(3, 'examples')}
+                      >
+                        <Arrow2Icon className='l2-example-arrow-icon' />
+                      </button>
                     </div>
-                    {getButtonsText(index)}
-                  </button>
-                ))}
-                
-                {activeButton > 1 && (
-                  <div className="l2-example-arrow-container">
-                    <button
-                      className={`l2-example-arrow left ${activeButton === 2 ? "disabled" : ""}`}
-                      onClick={() => handleButtonClick(2)}
+                  )}
+                </div>
+              }
+              {component.type !== 'Principle' &&
+                <div className='l2-text-buttons-container'>
+                  {Array.from({ length: 2 }).map((_, index) => (
+                    <button 
+                      key={index} // Add a unique key for each button
+                      className='l2-button'
+                      onClick={() => handleButtonClickOthers(index, 'paragraph')} 
                     >
-                      <Arrow2Icon className='l2-example-arrow-icon' />
+                      <div>
+                        <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
+                      </div>
+                      {getButtonsTextOthers(index)}
                     </button>
-                    <span className='l2-example-number bold'>{activeButton - 1}</span>
-                    <span className='l2-example-number'> / 2</span>
-                    <button
-                      className={`l2-example-arrow right ${activeButton === 3 ? "disabled" : ""}`}
-                      onClick={() => handleButtonClick(3)}
-                    >
-                      <Arrow2Icon className='l2-example-arrow-icon' />
-                    </button>
-                  </div>
-                )}
-              </div>
+                  ))}
+                  
+                  {activeButton > 0 && (
+                    <div className="l2-example-arrow-container">
+                      <button
+                        className={`l2-example-arrow left ${activeButton === 1 ? "disabled" : ""}`}
+                        onClick={() => handleButtonClickOthers(1, 'example')}
+                      >
+                        <Arrow2Icon className='l2-example-arrow-icon' />
+                      </button>
+                      <span className='l2-example-number bold'>{activeButton}</span>
+                      <span className='l2-example-number'> / 2</span>
+                      <button
+                        className={`l2-example-arrow right ${activeButton === 2 ? "disabled" : ""}`}
+                        onClick={() => handleButtonClickOthers(2, 'examples')}
+                      >
+                        <Arrow2Icon className='l2-example-arrow-icon' />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              }
             </>
           )}
           <Menu />

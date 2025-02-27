@@ -189,7 +189,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
     setHoveredId(component.code);
     hoveredIdRef.current = component.code; 
 
-    if(mode.startsWith("get-started"))
+    if(mode.startsWith("get-started") || mode === "learn-2")
       return;
 
     // Clear any existing timeout to avoid overlaps
@@ -208,7 +208,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   const handleMouseLeave = () => {
     setHoveredId(null);
 
-    if(mode.startsWith("get-started"))
+    if(mode.startsWith("get-started") || mode === "learn-2")
       return;
 
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
@@ -374,7 +374,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
         ))}
       </div>
   
-      {!isExplanationPage && (mode === "learn" || mode === "learn-2" || mode === "contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 
+      {!isExplanationPage && (mode === "learn" || mode === "contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 
         <Tooltip 
           text={tooltipText} 
           position={tooltipPos} 
