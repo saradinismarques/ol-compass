@@ -167,9 +167,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   };
     
   const getWaveOpacity = () => {
-    // Explanation Page
-    if(isExplanationPage)
-      return 1;
     if(compassType === "default") {
       // Intro
       if (mode === "intro-0")
@@ -205,6 +202,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           else
             return 0.15;
       }
+      // Explanation Page
+      if(isExplanationPage)
+        return 1;
       // Learn 
       if(mode === "learn") {
         if(selectedComponents.length === 0)
@@ -335,6 +335,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           else
             return 0.15;
       }
+      // Explanation Page
+      if(isExplanationPage)
+        return 1;
       // Learn 
       if(mode === "learn") {
         if(selectedComponents.length === 0)

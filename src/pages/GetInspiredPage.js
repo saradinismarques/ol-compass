@@ -37,7 +37,7 @@ const GetInspiredPage = () => {
   }), []);
 
   const [currentCaseStudy, setCurrentCaseStudy] = useState(initialCaseStudy);
-  const [caseStudies, setCaseStudies] = useState(getGetInspiredData());
+  const [caseStudies, setCaseStudies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [carouselMode, setCarouselMode] = useState(true);
   const [mode, setMode] = useState('get-inspired');
@@ -98,6 +98,15 @@ const GetInspiredPage = () => {
     //   showMessageRef.current = true;
     // }
 
+    // Reset components if on these modes 
+    if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL') {
+      setSearchLogic('OR');
+      searchLogicRef.current = 'OR';
+      setComponents([]);
+      componentsRef.current = [];
+      setResultsNumber(-1);
+    }
+
     setComponents(prevComponents => {
       const newComponents = prevComponents.includes(code)
         ? prevComponents.filter(buttonId => buttonId !== code) // Remove ID if already clicked
@@ -112,10 +121,6 @@ const GetInspiredPage = () => {
     setCarouselMode(false);
     carouselModeRef.current = false;
     setMode('get-inspired');
-
-    if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL')
-      setCurrentComponents([]);
-      setResultsNumber(-1);
   };
 
   const messageStateChange = (state) => {
@@ -125,11 +130,12 @@ const GetInspiredPage = () => {
 
   const searchCaseStudies = useCallback((searchedComponents) => {
     let allCaseStudies;
+
     if(searchLogicRef.current === 'SAVED')
       allCaseStudies = savedCaseStudiesRef.current;
     else 
       // Concatenate the fetched case studies with newCaseStudies
-      allCaseStudies = [...caseStudies, ...newCaseStudies];
+      allCaseStudies = [...getGetInspiredData(), ...newCaseStudies];
 
     // Process the JSON data
     let filteredCaseStudies = allCaseStudies;
@@ -206,7 +212,8 @@ const GetInspiredPage = () => {
     if(searchLogicRef.current === 'SAVED') {
       setSearchLogic('OR');
       searchLogicRef.current = 'OR';  
-      setCurrentComponents([]);
+      setComponents([]);
+      componentsRef.current = [];
       setResultsNumber(-1);
     } else {
       setSearchLogic('SAVED');
