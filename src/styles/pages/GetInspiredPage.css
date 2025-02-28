@@ -322,6 +322,7 @@
     background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }
 
+/* Show bookmarked button */
 .gi-show-bookmarks-container {
     position: fixed;
     top: 9vh;
@@ -340,13 +341,13 @@
     align-items: center;
     justify-content: center;
     color: var(--gray-color);
+    gap: 1vh;
 }
 
-.gi-bookmark-saved {
+.gi-show-bookmark-button {
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
     font-size: 1.8vh;
-    padding-right: 1vh;
 }
 
 .gi-bookmark-icon.show {
@@ -382,6 +383,50 @@
 
 .gi-show-bookmarks-container.active .gi-bookmark-icon {
     fill: white; /* Active state background color */
+}
+
+/* Show all (carousel) */
+.gi-show-carousel-container {
+    position: fixed;
+    top: 9vh;
+    right: 12vh;
+    transform: translateY(-50%);
+    background-color: transparent;
+    border: 0.3vh solid var(--gray-color);
+    border-radius: 50px;
+    cursor: pointer;
+    width: 12vh; /* Set an explicit width */
+    height: 4.3vh; /* Set an explicit height */
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gray-color);
+}
+
+.gi-show-carousel-button {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 1.8vh;
+}
+
+.gi-show-carousel-container:hover,
+.gi-show-carousel-container:active {
+    border: 0.3vh solid var(--gray-hover-color);
+    color: var(--gray-hover-color);
+}
+
+.gi-show-carousel-container.active:hover,
+.gi-show-carousel-container.active:active {
+    background-color: var(--gray-hover-color); /* Active state background color */
+}
+
+.gi-show-carousel-container.active {
+    border: 0.3vh solid var(--gray-color);
+    background-color: var(--gray-color); /* Active state background color */
+    color: white;
 }
 
 /* Bold text */

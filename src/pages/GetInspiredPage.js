@@ -107,6 +107,10 @@ const GetInspiredPage = () => {
     setCarouselMode(false);
     carouselModeRef.current = false;
     setMode('get-inspired');
+
+    if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL')
+      setCurrentComponents([]);
+      setResultsNumber(-1);
   };
 
   const messageStateChange = (state) => {
@@ -181,9 +185,8 @@ const GetInspiredPage = () => {
     //   showMessageRef.current = true;
     //   setFirstClick(false);
     // }
-
-    if (!isExplanationPage) return;
-    
+    setSearchLogic('CAROUSEL');
+    searchLogicRef.current = 'CAROUSEL';
     setIsExplanationPage(false);
     searchCaseStudies(null);
     setMode('get-inspired-carousel');
@@ -377,7 +380,7 @@ const GetInspiredPage = () => {
     
     
               {/* Navigation Arrows */}
-              {(currentIndex > 0) && (
+              {(currentIndex > 0 && resultsNumber > 0) && (
                 <button
                   className={`gi-arrow-button left ${resultsNumber === 0 ? "disabled" : ""}`}
                   onClick={handlePrev}
@@ -386,7 +389,7 @@ const GetInspiredPage = () => {
                 </button>
               )}
     
-              {(currentIndex < caseStudies.length - 1) && (
+              {(currentIndex < caseStudies.length - 1 && resultsNumber > 0) && (
                 <button
                   className={`gi-arrow-button right ${resultsNumber === 0 ? "disabled" : ""}`}
                   onClick={handleNext}
@@ -403,7 +406,7 @@ const GetInspiredPage = () => {
                   </p>
                 )}
               </div>
-              <div className={`gi-search-container ${searchLogic === 'SAVED' ? "disabled" : ""}`}>
+              <div className={`gi-search-container ${(searchLogic === 'SAVED' || searchLogic === 'CAROUSEL') ? "disabled" : ""}`}>
                 <div className="gi-search-logic-menu">
                   <div className="gi-logic-button-background">
                     <div className="gi-logic-buttons">
@@ -433,8 +436,14 @@ const GetInspiredPage = () => {
                 onClick={handleSavedCaseStudiesSearch}
                 className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''}`}
               >   
-                <p className='gi-bookmark-saved'>SAVED</p>
+                <p className='gi-show-bookmark-button'>SAVED</p>
                 <BookmarkIcon className="gi-bookmark-icon show" />
+              </button>
+              <button
+                onClick={handleCarouselSearch}
+                className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''}`}
+              >   
+                <p className='gi-show-carousel-button'>SHOW ALL</p>
               </button>
           </>
         )}
