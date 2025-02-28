@@ -46,6 +46,14 @@
     width: 40vh;
 }
 
+.gi-no-results {
+    position: relative;
+    top: 8vh;
+    color: var(--gray-color);
+    font-size: 3vh;
+    width: 40vh;
+}
+
 .gi-title {
     font-size: 3vh;
     font-weight: 500;

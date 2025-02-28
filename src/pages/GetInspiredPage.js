@@ -163,22 +163,8 @@ const GetInspiredPage = () => {
       setCurrentComponents(filteredCaseStudies[0].components)
     }
 
-    if (filteredCaseStudies.length === 0) {
-      setCurrentCaseStudy((prevCaseStudy) => ({
-        ...prevCaseStudy,
-        title: "No cases found with those filters",
-        collection: '',
-        mainTarget: '',
-        age: '',
-        time: '',
-        type: '',
-        languages: '',
-        year: '',
-        description: '',
-        credits: '',
-        components: []
-      }));
-    }
+    if (filteredCaseStudies.length === 0)
+      setCurrentComponents([]);
   }, [newCaseStudies, getBookmarkState, savedCaseStudies]);
 
   const handleDefaultSearch = useCallback(() => {
@@ -344,7 +330,7 @@ const GetInspiredPage = () => {
         {!isExplanationPage && (
           <>
             <div className='gi-text-container'>
-              {resultsNumber !== -1 && (
+              {resultsNumber > 0 && (
                 <div className="gi-card-container">
                   <button
                     onClick={toggleBookmark}
@@ -380,6 +366,15 @@ const GetInspiredPage = () => {
                   Continue clicking on the waves you want to include. Once your done click on 'Search' or press 'Enter'
                 </div>
               )}
+
+              {resultsNumber === 0 && (
+                <div className="gi-no-results">
+                  {searchLogic === 'SAVED' 
+                  ? "No case studies saved yet. Press the bookmark icon to save a case study" 
+                  : "No case studies found with those filter. Try using others"}
+                </div>
+              )}
+    
     
               {/* Navigation Arrows */}
               {(currentIndex > 0) && (
