@@ -37,9 +37,9 @@ const GetInspiredPage = () => {
   }), []);
 
   const [currentCaseStudy, setCurrentCaseStudy] = useState(initialCaseStudy);
+  const [resetCompass, setResetCompass] = useState(false);
   const [caseStudies, setCaseStudies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [carouselMode, setCarouselMode] = useState(true);
   const [mode, setMode] = useState('get-inspired');
   const [resultsNumber, setResultsNumber] = useState(-1);
   const [searchLogic, setSearchLogic] = useState('OR');
@@ -49,7 +49,7 @@ const GetInspiredPage = () => {
   const [showMessage, setShowMessage] = useState(false);
   const navigate = useNavigate(); // Initialize the navigate function
 
-  const carouselModeRef = useRef(carouselMode);
+  const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
   const componentsRef = useRef(components);
   const showMessageRef = useRef(showMessage);
@@ -60,12 +60,12 @@ const GetInspiredPage = () => {
   }, [components]);
 
   useEffect(() => {
-    savedCaseStudiesRef.current = savedCaseStudies;
-  }, [components]);
+    modeRef.current = mode;
+  }, [mode]);
 
   useEffect(() => {
-    carouselModeRef.current = carouselMode;
-  }, [carouselMode]);
+    savedCaseStudiesRef.current = savedCaseStudies;
+  }, [savedCaseStudies]);
 
   useEffect(() => {
     searchLogicRef.current = searchLogic;
@@ -86,6 +86,15 @@ const GetInspiredPage = () => {
       navigate('/home');
   }, [navigate]);
   
+  const resetStateAndCompass = () => {
+    setMode('get-inspired');
+    modeRef.current = 'get-inspired';
+    setSearchLogic('OR');
+    searchLogicRef.current = 'OR';
+    setResultsNumber(-1);
+    setResetCompass(true);
+    setTimeout(() => setResetCompass(false), 0); // Reset compass trigger
+  }
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((title) => {
     return savedCaseStudies.length !== 0 && savedCaseStudies.some(item => item.title === title);
@@ -99,13 +108,12 @@ const GetInspiredPage = () => {
     // }
 
     // Reset components if on these modes 
-    if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL') {
-      setSearchLogic('OR');
-      searchLogicRef.current = 'OR';
-      setComponents([]);
-      componentsRef.current = [];
-      setResultsNumber(-1);
-    }
+    if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL') 
+      resetStateAndCompass()
+    
+    setMode('get-inspired');
+    modeRef.current = 'get-inspired';
+    setIsExplanationPage(false);
 
     setComponents(prevComponents => {
       const newComponents = prevComponents.includes(code)
@@ -116,11 +124,6 @@ const GetInspiredPage = () => {
       // Return the updated state
       return newComponents;
     });
-
-    setIsExplanationPage(false);
-    setCarouselMode(false);
-    carouselModeRef.current = false;
-    setMode('get-inspired');
   };
 
   const messageStateChange = (state) => {
@@ -184,38 +187,35 @@ const GetInspiredPage = () => {
 
   const handleDefaultSearch = useCallback(() => {
     setMode('get-inspired-search');
+    modeRef.current = 'get-inspired-search';
     searchCaseStudies(componentsRef.current);
   }, [searchCaseStudies]);
 
   const handleCarouselSearch = useCallback(() => {
-    setCarouselMode(true);
-    carouselModeRef.current = true;
+    if(searchLogicRef.current === 'CAROUSEL') {
+      resetStateAndCompass()
+    } else {
+      setMode('get-inspired-carousel');
+      modeRef.current = 'get-inspired-carousel';
 
-    // if(firstClick && firstMessage["get-inspired"]) {
-    //   setShowMessage(true);
-    //   showMessageRef.current = true;
-    //   setFirstClick(false);
-    // }
-    setSearchLogic('CAROUSEL');
-    searchLogicRef.current = 'CAROUSEL';
-    setIsExplanationPage(false);
-    searchCaseStudies(null);
-    setMode('get-inspired-carousel');
-
+      // if(firstClick && firstMessage["get-inspired"]) {
+      //   setShowMessage(true);
+      //   showMessageRef.current = true;
+      //   setFirstClick(false);
+      // }
+      setSearchLogic('CAROUSEL');
+      searchLogicRef.current = 'CAROUSEL';
+      setIsExplanationPage(false);
+      searchCaseStudies(null);
+    }
   }, [firstMessage, isExplanationPage, searchCaseStudies, firstClick, setIsExplanationPage]);
   
   const handleSavedCaseStudiesSearch = useCallback(() => {
-    setMode('get-inspired-carousel');
-    carouselModeRef.current = true;
-  
-
     if(searchLogicRef.current === 'SAVED') {
-      setSearchLogic('OR');
-      searchLogicRef.current = 'OR';  
-      setComponents([]);
-      componentsRef.current = [];
-      setResultsNumber(-1);
+     resetStateAndCompass()
     } else {
+      setMode('get-inspired-carousel');
+      modeRef.current = 'get-inspired-carousel';
       setSearchLogic('SAVED');
       searchLogicRef.current = 'SAVED';  
       searchCaseStudies(null);
@@ -273,9 +273,9 @@ const GetInspiredPage = () => {
 
   // Keyboard event handler
   const handleKeyDown = useCallback((e) => {
-    if(e.key === 'Enter' && carouselModeRef.current && !showMessageRef.current) 
+    if(e.key === 'Enter' && modeRef.current === 'get-inspired-carousel' && !showMessageRef.current) 
       handleCarouselSearch();
-    else if(e.key === 'Enter' && !carouselModeRef.current && !showMessageRef.current) 
+    else if(e.key === 'Enter' && modeRef.current !== 'get-inspired-carousel' && !showMessageRef.current) 
       handleDefaultSearch();
     else if (e.key === 'ArrowLeft') 
       handlePrev();
@@ -333,12 +333,13 @@ const GetInspiredPage = () => {
           resetState={resetState} // Passing resetState to OLCompass
           onButtonClick={handleCompassClick}
           currentComponent={currentComponents}
+          resetCompass={resetCompass}
         />
         {isExplanationPage && 
           <Description mode={'get-inspired'} />
         }
 
-        {((!isExplanationPage && carouselMode) || !carouselMode) && (
+        {((!isExplanationPage && mode === 'get-inspired-carousel') || mode !== 'get-inspired-carousel') && (
           <Message
             mode={'get-inspired'}
             type={'button'}
@@ -466,7 +467,7 @@ const GetInspiredPage = () => {
         <Menu isExplanationPage={isExplanationPage} />
       </div>
   
-      {((!isExplanationPage && carouselMode) || !carouselMode) && (
+      {((!isExplanationPage && mode === 'get-inspired-carousel') || mode !== 'get-inspired-carousel') && (
         <Message
           mode={'get-inspired'}
           type={'message'}
