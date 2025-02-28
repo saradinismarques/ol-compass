@@ -64,7 +64,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
 
   // Handlers
   const handleClick = (component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel" || mode === "map") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "map") 
       return;
     
     if (mode === "learn") {
@@ -169,6 +169,10 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
       });
       
       if (onButtonClick) onButtonClick(component.code);
+    } else if(mode === "get-inspired-carousel") {
+      setSelectedComponents([component.code]);
+      
+      if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "contribute") {
       setSelectedComponents(prevComponents => {
         const newComponents = prevComponents.includes(component.code)
@@ -183,7 +187,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   };
   
   const handleMouseEnter = (e, component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "get-inspired-carousel") 
+    if (mode.startsWith("intro") || mode === "default") 
       return;
 
     setHoveredId(component.code);

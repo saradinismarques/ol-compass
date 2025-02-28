@@ -190,11 +190,11 @@ const GetInspiredPage = () => {
     setCarouselMode(true);
     carouselModeRef.current = true;
 
-    if(firstClick && firstMessage["get-inspired"]) {
-      setShowMessage(true);
-      showMessageRef.current = true;
-      setFirstClick(false);
-    }
+    // if(firstClick && firstMessage["get-inspired"]) {
+    //   setShowMessage(true);
+    //   showMessageRef.current = true;
+    //   setFirstClick(false);
+    // }
 
     if (!isExplanationPage) return;
     
@@ -207,11 +207,19 @@ const GetInspiredPage = () => {
   const handleSavedCaseStudiesSearch = useCallback(() => {
     setMode('get-inspired-carousel');
     carouselModeRef.current = true;
+  
 
-    setSearchLogic('SAVED');
-    searchLogicRef.current = 'SAVED';
-
-    searchCaseStudies(null);
+    if(searchLogicRef.current === 'SAVED') {
+      setSearchLogic('OR');
+      searchLogicRef.current = 'OR';  
+      setCurrentComponents([]);
+      setResultsNumber(-1);
+    } else {
+      setSearchLogic('SAVED');
+      searchLogicRef.current = 'SAVED';  
+      searchCaseStudies(null);
+    }
+   
   }, [searchCaseStudies]);
 
   const handleNext = useCallback(() => {
