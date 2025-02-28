@@ -5,7 +5,7 @@ import Menu from '../components/Menu';
 import Description from '../components/Description';
 import Message from '../components/Message';
 import { getGetInspiredData } from '../utils/DataExtraction.js'; 
-import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import '../styles/pages/GetInspiredPage.css';
@@ -44,7 +44,7 @@ const GetInspiredPage = () => {
   const [resultsNumber, setResultsNumber] = useState(-1);
   const [searchLogic, setSearchLogic] = useState('OR');
   const [components, setComponents] = useState([]);
-  const [currentComponents, setCurrentComponents] = useState();
+  const [currentComponents, setCurrentComponents] = useState([]);
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const navigate = useNavigate(); // Initialize the navigate function
@@ -376,25 +376,27 @@ const GetInspiredPage = () => {
               </div>
               )}
               {resultsNumber === -1 && (
-                <div className="gi-card-container empty"></div>
+                <div className="gi-instruction">
+                  Continue clicking on the waves you want to include. Once your done click on 'Search' or press 'Enter'
+                </div>
               )}
     
               {/* Navigation Arrows */}
-              {(currentIndex > 0 || resultsNumber === -1) && (
+              {(currentIndex > 0) && (
                 <button
                   className={`gi-arrow-button left ${resultsNumber === 0 ? "disabled" : ""}`}
                   onClick={handlePrev}
                 >
-                  <ArrowIcon className='gi-arrow-icon' />
+                  <Arrow2Icon className='gi-arrow-icon' />
                 </button>
               )}
     
-              {(currentIndex < caseStudies.length - 1 || resultsNumber === -1) && (
+              {(currentIndex < caseStudies.length - 1) && (
                 <button
                   className={`gi-arrow-button right ${resultsNumber === 0 ? "disabled" : ""}`}
                   onClick={handleNext}
                 >
-                  <ArrowIcon className='gi-arrow-icon' />
+                  <Arrow2Icon className='gi-arrow-icon' />
                 </button>
               )}
               </div>

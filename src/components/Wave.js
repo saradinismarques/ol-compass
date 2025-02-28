@@ -167,6 +167,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   };
     
   const getWaveOpacity = () => {
+    // Explanation Page
+    if(isExplanationPage)
+      return 1;
     if(compassType === "default") {
       // Intro
       if (mode === "intro-0")
@@ -215,9 +218,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       }
       // Learn 2.0
       if(mode === "learn-2") {
-        if(selectedComponents.length === 0)
-          return 1;
-        else if(selectedComponents === component.code)
+        if(selectedComponents === component.code)
           return 1;
         else if(hoveredId === component.code) 
           return 0.8;
@@ -247,8 +248,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
       // Get Inspired
       if(mode === "get-inspired") {
-        if(selectedComponents.length === 0) 
-          return 1;
         if (selectedComponents.includes(component.code)) 
           return 1;
         if (hoveredId === component.code) 
@@ -256,8 +255,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         return 0.3;
       }
       if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-        if(currentComponent.length === 0)
-          return 1;
         if(currentComponent.includes(component.code))
           return 1;
         else if(hoveredId === component.code) 
@@ -383,8 +380,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
       // Get Inspired
       if(mode === "get-inspired") {
-        if(selectedComponents.length === 0) 
-          return 1;
         if (selectedComponents.includes(component.code)) 
           return 1;
         if (hoveredId === component.code) 
@@ -399,6 +394,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else
           return 0.7;
       }
+
       // Contribute
       if(mode === "contribute") {
         if(selectedComponents.length === 0) 

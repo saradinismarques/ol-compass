@@ -108,8 +108,6 @@
     background-color: transparent;
     border: 0.3vh solid transparent; /* Set initial border to transparent */
     cursor: pointer;
-    display: flex;
-    align-items: center; 
     outline: none; /* Removes the focus outline */
     top: 45.5vh;
     display: flex; /* Ensures button content (icon) is properly aligned */
