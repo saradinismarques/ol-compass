@@ -37,7 +37,7 @@ const GetInspiredPage = () => {
   }), []);
 
   const [currentCaseStudy, setCurrentCaseStudy] = useState(initialCaseStudy);
-  const [caseStudies, setCaseStudies] = useState([]);
+  const [caseStudies, setCaseStudies] = useState(getGetInspiredData());
   const [currentIndex, setCurrentIndex] = useState(0);
   const [carouselMode, setCarouselMode] = useState(true);
   const [mode, setMode] = useState('get-inspired');
@@ -53,9 +53,14 @@ const GetInspiredPage = () => {
   const searchLogicRef = useRef(searchLogic);
   const componentsRef = useRef(components);
   const showMessageRef = useRef(showMessage);
+  const savedCaseStudiesRef = useRef(savedCaseStudies);
 
   useEffect(() => {
     componentsRef.current = components;
+  }, [components]);
+
+  useEffect(() => {
+    savedCaseStudiesRef.current = savedCaseStudies;
   }, [components]);
 
   useEffect(() => {
@@ -121,10 +126,10 @@ const GetInspiredPage = () => {
   const searchCaseStudies = useCallback((searchedComponents) => {
     let allCaseStudies;
     if(searchLogicRef.current === 'SAVED')
-      allCaseStudies = savedCaseStudies;
+      allCaseStudies = savedCaseStudiesRef.current;
     else 
       // Concatenate the fetched case studies with newCaseStudies
-      allCaseStudies = [...getGetInspiredData(), ...newCaseStudies];
+      allCaseStudies = [...caseStudies, ...newCaseStudies];
 
     // Process the JSON data
     let filteredCaseStudies = allCaseStudies;
@@ -208,7 +213,6 @@ const GetInspiredPage = () => {
       searchLogicRef.current = 'SAVED';  
       searchCaseStudies(null);
     }
-   
   }, [searchCaseStudies]);
 
   const handleNext = useCallback(() => {
@@ -285,10 +289,12 @@ const GetInspiredPage = () => {
   
       if (exists) {
         // Remove the case study if it already exists
+        savedCaseStudiesRef.current = prevSavedCaseStudies.filter(item => item.title !== currentCaseStudy.title);
         return prevSavedCaseStudies.filter(item => item.title !== currentCaseStudy.title);
       }
   
       // Otherwise, add the entire case study object
+      savedCaseStudiesRef.current = [...prevSavedCaseStudies, currentCaseStudy];
       return [...prevSavedCaseStudies, currentCaseStudy];
     });
   
@@ -296,6 +302,9 @@ const GetInspiredPage = () => {
       ...currentCaseStudy,
       bookmark: !currentCaseStudy.bookmark,
     });
+
+    if(searchLogicRef.current === 'SAVED')
+      searchCaseStudies(null);
   };  
 
   const handleSearchLogicChange = useCallback((mode) => {
