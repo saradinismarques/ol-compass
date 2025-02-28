@@ -403,7 +403,7 @@ const GetInspiredPage = () => {
                   </p>
                 )}
               </div>
-              <div className='gi-search-container'>
+              <div className={`gi-search-container ${searchLogic === 'SAVED' ? "disabled" : ""}`}>
                 <div className="gi-search-logic-menu">
                   <div className="gi-logic-button-background">
                     <div className="gi-logic-buttons">

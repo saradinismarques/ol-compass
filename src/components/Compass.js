@@ -43,6 +43,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
+  const [tooltipColor, setTooltipColor] = useState('black');
   
   // Declare a timeout variable to store the reference to the timeout
   let tooltipTimeout = null;
@@ -204,6 +205,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
       if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
         setTooltipPos({ x: e.clientX, y: e.clientY });
         setTooltipText(component.tooltip);
+        setTooltipColor(colors['Text'][component.type])
         setTooltipVisible(true);
       }
     }, 500); // 1-second delay
@@ -220,6 +222,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
 
     // Set the cancellation flag to prevent tooltip from showing
     setTooltipVisible(false);
+    setTooltipColor('black'); // Clear the tooltip text
     setTooltipText(""); // Clear the tooltip text
   };
 
@@ -230,6 +233,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
       setSelectedComponents([]);
       setTooltipPos({ x: 0, y: 0 });
       setTooltipVisible(false);
+      setTooltipColor('black');
       setTooltipText('');
 
       if(resetState)
@@ -318,33 +322,48 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
         left: `${position.x}px`,
         transform: 'translate(-50%, -110%)', // Adjusts the position above the button
         zIndex: 1000,
-        backgroundColor: colors['Gray Hover'], // Tooltip background color
-        color: 'white', // Tooltip text color
+        backgroundColor: 'white', // Tooltip background color
+        color: tooltipColor, // Tooltip text color
         padding: '1vh', // Padding inside the tooltip
         borderRadius: '0.5vh', // Rounded corners
+        border: `0.3vh solid ${tooltipColor}`,
         fontFamily: 'Manrope',
         fontWeight: '500',
         fontSize: '2vh',
         width: `${text.length * 0.60}vh`, // Dynamic width based on text length
         pointerEvents: 'none', // Prevents tooltip from interfering with hover
-        opacity: 0.9,
+        opacity: 1,
         textAlign: 'center'
       }}
     >
       {text}
-      {/* Tooltip pointer */}
+      {/* Triangle Outline */}
       <div
         style={{
-          position: 'fixed',
-          top: '100%', // Positions pointer below the tooltip box
+          position: 'absolute',
+          top: '100%', // Below the tooltip
           left: '50%',
-          marginLeft: '-1vh', // Centers the pointer
+          transform: 'translateX(-50%)',
+          width: '0',
+          height: '0',
+          borderLeft: '1.1vh solid transparent',
+          borderRight: '1.1vh solid transparent',
+          borderTop: `2.2vh solid ${tooltipColor}`, // Outline color (slightly bigger)
+        }}
+      />
+
+      {/* Triangle (Actual Pointer) */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '100%', // Below the tooltip
+          left: '50%',
+          transform: 'translateX(-50%) translateY(-0.3vh)', // Moves it up to align properly
           width: '0',
           height: '0',
           borderLeft: '1vh solid transparent',
           borderRight: '1vh solid transparent',
-          borderTop: '2vh solid #acaaaa', // Matches tooltip background
-          opacity: 0.9
+          borderTop: '2vh solid white', // Matches tooltip background
         }}
       />
     </div>
