@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ol-compass/static/css/main.eb11f72c.css",
-    "main.js": "/ol-compass/static/js/main.70e3d38b.js",
+    "main.css": "/ol-compass/static/css/main.56884212.css",
+    "main.js": "/ol-compass/static/js/main.fc12970b.js",
     "static/js/213.8f03509e.chunk.js": "/ol-compass/static/js/213.8f03509e.chunk.js",
     "static/js/732.beb7b8aa.chunk.js": "/ol-compass/static/js/732.beb7b8aa.chunk.js",
     "static/media/PDF-cover-background.png": "/ol-compass/static/media/PDF-cover-background.a4a453b36fe01c382937.png",
@@ -23,13 +23,13 @@
     "static/media/home-icon.svg": "/ol-compass/static/media/home-icon.a36d1704e9a6c9b489a2daa2338ba569.svg",
     "static/media/cta-arrow-icon.svg": "/ol-compass/static/media/cta-arrow-icon.433bc48be0a8eda660440669896a06cb.svg",
     "static/media/arrow-icon.svg": "/ol-compass/static/media/arrow-icon.1f5acd6d92eb94971900eff54a74df42.svg",
-    "main.eb11f72c.css.map": "/ol-compass/static/css/main.eb11f72c.css.map",
-    "main.70e3d38b.js.map": "/ol-compass/static/js/main.70e3d38b.js.map",
+    "main.56884212.css.map": "/ol-compass/static/css/main.56884212.css.map",
+    "main.fc12970b.js.map": "/ol-compass/static/js/main.fc12970b.js.map",
     "213.8f03509e.chunk.js.map": "/ol-compass/static/js/213.8f03509e.chunk.js.map",
     "732.beb7b8aa.chunk.js.map": "/ol-compass/static/js/732.beb7b8aa.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.eb11f72c.css",
-    "static/js/main.70e3d38b.js"
+    "static/css/main.56884212.css",
+    "static/js/main.fc12970b.js"
   ]
 }
