@@ -110,11 +110,12 @@ const GetInspiredPage = () => {
     // Reset components if on these modes 
     if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL') 
       resetStateAndCompass()
+    else {
+      setMode('get-inspired');
+      modeRef.current = 'get-inspired';
+      setIsExplanationPage(false);
+    }
     
-    setMode('get-inspired');
-    modeRef.current = 'get-inspired';
-    setIsExplanationPage(false);
-
     setComponents(prevComponents => {
       const newComponents = prevComponents.includes(code)
         ? prevComponents.filter(buttonId => buttonId !== code) // Remove ID if already clicked
