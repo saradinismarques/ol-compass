@@ -24,6 +24,7 @@ const Map2Page = () => {
 
   const componentsRef = useRef(mapComponents);
   const showMessageRef = useRef(showMessage);
+  const textareaRefs = useRef([]); // Initialize refs for textareas
 
   useEffect(() => {
     componentsRef.current = mapComponents; // Keep the ref in sync with the latest state
@@ -54,17 +55,35 @@ const Map2Page = () => {
     if(code) {
       setMapComponents(prevComponents => {
         const exists = prevComponents.some(component => component.code === code);
-    
+      
         if (exists && !isExplanationPage) {
           // Remove component if it already exists
-          return prevComponents.filter(component => component.code !== code);
-        } else if((exists && isExplanationPage)) {
+          const updatedComponents = prevComponents.filter(component => component.code !== code);
+      
+          // Focus on the last textarea after removal (if any remain)
+          setTimeout(() => {
+            if (updatedComponents.length > 0) {
+              textareaRefs.current[updatedComponents.length - 1]?.focus();
+            }
+          }, 0); // Ensuring it runs after the state update
+      
+          return updatedComponents;
+        } else if (exists && isExplanationPage) {
           return prevComponents;
         } else {
           // Add new component with default values
-          return [...prevComponents, { code, label, paragraph, type, text: "" }];
+          const newComponent = { code, label, paragraph, type, text: "" };
+          const updatedComponents = [...prevComponents, newComponent];
+      
+          // Focus the last added textarea
+          setTimeout(() => {
+            textareaRefs.current[updatedComponents.length - 1]?.focus();
+          }, 0); // Ensuring it runs after the state update
+      
+          return updatedComponents;
         }
       });
+      
       setLimitExceeded(false);
     } else {
       setLimitExceeded(true);
@@ -161,6 +180,7 @@ const Map2Page = () => {
                   <div key={id} className="m2-components-textarea">
                     <textarea
                       className="m2-component-textarea"
+                      ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
                       style={{
                         '--text-color': colors['Text'][component.type], // Define CSS variable
                         backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
