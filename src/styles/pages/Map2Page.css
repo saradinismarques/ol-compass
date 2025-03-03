@@ -7,8 +7,8 @@
 .m2-text-container {
     position: fixed;
     top: 9vh; 
-    left: 65vw; 
-    transform: translateY(-50%);
+    left: calc(58vw + 34vh + 1vh); 
+    transform: translate(-50%, -50%);
     text-align: center;
 }
 
@@ -76,6 +76,10 @@
     color: var(--text-color);
     opacity: 0.6; /* Ensure full visibility */
 }
+
+.m2-component-textarea:focus {
+    outline: 2px solid var(--text-color); /* Change outline to a blue color */
+}  
 
 .m2-limit-exceed-message {
     position: fixed;
