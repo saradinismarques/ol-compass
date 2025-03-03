@@ -104,9 +104,11 @@ const Map2Page = () => {
 
   // Update individual component text field
   const handleComponentChange = (e, index) => {
-    const updatedComponents = [...mapComponents];
-    updatedComponents[index] = { ...updatedComponents[index], text: e.target.value };
-    setMapComponents(updatedComponents);
+    if(e.target.value.length < 105) {
+      let updatedComponents = [...mapComponents];
+      updatedComponents[index] = { ...updatedComponents[index], text: e.target.value };
+      setMapComponents(updatedComponents);
+    }
   };
 
   const hexToRgb = (hex) => {
@@ -155,7 +157,7 @@ const Map2Page = () => {
             {/* First section for the first 5 components */}
             <div className="m2-components-textarea-container">
               {mapComponents.map((component, id) => (
-                id <= 4 && (
+                id <= 3 && (
                   <div key={id} className="m2-components-textarea">
                     <textarea
                       className="m2-component-textarea"
@@ -178,7 +180,7 @@ const Map2Page = () => {
             {/* Second section for components with id > 4 */}
             <div className="m2-components-textarea-container left">
               {mapComponents.map((component, id) => (
-                id > 4 && (
+                id > 3 && (
                   <div key={id} className="m2-components-textarea">
                     <textarea
                       className="m2-component-textarea"

@@ -35,12 +35,13 @@
     border-radius: 1.2vh;
     background-color: white;
     cursor: pointer;
+    overflow-y: hidden; /* Hides the scrollbar */
 }
 
 /* Components Text Areas */
 .m2-components-textarea-container {
     position: fixed;
-    top: 15vh;
+    top: 17vh;
     left: 58vw;
 }
 
@@ -57,7 +58,8 @@
 
 .m2-component-textarea {
     width: 30vh;
-    height: 8vh;
+    height: 10vh;
+    line-height: 2.5vh;
     font-family: 'Manrope', sans-serif;
     font-size: 2vh;
     resize: none;
@@ -67,6 +69,7 @@
     border: none;
     cursor: pointer;
     padding: 2vh;
+    overflow-y: hidden; /* Hides the scrollbar */
 }
 
 .m2-component-textarea::placeholder {

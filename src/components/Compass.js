@@ -188,7 +188,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       let limit = false;
 
       // Want to add a new one
-      if(!selectedComponents.includes(component.code) && selectedComponents.length === 10)
+      if(selectedComponents.length === 8 && !selectedComponents.includes(component.code))
         limit = true;
 
       setSelectedComponents(prevComponents => {
