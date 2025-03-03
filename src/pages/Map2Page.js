@@ -21,6 +21,7 @@ const Map2Page = () => {
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
   const [limitExceeded, setLimitExceeded] = useState(false);
+  const [currentComponent, setCurrentComponent] = useState();
 
   const componentsRef = useRef(mapComponents);
   const showMessageRef = useRef(showMessage);
@@ -66,7 +67,7 @@ const Map2Page = () => {
               textareaRefs.current[updatedComponents.length - 1]?.focus();
             }
           }, 0); // Ensuring it runs after the state update
-      
+          setCurrentComponent(mapComponents[mapComponents.length-1].code)
           return updatedComponents;
         } else if (exists && isExplanationPage) {
           return prevComponents;
@@ -79,6 +80,7 @@ const Map2Page = () => {
           setTimeout(() => {
             textareaRefs.current[updatedComponents.length - 1]?.focus();
           }, 0); // Ensuring it runs after the state update
+          setCurrentComponent(code)
       
           return updatedComponents;
         }
@@ -130,6 +132,10 @@ const Map2Page = () => {
     }
   };
 
+  const handleFocus = (code) => {
+    setCurrentComponent(code); // Update the currentComponent state with the code of the focused textarea
+  };
+
   const hexToRgb = (hex) => {
     hex = hex.replace(/^#/, '');
     let bigint = parseInt(hex, 16);
@@ -147,6 +153,7 @@ const Map2Page = () => {
           position={isExplanationPage ? 'center' : 'left'}
           resetState={resetState}
           onButtonClick={handleCompassClick}
+          currentComponent={currentComponent}
           stateSaved={mapComponents.map(component => component.code)}
         />
         {isExplanationPage && 
@@ -188,6 +195,7 @@ const Map2Page = () => {
                       type="text"
                       placeholder={`Why does your project have ${component.label}?`}
                       value={component.text}
+                      onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
                       onChange={(e) => handleComponentChange(e, id)}
                       spellCheck="false"
                       disabled={window.innerWidth > 1300 ? false : true}
@@ -204,6 +212,7 @@ const Map2Page = () => {
                   <div key={id} className="m2-components-textarea">
                     <textarea
                       className="m2-component-textarea"
+                      ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
                       style={{
                         '--text-color': colors['Text'][component.type], // Define CSS variable
                         backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,

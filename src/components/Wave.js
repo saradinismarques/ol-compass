@@ -148,6 +148,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Map
       if(mode === "map")
         return colors['Wave'][component.type];
+      // Map
+      if(mode === "map-2" && currentComponent === component.code)
+        return colors['Wave'][component.type];
       return 'none';
     } else if(compassType === "draggable" || compassType === "icon") {
       return 'none';
@@ -162,6 +165,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Map
       if(mode === "map")
         return "0.5px";
+      // Map 2
+      if(mode === "map-2" && currentComponent === component.code) 
+        return "3px";
       return "1.5px";
     } 
   };
