@@ -8,8 +8,6 @@
     position: fixed;
     top: 15vh; 
     left: 75vw; 
-    transform: translateX(-50%);
-    width: 46vh;
     text-align: center;
 }
 
@@ -23,7 +21,37 @@
 
 /* Project Name Textarea */
 .m2-project-name-textarea {
-    width: 20vh;
+    width: 30vh;
+    height: 3.5vh;
+    margin-left: 0.25vh;
+    padding-left: 1vh;
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.3vh;
+    color: var(--gray-color); /* Set placeholder color to white */
+    resize: none;
+    margin-bottom: 0;
+    border: 0.3vh solid var(--gray-color);
+    border-radius: 1.2vh;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Components Text Areas */
+.m2-components-textarea-container {
+    position: fixed;
+    top: 20vh;
+    right: 40vh;
+}
+
+.m2-components-textarea {
+    display: flex;
+    flex-direction: column; /* Ensures textareas are stacked */
+    align-items: flex-start; /* Aligns them to the left */
+    margin-top: 2vh; /* Adds spacing between textareas */
+}
+
+.m2-component-textarea {
+    width: 30vh;
     height: 3.5vh;
     margin-left: 0.25vh;
     padding-left: 1vh;

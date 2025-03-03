@@ -184,6 +184,23 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       });
       
       if (onButtonClick) onButtonClick(component.code);
+    } else if(mode === "map-2") {
+      setSelectedComponents(prevComponents => {
+        const newComponents = prevComponents.includes(component.code)
+          ? prevComponents.filter(code => code !== component.code) // Remove ID if already clicked
+          : [...prevComponents, component.code]; // Add ID if not already clicked
+        
+        return newComponents;
+      });
+      
+      if (onButtonClick) {
+        onButtonClick(
+          component.code,
+          component.label,
+          component.paragraph,
+          component.type,
+        );
+      }
     } 
   };
   
@@ -400,7 +417,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         ))}
       </div>
   
-      {!isExplanationPage && (mode === "learn" || mode === "contribute" || mode.startsWith("get-inspired")) && tooltipVisible && 
+      {!isExplanationPage && (mode === "learn" || mode === "contribute" || mode === "map-2" || mode.startsWith("get-inspired")) && tooltipVisible && 
         <Tooltip 
           text={tooltipText} 
           position={tooltipPos} 

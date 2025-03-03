@@ -44,23 +44,24 @@ const Map2Page = () => {
   }, [setIsExplanationPage]);
 
   // Trigger compass action
-  const handleCompassClick = (code) => {
-    // if (firstClick && firstMessage["contribute"]) {
+  const handleCompassClick = (code, label, paragraph, type) => {
+    // if (firstClick && firstMessage["map-2"]) {
     //   setFirstClick(false);
     //   setShowMessage(true);
     //   showMessageRef.current = true;
     // }
 
     setMapComponents(prevComponents => {
-      const newComponents = prevComponents.includes(code)
-        ? prevComponents.filter(buttonId => buttonId !== code) // Remove ID if already clicked
-        : [...prevComponents, code]; // Add ID if not already clicked
-      componentsRef.current = newComponents;
-      
-      // Return the updated state
-      return newComponents;
+      const exists = prevComponents.some(component => component.code === code);
+  
+      if (exists) {
+        // Remove component if it already exists
+        return prevComponents.filter(component => component.code !== code);
+      } else {
+        // Add new component with default values
+        return [...prevComponents, { code, label, paragraph, type, text: "" }];
+      }
     });
-
     setIsExplanationPage(false);
   };
 
@@ -74,7 +75,7 @@ const Map2Page = () => {
     if (e.key !== 'Enter') return;
 
     if(!showMessageRef.current) {
-    //   if (firstClick && firstMessage["contribute"]) {
+    //   if (firstClick && firstMessage["map-2"]) {
     //     setFirstClick(false);
     //     setShowMessage(true);
     //     showMessageRef.current = true;
@@ -94,24 +95,31 @@ const Map2Page = () => {
     setMapProjectName(e.target.value);
   };
 
+  // Update individual component text field
+  const handleComponentChange = (e, index) => {
+    const updatedComponents = [...mapComponents];
+    updatedComponents[index] = { ...updatedComponents[index], text: e.target.value };
+    setMapComponents(updatedComponents);
+  };
+
   return (
     <>
       <div className={showMessage ? 'blur-background' : ''}>
         <Compass
-          mode="contribute"
+          mode="map-2"
           position={isExplanationPage ? 'center' : 'left'}
           resetState={resetState}
           onButtonClick={handleCompassClick}
-          stateSaved={mapComponents}
+          stateSaved={mapComponents.map(component => component.code)}
         />
         {isExplanationPage && 
-          <Description mode="contribute" />
+          <Description mode="map-2" />
         }
 
         {!isExplanationPage && (
           <>
             <Message 
-              mode={"contribute"} 
+              mode={"map-2"} 
               type={"button"} 
               messageStateChange={messageStateChange}  
             />
@@ -127,13 +135,30 @@ const Map2Page = () => {
                   disabled={window.innerWidth > 1300 ? false : true}
               ></textarea>
             </div>
+            
+            <div className='m2-components-textarea-container'>
+              {mapComponents.map((component, id) => (
+                <div className='m2-components-textarea'>
+                  <textarea
+                    key={id}
+                    className="m2-component-textarea" 
+                    type="text" 
+                    placeholder={component.code}
+                    value={component.text} 
+                    onChange={(e) => handleComponentChange(e, id)}
+                    spellCheck="false"
+                    disabled={window.innerWidth > 1300 ? false : true}
+                  ></textarea>
+                </div>
+              ))}
+            </div>
           </>
         )}
         <Menu />
       </div>
       {!isExplanationPage && (
         <Message
-          mode={"contribute"}
+          mode={"map-2"}
           type={"message"}
           showMessage={showMessage} // Pass whether to show the message
           messageStateChange={messageStateChange}
