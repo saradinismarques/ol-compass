@@ -185,21 +185,26 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       
       if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "map-2") {
-      setSelectedComponents(prevComponents => {
-        const newComponents = prevComponents.includes(component.code)
-          ? prevComponents.filter(code => code !== component.code) // Remove ID if already clicked
-          : [...prevComponents, component.code]; // Add ID if not already clicked
-        
-        return newComponents;
-      });
-      
+      if(selectedComponents.length < 10) {
+        setSelectedComponents(prevComponents => {
+          const newComponents = prevComponents.includes(component.code)
+            ? prevComponents.filter(code => code !== component.code) // Remove ID if already clicked
+            : [...prevComponents, component.code]; // Add ID if not already clicked
+          
+          return newComponents;
+        });
+      }
       if (onButtonClick) {
-        onButtonClick(
-          component.code,
-          component.label,
-          component.paragraph,
-          component.type,
-        );
+        if(selectedComponents.length < 10) {
+          onButtonClick(
+            component.code,
+            component.label,
+            component.paragraph,
+            component.type,
+          );
+        } else {
+          onButtonClick(null);
+        }
       }
     } 
   };

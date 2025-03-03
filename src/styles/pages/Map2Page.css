@@ -40,8 +40,12 @@
 /* Components Text Areas */
 .m2-components-textarea-container {
     position: fixed;
-    top: 20vh;
-    right: 40vh;
+    top: 15vh;
+    right: 55vh;
+}
+
+.m2-components-textarea-container.left {
+    right: 18vh;
 }
 
 .m2-components-textarea {

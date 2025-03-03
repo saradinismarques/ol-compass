@@ -50,20 +50,21 @@ const Map2Page = () => {
     //   setShowMessage(true);
     //   showMessageRef.current = true;
     // }
-
-    setMapComponents(prevComponents => {
-      const exists = prevComponents.some(component => component.code === code);
-  
-      if (exists && !isExplanationPage) {
-        // Remove component if it already exists
-        return prevComponents.filter(component => component.code !== code);
-      } else if((exists && isExplanationPage)) {
-        return prevComponents;
-      } else {
-        // Add new component with default values
-        return [...prevComponents, { code, label, paragraph, type, text: "" }];
-      }
-    });
+    if(code) {
+      setMapComponents(prevComponents => {
+        const exists = prevComponents.some(component => component.code === code);
+    
+        if (exists && !isExplanationPage) {
+          // Remove component if it already exists
+          return prevComponents.filter(component => component.code !== code);
+        } else if((exists && isExplanationPage)) {
+          return prevComponents;
+        } else {
+          // Add new component with default values
+          return [...prevComponents, { code, label, paragraph, type, text: "" }];
+        }
+      });
+    } 
     setIsExplanationPage(false);
   };
 
@@ -147,24 +148,49 @@ const Map2Page = () => {
               ></textarea>
             </div>
             
-            <div className='m2-components-textarea-container'>
+            {/* First section for the first 5 components */}
+            <div className="m2-components-textarea-container">
               {mapComponents.map((component, id) => (
-                <div className='m2-components-textarea'>
-                  <textarea
-                    key={id}
-                    className="m2-component-textarea" 
-                    style={{ 
-                      '--text-color': colors['Text'][component.type], // Define CSS variable
-                      backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
-                    }}
-                    type="text" 
-                    placeholder={`Why does your project has ${component.label}?`}
-                    value={component.text} 
-                    onChange={(e) => handleComponentChange(e, id)}
-                    spellCheck="false"
-                    disabled={window.innerWidth > 1300 ? false : true}
-                  ></textarea>
-                </div>
+                id <= 4 && (
+                  <div key={id} className="m2-components-textarea">
+                    <textarea
+                      className="m2-component-textarea"
+                      style={{
+                        '--text-color': colors['Text'][component.type], // Define CSS variable
+                        backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                      }}
+                      type="text"
+                      placeholder={`Why does your project have ${component.label}?`}
+                      value={component.text}
+                      onChange={(e) => handleComponentChange(e, id)}
+                      spellCheck="false"
+                      disabled={window.innerWidth > 1300 ? false : true}
+                    />
+                  </div>
+                )
+              ))}
+            </div>
+
+            {/* Second section for components with id > 4 */}
+            <div className="m2-components-textarea-container left">
+              {mapComponents.map((component, id) => (
+                id > 4 && (
+                  <div key={id} className="m2-components-textarea">
+                    <textarea
+                      className="m2-component-textarea"
+                      style={{
+                        '--text-color': colors['Text'][component.type], // Define CSS variable
+                        backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                      }}
+                      type="text"
+                      placeholder={`Why does your project have ${component.label}?`}
+                      value={component.text}
+                      onChange={(e) => handleComponentChange(e, id)}
+                      spellCheck="false"
+                      disabled={window.innerWidth > 1300 ? false : true}
+                    />
+                  </div>
+                )
               ))}
             </div>
           </>
