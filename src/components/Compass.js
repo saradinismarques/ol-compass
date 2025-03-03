@@ -3,7 +3,7 @@ import { StateContext } from "../State.js";
 import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponents } from "./Wave.js"
 
-const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, selected, currentComponent, currentLinks }) => {
+const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks }) => {
   // Size and screen resize handler
   const [size, setSize] = useState(window.innerHeight/1.47);
 
@@ -37,7 +37,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
   const [hoveredId, setHoveredId] = useState(null);
    
   // Determine which components and setter to use based on mode
-  const [selectedComponents, setSelectedComponents] = useState(selected || []);
+  const [selectedComponents, setSelectedComponents] = useState([]);
 
   // Tooltip
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
@@ -290,11 +290,11 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, sele
     if (position === "center")
       return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.49 };
     else if (position === "center-2") 
-      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.49 };
+      return { x: window.innerWidth * 0.5, y: window.innerHeight * 0.505 };
     else if (position === "left") 
       return { x: window.innerWidth * 0.35, y: window.innerHeight * 0.5 }; // Adjust y for better positioning
     else if (position === "left-2") 
-      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.5 };
+      return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.505 };
     else if (position === "left-3") 
       return { x: window.innerWidth * 0.40, y: window.innerHeight * 0.5 };
   };
