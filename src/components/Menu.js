@@ -47,6 +47,8 @@ const Menu = () => {
         return 'get-inspired';
       case '/map':
         return 'map';
+      case '/map2':
+        return 'map2';
       case '/contribute':
         return 'contribute';
       case '/contextualize':
@@ -101,7 +103,16 @@ const Menu = () => {
             GET INSPIRED
           </Link>
         }
-        {(menuExpanded || activeButton === 'map') && 
+
+        {(menuExpanded || activeButton === 'map2') && 
+          <Link
+            to="/map2"
+            className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'map2' ? 'active' : ''}`}
+          >
+            MAP
+          </Link>
+        }
+        {/*  (menuExpanded || activeButton === 'map') && 
           <Link
             to="/map"
             className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'map' ? 'active' : ''}`}
@@ -109,7 +120,7 @@ const Menu = () => {
             MAP
           </Link>
         }
-        {/* {showMore && (
+        {{showMore && (
           <>
             {(menuExpanded || activeButton === 'get-started') && 
             <Link

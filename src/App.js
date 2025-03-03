@@ -7,6 +7,7 @@ import Learn2Page from './pages/Learn2Page';
 import GetStartedPage from './pages/GetStartedPage';
 import GetInspiredPage from './pages/GetInspiredPage';
 import MapPage from './pages/MapPage';
+import Map2Page from './pages/Map2Page';
 import ContributePage from './pages/ContributePage';
 import ContextualizePage from './pages/ContextualizePage';
 import ComparePage from './pages/ComparePage';
@@ -98,6 +99,10 @@ function App() {
           <Route 
             path="/map" 
             element={<MapPage />} 
+          />
+          <Route 
+            path="/map2" 
+            element={<Map2Page />} 
           />
           <Route
             path="/contribute"

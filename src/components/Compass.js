@@ -3,7 +3,7 @@ import { StateContext } from "../State.js";
 import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponents } from "./Wave.js"
 
-const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks }) => {
+const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, stateSaved }) => {
   // Size and screen resize handler
   const [size, setSize] = useState(window.innerHeight/1.47);
 
@@ -37,7 +37,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   const [hoveredId, setHoveredId] = useState(null);
    
   // Determine which components and setter to use based on mode
-  const [selectedComponents, setSelectedComponents] = useState([]);
+  const [selectedComponents, setSelectedComponents] = useState(stateSaved || []);
 
   // Tooltip
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });

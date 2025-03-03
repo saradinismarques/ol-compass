@@ -11,7 +11,8 @@ import '../styles/components/Message.css';
 const Message = ({ mode, type, showMessage, messageStateChange }) => {
   const {colors} = useContext(StateContext);
   const { firstMessage, setFirstMessage } = useContext(StateContext);
-  const message = getModeTexts(mode).Message;
+  const modeTexts = getModeTexts(mode);
+  const message = modeTexts ? modeTexts.Message : null; // Check if modeTexts exists
 
   let width;
   if (mode === 'learn') width = '30vh';
@@ -65,6 +66,8 @@ const Message = ({ mode, type, showMessage, messageStateChange }) => {
     };
   }, [handleKeyDown]);
 
+  if(!message)
+    return null;
   if (type === 'button') {
     return (
       <button onClick={handleShowMessage} className="question-button" onKeyDown={(e) => e.key === 'Enter' && e.preventDefault()} >

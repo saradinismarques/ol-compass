@@ -13,7 +13,7 @@ const Description = ({ mode }) => {
   const {colors} = useContext(StateContext);
 
   const description = getModeTexts(mode);
-  
+
   // Placeholder-to-Component mapping
   const iconsMap = {
     "[WAVE-I]": <WaveIcon className="text-icon wave" />,
@@ -26,6 +26,8 @@ const Description = ({ mode }) => {
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
 
+  if(!description) 
+    return null;
   return (
     <div className='description-container'>
       <p className='description-headline'>
