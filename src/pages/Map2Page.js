@@ -125,7 +125,7 @@ const Map2Page = () => {
 
   // Update individual component text field
   const handleComponentChange = (e, index) => {
-    if(e.target.value.length < 105) {
+    if(e.target.value.length < 130) {
       let updatedComponents = [...mapComponents];
       updatedComponents[index] = { ...updatedComponents[index], text: e.target.value };
       setMapComponents(updatedComponents);
@@ -184,7 +184,18 @@ const Map2Page = () => {
             <div className="m2-components-textarea-container">
               {mapComponents.map((component, id) => (
                 id <= 3 && (
-                  <div key={id} className="m2-components-textarea">
+                  <div
+                    key={id} 
+                    className="m2-components-textarea"
+                    style={{
+                      '--text-color': colors['Text'][component.type], // Define CSS variable
+                    }}
+                  >
+                    {component.text.length !== 0 &&
+                      <div className='m2-textarea-label'>
+                        {component.label}
+                      </div>
+                    }   
                     <textarea
                       className="m2-component-textarea"
                       ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
@@ -209,17 +220,24 @@ const Map2Page = () => {
             <div className="m2-components-textarea-container left">
               {mapComponents.map((component, id) => (
                 id > 3 && (
-                  <div key={id} className="m2-components-textarea">
+                  <div
+                    key={id} 
+                    className="m2-components-textarea"
+                    style={{
+                      '--text-color': colors['Text'][component.type], // Define CSS variable
+                    }}
+                  >
+                    <div className='m2-textarea-label'>{component.label}</div>
                     <textarea
                       className="m2-component-textarea"
                       ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
                       style={{
-                        '--text-color': colors['Text'][component.type], // Define CSS variable
                         backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
                       }}
                       type="text"
                       placeholder={`Why does your project have ${component.label}?`}
                       value={component.text}
+                      onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
                       onChange={(e) => handleComponentChange(e, id)}
                       spellCheck="false"
                       disabled={window.innerWidth > 1300 ? false : true}
@@ -231,7 +249,7 @@ const Map2Page = () => {
 
             {limitExceeded &&
               <div className='m2-limit-exceed-message'>
-                Maximum 10 elements!
+                Maximum 8 elements!
               </div>
             }
           </>

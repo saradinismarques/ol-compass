@@ -7,8 +7,8 @@
 .m2-text-container {
     position: fixed;
     top: 9vh; 
-    left: calc(58vw + 34vh + 1vh); 
-    transform: translate(-50%, -50%);
+    left: 58vw; 
+    transform: translateY(-50%);
     text-align: center;
 }
 
@@ -46,14 +46,24 @@
 }
 
 .m2-components-textarea-container.left {
-    left: calc(58vw + 34vh + 2vh);
+    left: calc(58vw + 35vh + 2vh);
 }
 
 .m2-components-textarea {
+    position: relative;
     display: flex;
     flex-direction: column; /* Ensures textareas are stacked */
     align-items: flex-start; /* Aligns them to the left */
     margin-top: 2vh; /* Adds spacing between textareas */
+}
+
+.m2-textarea-label {
+    position: absolute;
+    bottom: 0.5vh; /* Adjust as needed */
+    right: 1vh; /* Adjust as needed */
+    font-weight: 300;
+    font-size: 1.6vh;
+    color: var(--text-color); /* Uses the inherited variable */
 }
 
 .m2-component-textarea {
@@ -62,13 +72,14 @@
     line-height: 2.5vh;
     font-family: 'Manrope', sans-serif;
     font-size: 2vh;
+    font-weight: 400;
+    color: var(--text-color); /* Uses the inherited variable */
     resize: none;
     margin-bottom: 0;
     border-radius: 1vh;
-    color: var(--text-color);
     border: none;
     cursor: pointer;
-    padding: 2vh;
+    padding: 2.5vh;
     overflow-y: hidden; /* Hides the scrollbar */
 }
 
