@@ -54,9 +54,11 @@ const Map2Page = () => {
     setMapComponents(prevComponents => {
       const exists = prevComponents.some(component => component.code === code);
   
-      if (exists) {
+      if (exists && !isExplanationPage) {
         // Remove component if it already exists
         return prevComponents.filter(component => component.code !== code);
+      } else if((exists && isExplanationPage)) {
+        return prevComponents;
       } else {
         // Add new component with default values
         return [...prevComponents, { code, label, paragraph, type, text: "" }];
@@ -102,6 +104,15 @@ const Map2Page = () => {
     setMapComponents(updatedComponents);
   };
 
+  const hexToRgb = (hex) => {
+    hex = hex.replace(/^#/, '');
+    let bigint = parseInt(hex, 16);
+    let r = (bigint >> 16) & 255;
+    let g = (bigint >> 8) & 255;
+    let b = bigint & 255;
+    return `${r}, ${g}, ${b}`; // Return as "r, g, b"
+  };
+
   return (
     <>
       <div className={showMessage ? 'blur-background' : ''}>
@@ -142,8 +153,12 @@ const Map2Page = () => {
                   <textarea
                     key={id}
                     className="m2-component-textarea" 
+                    style={{ 
+                      '--text-color': colors['Text'][component.type], // Define CSS variable
+                      backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                    }}
                     type="text" 
-                    placeholder={component.code}
+                    placeholder={`Why does your project has ${component.label}?`}
                     value={component.text} 
                     onChange={(e) => handleComponentChange(e, id)}
                     spellCheck="false"

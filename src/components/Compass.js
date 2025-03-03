@@ -247,7 +247,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Escape') {
       setHoveredId(null);
-      setSelectedComponents([]);
+      if(!stateSaved) setSelectedComponents([]);
       setTooltipPos({ x: 0, y: 0 });
       setTooltipVisible(false);
       setTooltipColor('black');
