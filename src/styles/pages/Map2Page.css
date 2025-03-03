@@ -41,11 +41,11 @@
 .m2-components-textarea-container {
     position: fixed;
     top: 15vh;
-    right: 55vh;
+    left: 58vw;
 }
 
 .m2-components-textarea-container.left {
-    right: 18vh;
+    left: calc(58vw + 34vh + 2vh);
 }
 
 .m2-components-textarea {
@@ -72,7 +72,16 @@
 .m2-component-textarea::placeholder {
     color: var(--text-color);
     opacity: 0.6; /* Ensure full visibility */
-  }
+}
+
+.m2-limit-exceed-message {
+    position: fixed;
+    top: 9vh;
+    left: 34vw;
+    transform: translate(-50%, -50%);
+    font-size: 2.5vh;
+    color: red;
+}
 
 /* Submit Button */
 .m2-submit-button {
@@ -80,7 +89,7 @@
     font-size: 2.3vh;
     font-weight: 200;
     background-color: transparent; /* Use 'transparent' instead of 'none' */
-    color: rgb(131, 131, 131);
+    color: var(--gray-color);
     border: none;
     cursor: pointer;
     outline: none; /* Optional: Remove outline on focus */
@@ -89,6 +98,6 @@
 }
 
 .c-submit-button:hover, .c-submit-button:active {
-    color: rgb(161, 160, 160);
+    color: var(--gray-hover-color);
 }
 

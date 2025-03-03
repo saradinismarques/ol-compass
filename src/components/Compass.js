@@ -185,22 +185,28 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       
       if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "map-2") {
-      if(selectedComponents.length < 10) {
-        setSelectedComponents(prevComponents => {
-          const newComponents = prevComponents.includes(component.code)
-            ? prevComponents.filter(code => code !== component.code) // Remove ID if already clicked
-            : [...prevComponents, component.code]; // Add ID if not already clicked
-          
-          return newComponents;
-        });
-      }
+      let limit = false;
+
+      // Want to add a new one
+      if(!selectedComponents.includes(component.code) && selectedComponents.length === 10)
+        limit = true;
+
+      setSelectedComponents(prevComponents => {
+        const newComponents = prevComponents.includes(component.code)
+          ? prevComponents.filter(code => code !== component.code) // Remove ID if already clicked
+          : (!limit ? [...prevComponents, component.code] : prevComponents); // Add ID if not already clicked and under the limit
+        
+        return newComponents;
+      });
+
+      // Run onButtonClick after updating the components list
       if (onButtonClick) {
-        if(selectedComponents.length < 10) {
+        if (!limit) {
           onButtonClick(
             component.code,
             component.label,
             component.paragraph,
-            component.type,
+            component.type
           );
         } else {
           onButtonClick(null);

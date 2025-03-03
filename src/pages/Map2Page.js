@@ -20,6 +20,7 @@ const Map2Page = () => {
 
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+  const [limitExceeded, setLimitExceeded] = useState(false);
 
   const componentsRef = useRef(mapComponents);
   const showMessageRef = useRef(showMessage);
@@ -64,7 +65,10 @@ const Map2Page = () => {
           return [...prevComponents, { code, label, paragraph, type, text: "" }];
         }
       });
-    } 
+      setLimitExceeded(false);
+    } else {
+      setLimitExceeded(true);
+    }
     setIsExplanationPage(false);
   };
 
@@ -193,6 +197,12 @@ const Map2Page = () => {
                 )
               ))}
             </div>
+
+            {limitExceeded &&
+              <div className='m2-limit-exceed-message'>
+                Maximum 10 elements!
+              </div>
+            }
           </>
         )}
         <Menu />
