@@ -148,9 +148,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Map
       if(mode === "map")
         return colors['Wave'][component.type];
-      // Map
+      // Map 2
       if(mode === "map-2" && currentComponent === component.code)
         return colors['Text'][component.type];
+      if(mode === "map-2-pdf")
+        if(component.type === currentType && selectedComponents.includes(component.code))
+          return colors['Text'][component.type];
       return 'none';
     } else if(compassType === "draggable" || compassType === "icon") {
       return 'none';
@@ -168,6 +171,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Map 2
       if(mode === "map-2" && currentComponent === component.code) 
         return "0.7px";
+      if(mode === "map-2-pdf")
+        if(component.type === currentType && selectedComponents.includes(component.code))
+          return "1px";
       return "1.5px";
     } 
   };
@@ -295,7 +301,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else if(component.type === currentType && selectedComponents.includes(component.code))
           return 1;
         else if(component.type !== currentType && selectedComponents.includes(component.code))
-          return 0.4;
+          return 1;
         else
           return 0.2;
       }
@@ -448,7 +454,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else if(component.type === currentType && selectedComponents.includes(component.code))
           return 1;
         else if(component.type !== currentType && selectedComponents.includes(component.code))
-          return 0.4;
+          return 1;
         else  
           return 0.2;
       }
@@ -611,7 +617,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                   {`
                     @font-face {
                       font-family: 'Manrope';
-                      src: url(data:font/ttf;base64,${encodedFonts['Manrope-SemiBold']}) format('truetype');
+                      src: url(data:font/ttf;base64,${encodedFonts['Manrope-600']}) format('truetype');
                     }
                   `}
                 </style>
@@ -734,6 +740,8 @@ function getComponents(mode, compassType, size, draggableContainerPositions) {
     else if(mode === "learn")
       componentsData = getComponentsData('learn');
     else if(mode === "learn-2")
+      componentsData = getComponentsData('learn-2');
+    else if(mode.startsWith("map-2"))
       componentsData = getComponentsData('learn-2');
     else
       componentsData = getComponentsData('default');

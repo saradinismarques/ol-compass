@@ -10,7 +10,6 @@ import { PDFDocument } from "pdf-lib"; // For merging PDFs
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { State, StateContext } from "../State.js";
 import coverImage from '../assets/images/map/PDF-cover-background.png';
-import indexImage from '../assets/images/map/PDF-index.png';
 import { createRoot } from 'react-dom/client';
 import '../styles/pages/Map2Page.css';
 
@@ -44,6 +43,11 @@ const Map2Page = () => {
   useEffect(() => {
     showMessageRef.current = showMessage;
   }, [showMessage]);
+
+  useEffect(() => {
+    if(isGenerating)
+      setCurrentComponent();
+  }, [isGenerating]);
 
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
   document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
@@ -158,17 +162,18 @@ const Map2Page = () => {
 
   // PDF Generation Functions
   const handleDownloadPDF = async () => {
+    console.log(mapComponents);
     const pageWidth = 297; // mm
     const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
 
     const pages = [
       async (pdf) => {
         // Loading Fonts
-        pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium']);
+        pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-500']);
         pdf.addFont('Manrope-Medium.ttf', 'Manrope', 'medium');
-        pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-SemiBold']);
+        pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-600']);
         pdf.addFont('Manrope-SemiBold.ttf', 'Manrope', 'semi-bold');
-        pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-Bold']);
+        pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-700']);
         pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
 
         // Cover Page
@@ -242,11 +247,11 @@ const Map2Page = () => {
 
   const addTaskPage = async(pdf, text, type) => {
     // Loading Fonts
-    pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-Medium']);
+    pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-500']);
     pdf.addFont('Manrope-Medium.ttf', 'Manrope', 'medium');
-    pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-SemiBold']);
+    pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-600']);
     pdf.addFont('Manrope-SemiBold.ttf', 'Manrope', 'semi-bold');
-    pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-Bold']);
+    pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-700']);
     pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
 
     const pageWidth = pdf.internal.pageSize.getWidth();
@@ -319,8 +324,78 @@ const Map2Page = () => {
     );
     
     if(type === 'All')
-      return;
-    await addIconAndDefinitions(pdf, type);
+      await addTextareas(pdf);
+    else
+      await addIconAndDefinitions(pdf, type);
+  };
+
+  
+  const addTextareas = async(pdf, type) => {
+    // Textareas
+
+    // First section for the first 5 components
+    await renderToCanvas(
+      <>
+        {mapComponents.map((component, id) => (
+          (id <= 3 && component.text.length !== 0) && (
+            <div
+              key={id} 
+              className="m2-components-textarea-pdf"
+              style={{
+                '--text-color': colors['Text'][component.type], // Define CSS variable
+              }}
+            >
+              <div className='m2-textarea-label-pdf'>
+                {component.label}
+              </div>
+
+              <div
+                className="m2-component-textarea-pdf"
+                style={{
+                  '--text-color': colors['Text'][component.type], // Define CSS variable
+                  backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                }}
+              >
+                {component.text}
+              </div>
+            </div>
+          )
+        ))}
+      </>,
+      pdf, 17, 15, 0.9
+    );
+
+    // Second section for the first 5 components
+    await renderToCanvas(
+      <>
+        {mapComponents.map((component, id) => (
+          (id > 3 && component.text.length !== 0) && (
+            <div
+              key={id} 
+              className="m2-components-textarea-pdf"
+              style={{
+                '--text-color': colors['Text'][component.type], // Define CSS variable
+              }}
+            >
+              <div className='m2-textarea-label-pdf'>
+                {component.label}
+              </div>
+
+              <div
+                className="m2-component-textarea-pdf"
+                style={{
+                  '--text-color': colors['Text'][component.type], // Define CSS variable
+                  backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                }}
+              >
+                {component.text}
+              </div>
+            </div>
+          )
+        ))}
+      </>,
+      pdf, 230, 15, 0.9
+    );
   };
 
   const addIconAndDefinitions = async(pdf, type) => {
@@ -331,18 +406,18 @@ const Map2Page = () => {
           mode="map" 
           currentType={type} />
       </State>,
-      pdf, 11, 6, 1.1
+      pdf, 15, 6, 1.1
     );
 
     // Definitions
-    if(componentsRef.current.filter((c) => c.type === type).length === 0)
+    if(mapComponents.filter((component) => component.type === type).length === 0)
       return;
     await renderToCanvas(
-      <div className='m2-definitions-container'>
-        {componentsRef.current
-          .filter((c) => c.type === type) // Filter by the specific type
-          .map((c, i) => (
-            <div key={i} className='m2-definition'>
+      <>
+        {mapComponents
+          .filter((component) => component.type === type) // Filter by the specific type
+          .map((component, index) => (
+            <div key={index} className='m2-definition'>
               <p className='m2-definition-title' 
                 style={{
                   color: `${colors['Label'][type]}`,
@@ -352,9 +427,11 @@ const Map2Page = () => {
                     white 60%
                   )`,
                 }}>
-                {c.title}
+                {component.label}
               </p>
-              <p className='m2-definition-text'>{c.headline}</p>
+              <p className='m2-definition-text'>
+                {component.paragraph}
+              </p>
             </div>
         ))}
           <div className="m2-definitions-top-lines">
@@ -373,8 +450,8 @@ const Map2Page = () => {
             }}>
           </div>
         </div>
-      </div>,
-      pdf, 16, 55, 1
+      </>,
+      pdf, 20, 55, 1
     );
   };
 
@@ -533,7 +610,6 @@ const Map2Page = () => {
                 )
               ))}
             </div>
-
             
             <button 
               className={`m2-download-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}

@@ -40,7 +40,7 @@
 /* Components Text Areas */
 .m2-components-textarea-container {
     position: fixed;
-    top: 17vh;
+    top: 15vh;
     left: 58vw;
 }
 
@@ -110,7 +110,7 @@
     border-radius: 100px;
     background-color: white;
     font-size: 2vh;
-    width: 26vh;
+    width: 32vh;
     color: var(--gray-color);
     display: flex; /* Add Flexbox */
     align-items: center; /* Center vertically */
@@ -138,14 +138,46 @@
     color: var(--gray-color);
 }
 
-/* Definitions (PDF) */
-.m2-definitions-container {
-    top: 15vh;
-    left: 9vw;
+/* Components Text Areas (PDF) */
+.m2-components-textarea-pdf {
+    position: relative;
+    display: flex;
+    flex-direction: column; /* Ensures textareas are stacked */
+    align-items: flex-start; /* Aligns them to the left */
+    margin-top: 15px; /* Adds spacing between textareas */
 }
 
+.m2-textarea-label-pdf {
+    position: absolute;
+    bottom: 4px; /* Adjust as needed */
+    right: 7px; /* Adjust as needed */
+    font-weight: 300;
+    font-size: 12px;
+    color: var(--text-color); /* Uses the inherited variable */
+}
+
+.m2-component-textarea-pdf {
+    width: 208px;
+    height: 73px;
+    line-height: 18px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-color); /* Uses the inherited variable */
+    resize: none;
+    margin-bottom: 0;
+    border-radius: 7px;
+    border: none;
+    cursor: pointer;
+    padding: 18px;
+    overflow-y: hidden; /* Hides the scrollbar */
+}
+
+/* Definitions (PDF) */
 .m2-definitions-container.fixed {
     position: fixed;
+    top: 15vh;
+    left: 9vw;
 }
 
 .m2-definitions-top-lines {
@@ -156,7 +188,7 @@
 }
 
 .m2-definitions-horizontal-line {
-    width: 261px;
+    width: 271px;
     height: 1px;
     background-color: var(--background-color);
 }
@@ -172,11 +204,11 @@
 }
 
 .m2-definition {
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .m2-definition-title {
-    width: 255px;
+    width: 265px;
     font-size: 10px;
     color: var(--title-color);
     background: linear-gradient(
@@ -191,10 +223,10 @@
 }
 
 .m2-definition-text {
-    width: 185px;
+    width: 210px;
     font-size: 10px;
     font-weight: 300;
-    margin-top: -10px;
+    margin-top: 2px;
 }
 
 /* OL Compass (PDF) */

@@ -2,15 +2,21 @@ import React, { useContext, useState, useEffect, useRef, useCallback } from 'rea
 import { StateContext } from "../State.js";
 import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponents } from "./Wave.js"
+import { cleanText } from '../utils/TextFormatting.js';
 
 const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, currentType, stateSaved }) => {
   // Size and screen resize handler
-  const [size, setSize] = useState(window.innerHeight/1.47);
+  let initialSize;
+  if(mode === "map-2-pdf")
+    initialSize = 497
+  else
+    initialSize = window.innerHeight/1.47;
+  const [size, setSize] = useState(initialSize);
 
   useEffect(() => {
     // Function to update height on window resize
     const handleResize = () => {
-      setSize(window.innerHeight/1.47);
+      setSize(initialSize);
     };
     // Add event listener for resize
     window.addEventListener('resize', handleResize);
@@ -205,7 +211,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
           onButtonClick(
             component.code,
             component.label,
-            component.paragraph,
+            cleanText(component.paragraph),
             component.type
           );
         } else {
@@ -345,8 +351,6 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     width: 550,
     height: 550,
     backgroundColor: 'transparent',
-    border: `0.3vh solid ${colors['Gray']}`,
-    borderRadius: '1.5vh'
   };
 
   // Other Components
@@ -419,8 +423,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
               key={id}
               style={{
                 position: mode === "map-2-pdf" ? 'absolute' : '',
-                top: mode === "map-2-pdf" ? '26px' : '',
-                left: mode === "map-2-pdf" ? '27px' : '',
+                top: mode === "map-2-pdf" ? '27px' : '',
+                left: mode === "map-2-pdf" ? '28px' : '',
                 
               }}
               onClick={() => handleClick(component)}

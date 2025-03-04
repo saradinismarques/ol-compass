@@ -148,7 +148,7 @@ const CompassIcon = ({ mode, currentType }) => {
               {`
                 @font-face {
                   font-family: 'Manrope';
-                  src: url(data:font/ttf;base64,${encodedFonts['Manrope-Light']}) format('truetype');
+                  src: url(data:font/ttf;base64,${encodedFonts['Manrope-400']}) format('truetype');
                 }
               `}
             </style>
@@ -156,7 +156,7 @@ const CompassIcon = ({ mode, currentType }) => {
               style={{
                 color: `${colors['Label'][currentType]}`,
                 fontFamily: "Manrope", // Use Manrope font
-                fontWeight: 300, // Medium weight for this text
+                fontWeight: 400, // Medium weight for this text
                 fontSize: `${mode === "map" ? "11px" : "1.6vh"}`,
                 textTransform: "uppercase", // Converts text to uppercase
                 letterSpacing: `${mode === "map" ? "2px" : "0.3vh"}`, // Increases the spacing between letters
