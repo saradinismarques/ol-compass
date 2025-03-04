@@ -311,6 +311,7 @@ const Map2Page = () => {
         <Compass
           className='m2-ol-compass'
           mode="map-2-pdf"
+          currentType={type}
           stateSaved={mapComponents.map(component => component.code)}
         />
       </State>,

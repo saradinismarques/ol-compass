@@ -252,7 +252,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return 0.8;
         return 0.3;
       }
-    
       // Get Inspired
       if(mode === "get-inspired") {
         if (selectedComponents.includes(component.code)) 
@@ -283,12 +282,22 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(mode === "map") 
           return 1;
       // Map 2
-      if(mode.startsWith("map-2")) {
+      if(mode === "map-2") {
         if (selectedComponents.includes(component.code)) 
           return 1;
         if (hoveredId === component.code) 
             return 0.8;
         return 0.3;
+      }
+      if(mode === "map-2-pdf") {
+        if(currentType === 'All' && selectedComponents.includes(component.code)) 
+          return 1;
+        else if(component.type === currentType && selectedComponents.includes(component.code))
+          return 1;
+        else if(component.type !== currentType && selectedComponents.includes(component.code))
+          return 0.4;
+        else
+          return 0.2;
       }
     } else if(compassType === "draggable") {
       // Map    
@@ -351,7 +360,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return 0.15;
       }
       // Explanation Page
-      if(isExplanationPage)
+      if(isExplanationPage && mode !== "map-2-pdf")
         return 1;
       // Learn 
       if(mode === "learn") {
@@ -412,7 +421,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else
           return 0.7;
       }
-
       // Contribute
       if(mode === "contribute") {
         if(selectedComponents.length === 0) 
@@ -426,6 +434,24 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Map    
       if(mode === "map") 
           return 1;
+      // Map 2
+      if(mode === "map-2") {
+        if (selectedComponents.includes(component.code)) 
+          return 1;
+        if (hoveredId === component.code) 
+            return 0.8;
+        return 0.7;
+      }
+      if(mode === "map-2-pdf") {
+        if(currentType === 'All' && selectedComponents.includes(component.code)) 
+          return 1;
+        else if(component.type === currentType && selectedComponents.includes(component.code))
+          return 1;
+        else if(component.type !== currentType && selectedComponents.includes(component.code))
+          return 0.4;
+        else  
+          return 0.2;
+      }
     } else if(compassType === "draggable") {
       if(currentType === 'All' || !currentType) 
         return 1;
@@ -440,14 +466,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         return 0.9;
       return 0.3;
     } 
-    // Map 2
-    if(mode.startsWith("map-2")) {
-      if (selectedComponents.includes(component.code)) 
-        return 1;
-      if (hoveredId === component.code) 
-          return 0.8;
-      return 0.7;
-    }
   };
   
   // Functions

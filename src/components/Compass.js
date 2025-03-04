@@ -3,7 +3,7 @@ import { StateContext } from "../State.js";
 import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponents } from "./Wave.js"
 
-const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, stateSaved }) => {
+const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, currentType, stateSaved }) => {
   // Size and screen resize handler
   const [size, setSize] = useState(window.innerHeight/1.47);
 
@@ -419,8 +419,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
               key={id}
               style={{
                 position: mode === "map-2-pdf" ? 'absolute' : '',
-                top: mode === "map-2-pdf" ? '25px' : '',
-                left: mode === "map-2-pdf" ? '25px' : '',
+                top: mode === "map-2-pdf" ? '26px' : '',
+                left: mode === "map-2-pdf" ? '27px' : '',
                 
               }}
               onClick={() => handleClick(component)}
@@ -435,6 +435,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
                   selectedComponents={selectedComponents}
                   currentComponent={currentComponent}
                   currentLinks={currentLinks}
+                  currentType={currentType}
                   hoveredId={hoveredId}
                   waveRef={null}
               />
