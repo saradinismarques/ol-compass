@@ -19,7 +19,6 @@ const Learn2Page = () => {
     setIsExplanationPage,
     savedComponents,
     setSavedComponents,
-    allComponents
   } = useContext(StateContext);
 
   const initialComponent = useMemo(() => ({

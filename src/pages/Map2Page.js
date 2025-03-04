@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useContext } from 'react';
 import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon.js'
 import Menu from '../components/Menu';

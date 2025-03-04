@@ -184,7 +184,7 @@ const GetInspiredPage = () => {
 
     if (filteredCaseStudies.length === 0)
       setCurrentComponents([]);
-  }, [newCaseStudies, getBookmarkState, savedCaseStudies]);
+  }, [newCaseStudies, getBookmarkState]);
 
   const handleDefaultSearch = useCallback(() => {
     setMode('get-inspired-search');

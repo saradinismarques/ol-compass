@@ -215,7 +215,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return 0.15;
       }
       // Explanation Page
-      if(isExplanationPage && mode != "map-2-pdf") 
+      if(isExplanationPage && mode !== "map-2-pdf") 
         return 1;
       
       // Learn 
