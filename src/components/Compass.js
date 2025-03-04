@@ -341,6 +341,14 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     height: `${size}px`,
   };
 
+  let containerStylePDF = {
+    width: 550,
+    height: 550,
+    backgroundColor: 'transparent',
+    border: `0.3vh solid ${colors['Gray']}`,
+    borderRadius: '1.5vh'
+  };
+
   // Other Components
   const Tooltip = ({ text, position }) => (
     <div
@@ -399,16 +407,22 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
 
   return (
     <>       
-      <div 
+      <div
         style={{
-          ...containerStyle, 
-          left: `${center.x}px`, 
-          top: `${center.y}px`,
+          ...(mode === "map-2-pdf" ? containerStylePDF : containerStyle),
+          left: mode === "map-2-pdf" ? '' : `${center.x}px`,
+          top: mode === "map-2-pdf" ? '' : `${center.y}px`,
         }}
       >
         {components.map((component, id) => (
           <div 
               key={id}
+              style={{
+                position: mode === "map-2-pdf" ? 'absolute' : '',
+                top: mode === "map-2-pdf" ? '25px' : '',
+                left: mode === "map-2-pdf" ? '25px' : '',
+                
+              }}
               onClick={() => handleClick(component)}
               onMouseEnter={(e) => handleMouseEnter(e, component)}
               onMouseLeave={() => handleMouseLeave(component)}
