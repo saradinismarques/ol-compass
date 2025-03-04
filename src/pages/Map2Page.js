@@ -158,7 +158,6 @@ const Map2Page = () => {
 
   // PDF Generation Functions
   const handleDownloadPDF = async () => {
-    console.log(componentsRef.current);
     const pageWidth = 297; // mm
     const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
 
@@ -304,17 +303,14 @@ const Map2Page = () => {
     // Big Wave
     let x;
     if(type === "All") 
-      x = 52.5;
+      x = 85;
     else
-      x = 93;    ;
+      x = 152;    ;
     await renderToCanvas(
       <State>
         <Compass
           className='m2-ol-compass'
           mode="map-2-pdf"
-          position={'center'}
-          resetState={resetState}
-          onButtonClick={handleCompassClick}
           stateSaved={mapComponents.map(component => component.code)}
         />
       </State>,
@@ -390,7 +386,7 @@ const Map2Page = () => {
     const root = createRoot(container);
     root.render(html);
     
-    const scale = 2; // max = 10
+    const scale = 5; // max = 10
 
     // Wait for the next frame to ensure the component is fully rendered
     await new Promise((resolve) => setTimeout(resolve, 0));
