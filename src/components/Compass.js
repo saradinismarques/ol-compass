@@ -16,7 +16,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   useEffect(() => {
     // Function to update height on window resize
     const handleResize = () => {
-      setSize(initialSize);
+      setSize(window.innerHeight/1.47);
     };
     // Add event listener for resize
     window.addEventListener('resize', handleResize);

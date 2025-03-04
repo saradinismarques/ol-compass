@@ -7,7 +7,7 @@
 .m2-text-container {
     position: fixed;
     top: 9vh; 
-    left: 58vw; 
+    right: 9vw; 
     transform: translateY(-50%);
     text-align: center;
 }
@@ -22,7 +22,7 @@
 
 /* Project Name Textarea */
 .m2-project-name-textarea {
-    width: 67.7vh;
+    width: 67.4vh;
     height: 3.5vh;
     padding-left: 1vh;
     font-family: 'Manrope', sans-serif;
@@ -41,11 +41,11 @@
 .m2-components-textarea-container {
     position: fixed;
     top: 15vh;
-    left: 58vw;
+    right: 9vw;
 }
 
-.m2-components-textarea-container.left {
-    left: calc(58vw + 33.5vh + 2vh);
+.m2-components-textarea-container.right {
+    right: calc(9vw + 33.5vh + 2vh);
 }
 
 .m2-components-textarea {
@@ -132,7 +132,7 @@
 .m2-download-progress {
     position: fixed;
     right: 9vw; /* Positioning at the bottom of the page */
-    bottom: 3vh;
+    bottom: 2vh;
     background-color: white;
     font-size: 2.1vh;
     color: var(--gray-color);
@@ -188,7 +188,7 @@
 }
 
 .m2-definitions-horizontal-line {
-    width: 271px;
+    width: 275px;
     height: 1px;
     background-color: var(--background-color);
 }
@@ -204,11 +204,11 @@
 }
 
 .m2-definition {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
 }
 
 .m2-definition-title {
-    width: 265px;
+    width: 270px;
     font-size: 10px;
     color: var(--title-color);
     background: linear-gradient(
@@ -223,10 +223,10 @@
 }
 
 .m2-definition-text {
-    width: 210px;
+    width: 250px;
     font-size: 10px;
     font-weight: 300;
-    margin-top: 2px;
+    margin-top: -7px;
 }
 
 /* OL Compass (PDF) */

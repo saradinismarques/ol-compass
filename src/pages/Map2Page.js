@@ -308,9 +308,9 @@ const Map2Page = () => {
     // Big Wave
     let x;
     if(type === "All") 
-      x = 85;
+      x = 83;
     else
-      x = 152;    ;
+      x = 145;    ;
     await renderToCanvas(
       <State>
         <Compass
@@ -330,72 +330,82 @@ const Map2Page = () => {
   };
 
   
-  const addTextareas = async(pdf, type) => {
+  const addTextareas = async(pdf) => {
     // Textareas
 
+    let componentsTextareas = mapComponents.filter(
+      (component, id) => id <= mapComponents.length / 2 - 1 && component.text.length !== 0
+    );
     // First section for the first 5 components
-    await renderToCanvas(
-      <>
-        {mapComponents.map((component, id) => (
-          (id <= 3 && component.text.length !== 0) && (
-            <div
-              key={id} 
-              className="m2-components-textarea-pdf"
-              style={{
-                '--text-color': colors['Text'][component.type], // Define CSS variable
-              }}
-            >
-              <div className='m2-textarea-label-pdf'>
-                {component.label}
-              </div>
-
+    if (componentsTextareas.length > 0) {
+      await renderToCanvas(
+        <>
+          {mapComponents.map((component, id) => (
+            (id <= Math.ceil(mapComponents.length)/2 && component.text.length !== 0) && (
               <div
-                className="m2-component-textarea-pdf"
+                key={id} 
+                className="m2-components-textarea-pdf"
                 style={{
                   '--text-color': colors['Text'][component.type], // Define CSS variable
-                  backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
                 }}
               >
-                {component.text}
-              </div>
-            </div>
-          )
-        ))}
-      </>,
-      pdf, 17, 15, 0.9
-    );
+                <div className='m2-textarea-label-pdf'>
+                  {component.label}
+                </div>
 
+                <div
+                  className="m2-component-textarea-pdf"
+                  style={{
+                    '--text-color': colors['Text'][component.type], // Define CSS variable
+                    backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                  }}
+                >
+                  {component.text}
+                </div>
+              </div>
+            )
+          ))}
+        </>,
+        pdf, 17, 15, 0.9
+      );
+    }
+
+    componentsTextareas = mapComponents.filter(
+      (component, id) => id > mapComponents.length / 2 - 1 && component.text.length !== 0
+    );
     // Second section for the first 5 components
-    await renderToCanvas(
-      <>
-        {mapComponents.map((component, id) => (
-          (id > 3 && component.text.length !== 0) && (
-            <div
-              key={id} 
-              className="m2-components-textarea-pdf"
-              style={{
-                '--text-color': colors['Text'][component.type], // Define CSS variable
-              }}
-            >
-              <div className='m2-textarea-label-pdf'>
-                {component.label}
-              </div>
-
+    if (componentsTextareas.length > 0) {
+      await renderToCanvas(
+        <>
+          {mapComponents.map((component, id) => (
+            (id > Math.ceil(mapComponents.length)/2 && component.text.length !== 0) && (
               <div
-                className="m2-component-textarea-pdf"
+                key={id} 
+                className="m2-components-textarea-pdf"
                 style={{
                   '--text-color': colors['Text'][component.type], // Define CSS variable
-                  backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
                 }}
               >
-                {component.text}
+                <div className='m2-textarea-label-pdf'>
+                  {component.label}
+                </div>
+
+                <div
+                  className="m2-component-textarea-pdf"
+                  style={{
+                    '--text-color': colors['Text'][component.type], // Define CSS variable
+                    backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                  }}
+                >
+                  {component.text}
+                </div>
               </div>
-            </div>
-          )
-        ))}
-      </>,
-      pdf, 230, 15, 0.9
-    );
+            )
+          ))}
+        </>,
+        pdf, 222, 15, 0.9
+      );
+    } 
   };
 
   const addIconAndDefinitions = async(pdf, type) => {
@@ -406,7 +416,7 @@ const Map2Page = () => {
           mode="map" 
           currentType={type} />
       </State>,
-      pdf, 15, 6, 1.1
+      pdf, 18, 4, 1.1
     );
 
     // Definitions
@@ -451,7 +461,7 @@ const Map2Page = () => {
           </div>
         </div>
       </>,
-      pdf, 20, 55, 1
+      pdf, 23, 53, 1.1
     );
   };
 
@@ -541,7 +551,7 @@ const Map2Page = () => {
             </div>
             
             {/* First section for the first 5 components */}
-            <div className="m2-components-textarea-container">
+            <div className="m2-components-textarea-container right">
               {mapComponents.map((component, id) => (
                 id <= 3 && (
                   <div
@@ -577,7 +587,7 @@ const Map2Page = () => {
             </div>
 
             {/* Second section for components with id > 4 */}
-            <div className="m2-components-textarea-container left">
+            <div className="m2-components-textarea-container">
               {mapComponents.map((component, id) => (
                 id > 3 && (
                   <div
@@ -611,33 +621,38 @@ const Map2Page = () => {
               ))}
             </div>
             
-            <button 
-              className={`m2-download-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}
-              onClick={handleDownloadPDF}
-              disabled={isGenerating === true} // Disable the button while generating
-              style={{
-                  background: isGenerating === true 
-                      ? `linear-gradient(to right, ${colors['Gray']} ${downloadProgress}%, white ${downloadProgress}%)`
-                      : 'white', // Change background to show progress
-                  color: isGenerating === true 
-                      ? 'transparent'
-                      : '', // Change background to show progress
-              }}
-            >
-            {isGenerating !== 'Error' ? 'Download Visual Report' : 'Try again'}
-            </button>
-            <p className='m2-download-progress' style={{
-              color: isGenerating === 'Error' 
-                ? 'red' 
-                : isGenerating 
-                ? `${colors['Gray']}` 
-                : 'transparent', // Change text color based on isGenerating state
-            }}>
-              {isGenerating === 'Error' 
-                ? 'Error Generating PDF :(' 
-                : `${Math.round(downloadProgress)}% Complete`
-              }
-            </p> 
+            {mapComponents.length > 0 &&
+              <>
+                <button 
+                className={`m2-download-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}
+                onClick={handleDownloadPDF}
+                disabled={isGenerating === true} // Disable the button while generating
+                style={{
+                    background: isGenerating === true 
+                        ? `linear-gradient(to right, ${colors['Gray']} ${downloadProgress}%, white ${downloadProgress}%)`
+                        : 'white', // Change background to show progress
+                    color: isGenerating === true 
+                        ? 'transparent'
+                        : '', // Change background to show progress
+                }}
+                >
+                  {isGenerating !== 'Error' ? 'Download Visual Report' : 'Try again'}
+                </button>
+
+                <p className='m2-download-progress' style={{
+                  color: isGenerating === 'Error' 
+                    ? 'red' 
+                    : isGenerating 
+                    ? `${colors['Gray']}` 
+                    : 'transparent', // Change text color based on isGenerating state
+                }}>
+                  {isGenerating === 'Error' 
+                    ? 'Error Generating PDF :(' 
+                    : `${Math.round(downloadProgress)}% Complete`
+                  }
+                </p> 
+              </>
+            }
 
             {limitExceeded &&
               <div className='m2-limit-exceed-message'>
