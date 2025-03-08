@@ -14,6 +14,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   // Global Variables  
   const {
     colors,
+    language,
     isExplanationPage,
     allComponents,
     opacityCounter,
@@ -658,7 +659,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                 fill={getTextFill()}
                 fontFamily='Manrope'
                 fontWeight={getFontWeight()}
-                fontSize="0.35em"
+                fontSize={language === "pt" ? "0.33em" : "0.35em"}
                 opacity={getTextOpacity()} // Change opacity on hover
                 transform={isFlipped() 
                   ? (component.type === 'Principle' 
@@ -692,7 +693,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                   fill={getTextFill()}
                   fontFamily='Manrope'
                   fontWeight={getFontWeight()}
-                  fontSize="0.35em"
+                  fontSize={language === "pt" ? "0.33em" : "0.35em"}
                   opacity={getTextOpacity()} // Change opacity on hover
                   transform={isFlipped() 
                     ? (component.type === 'Principle' 
