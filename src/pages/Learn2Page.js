@@ -14,6 +14,7 @@ import '../styles/pages/Learn2Page.css';
 const Learn2Page = () => {
   const {
     colors,
+    language,
     firstMessage,
     isExplanationPage,
     setIsExplanationPage,
@@ -135,26 +136,38 @@ const Learn2Page = () => {
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         1: <span className='l2-question'>
-            <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</> 
+            {language === 'pt' 
+              ? <>Como se aplica ao <span className="l2-question-bold">Oceano Atlântico</span>?</>
+              : <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>}
           </span>,
         2: <span className='l2-question'>
-            <>How does it apply to <span className="l2-question-bold">Portugal</span>?</> 
+            {language === 'pt' 
+              ? <>Como se aplica a <span className="l2-question-bold">Portugal</span>?</>
+              : <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>}
           </span>,
       },
       1: {
-        0: <span className='l2-question'>In short</span>,
+        0: <span className='l2-question'>
+            {language === 'pt' ? 'Em resumo' : 'In short'}
+          </span>,
         1: replaceBoldsUnderlinesHighlights(
           componentRef.current.region_feature,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         2: <span className='l2-question'>
-            <>How does it apply to <span className="l2-question-bold">Portugal</span>?</> 
+            {language === 'pt' 
+              ? <>Como se aplica a <span className="l2-question-bold">Portugal</span>?</>
+              : <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>}
           </span>,
       },
       2: {
-        0: <span className='l2-question'>In short</span>,
+        0: <span className='l2-question'>
+            {language === 'pt' ? 'Em resumo' : 'In short'}
+          </span>,
         1: <span className='l2-question'>
-            <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>  
+            {language === 'pt' 
+              ? <>Como se aplica ao <span className="l2-question-bold">Oceano Atlântico</span>?</>
+              : <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>}
           </span>,
         2: replaceBoldsUnderlinesHighlights(
           componentRef.current.country_e1,
@@ -162,9 +175,13 @@ const Learn2Page = () => {
         ),
       },
       3: {
-        0: <span className='l2-question'>In short</span>,
+        0: <span className='l2-question'>
+            {language === 'pt' ? 'Em resumo' : 'In short'}
+          </span>,
         1: <span className='l2-question'>
-            <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</> 
+            {language === 'pt' 
+              ? <>Como se aplica ao <span className="l2-question-bold">Oceano Atlântico</span>?</>
+              : <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>}
           </span>,
         2: replaceBoldsUnderlinesHighlights(
           componentRef.current.country_e2,
@@ -172,18 +189,23 @@ const Learn2Page = () => {
         ),
       },
       null: {
-        0: <span className='l2-question'>In short</span>,
+        0: <span className='l2-question'>
+            {language === 'pt' ? 'Em resumo' : 'In short'}
+          </span>,
         1: <span className='l2-question'>
-            <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>  
+            {language === 'pt' 
+              ? <>Como se aplica ao <span className="l2-question-bold">Oceano Atlântico</span>?</>
+              : <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>}
           </span>,
         2: <span className='l2-question'>
-            <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>  
+            {language === 'pt' 
+              ? <>Como se aplica a <span className="l2-question-bold">Portugal</span>?</>
+              : <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>}
           </span>,
       },
     };
     return buttonTexts[activeButtonRef.current]?.[buttonIndex] || null;
-  };  
-
+  };
   
   const getButtonsTextOthers = (buttonIndex) => {
     // Define button text mappings
@@ -194,33 +216,43 @@ const Learn2Page = () => {
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         1: <span className='l2-question'>
-            How can it be applied in practice?
+            {language === 'pt' 
+              ? 'Como pode ser aplicado na prática?' 
+              : 'How can it be applied in practice?'}
           </span>,
       },
       1: {
-        0: <span className='l2-question'>In short</span>,
+        0: <span className='l2-question'>
+            {language === 'pt' ? 'Em resumo' : 'In short'}
+          </span>,
         1: replaceBoldsUnderlinesHighlights(
           componentRef.current.example_1,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
       },
       2: {
-        0: <span className='l2-question'>In short</span>,
+        0: <span className='l2-question'>
+            {language === 'pt' ? 'Em resumo' : 'In short'}
+          </span>,
         1: replaceBoldsUnderlinesHighlights(
           componentRef.current.example_2,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
       },
       null: {
-        0: <span className='l2-question'>In short</span>,
+        0: <span className='l2-question'>
+            {language === 'pt' ? 'Em resumo' : 'In short'}
+          </span>,
         1: <span className='l2-question'>
-            How can it be applied in practice? 
+            {language === 'pt' 
+              ? 'Como pode ser aplicado na prática?' 
+              : 'How can it be applied in practice?'}
           </span>,
       },
     };
     return buttonTexts[activeButtonRef.current]?.[buttonIndex] || null;
-  }; 
-
+  };
+  
   // Keyboard event handler
   const handleButtonClickPrinciple = (index, text) => {
     setActiveButton((prevState) => {

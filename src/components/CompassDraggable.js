@@ -31,6 +31,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   // Global Variables
   const {
     colors,
+    language,
     isExplanationPage,
   } = useContext(StateContext);
   
@@ -41,7 +42,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   document.documentElement.style.setProperty('--top-position', `${topPosition}px`);
   document.documentElement.style.setProperty('--left-position', `${leftPosition}px`);
   
-  const initialComponents = getComponents(mode, compassType, size, [topPosition, leftPosition]);
+  const initialComponents = getComponents(language, mode, compassType, size, [topPosition, leftPosition]);
 
   const [components, setComponents] = useState(pdfComponents || initialComponents);
   

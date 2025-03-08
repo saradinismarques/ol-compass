@@ -1,0 +1,23 @@
+[
+  {
+    "#MODE-LABEL": "LEARN",
+    "#headline": "Familiariza-te com os fundamentos da OL",
+    "#text": "Neste modo, podes explorar qualquer categoria de OL em diferentes níveis de profundidade. Deixa o teu interesse e curiosidade guiarem-te!",
+    "#start-prompt": "Clica em qualquer onda ([WAVE-I]) para começar.",
+    "#?message NB - NOT AUTOMATIC": "[A DEFINIR com base no pré-teste]"
+  },
+  {
+    "#MODE-LABEL": "GET INSPIRED",
+    "#headline": "Explora casos inspiradores de aplicação da OL",
+    "#text": "Neste modo, podes conhecer diversas atividades relacionadas com o mar/água e o seu (potencial) impacto na OL.",
+    "#start-prompt": "Clica em qualquer onda ([WAVE-I]) para começar.",
+    "#?message NB - NOT AUTOMATIC": "As ondas selecionadas determinam o tipo e número de resultados apresentados. // Usa o controlo deslizante para alternar entre ver estudos de caso que abordam 'TODAS' as ondas selecionadas (o que restringe os resultados) ou estudos de caso que abordam 'PELO MENOS UMA' das selecionadas (o que amplia os resultados). // Sempre que selecionares ou desmarcares uma onda, os resultados são atualizados."
+  },
+  {
+    "#MODE-LABEL": "MAP",
+    "#headline": "Visualiza o impacto da OL na tua atividade",
+    "#text": "Neste modo, podes mapear o (potencial) impacto da OL numa atividade existente ou futura relacionada com o mar/água.",
+    "#start-prompt": "Pressiona 'Enter' no teu teclado para começar.",
+    "#?message NB - NOT AUTOMATIC": "[A DEFINIR com base no pré-teste]"
+  }
+]

@@ -730,25 +730,25 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   );
 };
 
-function getComponents(mode, compassType, size, draggableContainerPositions) {
+function getComponents(language, mode, compassType, size, draggableContainerPositions) {
   // Dictionary with all information
   let componentsData;
 
   if(compassType === 'default') {
     if(mode.startsWith("get-started")) 
-      componentsData = getComponentsData('get-started');
+      componentsData = getComponentsData('get-started', language);
     else if(mode === "learn")
-      componentsData = getComponentsData('learn');
+      componentsData = getComponentsData('learn', language);
     else if(mode === "learn-2")
-      componentsData = getComponentsData('learn-2');
+      componentsData = getComponentsData('learn-2', language);
     else if(mode.startsWith("map-2"))
-      componentsData = getComponentsData('learn-2');
+      componentsData = getComponentsData('learn-2', language);
     else
-      componentsData = getComponentsData('default');
+      componentsData = getComponentsData('default', language);
   } else if(compassType === 'draggable') {
-    componentsData = getComponentsData('get-started')
+    componentsData = getComponentsData('get-started', language)
   } else if(compassType === 'icon') {
-    componentsData = getComponentsData('default')
+    componentsData = getComponentsData('default', language)
   }
 
   const principles = getComponentsPositions(compassType, componentsData, 'Principle', size, draggableContainerPositions);

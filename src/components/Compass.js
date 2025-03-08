@@ -32,12 +32,13 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   // Global Variables  
   const {
     isExplanationPage, 
-    colors
+    colors, 
+    language
   } = useContext(StateContext);
         
-  const components = getComponents(mode, compassType, size);
+  const components = getComponents(language, mode, compassType, size);
 
-  const concepts = getComponentsData('concepts');
+  const concepts = getComponentsData('concepts', language);
 
   // State of clicks and hovers
   const [hoveredId, setHoveredId] = useState(null);

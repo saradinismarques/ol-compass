@@ -10,9 +10,12 @@ import { replaceLineBreaks, replacePlaceholdersWithIcons } from '../utils/TextFo
 import '../styles/components/Description.css';
 
 const Description = ({ mode }) => {
-  const {colors} = useContext(StateContext);
+  const {
+    colors,
+    language
+  } = useContext(StateContext);
 
-  const description = getModeTexts(mode);
+  const description = getModeTexts(mode, language);
 
   // Placeholder-to-Component mapping
   const iconsMap = {

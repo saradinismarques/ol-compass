@@ -8,6 +8,7 @@ import '../styles/components/Menu.css';
 const Menu = () => {
   const {
     colors,
+    language,
     isExplanationPage
   } = useContext(StateContext);
 
@@ -85,14 +86,16 @@ const Menu = () => {
       }
       <div className="left-menu">
         {menuExpanded && 
-          <p className='i-want-to-text'>I want to</p>
+          <p className='i-want-to-text'>
+            {language === "pt" ? "Eu quero" : "I want to"}
+          </p>
         }
         {(menuExpanded || activeButton === 'learn2') && 
           <Link
             to="/learn2"
             className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn2' ? 'active' : ''}`}
           >
-            LEARN
+            {language === "pt" ? "APRENDER" : "LEARN"}
           </Link>
         }
         {(menuExpanded || activeButton === 'get-inspired') && 
@@ -100,7 +103,7 @@ const Menu = () => {
             to="/get-inspired"
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
           >
-            GET INSPIRED
+            {language === "pt" ? "INSPIRAR-ME" : "GET INSPIRED"}
           </Link>
         }
 
@@ -109,7 +112,7 @@ const Menu = () => {
             to="/map2"
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'map2' ? 'active' : ''}`}
           >
-            MAP
+            {language === "pt" ? "MAPEAR" : "MAP"}
           </Link>
         }
         {/*  (menuExpanded || activeButton === 'map') && 

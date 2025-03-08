@@ -5,10 +5,16 @@ import { getTypeTooltip } from '../utils/DataExtraction.js';
 import Wave, { getComponents } from "./Wave.js"
 
 const CompassIcon = ({ mode, currentType }) => {
+  // Global Variables  
+  const {
+    colors,
+    language
+  } = useContext(StateContext);
+      
   // Size and screen resize handler
   const initialSize = mode === "map" ? 90 : window.innerHeight / 8.11;
   const [size, setSize] = useState(initialSize);
-  const typeTooltips = getTypeTooltip();
+  const typeTooltips = getTypeTooltip(language);
   
   // Tooltip
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -31,10 +37,7 @@ const CompassIcon = ({ mode, currentType }) => {
   // Compass Type
   const compassType = "icon";
   
-  // Global Variables  
-  const {colors} = useContext(StateContext);
-      
-  const components = getComponents(mode, compassType, size);
+  const components = getComponents(language, mode, compassType, size);
   
   const handleMouseEnter = () => {
     if (mode === "map") 
@@ -113,6 +116,15 @@ const CompassIcon = ({ mode, currentType }) => {
     </div>
   );
 
+  const getCurrentType = () => {
+    if(currentType === "Principle")
+      return language === "pt" ? "Princípios" : "Principles";
+    else if(currentType === "Perspective")
+      return language === "pt" ? "Perspectivas" : "Perspectives";
+    else if(currentType === "Dimension")
+      return language === "pt" ? "Dimensões" : "Dimensions";
+  }
+
   return (
     <div 
       style={{
@@ -162,7 +174,7 @@ const CompassIcon = ({ mode, currentType }) => {
                 letterSpacing: `${mode === "map" ? "2px" : "0.3vh"}`, // Increases the spacing between letters
               }}
             >
-              {`${currentType}s`}
+              {getCurrentType()}
             </p>
           </div>
         </div>

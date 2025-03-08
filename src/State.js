@@ -10,6 +10,8 @@ export const State = ({ children }) => {
     const [colors, setColors] = useState(getColorPallete(1));
     document.documentElement.style.setProperty('--selection-color', colors['Selection']);
 
+    const [language, setLanguage] = useState('pt');
+
     const initialFirstMessage = useMemo(
         () => ({
           "get-started": true,
@@ -55,6 +57,8 @@ export const State = ({ children }) => {
             value={{
                 colors,
                 setColors,
+                language,
+                setLanguage,
                 firstMessage,
                 setFirstMessage,
                 isExplanationPage,

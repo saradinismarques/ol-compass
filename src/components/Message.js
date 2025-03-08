@@ -9,9 +9,14 @@ import { replacePlaceholdersWithIcons } from '../utils/TextFormatting.js';
 import '../styles/components/Message.css';
 
 const Message = ({ mode, type, showMessage, messageStateChange }) => {
-  const {colors} = useContext(StateContext);
-  const { firstMessage, setFirstMessage } = useContext(StateContext);
-  const modeTexts = getModeTexts(mode);
+  const { 
+    colors, 
+    language,
+    firstMessage, 
+    setFirstMessage,
+   } = useContext(StateContext);
+
+  const modeTexts = getModeTexts(mode, language);
   const message = modeTexts ? modeTexts.Message : null; // Check if modeTexts exists
 
   let width;

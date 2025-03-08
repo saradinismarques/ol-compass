@@ -10,11 +10,12 @@ import '../styles/pages/IntroPage.css';
 const IntroPage = () => {
     const {
         colors,
+        language,
         opacityCounter,
         setOpacityCounter
       } = useContext(StateContext);
 
-    const introTexts = getIntroTexts('English');
+    const introTexts = getIntroTexts(language);
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
     const [isHoverLeft, setIsHoverLeft] = useState(false);

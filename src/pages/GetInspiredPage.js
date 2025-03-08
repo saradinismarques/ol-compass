@@ -13,6 +13,7 @@ import '../styles/pages/GetInspiredPage.css';
 const GetInspiredPage = () => {
   const {
     colors,
+    language,
     firstMessage,
     isExplanationPage,
     setIsExplanationPage,
@@ -139,7 +140,7 @@ const GetInspiredPage = () => {
       allCaseStudies = savedCaseStudiesRef.current;
     else 
       // Concatenate the fetched case studies with newCaseStudies
-      allCaseStudies = [...getGetInspiredData(), ...newCaseStudies];
+      allCaseStudies = [...getGetInspiredData(language), ...newCaseStudies];
 
     // Process the JSON data
     let filteredCaseStudies = allCaseStudies;
@@ -363,7 +364,7 @@ const GetInspiredPage = () => {
                   <h1 className="gi-title">{currentCaseStudy.title}</h1>
                   <p className="gi-description">{currentCaseStudy.description}</p>
                   {/* <p>{height}</p> */}
-                  <p className="gi-credits">Credits: {currentCaseStudy.credits}</p>
+                  <p className="gi-credits">{language === "pt" ? "Créditos" : "Credits"}: {currentCaseStudy.credits}</p>
     
                   <div className='gi-boxes-container'>
                   <div className='gi-box-row'>
@@ -384,15 +385,21 @@ const GetInspiredPage = () => {
               )}
               {resultsNumber === -1 && (
                 <div className="gi-instruction">
-                  Continue clicking on the waves you want to include. Once your done click on 'Search' or press 'Enter'
+                  {language === "pt" 
+                  ? "Continua a clicar nas ondas que queres incluir. Quando acabares clica em 'Pesquisa' ou pressiona a tecla 'Enter'" 
+                  : "Continue clicking on the waves you want to include. Once your done click on 'Search' or press 'Enter'"}
                 </div>
               )}
 
               {resultsNumber === 0 && (
                 <div className="gi-no-results">
                   {searchLogic === 'SAVED' 
-                  ? "No case studies saved yet. Press the bookmark icon to save a case study" 
-                  : "No case studies found with those filter. Try using others"}
+                  ? (language === 'pt' 
+                      ? "Nenhum caso de estudo salvo ainda. Clique no ícone de marcador para salvar um caso de estudo"
+                      : "No case studies saved yet. Press the bookmark icon to save a case study")
+                  : (language === 'pt' 
+                      ? "Nenhum caso de estudo encontrado com esses filtros. Tente usar outros"
+                      : "No case studies found with those filters. Try using others")}
                 </div>
               )}
     
@@ -420,7 +427,7 @@ const GetInspiredPage = () => {
               <div className='gi-results-container'>
                 {resultsNumber !== -1 && (
                   <p className={`gi-results ${searchLogic === 'SAVED' ? 'bookmarked' : ''}`}>
-                    <span className='gi-bold-text'>{resultsNumber}</span>&nbsp;results
+                    <span className='gi-bold-text'>{resultsNumber}</span>&nbsp;{language === "pt" ? "resultados" : "results"}
                   </p>
                 )}
               </div>
@@ -432,13 +439,13 @@ const GetInspiredPage = () => {
                         className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
                         onClick={() => handleSearchLogicChange("OR")}
                       >
-                        AT LEAST ONE
+                        {language === "pt" ? "PELO MENOS UM" : "AT LEAST ONE"}
                       </button>
                       <button
                         className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
                         onClick={() => handleSearchLogicChange("AND")}
                       >
-                        ALL
+                        {language === "pt" ? "TODOS" : "ALL"}
                       </button>
                     </div>
                   </div>
@@ -446,7 +453,7 @@ const GetInspiredPage = () => {
                     className="gi-search-button" 
                     onClick={handleDefaultSearch}
                   >
-                    SEARCH
+                    {language === "pt" ? "PESQUISA" : "SEARCH"}
                   </button>
                 </div>
               </div>
@@ -454,14 +461,18 @@ const GetInspiredPage = () => {
                 onClick={handleSavedCaseStudiesSearch}
                 className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''}`}
               >   
-                <p className='gi-show-bookmark-button'>SAVED</p>
+                <p className='gi-show-bookmark-button'>
+                  {language === "pt" ? "SALVOS" : "SAVED"}
+                </p>
                 <BookmarkIcon className="gi-bookmark-icon show" />
               </button>
               <button
                 onClick={handleCarouselSearch}
                 className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''}`}
               >   
-                <p className='gi-show-carousel-button'>SHOW ALL</p>
+                <p className='gi-show-carousel-button'>
+                  {language === "pt" ? "MOSTRAR TODOS" : "SHOW ALL"}
+                </p>
               </button>
           </>
         )}

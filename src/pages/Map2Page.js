@@ -16,6 +16,7 @@ import '../styles/pages/Map2Page.css';
 const Map2Page = () => {
   const {
     colors,
+    language,
     firstMessage,
     isExplanationPage,
     setIsExplanationPage,
@@ -527,13 +528,13 @@ const Map2Page = () => {
           stateSaved={mapComponents.map(component => component.code)}
         />
         {isExplanationPage && 
-          <Description mode="map-2" />
+          <Description mode="map" />
         }
 
         {!isExplanationPage && (
           <>
             <Message 
-              mode={"map-2"} 
+              mode={"map"} 
               type={"button"} 
               messageStateChange={messageStateChange}  
             />
@@ -542,7 +543,7 @@ const Map2Page = () => {
               <textarea
                   className="m2-project-name-textarea" 
                   type="text" 
-                  placeholder='Insert Map Title'
+                  placeholder={language === "pt" ? "Insere o título do mapa" : "Insert map title"}
                   value={mapProjectName} 
                   onChange={handleProjectNameChange}
                   spellCheck="false"
@@ -574,7 +575,9 @@ const Map2Page = () => {
                         backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
                       }}
                       type="text"
-                      placeholder={`Why does your project have ${component.label}?`}
+                      placeholder={language === 'pt' 
+                        ? `Por que é que o teu projeto tem ${component.label}?` 
+                        : `Why does your project have ${component.label}?`}
                       value={component.text}
                       onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
                       onChange={(e) => handleComponentChange(e, id)}
@@ -609,7 +612,9 @@ const Map2Page = () => {
                         backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
                       }}
                       type="text"
-                      placeholder={`Why does your project have ${component.label}?`}
+                      placeholder={language === 'pt' 
+                        ? `Por que é que o teu projeto tem ${component.label}?` 
+                        : `Why does your project have ${component.label}?`}
                       value={component.text}
                       onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
                       onChange={(e) => handleComponentChange(e, id)}
@@ -636,7 +641,13 @@ const Map2Page = () => {
                         : '', // Change background to show progress
                 }}
                 >
-                  {isGenerating !== 'Error' ? 'Download Visual Report' : 'Try again'}
+                  {isGenerating !== 'Error' 
+                  ? (language === 'pt' 
+                      ? 'Baixar Relatório Visual' 
+                      : 'Download Visual Report') 
+                  : (language === 'pt' 
+                      ? 'Tente Novamente' 
+                      : 'Try again')}
                 </button>
 
                 <p className='m2-download-progress' style={{
@@ -647,16 +658,19 @@ const Map2Page = () => {
                     : 'transparent', // Change text color based on isGenerating state
                 }}>
                   {isGenerating === 'Error' 
-                    ? 'Error Generating PDF :(' 
-                    : `${Math.round(downloadProgress)}% Complete`
-                  }
+                  ? (language === 'pt' 
+                      ? 'Erro ao Gerar PDF :(' 
+                      : 'Error Generating PDF :(') 
+                  : `${Math.round(downloadProgress)}% ${language === 'pt' ? 'Completo' : 'Complete'}`}
                 </p> 
               </>
             }
 
             {limitExceeded &&
               <div className='m2-limit-exceed-message'>
-                Maximum 8 elements!
+                {language === 'pt' 
+                ? 'Máximo de 8 elementos!' 
+                : 'Maximum 8 elements!'}
               </div>
             }
           </>
