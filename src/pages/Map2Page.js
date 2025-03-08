@@ -186,22 +186,42 @@ const Map2Page = () => {
       },
       async (pdf) => {
         // All Page
-        const text = 'The OL aspects/potential of your project that I could initially capture';
+        let text;
+        if(language === "pt")
+          text = 'Os aspetos/potencial de Literacia Oceânica do teu projeto que consegui captar inicialmente.';
+        else
+          text = 'The OL aspects/potential of your project that I could initially capture';
+
         await addTaskPage(pdf, text, 'All'); 
       },
       async (pdf) => {
         // Principles
-        const text = 'The OL aspects/potential of your project > PRINCIPLES focus';
+        let text;
+        if(language === "pt")
+          text = 'Os aspetos/potencial de Literacia Oceânica do seu projeto > PRINCÍPIOS em foco';
+        else
+          text = 'The OL aspects/potential of your project > PRINCIPLES focus';
+
         await addTaskPage(pdf, text, 'Principle'); 
       },
       async (pdf) => {
         // Perspectives
-        const text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+        let text;
+        if(language === "pt")
+          text = 'Os aspetos/potencial de Literacia Oceânica do seu projeto > PERSPECTIVAS em foco';
+        else
+          text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+
         await addTaskPage(pdf, text, 'Perspective'); 
       },
       async (pdf) => {
         // Dimensions
-        const text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+        let text;
+        if(language === "pt")
+          text = 'Os aspetos/potencial de Literacia Oceânica do seu projeto > DIMENSÕES em foco';
+        else
+          text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+        
         await addTaskPage(pdf, text, 'Dimension'); 
       },
     ];
@@ -272,10 +292,12 @@ const Map2Page = () => {
     pdf.roundedRect(rectX, rectY, rectWidth, rectHeight, borderRadius, borderRadius, 'F'); // Draw a filled rectangle covering the entire page
 
     // Text
-    const parts = text.split(' focus');
+    let parts 
+    if(language === "pt") parts = text.split(' em foco');
+    else parts = text.split(' focus');
     const mainText = parts[0].trim();
     const highlightText = mainText.split(' ').pop();  // Get the last word (to highlight)
-    const remainingText = 'focus';
+    const remainingText = language === "pt" ? 'em foco' : 'focus';
 
     pdf.setFont('Manrope', 'medium');
     pdf.setFontSize(12);
@@ -293,13 +315,23 @@ const Map2Page = () => {
       // Set the highlight color for the key part (the word to be highlighted)
       pdf.setFont('Manrope', 'bold');
       pdf.setTextColor(colors['Wave'][type]);
-      pdf.text(highlightText, 101, 151);
+
+      let padding;
+      if(language === "pt") padding = 137
+      else padding = 101;
+      pdf.text(highlightText, padding, 151);
 
       // Set the default color again for the 'focus' part
-      let padding = 101;
-      if(type === 'Principle') padding += 25.5; 
-      else if(type === 'Perspective') padding += 32; 
-      else if(type === 'Dimension') padding += 27.5; 
+      if(type === 'Principle') {
+        if(language === "pt") padding += 25.5; 
+        else padding += 25.5; 
+      } else if(type === 'Perspective') {
+        if(language === "pt") padding += 33; 
+        else padding += 32; 
+      } else if(type === 'Dimension') {
+        if(language === "pt") padding += 26.5; 
+        else padding += 27.5; 
+      }
 
       pdf.setFont('Manrope', 'medium');
       pdf.setTextColor("#0a4461");

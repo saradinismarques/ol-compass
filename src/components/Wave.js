@@ -502,8 +502,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       let firstPart, secondPart;
   
       firstPart = component.label.substring(0, firstIndex); // "a"
+      secondPart = component.label.substring(firstIndex + 1); // "b"
   
-      if (firstPart.length > 6) {
+      if (firstPart.length > 9) {
         // Case 1: Only one space ("a b")
         firstPart = component.label.substring(0, firstIndex); // "a"
         secondPart = component.label.substring(firstIndex + 1); // "b"

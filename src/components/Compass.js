@@ -286,10 +286,15 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   // Functions
   function convertLabel(label) {
     // Define a mapping of prefixes to their corresponding full names
-    const prefixMap = {
-        "D": "Dimension",
+    const enPrefixMap = {
+        "P": "Principle",
         "Pe": "Perspective",
-        "P": "Principle"
+        "D": "Dimension"
+    };  
+    const ptPrefixMap = {
+      "P": "Princípio",
+      "Pe": "Perspectiva",
+      "D": "Dimensão"
     };  
 
     // Use a regular expression to capture the prefix and the number
@@ -301,7 +306,11 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         const number = match[2];
 
         // Find the corresponding full name for the prefix
-        const fullName = prefixMap[prefix];
+        let fullName;
+        if(language === "pt")
+          fullName = ptPrefixMap[prefix];
+        else 
+          fullName = enPrefixMap[prefix];
 
         if (fullName) {
             return `${fullName} ${number}`;
