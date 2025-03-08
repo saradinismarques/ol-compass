@@ -106,7 +106,14 @@ const Menu = () => {
             {language === "pt" ? "INSPIRAR-ME" : "GET INSPIRED"}
           </Link>
         }
-
+        {(menuExpanded || activeButton === 'map2') && 
+          <Link
+            to="/contribute"
+            className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'contribute' ? 'active' : ''}`}
+          >
+            {language === "pt" ? "CONTRIBUIR" : "CONTRIBUTE"}
+          </Link>
+        }
         {(menuExpanded || activeButton === 'map2') && 
           <Link
             to="/map2"

@@ -10,7 +10,7 @@ export const State = ({ children }) => {
     const [colors, setColors] = useState(getColorPallete(1));
     document.documentElement.style.setProperty('--selection-color', colors['Selection']);
 
-    const [language, setLanguage] = useState('pt');
+    const [language, setLanguage] = useState('en');
 
     const initialFirstMessage = useMemo(
         () => ({

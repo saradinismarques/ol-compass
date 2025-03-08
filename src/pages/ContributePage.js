@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
+import axios from 'axios';
 import Compass from '../components/Compass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
@@ -71,11 +72,11 @@ const ContributePage = () => {
 
   // Trigger compass action
   const handleCompassClick = (code) => {
-    if (firstClick && firstMessage["contribute"]) {
-      setFirstClick(false);
-      setShowMessage(true);
-      showMessageRef.current = true;
-    }
+    // if (firstClick && firstMessage["contribute"]) {
+    //   setFirstClick(false);
+    //   setShowMessage(true);
+    //   showMessageRef.current = true;
+    // }
 
     setComponents(prevComponents => {
       const newComponents = prevComponents.includes(code)
@@ -102,7 +103,6 @@ const ContributePage = () => {
     setTimeout(() => setResetCompass(false), 0); // Reset compass trigger
   }, [resetState]);
 
-  // Handle "Enter" button action
   const handleSubmit = useCallback(() => {
     const newCaseStudy = {
       title: caseStudyRef.current.title,
@@ -117,9 +117,21 @@ const ContributePage = () => {
       credits: caseStudyRef.current.credits,
       components: componentsRef.current,
     };
-
-    setNewCaseStudies((prev) => [...prev, newCaseStudy]);
-    resetStateAndCompass();
+  
+    // Post the new case study to your backend (replace the URL with your backend's URL)
+    axios.post("http://localhost:5000/case-studies", newCaseStudy)
+      .then((response) => {
+        console.log("Case Study submitted:", response.data);
+        
+        // Update the local state (optional)
+        setNewCaseStudies((prev) => [...prev, newCaseStudy]);
+  
+        // Reset the state and compass after submission
+        resetStateAndCompass();
+      })
+      .catch((error) => {
+        console.error("Error submitting case study:", error);
+      });
   }, [resetStateAndCompass, setNewCaseStudies]);
 
   // Handle Enter key
@@ -127,11 +139,11 @@ const ContributePage = () => {
     if (e.key !== 'Enter') return;
 
     if(!showMessageRef.current) {
-      if (firstClick && firstMessage["contribute"]) {
-        setFirstClick(false);
-        setShowMessage(true);
-        showMessageRef.current = true;
-      }
+      // if (firstClick && firstMessage["contribute"]) {
+      //   setFirstClick(false);
+      //   setShowMessage(true);
+      //   showMessageRef.current = true;
+      // }
       if(isExplanationPage)
         setIsExplanationPage(false);
       else
