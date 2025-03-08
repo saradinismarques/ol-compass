@@ -4,7 +4,7 @@ import { getComponentsData } from '../utils/DataExtraction.js';
 import Wave, { getComponents } from "./Wave.js"
 import { cleanText } from '../utils/TextFormatting.js';
 
-const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, currentType, stateSaved }) => {
+const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, currentType, stateSaved, clickedComponent }) => {
   // Size and screen resize handler
   let initialSize;
   if(mode === "map-2-pdf")
@@ -66,7 +66,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     if (resetCompass) {
       // Clear the selected buttons or reset the state
       setHoveredId(null);
-      setSelectedComponents([]);
+      setSelectedComponents([clickedComponent]);
     }
   }, [resetCompass]);
 

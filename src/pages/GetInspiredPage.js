@@ -41,10 +41,11 @@ const GetInspiredPage = () => {
   const [resetCompass, setResetCompass] = useState(false);
   const [caseStudies, setCaseStudies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [mode, setMode] = useState('get-inspired');
+  const [mode, setMode] = useState('get-inspired-carousel');
   const [resultsNumber, setResultsNumber] = useState(-1);
   const [searchLogic, setSearchLogic] = useState('OR');
   const [components, setComponents] = useState([]);
+  const [clickedComponent, setClickedComponent] = useState([]);
   const [currentComponents, setCurrentComponents] = useState([]);
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
@@ -90,14 +91,15 @@ const GetInspiredPage = () => {
       navigate('/home');
   }, [navigate]);
   
-  const resetStateAndCompass = () => {
+  const resetStateAndCompass = (code) => {
     setMode('get-inspired');
     modeRef.current = 'get-inspired';
     setSearchLogic('OR');
     searchLogicRef.current = 'OR';
     setResultsNumber(-1);
+    setClickedComponent(code);
     setResetCompass(true);
-    setTimeout(() => setResetCompass(false), 0); // Reset compass trigger
+    //setTimeout(() => setResetCompass(false), 0); // Reset compass trigger
   }
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((title) => {
@@ -113,7 +115,7 @@ const GetInspiredPage = () => {
 
     // Reset components if on these modes 
     if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL') 
-      resetStateAndCompass()
+      resetStateAndCompass(code)
     else {
       setMode('get-inspired');
       modeRef.current = 'get-inspired';
@@ -278,7 +280,7 @@ const GetInspiredPage = () => {
 
   // Keyboard event handler
   const handleKeyDown = useCallback((e) => {
-    if(e.key === 'Enter' && modeRef.current === 'get-inspired-carousel' && !showMessageRef.current) 
+    if(e.key === 'Enter' && modeRef.current === 'get-inspired-carousel' && !showMessageRef.current)
       handleCarouselSearch();
     else if(e.key === 'Enter' && modeRef.current !== 'get-inspired-carousel' && !showMessageRef.current) 
       handleDefaultSearch();
@@ -339,6 +341,7 @@ const GetInspiredPage = () => {
           onButtonClick={handleCompassClick}
           currentComponent={currentComponents}
           resetCompass={resetCompass}
+          clickedComponent={clickedComponent}
         />
         {isExplanationPage && 
           <Description mode={'get-inspired'} />
