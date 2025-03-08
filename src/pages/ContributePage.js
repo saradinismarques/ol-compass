@@ -13,7 +13,6 @@ const ContributePage = () => {
     firstMessage,
     isExplanationPage,
     setIsExplanationPage,
-    setNewCaseStudies,
   } = useContext(StateContext);
 
   // Initial state for the form
@@ -123,16 +122,13 @@ const ContributePage = () => {
       .then((response) => {
         console.log("Case Study submitted:", response.data);
         
-        // Update the local state (optional)
-        setNewCaseStudies((prev) => [...prev, newCaseStudy]);
-  
         // Reset the state and compass after submission
         resetStateAndCompass();
       })
       .catch((error) => {
         console.error("Error submitting case study:", error);
       });
-  }, [resetStateAndCompass, setNewCaseStudies]);
+  }, [resetStateAndCompass]);
 
   // Handle Enter key
   const handleKeyDown = useCallback((e) => {

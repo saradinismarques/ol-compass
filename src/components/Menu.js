@@ -95,7 +95,7 @@ const Menu = () => {
             to="/learn2"
             className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn2' ? 'active' : ''}`}
           >
-            {language === "pt" ? "APRENDER" : "LEARN"}
+            {language === "pt" ? "aprender" : "learn"}
           </Link>
         }
         {(menuExpanded || activeButton === 'get-inspired') && 
@@ -103,7 +103,7 @@ const Menu = () => {
             to="/get-inspired"
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
           >
-            {language === "pt" ? "INSPIRAR-ME" : "GET INSPIRED"}
+            {language === "pt" ? "inspirar-me" : "get inspired"}
           </Link>
         }
         {(menuExpanded || activeButton === 'map2') && 
@@ -111,7 +111,7 @@ const Menu = () => {
             to="/contribute"
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'contribute' ? 'active' : ''}`}
           >
-            {language === "pt" ? "CONTRIBUIR" : "CONTRIBUTE"}
+            {language === "pt" ? "contribuir" : "contribute"}
           </Link>
         }
         {(menuExpanded || activeButton === 'map2') && 
@@ -119,7 +119,15 @@ const Menu = () => {
             to="/map2"
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'map2' ? 'active' : ''}`}
           >
-            {language === "pt" ? "MAPEAR" : "MAP"}
+            {language === "pt" ? "mapear" : "map"}
+          </Link>
+        }
+        {(menuExpanded || activeButton === 'map2') && 
+          <Link
+            to="/contextualize"
+            className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'contextualize' ? 'active' : ''}`}
+          >
+            {language === "pt" ? "contextualizar" : "contextualize"}
           </Link>
         }
         {/*  (menuExpanded || activeButton === 'map') && 

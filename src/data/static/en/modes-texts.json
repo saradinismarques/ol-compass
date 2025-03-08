@@ -19,5 +19,12 @@
     "#text": "In this mode you can map the (potential) OL outcome of an existing or future sea-/water-related activity.",
     "#start-prompt": "Press 'Enter' on your keyboard to start.",
     "#?message NB - NOT AUTOMATIC": "[TBD based on the pre-test]"
+  },
+  {
+    "#MODE-LABEL": "CONTEXTUALIZE",
+    "#headline": "See how OL applies to your specific context",
+    "#text": "In this mode, you can see how each element applies to any body of water you want.",
+    "#start-prompt": "Click on any wave ([WAVE-I]) to start or press 'Enter' and enter a body of water in the search bar.",
+    "#?message NB - NOT AUTOMATIC": "[TBD based on the pre-test]"
   }
 ]
