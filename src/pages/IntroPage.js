@@ -11,6 +11,7 @@ const IntroPage = () => {
     const {
         colors,
         language,
+        setLanguage,
         opacityCounter,
         setOpacityCounter
       } = useContext(StateContext);
@@ -59,16 +60,22 @@ const IntroPage = () => {
 
     // useCallback ensures handleClick doesn't change unless its dependencies do
     const handleClick = useCallback((e) => {
-        let clickPositionX;
+        let clickPositionX, clickPositionY;
 
         // Determine whether it's a mouse click or touch event
         if (e.type === "click") {
             clickPositionX = e.clientX;
+            clickPositionY = e.clientY;
         } else if (e.type === "touchstart") {
-            clickPositionX = e.touches[0].clientX; // Get the X position of the first touch
+            clickPositionX = e.touches[0].clientX;
+            clickPositionY = e.touches[0].clientY;
         }
 
         const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const ignoreHeight = (15 / 100) * screenHeight; // Convert 6vh to pixels
+
+        if (clickPositionY < ignoreHeight) return; // Ignore clicks/touches in the first 6vh
 
         if (clickPositionX > screenWidth / 2) {
             handleNext();
@@ -80,6 +87,14 @@ const IntroPage = () => {
     useEffect(() => {
         const handleMouseMove = (e) => {
             const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const ignoreHeight = (15 / 100) * screenHeight; // Convert 6vh to pixels
+
+            if (e.clientY < ignoreHeight) { 
+                setCursorType("default");
+                return; // Ignore movement in the first 6vh
+            }
+            
             const isLeft = e.clientX < screenWidth / 2;
             const isRight = e.clientX >= screenWidth / 2;
 
@@ -236,6 +251,10 @@ const IntroPage = () => {
         setFrame(10);
     };
 
+    const toggleLanguageButton = (lan) => {
+        setLanguage(lan);
+    };
+
     return (
         <div>
             <Compass 
@@ -243,6 +262,22 @@ const IntroPage = () => {
                 position="center"
             /> 
             {getDisplayText()} 
+            <div className={'i-language-container'}>
+            <button
+                className={`i-language-button ${language === "en" ? "active" : ""}`}
+                onClick={() => toggleLanguageButton('en')}
+            >
+                EN
+            </button> 
+            <span> | </span>
+            <button
+                className={`i-language-button ${language === "en" ? "" : "active"}`}
+                onClick={() => toggleLanguageButton('pt')}
+            >
+                PT
+            </button> 
+            </div> 
+
             <button
                 className={'i-skip-button'}
                 onClick={toggleSkipButton}

@@ -58,7 +58,7 @@
     position: absolute;
     top: 48.5vh;
     left: 72vw;
-    width: 36vh;
+    width: 40vh;
     transform: translateY(-50%);
 }
 
@@ -80,6 +80,36 @@
     font-weight: 500;
     white-space: nowrap;
     color: var(--intro-text-color);
+}
+
+/* Language buttons */
+.i-language-container {
+    position: fixed;
+    top: 6vh;
+    left: 5vw;
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.8vh;
+    font-weight: 200;
+    color: var(--gray-color);
+}
+
+.i-language-button {
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.8vh;
+    font-weight: 200;
+    background-color: transparent; /* Use 'transparent' instead of 'none' */
+    color: var(--gray-color);
+    border: none;
+    cursor: pointer;
+    outline: none; /* Optional: Remove outline on focus */
+}
+
+.i-language-button.active {
+    text-decoration: underline;
+}
+
+.i-language-button:hover, .i-language-button:active {
+    color: var(--gray-hover-color);
 }
 
 /* Skip button */

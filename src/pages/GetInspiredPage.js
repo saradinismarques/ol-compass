@@ -82,6 +82,9 @@ const GetInspiredPage = () => {
   document.documentElement.style.setProperty('--bookmark-cs-hover-color', colors['CSBookmark Hover']);
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
   document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
+  document.documentElement.style.setProperty('--search-menu-width', language === "pt" ? "38vh" : "35vh");
+  document.documentElement.style.setProperty('--logic-buttons-width', language === "pt" ? "24.5vh" : "22.3vh");
+  document.documentElement.style.setProperty('--search-button-left', language === "pt" ? "-6.7%" : "-6%");
 
   const resetState = useCallback(() => {
       navigate('/home');
@@ -445,7 +448,7 @@ const GetInspiredPage = () => {
                         className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
                         onClick={() => handleSearchLogicChange("AND")}
                       >
-                        {language === "pt" ? "TODOS" : "ALL"}
+                        {language === "pt" ? "TUDO" : "ALL"}
                       </button>
                     </div>
                   </div>
@@ -471,7 +474,7 @@ const GetInspiredPage = () => {
                 className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''}`}
               >   
                 <p className='gi-show-carousel-button'>
-                  {language === "pt" ? "MOSTRAR TODOS" : "SHOW ALL"}
+                  {language === "pt" ? "TODOS" : "SHOW ALL"}
                 </p>
               </button>
           </>
