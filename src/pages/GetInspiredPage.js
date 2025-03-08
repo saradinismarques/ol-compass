@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import Compass from '../components/Compass.js';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
@@ -138,58 +139,69 @@ const GetInspiredPage = () => {
     showMessageRef.current = state;
   };
 
-  const searchCaseStudies = useCallback((searchedComponents) => {
+  const searchCaseStudies = useCallback(async (searchedComponents) => {
     let allCaseStudies;
-
-    if(searchLogicRef.current === 'SAVED')
-      allCaseStudies = savedCaseStudiesRef.current;
-    else 
-      // Concatenate the fetched case studies with newCaseStudies
-      allCaseStudies = [...getGetInspiredData(language), ...newCaseStudies];
-
-    // Process the JSON data
-    let filteredCaseStudies = allCaseStudies;
-    
-    if (searchedComponents !== null) {
-      filteredCaseStudies = allCaseStudies.filter(item => {
-        if (searchLogicRef.current === 'AND') {
-          // AND mode: all components must be present in the item's Components array
-          return searchedComponents.every(component => item.components.includes(component));
-        } else if (searchLogicRef.current === 'OR') {
-          // OR mode: at least one component must be present in the item's Components array
-          return searchedComponents.some(component => item.components.includes(component));
-        } else {
-          return searchedComponents;
-        }
-      });
-    } 
-
-    setCaseStudies(filteredCaseStudies);
-    setResultsNumber(filteredCaseStudies.length);
-
-    if (filteredCaseStudies.length > 0) {
-      setCurrentIndex(0); // Reset to first case study
-      
-      setCurrentCaseStudy((prevCaseStudy) => ({
-        ...prevCaseStudy,
-        title: filteredCaseStudies[0].title,
-        collection: filteredCaseStudies[0].collection,
-        mainTarget: filteredCaseStudies[0].mainTarget,
-        age: filteredCaseStudies[0].age,
-        time: filteredCaseStudies[0].time,
-        type: filteredCaseStudies[0].type,
-        languages: filteredCaseStudies[0].languages,
-        year: filteredCaseStudies[0].year,
-        description: filteredCaseStudies[0].description,
-        credits: filteredCaseStudies[0].credits,
-        components: filteredCaseStudies[0].components,
-        bookmark: getBookmarkState(filteredCaseStudies[0].title),
-      }));
-      setCurrentComponents(filteredCaseStudies[0].components)
+  
+    // Fetch case studies from the backend
+    try {
+      const response = await axios.get("http://localhost:5000/case-studies");
+      allCaseStudies = response.data;
+  
+      console.log(allCaseStudies);
+      if (searchLogicRef.current === 'SAVED') {
+        allCaseStudies = savedCaseStudiesRef.current; // Saved case studies are still from the client
+      } else {
+        // Combine the new case studies with the fetched case studies from the database
+        allCaseStudies = [...allCaseStudies, ...newCaseStudies];
+      }
+  
+      // Process the data as before
+      let filteredCaseStudies = allCaseStudies;
+  
+      if (searchedComponents !== null) {
+        filteredCaseStudies = allCaseStudies.filter(item => {
+          if (searchLogicRef.current === 'AND') {
+            // AND mode: all components must be present in the item's Components array
+            return searchedComponents.every(component => item.components.includes(component));
+          } else if (searchLogicRef.current === 'OR') {
+            // OR mode: at least one component must be present in the item's Components array
+            return searchedComponents.some(component => item.components.includes(component));
+          } else {
+            return searchedComponents;
+          }
+        });
+      }
+  
+      setCaseStudies(filteredCaseStudies);
+      setResultsNumber(filteredCaseStudies.length);
+  
+      if (filteredCaseStudies.length > 0) {
+        setCurrentIndex(0); // Reset to first case study
+  
+        setCurrentCaseStudy((prevCaseStudy) => ({
+          ...prevCaseStudy,
+          title: filteredCaseStudies[0].title,
+          collection: filteredCaseStudies[0].collection,
+          mainTarget: filteredCaseStudies[0].mainTarget,
+          age: filteredCaseStudies[0].age,
+          time: filteredCaseStudies[0].time,
+          type: filteredCaseStudies[0].type,
+          languages: filteredCaseStudies[0].languages,
+          year: filteredCaseStudies[0].year,
+          description: filteredCaseStudies[0].description,
+          credits: filteredCaseStudies[0].credits,
+          components: filteredCaseStudies[0].components,
+          bookmark: getBookmarkState(filteredCaseStudies[0].title),
+        }));
+        setCurrentComponents(filteredCaseStudies[0].components);
+      }
+  
+      if (filteredCaseStudies.length === 0) {
+        setCurrentComponents([]);
+      }
+    } catch (error) {
+      console.error("Error fetching case studies:", error);
     }
-
-    if (filteredCaseStudies.length === 0)
-      setCurrentComponents([]);
   }, [newCaseStudies, getBookmarkState]);
 
   const handleDefaultSearch = useCallback(() => {
