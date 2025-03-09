@@ -64,7 +64,7 @@ const CompassIcon = ({ mode, currentType }) => {
       return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
     else if(mode === "get-started-search")
       return { x: window.innerWidth * 0.105 + window.innerHeight * 0.049/2, y: window.innerHeight * 0.21 };
-    else if(mode === "learn-2")
+    else if(mode === "learn-2" || mode === "contextualize")
       return { x: window.innerWidth * 0.125 + window.innerHeight * 0.216/2, y: window.innerHeight * 0.21 };
   };
 

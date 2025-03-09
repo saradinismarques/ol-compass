@@ -106,7 +106,7 @@ const Menu = () => {
             {language === "pt" ? "inspirar-me" : "get inspired"}
           </Link>
         }
-        {(menuExpanded || activeButton === 'map2') && 
+        {(menuExpanded || activeButton === 'contribute') && 
           <Link
             to="/contribute"
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'contribute' ? 'active' : ''}`}
@@ -122,7 +122,7 @@ const Menu = () => {
             {language === "pt" ? "mapear" : "map"}
           </Link>
         }
-        {(menuExpanded || activeButton === 'map2') && 
+        {(menuExpanded || activeButton === 'contextualize') && 
           <Link
             to="/contextualize"
             className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'contextualize' ? 'active' : ''}`}

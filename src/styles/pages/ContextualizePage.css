@@ -1,0 +1,102 @@
+:root {
+    --text-color: #ffffff; /* Default color */
+    --wave-color: #ffffff; /* Default color */
+    --gray-color: #841321; /* Default color */
+    --gray-hover-color: #841321; /* Default color */
+}
+
+/* Gradient Background */
+.ct-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 20; /* Ensure this doesn't interfere with other content */
+}
+
+.ct-background.gradient {
+    background: linear-gradient(to right, transparent 50%, var(--wave-color) 100%);
+}
+
+/* Search bar */
+.ct-search-container {
+    position: fixed;
+    top: 9vh;
+    right: 9vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-50%);
+    height: 3.9vh;
+    border: 2px solid var(--gray-color);
+    border-radius: 100px;
+    width: 40vh;
+    background-color: white;
+}
+
+.ct-search-bar {
+    background-color: transparent;
+    border: none;
+    font-family: 'Manrope', sans-serif;
+    font-size: 2vh;
+    color: var(--gray-color);
+    outline: none;
+    position: absolute;
+    left: 5%;
+}
+
+.ct-search-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 4vh; /* Set an explicit width */
+    height: 4vh; /* Set an explicit height */
+    padding: 0;
+    box-sizing: border-box;
+    outline: none;
+    position: absolute;
+    right: 0;
+}
+
+.ct-search-button:hover,
+.ct-search-button:active {
+    background-color:  #e2dfdf;
+}
+
+.ct-search-icon {
+    width: 2.2vh;
+    height: 2.2vh;
+    fill: none; /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: var(--gray-color);
+    stroke-width: 0.2vh;
+}
+
+/* Intruction */
+.ct-instruction {
+    position: fixed;
+    top: 30vh;
+    left: 70vw;
+    font-size: 2.5vh;
+    width: 40vh;
+}
+
+/* Text */
+.ct-text-container {
+    position: fixed;
+    top: 16vh;
+    left: 66vw;
+    width: 50vh;
+    color: var(--text-color);
+}
+
+.ct-title {
+    font-size: 3vh;
+}
+
+.ct-paragraph {
+    margin-top: 5vh;
+    font-size: 2.3vh;
+}

@@ -276,8 +276,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       }
       // Contribute
       if(mode === "contribute") {
-        if(selectedComponents.length === 0) 
-          return 1;
         if (selectedComponents.includes(component.code)) 
           return 1;
         if (hoveredId === component.code) 
@@ -304,6 +302,15 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           return 1;
         else
           return 0.2;
+      }
+      // Contextualize
+      if(mode === "contextualize") {
+        if(selectedComponents === component.code)
+          return 1;
+        else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.3;
       }
     } else if(compassType === "draggable") {
       // Map    
@@ -457,6 +464,15 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           return 1;
         else  
           return 0.2;
+      }
+      // Contextualize
+      if(mode === "contextualize") {
+        if(selectedComponents === component.code)
+          return 1;
+        else if(hoveredId === component.code) 
+          return 0.8;
+        else
+          return 0.7;
       }
     } else if(compassType === "draggable") {
       if(currentType === 'All' || !currentType) 

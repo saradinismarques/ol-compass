@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const { Configuration, OpenAIApi } = require("openai");
 
 const app = express();
 app.use(express.json());
@@ -24,12 +25,49 @@ const caseStudySchema = new mongoose.Schema({
   year: String,
   description: String,
   credits: String,
-  components: [String]  // <-- Add this line to store the components
+  components: [String]  // Store components like Principles, Perspectives, Dimensions
 });
 
 const CaseStudy = mongoose.model("CaseStudy", caseStudySchema);
 
-// Routes
+// OpenAI API Setup
+const OpenAI = require("openai");
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY, // This reads your API key from the .env file
+});
+
+// Route to get AI-generated responses
+app.post("/generate-ai-response", async (req, res) => {
+  const { component, bodyOfWater } = req.body;
+
+  if (!component || !bodyOfWater) {
+    return res.status(400).json({ error: "Component and body of water are required." });
+  }
+
+  const prompt = `In the context of Ocean Literacy, rephrase the ${component.type} ${component.label} in respect to the ${bodyOfWater} in 100 words limit`;
+
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+      max_tokens: 100,
+    });
+
+    console.log("Full OpenAI Response:", response); // Log full response
+
+    if (!response || !response.choices || response.choices.length === 0) {
+      throw new Error("Invalid response from OpenAI API");
+    }
+
+    res.json({ result: response.choices[0].message.content.trim() });
+  } catch (error) {
+    console.error("Error fetching AI response:", error);
+    res.status(500).json({ error: "Failed to generate response", details: error.message });
+  }
+});
+
+// Case Studies Routes
 app.get("/case-studies", async (req, res) => {
   const caseStudies = await CaseStudy.find();
   res.json(caseStudies);

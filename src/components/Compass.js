@@ -219,7 +219,25 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
           onButtonClick(null);
         }
       }
-    } 
+    } else if(mode === "contextualize") {
+      // Check if the clicked ID is already in clickedIds
+      if (selectedComponents === component.code) {
+        // If it is, remove it and reset state
+        if (onButtonClick) 
+          onButtonClick(null);
+
+      } else {
+        setSelectedComponents(component.code);
+
+        if (onButtonClick) {
+          onButtonClick(
+            component.code,
+            component.label,
+            component.type,
+          );
+        }
+      }
+    }
   };
   
   const handleMouseEnter = (e, component) => {
