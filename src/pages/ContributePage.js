@@ -13,6 +13,7 @@ const ContributePage = () => {
     firstMessage,
     isExplanationPage,
     setIsExplanationPage,
+    language
   } = useContext(StateContext);
 
   // Initial state for the form
@@ -115,8 +116,9 @@ const ContributePage = () => {
       description: caseStudyRef.current.description,
       credits: caseStudyRef.current.credits,
       components: componentsRef.current,
+      language: language, // Include the selected language
     };
-  
+
     // Post the new case study to your backend (replace the URL with your backend's URL)
     axios.post("http://localhost:5000/case-studies", newCaseStudy)
       .then((response) => {

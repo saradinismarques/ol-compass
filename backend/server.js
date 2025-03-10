@@ -2,7 +2,6 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const { Configuration, OpenAIApi } = require("openai");
 
 const app = express();
 app.use(express.json());
@@ -25,7 +24,8 @@ const caseStudySchema = new mongoose.Schema({
   year: String,
   description: String,
   credits: String,
-  components: [String]  // Store components like Principles, Perspectives, Dimensions
+  components: [String],  // Store components like Principles, Perspectives, Dimensions
+  language: String
 });
 
 const CaseStudy = mongoose.model("CaseStudy", caseStudySchema);
@@ -74,7 +74,9 @@ app.get("/case-studies", async (req, res) => {
 });
 
 app.post("/case-studies", async (req, res) => {
+  console.log(req.body);
   const newCaseStudy = new CaseStudy(req.body);
+  console.log(newCaseStudy);
   await newCaseStudy.save();
   res.json({ message: "Case Study added!" });
 });

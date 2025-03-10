@@ -12,7 +12,8 @@ const caseStudySchema = new mongoose.Schema({
     year: { type: String, required: true },
     description: { type: String, required: true },
     credits: { type: String, required: true },
-    components: {type: [String],  required: true }
+    components: {type: [String],  required: true },
+    language: { type: String, required: true },
 });
 
 // Create the model from the schema

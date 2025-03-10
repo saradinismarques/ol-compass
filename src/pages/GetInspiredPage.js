@@ -139,23 +139,22 @@ const GetInspiredPage = () => {
 
   const searchCaseStudies = useCallback(async (searchedComponents) => {
     let allCaseStudies;
-  
+
     // Fetch case studies from the backend
     try {
-      const response = await axios.get("http://localhost:5000/case-studies");
-      allCaseStudies = response.data;
-  
-      console.log(allCaseStudies);
+      
       if (searchLogicRef.current === 'SAVED') {
         allCaseStudies = savedCaseStudiesRef.current; // Saved case studies are still from the client
       } else {
-        // Combine the new case studies with the fetched case studies from the database
+        const response = await axios.get("http://localhost:5000/case-studies");
         allCaseStudies = response.data;
+        // Filter case studies based on language
+        allCaseStudies = allCaseStudies.filter(item => item.language === language);
       }
-  
+
       // Process the data as before
       let filteredCaseStudies = allCaseStudies;
-  
+
       if (searchedComponents !== null) {
         filteredCaseStudies = allCaseStudies.filter(item => {
           if (searchLogicRef.current === 'AND') {
@@ -169,13 +168,13 @@ const GetInspiredPage = () => {
           }
         });
       }
-  
+
       setCaseStudies(filteredCaseStudies);
       setResultsNumber(filteredCaseStudies.length);
-  
+
       if (filteredCaseStudies.length > 0) {
         setCurrentIndex(0); // Reset to first case study
-  
+
         setCurrentCaseStudy((prevCaseStudy) => ({
           ...prevCaseStudy,
           title: filteredCaseStudies[0].title,
@@ -193,7 +192,7 @@ const GetInspiredPage = () => {
         }));
         setCurrentComponents(filteredCaseStudies[0].components);
       }
-  
+
       if (filteredCaseStudies.length === 0) {
         setCurrentComponents([]);
       }

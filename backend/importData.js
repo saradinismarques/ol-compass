@@ -9,20 +9,15 @@ mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopol
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.error(err));
 
-// Read the JSON file
-const jsonData = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/data/content/en/get-inspired-data.json'), 'utf-8')); 
+// Read the English and Portuguese JSON files
+const enData = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/data/content/en/get-inspired-data.json'), 'utf-8'));
+const ptData = JSON.parse(fs.readFileSync(path.join(__dirname, '../src/data/content/pt/get-inspired-data.json'), 'utf-8'));
 
-// Insert data into MongoDB
-const insertData = async () => {
+// Function to insert data for a given language
+const insertData = async (data, language) => {
     try {
-      // Clear the existing documents in the collection
-      await CaseStudy.deleteMany({}); // This deletes all documents in the CaseStudy collection
-      console.log("Existing data deleted");
-  
-      // Modify jsonData to include the components field and match field names
-      const modifiedData = jsonData.map(item => {
-        
-        // Map the keys to match the Mongoose schema field names
+      // Modify the data to include the language field
+      const modifiedData = data.map(item => {
         const mappedItem = {
             title: item["Title"],
             collection: item["Collection"],
@@ -34,22 +29,39 @@ const insertData = async () => {
             year: item["Year"],
             description: item["Description"],
             credits: item["Author, Country"],
-            components: Object.keys(item).filter(key => item[key] === 'Y')
+            components: Object.keys(item).filter(key => item[key] === 'Y'),
+            language: language // Add the language field
         };
-  
         return mappedItem;
       });
-  
+
       // Insert the modified data into MongoDB
       await CaseStudy.insertMany(modifiedData);
-      console.log("Data successfully inserted");
-      mongoose.connection.close();
+      console.log(`${language} data successfully inserted`);
     } catch (error) {
       console.error("Error inserting data:", error);
-      mongoose.connection.close();
     }
 };
-  
-  
-// Call insertData to load the data into MongoDB
-insertData();
+
+const main = async () => {
+  try {
+    // Clear all existing documents from the collection (regardless of the language)
+    await CaseStudy.deleteMany({});
+    console.log("Existing data deleted");
+
+    // Insert both English and Portuguese data in parallel
+    await Promise.all([
+      insertData(enData, 'en'),
+      insertData(ptData, 'pt')
+    ]);
+
+    // Close the connection after both insertions are done
+    mongoose.connection.close();
+  } catch (error) {
+    console.error("Error in main function:", error);
+    mongoose.connection.close();
+  }
+};
+
+// Run the main function to insert the data
+main();
