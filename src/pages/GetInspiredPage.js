@@ -19,7 +19,6 @@ const GetInspiredPage = () => {
     setIsExplanationPage,
     savedCaseStudies,
     setSavedCaseStudies,
-    newCaseStudies,
   } = useContext(StateContext);
 
   const initialCaseStudy = useMemo(() => ({
@@ -49,6 +48,7 @@ const GetInspiredPage = () => {
   const [currentComponents, setCurrentComponents] = useState([]);
   const [firstClick, setFirstClick] = useState(true);
   const [showMessage, setShowMessage] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate(); // Initialize the navigate function
 
   const modeRef = useRef(mode);
@@ -56,6 +56,7 @@ const GetInspiredPage = () => {
   const componentsRef = useRef(components);
   const showMessageRef = useRef(showMessage);
   const savedCaseStudiesRef = useRef(savedCaseStudies);
+  const caseStudiesRef = useRef(caseStudies);
 
   useEffect(() => {
     componentsRef.current = components;
@@ -70,6 +71,11 @@ const GetInspiredPage = () => {
   }, [savedCaseStudies]);
 
   useEffect(() => {
+    caseStudiesRef.current = caseStudies;
+  }, [caseStudies]);
+
+
+  useEffect(() => {
     searchLogicRef.current = searchLogic;
   }, [searchLogic]);
 
@@ -77,6 +83,38 @@ const GetInspiredPage = () => {
     showMessageRef.current = showMessage;
   }, [showMessage]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("https://script.google.com/macros/s/AKfycbwBk4Dew3IycEmM08LYbJf9Fudca-8SoPb8cjWntoyR9Ke3S3iCUyGv4iUKDyfHUkg/exec");
+        let allCaseStudies = response.data;
+  
+        // Process data
+        allCaseStudies = allCaseStudies.map(item => ({
+          title: item["Title"],
+          collection: item["Collection"],
+          mainTarget: item["Main Target"],
+          age: item["Age"],
+          time: item["Time"],
+          type: item["Type"],
+          languages: item["Laguage(s)"],
+          year: item["Year"],
+          description: item["Description"],
+          credits: item["Author, Country"],
+          components: Object.keys(item).filter(key => item[key] === 'Y')
+        }));
+  
+        setCaseStudies(allCaseStudies); // Update state with the fetched case studies
+        setLoading(false); // Set loading to false after data is loaded
+      } catch (error) {
+        console.error("Error fetching case studies:", error);
+        setLoading(false); // Ensure loading is false in case of error
+      }
+    };
+  
+    fetchData(); // Fetch data on mount
+  }, []);
+  
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
   document.documentElement.style.setProperty('--bookmark-cs-color', colors['CSBookmark']);
@@ -138,95 +176,75 @@ const GetInspiredPage = () => {
     showMessageRef.current = state;
   };
 
-  const searchCaseStudies = useCallback(async (searchedComponents) => {
+  const searchCaseStudies = useCallback((searchedComponents) => {
     let allCaseStudies;
-  
-    // Fetch case studies from the backend
-    try {
-      const response = await axios.get("http://localhost:5000/case-studies");
-      allCaseStudies = response.data;
-  
-      console.log(allCaseStudies);
-      if (searchLogicRef.current === 'SAVED') {
-        allCaseStudies = savedCaseStudiesRef.current; // Saved case studies are still from the client
-      } else {
-        // Combine the new case studies with the fetched case studies from the database
-        allCaseStudies = [...allCaseStudies, ...newCaseStudies];
-      }
-  
-      // Process the data as before
-      let filteredCaseStudies = allCaseStudies;
-  
-      if (searchedComponents !== null) {
-        filteredCaseStudies = allCaseStudies.filter(item => {
-          if (searchLogicRef.current === 'AND') {
-            // AND mode: all components must be present in the item's Components array
-            return searchedComponents.every(component => item.components.includes(component));
-          } else if (searchLogicRef.current === 'OR') {
-            // OR mode: at least one component must be present in the item's Components array
-            return searchedComponents.some(component => item.components.includes(component));
-          } else {
-            return searchedComponents;
-          }
-        });
-      }
-  
-      setCaseStudies(filteredCaseStudies);
-      setResultsNumber(filteredCaseStudies.length);
-  
-      if (filteredCaseStudies.length > 0) {
-        setCurrentIndex(0); // Reset to first case study
-  
-        setCurrentCaseStudy((prevCaseStudy) => ({
-          ...prevCaseStudy,
-          title: filteredCaseStudies[0].title,
-          collection: filteredCaseStudies[0].collection,
-          mainTarget: filteredCaseStudies[0].mainTarget,
-          age: filteredCaseStudies[0].age,
-          time: filteredCaseStudies[0].time,
-          type: filteredCaseStudies[0].type,
-          languages: filteredCaseStudies[0].languages,
-          year: filteredCaseStudies[0].year,
-          description: filteredCaseStudies[0].description,
-          credits: filteredCaseStudies[0].credits,
-          components: filteredCaseStudies[0].components,
-          bookmark: getBookmarkState(filteredCaseStudies[0].title),
-        }));
-        setCurrentComponents(filteredCaseStudies[0].components);
-      }
-  
-      if (filteredCaseStudies.length === 0) {
-        setCurrentComponents([]);
-      }
-    } catch (error) {
-      console.error("Error fetching case studies:", error);
-    }
-  }, [newCaseStudies, getBookmarkState]);
 
+    if(searchLogicRef.current === 'SAVED')
+      allCaseStudies = savedCaseStudiesRef.current;
+    else 
+      // Concatenate the fetched case studies with newCaseStudies
+      allCaseStudies = caseStudiesRef.current
+
+    // Process the JSON data
+    let filteredCaseStudies = allCaseStudies;
+    
+    if (searchedComponents !== null) {
+      filteredCaseStudies = allCaseStudies.filter(item => {
+        if (searchLogicRef.current === 'AND') {
+          // AND mode: all components must be present in the item's Components array
+          return searchedComponents.every(component => item.components.includes(component));
+        } else if (searchLogicRef.current === 'OR') {
+          // OR mode: at least one component must be present in the item's Components array
+          return searchedComponents.some(component => item.components.includes(component));
+        } else {
+          return searchedComponents;
+        }
+      });
+    } 
+
+    setCaseStudies(filteredCaseStudies);
+    setResultsNumber(filteredCaseStudies.length);
+
+    if (filteredCaseStudies.length > 0) {
+      setCurrentIndex(0); // Reset to first case study
+      
+      setCurrentCaseStudy((prevCaseStudy) => ({
+        ...prevCaseStudy,
+        title: filteredCaseStudies[0].title,
+        collection: filteredCaseStudies[0].collection,
+        mainTarget: filteredCaseStudies[0].mainTarget,
+        age: filteredCaseStudies[0].age,
+        time: filteredCaseStudies[0].time,
+        type: filteredCaseStudies[0].type,
+        languages: filteredCaseStudies[0].languages,
+        year: filteredCaseStudies[0].year,
+        description: filteredCaseStudies[0].description,
+        credits: filteredCaseStudies[0].credits,
+        components: filteredCaseStudies[0].components,
+        bookmark: getBookmarkState(filteredCaseStudies[0].title),
+      }));
+      setCurrentComponents(filteredCaseStudies[0].components)
+    }
+
+    if (filteredCaseStudies.length === 0)
+      setCurrentComponents([]);
+  }, [getBookmarkState]);
+  
   const handleDefaultSearch = useCallback(() => {
+    if (loading) return; // Don't execute search logic if loading is true
     setMode('get-inspired-search');
     modeRef.current = 'get-inspired-search';
     searchCaseStudies(componentsRef.current);
-  }, [searchCaseStudies]);
-
+  }, [searchCaseStudies, loading]);
+  
   const handleCarouselSearch = useCallback(() => {
-    if(searchLogicRef.current === 'CAROUSEL') {
-      resetStateAndCompass()
-    } else {
-      setMode('get-inspired-carousel');
-      modeRef.current = 'get-inspired-carousel';
-
-      // if(firstClick && firstMessage["get-inspired"]) {
-      //   setShowMessage(true);
-      //   showMessageRef.current = true;
-      //   setFirstClick(false);
-      // }
-      setSearchLogic('CAROUSEL');
-      searchLogicRef.current = 'CAROUSEL';
-      setIsExplanationPage(false);
-      searchCaseStudies(null);
-    }
-  }, [firstMessage, isExplanationPage, searchCaseStudies, firstClick, setIsExplanationPage]);
+    if (loading) return; // Don't execute search logic if loading is true
+    setMode('get-inspired-carousel');
+    modeRef.current = 'get-inspired-carousel';
+    setSearchLogic('CAROUSEL');
+    searchLogicRef.current = 'CAROUSEL';
+    searchCaseStudies(null);
+  }, [searchCaseStudies, loading]);  
   
   const handleSavedCaseStudiesSearch = useCallback(() => {
     if(searchLogicRef.current === 'SAVED') {
@@ -365,7 +383,7 @@ const GetInspiredPage = () => {
             messageStateChange={messageStateChange}  
           />
         )}
-  
+
         {!isExplanationPage && (
           <>
             <div className='gi-text-container'>

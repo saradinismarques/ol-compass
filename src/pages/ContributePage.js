@@ -13,6 +13,7 @@ const ContributePage = () => {
     firstMessage,
     isExplanationPage,
     setIsExplanationPage,
+    allComponents
   } = useContext(StateContext);
 
   // Initial state for the form
@@ -102,33 +103,54 @@ const ContributePage = () => {
     setTimeout(() => setResetCompass(false), 0); // Reset compass trigger
   }, [resetState]);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = async () => {
     const newCaseStudy = {
-      title: caseStudyRef.current.title,
-      collection: caseStudyRef.current.collection,
-      mainTarget: caseStudyRef.current.mainTarget,
-      age: caseStudyRef.current.age,
-      time: caseStudyRef.current.time,
-      type: caseStudyRef.current.type,
-      languages: caseStudyRef.current.languages,
-      year: caseStudyRef.current.year,
-      description: caseStudyRef.current.description,
-      credits: caseStudyRef.current.credits,
-      components: componentsRef.current,
+      Title: caseStudyRef.current.title,
+      Collection: caseStudyRef.current.collection,
+      "Main Target": caseStudyRef.current.mainTarget,
+      Age: caseStudyRef.current.age,
+      Time: caseStudyRef.current.time,
+      Type: caseStudyRef.current.type,
+      "Laguage(s)": caseStudyRef.current.languages,
+      Year: caseStudyRef.current.year,
+      Description: caseStudyRef.current.description,
+      "Author, Country": caseStudyRef.current.credits,
     };
   
-    // Post the new case study to your backend (replace the URL with your backend's URL)
-    axios.post("http://localhost:5000/case-studies", newCaseStudy)
-      .then((response) => {
-        console.log("Case Study submitted:", response.data);
-        
-        // Reset the state and compass after submission
-        resetStateAndCompass();
-      })
-      .catch((error) => {
-        console.error("Error submitting case study:", error);
+    // Initialize components as an empty object
+    const components = {};
+  
+    // Loop through allComponents and check which ones are selected
+    allComponents.forEach(component => {
+      if (caseStudyRef.current[component] === 'Y') {
+        components[component] = 'Y'; // Set "Y" if the component is selected
+      }
+    });
+  
+    // Add the components object to the newCaseStudy
+    newCaseStudy.components = components;
+  
+    try {
+      const response = await fetch("https://script.google.com/macros/s/AKfycbwBk4Dew3IycEmM08LYbJf9Fudca-8SoPb8cjWntoyR9Ke3S3iCUyGv4iUKDyfHUkg/exec", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCaseStudy),
       });
-  }, [resetStateAndCompass]);
+  
+      const result = await response.json();
+      console.log(result);
+  
+      if (result.status === "success") {
+        alert("Case Study Submitted!");
+      } else {
+        alert("Error submitting case study.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };  
 
   // Handle Enter key
   const handleKeyDown = useCallback((e) => {
