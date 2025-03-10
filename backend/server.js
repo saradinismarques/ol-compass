@@ -39,19 +39,17 @@ const openai = new OpenAI({
 
 // Route to get AI-generated responses
 app.post("/generate-ai-response", async (req, res) => {
-  const { component, bodyOfWater } = req.body;
+  const {prompt} = req.body;
 
-  if (!component || !bodyOfWater) {
+  if (!prompt) {
     return res.status(400).json({ error: "Component and body of water are required." });
   }
-
-  const prompt = `In the context of Ocean Literacy, rephrase the ${component.type} ${component.label} in respect to the ${bodyOfWater} in 100 words limit`;
 
   try {
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: prompt }],
-      max_tokens: 100,
+      max_tokens: 200,
     });
 
     console.log("Full OpenAI Response:", response); // Log full response

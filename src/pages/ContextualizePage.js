@@ -1,4 +1,4 @@
-import React , { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
+import React , { useState, useEffect, useCallback, useRef, useContext } from 'react';
 import Compass from '../components/Compass';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
@@ -16,9 +16,10 @@ const ContextualizePage = () => {
   } = useContext(StateContext);
 
   const [component, setComponent] = useState(null);
-  const [bodyOfWater, setBodyOfWater] = useState(null);
+  const [bodyOfWater, setBodyOfWater] = useState('');
   const [aiResponse, setAIResponse] = useState('');
   const [searching, setSearching] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate(); // Initialize the navigate function
 
   const componentRef = useRef(component);
@@ -33,7 +34,7 @@ const ContextualizePage = () => {
   // Reset state and UI elements
   const resetState = useCallback(() => {
     navigate('/home');
-  }, []);
+  }, [navigate]);
 
   const handleCompassClick = (code, label, type) => {
     if (code === null) 
@@ -63,32 +64,49 @@ const ContextualizePage = () => {
     setBodyOfWater(e.target.value);
   };
 
-  const handleSearch = async () => {
+  const handleSearch = useCallback(async () => {
     if (!component || !bodyOfWater) {
       alert("Please select a component and enter a body of water.");
       return;
     }
   
     setSearching(true);
+    setLoading(true);
   
+    const prompt = `In the context of Ocean Literacy, rephrase the ${component.type} ${component.label} in respect to the ${bodyOfWater} in 100 words maximum`;
+
     try {
       const response = await fetch("http://localhost:5000/generate-ai-response", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ component, bodyOfWater }),
+        body: JSON.stringify({ prompt }),
       });
-  
-      const data = await response.json();
 
-      console.log(data);
+      const data = await response.json();
       setAIResponse(data.result);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error fetching AI response:", error);
       setAIResponse("An error occurred. Please try again.");
     }
-  };  
+  }, [component, bodyOfWater]); // Dependencies added
+
+  // Handle Enter key
+  const handleKeyDown = useCallback((e) => {
+    if (e.key !== 'Enter') return;
+      if(isExplanationPage) 
+        setIsExplanationPage(false);
+      else 
+        handleSearch();
+  }, [setIsExplanationPage, handleSearch, isExplanationPage]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
   
   return (
     <>
@@ -105,10 +123,12 @@ const ContextualizePage = () => {
 
         {!isExplanationPage && (
           <>
-            <CompassIcon 
-              mode={"contextualize"}
-              currentType={component.type} 
-            />
+            {component &&
+              <CompassIcon 
+                mode={"contextualize"}
+                currentType={component.type} 
+              />
+            }
 
             <div className="ct-search-container">
               <input 
@@ -116,6 +136,7 @@ const ContextualizePage = () => {
                 className="ct-search-bar" 
                 placeholder={'Ex. Mediterranean Sea'} 
                 value={bodyOfWater} 
+                spellCheck="false"
                 onChange={handleInputChange}
               />
               <button className="ct-search-button" onClick={handleSearch}>
@@ -123,7 +144,7 @@ const ContextualizePage = () => {
               </button>
             </div> 
 
-            {component === null || bodyOfWater === null &&
+            {(!component || !bodyOfWater) &&
               <div className='ct-instruction'>
                 Enter any body of water in the search bar and choose a Principle, Perspective or Dimension to check how it applies to that context.
               </div>
@@ -131,11 +152,18 @@ const ContextualizePage = () => {
             {searching &&
               <div className='ct-text-container'>
                 <div className='ct-title'>
-                  {`How does ${component.label} apply to the ${bodyOfWater}?`}
+                  {`How does ${component.label} apply to the ${bodyOfWater?.replace(/\b\w/g, c => c.toUpperCase())}?`}
                 </div>
-                <div className='ct-paragraph'>
-                  {aiResponse}
-                </div>
+                {loading &&
+                  <div className='ct-paragraph'>
+                    Loading response...
+                  </div>
+                }
+                {!loading &&
+                  <div className='ct-paragraph'>
+                    {aiResponse}
+                  </div>
+                }
               </div>
             }
           </>
