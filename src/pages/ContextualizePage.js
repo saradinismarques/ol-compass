@@ -20,6 +20,7 @@ const ContextualizePage = () => {
   const [aiResponse, setAIResponse] = useState('');
   const [searching, setSearching] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [instruction, setInstruction] = useState("Enter any body of water in the search bar and choose a Principle, Perspective or Dimension to check how it applies to that context.");
   const navigate = useNavigate(); // Initialize the navigate function
 
   const componentRef = useRef(component);
@@ -54,6 +55,13 @@ const ContextualizePage = () => {
       return updatedComponent;
     });
 
+    if(!bodyOfWater)
+      setInstruction("Now type any body of water and then press 'Enter'")
+    else
+      setInstruction("Now press 'Enter' to check!")
+    
+    setAIResponse("Press 'Enter' to check!")
+
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
   
@@ -62,11 +70,15 @@ const ContextualizePage = () => {
 
   const handleInputChange = (e) => {
     setBodyOfWater(e.target.value);
+    if(!component)
+      setInstruction("Now click on a component in the Compass")
+    else 
+      setInstruction("After typing press 'Enter' to check!")
   };
 
   const handleSearch = useCallback(async () => {
     if (!component || !bodyOfWater) {
-      alert("Please select a component and enter a body of water.");
+      setInstruction("Please select a component and enter a body of water before searching.");
       return;
     }
   
@@ -144,9 +156,9 @@ const ContextualizePage = () => {
               </button>
             </div> 
 
-            {(!component || !bodyOfWater) &&
+            {!searching &&
               <div className='ct-instruction'>
-                Enter any body of water in the search bar and choose a Principle, Perspective or Dimension to check how it applies to that context.
+                {instruction}
               </div>
             }
             {searching &&

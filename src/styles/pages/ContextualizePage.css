@@ -31,7 +31,7 @@
     height: 3.9vh;
     border: 2px solid var(--gray-color);
     border-radius: 100px;
-    width: 40vh;
+    width: 52vh;
     background-color: white;
 }
 
@@ -83,8 +83,9 @@
 .ct-instruction {
     position: fixed;
     top: 30vh;
-    left: 70vw;
+    left: calc(100vw - 52vh - 9vw);
     font-size: 2.5vh;
+    font-weight: 500;
     width: 40vh;
     color: var(--gray-color);
 }
@@ -93,13 +94,13 @@
 .ct-text-container {
     position: fixed;
     top: 16vh;
-    left: 66vw;
-    width: 50vh;
+    left: calc(100vw - 52vh - 9vw);
+    width: 52vh;
     color: var(--text-color);
 }
 
 .ct-title {
-    font-size: 3vh;
+    font-size: 3.5vh;
 }
 
 .ct-paragraph {
