@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect, useRef, useCallback } from 'react';
 import { StateContext } from "../State.js";
-import { getComponentsData } from '../utils/DataExtraction.js'; 
+import { getComponentsData, getType } from '../utils/DataExtraction.js'; 
 import Wave, { getComponents } from "./Wave.js"
 import { cleanText } from '../utils/TextFormatting.js';
 
@@ -419,6 +419,25 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     </div>
   );
 
+  const getColor = () => {
+    console.log(selectedComponents.length);
+    if(selectedComponents.length === 0)
+      return "#fff";
+    else
+      return colors["Wave"][getType(selectedComponents)];
+  };
+
+  const getSubject = () => {
+    if(selectedComponents.length === 0)
+      return "";
+    else if(getType(selectedComponents) === "Principle")
+      return "The Ocean"
+    else if(getType(selectedComponents) === "Perspective")
+      return "Pe Subject"
+    else if(getType(selectedComponents) === "Dimension")
+      return "Dim Subject" 
+  };
+
   return (
     <>       
       <div
@@ -453,6 +472,51 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
                   hoveredId={hoveredId}
                   waveRef={null}
               />
+              {mode === "learn-2" &&
+                <>
+                  <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',            // Reset top for positioning
+                    left: '50%',            // Reset top for positioning
+                    transform: 'translate(-50%, -50%)',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    zIndex: '-1',
+                    width: "150px",  // Adjust to your needs
+                    height: "150px",
+                    background: `radial-gradient(circle, ${getColor()} 5%, white 70%)`,
+                  }}
+                >
+                </div>
+                <div
+                  style={{
+                    position: 'absolute',
+                    top: '50%',            // Reset top for positioning
+                    left: '50%',            // Reset top for positioning
+                    transform: 'translate(-50%, -50%)',
+                    pointerEvents: 'none',
+                    userSelect: 'none',
+                    zIndex: '10',
+                  }}
+                >
+                  <p
+                    style={{
+                      width: '100px',
+                      textAlign: "center",
+                      color: `${colors['Label'][currentType]}`,
+                      fontFamily: "'Manrope', sans-serif", // Use Manrope font
+                      fontWeight: 300, // Medium weight for this text
+                      fontSize: "1.7vh",
+                      textTransform: "uppercase", // Converts text to uppercase
+                      letterSpacing: "0.6vh"
+                    }}
+                  >
+                    {getSubject()}
+                  </p>
+                </div>
+                </>
+              }
             </div>
         ))}
       </div>

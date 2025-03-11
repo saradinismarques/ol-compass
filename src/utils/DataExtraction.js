@@ -418,7 +418,7 @@ function getLinksData(language) {
     }
 }
 
-function getType(code) {
+export function getType(code) {
     // Define a mapping of prefixes to their corresponding full names
     const prefixMap = {
         "D": "Dimension",

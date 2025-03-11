@@ -477,7 +477,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   
   // Functions
   const isFlipped = () => {
-    const flippedTexts = ['P2', 'P3', 'P4', 'P5', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
+    const flippedTexts = ['P1', 'P2', 'P3', 'P7', 'Pe3', 'Pe4', 'Pe5', 'D4', 'D5', 'D6', 'D7'];
   
     if(flippedTexts.includes(component.code)) 
       return false;
@@ -564,8 +564,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           ...buttonStyle,
           left: `${waveStyles.left}px`, // Adjust position for button size
           top: `${waveStyles.top}px`,
-          transform: `rotate(${component.angle}rad) ${component.type === "Principle" ? 'scaleY(-1)' : 'scaleY(1)'}`,
-          zIndex: 1 // Layer filled shapes at the base
+          transform: `rotate(${component.angle}rad) ${component.type === "Dimension" ? 'scaleY(-1)' : 'scaleY(1)'}`,
+          zIndex: 1, // Layer filled shapes at the base
         }}
       >
         <svg viewBox="-5 0 100 20" width={waveWidth} height={waveHeight} style={{ pointerEvents: 'none' }}>
@@ -591,7 +591,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
 
           {/* Bookmark */}
           {compassType === 'default' && !isExplanationPage && savedComponents.some(item => item.code === component.code) &&
-            <g transform={component.type === 'Principle' ? `scale(0.5) translate(2, 10.8) rotate(24)` : `scale(0.5) translate(160, 42.5) rotate(-155.5)`} 
+            <g transform={component.type === 'Dimension' ? `scale(0.5) translate(2, 10.8) rotate(24)` : `scale(0.5) translate(160, 42.5) rotate(-155.5)`} 
             >
               <BookmarkIcon
                 style={{
@@ -626,7 +626,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
 
                 <path 
                   id={`text-path-${component.code}`} 
-                  transform={component.type === 'Principle' ? "translate(0, 8) rotate(0.5) scale(0.7, -0.7)" : "translate(0, 8) rotate(-0.5) scale(0.7)"}
+                  transform={component.type === 'Dimension' ? "translate(0, 8) rotate(0.5) scale(0.7, -0.7)" : "translate(0, 8) rotate(-0.5) scale(0.7)"}
                   d={svgTextPath} 
                   style={{ 
                     pointerEvents: 'none',
@@ -651,7 +651,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                     stroke={getBackgroundColor()} // Apply gradient for opacity fade
                     strokeWidth="15" // Dynamic stroke width
                     strokeLinecap="round"
-                    transform={component.type === 'Principle' ? "translate(0, 7) rotate(0.5) scale(0.7)" : "translate(0, 8) rotate(-0.5) scale(0.7)"}
+                    transform={component.type === 'Dimension' ? "translate(0, 7) rotate(0.5) scale(0.7)" : "translate(0, 8) rotate(-0.5) scale(0.7)"}
                   />
               ))}
 
@@ -662,10 +662,10 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                 fontSize={language === "pt" ? "0.33em" : "0.35em"}
                 opacity={getTextOpacity()} // Change opacity on hover
                 transform={isFlipped() 
-                  ? (component.type === 'Principle' 
-                      ? `rotate(180) translate(-84, -10.5) scale(1, -1)`  // Flipped and 'Principle' type
-                      : `rotate(180) translate(-83, -26.5)`)  // Flipped but not 'Principle'
-                  : (component.type === 'Principle' 
+                  ? (component.type === 'Dimension' 
+                      ? `rotate(180) translate(-84, -11) scale(1, -1)`  // Flipped and 'Principle' type
+                      : `rotate(180) translate(-83, -27.2)`)  // Flipped but not 'Principle'
+                  : (component.type === 'Dimension' 
                       ? `translate(1, 16.5) scale(1, -1)`  // Not flipped and 'Principle' type
                       : `` // Not flipped but not 'Principle'
                   )
@@ -696,10 +696,10 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
                   fontSize={language === "pt" ? "0.33em" : "0.35em"}
                   opacity={getTextOpacity()} // Change opacity on hover
                   transform={isFlipped() 
-                    ? (component.type === 'Principle' 
-                        ? `rotate(180) translate(-84, -10.5) scale(1, -1)`  // Flipped and 'Principle' type
-                        : `rotate(180) translate(-83, -26.5)`)  // Flipped but not 'Principle'
-                    : (component.type === 'Principle' 
+                    ? (component.type === 'Dimension' 
+                        ? `rotate(180) translate(-84, -11) scale(1, -1)`  // Flipped and 'Principle' type
+                        : `rotate(180) translate(-83, -27.2)`)  // Flipped but not 'Principle'
+                    : (component.type === 'Dimension' 
                         ? `scale(1, -1)`  // Not flipped and 'Principle' type
                         : `none` // Not flipped but not 'Principle'
                     )
@@ -783,17 +783,19 @@ function getComponentsPositions(compassType, data, type, size, draggableContaine
 
   let radius;
 
-  if(type === 'Principle') radius = size/6.9;
-  else if(type === 'Perspective') radius = size/2.93;
-  else if(type === 'Dimension') radius = size/2;
+  if(type === 'Principle') radius = size/5.7;
+  else if(type === 'Perspective') radius = size/2.53;
+  else if(type === 'Dimension') radius = size/1.85;
   
   const angleStep = (2 * Math.PI) / numberOfComponents;
   let startAngle
 
   if(type === 'Principle')
-    startAngle = -Math.PI/1.55;
-  else
+    startAngle = Math.PI/0.62;
+  else if(type === 'Perspective')
     startAngle = -Math.PI/2;
+  else if(type === 'Dimension')
+    startAngle = -Math.PI/1.9;
 
   for (let i = 0; i < numberOfComponents; i++) {
     let angle = i * angleStep + startAngle;
@@ -801,7 +803,7 @@ function getComponentsPositions(compassType, data, type, size, draggableContaine
     const y = centerY + radius * Math.sin(angle);
 
     if(type === 'Principle' && size >= 350)
-      angle = angle + 2*Math.PI / 2 + Math.PI*0.02;
+      angle = angle + 2*Math.PI / 2 + Math.PI*0.16;
     else if(type === 'Principle' && size < 350 && size >= 215)
       angle = angle + 2*Math.PI / 2 + Math.PI*0.01;
     else if(type === 'Principle' && size < 215 && size >= 120)
@@ -813,7 +815,7 @@ function getComponentsPositions(compassType, data, type, size, draggableContaine
     else if(type === 'Perspective')
       angle = angle + Math.PI / 2 - Math.PI*0.01;
     else if(type === 'Dimension')
-      angle = angle + Math.PI / 2 - Math.PI*0.005;
+      angle = angle + Math.PI / 2 - Math.PI*0.03;
 
     if(compassType === "default") {
       componentsData[i]["x"] = x;
