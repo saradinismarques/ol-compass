@@ -32,7 +32,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
   const {
     colors,
     language,
-    isExplanationPage,
+    explanationPage,
   } = useContext(StateContext);
   
   // Container Position
@@ -74,11 +74,11 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     setComponents((prevComponents) =>
         prevComponents.map((component) => ({
           ...component,
-          initialX: isExplanationPage ? component.x : component.x - window.innerWidth/4,
-          x: isExplanationPage ? component.x : component.x - window.innerWidth/4,
+          initialX: explanationPage ? component.x : component.x - window.innerWidth/4,
+          x: explanationPage ? component.x : component.x - window.innerWidth/4,
         }))
       );
-  }, [isExplanationPage]);
+  }, [explanationPage]);
 
   // Handlers
   const handleDragStart = (id) => {
@@ -358,7 +358,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
     width: window.innerWidth/2.2,
     height: window.innerHeight/1.5,
     backgroundColor: 'transparent',
-    border: (pdfComponents || isExplanationPage) ? '0.3vh solid transparent' : `0.3vh solid ${colors['Gray']}`,
+    border: (pdfComponents || explanationPage) ? '0.3vh solid transparent' : `0.3vh solid ${colors['Gray']}`,
     borderRadius: '1.5vh'
   };
   
@@ -570,7 +570,7 @@ const DraggableCompass = ({ mode, currentType, onDragStop, resetState, pdfCompon
           <Draggable key={id} 
             nodeRef={nodeRef} 
             position={{ x: component.x, y: component.y }} // Let Draggable manage the position if no positions are defined
-            disabled={isExplanationPage}
+            disabled={explanationPage}
             onStart={() => handleDragStart(id)} // Set this textarea as active on drag
             onStop={(e, data) => handleDragStop(id, data)} // Set this textarea as active on drag
           >

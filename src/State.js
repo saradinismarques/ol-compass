@@ -12,18 +12,8 @@ export const State = ({ children }) => {
 
     const [language, setLanguage] = useState('en');
 
-    const initialFirstMessage = useMemo(
-        () => ({
-          "get-started": true,
-          learn: true,
-          "get-inspired": true,
-          analyse: true,
-          contribute: true,
-        }), []
-      );
-
-    const [firstMessage, setFirstMessage] = useState(initialFirstMessage);
-    const [isExplanationPage, setIsExplanationPage] = useState(true);
+    const [showExplanation, setShowExplanation] = useState(true);
+    const [showInstruction, setShowInstruction] = useState(false);
 
     // Learn
     const [savedComponents, setSavedComponents] = useState([]);
@@ -59,10 +49,10 @@ export const State = ({ children }) => {
                 setColors,
                 language,
                 setLanguage,
-                firstMessage,
-                setFirstMessage,
-                isExplanationPage,
-                setIsExplanationPage,
+                showExplanation,
+                setShowExplanation,
+                showInstruction,
+                setShowInstruction,
                 savedComponents,
                 setSavedComponents,
                 savedCaseStudies,

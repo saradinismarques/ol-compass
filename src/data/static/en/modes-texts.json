@@ -19,5 +19,12 @@
     "#text": "In this mode you can map the (potential) OL outcome of an existing or future sea-/water-related activity.",
     "#start-prompt": "Press 'Enter' on your keyboard to start.",
     "#?message NB - NOT AUTOMATIC": "[TBD based on the pre-test]"
+  }, 
+  {
+    "#MODE-LABEL": "HOME",
+    "#headline": "Lorem Ipsum",
+    "#text": "Lorem Ipsum.",
+    "#start-prompt": "Press 'Enter' on your keyboard to start.",
+    "#?message NB - NOT AUTOMATIC": "[TBD based on the pre-test]"
   }
 ]

@@ -43,7 +43,7 @@ const IntroPage = () => {
 
     // Handlers
     const handleNext = useCallback(() => {
-        setFrame((prevFrame) => (prevFrame + 1 <= 10 ? prevFrame + 1 : 10));
+        setFrame((prevFrame) => (prevFrame + 1 <= 17 ? prevFrame + 1 : 17));
     }, []);
 
     const handlePrev = useCallback(() => {
@@ -53,7 +53,7 @@ const IntroPage = () => {
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
     const handleKeyDown = useCallback((e) => {
         if (e.key === 'ArrowUp' || e.key === 'ArrowRight') 
-            setFrame((prevFrame) => (prevFrame + 1 <= 10 ? prevFrame + 1 : 10));
+            setFrame((prevFrame) => (prevFrame + 1 <= 17 ? prevFrame + 1 : 17));
         else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
             setFrame((prevFrame) => (prevFrame - 1 >= 0 ? prevFrame - 1 : 0));
     }, []);
@@ -152,7 +152,7 @@ const IntroPage = () => {
     }, [listenersActive, handleKeyDown, handleClick]);
 
     useEffect(() => {
-        if (frame === 10) {
+        if (frame === 17) {
             navigate('/home');
         }
     }, [frame, navigate]); // Trigger navigation when state changes to 6
@@ -170,6 +170,12 @@ const IntroPage = () => {
         8: 'intro-8',
         9: 'intro-9',
         10: 'intro-10',
+        11: 'intro-11',
+        12: 'intro-12',
+        13: 'intro-13',
+        14: 'intro-14',
+        15: 'intro-15',
+        16: 'intro-16',
 
     };
 
@@ -196,59 +202,76 @@ const IntroPage = () => {
         if (frame === 0) {
             const title = introTexts.Title;
             return <>{replaceBolds(title, "i-title-container", "i-welcome", "i-title")}</>;
-        
         } else if (frame === 1) {
             const introDef = introTexts.IntroDef;
-            return <>{replaceBoldsBreaksPlaceholders(introDef, "i-explanation-container", "i-explanation", null)}</>;
-        
+            return <>{replaceBoldsBreaksPlaceholders("AA", "i-explanation-container", "i-explanation", null)}</>;
         } else if (frame === 2) {
             const introWho = introTexts.IntroWho;
-            return <>{replaceBoldsBreaksPlaceholders(introWho, "i-explanation-container", "i-subjects", "i-subjects bold", null)}</>;
-        
+            return <>{replaceBoldsBreaksPlaceholders("BB", "i-explanation-container", "i-subjects", "i-subjects bold", null)}</>;
         } else if (frame === 3) {
             const introSubject = introTexts.IntroSubject;
-            return <>{replaceBoldsBreaksPlaceholders(introSubject, "i-explanation-container", "i-subjects", "i-subjects bold", null)}</>;
-        
+            return <>{replaceBoldsBreaksPlaceholders("CC", "i-explanation-container", "i-subjects", "i-subjects bold", null)}</>;  
         } else if (frame === 4) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             const defineP = introTexts.DefineP;
-            return <>{replaceBoldsBreaksPlaceholders(defineP, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
-
+            return <>{replaceBoldsBreaksPlaceholders("DD", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } else if (frame === 5) {
-            startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             const clarifyP = introTexts.ClarifyP;
-            return <>{replaceBoldsBreaksPlaceholders(clarifyP, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
-
+            return <>{replaceBoldsBreaksPlaceholders("EE", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } else if(frame === 6) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             const definePe = introTexts.DefinePe;
-            return <>{replaceBoldsBreaksPlaceholders(definePe, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
-
+            return <>{replaceBoldsBreaksPlaceholders("FF", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } else if(frame === 7) {
-            startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             const clarifyPe = introTexts.ClarifyPe;
-            return <>{replaceBoldsBreaksPlaceholders(clarifyPe, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
-
+            return <>{replaceBoldsBreaksPlaceholders("GG", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } else if(frame === 8) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             const defineD = introTexts.DefineD;
-            return <>{replaceBoldsBreaksPlaceholders(defineD, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
-            
+            return <>{replaceBoldsBreaksPlaceholders("HH", "i-text-container", "i-text", "i-text colored", countersMap)}</>;   
         } else if(frame === 9) {
-            startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             const clarifyD = introTexts.ClarifyD;
-            return <>{replaceBoldsBreaksPlaceholders(clarifyD, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
-        } 
+            return <>{replaceBoldsBreaksPlaceholders("II", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+        } else if(frame === 10) {
+            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const clarifyD = introTexts.ClarifyD;
+            return <>{replaceBoldsBreaksPlaceholders("JJ", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+        } else if(frame === 11) {
+            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const clarifyD = introTexts.ClarifyD;
+            return <>{replaceBoldsBreaksPlaceholders("KK", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+        } else if(frame === 12) {
+            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const clarifyD = introTexts.ClarifyD;
+            return <>{replaceBoldsBreaksPlaceholders("LL", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+        } else if(frame === 13) {
+            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const clarifyD = introTexts.ClarifyD;
+            return <>{replaceBoldsBreaksPlaceholders("MM", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+        } else if(frame === 14) {
+            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const clarifyD = introTexts.ClarifyD;
+            return <>{replaceBoldsBreaksPlaceholders("NN", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+        } else if(frame === 15) {
+            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const clarifyD = introTexts.ClarifyD;
+            return <>{replaceBoldsBreaksPlaceholders("OO", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+        } else if(frame === 16) {
+            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
+            const clarifyD = introTexts.ClarifyD;
+            return <>{replaceBoldsBreaksPlaceholders("PP", "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+        }   
+        
     };
 
     const toggleSkipButton = () => {
-        setFrame(10);
+        setFrame(17);
     };
 
     const toggleLanguageButton = (lan) => {
@@ -259,7 +282,7 @@ const IntroPage = () => {
         <div>
             <Compass 
                 mode={mode} 
-                position="center"
+                position="fixed"
             /> 
             {getDisplayText()} 
             <div className={'i-language-container'}>

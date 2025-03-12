@@ -5,8 +5,8 @@
 /* Left Menu Container */
 .left-menu {
     position: fixed;
-    top: 25vh;
-    left: 11vw;
+    top: 12vh;
+    left: 13vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -42,6 +42,10 @@
     border: 0.35vh solid black; /* Border remains black to match the background */
 }
 
+.menu-button.semi-active {
+    border: 0.5vh solid black; /* Border remains black to match the background */
+}
+
 /* Solo Mode Button */
 .menu-button.solo {
     position: fixed;
@@ -64,7 +68,6 @@
     justify-content: center;
     padding: 0;
     box-sizing: border-box;
-    margin-right: 10vh;
 }
 
 /* Home Button */
@@ -75,8 +78,9 @@
 
 /* Go back button Button */
 .circle-button.go-back {
-    top: 9vh;
-    left: 12vw;   
+    bottom: 9vh;
+    left: 9vw; 
+    transform: translateY(50%);
 }
 
 @media (max-aspect-ratio: 16/9) {
@@ -120,9 +124,11 @@
 /* Text Above Modes Buttons ("I Want To") */
 .i-want-to-text {
     position: fixed;
-    left: 9.7vw;
-    top: 15vh;
+    left: 13vw;
+    top: 9vh;
     font-size: 2.8vh;
+    transform: translateY(-50%);
+
 }
 
 /* Disabled Mode Button */
@@ -145,5 +151,21 @@
     height: 4.3vh;
 }
 
+.menu-study-instructions {
+    margin-bottom: 1vh; /* Space between buttons */
+    width: 21vh;
+    height: 3.9vh;
+    border: 0.3vh solid black;
+    border-radius: 100px;
+    cursor: pointer;
+    text-decoration: none; /* Ensure links have no underline */
+    font-family: 'Manrope', sans-serif;
+    font-size: 2.2vh;
+    font-weight: 600;
+    color: var(--gray-color);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
 

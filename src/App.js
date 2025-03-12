@@ -16,7 +16,8 @@ import { State, StateContext } from "./State";
 
 function App() {
   const {
-    setIsExplanationPage,
+    setShowExplanation,
+    setShowInstruction
   } = useContext(StateContext);
 
   const [isLandscape, setIsLandscape] = useState(window.matchMedia("(orientation: landscape)").matches);
@@ -54,8 +55,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setIsExplanationPage(true); // Reset to initial state when the page changes
-  }, [location.pathname, setIsExplanationPage]);
+    setShowExplanation(true); // Reset to initial state when the page changes
+    setShowInstruction(false); // Reset to initial state when the page changes
+  }, [location.pathname, setShowExplanation, setShowInstruction]);
 
   // If not in landscape, show warning message
   if (!isLandscape) {

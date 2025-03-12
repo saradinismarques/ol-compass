@@ -31,7 +31,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   
   // Global Variables  
   const {
-    isExplanationPage, 
+    showExplanation, 
     colors, 
     language
   } = useContext(StateContext);
@@ -72,7 +72,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
 
   // Handlers
   const handleClick = (component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "map") 
+    if (mode.startsWith("intro") || mode === "default" || mode === "map" || showExplanation) 
       return;
     
     if (mode === "learn") {
@@ -223,7 +223,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   };
   
   const handleMouseEnter = (e, component) => {
-    if (mode.startsWith("intro") || mode === "default") 
+    if (mode.startsWith("intro") || mode === "default" || showExplanation) 
       return;
 
     setHoveredId(component.code);
@@ -341,6 +341,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       return { x: window.innerWidth * 0.25, y: window.innerHeight * 0.505 };
     else if (position === "left-3") 
       return { x: window.innerWidth * 0.40, y: window.innerHeight * 0.5 };
+    else if (position === "fixed") 
+      return { x: window.innerWidth * 2/5, y: window.innerHeight * 0.5 };
   };
 
   const center = getCenter(position);
@@ -457,7 +459,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         ))}
       </div>
   
-      {!isExplanationPage && (mode === "learn" || mode === "contribute" || mode === "map-2" || mode.startsWith("get-inspired")) && tooltipVisible && 
+      {!showExplanation && (mode === "learn" || mode === "contribute" || mode === "map-2" || mode.startsWith("get-inspired")) && tooltipVisible && 
         <Tooltip 
           text={tooltipText} 
           position={tooltipPos} 

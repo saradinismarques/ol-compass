@@ -9,7 +9,8 @@ const Menu = () => {
   const {
     colors,
     language,
-    isExplanationPage
+    showExplanation,
+    showInstruction
   } = useContext(StateContext);
 
   const location = useLocation();
@@ -62,7 +63,7 @@ const Menu = () => {
   };
   
   const activeButton = getActiveButton(currentPath);
-  const menuExpanded = (activeButton === 'home' || isExplanationPage);
+  const menuExpanded = (activeButton === 'home' || showExplanation);
 
   return (
     <div>
@@ -79,21 +80,23 @@ const Menu = () => {
           to="/"
           className={`circle-button go-back ${activeButton === 'intro-page' ? 'active' : ''}`}
         >
-        <GoBackIcon 
-          className="go-back-icon" 
-        />
-      </Link>
+          <GoBackIcon 
+            className="go-back-icon" 
+          />
+        </Link>
       }
       <div className="left-menu">
         {menuExpanded && 
-          <p className='i-want-to-text'>
-            {language === "pt" ? "Eu quero" : "I want to"}
-          </p>
+          <div className='i-want-to-text'>
+            {language === "pt" ? "Vamos:" : "Let's:"}
+          </div>
         }
         {(menuExpanded || activeButton === 'learn2') && 
           <Link
             to="/learn2"
-            className={`menu-button ${menuExpanded ? '' : 'solo'} ${activeButton === 'learn2' ? 'active' : ''}`}
+            className={`menu-button ${menuExpanded ? '' : 'solo'} 
+              ${activeButton === 'learn2' && !showExplanation ? 'active' : ''} 
+              ${activeButton === 'learn2' && showExplanation ? 'semi-active' : ''}`}
           >
             {language === "pt" ? "APRENDER" : "LEARN"}
           </Link>
@@ -101,7 +104,9 @@ const Menu = () => {
         {(menuExpanded || activeButton === 'get-inspired') && 
           <Link
             to="/get-inspired"
-            className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'get-inspired' ? 'active' : ''}`}
+            className={`menu-button ${menuExpanded ? '' : 'solo'} 
+              ${activeButton === 'get-inspired' && !showExplanation ? 'active' : ''} 
+              ${activeButton === 'get-inspired' && showExplanation ? 'semi-active' : ''}`}
           >
             {language === "pt" ? "INSPIRAR-ME" : "GET INSPIRED"}
           </Link>
@@ -110,10 +115,17 @@ const Menu = () => {
         {(menuExpanded || activeButton === 'map2') && 
           <Link
             to="/map2"
-            className={`menu-button ${menuExpanded ? '' : 'solo'}  ${activeButton === 'map2' ? 'active' : ''}`}
+            className={`menu-button ${menuExpanded ? '' : 'solo'} 
+              ${activeButton === 'map2' && !showExplanation ? 'active' : ''} 
+              ${activeButton === 'map2' && showExplanation ? 'semi-active' : ''}`}
           >
             {language === "pt" ? "MAPEAR" : "MAP"}
           </Link>
+        }
+        {activeButton === "home" || (!showExplanation && !showInstruction) &&
+          <button className='menu-study-instructions'>
+            STUDY INSTRUCTIONS
+          </button>
         }
         {/*  (menuExpanded || activeButton === 'map') && 
           <Link

@@ -3,7 +3,6 @@ import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon.js'
 import Menu from '../components/Menu';
 import Description from '../components/Description';
-import Message from '../components/Message';
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { PDFDocument } from "pdf-lib"; // For merging PDFs
@@ -17,9 +16,8 @@ const Map2Page = () => {
   const {
     colors,
     language,
-    firstMessage,
-    isExplanationPage,
-    setIsExplanationPage,
+    showExplanation,
+    setShowExplanation,
     mapComponents,
     setMapComponents,
     mapProjectName,
@@ -27,24 +25,18 @@ const Map2Page = () => {
   } = useContext(StateContext);
 
   const [firstClick, setFirstClick] = useState(true);
-  const [showMessage, setShowMessage] = useState(false);
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [currentComponent, setCurrentComponent] = useState();
   const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
   const [isGenerating, setIsGenerating] = useState(false);
 
   const componentsRef = useRef(mapComponents);
-  const showMessageRef = useRef(showMessage);
   const textareaRefs = useRef([]); // Initialize refs for textareas
 
   useEffect(() => {
     componentsRef.current = mapComponents; // Keep the ref in sync with the latest state
   }, [mapComponents]);
   
-  useEffect(() => {
-    showMessageRef.current = showMessage;
-  }, [showMessage]);
-
   useEffect(() => {
     if(isGenerating)
       setCurrentComponent();
@@ -56,24 +48,17 @@ const Map2Page = () => {
   // Reset state and UI elements
   const resetState = useCallback(() => {
     setFirstClick(true);
-    setShowMessage(false);
-    showMessageRef.current = false;
-    setIsExplanationPage(true);
+    setShowExplanation(true);
     setCurrentComponent();
-  }, [setIsExplanationPage]);
+  }, [setShowExplanation]);
 
   // Trigger compass action
   const handleCompassClick = (code, label, paragraph, type) => {
-    // if (firstClick && firstMessage["map-2"]) {
-    //   setFirstClick(false);
-    //   setShowMessage(true);
-    //   showMessageRef.current = true;
-    // }
     if(code) {
       setMapComponents(prevComponents => {
         const exists = prevComponents.some(component => component.code === code);
       
-        if (exists && !isExplanationPage) {
+        if (exists && !showExplanation) {
           // Remove component if it already exists
           const updatedComponents = prevComponents.filter(component => component.code !== code);
       
@@ -85,7 +70,7 @@ const Map2Page = () => {
           }, 0); // Ensuring it runs after the state update
           setCurrentComponent(mapComponents[mapComponents.length-1].code)
           return updatedComponents;
-        } else if (exists && isExplanationPage) {
+        } else if (exists && showExplanation) {
           return prevComponents;
         } else {
           // Add new component with default values
@@ -106,28 +91,16 @@ const Map2Page = () => {
     } else {
       setLimitExceeded(true);
     }
-    setIsExplanationPage(false);
-  };
-
-  const messageStateChange = (state) => {
-    setShowMessage(state);
-    showMessageRef.current = state;
+    setShowExplanation(false);
   };
 
   // Handle Enter key
   const handleKeyDown = useCallback((e) => {
     if (e.key !== 'Enter') return;
 
-    if(!showMessageRef.current) {
-    //   if (firstClick && firstMessage["map-2"]) {
-    //     setFirstClick(false);
-    //     setShowMessage(true);
-    //     showMessageRef.current = true;
-    //   }
-      if(isExplanationPage)
-        setIsExplanationPage(false);
-    }
-  }, [firstClick, firstMessage, setIsExplanationPage, isExplanationPage]);
+    if(showExplanation)
+      setShowExplanation(false);
+  }, [firstClick, setShowExplanation, showExplanation]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -550,173 +523,157 @@ const Map2Page = () => {
 
   return (
     <>
-      <div className={showMessage ? 'blur-background' : ''}>
-        <Compass
-          mode="map-2"
-          position={isExplanationPage ? 'center' : 'left'}
-          resetState={resetState}
-          onButtonClick={handleCompassClick}
-          currentComponent={currentComponent}
-          stateSaved={mapComponents.map(component => component.code)}
-        />
-        {isExplanationPage && 
-          <Description mode="map" />
-        }
+      <Compass
+        mode="map-2"
+        position="fixed"
+        resetState={resetState}
+        onButtonClick={handleCompassClick}
+        currentComponent={currentComponent}
+        stateSaved={mapComponents.map(component => component.code)}
+      />
+      {showExplanation && 
+        <Description mode="map" />
+      }
 
-        {!isExplanationPage && (
-          <>
-            <Message 
-              mode={"map"} 
-              type={"button"} 
-              messageStateChange={messageStateChange}  
-            />
-
-            <div className='m2-text-container'>
-              <textarea
-                  className="m2-project-name-textarea" 
-                  type="text" 
-                  placeholder={language === "pt" ? "Insere o título do mapa" : "Insert map title"}
-                  value={mapProjectName} 
-                  onChange={handleProjectNameChange}
-                  spellCheck="false"
-                  disabled={window.innerWidth > 1300 ? false : true}
-              ></textarea>
-            </div>
-            
-            {/* First section for the first 5 components */}
-            <div className="m2-components-textarea-container right">
-              {mapComponents.map((component, id) => (
-                id <= 3 && (
-                  <div
-                    key={id} 
-                    className="m2-components-textarea"
-                    style={{
-                      '--text-color': colors['Text'][component.type], // Define CSS variable
-                    }}
-                  >
-                    {component.text.length !== 0 &&
-                      <div className='m2-textarea-label'>
-                        {component.label}
-                      </div>
-                    }   
-                    <textarea
-                      className="m2-component-textarea"
-                      ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
-                      style={{
-                        '--text-color': colors['Text'][component.type], // Define CSS variable
-                        backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
-                      }}
-                      type="text"
-                      placeholder={language === 'pt' 
-                        ? `Por que é que o teu projeto tem ${component.label}?` 
-                        : `Why does your project have ${component.label}?`}
-                      value={component.text}
-                      onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
-                      onChange={(e) => handleComponentChange(e, id)}
-                      spellCheck="false"
-                      disabled={window.innerWidth > 1300 ? false : true}
-                    />
-                  </div>
-                )
-              ))}
-            </div>
-
-            {/* Second section for components with id > 4 */}
-            <div className="m2-components-textarea-container">
-              {mapComponents.map((component, id) => (
-                id > 3 && (
-                  <div
-                    key={id} 
-                    className="m2-components-textarea"
-                    style={{
-                      '--text-color': colors['Text'][component.type], // Define CSS variable
-                    }}
-                  >
-                    {component.text.length !== 0 &&
-                      <div className='m2-textarea-label'>
-                        {component.label}
-                      </div>
-                    }  
-                    <textarea
-                      className="m2-component-textarea"
-                      ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
-                      style={{
-                        backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
-                      }}
-                      type="text"
-                      placeholder={language === 'pt' 
-                        ? `Por que é que o teu projeto tem ${component.label}?` 
-                        : `Why does your project have ${component.label}?`}
-                      value={component.text}
-                      onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
-                      onChange={(e) => handleComponentChange(e, id)}
-                      spellCheck="false"
-                      disabled={window.innerWidth > 1300 ? false : true}
-                    />
-                  </div>
-                )
-              ))}
-            </div>
-            
-            {mapComponents.length > 0 &&
-              <>
-                <button 
-                className={`m2-download-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}
-                onClick={handleDownloadPDF}
-                disabled={isGenerating === true} // Disable the button while generating
-                style={{
-                    background: isGenerating === true 
-                        ? `linear-gradient(to right, ${colors['Gray']} ${downloadProgress}%, white ${downloadProgress}%)`
-                        : 'white', // Change background to show progress
-                    color: isGenerating === true 
-                        ? 'transparent'
-                        : '', // Change background to show progress
-                }}
+      {!showExplanation && (
+        <>
+          <div className='m2-text-container'>
+            <textarea
+                className="m2-project-name-textarea" 
+                type="text" 
+                placeholder={language === "pt" ? "Insere o título do mapa" : "Insert map title"}
+                value={mapProjectName} 
+                onChange={handleProjectNameChange}
+                spellCheck="false"
+                disabled={window.innerWidth > 1300 ? false : true}
+            ></textarea>
+          </div>
+          
+          {/* First section for the first 5 components */}
+          <div className="m2-components-textarea-container right">
+            {mapComponents.map((component, id) => (
+              id <= 3 && (
+                <div
+                  key={id} 
+                  className="m2-components-textarea"
+                  style={{
+                    '--text-color': colors['Text'][component.type], // Define CSS variable
+                  }}
                 >
-                  {isGenerating !== 'Error' 
-                  ? (language === 'pt' 
-                      ? 'Baixar Relatório Visual' 
-                      : 'Download Visual Report') 
-                  : (language === 'pt' 
-                      ? 'Tente Novamente' 
-                      : 'Try again')}
-                </button>
+                  {component.text.length !== 0 &&
+                    <div className='m2-textarea-label'>
+                      {component.label}
+                    </div>
+                  }   
+                  <textarea
+                    className="m2-component-textarea"
+                    ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
+                    style={{
+                      '--text-color': colors['Text'][component.type], // Define CSS variable
+                      backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                    }}
+                    type="text"
+                    placeholder={language === 'pt' 
+                      ? `Por que é que o teu projeto tem ${component.label}?` 
+                      : `Why does your project have ${component.label}?`}
+                    value={component.text}
+                    onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
+                    onChange={(e) => handleComponentChange(e, id)}
+                    spellCheck="false"
+                    disabled={window.innerWidth > 1300 ? false : true}
+                  />
+                </div>
+              )
+            ))}
+          </div>
 
-                <p className='m2-download-progress' style={{
-                  color: isGenerating === 'Error' 
-                    ? 'red' 
-                    : isGenerating 
-                    ? `${colors['Gray']}` 
-                    : 'transparent', // Change text color based on isGenerating state
-                }}>
-                  {isGenerating === 'Error' 
-                  ? (language === 'pt' 
-                      ? 'Erro ao Gerar PDF :(' 
-                      : 'Error Generating PDF :(') 
-                  : `${Math.round(downloadProgress)}% ${language === 'pt' ? 'Completo' : 'Complete'}`}
-                </p> 
-              </>
-            }
+          {/* Second section for components with id > 4 */}
+          <div className="m2-components-textarea-container">
+            {mapComponents.map((component, id) => (
+              id > 3 && (
+                <div
+                  key={id} 
+                  className="m2-components-textarea"
+                  style={{
+                    '--text-color': colors['Text'][component.type], // Define CSS variable
+                  }}
+                >
+                  {component.text.length !== 0 &&
+                    <div className='m2-textarea-label'>
+                      {component.label}
+                    </div>
+                  }  
+                  <textarea
+                    className="m2-component-textarea"
+                    ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
+                    style={{
+                      backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                    }}
+                    type="text"
+                    placeholder={language === 'pt' 
+                      ? `Por que é que o teu projeto tem ${component.label}?` 
+                      : `Why does your project have ${component.label}?`}
+                    value={component.text}
+                    onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
+                    onChange={(e) => handleComponentChange(e, id)}
+                    spellCheck="false"
+                    disabled={window.innerWidth > 1300 ? false : true}
+                  />
+                </div>
+              )
+            ))}
+          </div>
+          
+          {mapComponents.length > 0 &&
+            <>
+              <button 
+              className={`m2-download-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}
+              onClick={handleDownloadPDF}
+              disabled={isGenerating === true} // Disable the button while generating
+              style={{
+                  background: isGenerating === true 
+                      ? `linear-gradient(to right, ${colors['Gray']} ${downloadProgress}%, white ${downloadProgress}%)`
+                      : 'white', // Change background to show progress
+                  color: isGenerating === true 
+                      ? 'transparent'
+                      : '', // Change background to show progress
+              }}
+              >
+                {isGenerating !== 'Error' 
+                ? (language === 'pt' 
+                    ? 'Baixar Relatório Visual' 
+                    : 'Download Visual Report') 
+                : (language === 'pt' 
+                    ? 'Tente Novamente' 
+                    : 'Try again')}
+              </button>
 
-            {limitExceeded &&
-              <div className='m2-limit-exceed-message'>
-                {language === 'pt' 
-                ? 'Máximo de 8 elementos!' 
-                : 'Maximum 8 elements!'}
-              </div>
-            }
-          </>
-        )}
-        <Menu />
-      </div>
-      {!isExplanationPage && (
-        <Message
-          mode={"map-2"}
-          type={"message"}
-          showMessage={showMessage} // Pass whether to show the message
-          messageStateChange={messageStateChange}
-        />
+              <p className='m2-download-progress' style={{
+                color: isGenerating === 'Error' 
+                  ? 'red' 
+                  : isGenerating 
+                  ? `${colors['Gray']}` 
+                  : 'transparent', // Change text color based on isGenerating state
+              }}>
+                {isGenerating === 'Error' 
+                ? (language === 'pt' 
+                    ? 'Erro ao Gerar PDF :(' 
+                    : 'Error Generating PDF :(') 
+                : `${Math.round(downloadProgress)}% ${language === 'pt' ? 'Completo' : 'Complete'}`}
+              </p> 
+            </>
+          }
+
+          {limitExceeded &&
+            <div className='m2-limit-exceed-message'>
+              {language === 'pt' 
+              ? 'Máximo de 8 elementos!' 
+              : 'Maximum 8 elements!'}
+            </div>
+          }
+        </>
       )}
+      <Menu />
     </>
   );
 };

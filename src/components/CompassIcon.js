@@ -42,7 +42,8 @@ const CompassIcon = ({ mode, currentType }) => {
   const handleMouseEnter = () => {
     if (mode === "map") 
       return;
-
+    if(currentType === null)
+      return
     setTooltipText(typeTooltips[currentType]);
     setTooltipVisible(true);
   };
@@ -50,7 +51,8 @@ const CompassIcon = ({ mode, currentType }) => {
   const handleMouseLeave = () => {
     if(mode === "map")
       return;
-
+    if(currentType === null)
+      return
     // Set the cancellation flag to prevent tooltip from showing
     setTooltipVisible(false);
     setTooltipText(""); // Clear the tooltip text

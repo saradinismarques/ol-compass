@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { getModeTexts } from '../utils/DataExtraction.js'; 
 import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
@@ -12,7 +12,9 @@ import '../styles/components/Description.css';
 const Description = ({ mode }) => {
   const {
     colors,
-    language
+    language,
+    setShowExplanation,
+    setShowInstruction
   } = useContext(StateContext);
 
   const description = getModeTexts(mode, language);
@@ -29,18 +31,32 @@ const Description = ({ mode }) => {
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
 
+  const handleStartButton = useCallback(() => {
+    setShowExplanation(false);
+    setShowInstruction(true);
+  }, []);
+
   if(!description) 
     return null;
   return (
     <div className='description-container'>
-      <p className='description-headline'>
-        {description.Headline}
-      </p>
+      {mode !== 'home' &&
+        <p className='description-headline'>
+          {description.Headline}
+        </p>
+      }
       {/* Available */}
       {description.Text !== '/' && 
         <>
           {replaceLineBreaks(description.Text, "description-text")}
-          {replacePlaceholdersWithIcons(description.StartPrompt, "description-start-prompt", iconsMap)}
+          {mode !== 'home' &&
+            <button 
+              className='description-start-button'
+              onClick={handleStartButton}
+            >
+              START
+            </button>
+          }
         </>
       }
       {/* Not Available */}

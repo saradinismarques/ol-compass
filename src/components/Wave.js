@@ -15,7 +15,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   const {
     colors,
     language,
-    isExplanationPage,
+    showExplanation,
+    showInstruction,
     allComponents,
     opacityCounter,
     savedComponents,
@@ -29,9 +30,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     if(compassType === "icon")
       return 'default';
     else if(mode.startsWith("intro") || mode === "default" 
-    || (compassType === "default" && (mode === "map"))
-    || (mode === "map" && isExplanationPage) ||
-    compassType === "icon")
+    || showExplanation || compassType === "icon")
       return 'default';
     return 'pointer';
   }
@@ -92,7 +91,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       return colors['Wave'][component.type];
     } else if(compassType === "icon") {
       if(currentType === null)
-        return colors['Wave'][component.type];
+        return "#e3e4e3";
       if(component.type === currentType)
         return colors['Wave'][component.type];
       return "#e3e4e3";
@@ -182,10 +181,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   const getWaveOpacity = () => {
     if(compassType === "default") {
       // Intro
-      if (mode === "intro-0")
-        return 0.3;
-      else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
-        return 0.15;
+      if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3")
+        return 0.2;
       else if (mode === "intro-4" || mode === "intro-5") {
         if(component.type === "Principle") 
           if(allComponents.indexOf(component.code) <= opacityCounter['Principle'])
@@ -216,8 +213,10 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return 0.15;
       }
       // Explanation Page
-      if(isExplanationPage && mode !== "map-2-pdf") 
-        return 1;
+      if(showExplanation && mode !== "map-2-pdf") 
+        return 0.3;
+      if(showInstruction && hoveredId !== component.code && mode !== "map-2-pdf") 
+        return 0.3;
       
       // Learn 
       if(mode === "learn") {
@@ -316,7 +315,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         return 0.3;
     } else if(compassType === "icon") {
       if(currentType === null)
-        return 1;
+        return 0.5;
       if(component.type === currentType)
         return 0.9;
       return 0.3;
@@ -367,7 +366,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
             return 0.15;
       }
       // Explanation Page
-      if(isExplanationPage && mode !== "map-2-pdf")
+      if(showExplanation && mode !== "map-2-pdf")
         return 1;
       // Learn 
       if(mode === "learn") {
@@ -497,6 +496,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         return "";
       }
     }
+    // Explanation Page
+    if(showExplanation)
+      return "";
     if(bigLabels.includes(component.code)) {
       let firstIndex = component.label.indexOf(' ');
       let secondIndex = component.label.indexOf(' ', firstIndex + 1);
@@ -590,7 +592,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           />
 
           {/* Bookmark */}
-          {compassType === 'default' && !isExplanationPage && savedComponents.some(item => item.code === component.code) &&
+          {compassType === 'default' && !showExplanation && savedComponents.some(item => item.code === component.code) &&
             <g transform={component.type === 'Principle' ? `scale(0.5) translate(2, 10.8) rotate(24)` : `scale(0.5) translate(160, 42.5) rotate(-155.5)`} 
             >
               <BookmarkIcon

@@ -4,7 +4,6 @@ import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
-import Message from '../components/Message';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
 import { replaceBoldsUnderlinesHighlights } from '../utils/TextFormatting.js';
@@ -15,9 +14,10 @@ const Learn2Page = () => {
   const {
     colors,
     language,
-    firstMessage,
-    isExplanationPage,
-    setIsExplanationPage,
+    showExplanation,
+    setShowExplanation,
+    showInstruction,
+    setShowInstruction,
     savedComponents,
     setSavedComponents,
   } = useContext(StateContext);
@@ -31,8 +31,6 @@ const Learn2Page = () => {
 
   const [component, setComponent] = useState(initialComponent);
   const [currentLinks, setCurrentLinks] = useState(null);
-  const [firstClick, setFirstClick] = useState(true);
-  const [showMessage, setShowMessage] = useState(false);
   // Initialize activeButton as an object with all entries set to 0
   const [activeButton, setActiveButton] = useState(0);
 
@@ -40,7 +38,6 @@ const Learn2Page = () => {
   
   const componentRef = useRef(component);
   const activeButtonRef = useRef(activeButton);
-  const showMessageRef = useRef(showMessage);
 
   useEffect(() => {
       componentRef.current = component;
@@ -49,10 +46,6 @@ const Learn2Page = () => {
   useEffect(() => {
     activeButtonRef.current = activeButton;
 }, [activeButton]);
-
-  useEffect(() => {
-    showMessageRef.current = showMessage;
-  }, [showMessage]);
 
   document.documentElement.style.setProperty('--component-bookmark-color', colors['CBookmark']);
   document.documentElement.style.setProperty('--component-bookmark-hover-color', colors['CBookmark Hover']);
@@ -72,12 +65,6 @@ const Learn2Page = () => {
   }, [savedComponents]);
 
   const handleCompassClick = (data) => {
-    // if (firstClick && firstMessage["learn"]) {
-    //   setFirstClick(false);
-    //   setShowMessage(true);
-    //   showMessageRef.current = true;
-    // }
-
     if (data === null) 
       return;
 
@@ -124,7 +111,7 @@ const Learn2Page = () => {
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
     document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
   
-    setIsExplanationPage(false);
+    setShowInstruction(false);
   };
 
   const getButtonsTextPrinciples = (buttonIndex) => {
@@ -312,11 +299,6 @@ const Learn2Page = () => {
     });
   };
   
-  const messageStateChange = (state) => {
-    setShowMessage(state);
-    showMessageRef.current = state;
-  };
-
   const toggleBookmark = () => {
     setSavedComponents((prevSavedComponents) => {
       // Check if the component already exists in the saved components list
@@ -339,127 +321,118 @@ const Learn2Page = () => {
 
   return (
     <>
-      <div className={`${showMessage ? "blur-background" : ""}`}>
-        <div className={`l2-background ${isExplanationPage ? '' : 'gradient'}`}>
-          <Compass
-            mode="learn-2"
-            position={isExplanationPage ? "center" : "left-3"}
-            currentLinks={currentLinks}
-            onButtonClick={handleCompassClick}
-            resetState={resetState}
+      <Compass
+        mode="learn-2"
+        position="fixed"
+        currentLinks={currentLinks}
+        onButtonClick={handleCompassClick}
+        resetState={resetState}
+      />
+      {showExplanation && 
+        <Description mode={'learn'} />
+      }
+      {showInstruction && 
+        <>
+          <div>Click on any wave</div>
+
+          <CompassIcon 
+            mode={"learn-2"}
+            currentType={null} 
           />
-          {isExplanationPage && 
-            <Description colors={colors} mode={'learn'} />
-          }
+        </>
+      }
 
-          {!isExplanationPage && (
-            <>
-              <CompassIcon 
-                mode={"learn-2"}
-                currentType={component.type} 
-              />
+      {!showExplanation && !showInstruction && (
+        <>
+          <CompassIcon 
+            mode={"learn-2"}
+            currentType={component.type} 
+          />
 
-              <Message
-                mode={'learn'}
-                type={'button'}
-                messageStateChange={messageStateChange}  
-              />
-
-              <div className='l2-title-bookmark-container'>
-                <span className='l2-title'>{component.title}</span>
-                <div className="l2-white-line"></div>
-                <button
-                  onClick={toggleBookmark}
-                  className={`l2-bookmark-button ${component.bookmark ? 'active' : ''}`}
+          <div className='l2-title-bookmark-container'>
+            <span className='l2-title'>{component.title}</span>
+            <div className="l2-white-line"></div>
+            <button
+              onClick={toggleBookmark}
+              className={`l2-bookmark-button ${component.bookmark ? 'active' : ''}`}
+            >
+              <BookmarkIcon className="l2-bookmark-icon" />
+            </button>
+          </div>
+          
+          {component.type === 'Principle' &&
+            <div className='l2-text-buttons-container'>
+              {Array.from({ length: 3 }).map((_, index) => (
+                <button 
+                  key={index} // Add a unique key for each button
+                  className='l2-button'
+                  onClick={() => handleButtonClickPrinciple(index, 'paragraph')} 
                 >
-                  <BookmarkIcon className="l2-bookmark-icon" />
+                  <div>
+                    <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
+                  </div>
+                  {getButtonsTextPrinciples(index)}
                 </button>
-              </div>
+              ))}
               
-              {component.type === 'Principle' &&
-                <div className='l2-text-buttons-container'>
-                  {Array.from({ length: 3 }).map((_, index) => (
-                    <button 
-                      key={index} // Add a unique key for each button
-                      className='l2-button'
-                      onClick={() => handleButtonClickPrinciple(index, 'paragraph')} 
-                    >
-                      <div>
-                        <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
-                      </div>
-                      {getButtonsTextPrinciples(index)}
-                    </button>
-                  ))}
-                  
-                  {activeButton > 1 && (
-                    <div className="l2-example-arrow-container">
-                      <button
-                        className={`l2-example-arrow left ${activeButton === 2 ? "disabled" : ""}`}
-                        onClick={() => handleButtonClickPrinciple(2, 'example')}
-                      >
-                        <Arrow2Icon className='l2-example-arrow-icon' />
-                      </button>
-                      <span className='l2-example-number bold'>{activeButton - 1}</span>
-                      <span className='l2-example-number'> / 2</span>
-                      <button
-                        className={`l2-example-arrow right ${activeButton === 3 ? "disabled" : ""}`}
-                        onClick={() => handleButtonClickPrinciple(3, 'examples')}
-                      >
-                        <Arrow2Icon className='l2-example-arrow-icon' />
-                      </button>
-                    </div>
-                  )}
+              {activeButton > 1 && (
+                <div className="l2-example-arrow-container">
+                  <button
+                    className={`l2-example-arrow left ${activeButton === 2 ? "disabled" : ""}`}
+                    onClick={() => handleButtonClickPrinciple(2, 'example')}
+                  >
+                    <Arrow2Icon className='l2-example-arrow-icon' />
+                  </button>
+                  <span className='l2-example-number bold'>{activeButton - 1}</span>
+                  <span className='l2-example-number'> / 2</span>
+                  <button
+                    className={`l2-example-arrow right ${activeButton === 3 ? "disabled" : ""}`}
+                    onClick={() => handleButtonClickPrinciple(3, 'examples')}
+                  >
+                    <Arrow2Icon className='l2-example-arrow-icon' />
+                  </button>
                 </div>
-              }
-              {component.type !== 'Principle' &&
-                <div className='l2-text-buttons-container'>
-                  {Array.from({ length: 2 }).map((_, index) => (
-                    <button 
-                      key={index} // Add a unique key for each button
-                      className='l2-button'
-                      onClick={() => handleButtonClickOthers(index, 'paragraph')} 
-                    >
-                      <div>
-                        <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
-                      </div>
-                      {getButtonsTextOthers(index)}
-                    </button>
-                  ))}
-                  
-                  {activeButton > 0 && (
-                    <div className="l2-example-arrow-container">
-                      <button
-                        className={`l2-example-arrow left ${activeButton === 1 ? "disabled" : ""}`}
-                        onClick={() => handleButtonClickOthers(1, 'example')}
-                      >
-                        <Arrow2Icon className='l2-example-arrow-icon' />
-                      </button>
-                      <span className='l2-example-number bold'>{activeButton}</span>
-                      <span className='l2-example-number'> / 2</span>
-                      <button
-                        className={`l2-example-arrow right ${activeButton === 2 ? "disabled" : ""}`}
-                        onClick={() => handleButtonClickOthers(2, 'examples')}
-                      >
-                        <Arrow2Icon className='l2-example-arrow-icon' />
-                      </button>
-                    </div>
-                  )}
+              )}
+            </div>
+          }
+          {component.type !== 'Principle' &&
+            <div className='l2-text-buttons-container'>
+              {Array.from({ length: 2 }).map((_, index) => (
+                <button 
+                  key={index} // Add a unique key for each button
+                  className='l2-button'
+                  onClick={() => handleButtonClickOthers(index, 'paragraph')} 
+                >
+                  <div>
+                    <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
+                  </div>
+                  {getButtonsTextOthers(index)}
+                </button>
+              ))}
+              
+              {activeButton > 0 && (
+                <div className="l2-example-arrow-container">
+                  <button
+                    className={`l2-example-arrow left ${activeButton === 1 ? "disabled" : ""}`}
+                    onClick={() => handleButtonClickOthers(1, 'example')}
+                  >
+                    <Arrow2Icon className='l2-example-arrow-icon' />
+                  </button>
+                  <span className='l2-example-number bold'>{activeButton}</span>
+                  <span className='l2-example-number'> / 2</span>
+                  <button
+                    className={`l2-example-arrow right ${activeButton === 2 ? "disabled" : ""}`}
+                    onClick={() => handleButtonClickOthers(2, 'examples')}
+                  >
+                    <Arrow2Icon className='l2-example-arrow-icon' />
+                  </button>
                 </div>
-              }
-            </>
-          )}
-          <Menu />
-        </div>
-      </div>
-
-      {!isExplanationPage && (
-        <Message
-          mode={'learn'}
-          type={'message'}
-          showMessage={showMessage}
-          messageStateChange={messageStateChange}  
-        />
+              )}
+            </div>
+          }
+        </>
       )}
+      <Menu />
     </>
   );
 };
