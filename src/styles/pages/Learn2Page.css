@@ -182,19 +182,20 @@
     align-items: center; /* Center them vertically */
     z-index: 30;
     position: fixed;
-    width: 50vh; /* Ensures it always takes full width */
+    width: 26vw; /* Ensures it always takes full width */
     top: 9vh;
-    left: 64vw;
+    right: 9vw;
     transform: translateY(-50%);
     gap: 2vh;
 }
 
 .l2-title {
+    
     font-size: 3.2vh; /* Larger size for h1 */
     font-weight: 300;
     text-transform: uppercase;
     white-space: nowrap;
-    margin: 0;
+    margin-left: 1vh;
     color: var(--text-color); 
 }
 
@@ -250,6 +251,7 @@
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--text-color);
     stroke-width: 0.2vh;
+    margin-right: -0.01vh;
 }
 
 

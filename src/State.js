@@ -16,11 +16,23 @@ export const State = ({ children }) => {
     const [showInstruction, setShowInstruction] = useState(false);
 
     // Home
-    const [firstUse, setFirstUse] = useState(true);
+    const initialFirstMessage = useMemo(
+        () => ({
+          "home": true,
+          "get-started": true,
+          "learn": true,
+          "get-inspired": true,
+          "map": true,
+        }), []
+      );
+
+    const [firstUse, setFirstUse] = useState(initialFirstMessage);
+
 
     // Learn
     const [savedComponents, setSavedComponents] = useState([]);
-    
+    const [learnComponent, setLearnComponent] = useState(null);
+
     // Get Inspired
     const [savedCaseStudies, setSavedCaseStudies] = useState([]);
     
@@ -58,6 +70,8 @@ export const State = ({ children }) => {
                 setShowExplanation,
                 showInstruction,
                 setShowInstruction,
+                learnComponent,
+                setLearnComponent,
                 savedComponents,
                 setSavedComponents,
                 savedCaseStudies,

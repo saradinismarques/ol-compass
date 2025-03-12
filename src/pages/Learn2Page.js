@@ -16,32 +16,28 @@ const Learn2Page = () => {
     language,
     showExplanation,
     setShowExplanation,
+    firstUse,
+    setFirstUse,
     showInstruction,
     setShowInstruction,
+    learnComponent,
+    setLearnComponent,
     savedComponents,
     setSavedComponents,
   } = useContext(StateContext);
 
-  const initialComponent = useMemo(() => ({
-    title: '',
-    paragraph: '',
-    type: null,
-    bookmark: false,
-  }), []);
-
-  const [component, setComponent] = useState(initialComponent);
   const [currentLinks, setCurrentLinks] = useState(null);
   // Initialize activeButton as an object with all entries set to 0
   const [activeButton, setActiveButton] = useState(0);
 
   const navigate = useNavigate(); // Initialize the navigate function
   
-  const componentRef = useRef(component);
+  const componentRef = useRef(learnComponent);
   const activeButtonRef = useRef(activeButton);
 
   useEffect(() => {
-      componentRef.current = component;
-  }, [component]);
+      componentRef.current = learnComponent;
+  }, [learnComponent]);
 
   useEffect(() => {
     activeButtonRef.current = activeButton;
@@ -49,8 +45,6 @@ const Learn2Page = () => {
 
   document.documentElement.style.setProperty('--component-bookmark-color', colors['CBookmark']);
   document.documentElement.style.setProperty('--component-bookmark-hover-color', colors['CBookmark Hover']);
-  document.documentElement.style.setProperty('--text-color', colors['Text'][component.type]);
-  document.documentElement.style.setProperty('--image-color', colors['Wave'][component.type]);
   document.documentElement.style.setProperty('--highlightP-color', colors['Wave']['Principle']);
   document.documentElement.style.setProperty('--highlightPe-color', colors['Wave']['Perspective']);
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
@@ -65,6 +59,11 @@ const Learn2Page = () => {
   }, [savedComponents]);
 
   const handleCompassClick = (data) => {
+    setFirstUse(prevState => ({
+      ...prevState, // Keep all existing attributes
+      learn: false   // Update only 'home'
+    }));
+
     if (data === null) 
       return;
 
@@ -85,7 +84,7 @@ const Learn2Page = () => {
       e2_codes = null
     } = data;
 
-    setComponent((prevComponent) => {
+    setLearnComponent((prevComponent) => {
       const updatedComponent = {
         ...prevComponent,
         code,
@@ -302,18 +301,18 @@ const Learn2Page = () => {
   const toggleBookmark = () => {
     setSavedComponents((prevSavedComponents) => {
       // Check if the component already exists in the saved components list
-      const exists = prevSavedComponents.some(item => item.code === component.code);
+      const exists = prevSavedComponents.some(item => item.code === learnComponent.code);
   
       if (exists) {
         // Remove the component from saved components
-        return prevSavedComponents.filter(item => item.code !== component.code);
+        return prevSavedComponents.filter(item => item.code !== learnComponent.code);
       }
       
       // Add the entire component object instead of just the code
-      return [...prevSavedComponents, { ...component }];
+      return [...prevSavedComponents, { ...learnComponent }];
     });
   
-    setComponent((prevComponent) => ({
+    setLearnComponent((prevComponent) => ({
       ...prevComponent,
       bookmark: !prevComponent.bookmark,
     }));
@@ -321,118 +320,123 @@ const Learn2Page = () => {
 
   return (
     <>
-      <Compass
-        mode="learn-2"
-        position="fixed"
-        currentLinks={currentLinks}
-        onButtonClick={handleCompassClick}
-        resetState={resetState}
-      />
-      {showExplanation && 
-        <Description mode={'learn'} />
-      }
-      {showInstruction && 
-        <>
-          <div>Click on any wave</div>
-
-          <CompassIcon 
-            mode={"learn-2"}
-            currentType={null} 
-          />
-        </>
-      }
-
-      {!showExplanation && !showInstruction && (
-        <>
-          <CompassIcon 
-            mode={"learn-2"}
-            currentType={component.type} 
-          />
-
-          <div className='l2-title-bookmark-container'>
-            <span className='l2-title'>{component.title}</span>
-            <div className="l2-white-line"></div>
-            <button
-              onClick={toggleBookmark}
-              className={`l2-bookmark-button ${component.bookmark ? 'active' : ''}`}
-            >
-              <BookmarkIcon className="l2-bookmark-icon" />
-            </button>
-          </div>
-          
-          {component.type === 'Principle' &&
-            <div className='l2-text-buttons-container'>
-              {Array.from({ length: 3 }).map((_, index) => (
-                <button 
-                  key={index} // Add a unique key for each button
-                  className='l2-button'
-                  onClick={() => handleButtonClickPrinciple(index, 'paragraph')} 
-                >
-                  <div>
-                    <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
-                  </div>
-                  {getButtonsTextPrinciples(index)}
-                </button>
-              ))}
-              
-              {activeButton > 1 && (
-                <div className="l2-example-arrow-container">
-                  <button
-                    className={`l2-example-arrow left ${activeButton === 2 ? "disabled" : ""}`}
-                    onClick={() => handleButtonClickPrinciple(2, 'example')}
-                  >
-                    <Arrow2Icon className='l2-example-arrow-icon' />
-                  </button>
-                  <span className='l2-example-number bold'>{activeButton - 1}</span>
-                  <span className='l2-example-number'> / 2</span>
-                  <button
-                    className={`l2-example-arrow right ${activeButton === 3 ? "disabled" : ""}`}
-                    onClick={() => handleButtonClickPrinciple(3, 'examples')}
-                  >
-                    <Arrow2Icon className='l2-example-arrow-icon' />
-                  </button>
-                </div>
-              )}
+      <div className={`l2-background ${(showExplanation || showInstruction) ? '' : 'gradient'}`}>
+        <Compass
+          mode="learn-2"
+          position="fixed"
+          currentLinks={currentLinks}
+          onButtonClick={handleCompassClick}
+          resetState={resetState}
+          stateSaved={learnComponent ? learnComponent.code : null}
+        />
+        {showExplanation && 
+          <Description mode={'learn'} />
+        }
+        {showInstruction && 
+          <>
+            <div className='instruction'>
+              Click on any wave
             </div>
-          }
-          {component.type !== 'Principle' &&
-            <div className='l2-text-buttons-container'>
-              {Array.from({ length: 2 }).map((_, index) => (
-                <button 
-                  key={index} // Add a unique key for each button
-                  className='l2-button'
-                  onClick={() => handleButtonClickOthers(index, 'paragraph')} 
-                >
-                  <div>
-                    <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
-                  </div>
-                  {getButtonsTextOthers(index)}
-                </button>
-              ))}
-              
-              {activeButton > 0 && (
-                <div className="l2-example-arrow-container">
-                  <button
-                    className={`l2-example-arrow left ${activeButton === 1 ? "disabled" : ""}`}
-                    onClick={() => handleButtonClickOthers(1, 'example')}
-                  >
-                    <Arrow2Icon className='l2-example-arrow-icon' />
-                  </button>
-                  <span className='l2-example-number bold'>{activeButton}</span>
-                  <span className='l2-example-number'> / 2</span>
-                  <button
-                    className={`l2-example-arrow right ${activeButton === 2 ? "disabled" : ""}`}
-                    onClick={() => handleButtonClickOthers(2, 'examples')}
-                  >
-                    <Arrow2Icon className='l2-example-arrow-icon' />
-                  </button>
-                </div>
-              )}
+
+            <CompassIcon 
+              mode={"learn-2"}
+              currentType={null} 
+            />
+          </>
+        }
+
+        {!showExplanation && !showInstruction && (
+          <>
+            <CompassIcon 
+              mode={"learn-2"}
+              currentType={learnComponent.type} 
+            />
+
+            <div className='l2-title-bookmark-container'>
+              <span className='l2-title'>{learnComponent.title}</span>
+              <div className="l2-white-line"></div>
+              <button
+                onClick={toggleBookmark}
+                className={`l2-bookmark-button ${learnComponent.bookmark ? 'active' : ''}`}
+              >
+                <BookmarkIcon className="l2-bookmark-icon" />
+              </button>
             </div>
-          }
+            
+            {learnComponent.type === 'Principle' &&
+              <div className='l2-text-buttons-container'>
+                {Array.from({ length: 3 }).map((_, index) => (
+                  <button 
+                    key={index} // Add a unique key for each button
+                    className='l2-button'
+                    onClick={() => handleButtonClickPrinciple(index, 'paragraph')} 
+                  >
+                    <div>
+                      <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
+                    </div>
+                    {getButtonsTextPrinciples(index)}
+                  </button>
+                ))}
+                
+                {activeButton > 1 && (
+                  <div className="l2-example-arrow-container">
+                    <button
+                      className={`l2-example-arrow left ${activeButton === 2 ? "disabled" : ""}`}
+                      onClick={() => handleButtonClickPrinciple(2, 'example')}
+                    >
+                      <Arrow2Icon className='l2-example-arrow-icon' />
+                    </button>
+                    <span className='l2-example-number bold'>{activeButton - 1}</span>
+                    <span className='l2-example-number'> / 2</span>
+                    <button
+                      className={`l2-example-arrow right ${activeButton === 3 ? "disabled" : ""}`}
+                      onClick={() => handleButtonClickPrinciple(3, 'examples')}
+                    >
+                      <Arrow2Icon className='l2-example-arrow-icon' />
+                    </button>
+                  </div>
+                )}
+              </div>
+            }
+            {learnComponent.type !== 'Principle' &&
+              <div className='l2-text-buttons-container'>
+                {Array.from({ length: 2 }).map((_, index) => (
+                  <button 
+                    key={index} // Add a unique key for each button
+                    className='l2-button'
+                    onClick={() => handleButtonClickOthers(index, 'paragraph')} 
+                  >
+                    <div>
+                      <Arrow2Icon className={`l2-arrow-icon ${activeButton === index || (index === 2 && activeButton === 3) ? "active" : ""}`} />
+                    </div>
+                    {getButtonsTextOthers(index)}
+                  </button>
+                ))}
+                
+                {activeButton > 0 && (
+                  <div className="l2-example-arrow-container">
+                    <button
+                      className={`l2-example-arrow left ${activeButton === 1 ? "disabled" : ""}`}
+                      onClick={() => handleButtonClickOthers(1, 'example')}
+                    >
+                      <Arrow2Icon className='l2-example-arrow-icon' />
+                    </button>
+                    <span className='l2-example-number bold'>{activeButton}</span>
+                    <span className='l2-example-number'> / 2</span>
+                    <button
+                      className={`l2-example-arrow right ${activeButton === 2 ? "disabled" : ""}`}
+                      onClick={() => handleButtonClickOthers(2, 'examples')}
+                    >
+                      <Arrow2Icon className='l2-example-arrow-icon' />
+                    </button>
+                  </div>
+                )}
+              </div>
+            }
         </>
       )}
       <Menu />
+      </div>
     </>
   );
 };

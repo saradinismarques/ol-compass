@@ -14,7 +14,9 @@ const Description = ({ mode }) => {
     colors,
     language,
     setShowExplanation,
-    setShowInstruction
+    setShowInstruction,
+    firstUse,
+    setFirstUse,
   } = useContext(StateContext);
 
   const description = getModeTexts(mode, language);
@@ -33,7 +35,8 @@ const Description = ({ mode }) => {
 
   const handleStartButton = useCallback(() => {
     setShowExplanation(false);
-    setShowInstruction(true);
+    if(firstUse[mode])
+      setShowInstruction(true);
   }, []);
 
   if(!description) 
@@ -54,7 +57,7 @@ const Description = ({ mode }) => {
               className='description-start-button'
               onClick={handleStartButton}
             >
-              START
+              {firstUse[mode] ? "START" : "CONTINUE"}
             </button>
           }
         </>

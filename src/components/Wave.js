@@ -143,6 +143,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         if(selectedComponents.includes(component.code)) 
           return colors['Selection'];
       // Learn 2
+      if(mode === "learn-2" && showExplanation)
+        return 'none';
       if(mode === "learn-2" && selectedComponents === component.code)
         return colors['Wave'][component.type];
       // Map

@@ -23,12 +23,10 @@ const Menu = () => {
   document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
 
   useEffect(() => {
-    if (firstUse) {
-      console.log("AA");
+    if ((firstUse["home"] && activeButton === 'home')) {
       const timer = setTimeout(() => {
         setShowStudyInstruction(true);
-        setFirstUse(false);
-      }, 500); // 5 seconds delay
+      }, 4000); // 5 seconds delay
       return () => clearTimeout(timer); // Cleanup the timer on unmount
     }
   }, [firstUse]); // Depend on firstUserVariable
@@ -67,6 +65,15 @@ const Menu = () => {
   const activeButton = getActiveButton(currentPath);
   const menuExpanded = (activeButton === 'home' || showExplanation);
 
+  const handleShowStudyInstruction = (value) => {
+    if(firstUse["home"])
+      setFirstUse(prevState => ({
+        ...prevState, // Keep all existing attributes
+        home: false   // Update only 'home'
+      }));
+    setShowStudyInstruction(value);
+  };
+
   return (
     <div>
        {showStudyInstruction && (
@@ -78,7 +85,7 @@ const Menu = () => {
             Lorem Ipsum
           <button 
             className="menu-got-it-button" 
-            onClick={() => setShowStudyInstruction(false)}
+            onClick={() => handleShowStudyInstruction(false)}
           >
             Ok, got it!
           </button>
@@ -100,12 +107,14 @@ const Menu = () => {
           className="go-back-icon" 
         />
       </Link>
-      <button 
-        className='menu-study-instructions'
-        onClick={() => setShowStudyInstruction(true)}
-      >
-          STUDY INSTRUCTIONS
-      </button>
+      {(!firstUse["home"] || activeButton !== 'home') &&
+        <button 
+          className='menu-study-instructions'
+          onClick={() => handleShowStudyInstruction(true)}
+        >
+            STUDY INSTRUCTIONS
+        </button>
+      }
       <div className="left-menu">
         {menuExpanded && 
           <div className='i-want-to-text'>
