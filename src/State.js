@@ -15,6 +15,9 @@ export const State = ({ children }) => {
     const [showExplanation, setShowExplanation] = useState(true);
     const [showInstruction, setShowInstruction] = useState(false);
 
+    // Home
+    const [firstUse, setFirstUse] = useState(true);
+
     // Learn
     const [savedComponents, setSavedComponents] = useState([]);
     
@@ -49,6 +52,8 @@ export const State = ({ children }) => {
                 setColors,
                 language,
                 setLanguage,
+                firstUse,
+                setFirstUse,
                 showExplanation,
                 setShowExplanation,
                 showInstruction,

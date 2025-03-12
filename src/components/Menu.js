@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as GoBackIcon } from '../assets/icons/go-back-icon.svg'; // Adjust the path as necessary
@@ -9,28 +9,30 @@ const Menu = () => {
   const {
     colors,
     language,
+    firstUse,
+    setFirstUse,
     showExplanation,
     showInstruction
   } = useContext(StateContext);
 
+  const [showStudyInstruction, setShowStudyInstruction] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
-  // Load the initial state from localStorage or set default to false
-  // const [showMore, setShowMore] = useState(() => {
-  //   const storedShowMore = localStorage.getItem('showMore');
-  //   return storedShowMore === 'true'; // Convert string to boolean
-  // });
-
-  // Update localStorage whenever showMore changes
-  // useEffect(() => {
-  //   localStorage.setItem('showMore', showMore.toString());
-  // }, [showMore]);
-
-  // const toggleShowMore = () => {
-  //   setShowMore(!showMore);
-  // };
 
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
+  document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
+
+  useEffect(() => {
+    if (firstUse) {
+      console.log("AA");
+      const timer = setTimeout(() => {
+        setShowStudyInstruction(true);
+        setFirstUse(false);
+      }, 500); // 5 seconds delay
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [firstUse]); // Depend on firstUserVariable
+  
 
   // Determine the active button based on the current path
   const getActiveButton = (path) => {
@@ -67,6 +69,21 @@ const Menu = () => {
 
   return (
     <div>
+       {showStudyInstruction && (
+        <div className="menu-message-box">
+          <div className="menu-message-question">
+            STUDY INSTRUCTIONS
+          </div>
+          
+            Lorem Ipsum
+          <button 
+            className="menu-got-it-button" 
+            onClick={() => setShowStudyInstruction(false)}
+          >
+            Ok, got it!
+          </button>
+        </div>
+      )}
       <Link
         to="/home"
         className={`circle-button home ${activeButton === 'home' ? 'active' : ''}`}
@@ -75,16 +92,20 @@ const Menu = () => {
           className="home-icon" 
         />
       </Link>
-      {menuExpanded &&
-        <Link
-          to="/"
-          className={`circle-button go-back ${activeButton === 'intro-page' ? 'active' : ''}`}
-        >
-          <GoBackIcon 
-            className="go-back-icon" 
-          />
-        </Link>
-      }
+      <Link
+        to="/"
+        className={`circle-button go-back ${activeButton === 'intro-page' ? 'active' : ''}`}
+      >
+        <GoBackIcon 
+          className="go-back-icon" 
+        />
+      </Link>
+      <button 
+        className='menu-study-instructions'
+        onClick={() => setShowStudyInstruction(true)}
+      >
+          STUDY INSTRUCTIONS
+      </button>
       <div className="left-menu">
         {menuExpanded && 
           <div className='i-want-to-text'>
@@ -121,11 +142,6 @@ const Menu = () => {
           >
             {language === "pt" ? "MAPEAR" : "MAP"}
           </Link>
-        }
-        {activeButton === "home" || (!showExplanation && !showInstruction) &&
-          <button className='menu-study-instructions'>
-            STUDY INSTRUCTIONS
-          </button>
         }
         {/*  (menuExpanded || activeButton === 'map') && 
           <Link
