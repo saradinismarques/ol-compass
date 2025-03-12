@@ -357,6 +357,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     borderRadius: '50%', // To make it a circular background if desired
     width: `${size}px`,
     height: `${size}px`,
+    zIndex: 10,
   };
 
   let containerStylePDF = {

@@ -30,6 +30,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    z-index: 30; /* Adjust the z-index */
 }
 
 .menu-button:hover,
@@ -69,6 +70,7 @@
     justify-content: center;
     padding: 0;
     box-sizing: border-box;
+    z-index: 30; /* Adjust the z-index */
 }
 
 /* Home Button */
@@ -191,6 +193,7 @@
     align-items: center;
     justify-content: center;
     outline: none;
+    z-index: 20; /* Ensure this doesn't interfere with other content */
 }
 
 .menu-study-instructions:hover,
@@ -260,5 +263,18 @@
     align-items: center;
     justify-content: center;
 }
+
+/* Opacity Gradient Background */
+.menu-background {
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    width: 80vw;
+    height: 80vh;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(to right, rgba(255, 255, 255, 0) 23%, rgba(255, 255, 255, 1) 75%);
+    z-index: 15;
+}
+
 
 

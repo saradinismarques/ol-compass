@@ -210,6 +210,9 @@ const Menu = () => {
           </button>
         } */}
       </div>
+      {menuExpanded &&
+        <div className='menu-background'></div>
+      }
     </div>
   );
 };
