@@ -327,7 +327,7 @@ const Learn2Page = () => {
           currentLinks={currentLinks}
           onButtonClick={handleCompassClick}
           resetState={resetState}
-          stateSaved={learnComponent ? learnComponent.code : null}
+          stat  eSaved={learnComponent ? learnComponent.code : null}
         />
         {showExplanation && 
           <Description mode={'learn'} />

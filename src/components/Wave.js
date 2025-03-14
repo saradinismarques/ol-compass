@@ -140,6 +140,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     if(compassType === "default") {
       // Get Started
       if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
+        if(showExplanation)
+          return 'none';
         if(selectedComponents.includes(component.code)) 
           return colors['Selection'];
       // Learn 2
@@ -269,8 +271,11 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         return 0.3;
       }
       if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-        if(currentComponent.includes(component.code))
+        console.log(currentComponent);
+        if(currentComponent.includes(component.code)) {
+          console.log("INCLUDES");
           return 1;
+        }
         else if(hoveredId === component.code) 
           return 0.8;
         else

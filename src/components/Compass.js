@@ -37,7 +37,6 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   } = useContext(StateContext);
         
   const components = getComponents(language, mode, compassType, size);
-
   const concepts = getComponentsData('concepts', language);
 
   // State of clicks and hovers
@@ -184,7 +183,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         
         return newComponents;
       });
-      
+
       if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "contribute") {
       setSelectedComponents(prevComponents => {

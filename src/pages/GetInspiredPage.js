@@ -22,32 +22,24 @@ const GetInspiredPage = () => {
     setFirstUse,
     showInstruction,
     setShowInstruction,
+    currentCaseStudy,
+    setCurrentCaseStudy,
+    caseStudies,
+    setCaseStudies,
+    currentIndex,
+    setCurrentIndex,
+    mode,
+    setMode,
+    resultsNumber,
+    setResultsNumber,
+    searchLogic,
+    setSearchLogic,
+    components,
+    setComponents,
+    currentComponents,
+    setCurrentComponents,
   } = useContext(StateContext);
 
-  const initialCaseStudy = useMemo(() => ({
-    title: '', 
-    collection: '',
-    mainTarget: '',
-    age: '',
-    time: '',
-    type: '',
-    languages: '',
-    year: '',
-    description: '',
-    credits: '',
-    components: [],
-    bookmark: false,
-  }), []);
-
-  const [currentCaseStudy, setCurrentCaseStudy] = useState(initialCaseStudy);
-  const [resetCompass, setResetCompass] = useState(false);
-  const [caseStudies, setCaseStudies] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [mode, setMode] = useState('get-inspired-carousel');
-  const [resultsNumber, setResultsNumber] = useState(-1);
-  const [searchLogic, setSearchLogic] = useState('OR');
-  const [components, setComponents] = useState([]);
-  const [currentComponents, setCurrentComponents] = useState([]);
   const navigate = useNavigate(); // Initialize the navigate function
 
   const modeRef = useRef(mode);
@@ -91,6 +83,10 @@ const GetInspiredPage = () => {
   }, [savedCaseStudies]);
 
   const handleCompassClick = (code) => {
+    setFirstUse(prevState => ({
+      ...prevState, // Keep all existing attributes
+      "get-inspired": false   // Update only 'home'
+    }));
     // Reset components if on these modes 
     if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL') {
       setMode('get-inspired');
@@ -319,7 +315,7 @@ const GetInspiredPage = () => {
         resetState={resetState} // Passing resetState to OLCompass
         onButtonClick={handleCompassClick}
         currentComponent={currentComponents}
-        resetCompass={resetCompass}
+        stateSaved={components}
       />
       {showExplanation && 
         <Description mode={'get-inspired'} />

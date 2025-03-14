@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react';
+    import React, { createContext, useMemo, useState } from 'react';
 import { getColorPallete } from './utils/DataExtraction.js'; 
 
 // Create the context
@@ -38,6 +38,11 @@ export const State = ({ children }) => {
     const [currentCaseStudy, setCurrentCaseStudy] = useState();
     const [caseStudies, setCaseStudies] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [mode, setMode] = useState('get-inspired-carousel');
+    const [resultsNumber, setResultsNumber] = useState(-1);
+    const [searchLogic, setSearchLogic] = useState('OR');
+    const [components, setComponents] = useState([]);
+    const [currentComponents, setCurrentComponents] = useState([]);
     
     // Contribute
     const [newCaseStudies, setNewCaseStudies] = useState([]);
@@ -88,6 +93,22 @@ export const State = ({ children }) => {
                 allComponents,
                 opacityCounter,
                 setOpacityCounter,
+                currentCaseStudy,
+                setCurrentCaseStudy,
+                caseStudies,
+                setCaseStudies,
+                currentIndex,
+                setCurrentIndex,
+                mode,
+                setMode,
+                resultsNumber,
+                setResultsNumber,
+                searchLogic,
+                setSearchLogic,
+                components,
+                setComponents,
+                currentComponents,
+                setCurrentComponents,
                 // Add other global states here as needed
             }}
         >
