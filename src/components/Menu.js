@@ -12,7 +12,9 @@ const Menu = () => {
     firstUse,
     setFirstUse,
     showExplanation,
-    showInstruction
+    setShowExplanation,
+    showInstruction,
+    setShowInstruction
   } = useContext(StateContext);
 
   const [showStudyInstruction, setShowStudyInstruction] = useState(false);
@@ -74,6 +76,11 @@ const Menu = () => {
     setShowStudyInstruction(value);
   };
 
+  const handleHomeClick = () => {
+    setShowExplanation(true); // Reset to initial state when the page changes
+    setShowInstruction(false); // Reset to initial state when the page changes
+  };
+
   return (
     <div>
        {showStudyInstruction && (
@@ -94,6 +101,7 @@ const Menu = () => {
       <Link
         to="/home"
         className={`circle-button home ${activeButton === 'home' ? 'active' : ''}`}
+        onClick={handleHomeClick}
       >
         <HomeIcon 
           className="home-icon" 

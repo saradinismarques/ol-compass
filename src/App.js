@@ -54,10 +54,10 @@ function App() {
     return () => window.removeEventListener("resize", handleOrientationChange);
   }, []);
 
-  useEffect(() => {
-    setShowExplanation(true); // Reset to initial state when the page changes
-    setShowInstruction(false); // Reset to initial state when the page changes
-  }, [location.pathname, setShowExplanation, setShowInstruction]);
+  // useEffect(() => {
+  //   setShowExplanation(true); // Reset to initial state when the page changes
+  //   setShowInstruction(false); // Reset to initial state when the page changes
+  // }, [location.pathname, setShowExplanation, setShowInstruction]);
 
   // If not in landscape, show warning message
   if (!isLandscape) {

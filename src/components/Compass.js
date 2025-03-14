@@ -32,6 +32,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   // Global Variables  
   const {
     showExplanation, 
+    setShowExplanation, 
+    setShowInstruction, 
     colors, 
     language
   } = useContext(StateContext);
@@ -274,6 +276,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       setTooltipVisible(false);
       setTooltipColor('black');
       setTooltipText('');
+      setShowExplanation(true); // Reset to initial state when the page changes
+      setShowInstruction(false); // Reset to initial state when the page changes
 
       if(resetState)
         resetState();

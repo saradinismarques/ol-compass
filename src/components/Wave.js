@@ -139,11 +139,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   const getStrokeFill = () => {
     if(compassType === "default") {
       // Get Started
-      if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started"))
+      if(mode === "get-inspired" || mode === "get-inspired-search" || mode.startsWith("get-started")) {
         if(showExplanation)
           return 'none';
         if(selectedComponents.includes(component.code)) 
           return colors['Selection'];
+      }
       // Learn 2
       if(mode === "learn-2" && showExplanation)
         return 'none';
