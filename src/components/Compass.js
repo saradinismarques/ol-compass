@@ -4,7 +4,7 @@ import { getComponentsData } from '../utils/DataExtraction.js';
 import Wave, { getComponents } from "./Wave.js"
 import { cleanText } from '../utils/TextFormatting.js';
 
-const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, currentType, stateSaved, clickedComponent }) => {
+const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, currentType, stateSaved }) => {
   // Size and screen resize handler
   let initialSize;
   if(mode === "map-2-pdf")
@@ -66,7 +66,6 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     if (resetCompass) {
       // Clear the selected buttons or reset the state
       setHoveredId(null);
-      setSelectedComponents([clickedComponent]);
     }
   }, [resetCompass]);
 
@@ -178,7 +177,13 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       
       if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "get-inspired-carousel") {
-      setSelectedComponents([component.code]);
+      setSelectedComponents(prevComponents => {
+        const newComponents = prevComponents.includes(component.code)
+          ? prevComponents.filter(buttonId => buttonId !== component.code) // Remove ID if already clicked
+          : [...prevComponents, component.code]; // Add ID if not already clicked
+        
+        return newComponents;
+      });
       
       if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "contribute") {

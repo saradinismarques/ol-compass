@@ -16,7 +16,7 @@ export const State = ({ children }) => {
     const [showInstruction, setShowInstruction] = useState(false);
 
     // Home
-    const initialFirstMessage = useMemo(
+    const initialFirstUse = useMemo(
         () => ({
           "home": true,
           "get-started": true,
@@ -26,7 +26,7 @@ export const State = ({ children }) => {
         }), []
       );
 
-    const [firstUse, setFirstUse] = useState(initialFirstMessage);
+    const [firstUse, setFirstUse] = useState(initialFirstUse);
 
 
     // Learn
@@ -35,6 +35,9 @@ export const State = ({ children }) => {
 
     // Get Inspired
     const [savedCaseStudies, setSavedCaseStudies] = useState([]);
+    const [currentCaseStudy, setCurrentCaseStudy] = useState();
+    const [caseStudies, setCaseStudies] = useState([]);
+    const [currentIndex, setCurrentIndex] = useState(0);
     
     // Contribute
     const [newCaseStudies, setNewCaseStudies] = useState([]);
