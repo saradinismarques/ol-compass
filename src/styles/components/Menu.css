@@ -7,9 +7,10 @@
 .left-menu {
     position: fixed;
     top: 12vh;
-    left: 13vw;
+    left: 14vw;
     display: flex;
     flex-direction: column;
+    align-items: center;   /* Center items horizontally */
     justify-content: center;
     z-index: 30; /* Adjust the z-index */
 }
@@ -52,7 +53,7 @@
 .menu-button.solo {
     position: fixed;
     top: 9vh;
-    left: 13vw;
+    left: 14vw;
     transform: translateY(-50%);
 }
 
@@ -276,5 +277,47 @@
     z-index: 15;
 }
 
+/* Arrow Buttons  */
+.menu-arrow-button {
+    background-color: transparent;
+    border: 0 solid transparent; /* Set initial border to transparent */
+    cursor: pointer;
+    display: flex; /* Ensures button content (icon) is properly aligned */
+    position: fixed;
+    top: 13vh;
+    left: 50%;
+    outline: none;
+}
 
+.menu-arrow-button.disabled {
+    pointer-events: none;
+    opacity: 30%;
+}
+
+/* Left arrow button */
+.menu-arrow-button.left {
+    transform: scale(-1); /* Rotate the arrow for left button */
+    left: 10%;
+}
+
+/* Right arrow button (default position) */
+.menu-arrow-button.right {
+    transform: scale(1); /* Rotate the arrow for left button */
+    left: 90%;
+}
+
+/* Change icon color on hover */
+.menu-arrow-button:hover .gi-arrow-icon,
+.gi-arrow-button:active .gi-arrow-icon {
+    fill: var(--gray-hover-color); /* Change fill color on hover */
+}
+
+.menu-arrow-icon {
+    width: 2.8vh;
+    height: 2.8vh;
+    fill: var(--gray-color); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: var(--gray-color);
+    stroke-width: 0;
+}
 

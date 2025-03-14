@@ -1,8 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as GoBackIcon } from '../assets/icons/go-back-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { useNavigate } from 'react-router-dom';
 import '../styles/components/Menu.css';
 
 const Menu = () => {
@@ -20,6 +22,7 @@ const Menu = () => {
   const [showStudyInstruction, setShowStudyInstruction] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
+  const navigate = useNavigate(); // Initialize the navigate function
 
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
   document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
@@ -81,6 +84,51 @@ const Menu = () => {
     setShowInstruction(false); // Reset to initial state when the page changes
   };
 
+const handlePrevPage = useCallback(() => {
+  setShowExplanation(false); // Reset to initial state when the page changes
+
+  if(activeButton === "learn2") 
+    return;
+  else if(activeButton === "get-inspired") {
+    if(firstUse["learn"])
+      setShowInstruction(true); // Reset to initial state when the page changes
+    else
+      setShowInstruction(false); // Reset to initial state when the page changes
+
+    navigate('/learn2');
+  }
+  else if(activeButton === "map2") {
+    if(firstUse["get-inspired"])
+      setShowInstruction(true); // Reset to initial state when the page changes
+    else
+      setShowInstruction(false); // Reset to initial state when the page changes
+
+    navigate('/get-inspired');
+  }
+  }, [navigate]);
+
+  const handleNextPage = useCallback(() => {
+    setShowExplanation(false); // Reset to initial state when the page changes
+    setShowInstruction(false); // Reset to initial state when the page changes
+  
+    if(activeButton === "learn2") {
+      if(firstUse["get-inspired"])
+        setShowInstruction(true); // Reset to initial state when the page changes
+      else
+        setShowInstruction(false); // Reset to initial state when the page changes
+  
+      navigate('/get-inspired');
+    } else if(activeButton === "get-inspired") {
+      if(firstUse["map"])
+        setShowInstruction(true); // Reset to initial state when the page changes
+      else
+        setShowInstruction(false); // Reset to initial state when the page changes
+  
+      navigate('/map2');
+    } else if(activeButton === "map2") 
+      return;
+    }, [navigate]);
+
   return (
     <div>
        {showStudyInstruction && (
@@ -129,6 +177,22 @@ const Menu = () => {
             {language === "pt" ? "Vamos:" : "Let's:"}
           </div>
         }
+        {!menuExpanded &&
+          <>
+          <button
+            className={`menu-arrow-button left ${activeButton === "learn2" ? "disabled" : ""}`}
+            onClick={handlePrevPage}
+          >
+            <ArrowIcon className='menu-arrow-icon' />
+          </button>
+          <button
+            className={`menu-arrow-button right ${activeButton === "map2" ? "disabled" : ""}`}
+            onClick={handleNextPage}
+          >
+            <ArrowIcon className='menu-arrow-icon' />
+          </button>
+          </>
+        }
         {(menuExpanded || activeButton === 'learn2') && 
           <Link
             to="/learn2"
@@ -139,6 +203,7 @@ const Menu = () => {
             {language === "pt" ? "APRENDER" : "LEARN"}
           </Link>
         }
+        
         {(menuExpanded || activeButton === 'get-inspired') && 
           <Link
             to="/get-inspired"
