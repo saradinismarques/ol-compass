@@ -35,7 +35,9 @@ const Description = ({ mode }) => {
 
   const handleStartButton = useCallback(() => {
     setShowExplanation(false);
-    if(firstUse[mode])
+    if(mode === 'learn' && !firstUse[mode])
+      setShowInstruction(false);
+    else
       setShowInstruction(true);
   }, []);
 

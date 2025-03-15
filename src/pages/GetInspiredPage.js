@@ -50,6 +50,7 @@ const GetInspiredPage = () => {
   useEffect(() => {
     componentsRef.current = components;
   }, [components]);
+  
 
   useEffect(() => {
     modeRef.current = mode;
@@ -62,6 +63,12 @@ const GetInspiredPage = () => {
   useEffect(() => {
     searchLogicRef.current = searchLogic;
   }, [searchLogic]);
+
+  useEffect(() => {
+    if(components.length === 0)
+      setShowInstruction(true);
+  }, [components]);
+
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
   document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
@@ -97,7 +104,6 @@ const GetInspiredPage = () => {
     } else {
       setMode('get-inspired');
       modeRef.current = 'get-inspired';
-      setShowInstruction(false);
     }
     
     setComponents(prevComponents => {
@@ -139,6 +145,7 @@ const GetInspiredPage = () => {
 
     setCaseStudies(filteredCaseStudies);
     setResultsNumber(filteredCaseStudies.length);
+    setShowInstruction(false);
 
     if (filteredCaseStudies.length > 0) {
       setCurrentIndex(0); // Reset to first case study
@@ -256,11 +263,9 @@ const GetInspiredPage = () => {
 
   // Keyboard event handler
   const handleKeyDown = useCallback((e) => {
-    if(e.key === 'Enter' && modeRef.current === 'get-inspired-carousel')
-      handleCarouselSearch();
-    else if(e.key === 'Enter' && modeRef.current !== 'get-inspired-carousel') 
+    if(e.key === 'Enter' && modeRef.current !== 'get-inspired-carousel') 
       handleDefaultSearch();
-    else if (e.key === 'ArrowLeft') 
+    if (e.key === 'ArrowLeft') 
       handlePrev();
     else if (e.key === 'ArrowRight') 
       handleNext();
@@ -321,6 +326,14 @@ const GetInspiredPage = () => {
         <Description mode={'get-inspired'} />
       }
 
+      {showInstruction && 
+        <>
+          <div className='instruction'>
+            Click on any wave
+          </div>
+        </>
+      }
+
       {!showExplanation && (
         <>
           <div className='gi-text-container'>
@@ -355,7 +368,7 @@ const GetInspiredPage = () => {
               </div>
             </div>
             )}
-            {resultsNumber === -1 && (
+            {/* {resultsNumber === -1 && (
               <div className="gi-instruction">
                 {language === "pt" 
                 ? "Continua a clicar nas ondas que queres incluir. Quando acabares clica em 'Pesquisa' ou pressiona a tecla 'Enter'" 
@@ -373,7 +386,7 @@ const GetInspiredPage = () => {
                     ? "Nenhum caso de estudo encontrado com esses filtros. Tente usar outros"
                     : "No case studies found with those filters. Try using others")}
               </div>
-            )}
+            )} */}
   
   
             {/* Navigation Arrows */}
@@ -403,6 +416,7 @@ const GetInspiredPage = () => {
                 </p>
               )}
             </div>
+
             <div className={`gi-search-container ${(searchLogic === 'SAVED' || searchLogic === 'CAROUSEL') ? "disabled" : ""}`}>
               <div className="gi-search-logic-menu">
                 <div className="gi-logic-button-background">
@@ -429,9 +443,10 @@ const GetInspiredPage = () => {
                 </button>
               </div>
             </div>
+
             <button
               onClick={handleSavedCaseStudiesSearch}
-              className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''}`}
+              className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
             >   
               <p className='gi-show-bookmark-button'>
                 {language === "pt" ? "SALVOS" : "SAVED"}
@@ -440,7 +455,7 @@ const GetInspiredPage = () => {
             </button>
             <button
               onClick={handleCarouselSearch}
-              className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''}`}
+              className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
             >   
               <p className='gi-show-carousel-button'>
                 {language === "pt" ? "TODOS" : "SHOW ALL"}

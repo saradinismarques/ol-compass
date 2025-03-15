@@ -81,7 +81,6 @@ const Menu = () => {
 
   const handleHomeClick = () => {
     setShowExplanation(true); // Reset to initial state when the page changes
-    setShowInstruction(false); // Reset to initial state when the page changes
   };
 
 const handlePrevPage = useCallback(() => {

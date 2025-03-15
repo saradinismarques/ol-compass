@@ -282,8 +282,10 @@
     position: fixed;
     top: 9vh;
     left: 14vw;
+    border: 0.3vh solid transparent;
+    border-radius: 100px;
     transform: translateY(-50%);
-    width: 19.5vh;
+    width: 19.8vh;
     height: 3.9vh;
     display: flex;
     flex-direction: column;
@@ -316,7 +318,7 @@
 /* Right arrow button (default position) */
 .menu-arrow-button.right {
     transform: translateY(-50%); /* Rotate the arrow for left button */
-    right: -26%;
+    right: -22%;
 }
 
 /* Change icon color on hover */
@@ -326,8 +328,8 @@
 }
 
 .menu-arrow-icon {
-    width: 2.5vh;
-    height: 2.5vh;
+    width: 2vh;
+    height: 2vh;
     fill: var(--gray-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--gray-color);

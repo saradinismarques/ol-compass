@@ -345,6 +345,11 @@
     font-size: 1.8vh;
 }
 
+.gi-show-bookmarks-container.disabled {
+    pointer-events: none;
+    opacity: 60%;
+}
+
 .gi-bookmark-icon.show {
     width: 1.8vh;
     height: 1.8vh;
@@ -405,6 +410,11 @@
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
     font-size: 1.8vh;
+}
+
+.gi-show-carousel-container.disabled {
+    pointer-events: none;
+    opacity: 60%;
 }
 
 .gi-show-carousel-container:hover,

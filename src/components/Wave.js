@@ -220,7 +220,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Explanation Page
       if(showExplanation && mode !== "map-2-pdf") 
         return 0.3;
-      if(showInstruction && hoveredId !== component.code && mode !== "map-2-pdf") 
+      if(showInstruction && hoveredId !== component.code && mode !== "map-2-pdf" && mode === 'learn-2') 
         return 0.3;
       
       // Learn 
@@ -272,11 +272,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         return 0.3;
       }
       if(mode === "get-inspired-carousel" || mode === "get-inspired-search") {
-        console.log(currentComponent);
-        if(currentComponent.includes(component.code)) {
-          console.log("INCLUDES");
+        if(currentComponent.includes(component.code))   
           return 1;
-        }
         else if(hoveredId === component.code) 
           return 0.8;
         else
