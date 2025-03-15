@@ -94,19 +94,6 @@ const Map2Page = () => {
     setShowExplanation(false);
   };
 
-  // Handle Enter key
-  const handleKeyDown = useCallback((e) => {
-    if (e.key !== 'Enter') return;
-
-    if(showExplanation)
-      setShowExplanation(false);
-  }, [firstClick, setShowExplanation, showExplanation]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
-
   // Update form state
   const handleProjectNameChange = (e) => {
     setMapProjectName(e.target.value);
@@ -646,16 +633,22 @@ const Map2Page = () => {
           {mapComponents.length > 0 &&
             <>
               <button 
-              className={`m2-download-pdf-button ${isGenerating === true ? 'no-hover' : 'hover'}`}
+              className={`m2-download-pdf-button ${isGenerating === true ? 'no-hover' : ''}`}
               onClick={handleDownloadPDF}
               disabled={isGenerating === true} // Disable the button while generating
               style={{
                   background: isGenerating === true 
-                      ? `linear-gradient(to right, ${colors['Gray']} ${downloadProgress}%, white ${downloadProgress}%)`
+                      ? `linear-gradient(to right, black ${downloadProgress}%, white ${downloadProgress}%)`
                       : 'white', // Change background to show progress
                   color: isGenerating === true 
                       ? 'transparent'
                       : '', // Change background to show progress
+              }}
+              onMouseEnter={(e) => {
+                if (!isGenerating) e.target.style.backgroundColor = '#f5f5f5';
+              }}
+              onMouseLeave={(e) => {
+                if (!isGenerating) e.target.style.backgroundColor = 'white';
               }}
               >
                 {isGenerating !== 'Error' 
@@ -664,14 +657,14 @@ const Map2Page = () => {
                     : 'DONE! DOWNLOAD VISUAL REPORT') 
                 : (language === 'pt' 
                     ? 'Tente Novamente' 
-                    : 'Try again')}
+                    : 'TRY AGAIN')}
               </button>
 
               <p className='m2-download-progress' style={{
                 color: isGenerating === 'Error' 
                   ? 'red' 
                   : isGenerating 
-                  ? `${colors['Gray']}` 
+                  ? 'black'
                   : 'transparent', // Change text color based on isGenerating state
               }}>
                 {isGenerating === 'Error' 

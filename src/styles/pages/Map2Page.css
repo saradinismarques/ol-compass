@@ -27,6 +27,7 @@
     padding-left: 1vh;
     font-family: 'Manrope', sans-serif;
     font-size: 2.3vh;
+    font-weight: 400;
     color: var(--gray-color); /* Set placeholder color to white */
     resize: none;
     margin-bottom: 0;
@@ -35,6 +36,11 @@
     background-color: white;
     cursor: pointer;
     overflow-y: hidden; /* Hides the scrollbar */
+}
+
+.m2-project-name-textarea::placeholder {
+    font-size: 2.5vh;
+    font-weight: 400;
 }
 
 /* Components Text Areas */
@@ -134,12 +140,9 @@
 
 .m2-download-pdf-button:hover {
     cursor: pointer;
-    border: 0.3vh solid var(--gray-hover-color);
-    color: var(--gray-hover-color);
 }
 
 .m2-download-pdf-button.no-hover:hover {
-    border: 0.3vh solid var(--gray-hover-color);
     cursor:default; /* Optional: Show disabled cursor */
 }
 

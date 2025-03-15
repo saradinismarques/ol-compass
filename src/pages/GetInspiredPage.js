@@ -4,6 +4,7 @@ import Compass from '../components/Compass.js';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
 import { getGetInspiredData } from '../utils/DataExtraction.js'; 
+import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
@@ -46,6 +47,8 @@ const GetInspiredPage = () => {
   const searchLogicRef = useRef(searchLogic);
   const componentsRef = useRef(components);
   const savedCaseStudiesRef = useRef(savedCaseStudies);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
 
   useEffect(() => {
     componentsRef.current = components;
@@ -179,6 +182,7 @@ const GetInspiredPage = () => {
   }, [searchCaseStudies]);
 
   const handleCarouselSearch = useCallback(() => {
+    setDropdownOpen(false);
     if(searchLogicRef.current === 'CAROUSEL') {
       setMode('get-inspired');
       modeRef.current = 'get-inspired';
@@ -197,6 +201,7 @@ const GetInspiredPage = () => {
   }, [showExplanation, searchCaseStudies, setShowInstruction]);
   
   const handleSavedCaseStudiesSearch = useCallback(() => {
+    setDropdownOpen(false);
     if(searchLogicRef.current === 'SAVED') {
       setMode('get-inspired');
       modeRef.current = 'get-inspired';
@@ -444,15 +449,66 @@ const GetInspiredPage = () => {
               </div>
             </div>
 
-            <button
-              onClick={handleSavedCaseStudiesSearch}
-              className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
-            >   
-              <p className='gi-show-bookmark-button'>
-                {language === "pt" ? "SALVOS" : "SAVED"}
-              </p>
-              <BookmarkIcon className="gi-bookmark-icon show" />
-            </button>
+            <div className={`gi-dropdown-container ${showInstruction ? 'disabled' : ''}`}>
+              <>
+              <div className={`gi-dropdown-button`}>
+                {searchLogic !== "CAROUSEL" &&
+                  <button
+                    onClick={handleSavedCaseStudiesSearch}
+                    className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''}`}
+                  >   
+                    <BookmarkIcon className="gi-bookmark-icon show" />
+                    <p className='gi-show-bookmark-button'>
+                      {language === "pt" ? "SALVOS" : "SHOW SAVED"}
+                    </p>
+                  </button>
+                }
+                {searchLogic === "CAROUSEL" &&
+                  <button
+                    onClick={handleCarouselSearch}
+                    className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
+                  >   
+                    <p className='gi-show-carousel-button'>
+                      {language === "pt" ? "TODOS" : "SHOW ALL"}
+                    </p>
+                  </button>
+                }
+                
+                <button 
+                  className='gi-dropdown-arrow'
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                >
+                  <ArrowIcon className="gi-dropdown-arrow-icon" />
+                </button>
+                </div>
+                {dropdownOpen && 
+                  <div className="gi-dropdown-content">
+                  {searchLogic !== "CAROUSEL" &&
+                    <button
+                      onClick={handleCarouselSearch}
+                      className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
+                    >   
+                      <p className='gi-show-carousel-button'>
+                        {language === "pt" ? "TODOS" : "SHOW ALL"}
+                      </p>
+                    </button>
+                  }
+                  {searchLogic === "CAROUSEL" &&
+                    <button
+                      onClick={handleSavedCaseStudiesSearch}
+                      className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''}`}
+                    >   
+                      <p className='gi-show-bookmark-button'>
+                        {language === "pt" ? "SALVOS" : "SHOW SAVED"}
+                      </p>
+                    </button>
+                  }
+                  </div>
+                }
+              </>
+            </div>
+            
+
             {/* <button
               onClick={handleCarouselSearch}
               className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
