@@ -453,14 +453,14 @@ const GetInspiredPage = () => {
               </p>
               <BookmarkIcon className="gi-bookmark-icon show" />
             </button>
-            <button
+            {/* <button
               onClick={handleCarouselSearch}
               className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
             >   
               <p className='gi-show-carousel-button'>
                 {language === "pt" ? "TODOS" : "SHOW ALL"}
               </p>
-            </button>
+            </button> */}
         </>
       )}
       <Menu />

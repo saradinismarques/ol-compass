@@ -322,8 +322,8 @@
 }
 
 /* Change icon color on hover */
-.menu-arrow-button:hover .gi-arrow-icon,
-.gi-arrow-button:active .gi-arrow-icon {
+.menu-arrow-button:hover .menu-arrow-icon,
+.menu-arrow-button:active .menu-arrow-icon {
     fill: var(--gray-hover-color); /* Change fill color on hover */
 }
 

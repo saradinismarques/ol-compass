@@ -551,79 +551,98 @@ const Map2Page = () => {
           
           {/* First section for the first 5 components */}
           <div className="m2-components-textarea-container right">
-            {mapComponents.map((component, id) => (
-              id <= 3 && (
+            {Array.from({ length: 4 }).map((_, id) => {
+              const component = mapComponents[id]; // Get the corresponding component if it exists
+              return (
                 <div
-                  key={id} 
+                  key={id}
                   className="m2-components-textarea"
                   style={{
-                    '--text-color': colors['Text'][component.type], // Define CSS variable
+                    '--text-color': component ? colors['Text'][component.type] : 'transparent',
                   }}
                 >
-                  {component.text.length !== 0 &&
-                    <div className='m2-textarea-label'>
-                      {component.label}
-                    </div>
-                  }   
-                  <textarea
-                    className="m2-component-textarea"
-                    ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
-                    style={{
-                      '--text-color': colors['Text'][component.type], // Define CSS variable
-                      backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
-                    }}
-                    type="text"
-                    placeholder={language === 'pt' 
-                      ? `Por que é que o teu projeto tem ${component.label}?` 
-                      : `Why does your project have ${component.label}?`}
-                    value={component.text}
-                    onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
-                    onChange={(e) => handleComponentChange(e, id)}
-                    spellCheck="false"
-                    disabled={window.innerWidth > 1300 ? false : true}
-                  />
+                  {component ? (
+                    <>
+                      {component.text.length !== 0 && (
+                        <div className='m2-textarea-label'>
+                          {component.label}
+                        </div>
+                      )}
+                      <textarea
+                        className="m2-component-textarea"
+                        ref={(el) => (textareaRefs.current[id] = el)}
+                        style={{
+                          '--text-color': colors['Text'][component.type],
+                          backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                        }}
+                        type="text"
+                        placeholder={
+                          language === 'pt'
+                            ? `Por que é que o teu projeto tem ${component.label}?`
+                            : `Why does your project have ${component.label}?`
+                        }
+                        value={component.text}
+                        onFocus={() => handleFocus(component.code)}
+                        onChange={(e) => handleComponentChange(e, id)}
+                        spellCheck="false"
+                        disabled={window.innerWidth > 1300 ? false : true}
+                      />
+                    </>
+                  ) : (
+                    <div className="m2-empty-card"></div>
+                  )}
                 </div>
-              )
-            ))}
+              );
+            })}
           </div>
 
           {/* Second section for components with id > 4 */}
           <div className="m2-components-textarea-container">
-            {mapComponents.map((component, id) => (
-              id > 3 && (
+            {Array.from({ length: 4 }).map((_, id) => {
+              const component = mapComponents[id+4]; // Get the corresponding component if it exists
+              return (
                 <div
-                  key={id} 
+                  key={id}
                   className="m2-components-textarea"
                   style={{
-                    '--text-color': colors['Text'][component.type], // Define CSS variable
+                    '--text-color': component ? colors['Text'][component.type] : 'transparent',
                   }}
                 >
-                  {component.text.length !== 0 &&
-                    <div className='m2-textarea-label'>
-                      {component.label}
-                    </div>
-                  }  
-                  <textarea
-                    className="m2-component-textarea"
-                    ref={(el) => textareaRefs.current[id] = el} // Assign ref to each textarea
-                    style={{
-                      backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
-                    }}
-                    type="text"
-                    placeholder={language === 'pt' 
-                      ? `Por que é que o teu projeto tem ${component.label}?` 
-                      : `Why does your project have ${component.label}?`}
-                    value={component.text}
-                    onFocus={() => handleFocus(component.code)} // Update the currentComponent on focus
-                    onChange={(e) => handleComponentChange(e, id)}
-                    spellCheck="false"
-                    disabled={window.innerWidth > 1300 ? false : true}
-                  />
+                  {component ? (
+                    <>
+                      {component.text.length !== 0 && (
+                        <div className='m2-textarea-label'>
+                          {component.label}
+                        </div>
+                      )}
+                      <textarea
+                        className="m2-component-textarea"
+                        ref={(el) => (textareaRefs.current[id] = el)}
+                        style={{
+                          '--text-color': colors['Text'][component.type],
+                          backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                        }}
+                        type="text"
+                        placeholder={
+                          language === 'pt'
+                            ? `Por que é que o teu projeto tem ${component.label}?`
+                            : `Why does your project have ${component.label}?`
+                        }
+                        value={component.text}
+                        onFocus={() => handleFocus(component.code)}
+                        onChange={(e) => handleComponentChange(e, id)}
+                        spellCheck="false"
+                        disabled={window.innerWidth > 1300 ? false : true}
+                      />
+                    </>
+                  ) : (
+                    <div className="m2-empty-card"></div>
+                  )}
                 </div>
-              )
-            ))}
+              );
+            })}
           </div>
-          
+
           {mapComponents.length > 0 &&
             <>
               <button 
@@ -642,7 +661,7 @@ const Map2Page = () => {
                 {isGenerating !== 'Error' 
                 ? (language === 'pt' 
                     ? 'Baixar Relatório Visual' 
-                    : 'Download Visual Report') 
+                    : 'DONE! DOWNLOAD VISUAL REPORT') 
                 : (language === 'pt' 
                     ? 'Tente Novamente' 
                     : 'Try again')}

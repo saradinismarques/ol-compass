@@ -8,7 +8,6 @@
     position: fixed;
     top: 9vh; 
     right: 9vw; 
-    transform: translateY(-50%);
     text-align: center;
 }
 
@@ -22,7 +21,8 @@
 
 /* Project Name Textarea */
 .m2-project-name-textarea {
-    width: 67.4vh;
+    transform: translateY(-50%);
+    width: 51.8vh;
     height: 3.5vh;
     padding-left: 1vh;
     font-family: 'Manrope', sans-serif;
@@ -40,12 +40,12 @@
 /* Components Text Areas */
 .m2-components-textarea-container {
     position: fixed;
-    top: 15vh;
+    top: 16vh;
     right: 9vw;
 }
 
 .m2-components-textarea-container.right {
-    right: calc(9vw + 33.5vh + 2vh);
+    right: calc(9vw + 21.2vh + 5vh + 1vh);
 }
 
 .m2-components-textarea {
@@ -53,7 +53,7 @@
     display: flex;
     flex-direction: column; /* Ensures textareas are stacked */
     align-items: flex-start; /* Aligns them to the left */
-    margin-top: 2vh; /* Adds spacing between textareas */
+    margin-bottom: 1vh; /* Adds spacing between textareas */
 }
 
 .m2-textarea-label {
@@ -66,11 +66,11 @@
 }
 
 .m2-component-textarea {
-    width: 28.5vh;
-    height: 10vh;
+    width: 21.2vh;
+    height: 11vh;
     line-height: 2.5vh;
     font-family: 'Manrope', sans-serif;
-    font-size: 2vh;
+    font-size: 1.7vh;
     font-weight: 400;
     color: var(--text-color); /* Uses the inherited variable */
     resize: none;
@@ -80,6 +80,18 @@
     cursor: pointer;
     padding: 2.5vh;
     overflow-y: hidden; /* Hides the scrollbar */
+}
+
+.m2-empty-card {
+    width: 20.75vh;
+    height: 10.75vh;
+    color: white; /* Uses the inherited variable */
+    margin-bottom: 0;
+    line-height: 2.5vh;
+    border-radius: 1vh;
+    border: 0.1vh solid var(--gray-hover-color);
+    cursor: pointer;
+    padding: 2.5vh;
 }
 
 .m2-component-textarea::placeholder {
@@ -103,15 +115,17 @@
 /* Download button */
 .m2-download-pdf-button {
     position: fixed;
-    bottom: 8vh;
-    right: 9vw; /* Positioning at the bottom of the page */
-    height: 3.5vh;
-    border: 0.3vh solid var(--gray-color);
+    bottom: 9vh;
+    left: 78vw;
+    transform: translate(-50%, 50%);
+    height: 4.3vh;
+    border: 0.3vh solid black;
     border-radius: 100px;
     background-color: white;
-    font-size: 2vh;
-    width: 32vh;
-    color: var(--gray-color);
+    font-size: 1.9vh;
+    font-weight: 500;
+    width: 37vh;
+    color: black;
     display: flex; /* Add Flexbox */
     align-items: center; /* Center vertically */
     justify-content: center; /* Center horizontally */
@@ -131,10 +145,11 @@
 
 .m2-download-progress {
     position: fixed;
-    right: 9vw; /* Positioning at the bottom of the page */
-    bottom: 2vh;
+    bottom: 11vh;
+    left: 78vw;
+    transform: translate(-50%, 50%);
     background-color: white;
-    font-size: 2.1vh;
+    font-size: 2vh;
     color: var(--gray-color);
 }
 

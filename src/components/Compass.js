@@ -277,6 +277,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       setTooltipColor('black');
       setTooltipText('');
       setShowExplanation(true); // Reset to initial state when the page changes
+      setShowInstruction(false);
 
       if(resetState)
         resetState();

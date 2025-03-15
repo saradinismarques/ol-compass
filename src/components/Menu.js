@@ -81,29 +81,30 @@ const Menu = () => {
 
   const handleHomeClick = () => {
     setShowExplanation(true); // Reset to initial state when the page changes
+    setShowInstruction(false);
   };
 
-const handlePrevPage = useCallback(() => {
-  setShowExplanation(false); // Reset to initial state when the page changes
+  const handlePrevPage = useCallback(() => {
+    setShowExplanation(false); // Reset to initial state when the page changes
 
-  if(activeButton === "learn2") 
-    return;
-  else if(activeButton === "get-inspired") {
-    if(firstUse["learn"])
-      setShowInstruction(true); // Reset to initial state when the page changes
-    else
-      setShowInstruction(false); // Reset to initial state when the page changes
+    if(activeButton === "learn2") 
+      return;
+    else if(activeButton === "get-inspired") {
+      if(firstUse["learn"])
+        setShowInstruction(true); // Reset to initial state when the page changes
+      else
+        setShowInstruction(false); // Reset to initial state when the page changes
 
-    navigate('/learn2');
-  }
-  else if(activeButton === "map2") {
-    if(firstUse["get-inspired"])
-      setShowInstruction(true); // Reset to initial state when the page changes
-    else
-      setShowInstruction(false); // Reset to initial state when the page changes
+      navigate('/learn2');
+    }
+    else if(activeButton === "map2") {
+      if(firstUse["get-inspired"])
+        setShowInstruction(true); // Reset to initial state when the page changes
+      else
+        setShowInstruction(false); // Reset to initial state when the page changes
 
-    navigate('/get-inspired');
-  }
+      navigate('/get-inspired');
+    }
   }, [navigate]);
 
   const handleNextPage = useCallback(() => {

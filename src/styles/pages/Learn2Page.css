@@ -13,7 +13,7 @@
 .l2-text-buttons-container {
     position: fixed;
     top: 15vh; 
-    left: 63.5vw;
+    left: 64.9vw;
     z-index: 30;
     width: 43vh;
     font-weight: 400;
@@ -190,12 +190,11 @@
 }
 
 .l2-title {
-    
     font-size: 3.2vh; /* Larger size for h1 */
     font-weight: 300;
     text-transform: uppercase;
     white-space: nowrap;
-    margin-left: 1vh;
+    margin-left: 4vh;
     color: var(--text-color); 
 }
 
