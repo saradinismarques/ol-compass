@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useEffect, useRef, useContext } from 'react';
+import React, { useState, useCallback, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import Menu from '../components/Menu';
@@ -15,11 +15,9 @@ const GetInspiredPage = () => {
     colors,
     language,
     showExplanation,
-    setShowExplanation,
     savedCaseStudies,
     setSavedCaseStudies,
     newCaseStudies,
-    firstUse,
     setFirstUse,
     showInstruction,
     setShowInstruction,
@@ -70,7 +68,7 @@ const GetInspiredPage = () => {
   useEffect(() => {
     if(giComponents.length === 0)
       setShowInstruction(true);
-  }, [giComponents]);
+  }, [giComponents, setShowInstruction]);
 
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
@@ -174,13 +172,13 @@ const GetInspiredPage = () => {
 
     if (filteredCaseStudies.length === 0)
       setCurrentGIComponents([]);
-  }, [newCaseStudies, getBookmarkState]);
+  }, [newCaseStudies, getBookmarkState, language, setCaseStudies, setCurrentCaseStudy, setCurrentGIComponents, setCurrentIndex, setResultsNumber, setShowInstruction]);
 
   const handleDefaultSearch = useCallback(() => {
     setMode('get-inspired-search');
     modeRef.current = 'get-inspired-search';
     searchCaseStudies(componentsRef.current);
-  }, [searchCaseStudies]);
+  }, [searchCaseStudies, setMode]);
 
   const handleCarouselSearch = useCallback(() => {
     setDropdownOpen(false);
@@ -199,7 +197,7 @@ const GetInspiredPage = () => {
       setShowInstruction(false);
       searchCaseStudies(null);
     }
-  }, [showExplanation, searchCaseStudies, setShowInstruction]);
+  }, [searchCaseStudies, setShowInstruction, setMode, setResultsNumber, setSearchLogic]);
   
   const handleSavedCaseStudiesSearch = useCallback(() => {
     setDropdownOpen(false);
@@ -216,7 +214,7 @@ const GetInspiredPage = () => {
       searchLogicRef.current = 'SAVED';  
       searchCaseStudies(null);
     }
-  }, [searchCaseStudies]);
+  }, [searchCaseStudies, setMode, setResultsNumber, setSearchLogic]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < caseStudies.length - 1) {
@@ -240,7 +238,7 @@ const GetInspiredPage = () => {
       });
       setCurrentGIComponents(caseStudies[nextIndex].components)
     }
-  }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy]);
+  }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy, setCurrentCaseStudy, setCurrentGIComponents, setCurrentIndex]);
 
   const handlePrev = useCallback(() => {
     if (currentIndex > 0) {
@@ -265,7 +263,7 @@ const GetInspiredPage = () => {
       setCurrentGIComponents(caseStudies[prevIndex].components)
 
     }
-  }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy]);
+  }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy, setCurrentCaseStudy, setCurrentGIComponents, setCurrentIndex]);
 
   // Keyboard event handler
   const handleKeyDown = useCallback((e) => {
@@ -275,7 +273,7 @@ const GetInspiredPage = () => {
       handlePrev();
     else if (e.key === 'ArrowRight') 
       handleNext();
-  }, [handlePrev, handleNext, handleDefaultSearch, handleCarouselSearch]);
+  }, [handlePrev, handleNext, handleDefaultSearch]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);
@@ -316,7 +314,7 @@ const GetInspiredPage = () => {
       setSearchLogic('OR');
       searchLogicRef.current = 'OR';
     }
-  }, []);
+  }, [setSearchLogic]);
 
   const handleBackFiltering = () => {
     setShowInstruction(true);

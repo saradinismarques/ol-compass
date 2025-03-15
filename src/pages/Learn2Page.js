@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo, useContext, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useContext, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon';
@@ -15,8 +15,6 @@ const Learn2Page = () => {
     colors,
     language,
     showExplanation,
-    setShowExplanation,
-    firstUse,
     setFirstUse,
     showInstruction,
     setShowInstruction,

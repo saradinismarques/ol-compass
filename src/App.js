@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import IntroPage from './pages/IntroPage';
 import HomePage from './pages/HomePage';
@@ -12,13 +12,9 @@ import ContributePage from './pages/ContributePage';
 import ContextualizePage from './pages/ContextualizePage';
 import ComparePage from './pages/ComparePage';
 import './styles/App.css';
-import { State, StateContext } from "./State";
+import { State } from "./State";
 
 function App() {
-  const {
-    setShowExplanation,
-    setShowInstruction
-  } = useContext(StateContext);
 
   const [isLandscape, setIsLandscape] = useState(window.matchMedia("(orientation: landscape)").matches);
   const location = useLocation();
@@ -53,11 +49,6 @@ function App() {
     // Cleanup listener on unmount
     return () => window.removeEventListener("resize", handleOrientationChange);
   }, []);
-
-  // useEffect(() => {
-  //   setShowExplanation(true); // Reset to initial state when the page changes
-  //   setShowInstruction(false); // Reset to initial state when the page changes
-  // }, [location.pathname, setShowExplanation, setShowInstruction]);
 
   // If not in landscape, show warning message
   if (!isLandscape) {

@@ -15,7 +15,6 @@ const Menu = () => {
     setFirstUse,
     showExplanation,
     setShowExplanation,
-    showInstruction,
     setShowInstruction
   } = useContext(StateContext);
 
@@ -26,16 +25,6 @@ const Menu = () => {
 
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
   document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
-
-  useEffect(() => {
-    if ((firstUse["home"] && activeButton === 'home')) {
-      const timer = setTimeout(() => {
-        setShowStudyInstruction(true);
-      }, 4000); // 5 seconds delay
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
-    }
-  }, [firstUse]); // Depend on firstUserVariable
-  
 
   // Determine the active button based on the current path
   const getActiveButton = (path) => {
@@ -70,6 +59,15 @@ const Menu = () => {
   const activeButton = getActiveButton(currentPath);
   const menuExpanded = (activeButton === 'home' || showExplanation);
 
+  useEffect(() => {
+    if ((firstUse["home"] && activeButton === 'home')) {
+      const timer = setTimeout(() => {
+        setShowStudyInstruction(true);
+      }, 4000); // 5 seconds delay
+      return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }
+  }, [firstUse, activeButton]); // Depend on firstUserVariable
+  
   const handleShowStudyInstruction = (value) => {
     if(firstUse["home"])
       setFirstUse(prevState => ({
@@ -105,7 +103,7 @@ const Menu = () => {
 
       navigate('/get-inspired');
     }
-  }, [navigate]);
+  }, [navigate, setShowInstruction, setShowExplanation, activeButton, firstUse]);
 
   const handleNextPage = useCallback(() => {
     setShowExplanation(false); // Reset to initial state when the page changes
@@ -127,7 +125,7 @@ const Menu = () => {
       navigate('/map2');
     } else if(activeButton === "map2") 
       return;
-    }, [navigate]);
+    }, [navigate, setShowInstruction, setShowExplanation, activeButton, firstUse]);
 
   return (
     <div>

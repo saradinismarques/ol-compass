@@ -16,7 +16,6 @@ const Description = ({ mode }) => {
     setShowExplanation,
     setShowInstruction,
     firstUse,
-    setFirstUse,
   } = useContext(StateContext);
 
   const description = getModeTexts(mode, language);
@@ -39,7 +38,7 @@ const Description = ({ mode }) => {
       setShowInstruction(false);
     else
       setShowInstruction(true);
-  }, []);
+  }, [firstUse, setShowExplanation, setShowInstruction, mode]);
 
   if(!description) 
     return null;

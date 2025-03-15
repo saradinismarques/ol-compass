@@ -282,7 +282,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       if(resetState)
         resetState();
     }
-  }, [resetState, stateSaved]);
+  }, [resetState, stateSaved, setShowExplanation, setShowInstruction]);
     
   useEffect(() => {
     window.addEventListener('keydown', handleKeyDown);

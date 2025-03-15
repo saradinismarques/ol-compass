@@ -25,7 +25,6 @@ const Map2Page = () => {
     setMapComponents,
     mapProjectName,
     setMapProjectName,
-    firstUse,
     setFirstUse,
   } = useContext(StateContext);
 
@@ -52,7 +51,7 @@ const Map2Page = () => {
       setCurrentComponent();
       setShowInstruction(true);
     }
-  }, [mapComponents]);
+  }, [mapComponents, setShowInstruction]);
 
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
   document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
