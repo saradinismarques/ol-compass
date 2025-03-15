@@ -278,14 +278,27 @@
 }
 
 /* Arrow Buttons  */
+.menu-arrow-container {
+    position: fixed;
+    top: 9vh;
+    left: 14vw;
+    transform: translateY(-50%);
+    width: 19.5vh;
+    height: 3.9vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;   /* Center items horizontally */
+}
+
 .menu-arrow-button {
     background-color: transparent;
     border: 0 solid transparent; /* Set initial border to transparent */
     cursor: pointer;
-    display: flex; /* Ensures button content (icon) is properly aligned */
     position: fixed;
-    top: 13vh;
-    left: 50%;
+    top: 50%;
+    display: flex; /* Ensures button content (icon) is properly aligned */
+    align-items: center;
+    justify-content: center;
     outline: none;
 }
 
@@ -296,14 +309,14 @@
 
 /* Left arrow button */
 .menu-arrow-button.left {
-    transform: scale(-1); /* Rotate the arrow for left button */
-    left: 10%;
+    transform: translateY(-50%) scale(-1); /* Rotate the arrow for left button */
+    left: -22%;
 }
 
 /* Right arrow button (default position) */
 .menu-arrow-button.right {
-    transform: scale(1); /* Rotate the arrow for left button */
-    left: 90%;
+    transform: translateY(-50%); /* Rotate the arrow for left button */
+    right: -26%;
 }
 
 /* Change icon color on hover */
@@ -313,8 +326,8 @@
 }
 
 .menu-arrow-icon {
-    width: 2.8vh;
-    height: 2.8vh;
+    width: 2.5vh;
+    height: 2.5vh;
     fill: var(--gray-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--gray-color);

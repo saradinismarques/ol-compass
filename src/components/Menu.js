@@ -171,28 +171,31 @@ const handlePrevPage = useCallback(() => {
             STUDY INSTRUCTIONS
         </button>
       }
+      {!menuExpanded &&
+          <>
+          <div className='menu-arrow-container'>
+            <button
+              className={`menu-arrow-button left ${activeButton === "learn2" ? "disabled" : ""}`}
+              onClick={handlePrevPage}
+            >
+              <ArrowIcon className='menu-arrow-icon' />
+            </button>
+            <button
+              className={`menu-arrow-button right ${activeButton === "map2" ? "disabled" : ""}`}
+              onClick={handleNextPage}
+            >
+              <ArrowIcon className='menu-arrow-icon' />
+            </button>
+          </div>
+          </>
+      }
       <div className="left-menu">
         {menuExpanded && 
           <div className='i-want-to-text'>
             {language === "pt" ? "Vamos:" : "Let's:"}
           </div>
         }
-        {!menuExpanded &&
-          <>
-          <button
-            className={`menu-arrow-button left ${activeButton === "learn2" ? "disabled" : ""}`}
-            onClick={handlePrevPage}
-          >
-            <ArrowIcon className='menu-arrow-icon' />
-          </button>
-          <button
-            className={`menu-arrow-button right ${activeButton === "map2" ? "disabled" : ""}`}
-            onClick={handleNextPage}
-          >
-            <ArrowIcon className='menu-arrow-icon' />
-          </button>
-          </>
-        }
+        
         {(menuExpanded || activeButton === 'learn2') && 
           <Link
             to="/learn2"
