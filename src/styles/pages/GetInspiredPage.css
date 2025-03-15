@@ -229,11 +229,6 @@
     transform: translateY(-50%);
 }
 
-.gi-search-container.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-}
-
 .gi-search-logic-menu {
     width: 31.5vh;
     height: 4.2vh;
@@ -320,6 +315,26 @@
     background-color: var(--selection-hover-color); /* Darkened version of the original background color */
 }
 
+.gi-back-to-filters-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #b59eac;
+    color: white;
+    border-radius: 50px;
+    padding: 1vh;
+    z-index: 20; /* Ensure it’s on top */
+    width: 30.7vh;
+    height: 3.5vh;
+    font-size: 1.5vh;
+    border: none;
+    cursor: pointer;
+}
+
+.gi-back-to-filters-button:hover {
+    background-color: #cbb6c3;
+}
+
 /* Dropdown Menu */
 .gi-dropdown-container {
     position: fixed;
@@ -364,6 +379,15 @@
     gap: 0.5vh;
 }
 
+.gi-show-bookmarks-container:hover {
+    background-color: var(--bookmark-cs-hover-color);;
+    color: white;
+}
+
+.gi-show-bookmarks-container:hover .gi-bookmark-icon.show {
+    stroke: white;
+}
+
 .gi-show-bookmark-button {
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
@@ -376,13 +400,17 @@
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--gray-color);
-    stroke-width: 0.1vh;
+    stroke-width: 0.2vh;
 }
 
 .gi-show-bookmarks-container.active {
     border: 0.2vh solid var(--bookmark-cs-color);
     background-color: var(--bookmark-cs-color); /* Active state background color */
     color: white;
+}
+
+.gi-show-bookmarks-container.active:hover {
+    background-color: var(--bookmark-cs-hover-color); /* Active state background color */
 }
 
 .gi-show-bookmarks-container.active .gi-bookmark-icon {
@@ -408,6 +436,11 @@
     gap: 0.5vh;
 }
 
+.gi-show-carousel-container:hover {
+    background-color: var(--gray-hover-color);
+    color: white;
+}
+
 .gi-show-carousel-button {
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
@@ -418,6 +451,10 @@
     border: 0.2vh solid var(--gray-color);
     background-color: var(--gray-color); /* Active state background color */
     color: white;
+}
+
+.gi-show-carousel-container.active:hover {
+    background-color: var(--gray-hover-color); /* Active state background color */
 }
 
 /* Arrow and dropdown content */
@@ -460,7 +497,6 @@
     border: none;
     height: 4.2vh;
     border-radius: 1vh;
-    color: #6d6c6c;
 }
   
 /* Bold text */

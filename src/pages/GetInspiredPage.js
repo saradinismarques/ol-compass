@@ -99,6 +99,7 @@ const GetInspiredPage = () => {
     }));
     // Reset components if on these modes 
     if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL') {
+      setShowInstruction(true);
       setMode('get-inspired');
       modeRef.current = 'get-inspired';
       setSearchLogic('OR');
@@ -317,6 +318,15 @@ const GetInspiredPage = () => {
     }
   }, []);
 
+  const handleBackFiltering = () => {
+    setShowInstruction(true);
+    setMode('get-inspired');
+    modeRef.current = 'get-inspired';
+    setSearchLogic('OR');
+    searchLogicRef.current = 'OR';
+    setResultsNumber(-1);
+  };
+
   return (
     <>
       <Compass
@@ -373,26 +383,6 @@ const GetInspiredPage = () => {
               </div>
             </div>
             )}
-            {/* {resultsNumber === -1 && (
-              <div className="gi-instruction">
-                {language === "pt" 
-                ? "Continua a clicar nas ondas que queres incluir. Quando acabares clica em 'Pesquisa' ou pressiona a tecla 'Enter'" 
-                : "Continue clicking on the waves you want to include. Once your done click on 'Search' or press 'Enter'"}
-              </div>
-            )}
-
-            {resultsNumber === 0 && (
-              <div className="gi-no-results">
-                {searchLogic === 'SAVED' 
-                ? (language === 'pt' 
-                    ? "Nenhum caso de estudo salvo ainda. Clique no ícone de marcador para salvar um caso de estudo"
-                    : "No case studies saved yet. Press the bookmark icon to save a case study")
-                : (language === 'pt' 
-                    ? "Nenhum caso de estudo encontrado com esses filtros. Tente usar outros"
-                    : "No case studies found with those filters. Try using others")}
-              </div>
-            )} */}
-  
   
             {/* Navigation Arrows */}
             {(currentIndex > 0 && resultsNumber > 0) && (
@@ -422,31 +412,44 @@ const GetInspiredPage = () => {
               )}
             </div>
 
-            <div className={`gi-search-container ${(searchLogic === 'SAVED' || searchLogic === 'CAROUSEL') ? "disabled" : ""}`}>
+            <div className={`gi-search-container`}>
               <div className="gi-search-logic-menu">
                 <div className="gi-logic-button-background">
-                  <div className="gi-logic-buttons">
-                    <button
-                      className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
-                      onClick={() => handleSearchLogicChange("OR")}
+                  {(searchLogic === 'OR' || searchLogic === 'AND') &&
+                    <div className="gi-logic-buttons">
+                      <button
+                        className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
+                        onClick={() => handleSearchLogicChange("OR")}
+                      >
+                        {language === "pt" ? "PELO MENOS UM" : "AT LEAST ONE"}
+                      </button>
+                      <button
+                        className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
+                        onClick={() => handleSearchLogicChange("AND")}
+                      >
+                        {language === "pt" ? "TUDO" : "ALL"}
+                      </button>
+                    </div>
+                  }
+                  {(searchLogic === 'SAVED' || searchLogic === 'CAROUSEL') &&
+                    <button 
+                      className="gi-back-to-filters-button" 
+                      onClick={handleBackFiltering}
                     >
-                      {language === "pt" ? "PELO MENOS UM" : "AT LEAST ONE"}
+                      {language === "pt" ? "PESQUISA" : "BACK TO FILTERING MODE"}
                     </button>
-                    <button
-                      className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
-                      onClick={() => handleSearchLogicChange("AND")}
-                    >
-                      {language === "pt" ? "TUDO" : "ALL"}
-                    </button>
-                  </div>
+                  }
                 </div>
-                <button 
-                  className="gi-search-button" 
-                  onClick={handleDefaultSearch}
-                >
-                  {language === "pt" ? "PESQUISA" : "SEARCH"}
-                </button>
+                {(searchLogic === 'OR' || searchLogic === 'AND') &&
+                  <button 
+                    className="gi-search-button" 
+                    onClick={handleDefaultSearch}
+                  >
+                    {language === "pt" ? "PESQUISA" : "SEARCH"}
+                  </button>
+                } 
               </div>
+              
             </div>
 
             <div className={`gi-dropdown-container ${showInstruction ? 'disabled' : ''}`}>
