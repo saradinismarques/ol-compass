@@ -174,6 +174,7 @@
     height: 4.3vh;
 }
 
+/* Study Instruction */
 .menu-study-instructions {
     position: fixed;
     bottom: 9vh;
@@ -181,7 +182,7 @@
     transform: translateY(50%);
     width: 27vh;
     height: 4.3vh;
-    border: 0.3vh solid #c22934;
+    border: 0.3vh solid #d60b51;
     background-color: white;
     border-radius: 100px;
     cursor: pointer;
@@ -189,7 +190,7 @@
     font-family: 'Manrope', sans-serif;
     font-size: 2vh;
     font-weight: 700;
-    color: #c22934;
+    color: #d60b51;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -208,38 +209,45 @@
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
-    padding: 7vh;
+    padding: 4vh 6vh;
     margin: 0;
-    width: 30vh;
+    width: 53vh;
     background-color: white;
     border-radius: 2vh;
-    border: 0.1vh solid #c22934; /* Add a light grey border */
+    border: 0.1vh solid #d60b51; /* Add a light grey border */
     text-align: center;
     z-index: 100;
-    color: #c22934;
+    color: #d60b51;
 }
 
 .menu-message-text {
    font-size: 2.1vh;
+   font-weight: 300;
    margin: 0;
    color: #c22934;
 }
 
+.menu-bold-text {
+    font-weight: 600; /* Adjust as needed */
+}
+
+.menu-blue-text {
+    color: #1ca7e4;
+    font-weight: 600; /* Adjust as needed */
+}
+
 .menu-got-it-button {
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translate(-50%);
+    margin-top: 0.5vh;
     padding-top: 2vh;
     font-size: 2.2vh;
-    font-weight: 100;
+    font-weight: 200;
     background-color: transparent; /* Use 'transparent' instead of 'none' */
     color: var(--gray-color);
     border: none;
     cursor: pointer;
     outline: none; /* Optional: Remove outline on focus */
     text-decoration: underline;
-}
+}  
 
 .menu-got-it-button:hover,
 .menu-got-it-button:active {
@@ -251,8 +259,8 @@
     top: 0%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #c22934;
-    border: 0.1vh solid #c22934;
+    background-color: #d60b51;
+    border: 0.1vh solid #d60b51;
     border-radius: 100px;
     padding: 1.5vh;
     color: white;

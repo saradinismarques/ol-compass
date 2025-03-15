@@ -35,24 +35,24 @@ const GetInspiredPage = () => {
     setResultsNumber,
     searchLogic,
     setSearchLogic,
-    components,
-    setComponents,
-    currentComponents,
-    setCurrentComponents,
+    giComponents,
+    setGIComponents,
+    currentGIComponents,
+    setCurrentGIComponents,
   } = useContext(StateContext);
 
   const navigate = useNavigate(); // Initialize the navigate function
 
   const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
-  const componentsRef = useRef(components);
+  const componentsRef = useRef(giComponents);
   const savedCaseStudiesRef = useRef(savedCaseStudies);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
 
   useEffect(() => {
-    componentsRef.current = components;
-  }, [components]);
+    componentsRef.current = giComponents;
+  }, [giComponents]);
   
 
   useEffect(() => {
@@ -68,9 +68,9 @@ const GetInspiredPage = () => {
   }, [searchLogic]);
 
   useEffect(() => {
-    if(components.length === 0)
+    if(giComponents.length === 0)
       setShowInstruction(true);
-  }, [components]);
+  }, [giComponents]);
 
 
   document.documentElement.style.setProperty('--selection-color', colors['Selection']);
@@ -110,7 +110,7 @@ const GetInspiredPage = () => {
       modeRef.current = 'get-inspired';
     }
     
-    setComponents(prevComponents => {
+    setGIComponents(prevComponents => {
       const newComponents = prevComponents.includes(code)
         ? prevComponents.filter(buttonId => buttonId !== code) // Remove ID if already clicked
         : [...prevComponents, code]; // Add ID if not already clicked
@@ -169,11 +169,11 @@ const GetInspiredPage = () => {
         components: filteredCaseStudies[0].components,
         bookmark: getBookmarkState(filteredCaseStudies[0].title),
       }));
-      setCurrentComponents(filteredCaseStudies[0].components)
+      setCurrentGIComponents(filteredCaseStudies[0].components)
     }
 
     if (filteredCaseStudies.length === 0)
-      setCurrentComponents([]);
+      setCurrentGIComponents([]);
   }, [newCaseStudies, getBookmarkState]);
 
   const handleDefaultSearch = useCallback(() => {
@@ -238,7 +238,7 @@ const GetInspiredPage = () => {
         components: caseStudies[nextIndex].components,
         bookmark: getBookmarkState(caseStudies[nextIndex].title),
       });
-      setCurrentComponents(caseStudies[nextIndex].components)
+      setCurrentGIComponents(caseStudies[nextIndex].components)
     }
   }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy]);
 
@@ -262,7 +262,7 @@ const GetInspiredPage = () => {
         components: caseStudies[prevIndex].components,
         bookmark: getBookmarkState(caseStudies[prevIndex].title),
       });
-      setCurrentComponents(caseStudies[prevIndex].components)
+      setCurrentGIComponents(caseStudies[prevIndex].components)
 
     }
   }, [caseStudies, currentIndex, getBookmarkState, currentCaseStudy]);
@@ -334,8 +334,8 @@ const GetInspiredPage = () => {
         position="fixed"
         resetState={resetState} // Passing resetState to OLCompass
         onButtonClick={handleCompassClick}
-        currentComponent={currentComponents}
-        stateSaved={components}
+        currentComponent={currentGIComponents}
+        stateSaved={giComponents}
       />
       {showExplanation && 
         <Description mode={'get-inspired'} />
@@ -349,7 +349,7 @@ const GetInspiredPage = () => {
         </>
       }
 
-      {!showExplanation && (
+      {!showExplanation && giComponents.length > 0 && (
         <>
           <div className='gi-text-container'>
             {resultsNumber > 0 && (
@@ -383,6 +383,26 @@ const GetInspiredPage = () => {
               </div>
             </div>
             )}
+
+            {!showInstruction && resultsNumber === -1 && (
+              <div className="gi-instruction">
+                {language === "pt" 
+                ? "Continua a clicar nas ondas que queres incluir. Quando acabares clica em 'Pesquisa' ou pressiona a tecla 'Enter'" 
+                : "Continue clicking on the waves you want to include. Once your done click on 'Search' or press 'Enter'"}
+              </div>
+            )}
+
+            {!showInstruction && resultsNumber === 0 && (
+              <div className="gi-no-results">
+                {searchLogic === 'SAVED' 
+                ? (language === 'pt' 
+                    ? "Nenhum caso de estudo salvo ainda. Clique no ícone de marcador para salvar um caso de estudo"
+                    : "No case studies saved yet. Press the bookmark icon to save a case study")
+                : (language === 'pt' 
+                    ? "Nenhum caso de estudo encontrado com esses filtros. Tente usar outros"
+                    : "No case studies found with those filters. Try using others")}
+              </div>
+            )}
   
             {/* Navigation Arrows */}
             {(currentIndex > 0 && resultsNumber > 0) && (
@@ -406,7 +426,7 @@ const GetInspiredPage = () => {
   
             <div className='gi-results-container'>
               {resultsNumber !== -1 && (
-                <p className={`gi-results ${searchLogic === 'SAVED' ? 'bookmarked' : ''}`}>
+                <p className={`gi-results`}>
                   <span className='gi-bold-text'>{resultsNumber}</span>&nbsp;{language === "pt" ? "resultados" : "results"}
                 </p>
               )}
@@ -510,16 +530,6 @@ const GetInspiredPage = () => {
                 }
               </>
             </div>
-            
-
-            {/* <button
-              onClick={handleCarouselSearch}
-              className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
-            >   
-              <p className='gi-show-carousel-button'>
-                {language === "pt" ? "TODOS" : "SHOW ALL"}
-              </p>
-            </button> */}
         </>
       )}
       <Menu />

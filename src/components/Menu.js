@@ -136,8 +136,35 @@ const Menu = () => {
           <div className="menu-message-question">
             STUDY INSTRUCTIONS
           </div>
-          
-            Lorem Ipsum
+          <div className='menu-message-text'>
+            <p>
+              This study aims at making you test the ‘<span className="menu-bold-text">LEARN</span>’,
+              ‘<span className="menu-bold-text">GET INSPIRED</span>’ and ‘<span className="menu-bold-text">MAP</span>’ functions, in <span className="menu-bold-text">2 STEPS</span>.
+            </p>
+            <p>
+            <span className="menu-bold-text">STEP 1 (5’): UNDERSTAND EACH FUNCTION</span>
+            Get an overview of all the three functions, quickly
+            exploring them one after the other in the listed order.
+            You are required to <span className="menu-bold-text">say aloud what the given
+            function does</span> before moving to the next. 
+            </p>
+            <p>
+            <span className="menu-bold-text">STEP 2 (15’): MAP OL-RELATED ACTIVITY</span>
+            Spend some time deepening your OL knowledge
+            with the <span className="menu-bold-text">final goal of mapping an OL-related
+            didactic activity</span> <span className="menu-blue-text">that you carried out.</span>
+            You can move freely across functions. 
+            </p>
+            <p>
+            NB You are not expected to absorb as much
+            information as possible, but to simply navigate OL
+            knowledge based on your curiosity and interests.
+            </p>
+            <p>
+            If you feel stuck, you can ask us for help.
+            <span className="menu-bold-text">Please always think aloud</span>, and enjoy!
+            </p>
+          </div>
           <button 
             className="menu-got-it-button" 
             onClick={() => handleShowStudyInstruction(false)}

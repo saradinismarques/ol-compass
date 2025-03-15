@@ -99,6 +99,7 @@
 .gi-text-box.year { width: 10vh; }
 
 .gi-text-box.collection {
+    color: #29294a;
     width: 48vh;
 }
 
@@ -205,11 +206,7 @@
     transform: translate(-50%, -50%);
     font-size: 2.4vh;
     font-weight: 200;
-    color: var(--selection-color);
-}
-
-.gi-results.bookmarked {
-    color: var(--bookmark-cs-color);
+    color: #29294a;
 }
 
 @media (max-aspect-ratio: 16/9) {

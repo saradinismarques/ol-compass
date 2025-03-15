@@ -41,8 +41,8 @@ export const State = ({ children }) => {
     const [mode, setMode] = useState('get-inspired-carousel');
     const [resultsNumber, setResultsNumber] = useState(-1);
     const [searchLogic, setSearchLogic] = useState('OR');
-    const [components, setComponents] = useState([]);
-    const [currentComponents, setCurrentComponents] = useState([]);
+    const [giComponents, setGIComponents] = useState([]);
+    const [currentGIComponents, setCurrentGIComponents] = useState([]);
     
     // Contribute
     const [newCaseStudies, setNewCaseStudies] = useState([]);
@@ -105,10 +105,10 @@ export const State = ({ children }) => {
                 setResultsNumber,
                 searchLogic,
                 setSearchLogic,
-                components,
-                setComponents,
-                currentComponents,
-                setCurrentComponents,
+                giComponents,
+                setGIComponents,
+                currentGIComponents,
+                setCurrentGIComponents,
                 // Add other global states here as needed
             }}
         >

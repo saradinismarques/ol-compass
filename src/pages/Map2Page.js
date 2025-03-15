@@ -10,6 +10,7 @@ import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { State, StateContext } from "../State.js";
 import coverImage from '../assets/images/map/PDF-cover-background.png';
 import { createRoot } from 'react-dom/client';
+import { useNavigate } from 'react-router-dom';
 import '../styles/pages/Map2Page.css';
 
 const Map2Page = () => {
@@ -18,17 +19,21 @@ const Map2Page = () => {
     language,
     showExplanation,
     setShowExplanation,
+    showInstruction,
+    setShowInstruction,
     mapComponents,
     setMapComponents,
     mapProjectName,
     setMapProjectName,
+    firstUse,
+    setFirstUse,
   } = useContext(StateContext);
 
-  const [firstClick, setFirstClick] = useState(true);
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [currentComponent, setCurrentComponent] = useState();
   const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
   const [isGenerating, setIsGenerating] = useState(false);
+  const navigate = useNavigate(); // Initialize the navigate function
 
   const componentsRef = useRef(mapComponents);
   const textareaRefs = useRef([]); // Initialize refs for textareas
@@ -42,18 +47,28 @@ const Map2Page = () => {
       setCurrentComponent();
   }, [isGenerating]);
 
+  useEffect(() => {
+    if(mapComponents.length === 0) {
+      setCurrentComponent();
+      setShowInstruction(true);
+    }
+  }, [mapComponents]);
+
   document.documentElement.style.setProperty('--gray-color', colors['Gray']);
   document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
 
   // Reset state and UI elements
   const resetState = useCallback(() => {
-    setFirstClick(true);
-    setShowExplanation(true);
-    setCurrentComponent();
-  }, [setShowExplanation]);
+    navigate('/home');
+  }, [navigate]);
 
   // Trigger compass action
   const handleCompassClick = (code, label, paragraph, type) => {
+    setFirstUse(prevState => ({
+      ...prevState, // Keep all existing attributes
+      "map": false   // Update only 'home'
+    }));
+    setShowInstruction(false);
     if(code) {
       setMapComponents(prevComponents => {
         const exists = prevComponents.some(component => component.code === code);
@@ -522,7 +537,16 @@ const Map2Page = () => {
         <Description mode="map" />
       }
 
-      {!showExplanation && (
+      
+      {showInstruction && 
+        <>
+          <div className='instruction'>
+            Click on any wave
+          </div>
+        </>
+      }
+
+      {!showExplanation && !showInstruction && (
         <>
           <div className='m2-text-container'>
             <textarea
