@@ -37,7 +37,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     colors, 
     language
   } = useContext(StateContext);
-        
+
   const components = getComponents(language, mode, compassType, size);
   const concepts = getComponentsData('concepts', language);
 

@@ -20,6 +20,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     allComponents,
     opacityCounter,
     savedComponents,
+    randomComponents
   } = useContext(StateContext);
       
   const waveWidth = size/2.6;
@@ -188,35 +189,60 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Intro
       if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3")
         return 0.2;
-      else if (mode === "intro-4" || mode === "intro-5") {
+      else if (mode === "intro-4") {
         if(component.type === "Principle") 
           if(allComponents.indexOf(component.code) <= opacityCounter['Principle'])
             return 1;
           else
-            return 0.15;
+            return 0.2;
         else 
-          return 0.15;
-      } else if (mode === "intro-6" || mode === "intro-7") {
+          return 0.2;
+      } else if (mode === "intro-5") {
         if(component.type === "Principle")
-          return 0.55;
+          return 0.2;
         else if(component.type === "Perspective")
           if(allComponents.indexOf(component.code) <= opacityCounter['Perspective']+7)
             return 1;
           else
-            return 0.15;
+            return 0.2;
         else
-          return 0.15;
-      } else if (mode === "intro-8" || mode === "intro-9") {
+          return 0.2;
+      } else if (mode === "intro-6") {
         if(component.type === "Principle")
-          return 0.55;
+          return 0.2;
         else if(component.type === "Perspective")
-          return 0.55;
+          return 0.2;
         else 
           if(allComponents.indexOf(component.code) <= opacityCounter['Dimension']+14)
             return 1;
           else
-            return 0.15;
-      }
+            return 0.2;
+      } else if (mode === "intro-7") {
+        return 1;
+      } else if(mode === "intro-8") {
+        if(component.type === "Principle")
+          return 1;
+        else
+          return 0.3;
+      } else if(mode === "intro-9") {
+        if(component.type === "Perspective")
+          return 1;
+        else
+          return 0.3;
+      } else if(mode === "intro-10") {
+        if(component.type === "Dimension")
+          return 1;
+        else
+          return 0.3;
+      } else if (mode === "intro-11" || mode === "intro-12" || mode === "intro-13")
+        return 0.3;
+      else if (mode === "intro-14" || mode === "intro-15") {
+        if(randomComponents.includes(component.code))
+          return 0.6;
+        else
+          return 0.05;
+      } else if (mode === "intro-16" || mode === "intro-17") 
+        return 0.3;
       // Explanation Page
       if(showExplanation && mode !== "map-2-pdf") 
         return 0.3;
@@ -337,38 +363,30 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   const getTextOpacity = () => {
     if(compassType === "default") {
       // Intro
-      if (mode === "intro-0")
-        return 0.3;
-      else if (mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
-        return 0.15;
-      else if (mode === "intro-4" || mode === "intro-5") {
-        if(component.type === "Principle") 
-          if(allComponents.indexOf(component.code) <= opacityCounter['Principle'])
+      if (mode.startsWith("intro")) {
+        if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3" || mode === "intro-4" || mode === "intro-5" || mode === "intro-6") 
+          return 0;
+        else if(mode === "intro-7")
+          return 1;
+        else if(mode === "intro-8") {
+          if(component.type === "Principle")
             return 1;
           else
-            return 0.15;
-        else 
-          return 0.15;
-      } else if (mode === "intro-6" || mode === "intro-7") {
-        if(component.type === "Principle")
-          return 0.55;
-        else if(component.type === "Perspective")
-          if(allComponents.indexOf(component.code) <= opacityCounter['Perspective']+7)
+            return 0.3;
+        } else if(mode === "intro-9") {
+          if(component.type === "Perspective")
             return 1;
           else
-            return 0.15;
-        else
-          return 0.15;
-      } else if (mode === "intro-8" || mode === "intro-9") {
-        if(component.type === "Principle")
-          return 0.55;
-        else if(component.type === "Perspective")
-          return 0.55;
-        else 
-          if(allComponents.indexOf(component.code) <= opacityCounter['Dimension']+14)
+            return 0.3;
+        } else if(mode === "intro-10") {
+          if(component.type === "Dimension")
             return 1;
           else
-            return 0.15;
+            return 0.3;
+        } else if (mode === "intro-11" || mode === "intro-12")
+          return 0.3;
+        else if (mode === "intro-13" || mode === "intro-14" || mode === "intro-15" || mode === "intro-16") 
+          return 0;
       }
       // Explanation Page
       if(showExplanation && mode !== "map-2-pdf")
@@ -490,19 +508,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     
   const getText = (part) => {
     // Intro
-    if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3") 
+    if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3" || mode === "intro-4" || mode === "intro-5" || mode === "intro-6") 
       return "";
-    else if (mode === "intro-4" || mode === "intro-5") {
-      if(component.type !== "Principle")
-        return "";
-    }
-    else if (mode === "intro-6" || mode === "intro-7") {
-      if(component.type === "Dimension") {
-        return "";
-      }
-    }
+    else if (mode === "intro-13" || mode === "intro-14" || mode === "intro-15" || mode === "intro-16" || mode === "intro-17") 
+      return "";
     // Explanation Page
-    if(showExplanation)
+    if(showExplanation && !mode.startsWith("intro"))
       return "";
     if(bigLabels.includes(component.code)) {
       let firstIndex = component.label.indexOf(' ');

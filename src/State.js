@@ -28,7 +28,6 @@ export const State = ({ children }) => {
 
     const [firstUse, setFirstUse] = useState(initialFirstUse);
 
-
     // Learn
     const [savedComponents, setSavedComponents] = useState([]);
     const [learnComponent, setLearnComponent] = useState(null);
@@ -64,6 +63,7 @@ export const State = ({ children }) => {
         Dimension: 0
     };
     const [opacityCounter, setOpacityCounter] = useState(initialCounters);
+    const [randomComponents, setRandomComponents] = useState(['P1', 'P3', 'P5', 'P6', 'Pe3', 'Pe4', 'Pe6', 'D1', 'D3', 'D4', 'D6', 'D8']);
 
     return (
         <StateContext.Provider
@@ -109,6 +109,8 @@ export const State = ({ children }) => {
                 setGIComponents,
                 currentGIComponents,
                 setCurrentGIComponents,
+                randomComponents,
+                setRandomComponents
                 // Add other global states here as needed
             }}
         >
