@@ -223,26 +223,26 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         if(component.type === "Principle")
           return 1;
         else
-          return 0.3;
+          return 0.2;
       } else if(mode === "intro-9") {
         if(component.type === "Perspective")
           return 1;
         else
-          return 0.3;
+          return 0.2;
       } else if(mode === "intro-10") {
         if(component.type === "Dimension")
           return 1;
         else
-          return 0.3;
+          return 0.2;
       } else if (mode === "intro-11" || mode === "intro-12" || mode === "intro-13")
-        return 0.3;
+        return 0.2;
       else if (mode === "intro-14") {
         if(randomComponents.includes(component.code))
           return 0.6;
         else
           return 0.1;
       } else if (mode === "intro-15" || mode === "intro-16") 
-        return 0.3;
+        return 0.2;
       // Explanation Page
       if(showExplanation && mode !== "map-2-pdf") 
         return 0.3;
@@ -372,19 +372,19 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           if(component.type === "Principle")
             return 1;
           else
-            return 0.3;
+            return 0.2;
         } else if(mode === "intro-9") {
           if(component.type === "Perspective")
             return 1;
           else
-            return 0.3;
+            return 0.2;
         } else if(mode === "intro-10") {
           if(component.type === "Dimension")
             return 1;
           else
-            return 0.3;
+            return 0.2;
         } else if (mode === "intro-11" || mode === "intro-12")
-          return 0.3;
+          return 0.2;
         else if (mode === "intro-13" || mode === "intro-14" || mode === "intro-15" || mode === "intro-16") 
           return 0;
       }

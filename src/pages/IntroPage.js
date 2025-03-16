@@ -5,6 +5,9 @@ import { getIntroTexts } from '../utils/DataExtraction.js';
 import { replaceBolds, replaceBoldsBreaksPlaceholders } from '../utils/TextFormatting.js';
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import Frame11Image from '../assets/images/intro/frame-11.png';
+import Frame12Image from '../assets/images/intro/frame-12.png';
+
 import '../styles/pages/IntroPage.css';
 
 const IntroPage = () => {
@@ -451,6 +454,57 @@ const IntroPage = () => {
             }
             {(frame <= 3 || frame >= 13) && 
                 <div className='menu-background'></div>
+            }
+            {frame === 11 && 
+                <div className="i-frame-11-container">
+                    <div className='i-frame-11-image-container'>
+                        <img 
+                            src={Frame11Image} 
+                            alt={'OL Timeline'} 
+                            className="i-frame-11-image" 
+                        />
+                    </div>
+                    <div className='i-frame-11-text'>
+                        <div className='i-frame-11-line'>
+                            OL as “blue” integration
+                            of school curricula
+                        </div>
+                        <div className='i-frame-11-line'>
+                            OL as ‘education&culture
+                            for sustainability’ innovation
+                        </div>
+                        <div className='i-frame-11-line'>
+                            OL as key leverage for
+                            marine citizenship
+                        </div>
+                    </div>
+                </div>
+            }
+            {frame === 12 && 
+                <div className="i-frame-12-container">
+                    <div className='i-frame-12-image-container'>
+                        <img 
+                            src={Frame12Image} 
+                            alt={'What/How'} 
+                            className="i-frame-12-image" 
+                        />
+                    </div>
+                    <div className='i-frame-12-text'>
+                        <div className='i-frame-12-line-1'>
+                            WHAT
+                        </div>
+                        <div className='i-frame-12-line-2'>
+                            DO I WANT TO LEARN/TELL
+                            ABOUT THE OCEAN?
+                        </div>
+                        <div className='i-frame-12-line-3'>
+                            FROM WHAT ANGLE
+                        </div>
+                        <div className='i-frame-12-line-4'>
+                            HOW
+                        </div>
+                    </div>
+                </div>
             }
             {frame === maxFrame-1 && 
                 <button
