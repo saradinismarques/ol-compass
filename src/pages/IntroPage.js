@@ -28,7 +28,7 @@ const IntroPage = () => {
   
     const showSkipButtonsRef = useRef(showSkipButtons);
     const frameRef = useRef(frame);
-    const maxFrame = 17;
+    const maxFrame = 16;
 
     const maxCounters = useMemo(() => ({
         Principle: 6,
@@ -96,6 +96,9 @@ const IntroPage = () => {
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
         const ignoreHeight = (15 / 100) * screenHeight; // Convert 6vh to pixels
+        
+        if (clickPositionX > screenWidth / 2 && frameRef.current === maxFrame-1) 
+            return; // Ignore movement in the first 6vh
 
         if (clickPositionY < ignoreHeight) return; // Ignore clicks/touches in the first 6vh
 
@@ -208,8 +211,6 @@ const IntroPage = () => {
         14: 'intro-14',
         15: 'intro-15',
         16: 'intro-16',
-        17: 'intro-17'
-
     };
 
     // Determine the action based on the current state
@@ -362,15 +363,7 @@ const IntroPage = () => {
                     <div className='i-explanation'>OO</div>
                 </div>
             );
-        } else if(frame === 16) {
-            const clarifyD = introTexts.ClarifyD;
-            return (
-                <div className="i-explanation-container">
-                    <div className='i-explanation'>PP</div>
-                </div>
-            );
-        }   
-        
+        }
     };
 
     const toggleSkipButton = () => {
