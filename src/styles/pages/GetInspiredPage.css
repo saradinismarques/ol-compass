@@ -211,13 +211,6 @@
     color: #29294a;
 }
 
-@media (max-aspect-ratio: 16/9) {
-    /* Your styles for smaller screens go here */
-    .gi-results {
-        left: 77vw;
-    }
-}
-
 /* Search Logic Menu */
 .gi-search-container {
     position: fixed;

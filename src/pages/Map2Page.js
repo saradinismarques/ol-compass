@@ -11,6 +11,7 @@ import { State, StateContext } from "../State.js";
 import coverImage from '../assets/images/map/PDF-cover-background.png';
 import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
+import { saveAs } from 'file-saver';
 import '../styles/pages/Map2Page.css';
 
 const Map2Page = () => {
@@ -137,7 +138,6 @@ const Map2Page = () => {
 
   // PDF Generation Functions
   const handleDownloadPDF = async () => {
-    console.log(mapComponents);
     const pageWidth = 297; // mm
     const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
 
@@ -210,13 +210,10 @@ const Map2Page = () => {
         await pages[i](pdf); // Render content for the page
         
         const pdfBlob = pdf.output("blob");
-        
         pdfBlobs.push(pdfBlob);
 
-          // Use setTimeout to delay progress update (to avoid too many state updates)
-        setTimeout(() => {
-            setDownloadProgress(((i + 1) / pages.length) * 100);
-        }, 50); // Delay progress updates by 50ms
+        // Update progress after generating each page
+        setDownloadProgress(((i + 1) / pages.length) * 100); // Direct progress update
       }
 
       // Merge all individual PDFs
@@ -224,13 +221,12 @@ const Map2Page = () => {
       setDownloadProgress(100); // Complete progress
 
       // Save the final merged PDF
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(mergedPdf);
-      if (mapProjectName.length !== 0) 
-        link.download = `Visual_Report_${mapProjectName.replace(/ /g, "_")}.pdf`;
-      else 
-        link.download = `Visual_Report.pdf`;
-      link.click();
+      const fileName = mapProjectName.length !== 0 ? 
+        `Visual_Report_${mapProjectName.replace(/ /g, "_")}.pdf` : 
+        `Visual_Report.pdf`;
+
+      // Using FileSaver.js to trigger the download in a more reliable way
+      saveAs(mergedPdf, fileName);
 
       setIsGenerating(false);
       setDownloadProgress(0); // Reset progress once done
@@ -340,15 +336,12 @@ const Map2Page = () => {
   const addTextareas = async(pdf) => {
     // Textareas
 
-    let componentsTextareas = mapComponents.filter(
-      (component, id) => id <= mapComponents.length / 2 - 1 && component.text.length !== 0
-    );
     // First section for the first 5 components
-    if (componentsTextareas.length > 0) {
+    if (mapComponents.length > 0) {
       await renderToCanvas(
         <>
           {mapComponents.map((component, id) => (
-            (id <= Math.ceil(mapComponents.length)/2 && component.text.length !== 0) && (
+            (id % 2 === 0) && (
               <div
                 key={id} 
                 className="m2-components-textarea-pdf"
@@ -377,15 +370,12 @@ const Map2Page = () => {
       );
     }
 
-    componentsTextareas = mapComponents.filter(
-      (component, id) => id > mapComponents.length / 2 - 1 && component.text.length !== 0
-    );
     // Second section for the first 5 components
-    if (componentsTextareas.length > 0) {
+    if (mapComponents.length > 1) {
       await renderToCanvas(
         <>
           {mapComponents.map((component, id) => (
-            (id > Math.ceil(mapComponents.length)/2 && component.text.length !== 0) && (
+            (id % 2 !== 0) && (
               <div
                 key={id} 
                 className="m2-components-textarea-pdf"
@@ -484,7 +474,7 @@ const Map2Page = () => {
     const scale = 5; // max = 10
 
     // Wait for the next frame to ensure the component is fully rendered
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await new Promise((resolve) => setTimeout(resolve, 100));
 
     const canvas = await html2canvas(container, { scale: scale, logging: true, backgroundColor: null });
     root.unmount(); // Clean up the root
@@ -562,7 +552,7 @@ const Map2Page = () => {
           {/* First section for the first 5 components */}
           <div className="m2-components-textarea-container right">
             {Array.from({ length: 4 }).map((_, id) => {
-              const component = mapComponents[id]; // Get the corresponding component if it exists
+              const component = mapComponents[id*2]; // Get the corresponding component if it exists
               return (
                 <div
                   key={id}
@@ -580,7 +570,7 @@ const Map2Page = () => {
                       )}
                       <textarea
                         className="m2-component-textarea"
-                        ref={(el) => (textareaRefs.current[id] = el)}
+                        ref={(el) => (textareaRefs.current[id*2] = el)}
                         style={{
                           '--text-color': colors['Text'][component.type],
                           backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
@@ -593,7 +583,7 @@ const Map2Page = () => {
                         }
                         value={component.text}
                         onFocus={() => handleFocus(component.code)}
-                        onChange={(e) => handleComponentChange(e, id)}
+                        onChange={(e) => handleComponentChange(e, id*2)}
                         spellCheck="false"
                         disabled={window.innerWidth > 1300 ? false : true}
                       />
@@ -609,7 +599,7 @@ const Map2Page = () => {
           {/* Second section for components with id > 4 */}
           <div className="m2-components-textarea-container">
             {Array.from({ length: 4 }).map((_, id) => {
-              const component = mapComponents[id+4]; // Get the corresponding component if it exists
+              const component = mapComponents[id*2+1]; // Get the corresponding component if it exists
               return (
                 <div
                   key={id}
@@ -627,7 +617,7 @@ const Map2Page = () => {
                       )}
                       <textarea
                         className="m2-component-textarea"
-                        ref={(el) => (textareaRefs.current[id] = el)}
+                        ref={(el) => (textareaRefs.current[id*2+1] = el)}
                         style={{
                           '--text-color': colors['Text'][component.type],
                           backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
@@ -640,7 +630,7 @@ const Map2Page = () => {
                         }
                         value={component.text}
                         onFocus={() => handleFocus(component.code)}
-                        onChange={(e) => handleComponentChange(e, id)}
+                        onChange={(e) => handleComponentChange(e, id*2+1)}
                         spellCheck="false"
                         disabled={window.innerWidth > 1300 ? false : true}
                       />
