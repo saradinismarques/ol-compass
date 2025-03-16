@@ -360,7 +360,7 @@
     width: 16vh; /* Set an explicit width */
     height: calc(var(--button-height) + 0.4vh); /* Set an explicit height */
     padding: 0;
-    margin-left: -0.05vh;
+    margin-left: -0.5%;
     box-sizing: border-box;
     outline: none;
     display: flex;

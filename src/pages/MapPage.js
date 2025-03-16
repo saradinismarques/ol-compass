@@ -10,8 +10,8 @@ import jsPDF from "jspdf";
 import { PDFDocument } from "pdf-lib"; // For merging PDFs
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { State, StateContext } from "../State.js";
-import coverImage from '../assets/images/map/PDF-cover-background.png';
-import indexImage from '../assets/images/map/PDF-index.png';
+import coverImage from '../assets/images/map/pdf-page-1.png';
+import indexImage from '../assets/images/map/pdf-page-2.png';
 import { createRoot } from 'react-dom/client';
 import '../styles/pages/MapPage.css';
 

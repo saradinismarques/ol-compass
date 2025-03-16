@@ -479,7 +479,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else if(component.type !== currentType && selectedComponents.includes(component.code))
           return 1;
         else  
-          return 0.2;
+          return 0.7;
       }
     } else if(compassType === "draggable") {
       if(currentType === 'All' || !currentType) 
@@ -513,7 +513,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     else if (mode === "intro-13" || mode === "intro-14" || mode === "intro-15" || mode === "intro-16") 
       return "";
     // Explanation Page
-    if(showExplanation && !mode.startsWith("intro"))
+    if(showExplanation && !mode.startsWith("intro") && mode !== "map-2-pdf")
       return "";
     if(bigLabels.includes(component.code)) {
       let firstIndex = component.label.indexOf(' ');

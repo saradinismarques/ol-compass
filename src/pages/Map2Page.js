@@ -8,7 +8,10 @@ import jsPDF from "jspdf";
 import { PDFDocument } from "pdf-lib"; // For merging PDFs
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { State, StateContext } from "../State.js";
-import coverImage from '../assets/images/map/PDF-cover-background.png';
+import PDFPage1 from '../assets/images/map/pdf-page-1.png';
+import PDFPage2 from '../assets/images/map/pdf-page-2.png';
+import PDFPage8 from '../assets/images/map/pdf-page-8.png';
+import PDFPage9 from '../assets/images/map/pdf-page-9.png';
 import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
@@ -150,21 +153,29 @@ const Map2Page = () => {
         pdf.addFont('Manrope-SemiBold.ttf', 'Manrope', 'semi-bold');
         pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-700']);
         pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
+        pdf.addFileToVFS('Bitter-SemiBold.ttf', encodedFonts['Bitter-600']);
+        pdf.addFont('Bitter-SemiBold.ttf', 'Bitter', 'semi-bold');
+        pdf.addFileToVFS('Bitter-Medium.ttf', encodedFonts['Bitter-500']);
+        pdf.addFont('Bitter-Medium.ttf', 'Bitter', 'medium');
 
-        // Cover Page
-        pdf.addImage(coverImage, "PNG", 0, 0, pageWidth, pageHeight);
-        pdf.setFont("Manrope", "semi-bold");
+        // Page 1
+        pdf.addImage(PDFPage1, "PNG", 0, 0, pageWidth, pageHeight);
+        pdf.setFont("Bitter", "semi-bold");
         pdf.setTextColor("white");
         pdf.setFontSize(55);
         pdf.text(mapProjectName, 15, 40);
-      },
+      }, 
+      async (pdf) => {
+        // Page 2
+        pdf.addImage(PDFPage2, "PNG", 0, 0, pageWidth, pageHeight);
+      }, 
       async (pdf) => {
         // All Page
         let text;
         if(language === "pt")
-          text = 'Os aspetos/potencial de Literacia Oceânica do teu projeto que consegui captar inicialmente.';
+          text = 'OVERVIEW';
         else
-          text = 'The OL aspects/potential of your project that I could initially capture';
+          text = 'OVERVIEW';
 
         await addTaskPage(pdf, text, 'All'); 
       },
@@ -172,9 +183,9 @@ const Map2Page = () => {
         // Principles
         let text;
         if(language === "pt")
-          text = 'Os aspetos/potencial de Literacia Oceânica do seu projeto > PRINCÍPIOS em foco';
+          text = 'PRINCÍPIOS';
         else
-          text = 'The OL aspects/potential of your project > PRINCIPLES focus';
+          text = 'PRINCIPLES';
 
         await addTaskPage(pdf, text, 'Principle'); 
       },
@@ -182,9 +193,9 @@ const Map2Page = () => {
         // Perspectives
         let text;
         if(language === "pt")
-          text = 'Os aspetos/potencial de Literacia Oceânica do seu projeto > PERSPECTIVAS em foco';
+          text = 'PERSPECTIVAS';
         else
-          text = 'The OL aspects/potential of your project > PERSPECTIVES focus';
+          text = 'PERSPECTIVES';
 
         await addTaskPage(pdf, text, 'Perspective'); 
       },
@@ -192,12 +203,30 @@ const Map2Page = () => {
         // Dimensions
         let text;
         if(language === "pt")
-          text = 'Os aspetos/potencial de Literacia Oceânica do seu projeto > DIMENSÕES em foco';
+          text = 'DIMENSÕES';
         else
-          text = 'The OL aspects/potential of your project > DIMENSIONS focus';
+          text = 'DIMENSIONS';
         
         await addTaskPage(pdf, text, 'Dimension'); 
       },
+      async (pdf) => {
+        // All Page
+        let text;
+        if(language === "pt")
+          text = 'RECAP';
+        else
+          text = 'RECAP';
+
+        await addTaskPage(pdf, text, 'All'); 
+      },
+      async (pdf) => {
+        // Page 8
+        pdf.addImage(PDFPage8, "PNG", 0, 0, pageWidth, pageHeight);
+      }, 
+      async (pdf) => {
+        // Page 9
+        pdf.addImage(PDFPage9, "PNG", 0, 0, pageWidth, pageHeight);
+      }, 
     ];
 
     const pdfBlobs = []; // Store each PDF as a Blob
@@ -237,11 +266,6 @@ const Map2Page = () => {
 };
 
   const addTaskPage = async(pdf, text, type) => {
-    // Loading Fonts
-    pdf.addFileToVFS('Manrope-Medium.ttf', encodedFonts['Manrope-500']);
-    pdf.addFont('Manrope-Medium.ttf', 'Manrope', 'medium');
-    pdf.addFileToVFS('Manrope-SemiBold.ttf', encodedFonts['Manrope-600']);
-    pdf.addFont('Manrope-SemiBold.ttf', 'Manrope', 'semi-bold');
     pdf.addFileToVFS('Manrope-Bold.ttf', encodedFonts['Manrope-700']);
     pdf.addFont('Manrope-Bold.ttf', 'Manrope', 'bold');
 
@@ -262,58 +286,18 @@ const Map2Page = () => {
     pdf.roundedRect(rectX, rectY, rectWidth, rectHeight, borderRadius, borderRadius, 'F'); // Draw a filled rectangle covering the entire page
 
     // Text
-    let parts 
-    if(language === "pt") parts = text.split(' em foco');
-    else parts = text.split(' focus');
-    const mainText = parts[0].trim();
-    const highlightText = mainText.split(' ').pop();  // Get the last word (to highlight)
-    const remainingText = language === "pt" ? 'em foco' : 'focus';
-
-    pdf.setFont('Manrope', 'medium');
-    pdf.setFontSize(12);
+    pdf.setFont('Manrope', 'bold');
     pdf.setTextColor("#0a4461");
+    // Calculate text width
+    const textWidth = pdf.getTextWidth(text);
 
-    let currentText;
-    if(type === 'All') {
-      currentText = text;
-      pdf.text(currentText, 16, 151);
-    } else {
-      currentText = mainText.replace(highlightText, '').trim();
-      
-      pdf.text(currentText, 16, 151);
+    // Centering the text
+    const textX = (pageWidth - textWidth) / 2; // Center horizontally
 
-      // Set the highlight color for the key part (the word to be highlighted)
-      pdf.setFont('Manrope', 'bold');
-      pdf.setTextColor(colors['Wave'][type]);
+    // Add text to the PDF
+    pdf.text(text, textX, 151);
 
-      let padding;
-      if(language === "pt") padding = 137
-      else padding = 101;
-      pdf.text(highlightText, padding, 151);
-
-      // Set the default color again for the 'focus' part
-      if(type === 'Principle') {
-        if(language === "pt") padding += 25.5; 
-        else padding += 25.5; 
-      } else if(type === 'Perspective') {
-        if(language === "pt") padding += 33; 
-        else padding += 32; 
-      } else if(type === 'Dimension') {
-        if(language === "pt") padding += 26.5; 
-        else padding += 27.5; 
-      }
-
-      pdf.setFont('Manrope', 'medium');
-      pdf.setTextColor("#0a4461");
-      pdf.text(remainingText, padding, 151);
-    }
-
-    // Big Wave
-    let x;
-    if(type === "All") 
-      x = 83;
-    else
-      x = 145;    ;
+    // Compass
     await renderToCanvas(
       <State>
         <Compass
@@ -323,19 +307,18 @@ const Map2Page = () => {
           stateSaved={mapComponents.map(component => component.code)}
         />
       </State>,
-        pdf, x, 12, 0.9
+        pdf, 83, 12, 0.9
     );
     
-    if(type === 'All')
+    if(text === 'OVERVIEW')
+      return;
+    else if(text === 'RECAP')
       await addTextareas(pdf);
     else
-      await addIconAndDefinitions(pdf, type);
+      await addIconDefinitionsTextareas(pdf, type);
   };
 
-  
   const addTextareas = async(pdf) => {
-    // Textareas
-
     // First section for the first 5 components
     if (mapComponents.length > 0) {
       await renderToCanvas(
@@ -405,7 +388,7 @@ const Map2Page = () => {
     } 
   };
 
-  const addIconAndDefinitions = async(pdf, type) => {
+  const addIconDefinitionsTextareas = async(pdf, type) => {
     // Compass Icon
     await renderToCanvas(
       <State>
@@ -428,37 +411,49 @@ const Map2Page = () => {
               <p className='m2-definition-title' 
                 style={{
                   color: `${colors['Label'][type]}`,
-                  background: `linear-gradient(
-                    to right, 
-                    ${colors['Wave'][type]} 5%, 
-                    white 60%
-                  )`,
+                  backgroundColor: `rgba(${hexToRgb(colors['Wave'][type])}, 0.3)`,
                 }}>
-                {component.label}
+                {`${component.code} - ${component.label}`}
               </p>
               <p className='m2-definition-text'>
                 {component.paragraph}
               </p>
             </div>
         ))}
-          <div className="m2-definitions-top-lines">
-            <div className="m2-definitions-horizontal-line"
-              style={{
-                background: `${colors['Intro Text'][type]}`,
-              }}>
-          </div>
-          <div className="m2-definitions-vertical-line"
-            style={{
-              background: `linear-gradient(
-                to bottom, 
-                ${colors['Intro Text'][type]} 60px, 
-                white 59px 100%
-              )`,
-            }}>
-          </div>
-        </div>
       </>,
       pdf, 23, 53, 1.1
+    );
+
+    // Textareas
+    await renderToCanvas(
+      <>
+        {mapComponents
+          .filter((component) => component.type === type) // Filter by the specific type
+          .map((component, index) => (
+            <div
+              key={index} 
+              className="m2-components-textarea-pdf"
+              style={{
+                '--text-color': colors['Text'][component.type], // Define CSS variable
+              }}
+            >
+              <div className='m2-textarea-label-pdf'>
+                {component.label}
+              </div>
+
+              <div
+                className="m2-component-textarea-pdf"
+                style={{
+                  '--text-color': colors['Text'][component.type], // Define CSS variable
+                  backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                }}
+              >
+                {component.text}
+              </div>
+            </div>
+        ))}
+      </>,
+      pdf, 222, 15, 0.9
     );
   };
 

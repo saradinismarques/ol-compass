@@ -167,12 +167,12 @@
 }
 
 .m2-component-textarea-pdf {
-    width: 208px;
+    width: 178px;
     height: 73px;
     line-height: 18px;
-    font-family: 'Manrope', sans-serif;
+    font-family: "Bitter", serif;
     font-size: 15px;
-    font-weight: 400;
+    font-weight: 500;
     color: var(--text-color); /* Uses the inherited variable */
     resize: none;
     margin-bottom: 0;
@@ -184,48 +184,14 @@
 }
 
 /* Definitions (PDF) */
-.m2-definitions-container.fixed {
-    position: fixed;
-    top: 15vh;
-    left: 9vw;
-}
-
-.m2-definitions-top-lines {
-    position: absolute;
-    top: 9px;
-    left: 0;
-    display: flex;
-}
-
-.m2-definitions-horizontal-line {
-    width: 275px;
-    height: 1px;
-    background-color: var(--background-color);
-}
-
-.m2-definitions-vertical-line {
-    width: 1px;
-    height: 320px; /* Total height of both lines */
-    background: linear-gradient(
-        to bottom, 
-        var(--background-color) 60px, /* Existing line color and height */
-        white 60px 100% /* White line starts after 60px and takes the rest */
-    );
-}
-
 .m2-definition {
     margin-bottom: 10px;
+    width: 220px;
 }
 
 .m2-definition-title {
-    width: 270px;
     font-size: 10px;
     color: var(--title-color);
-    background: linear-gradient(
-        to right, 
-        var(--background-color) 20%, /* Main color covers 70% of the area */
-        transparent 70%                  /* Fades into white by 100% */
-    );
     padding: 2px;
     padding-left: 5px;
     letter-spacing: 0.6px;  
@@ -233,7 +199,6 @@
 }
 
 .m2-definition-text {
-    width: 250px;
     font-size: 10px;
     font-weight: 300;
     margin-top: -7px;
