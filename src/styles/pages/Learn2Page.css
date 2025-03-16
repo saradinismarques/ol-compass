@@ -12,8 +12,8 @@
 /* Text Container */
 .l2-text-buttons-container {
     position: fixed;
-    top: 15vh; 
-    left: 64.9vw;
+    top: var(--top-space-2); 
+    left: calc(var(--left-space-3) - 1.9vh);
     z-index: 30;
     width: 43vh;
     font-weight: 400;
@@ -176,9 +176,9 @@
     align-items: center; /* Center them vertically */
     z-index: 30;
     position: fixed;
-    width: 26vw; /* Ensures it always takes full width */
-    top: 9vh;
-    right: 9vw;
+    width: var(--container-width); /* Ensures it always takes full width */
+    top: var(--top-space);
+    right: var(--left-space);
     transform: translateY(-50%);
     gap: 2vh;
 }
@@ -188,7 +188,6 @@
     font-weight: 300;
     text-transform: uppercase;
     white-space: nowrap;
-    margin-left: 4vh;
     color: var(--text-color); 
 }
 
@@ -200,14 +199,14 @@
   
 .l2-bookmark-button {
     background-color: transparent;
-    border: 0.3vh solid var(--text-color);
+    border: var(--button-border) solid var(--text-color);
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 4.3vh; /* Set an explicit width */
-    height: 4.3vh; /* Set an explicit height */
+    width: calc(var(--button-height) + 1.5*var(--button-border)); /* Set an explicit width */
+    height: calc(var(--button-height) + 1.5*var(--button-border)); /* Set an explicit height */
     padding: 0; /* Remove padding to match the exact size */
     box-sizing: border-box; /* Includes padding and border in total size */
     flex-shrink: 0; /* Ensures the bookmark never shrinks */
@@ -235,7 +234,7 @@
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--text-color);
-    stroke-width: 0.2vh;
+    stroke-width: var(--button-border);
     margin-right: -0.01vh;
 }
 

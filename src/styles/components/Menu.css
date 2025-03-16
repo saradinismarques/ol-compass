@@ -1,17 +1,8 @@
-:root {
-    --gray-color: #e5007e; /* Default color */
-    --gray-hover-color: #e5007e; /* Default color */
-    --left-space: 9vw;
-    --top-space: 9vh;
-    --button-height: 4vh;
-    --button-border: 0.3vh;
-}
-
 /* Left Menu Container */
 .left-menu {
     position: fixed;
     top: 12vh;
-    left: 14vw;
+    left: var(--left-space-2);
     display: flex;
     flex-direction: column;
     align-items: center;   /* Center items horizontally */
@@ -23,8 +14,8 @@
 .menu-button {
     margin-bottom: 1vh; /* Space between buttons */
     width: 19.5vh;
-    height: 3.9vh;
-    border: 0.3vh solid black;
+    height: var(--button-height);
+    border: var(--button-border) solid black;
     border-radius: 100px;
     cursor: pointer;
     text-decoration: none; /* Ensure links have no underline */
@@ -46,28 +37,27 @@
 .menu-button.active {
     background-color: black; /* Active state background color */
     color: white; /* Active state text color */
-    border: 0.35vh solid black; /* Border remains black to match the background */
 }
 
 .menu-button.semi-active {
-    border: 0.45vh solid black; /* Border remains black to match the background */
+    border: calc(var(--button-border) + 0.15vh) solid black; /* Border remains black to match the background */
 }
 
 /* Solo Mode Button */
 .menu-button.solo {
     position: fixed;
-    top: 9vh;
-    left: 14vw;
+    top: var(--top-space);
+    left: var(--left-space-2);
     transform: translateY(-50%);
 }
 
 .circle-button {
     position: fixed;
-    width: 4.3vh; /* Set an explicit width */
-    height: 4.3vh; /* Set an explicit height */
+    width: calc(var(--button-height) + 1.5*var(--button-border)); /* Set an explicit width */
+    height: calc(var(--button-height) + 1.5*var(--button-border)); /* Set an explicit height */
     transform: translateY(-50%);
     background-color: transparent;
-    border: 0.3vh solid black;
+    border: var(--button-border) solid black;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -80,21 +70,21 @@
 
 /* Home Button */
 .circle-button.home {
-    top: 9vh;
-    left: 9vw;   
+    top: var(--top-space);
+    left: var(--left-space);   
 }
 
 /* Go back button Button */
 .circle-button.go-back {
-    bottom: 9vh;
-    left: 9vw; 
+    bottom: var(--top-space);
+    left: var(--left-space); 
     transform: translateY(50%);
 }
 
 .circle-button.active {
     background-color: black; /* Active state background color */
     color: white; /* Active state text color */
-    border: 0.3vh solid black; /* Border remains black to match the background */
+    border: var(--button-border) solid black; /* Border remains black to match the background */
 }
 
 
@@ -128,9 +118,7 @@
     height: 2.3vh;
     fill: none; /* Set default color for the bookmark */
     stroke: black;
-    stroke-width: 0.3vh;
-    margin-bottom: 0.35vh;
-    margin-left: -0.05vh;
+    stroke-width: var(--button-border);
 }
 
 .go-back-icon {
@@ -138,14 +126,14 @@
     height: 2.3vh;
     fill: black; /* Set default color for the bookmark */
     stroke: black;
-    stroke-width: 2vh;
+    stroke-width: var(--button-border);
 }
 
 /* Text Above Modes Buttons ("I Want To") */
 .i-want-to-text {
     position: fixed;
-    left: 13vw;
-    top: 9vh;
+    left: var(--left-space-2);
+    top: var(--top-space);
     font-size: 2.8vh;
     transform: translateY(-50%);
     font-family: "Bitter", serif;
@@ -155,7 +143,7 @@
 /* Disabled Mode Button */
 .menu-button.disabled {
     color: #adadad; /* Light gray text color */
-    border: 0.3vh solid #b3b3b2; /* Light gray border */
+    border: var(--button-border) solid #b3b3b2; /* Light gray border */
 }
 
 .menu-button.disabled:hover,
@@ -165,22 +153,22 @@
 
 /* "Show More" Button */
 .menu-button.show-more {
-    border: 0.3vh solid  #a2a1a1;
+    border: var(--button-border) solid  #a2a1a1;
     background-color: transparent;
     color: #a2a1a1;
     width: 21.4vh;    /* Ensure it's the same width as other buttons */
-    height: 4.3vh;
+    height: var(--button-height);
 }
 
 /* Study Instruction */
 .menu-study-instructions {
     position: fixed;
-    bottom: 9vh;
-    left: 13vw; 
+    bottom: var(--top-space);
+    left: var(--left-space-2); 
     transform: translateY(50%);
     width: 27vh;
-    height: 4.3vh;
-    border: 0.3vh solid #d60b51;
+    height: calc(var(--button-height) + 1.5*var(--button-border));
+    border: var(--button-border) solid #d60b51;
     background-color: white;
     border-radius: 100px;
     cursor: pointer;
@@ -212,7 +200,7 @@
     width: 53vh;
     background-color: white;
     border-radius: 2vh;
-    border: 0.1vh solid #d60b51; /* Add a light grey border */
+    border: var(--button-border) solid #d60b51; /* Add a light grey border */
     text-align: center;
     z-index: 100;
     color: #d60b51;
@@ -258,7 +246,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #d60b51;
-    border: 0.1vh solid #d60b51;
+    border: var(--button-border) solid #d60b51;
     border-radius: 100px;
     padding: 1.5vh;
     color: white;
@@ -286,13 +274,13 @@
 /* Arrow Buttons  */
 .menu-arrow-container {
     position: fixed;
-    top: 9vh;
-    left: 14vw;
-    border: 0.3vh solid transparent;
+    top: var(--top-space);
+    left: var(--left-space-2);
+    border: var(--button-border) solid transparent;
     border-radius: 100px;
     transform: translateY(-50%);
     width: 19.8vh;
-    height: 3.9vh;
+    height: calc(var(--button-height) - var(--button-border));
     display: flex;
     flex-direction: column;
     align-items: center;   /* Center items horizontally */
@@ -387,7 +375,7 @@
     right: 0;
     top: calc(var(--top-space) + var(--button-height)/2 + var(--button-border));
     width: 100vw;
-    height: 4vh;
+    height: 3.45vh;
     opacity: 0.3;
     background-color: #a64b4b;
 }
@@ -397,7 +385,7 @@
     right: 0;
     bottom: calc(var(--top-space) + var(--button-height)/2 + var(--button-border));
     width: 100vw;
-    height: 4vh;
+    height: 3.45vh;
     opacity: 0.3;
     background-color: #a64b4b;
 }

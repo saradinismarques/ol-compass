@@ -13,8 +13,8 @@
 /* Text Container */
 .gi-text-container {
     position: fixed;
-    top: 16vh;
-    right: 9vw;
+    top: var(--top-space-2);
+    right: var(--left-space);
     display: flex;
     flex-direction: column; /* Arrange items in a column */
     align-items: center;   /* Center items horizontally */
@@ -22,8 +22,8 @@
 
 /* Card Container */
 .gi-card-container {
-    width: 49vh;
-    height: 62vh;
+    width: calc(var(--container-width) - 5vh);
+    height: calc(var(--container-height) - 5vh);
     padding: 2.5vh;
     border-radius: 1.2vh;
     background: linear-gradient(to bottom right, #9797b1 25%, #d4d4df 80%);
@@ -67,7 +67,7 @@
     font-size: 1.8vh;
     font-weight: 200;
     position: absolute;  /* Absolute positioning within the container */
-    bottom: 14.1vh;        
+    bottom: 14.8vh;        
 }
 
 .gi-boxes-container {
@@ -92,31 +92,31 @@
     font-size: 1.6vh;
 }
 
-.gi-text-box.type { width: 22vh; }
+.gi-text-box.type { width: 23vh; }
 .gi-text-box.age { width: 10vh; }
 .gi-text-box.time { width: 14vh; }
 .gi-text-box.languages { width: 14vh; }
-.gi-text-box.mainTarget { width: 22vh; }
+.gi-text-box.mainTarget { width: 23vh; }
 .gi-text-box.year { width: 10vh; }
 
 .gi-text-box.collection {
     color: #29294a;
-    width: 48vh;
+    width: 49vh;
 }
 
 /* Bookmark Button */
 .gi-bookmark-button {
     background-color: transparent;
-    border: 0.3vh solid white;
+    border: var(--button-border) solid white;
     border-radius: 50%;
     position: fixed;
-    right: 5%;
+    right: 7.5%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 4.3vh; /* Set an explicit width */
-    height: 4.3vh; /* Set an explicit height */
+    width: var(--button-height); /* Set an explicit width */
+    height: var(--button-height); /* Set an explicit height */
     padding: 0;
     box-sizing: border-box;
     outline: none;
@@ -144,7 +144,7 @@
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: white;
-    stroke-width: 0.2vh;
+    stroke-width: var(--button-border);
 }
 
 /* Arrow Buttons  */
@@ -195,8 +195,8 @@
 /* Results Container */
 .gi-results-container {
     position: fixed;
-    bottom: 11vh;
-    left: 78vw;
+    bottom: calc(var(--top-space-2) - 3.45vh);
+    right: calc(var(--left-space) + var(--container-width)/2);
     display: flex;
     align-items: center; /* Center them vertically */
 }
@@ -213,8 +213,8 @@
 /* Search Logic Menu */
 .gi-search-container {
     position: fixed;
-    top: 9vh;
-    left: 65.85vw;
+    top: var(--top-space);
+    left: var(--left-space-3);
     display: flex;
     align-items: center; /* Center them vertically */
     transform: translateY(-50%);
@@ -222,10 +222,10 @@
 
 .gi-search-logic-menu {
     width: 31.5vh;
-    height: 4.2vh;
+    height: calc(var(--button-height) + 1vh);
     display: flex;
     align-items: center;
-    border: 0.2vh solid #dedede;
+    border: var(--button-border) solid #dedede;
     border-radius: 50px;
     padding: 0;
     overflow: hidden;
@@ -249,7 +249,7 @@
     align-items: center;
     background-color: #b1b1b1;
     border-radius: 50px;
-    padding: 0.4vh 0.4vh;
+    padding: 0.6vh 0.6vh;
     margin-left: -0.2vh;
     gap: 0.6vh;
     z-index: 20; /* Ensure it’s on top */
@@ -259,7 +259,7 @@
 .gi-logic-button {
     border: none;
     background-color: #bcbcbc;
-    padding: 0.4vh 1.2vh;
+    padding: 0.6vh 1.2vh;
     border-radius: 50px;
     cursor: pointer;
     color: #7a7a79;
@@ -285,8 +285,8 @@
     left: var(--search-button-left);
     color: white;
     border: none;
-    height: 3.7vh;
-    padding: 1vh 1.7vh 1vh 0; /* Adjusted left padding */;
+    height: calc(var(--button-height) + 0.5vh);
+    padding: 1vh 1.2vh 1vh 0; /* Adjusted left padding */;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -316,7 +316,7 @@
     padding: 1vh;
     z-index: 20; /* Ensure it’s on top */
     width: 30.7vh;
-    height: 3.5vh;
+    height: calc(var(--button-height) + 0.3vh);
     font-size: 1.5vh;
     border: none;
     cursor: pointer;
@@ -329,8 +329,8 @@
 /* Dropdown Menu */
 .gi-dropdown-container {
     position: fixed;
-    top: 9vh;
-    right: 9vw;
+    top: var(--top-space);
+    right: var(--left-space);
 }
 
 .gi-dropdown-container.disabled {
@@ -341,8 +341,8 @@
 .gi-dropdown-button {
     transform: translateY(-50%);    
     width: 20vh;
-    height: 4.2vh;
-    border: 0.2vh solid #dedede;
+    height: calc(var(--button-height) + 0.2vh);
+    border: var(--button-border) solid #dedede;
     border-radius: 50px;
     padding: 0;
     overflow: hidden;
@@ -354,11 +354,11 @@
 /* Show bookmark button */
 .gi-show-bookmarks-container {
     background-color: transparent;
-    border: 0.2vh solid #dedede;
+    border: var(--button-border) solid #dedede;
     border-radius: 50px;
     cursor: pointer;
     width: 16vh; /* Set an explicit width */
-    height: 4.4vh; /* Set an explicit height */
+    height: calc(var(--button-height) + 0.4vh); /* Set an explicit height */
     padding: 0;
     margin-left: -0.05vh;
     box-sizing: border-box;
@@ -391,11 +391,11 @@
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--gray-color);
-    stroke-width: 0.2vh;
+    stroke-width: var(--button-border);
 }
 
 .gi-show-bookmarks-container.active {
-    border: 0.2vh solid var(--bookmark-cs-color);
+    border: var(--button-border) solid var(--bookmark-cs-color);
     background-color: var(--bookmark-cs-color); /* Active state background color */
     color: white;
 }
@@ -411,11 +411,11 @@
 /* Show all button */
 .gi-show-carousel-container {
     background-color: transparent;
-    border: 0.2vh solid #dedede;
+    border: var(--button-border) solid #dedede;
     border-radius: 50px;
     cursor: pointer;
     width: 16vh; /* Set an explicit width */
-    height: 4.4vh; /* Set an explicit height */
+    height: calc(var(--button-height) + 0.4vh); /* Set an explicit height */
     padding: 0;
     margin-left: -0.05vh;
     box-sizing: border-box;
@@ -439,7 +439,7 @@
 }
 
 .gi-show-carousel-container.active {
-    border: 0.2vh solid var(--gray-color);
+    border: var(--button-border) solid var(--gray-color);
     background-color: var(--gray-color); /* Active state background color */
     color: white;
 }
@@ -455,7 +455,7 @@
     color: black;
     background-color: transparent;
     border: none;
-    height: 4vh;
+    height: var(--button-height);
     cursor: pointer;
     z-index: 10;
     outline: none;
@@ -486,7 +486,7 @@
     font-size: 1.5vh;
     width: 20vh;
     border: none;
-    height: 4.2vh;
+    height: calc(var(--button-height) + 0.2vh);
     border-radius: 1vh;
 }
   

@@ -9,7 +9,9 @@ export const State = ({ children }) => {
     // Global
     const [colors, setColors] = useState(getColorPallete(1));
     document.documentElement.style.setProperty('--selection-color', colors['Selection']);
-
+    document.documentElement.style.setProperty('--gray-color', colors['Gray']);
+    document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
+  
     const [language, setLanguage] = useState('en');
 
     const [showExplanation, setShowExplanation] = useState(true);

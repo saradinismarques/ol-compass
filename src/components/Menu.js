@@ -23,9 +23,6 @@ const Menu = () => {
   const currentPath = location.pathname;
   const navigate = useNavigate(); // Initialize the navigate function
 
-  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
-  document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
-
   // Determine the active button based on the current path
   const getActiveButton = (path) => {
     switch (path) {
@@ -253,7 +250,7 @@ const Menu = () => {
             {language === "pt" ? "MAPEAR" : "MAP"}
           </Link>
         }
-        <div className='guideline-1'></div>
+        {/* <div className='guideline-1'></div>
         <div className='guideline-2'></div>
         <div className='guideline-3'></div>
         <div className='guideline-4'></div>
@@ -263,7 +260,7 @@ const Menu = () => {
         <div className='guideline-8'></div>
         <div className='guideline-9'></div>
         <div className='guideline-10'></div>
-        <div className='guideline-11'></div>
+        <div className='guideline-11'></div> */}
         {/*  (menuExpanded || activeButton === 'map') && 
           <Link
             to="/map"
