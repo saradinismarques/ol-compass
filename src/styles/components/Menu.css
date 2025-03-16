@@ -1,6 +1,10 @@
 :root {
     --gray-color: #e5007e; /* Default color */
     --gray-hover-color: #e5007e; /* Default color */
+    --left-space: 9vw;
+    --top-space: 9vh;
+    --button-height: 4vh;
+    --button-border: 0.3vh;
 }
 
 /* Left Menu Container */
@@ -337,4 +341,115 @@
     stroke: var(--gray-color);
     stroke-width: 0;
 }
+
+.guideline-1 {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: var(--left-space);
+    height: 100vh;
+    opacity: 0.3;
+    background-color: #4d4d4d;
+}
+
+.guideline-2 {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: var(--left-space);
+    height: 100vh;
+    opacity: 0.3;
+    background-color: #4d4d4d;
+}
+
+.guideline-3 {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100vw;
+    height: var(--top-space);
+    opacity: 0.3;
+    background-color: #4d4d4d;
+}
+
+.guideline-4 {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: var(--top-space);
+    opacity: 0.3;
+    background-color: #4d4d4d;
+}
+
+.guideline-5 {
+    position: fixed;
+    right: 0;
+    top: calc(var(--top-space) + var(--button-height)/2 + var(--button-border));
+    width: 100vw;
+    height: 4vh;
+    opacity: 0.3;
+    background-color: #a64b4b;
+}
+
+.guideline-6 {
+    position: fixed;
+    right: 0;
+    bottom: calc(var(--top-space) + var(--button-height)/2 + var(--button-border));
+    width: 100vw;
+    height: 4vh;
+    opacity: 0.3;
+    background-color: #a64b4b;
+}
+
+.guideline-7 {
+    position: fixed;
+    transform: translateY(-50%);
+    right: 0;
+    top: 50vh;
+    width: 100vw;
+    height: 0.1vh;
+    background-color: #a64b4b;
+}
+
+.guideline-8 {
+    position: fixed;
+    transform: translateX(-50%);
+    left: 20vw;
+    top: 0;
+    width: 0.1vh;
+    height: 100vh;
+    background-color: #4d4d4d;
+}
+
+.guideline-9 {
+    position: fixed;
+    transform: translateX(-50%);
+    left: 40vw;
+    top: 0;
+    width: 0.1vh;
+    height: 100vh;
+    background-color: #a64b4b;
+}
+
+.guideline-10 {
+    position: fixed;
+    transform: translateX(-50%);
+    left: 60vw;
+    top: 0;
+    width: 0.1vh;
+    height: 100vh;
+    background-color: #4d4d4d;
+}
+
+.guideline-11 {
+    position: fixed;
+    transform: translateX(-50%);
+    left: 80vw;
+    top: 0;
+    width: 0.1vh;
+    height: 100vh;
+    background-color: #4d4d4d;
+}
+
 

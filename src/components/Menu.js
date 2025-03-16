@@ -253,6 +253,17 @@ const Menu = () => {
             {language === "pt" ? "MAPEAR" : "MAP"}
           </Link>
         }
+        <div className='guideline-1'></div>
+        <div className='guideline-2'></div>
+        <div className='guideline-3'></div>
+        <div className='guideline-4'></div>
+        <div className='guideline-5'></div>
+        <div className='guideline-6'></div>
+        <div className='guideline-7'></div>
+        <div className='guideline-8'></div>
+        <div className='guideline-9'></div>
+        <div className='guideline-10'></div>
+        <div className='guideline-11'></div>
         {/*  (menuExpanded || activeButton === 'map') && 
           <Link
             to="/map"
