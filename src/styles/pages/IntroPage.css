@@ -10,22 +10,22 @@
     top: 47vh; /* Position item 50% from the top */
     left: 60vw; 
     transform: translate(-50%, -50%);
-    max-width: 35vh;
     text-align: center; /* Center the text inside the element */
     color: #274893;   
     z-index: 30; 
 }
 
 .i-welcome {
-    font-size: 3.5vh;
-    font-weight: 400;
+    font-size: 3.7vh;
+    font-weight: 300;
     letter-spacing: 0.1vh;
 }
 
 .i-title {
-    font-size: 7vh;
-    font-weight: 600;
+    font-size: 8vh;
+    font-weight: 700;
     line-height: 0.9;
+    font-family: "Bitter", serif;
 }
 
 /* Explanation (Frame 01) */
@@ -37,6 +37,7 @@
     text-align: center; /* Center the text inside the element */
     color: #274893;  
     z-index: 30; 
+    font-family: "Bitter", serif;
 }
 
 .i-explanation {
@@ -62,6 +63,7 @@
     left: 72vw;
     width: 40vh;
     z-index: 30;
+    font-family: "Bitter", serif;
 }
 
 @media (max-aspect-ratio: 16/9) {

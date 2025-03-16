@@ -44,6 +44,7 @@
     font-size: 3.3vh;
     font-weight: 400;
     color: var(--text-color); 
+    font-family: "Bitter", serif;
 }
 
 .l2-question {
@@ -85,7 +86,7 @@
 
 /* Text Styles */
 .l2-text.bold {
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .l2-text.underline {

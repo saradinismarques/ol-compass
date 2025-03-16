@@ -24,7 +24,8 @@
 
 .description-headline {
     font-size: 6vh; /* Smaller size for h2 */
-    font-weight: 800;
+    font-weight: 700;
+    font-family: "Bitter", serif;
 }
 
 .description-text {

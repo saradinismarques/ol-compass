@@ -25,8 +25,8 @@
     width: 51.8vh;
     height: 3.5vh;
     padding-left: 1vh;
-    font-family: 'Manrope', sans-serif;
-    font-size: 2.3vh;
+    font-family: "Bitter", serif;
+    font-size: 2.7vh;
     font-weight: 400;
     color: var(--gray-color); /* Set placeholder color to white */
     resize: none;
@@ -39,7 +39,7 @@
 }
 
 .m2-project-name-textarea::placeholder {
-    font-size: 2.5vh;
+    font-size: 2.7vh;
     font-weight: 400;
 }
 
@@ -75,9 +75,9 @@
     width: 21.2vh;
     height: 11vh;
     line-height: 2.5vh;
-    font-family: 'Manrope', sans-serif;
-    font-size: 1.7vh;
-    font-weight: 400;
+    font-family: "Bitter", serif;
+    font-size: 1.9vh;
+    font-weight: 500;
     color: var(--text-color); /* Uses the inherited variable */
     resize: none;
     margin-bottom: 0;

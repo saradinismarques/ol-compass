@@ -245,6 +245,12 @@ const IntroPage = () => {
     const getDisplayText = () => {
         if (frame === 0) {
             const title = introTexts.Title;
+            return (
+                <div className="i-title-container">
+                    <div className='i-welcome'>WELCOME TO THE</div>
+                    <div className='i-title'>OL-in-One Compass</div>
+                </div>
+            );
             return <>{replaceBolds(title, "i-title-container", "i-welcome", "i-title")}</>;
         } else if (frame === 1) {
             const introDef = introTexts.IntroDef;

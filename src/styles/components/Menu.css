@@ -151,7 +151,8 @@
     top: 9vh;
     font-size: 2.8vh;
     transform: translateY(-50%);
-
+    font-family: "Bitter", serif;
+    font-style: italic;
 }
 
 /* Disabled Mode Button */
