@@ -1,4 +1,5 @@
 import colorPalletData from '../data/static/color-pallete-data.json'
+import enLabelsData from '../data/static/en/labels-texts.json';
 import enIntroTexts from '../data/static/en/intro-texts.json'
 import enModesTexts from '../data/static/en/modes-texts.json'
 import enTooltipsTexts from '../data/content/en/tooltips-texts.json'
@@ -19,6 +20,22 @@ import ptLinksDimensions from '../data/content/pt/links-dimensions.json';
 import ptGetInspiredData from '../data/content/pt/get-inspired-data.json';
 
 // Static
+export const getLabelsTexts = (language, section) => {
+    try {
+        let lanLabelsData;
+        if(language === "en") lanLabelsData = enLabelsData;
+        else if(language === "pt") lanLabelsData = enLabelsData;
+        else lanLabelsData = enLabelsData;
+
+        // Attempt to retrieve the section from the JSON data
+        return lanLabelsData[section] || {};
+    } catch (error) {
+        // Catch and log any error that occurs during the process
+        console.error("Error processing JSON:", error);
+        return {}; // Return an empty object or some fallback value
+    }
+};
+
 export function getColorPallete(version) {
     try {
 

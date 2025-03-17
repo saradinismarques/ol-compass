@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
-import { getIntroTexts } from '../utils/DataExtraction.js';
+import { getIntroTexts, getLabelsTexts } from '../utils/DataExtraction.js';
 import { replaceBolds, replaceBoldsBreaksPlaceholders } from '../utils/TextFormatting.js';
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
@@ -22,6 +22,7 @@ const IntroPage = () => {
       } = useContext(StateContext);
 
     const introTexts = getIntroTexts(language);
+    const labelsTexts = getLabelsTexts(language, "intro");
     const [frame, setFrame] = useState(0);
     const navigate = useNavigate(); // Initialize the navigate function
     const [isHoverLeft, setIsHoverLeft] = useState(false);
@@ -426,10 +427,10 @@ const IntroPage = () => {
                             toggleDontSkipButton();
                         }}
                     >
-                        WALK ME THROUGH IT
+                        {labelsTexts["walk-me-through-it"]}
                     </button>
                     <div className='i-dont-skip-message'>
-                        it only takes 2 minutes!
+                        {labelsTexts["only-2-minutes"]}
                     </div>
 
                     <button
@@ -439,7 +440,7 @@ const IntroPage = () => {
                             toggleSkipButton();
                         }}
                     >
-                        SKIP INTRODUCTION
+                        {labelsTexts["skip-introduction"]}
                     </button>
                 </div>
             }
@@ -472,16 +473,13 @@ const IntroPage = () => {
                     </div>
                     <div className='i-frame-11-text'>
                         <div className='i-frame-11-line'>
-                            OL as “blue” integration
-                            of school curricula
+                            {labelsTexts["timeline-2005"]}
                         </div>
                         <div className='i-frame-11-line'>
-                            OL as ‘education&culture
-                            for sustainability’ innovation
+                            {labelsTexts["timeline-2017"]}
                         </div>
                         <div className='i-frame-11-line'>
-                            OL as key leverage for
-                            marine citizenship
+                            {labelsTexts["timeline-2022"]}
                         </div>
                     </div>
                 </div>
@@ -497,17 +495,16 @@ const IntroPage = () => {
                     </div>
                     <div className='i-frame-12-text'>
                         <div className='i-frame-12-line-1'>
-                            WHAT
+                            {labelsTexts["questions-what"]}
                         </div>
                         <div className='i-frame-12-line-2'>
-                            DO I WANT TO LEARN/TELL
-                            ABOUT THE OCEAN?
+                            {labelsTexts["questions-do-you-want"]}
                         </div>
                         <div className='i-frame-12-line-3'>
-                            FROM WHAT ANGLE
+                            {labelsTexts["questions-from-what-angle"]}
                         </div>
                         <div className='i-frame-12-line-4'>
-                            HOW
+                            {labelsTexts["questions-how"]}
                         </div>
                     </div>
                 </div>
@@ -520,7 +517,7 @@ const IntroPage = () => {
                     toggleStartButton();
                 }}
             >
-                YUP, LET'S START!
+                {labelsTexts["yup-lets-start"]}
             </button>
             }
         </div>

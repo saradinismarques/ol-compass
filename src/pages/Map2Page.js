@@ -16,6 +16,7 @@ import PDFWatermark from '../assets/images/map/pdf-watermark-pagesize.png';
 import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
+import { getLabelsTexts } from '../utils/DataExtraction.js';
 import '../styles/pages/Map2Page.css';
 
 const Map2Page = () => {
@@ -33,6 +34,8 @@ const Map2Page = () => {
     setFirstUse,
   } = useContext(StateContext);
 
+  const labelsTexts = getLabelsTexts(language, "map");
+  const compassTexts = getLabelsTexts(language, "compass");
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [currentComponent, setCurrentComponent] = useState();
   const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
@@ -172,51 +175,31 @@ const Map2Page = () => {
       }, 
       async (pdf) => {
         // All Page
-        let text;
-        if(language === "pt")
-          text = 'OVERVIEW';
-        else
-          text = 'OVERVIEW';
+        let text = labelsTexts["overview"];
 
         await addTaskPage(pdf, text, 'All'); 
       },
       async (pdf) => {
         // Principles
-        let text;
-        if(language === "pt")
-          text = 'PRINCÍPIOS';
-        else
-          text = 'PRINCIPLES';
+        let text = compassTexts["Principle"];
 
         await addTaskPage(pdf, text, 'Principle'); 
       },
       async (pdf) => {
         // Perspectives
-        let text;
-        if(language === "pt")
-          text = 'PERSPECTIVAS';
-        else
-          text = 'PERSPECTIVES';
+        let text = compassTexts["Perspective"];
 
         await addTaskPage(pdf, text, 'Perspective'); 
       },
       async (pdf) => {
         // Dimensions
-        let text;
-        if(language === "pt")
-          text = 'DIMENSÕES';
-        else
-          text = 'DIMENSIONS';
+        let text = compassTexts["Dimension"];
         
         await addTaskPage(pdf, text, 'Dimension'); 
       },
       async (pdf) => {
         // All Page
-        let text;
-        if(language === "pt")
-          text = 'RECAP';
-        else
-          text = 'RECAP';
+        let text = labelsTexts["recap"];
 
         await addTaskPage(pdf, text, 'All'); 
       },
@@ -538,7 +521,7 @@ const Map2Page = () => {
             <textarea
                 className="m2-project-name-textarea" 
                 type="text" 
-                placeholder={language === "pt" ? "Insere o título do mapa" : "Insert map title"}
+                placeholder={labelsTexts["inster-map-title"]}
                 value={mapProjectName} 
                 onChange={handleProjectNameChange}
                 spellCheck="false"
@@ -662,12 +645,8 @@ const Map2Page = () => {
               }}
               >
                 {isGenerating !== 'Error' 
-                ? (language === 'pt' 
-                    ? 'Baixar Relatório Visual' 
-                    : 'DONE! DOWNLOAD VISUAL REPORT') 
-                : (language === 'pt' 
-                    ? 'Tente Novamente' 
-                    : 'TRY AGAIN')}
+                ? labelsTexts["download-visual-report"]
+                : labelsTexts["try-again"]}
               </button>
 
               <p className='m2-download-progress' style={{
@@ -678,9 +657,7 @@ const Map2Page = () => {
                   : 'transparent', // Change text color based on isGenerating state
               }}>
                 {isGenerating === 'Error' 
-                ? (language === 'pt' 
-                    ? 'Erro ao Gerar PDF :(' 
-                    : 'Error Generating PDF :(') 
+                ? labelsTexts["error-generating-pdf"]
                 : `${Math.round(downloadProgress)}% ${language === 'pt' ? 'Completo' : 'Complete'}`}
               </p> 
             </>
@@ -688,9 +665,7 @@ const Map2Page = () => {
 
           {limitExceeded &&
             <div className='m2-limit-exceed-message'>
-              {language === 'pt' 
-              ? 'Máximo de 8 elementos!' 
-              : 'Maximum 8 elements!'}
+              {labelsTexts["max-6-elements"]}
             </div>
           }
         </>

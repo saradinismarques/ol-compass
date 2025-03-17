@@ -229,3 +229,46 @@ export function replaceBoldsUnderlinesHighlights(text, textStyle, boldStyle, und
     );
 }
 
+export function replaceBoldsColoredBreaks(text, textStyle, boldStyle, colorStyle) {
+    return (
+        <div style={{ display: "block" }}>
+            {text
+                .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||") // Replace <b> tags with markers
+                .replace(/<c>(.*?)<\/c>/g, "||C||$1||C||") // Replace <c> tags with markers
+                .split(/<br>/g) // Split text by <br> tags to create separate paragraphs
+                .map((paragraph, index) => {
+                    const uniqueKey = `${Date.now()}-${index}`; // Unique key based on timestamp and index
+                    
+                    return (
+                        <p key={uniqueKey} style={{ margin: "2vh 0", display: "block" }}> {/* Increase margin for space between paragraphs */}
+                            {paragraph
+                                .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|C\|\|.*?\|\|C\|\|)/g) // Split based on bold and colored markers
+                                .map((part, index2) => {
+                                    const uniquePartKey = `${uniqueKey}-${index2}`; // Unique key for each part
+                                    
+                                    if (part.startsWith("||B||")) {
+                                        return (
+                                            <span key={uniquePartKey} className={boldStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|B\|\|/g, "")}
+                                            </span>
+                                        );
+                                    }
+                                    if (part.startsWith("||C||")) {
+                                        return (
+                                            <span key={uniquePartKey} className={colorStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|C\|\|/g, "")}
+                                            </span>
+                                        );
+                                    }
+                                    return (
+                                        <span key={uniquePartKey} className={textStyle} style={{ display: "inline" }}>
+                                            {part}
+                                        </span>
+                                    );
+                                })}
+                        </p>
+                    );
+                })}
+        </div>
+    );
+}

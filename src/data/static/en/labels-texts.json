@@ -1,0 +1,65 @@
+{
+    "menu": {
+      "lets": "Let's",
+      "learn": "LEARN",
+      "get-inspired": "GET INSPIRED",
+      "map": "MAP",
+      "study-instructions": "STUDY INSTRUCTIONS",
+      "study-instructions-text": "This study aims at making you test the ‘<b>LEARN</b>’, ‘<b>GET INSPIRED</b>’ and ‘<b>MAP</b>’ functions, in <b>2 STEPS</b>. <br> <b>STEP 1 (5’): UNDERSTAND EACH FUNCTION</b> Get an overview of all the three functions, quickly exploring them one after the other in the listed order. You are required to <b>say aloud what the given function does</b> before moving to the next. <br> <b>STEP 2 (15’): MAP OL-RELATED ACTIVITY</b> Spend some time deepening your OL knowledge with the <b>final goal of mapping an OL-related didactic activity</b> <c>that you carried out.</c> You can move freely across functions. <br> NB You are not expected to absorb as much information as possible, but to simply navigate OL knowledge based on your curiosity and interests.<br> If you feel stuck, you can ask us for help. <b>Please always think aloud</b>, and enjoy!",
+      "ok-got-it": "Ok, got it!"
+    },
+    "description": {
+      "start": "START",
+      "continue": "CONTINUE"
+    },
+    "compass": {
+      "P": "Principle",
+      "Pe": "Perspective",
+      "D": "Dimension",
+      "Principle": "PRINCIPLES",
+      "Perspective": "PERSPECTIVES",
+      "Dimension": "DIMENSIONS"
+    },
+    "intro": {
+      "walk-me-through-it": "WALK ME THROUGH IT",
+      "skip-introduction": "SKIP INTRODUCTION",
+      "only-2-minutes": "it only takes 2 minutes!",
+      "timeline-2005": "OL as \"blue\" integration of school curricula",
+      "timeline-2017": "OL as ‘education&culture for sustainability’ innovation",
+      "timeline-2022": "OL as key leverage for marine citizenship",
+      "questions-what": "WHAT",
+      "questions-do-you-want": "DO I WANT TO LEARN/TELL ABOUT THE OCEAN?",
+      "questions-from-what-angle": "FROM WHAT ANGLE",
+      "questions-how": "HOW",
+      "yup-lets-start": "YUP, LET'S START!"
+    },
+    "learn": {
+      "question-0": "In short",
+      "question-1-principles": "How does it apply to the <b>Atlantic Ocean</b>?",
+      "question-2-principles": "How does it apply to <b>Portugal</b>?",
+      "question-1-others": "How can it be applied in practice?"
+    },
+    "get-inspired": {
+      "credits": "Credits",
+      "no-saved-cs": "No case studies saved yet. Press the bookmark icon to save a case study",
+      "no-filters-cs": "No case studies found with those filters. Try using others",
+      "results": "results",
+      "at-least-one": "AT LEAST ONE",
+      "all": "ALL",
+      "search": "SEARCH",
+      "back-to-filters": "BACK TO FILTERING MODE",
+      "show-saved": "SHOW SAVED",
+      "show-all": "SHOW ALL"
+    },
+    "map": {
+      "overview": "OVERVIEW",
+      "recap": "RECAP",
+      "inster-map-title": "Insert map title",
+      "download-visual-report": "DONE! DOWNLOAD VISUAL REPORT",
+      "error-generating-pdf": "Error Generating PDF :(",
+      "complete": "Complete",
+      "try-again": "TRY AGAIN",
+      "max-6-elements": "Maximum 6 elements!"
+    }
+  }
+  

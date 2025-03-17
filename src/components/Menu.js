@@ -5,6 +5,8 @@ import { ReactComponent as GoBackIcon } from '../assets/icons/go-back-icon.svg';
 import { StateContext } from "../State";
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { useNavigate } from 'react-router-dom';
+import { getLabelsTexts } from '../utils/DataExtraction.js';
+import { replaceBoldsColoredBreaks } from '../utils/TextFormatting.js';
 import '../styles/components/Menu.css';
 
 const Menu = () => {
@@ -18,6 +20,7 @@ const Menu = () => {
     setShowInstruction
   } = useContext(StateContext);
 
+  const labelsTexts = getLabelsTexts(language, "menu");
   const [showStudyInstruction, setShowStudyInstruction] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
@@ -129,42 +132,16 @@ const Menu = () => {
        {showStudyInstruction && (
         <div className="menu-message-box">
           <div className="menu-message-question">
-            STUDY INSTRUCTIONS
+            {labelsTexts["study-instructions"]}
           </div>
-          <div className='menu-message-text'>
-            <p>
-              This study aims at making you test the ‘<span className="menu-bold-text">LEARN</span>’,
-              ‘<span className="menu-bold-text">GET INSPIRED</span>’ and ‘<span className="menu-bold-text">MAP</span>’ functions, in <span className="menu-bold-text">2 STEPS</span>.
-            </p>
-            <p>
-            <span className="menu-bold-text">STEP 1 (5’): UNDERSTAND EACH FUNCTION</span>
-            Get an overview of all the three functions, quickly
-            exploring them one after the other in the listed order.
-            You are required to <span className="menu-bold-text">say aloud what the given
-            function does</span> before moving to the next. 
-            </p>
-            <p>
-            <span className="menu-bold-text">STEP 2 (15’): MAP OL-RELATED ACTIVITY</span>
-            Spend some time deepening your OL knowledge
-            with the <span className="menu-bold-text">final goal of mapping an OL-related
-            didactic activity</span> <span className="menu-blue-text">that you carried out.</span>
-            You can move freely across functions. 
-            </p>
-            <p>
-            NB You are not expected to absorb as much
-            information as possible, but to simply navigate OL
-            knowledge based on your curiosity and interests.
-            </p>
-            <p>
-            If you feel stuck, you can ask us for help.
-            <span className="menu-bold-text">Please always think aloud</span>, and enjoy!
-            </p>
-          </div>
+          {replaceBoldsColoredBreaks(
+            labelsTexts["study-instructions-text"],
+          'menu-message-text', 'menu-message-text bold', 'menu-message-text blue')}
           <button 
             className="menu-got-it-button" 
             onClick={() => handleShowStudyInstruction(false)}
           >
-            Ok, got it!
+            {labelsTexts["ok-got-it"]}
           </button>
         </div>
       )}
@@ -214,7 +191,7 @@ const Menu = () => {
       <div className="left-menu">
         {menuExpanded && 
           <div className='i-want-to-text'>
-            {language === "pt" ? "Vamos:" : "Let's:"}
+            {labelsTexts["lets"]}
           </div>
         }
         
@@ -225,7 +202,7 @@ const Menu = () => {
               ${activeButton === 'learn2' && !showExplanation ? 'active' : ''} 
               ${activeButton === 'learn2' && showExplanation ? 'semi-active' : ''}`}
           >
-            {language === "pt" ? "APRENDER" : "LEARN"}
+            {labelsTexts["learn"]}
           </Link>
         }
         
@@ -236,7 +213,7 @@ const Menu = () => {
               ${activeButton === 'get-inspired' && !showExplanation ? 'active' : ''} 
               ${activeButton === 'get-inspired' && showExplanation ? 'semi-active' : ''}`}
           >
-            {language === "pt" ? "INSPIRAR-ME" : "GET INSPIRED"}
+            {labelsTexts["get-inspired"]}
           </Link>
         }
 
@@ -247,7 +224,7 @@ const Menu = () => {
               ${activeButton === 'map2' && !showExplanation ? 'active' : ''} 
               ${activeButton === 'map2' && showExplanation ? 'semi-active' : ''}`}
           >
-            {language === "pt" ? "MAPEAR" : "MAP"}
+            {labelsTexts["map"]}
           </Link>
         }
         {/* <div className='guideline-1'></div>

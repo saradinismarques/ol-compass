@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
-import { getGetInspiredData } from '../utils/DataExtraction.js'; 
+import { getGetInspiredData, getLabelsTexts } from '../utils/DataExtraction.js'; 
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
@@ -41,6 +41,7 @@ const GetInspiredPage = () => {
 
   const navigate = useNavigate(); // Initialize the navigate function
 
+  const labelsTexts = getLabelsTexts(language, "get-inspired");
   const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
   const componentsRef = useRef(giComponents);
@@ -362,7 +363,7 @@ const GetInspiredPage = () => {
                 <h1 className="gi-title">{currentCaseStudy.title}</h1>
                 <p className="gi-description">{currentCaseStudy.description}</p>
                 {/* <p>{height}</p> */}
-                <p className="gi-credits">{language === "pt" ? "Créditos" : "Credits"}: {currentCaseStudy.credits}</p>
+                <p className="gi-credits">{labelsTexts["credits"]}</p>
   
                 <div className='gi-boxes-container'>
                 <div className='gi-box-row'>
@@ -393,12 +394,8 @@ const GetInspiredPage = () => {
             {!showInstruction && resultsNumber === 0 && (
               <div className="gi-no-results">
                 {searchLogic === 'SAVED' 
-                ? (language === 'pt' 
-                    ? "Nenhum caso de estudo salvo ainda. Clique no ícone de marcador para salvar um caso de estudo"
-                    : "No case studies saved yet. Press the bookmark icon to save a case study")
-                : (language === 'pt' 
-                    ? "Nenhum caso de estudo encontrado com esses filtros. Tente usar outros"
-                    : "No case studies found with those filters. Try using others")}
+                ? labelsTexts["no-saved-cs"]
+                : labelsTexts["no-filters-cs"]}
               </div>
             )}
   
@@ -425,7 +422,7 @@ const GetInspiredPage = () => {
             <div className='gi-results-container'>
               {resultsNumber !== -1 && (
                 <p className={`gi-results`}>
-                  <span className='gi-bold-text'>{resultsNumber}</span>&nbsp;{language === "pt" ? "resultados" : "results"}
+                  <span className='gi-bold-text'>{resultsNumber}</span>&nbsp;{labelsTexts["results"]}
                 </p>
               )}
             </div>
@@ -439,13 +436,13 @@ const GetInspiredPage = () => {
                         className={`gi-logic-button ${searchLogic === 'OR' ? 'active' : ''}`}
                         onClick={() => handleSearchLogicChange("OR")}
                       >
-                        {language === "pt" ? "PELO MENOS UM" : "AT LEAST ONE"}
+                        {labelsTexts["at-least-one"]}
                       </button>
                       <button
                         className={`gi-logic-button ${searchLogic === 'AND' ? 'active' : ''}`}
                         onClick={() => handleSearchLogicChange("AND")}
                       >
-                        {language === "pt" ? "TUDO" : "ALL"}
+                        {labelsTexts["all"]}
                       </button>
                     </div>
                   }
@@ -454,7 +451,7 @@ const GetInspiredPage = () => {
                       className="gi-back-to-filters-button" 
                       onClick={handleBackFiltering}
                     >
-                      {language === "pt" ? "PESQUISA" : "BACK TO FILTERING MODE"}
+                      {labelsTexts["back-to-filters"]}
                     </button>
                   }
                 </div>
@@ -463,7 +460,7 @@ const GetInspiredPage = () => {
                     className="gi-search-button" 
                     onClick={handleDefaultSearch}
                   >
-                    {language === "pt" ? "PESQUISA" : "SEARCH"}
+                    {labelsTexts["search"]}
                   </button>
                 } 
               </div>
@@ -480,7 +477,7 @@ const GetInspiredPage = () => {
                   >   
                     <BookmarkIcon className="gi-bookmark-icon show" />
                     <p className='gi-show-bookmark-button'>
-                      {language === "pt" ? "SALVOS" : "SHOW SAVED"}
+                      {labelsTexts["show-saved"]}
                     </p>
                   </button>
                 }
@@ -490,7 +487,7 @@ const GetInspiredPage = () => {
                     className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
                   >   
                     <p className='gi-show-carousel-button'>
-                      {language === "pt" ? "TODOS" : "SHOW ALL"}
+                      {labelsTexts["show-all"]}
                     </p>
                   </button>
                 }
@@ -510,7 +507,7 @@ const GetInspiredPage = () => {
                       className={`gi-show-carousel-container ${searchLogic === 'CAROUSEL' ? 'active' : ''} ${showInstruction ? 'disabled' : ''}`}
                     >   
                       <p className='gi-show-carousel-button'>
-                        {language === "pt" ? "TODOS" : "SHOW ALL"}
+                        {labelsTexts["show-all"]}
                       </p>
                     </button>
                   }
@@ -520,7 +517,7 @@ const GetInspiredPage = () => {
                       className={`gi-show-bookmarks-container ${searchLogic === 'SAVED' ? 'active' : ''}`}
                     >   
                       <p className='gi-show-bookmark-button'>
-                        {language === "pt" ? "SALVOS" : "SHOW SAVED"}
+                        {labelsTexts["show-saved"]}
                       </p>
                     </button>
                   }

@@ -1,5 +1,5 @@
 import React, { useContext, useCallback } from 'react';
-import { getModeTexts } from '../utils/DataExtraction.js'; 
+import { getModeTexts, getLabelsTexts } from '../utils/DataExtraction.js'; 
 import { ReactComponent as WaveIcon } from '../assets/icons/wave-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
@@ -18,6 +18,7 @@ const Description = ({ mode }) => {
     firstUse,
   } = useContext(StateContext);
 
+  const labelsTexts = getLabelsTexts(language, "description");
   const description = getModeTexts(mode, language);
 
   // Placeholder-to-Component mapping
@@ -58,7 +59,7 @@ const Description = ({ mode }) => {
               className='description-start-button'
               onClick={handleStartButton}
             >
-              {firstUse[mode] ? "START" : "CONTINUE"}
+              {firstUse[mode] ? labelsTexts["start"] : labelsTexts["continue"]}
             </button>
           }
         </>

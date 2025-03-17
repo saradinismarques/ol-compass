@@ -3,6 +3,7 @@ import { StateContext } from "../State.js";
 import { encodedFonts } from '../assets/fonts/Fonts.js';
 import { getTypeTooltip } from '../utils/DataExtraction.js';
 import Wave, { getComponents } from "./Wave.js"
+import { getLabelsTexts } from '../utils/DataExtraction.js';
 
 const CompassIcon = ({ mode, currentType }) => {
   // Global Variables  
@@ -19,6 +20,7 @@ const CompassIcon = ({ mode, currentType }) => {
   // Tooltip
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
+  const labelsTexts = getLabelsTexts(language, "compass");
   
   useEffect(() => {
     // Function to update height on window resize
@@ -118,15 +120,6 @@ const CompassIcon = ({ mode, currentType }) => {
     </div>
   );
 
-  const getCurrentType = () => {
-    if(currentType === "Principle")
-      return language === "pt" ? "Princípios" : "Principles";
-    else if(currentType === "Perspective")
-      return language === "pt" ? "Perspectivas" : "Perspectives";
-    else if(currentType === "Dimension")
-      return language === "pt" ? "Dimensões" : "Dimensions";
-  }
-
   return (
     <div 
       style={{
@@ -176,7 +169,7 @@ const CompassIcon = ({ mode, currentType }) => {
                 letterSpacing: `${mode === "map" ? "1.5px" : "0.3vh"}`, // Increases the spacing between letters
               }}
             >
-              {getCurrentType()}
+              {labelsTexts[currentType]}
             </p>
           </div>
         </div>

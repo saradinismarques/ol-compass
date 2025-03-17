@@ -3,6 +3,7 @@ import { StateContext } from "../State.js";
 import { getComponentsData } from '../utils/DataExtraction.js'; 
 import Wave, { getComponents } from "./Wave.js"
 import { cleanText } from '../utils/TextFormatting.js';
+import { getLabelsTexts } from '../utils/DataExtraction.js';
 
 const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, currentComponent, currentLinks, currentType, stateSaved }) => {
   // Size and screen resize handler
@@ -294,17 +295,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   // Functions
   function convertLabel(label) {
     // Define a mapping of prefixes to their corresponding full names
-    const enPrefixMap = {
-        "P": "Principle",
-        "Pe": "Perspective",
-        "D": "Dimension"
-    };  
-    const ptPrefixMap = {
-      "P": "Princípio",
-      "Pe": "Perspectiva",
-      "D": "Dimensão"
-    };  
-
+    const labelsTexts = getLabelsTexts(language, "compass");
+    
     // Use a regular expression to capture the prefix and the number
     const regex = /^([A-Za-z]+)(\d+)$/;
     const match = label.match(regex);
@@ -314,11 +306,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         const number = match[2];
 
         // Find the corresponding full name for the prefix
-        let fullName;
-        if(language === "pt")
-          fullName = ptPrefixMap[prefix];
-        else 
-          fullName = enPrefixMap[prefix];
+        let fullName = labelsTexts[prefix];
 
         if (fullName) {
             return `${fullName} ${number}`;

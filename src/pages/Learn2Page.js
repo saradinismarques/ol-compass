@@ -6,8 +6,9 @@ import Menu from '../components/Menu';
 import Description from '../components/Description';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
-import { replaceBoldsUnderlinesHighlights } from '../utils/TextFormatting.js';
+import { replaceBoldsUnderlinesHighlights, replaceBolds } from '../utils/TextFormatting.js';
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
+import { getLabelsTexts } from '../utils/DataExtraction.js';
 import '../styles/pages/Learn2Page.css';
 
 const Learn2Page = () => {
@@ -24,6 +25,7 @@ const Learn2Page = () => {
     setSavedComponents,
   } = useContext(StateContext);
 
+  const labelsTexts = getLabelsTexts(language, "learn");
   const [currentLinks, setCurrentLinks] = useState(null);
   // Initialize activeButton as an object with all entries set to 0
   const [activeButton, setActiveButton] = useState(0);
@@ -119,40 +121,32 @@ const Learn2Page = () => {
           componentRef.current.paragraph,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
-        1: <span className='l2-question'>
-            {language === 'pt' 
-              ? <>Como se aplica ao <span className="l2-question-bold">Oceano Atlântico</span>?</>
-              : <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>}
-          </span>,
-        2: <span className='l2-question'>
-            {language === 'pt' 
-              ? <>Como se aplica a <span className="l2-question-bold">Portugal</span>?</>
-              : <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>}
-          </span>,
+        1: replaceBolds(
+            labelsTexts["question-1-principles"], 
+            null, 'l2-question', 'l2-question bold'),
+        2: replaceBolds(
+          labelsTexts["question-2-principles"], 
+          null, 'l2-question', 'l2-question bold')
       },
       1: {
         0: <span className='l2-question'>
-            {language === 'pt' ? 'Em resumo' : 'In short'}
+            {labelsTexts["question-0"]}
           </span>,
         1: replaceBoldsUnderlinesHighlights(
           componentRef.current.region_feature,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
-        2: <span className='l2-question'>
-            {language === 'pt' 
-              ? <>Como se aplica a <span className="l2-question-bold">Portugal</span>?</>
-              : <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>}
-          </span>,
+        2: replaceBolds(
+          labelsTexts["question-2-principles"], 
+          null, 'l2-question', 'l2-question bold'),
       },
       2: {
         0: <span className='l2-question'>
-            {language === 'pt' ? 'Em resumo' : 'In short'}
+            {labelsTexts["question-0"]}
           </span>,
-        1: <span className='l2-question'>
-            {language === 'pt' 
-              ? <>Como se aplica ao <span className="l2-question-bold">Oceano Atlântico</span>?</>
-              : <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>}
-          </span>,
+        1: replaceBolds(
+          labelsTexts["question-1-principles"], 
+          null, 'l2-question', 'l2-question bold'),
         2: replaceBoldsUnderlinesHighlights(
           componentRef.current.country_e1,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
@@ -160,13 +154,11 @@ const Learn2Page = () => {
       },
       3: {
         0: <span className='l2-question'>
-            {language === 'pt' ? 'Em resumo' : 'In short'}
+            {labelsTexts["question-0"]}
           </span>,
-        1: <span className='l2-question'>
-            {language === 'pt' 
-              ? <>Como se aplica ao <span className="l2-question-bold">Oceano Atlântico</span>?</>
-              : <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>}
-          </span>,
+        1: replaceBolds(
+          labelsTexts["question-1-principles"], 
+          null, 'l2-question', 'l2-question bold'),
         2: replaceBoldsUnderlinesHighlights(
           componentRef.current.country_e2,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
@@ -174,18 +166,14 @@ const Learn2Page = () => {
       },
       null: {
         0: <span className='l2-question'>
-            {language === 'pt' ? 'Em resumo' : 'In short'}
+            {labelsTexts["question-0"]}
           </span>,
-        1: <span className='l2-question'>
-            {language === 'pt' 
-              ? <>Como se aplica ao <span className="l2-question-bold">Oceano Atlântico</span>?</>
-              : <>How does it apply to the <span className="l2-question-bold">Atlantic Ocean</span>?</>}
-          </span>,
-        2: <span className='l2-question'>
-            {language === 'pt' 
-              ? <>Como se aplica a <span className="l2-question-bold">Portugal</span>?</>
-              : <>How does it apply to <span className="l2-question-bold">Portugal</span>?</>}
-          </span>,
+        1: replaceBolds(
+          labelsTexts["question-1-principles"], 
+          null, 'l2-question', 'l2-question bold'),
+        2: replaceBolds(
+          labelsTexts["question-2-principles"], 
+          null, 'l2-question', 'l2-question bold'),
       },
     };
     return buttonTexts[activeButtonRef.current]?.[buttonIndex] || null;
@@ -200,14 +188,12 @@ const Learn2Page = () => {
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         1: <span className='l2-question'>
-            {language === 'pt' 
-              ? 'Como pode ser aplicado na prática?' 
-              : 'How can it be applied in practice?'}
+            {labelsTexts["question-1-others"]}
           </span>,
       },
       1: {
         0: <span className='l2-question'>
-            {language === 'pt' ? 'Em resumo' : 'In short'}
+            {labelsTexts["question-0"]}
           </span>,
         1: replaceBoldsUnderlinesHighlights(
           componentRef.current.example_1,
@@ -216,7 +202,7 @@ const Learn2Page = () => {
       },
       2: {
         0: <span className='l2-question'>
-            {language === 'pt' ? 'Em resumo' : 'In short'}
+            {labelsTexts["question-0"]}
           </span>,
         1: replaceBoldsUnderlinesHighlights(
           componentRef.current.example_2,
@@ -225,12 +211,10 @@ const Learn2Page = () => {
       },
       null: {
         0: <span className='l2-question'>
-            {language === 'pt' ? 'Em resumo' : 'In short'}
+            {labelsTexts["question-0"]}
           </span>,
         1: <span className='l2-question'>
-            {language === 'pt' 
-              ? 'Como pode ser aplicado na prática?' 
-              : 'How can it be applied in practice?'}
+            {labelsTexts["question-1-others"]}
           </span>,
       },
     };
