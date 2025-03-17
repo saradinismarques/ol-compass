@@ -167,7 +167,7 @@
 }
 
 .m2-component-textarea-pdf {
-    width: 178px;
+    width: 160px;
     height: 73px;
     line-height: 18px;
     font-family: "Bitter", serif;
@@ -186,7 +186,7 @@
 /* Definitions (PDF) */
 .m2-definition {
     margin-bottom: 10px;
-    width: 220px;
+    width: 160px;
 }
 
 .m2-definition-title {
@@ -199,7 +199,7 @@
 }
 
 .m2-definition-text {
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 300;
     margin-top: -7px;
 }

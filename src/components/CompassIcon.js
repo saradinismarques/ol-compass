@@ -173,7 +173,7 @@ const CompassIcon = ({ mode, currentType }) => {
                 fontWeight: 400, // Medium weight for this text
                 fontSize: `${mode === "map" ? "11px" : "1.6vh"}`,
                 textTransform: "uppercase", // Converts text to uppercase
-                letterSpacing: `${mode === "map" ? "2px" : "0.3vh"}`, // Increases the spacing between letters
+                letterSpacing: `${mode === "map" ? "1.5px" : "0.3vh"}`, // Increases the spacing between letters
               }}
             >
               {getCurrentType()}

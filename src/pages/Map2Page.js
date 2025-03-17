@@ -12,6 +12,7 @@ import PDFPage1 from '../assets/images/map/pdf-page-1.png';
 import PDFPage2 from '../assets/images/map/pdf-page-2.png';
 import PDFPage8 from '../assets/images/map/pdf-page-8.png';
 import PDFPage9 from '../assets/images/map/pdf-page-9.png';
+import PDFWatermark from '../assets/images/map/pdf-watermark-pagesize.png';
 import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
@@ -162,8 +163,8 @@ const Map2Page = () => {
         pdf.addImage(PDFPage1, "PNG", 0, 0, pageWidth, pageHeight);
         pdf.setFont("Bitter", "semi-bold");
         pdf.setTextColor("white");
-        pdf.setFontSize(55);
-        pdf.text(mapProjectName, 15, 40);
+        pdf.setFontSize(49);
+        pdf.text(mapProjectName, 15.5, 38);
       }, 
       async (pdf) => {
         // Page 2
@@ -276,8 +277,8 @@ const Map2Page = () => {
     pdf.setFillColor('#dfe9e9'); // RGB for green
     pdf.rect(0, 0, pageWidth, pageHeight, 'F'); // Draw a filled rectangle covering the entire page
 
-    const rectWidth = pageWidth - 16;  // Width of the rectangle
-    const rectHeight = pageHeight - 16; // Height of the rectangle
+    const rectWidth = pageWidth - 16.5;  // Width of the rectangle
+    const rectHeight = pageHeight - 16.5; // Height of the rectangle
     const rectX = (pageWidth - rectWidth) / 2;  // Centered X position
     const rectY = (pageHeight - rectHeight) / 2; // Centered Y position
     const borderRadius = 3; // Radius of the rounded corners
@@ -287,6 +288,7 @@ const Map2Page = () => {
 
     // Text
     pdf.setFont('Manrope', 'bold');
+    pdf.setFontSize(16);
     pdf.setTextColor("#0a4461");
     // Calculate text width
     const textWidth = pdf.getTextWidth(text);
@@ -295,7 +297,7 @@ const Map2Page = () => {
     const textX = (pageWidth - textWidth) / 2; // Center horizontally
 
     // Add text to the PDF
-    pdf.text(text, textX, 151);
+    pdf.text(text, textX, 152);
 
     // Compass
     await renderToCanvas(
@@ -307,15 +309,15 @@ const Map2Page = () => {
           stateSaved={mapComponents.map(component => component.code)}
         />
       </State>,
-        pdf, 83, 12, 0.9
+        pdf, 87.4, 19, 0.83
     );
     
-    if(text === 'OVERVIEW')
-      return;
-    else if(text === 'RECAP')
+    if(text === 'RECAP')
       await addTextareas(pdf);
-    else
+    else if(text !== 'OVERVIEW')
       await addIconDefinitionsTextareas(pdf, type);
+
+    pdf.addImage(PDFWatermark, "PNG", 0, 0, pageWidth, pageHeight);
   };
 
   const addTextareas = async(pdf) => {
@@ -349,7 +351,7 @@ const Map2Page = () => {
             )
           ))}
         </>,
-        pdf, 17, 15, 0.9
+        pdf, 27.5, 23, 0.9
       );
     }
 
@@ -383,7 +385,7 @@ const Map2Page = () => {
             )
           ))}
         </>,
-        pdf, 222, 15, 0.9
+        pdf, 223, 23, 0.9
       );
     } 
   };
@@ -396,7 +398,7 @@ const Map2Page = () => {
           mode="map" 
           currentType={type} />
       </State>,
-      pdf, 18, 4, 1.1
+      pdf, 12, 8, 1.1
     );
 
     // Definitions
@@ -421,7 +423,7 @@ const Map2Page = () => {
             </div>
         ))}
       </>,
-      pdf, 23, 53, 1.1
+      pdf, 27.5, 53, 1.1
     );
 
     // Textareas
@@ -453,7 +455,7 @@ const Map2Page = () => {
             </div>
         ))}
       </>,
-      pdf, 222, 15, 0.9
+      pdf, 223, 23, 0.9
     );
   };
 
