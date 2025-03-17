@@ -20,6 +20,7 @@ export const State = ({ children }) => {
     // Home
     const initialFirstUse = useMemo(
         () => ({
+          "intro": true,
           "home": true,
           "get-started": true,
           "learn": true,

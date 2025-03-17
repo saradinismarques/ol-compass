@@ -18,6 +18,8 @@ const IntroPage = () => {
         opacityCounter,
         setOpacityCounter,
         randomComponents,
+        firstUse,
+        setFirstUse,
         setRandomComponents
       } = useContext(StateContext);
 
@@ -33,6 +35,7 @@ const IntroPage = () => {
     const showSkipButtonsRef = useRef(showSkipButtons);
     const frameRef = useRef(frame);
     const maxFrame = 16;
+    const firstUseRef = useRef(firstUse);
 
     const maxCounters = useMemo(() => ({
         Principle: 6,
@@ -45,6 +48,10 @@ const IntroPage = () => {
     useEffect(() => {
         showSkipButtonsRef.current = showSkipButtons;
     }, [showSkipButtons]);
+
+    useEffect(() => {
+        firstUseRef.current = firstUse;
+    }, [firstUse]);
 
     useEffect(() => {
         frameRef.current = frame;
@@ -62,19 +69,29 @@ const IntroPage = () => {
 
     // Handlers
     const handleNext = useCallback(() => {
-        setFrame((prevFrame) => {
-            const newFrame = prevFrame + 1 <= maxFrame ? prevFrame + 1 : maxFrame;
-            frameRef.current = newFrame; // Update the ref
-            return newFrame;
-        });
+        if(frameRef.current === 3 && !firstUseRef.current['intro']) {
+            setFrame(7)
+            frameRef.current = 7; // Update the ref
+        } else {
+            setFrame((prevFrame) => {
+                const newFrame = prevFrame + 1 <= maxFrame ? prevFrame + 1 : maxFrame;
+                frameRef.current = newFrame; // Update the ref
+                return newFrame;
+            });
+        }
     }, [maxFrame]);
     
     const handlePrev = useCallback(() => {
-        setFrame((prevFrame) => {
-            const newFrame = prevFrame - 1 >= 0 ? prevFrame - 1 : 0;
-            frameRef.current = newFrame; // Update the ref
-            return newFrame;
-        });
+        if(frameRef.current === 7) {
+            setFrame(3)
+            frameRef.current = 3; // Update the ref
+        } else {
+            setFrame((prevFrame) => {
+                const newFrame = prevFrame - 1 >= 0 ? prevFrame - 1 : 0;
+                frameRef.current = newFrame; // Update the ref
+                return newFrame;
+            });
+        }
     }, []);
     
     // useCallback ensures handleKeyPress doesn't change unless its dependencies do
@@ -101,9 +118,9 @@ const IntroPage = () => {
         const screenHeight = window.innerHeight;
         const ignoreHeight = (15 / 100) * screenHeight; // Convert 6vh to pixels
         
-        if (clickPositionX > screenWidth / 2 && frameRef.current === maxFrame-1) 
+        if (clickPositionX > screenWidth / 2 && frameRef.current === maxFrame-1 && frameRef.current === 4 && frameRef.current === 5 && frameRef.current === 6) 
             return; // Ignore movement in the first 6vh
-
+        
         if (clickPositionY < ignoreHeight) return; // Ignore clicks/touches in the first 6vh
 
         if (clickPositionX > screenWidth / 2) {
@@ -127,11 +144,11 @@ const IntroPage = () => {
             const isLeft = e.clientX < screenWidth / 2;
             const isRight = e.clientX >= screenWidth / 2;
 
-            if (isLeft && frameRef.current === 0) { 
+            if (isLeft && frameRef.current === 0 && frameRef.current === 4 && frameRef.current === 5 && frameRef.current === 6) { 
                 setCursorType("default");
                 return; // Ignore movement in the first 6vh
             }
-            if (isRight && frameRef.current === maxFrame-1) { 
+            if (isRight && frameRef.current === maxFrame-1 && frameRef.current === 4 && frameRef.current === 5 && frameRef.current === 6) { 
                 setCursorType("default");
                 return; // Ignore movement in the first 6vh
             }
@@ -152,17 +169,14 @@ const IntroPage = () => {
         };
     }, [cursorType]);
     
-    useEffect(() => {   
+    useEffect(() => {  
         const isComplete =
-            (frame === 0 || frame === 1 || frame === 2 || frame === 3) ||
-            (frame === 4 && opacityCounter.Principle >= maxCounters.Principle) ||
-            (frame === 5 && opacityCounter.Perspective >= maxCounters.Perspective) ||
-            (frame === 6 && opacityCounter.Dimension >= maxCounters.Dimension) ||
-            (frame === 7 || frame === 8 || frame === 9 || frame === 10 || 
-            frame === 11 || frame === 12 || frame === 13 || frame === 14 ||
-            frame === 15 || frame === 16);
+            (frameRef.current === 0 || frameRef.current === 1 || frameRef.current === 2 || frameRef.current === 3) ||
+            (frameRef.current === 7 || frameRef.current === 8 || frameRef.current === 9 || frameRef.current === 10 || 
+            frameRef.current === 11 || frameRef.current === 12 || frameRef.current === 13 || frameRef.current === 14 ||
+            frameRef.current === 15 || frameRef.current === 16);
         
-        if (isComplete && !showSkipButtons) {
+        if (isComplete && !showSkipButtons && frameRef.current !== 4 && frameRef.current !== 5 && frameRef.current !== 6) {
             setListenersActive(true);
         } else {
             setListenersActive(false);
@@ -196,6 +210,19 @@ const IntroPage = () => {
         }
     }, [frame, navigate]); // Trigger navigation when state changes to 6
 
+    useEffect(() => {
+        if (frame === 7) {
+            setFirstUse(prevState => {
+                const newState = {
+                    ...prevState, // Keep all existing attributes
+                    intro: false  // Update only 'learn'
+                };
+                firstUseRef.current = newState;
+                return newState;
+            });
+        }
+    }, [frame]);
+    
     // Define the action based on the current state
     const actionMap = {
         0: 'intro-0',
@@ -235,13 +262,6 @@ const IntroPage = () => {
         }, 300); // Delay for each button (3 seconds between each)
     }
 
-    // Function to sequentially light up "Principle" buttons
-    function startRandomComponentsCounter() {
-        setTimeout(() => {
-            setRandomComponents(['P2', 'P3', 'P4', 'P6', 'Pe1', 'Pe4', 'Pe5', 'Pe7', 'D3', 'D5', 'D7', 'D8', 'D10']);
-        }, 2000); // Delay for each button (3 seconds between each)
-    }
-
     // Determine the text to display based on the current state
     const getDisplayText = () => {
         if (frame === 0) {
@@ -277,6 +297,10 @@ const IntroPage = () => {
         } else if (frame === 4) {
             startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
+            setTimeout(() => {
+                setFrame(5);
+                frameRef.current = 5;
+            }, 300*7); // Delay for each button (3 seconds between each)
             const defineP = introTexts.DefineP;
             return (
                 <div className="i-text-container">
@@ -286,6 +310,10 @@ const IntroPage = () => {
         } else if (frame === 5) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
+            setTimeout(() => {
+                setFrame(6);
+                frameRef.current = 6;
+            }, 300*7); // Delay for each button (3 seconds between each)
             const clarifyP = introTexts.ClarifyP;
             return (
                 <div className="i-text-container">
@@ -296,7 +324,10 @@ const IntroPage = () => {
         } else if(frame === 6) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
-            const definePe = introTexts.DefinePe;
+            setTimeout(() => {
+                setFrame(7);
+                frameRef.current = 7;
+            }, 300*10); // Delay for each button (3 seconds between each)const definePe = introTexts.DefinePe;
             return (
                 <div className="i-text-container">
                     <div className='i-text'>DD</div>
@@ -359,7 +390,10 @@ const IntroPage = () => {
                 </div>
             );
         } else if(frame === 14) {
-            startRandomComponentsCounter();
+            setTimeout(() => {
+                setRandomComponents(['P2', 'P3', 'P4', 'P6', 'Pe1', 'Pe4', 'Pe5', 'Pe7', 'D3', 'D5', 'D7', 'D8', 'D10']);
+            }, 2000); // Delay for each button (3 seconds between each)
+
             const clarifyD = introTexts.ClarifyD;
             return (
                 <div className="i-explanation-container">
@@ -378,10 +412,12 @@ const IntroPage = () => {
 
     const toggleSkipButton = () => {
         setFrame(maxFrame);
+        frameRef.current = maxFrame;
     };
 
     const toggleStartButton = () => {
         setFrame(maxFrame);
+        frameRef.current = maxFrame;
     };
 
     const toggleDontSkipButton = () => {
@@ -446,13 +482,13 @@ const IntroPage = () => {
             }
             {!showSkipButtons &&
             <>
-                {frame !== 0 && (
+                {frame !== 0 && frame !== 4 && frame !== 5 && frame !== 6 && (
                     <button className={`i-arrow-button left ${isHoverLeft ? "hover" : ""}`}>
                         <Arrow2Icon className="i-arrow-icon" />
                     </button>
                 )}
 
-                {frame !== maxFrame-1 && (
+                {frame !== maxFrame-1 && frame !== 4 && frame !== 5 && frame !== 6 && (
                     <button className={`i-arrow-button right ${isHoverRight ? "hover" : ""}`}>
                         <Arrow2Icon className="i-arrow-icon" />
                     </button>
