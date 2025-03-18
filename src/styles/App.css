@@ -1,5 +1,9 @@
 :root {
     --gray-color: #841321; /* Default color */
+    --highlightP-color: transparent; /* Default color */
+    --highlightPe-color: transparent; /* Default color */
+    --highlightD-color: transparent; /* Default color */
+    --component-bookmark-color: #e5007e; /* Default color */
     --container-width: 54vh;
     --container-height: 65vh;
     --left-space: 6.5vw;
@@ -48,11 +52,75 @@ body {
     font-size: 3.3vw;
 }
 
-.instruction {
+.instruction-container {
     position: fixed;
-    top: 38vh;
-    left: 67vw;
+    top: 30.5vh;
+    left: var(--left-space-3);
     width: 30vh;
+}
+
+.instruction {
     font-size: 2.7vh;
+    font-weight: 300;
     color: var(--gray-color);
 }
+
+.instruction.highlightP {
+    font-weight: 400;
+    color: var(--highlightP-color);
+}
+
+.instruction.highlightPe {
+    font-weight: 400;
+    color: var(--highlightPe-color);
+}
+
+.instruction.highlightD {
+    font-weight: 400;
+    color: var(--highlightD-color);
+}
+
+/* Icons */
+.text-icon {
+    width: 1.7em;
+    height: 1.7em;
+    fill: var(--gray-color); /* Set default color for the bookmark */
+    transition: fill 0.2s ease, stroke 0.2s ease;
+    stroke: var(--gray-color);
+    margin-left: 0.3vh;
+    margin-right: 0.3vh;
+
+}
+
+.text-icon.wave {
+    margin-bottom: -0.5vh;
+}
+
+/* .text-icon.wave-space {
+    margin-left: 5px;
+} */
+
+.text-icon.cta-arrow {
+    width: 0.8em;
+    height: 0.8em;
+    margin-right: 0.3vw;
+}
+
+/* "Not Available" Message */
+.not-available {
+    margin-top: -0.5vh;
+    display: flex;
+    align-items: center;
+    font-size: 2.4vh; /* Smaller size for h2 */
+    font-weight: 500;
+    color: #841321;
+} 
+
+.lock-icon {
+    fill: #841321;
+    height: 1.1em;
+    width: 1.1em;
+    margin-right: 0.5vw;
+    margin-top: 0.1vh;
+}
+

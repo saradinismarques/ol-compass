@@ -11,7 +11,6 @@ import '../styles/components/Menu.css';
 
 const Menu = () => {
   const {
-    colors,
     language,
     firstUse,
     setFirstUse,

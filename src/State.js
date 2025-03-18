@@ -1,5 +1,10 @@
-    import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState } from 'react';
 import { getColorPallete } from './utils/DataExtraction.js'; 
+import { ReactComponent as WaveIcon } from './assets/icons/wave-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as ArrowIcon } from './assets/icons/arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as BookmarkIcon } from './assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as CtaArrow } from './assets/icons/cta-arrow-icon.svg'; // Adjust the path as necessary
+import { ReactComponent as LockIcon } from './assets/icons/lock-icon.svg'; // Adjust the path as necessary
 
 // Create the context
 export const StateContext = createContext();
@@ -59,6 +64,15 @@ export const State = ({ children }) => {
         'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10',
     ];
 
+    // Icons
+    const iconsMap = {
+        "[WAVE-I]": <WaveIcon className="text-icon wave" />,
+        "[ARROW-I]": <ArrowIcon className="text-icon" />,
+        "[BOOKMARK-I]": <BookmarkIcon className="text-icon " />,
+        "[CTAARROW-I]": <CtaArrow className="text-icon cta-arrow" />,
+        "[LOCK-I]": <LockIcon className="lock-icon" />,
+    };
+
     // Intro
     const initialCounters = {
         Principle: 0,
@@ -113,7 +127,8 @@ export const State = ({ children }) => {
                 currentGIComponents,
                 setCurrentGIComponents,
                 randomComponents,
-                setRandomComponents
+                setRandomComponents,
+                iconsMap
                 // Add other global states here as needed
             }}
         >

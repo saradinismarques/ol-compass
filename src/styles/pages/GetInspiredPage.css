@@ -1,10 +1,4 @@
 :root {
-    --selection-color: #e5007e; /* Default color */
-    --selection-hover-color: #841321; /* Default color */
-    --bookmark-cs-color: #e5007e; /* Default color */
-    --bookmark-cs-hover-color: #841321; /* Default color */
-    --gray-color: #841321; /* Default color */
-    --gray-hover-color: #841321; /* Default color */
     --search-menu-width: 35vh; /* Default color */
     --logic-buttons-width: 22.3vh; /* Default color */
     --search-button-left: -6%; /* Default color */

@@ -6,9 +6,9 @@ import Menu from '../components/Menu';
 import Description from '../components/Description';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
-import { replaceBoldsUnderlinesHighlights, replaceBolds } from '../utils/TextFormatting.js';
+import { replaceBoldsHighlights, replaceBolds, replaceHighlightsPlaceholders} from '../utils/TextFormatting.js';
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
-import { getLabelsTexts } from '../utils/DataExtraction.js';
+import { getModeTexts, getLabelsTexts } from '../utils/DataExtraction.js';
 import '../styles/pages/Learn2Page.css';
 
 const Learn2Page = () => {
@@ -23,9 +23,12 @@ const Learn2Page = () => {
     setLearnComponent,
     savedComponents,
     setSavedComponents,
+    iconsMap
   } = useContext(StateContext);
 
   const labelsTexts = getLabelsTexts(language, "learn");
+  const instruction = getModeTexts("learn", language).Instruction;
+  
   const [currentLinks, setCurrentLinks] = useState(null);
   // Initialize activeButton as an object with all entries set to 0
   const [activeButton, setActiveButton] = useState(0);
@@ -42,13 +45,6 @@ const Learn2Page = () => {
   useEffect(() => {
     activeButtonRef.current = activeButton;
 }, [activeButton]);
-
-  document.documentElement.style.setProperty('--component-bookmark-color', colors['CBookmark']);
-  document.documentElement.style.setProperty('--component-bookmark-hover-color', colors['CBookmark Hover']);
-  document.documentElement.style.setProperty('--highlightP-color', colors['Wave']['Principle']);
-  document.documentElement.style.setProperty('--highlightPe-color', colors['Wave']['Perspective']);
-  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
-  document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
 
   const resetState = useCallback(() => {
     navigate('/home');
@@ -117,7 +113,7 @@ const Learn2Page = () => {
     // Define button text mappings
     const buttonTexts = {
       0: {
-        0: replaceBoldsUnderlinesHighlights(
+        0: replaceBoldsHighlights(
           componentRef.current.paragraph,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
@@ -132,7 +128,7 @@ const Learn2Page = () => {
         0: <span className='l2-question'>
             {labelsTexts["question-0"]}
           </span>,
-        1: replaceBoldsUnderlinesHighlights(
+        1: replaceBoldsHighlights(
           componentRef.current.region_feature,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
@@ -147,7 +143,7 @@ const Learn2Page = () => {
         1: replaceBolds(
           labelsTexts["question-1-principles"], 
           null, 'l2-question', 'l2-question bold'),
-        2: replaceBoldsUnderlinesHighlights(
+        2: replaceBoldsHighlights(
           componentRef.current.country_e1,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
@@ -159,7 +155,7 @@ const Learn2Page = () => {
         1: replaceBolds(
           labelsTexts["question-1-principles"], 
           null, 'l2-question', 'l2-question bold'),
-        2: replaceBoldsUnderlinesHighlights(
+        2: replaceBoldsHighlights(
           componentRef.current.country_e2,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
@@ -183,7 +179,7 @@ const Learn2Page = () => {
     // Define button text mappings
     const buttonTexts = {
       0: {
-        0: replaceBoldsUnderlinesHighlights(
+        0: replaceBoldsHighlights(
           componentRef.current.paragraph,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
@@ -195,7 +191,7 @@ const Learn2Page = () => {
         0: <span className='l2-question'>
             {labelsTexts["question-0"]}
           </span>,
-        1: replaceBoldsUnderlinesHighlights(
+        1: replaceBoldsHighlights(
           componentRef.current.example_1,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
@@ -204,7 +200,7 @@ const Learn2Page = () => {
         0: <span className='l2-question'>
             {labelsTexts["question-0"]}
           </span>,
-        1: replaceBoldsUnderlinesHighlights(
+        1: replaceBoldsHighlights(
           componentRef.current.example_2,
           'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
@@ -316,8 +312,8 @@ const Learn2Page = () => {
         }
         {showInstruction && 
           <>
-            <div className='instruction'>
-              Click on any wave
+            <div className='instruction-container'>
+              {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}
             </div>
 
             <CompassIcon 

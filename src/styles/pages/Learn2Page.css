@@ -1,10 +1,6 @@
 :root {
-    --component-bookmark-color: #e5007e; /* Default color */
     --text-color: #ffffff; /* Default color */
     --image-color: transparent; /* Default color */
-    --highlightP-color: transparent; /* Default color */
-    --highlightPe-color: transparent; /* Default color */
-    --gray-color: #841321; /* Default color */
 }
 
 /* Text Container */

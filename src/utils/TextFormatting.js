@@ -180,12 +180,11 @@ export function replaceUnderlines(text, currentConcept, onClickHandler) {
     });
 };
 
-export function replaceBoldsUnderlinesHighlights(text, textStyle, boldStyle, underlineStyle, hPStyle, hPeStyle) {
+export function replaceBoldsHighlights(text, textStyle, boldStyle, hPStyle, hPeStyle) {
     return (
         <div style={{ display: "inline" }}>
             {text
                 .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||")
-                .replace(/<i>(.*?)<\/i>/g, "||I||$1||I||")
                 .replace(/<hP>(.*?)<\/hP>/g, "||HP||$1||HP||")
                 .replace(/<hPe>(.*?)<\/hPe>/g, "||HPE||$1||HPE||")
                 .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|I\|\|.*?\|\|I\|\||\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\|)/g)
@@ -195,13 +194,6 @@ export function replaceBoldsUnderlinesHighlights(text, textStyle, boldStyle, und
                         return (
                             <span key={uniqueKey} className={boldStyle} style={{ display: "inline" }}>
                                 {part.replace(/\|\|B\|\|/g, "")}
-                            </span>
-                        );
-                    }
-                    if (part.startsWith("||I||")) {
-                        return (
-                            <span key={uniqueKey} className={underlineStyle} style={{ display: "inline" }}>
-                                {part.replace(/\|\|I\|\|/g, "")}
                             </span>
                         );
                     }
@@ -260,6 +252,62 @@ export function replaceBoldsColoredBreaks(text, textStyle, boldStyle, colorStyle
                                             </span>
                                         );
                                     }
+                                    return (
+                                        <span key={uniquePartKey} className={textStyle} style={{ display: "inline" }}>
+                                            {part}
+                                        </span>
+                                    );
+                                })}
+                        </p>
+                    );
+                })}
+        </div>
+    );
+}
+
+export function replaceHighlightsPlaceholders(text, textStyle, hPStyle, hPeStyle, hDStyle, iconsMap) {
+    return (
+        <div style={{ display: "block" }}>
+            {text
+                .replace(/<hP>(.*?)<\/hP>/g, "||HP||$1||HP||") // Replace <hP> with markers
+                .replace(/<hPe>(.*?)<\/hPe>/g, "||HPE||$1||HPE||") // Replace <hPe> with markers
+                .replace(/<hD>(.*?)<\/hD>/g, "||HD||$1||HD||") // Replace <hD> with markers
+                .split(/<br>/g) // Split text by <br> tags to create separate paragraphs
+                .map((paragraph, index) => {
+                    const uniqueKey = `${Date.now()}-${index}`; // Unique key based on timestamp and index
+                    
+                    return (
+                        <p key={uniqueKey} style={{ margin: "2vh 0", display: "block" }}> {/* Adds space between paragraphs */}
+                            {paragraph
+                                .split(/(\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\||\|\|HD\|\|.*?\|\|HD\|\||\[[A-Z-]+\])/g) // Split placeholders and icons
+                                .map((part, index2) => {
+                                    const uniquePartKey = `${uniqueKey}-${index2}`; // Unique key for each part
+
+                                    if (part.startsWith("||HP||")) {
+                                        return (
+                                            <span key={uniquePartKey} className={hPStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|HP\|\|/g, "")}
+                                            </span>
+                                        );
+                                    }
+                                    if (part.startsWith("||HPE||")) {
+                                        return (
+                                            <span key={uniquePartKey} className={hPeStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|HPE\|\|/g, "")}
+                                            </span>
+                                        );
+                                    }
+                                    if (part.startsWith("||HD||")) {
+                                        return (
+                                            <span key={uniquePartKey} className={hDStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|HD\|\|/g, "")}
+                                            </span>
+                                        );
+                                    }
+                                    if (iconsMap[part]) {
+                                        return <React.Fragment key={uniquePartKey}>{iconsMap[part]}</React.Fragment>;
+                                    }
+                                    
                                     return (
                                         <span key={uniquePartKey} className={textStyle} style={{ display: "inline" }}>
                                             {part}

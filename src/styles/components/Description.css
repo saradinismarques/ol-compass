@@ -42,50 +42,6 @@
     text-transform: uppercase;
 }
 
-/* Icons */
-.text-icon {
-    width: 1.3em;
-    height: 1.3em;
-    fill: var(--selection-color); /* Set default color for the bookmark */
-    transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: var(--selection-color);
-    margin-left: 0.3vh;
-    margin-right: 0.3vh;
-
-}
-
-.text-icon.wave {
-    margin-bottom: -0.8vh;
-}
-
-/* .text-icon.wave-space {
-    margin-left: 5px;
-} */
-
-.text-icon.cta-arrow {
-    width: 0.8em;
-    height: 0.8em;
-    margin-right: 0.3vw;
-}
-
-/* "Not Available" Message */
-.not-available {
-    margin-top: -0.5vh;
-    display: flex;
-    align-items: center;
-    font-size: 2.4vh; /* Smaller size for h2 */
-    font-weight: 500;
-    color: #841321;
-} 
-
-.lock-icon {
-    fill: #841321;
-    height: 1.1em;
-    width: 1.1em;
-    margin-right: 0.5vw;
-    margin-top: 0.1vh;
-}
-
 .description-start-button {
     margin-top: 5vh; /* Space between buttons */
     width: 15vh;

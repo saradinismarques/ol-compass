@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import Menu from '../components/Menu';
 import Description from '../components/Description';
-import { getGetInspiredData, getLabelsTexts } from '../utils/DataExtraction.js'; 
+import { getGetInspiredData, getLabelsTexts, getModeTexts } from '../utils/DataExtraction.js'; 
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
+import { replaceHighlightsPlaceholders} from '../utils/TextFormatting.js';
 import '../styles/pages/GetInspiredPage.css';
 
 const GetInspiredPage = () => {
   const {
-    colors,
     language,
     showExplanation,
     savedCaseStudies,
@@ -37,17 +37,18 @@ const GetInspiredPage = () => {
     setGIComponents,
     currentGIComponents,
     setCurrentGIComponents,
+    iconsMap
   } = useContext(StateContext);
 
   const navigate = useNavigate(); // Initialize the navigate function
 
   const labelsTexts = getLabelsTexts(language, "get-inspired");
+  const instruction = getModeTexts("get-inspired", language).Instruction;
   const modeRef = useRef(mode);
   const searchLogicRef = useRef(searchLogic);
   const componentsRef = useRef(giComponents);
   const savedCaseStudiesRef = useRef(savedCaseStudies);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
 
   useEffect(() => {
     componentsRef.current = giComponents;
@@ -71,13 +72,6 @@ const GetInspiredPage = () => {
       setShowInstruction(true);
   }, [giComponents, setShowInstruction]);
 
-
-  document.documentElement.style.setProperty('--selection-color', colors['Selection']);
-  document.documentElement.style.setProperty('--selection-hover-color', colors['Selection Hover']);
-  document.documentElement.style.setProperty('--bookmark-cs-color', colors['CSBookmark']);
-  document.documentElement.style.setProperty('--bookmark-cs-hover-color', colors['CSBookmark Hover']);
-  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
-  document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
   document.documentElement.style.setProperty('--search-menu-width', language === "pt" ? "38vh" : "35vh");
   document.documentElement.style.setProperty('--logic-buttons-width', language === "pt" ? "24.5vh" : "22.3vh");
   document.documentElement.style.setProperty('--search-button-left', language === "pt" ? "-6.7%" : "-6%");
@@ -329,11 +323,9 @@ const GetInspiredPage = () => {
       }
 
       {showInstruction && 
-        <>
-          <div className='instruction'>
-            Click on any wave
-          </div>
-        </>
+        <div className='instruction-container'>
+          {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}
+        </div>
       }
 
       {!showExplanation && giComponents.length > 0 && (
@@ -371,16 +363,8 @@ const GetInspiredPage = () => {
             </div>
             )}
 
-            {!showInstruction && resultsNumber === -1 && (
-              <div className="gi-instruction">
-                {language === "pt" 
-                ? "Continua a clicar nas ondas que queres incluir. Quando acabares clica em 'Pesquisa' ou pressiona a tecla 'Enter'" 
-                : "Continue clicking on the waves you want to include. Once your done click on 'Search' or press 'Enter'"}
-              </div>
-            )}
-
             {!showInstruction && resultsNumber === 0 && (
-              <div className="gi-no-results">
+              <div className="instruction">
                 {searchLogic === 'SAVED' 
                 ? labelsTexts["no-saved-cs"]
                 : labelsTexts["no-filters-cs"]}

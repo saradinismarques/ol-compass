@@ -13,8 +13,7 @@
     "Intro Text [Principle]": "#41ffc9",
     "Intro Text [Perspective]": "#41e092",
     "Intro Text [Dimension]": "#41c4e0",
-    "Selection": "#e6007e",
-    "Selection [Hover]": "#c3006b"
+    "Selection": "#e6007e"
   },
   {
     "ColorVersion": 1,
@@ -31,13 +30,9 @@
     "Intro Text [Perspective]": "#aed3d5",
     "Intro Text [Dimension]": "#55e0f3",
     "Selection": "#e6007e",
-    "Selection [Hover]": "#eb2a94",
     "Bookmark Component": "#ffcf50",
-    "Bookmark Component [Hover]": "#fcd774",
     "Bookmark CaseStudies": "#f29100",
-    "Bookmark CaseStudies [Hover]": "#f79c15",
-    "Gray Text": "#979796",
-    "Gray Text [Hover]": "#b9b9b9"
+    "Gray Text": "#979796"
   },
   {
     "ColorVersion": 2,
@@ -53,8 +48,7 @@
     "Intro Text [Principle]": "#beddc1",
     "Intro Text [Perspective]": "#afe5e4",
     "Intro Text [Dimension]": "#4ec8d7",
-    "Selection": "#e6007e",
-    "Selection [Hover]": "#c3006b"
+    "Selection": "#e6007e"
   },
   {
     "ColorVersion": 3,
@@ -70,7 +64,6 @@
     "Intro Text [Principle]": "#11acc7",
     "Intro Text [Perspective]": "#026fd5",
     "Intro Text [Dimension]": "#012476",
-    "Selection": "#000000",
-    "Selection [Hover]": "#841321"
+    "Selection": "#000000"
   }
 ]

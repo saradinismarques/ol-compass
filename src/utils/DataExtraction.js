@@ -81,13 +81,10 @@ export function getColorPallete(version) {
         colors['Intro Text']['Perspective'] = versionData["Intro Text [Perspective]"];
         colors['Intro Text']['Dimension'] = versionData["Intro Text [Dimension]"];
 
-        colors.Selection = versionData["Selection"];
-        colors["Selection Hover"] = versionData["Selection [Hover]"];
+        colors['Selection'] = versionData["Selection"];
 
         colors["CBookmark"] = versionData["Bookmark Component"] || "#000000";
-        colors["CBookmark Hover"] = versionData["Bookmark Component [Hover]"] || "#000000";
         colors["CSBookmark"] = versionData["Bookmark CaseStudies"] || "#000000";
-        colors["CSBookmark Hover"] = versionData["Bookmark CaseStudies [Hover]"] || "#000000";
         colors["Gray"] = versionData["Gray Text"] || "#000000";
         colors["Gray Hover"] = versionData["Gray Text [Hover]"] || "#000000";
 
@@ -157,8 +154,7 @@ export function getModeTexts(mode, language) {
             return {
                 Headline: item["#headline"],
                 Text: item["#text"],
-                StartPrompt: item["#start-prompt"],
-                Message: item["#?message NB - NOT AUTOMATIC"],
+                Instruction: item["#instruction"],
             };
         }
 

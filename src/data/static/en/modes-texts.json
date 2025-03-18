@@ -1,30 +1,26 @@
 [
   {
+    "#MODE-LABEL": "HOME",
+    "#headline": "/",
+    "#text": "The OL-in-One Compass has a wide variety of uses, for many targets and purposes. <br> What do you wanna try out?",
+    "#instruction": "/"
+  },
+  {
     "#MODE-LABEL": "LEARN",
-    "#headline": "Get familiar with the OL foundamentals",
-    "#text": "In this mode you can explore any OL category at varying levels of depths. Let your interest and curiosity guide you!",
-    "#start-prompt": "Click on any wave ([WAVE-I]) to start.",
-    "#?message NB - NOT AUTOMATIC": "[TBD based on the pre-test]"
+    "#headline": "Get familiar with the key lenses of Ocean Literacy",
+    "#text": "Use this mode to explore each OL Principle, Perspective and Dimension at varying levels of depths. Let your interest and curiosity guide you!",
+    "#instruction": "Click on any wave ([WAVE-I]) to find out more about OL <hP>Principles</hP>, <hPe>Perspectives</hPe> and <hD>Dimension</hD>."
   },
   {
     "#MODE-LABEL": "GET INSPIRED",
-    "#headline": "Browse inspiring OL application cases",
-    "#text": "In this mode you can learn about diverse sea-/water-related activities in terms of their (potential) OL outcome.",
-    "#start-prompt": "Click on any wave ([WAVE-I]) to start.",
-    "#?message NB - NOT AUTOMATIC": "The selected waves determine the kind and number of shown results. // Use the slider to switch from seeing case-studies addressing 'ALL' selected waves (which narrows results) to case-studies addressing 'AT LEAST ONE' of the selected ones (which broadens results). // Anytime you select or deselect a wave the results are refreshed."
+    "#headline": "Find Ocean Literacy relevant resources and case-studies",
+    "#text": "Use this mode to learn about diverse sea-/water-related activities, media and projects in terms of the OL Principle(s), Perpective(s) and Dimensions(s) they address.",
+    "#instruction": "Select the waves ([WAVE-I]) relevant for your search. Once done click on ‘Search’ or press ‘Enter’. <br><br> Use the switch in the Search bar to narrow or broaden your search."
   },
   {
     "#MODE-LABEL": "MAP",
-    "#headline": "Visualize the OL outcome of your activity",
-    "#text": "In this mode you can map the (potential) OL outcome of an existing or future sea-/water-related activity.",
-    "#start-prompt": "Press 'Enter' on your keyboard to start.",
-    "#?message NB - NOT AUTOMATIC": "[TBD based on the pre-test]"
-  }, 
-  {
-    "#MODE-LABEL": "HOME",
-    "#headline": "Lorem Ipsum",
-    "#text": "Lorem Ipsum.",
-    "#start-prompt": "Press 'Enter' on your keyboard to start.",
-    "#?message NB - NOT AUTOMATIC": "[TBD based on the pre-test]"
+    "#headline": "Design/analyse an activity or project in OL terms",
+    "#text": "Use this mode for retrospective analysis or brainstorming of sea-/water-related activities in terms of their OL outcome, and get an instantaneous visual report to share it.",
+    "#instruction": "<hP>What</hP> is/are the <hP>key Ocean trait(s)</hP> that your activity/project convey? What <hPe>angle(s)</hPe> does it adopt? <hD>How</hD>? Fostering which <hD>kind(s) of learning</hD>? <br><br> Select the most relevant waves accordingly."
   }
 ]

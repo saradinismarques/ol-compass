@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { HashRouter as Router, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import IntroPage from './pages/IntroPage';
 import HomePage from './pages/HomePage';
@@ -12,12 +12,23 @@ import ContributePage from './pages/ContributePage';
 import ContextualizePage from './pages/ContextualizePage';
 import ComparePage from './pages/ComparePage';
 import './styles/App.css';
-import { State } from "./State";
+import { State, StateContext } from "./State";
 
 function App() {
+  const {
+    colors,
+  } = useContext(StateContext);
 
   const [isLandscape, setIsLandscape] = useState(window.matchMedia("(orientation: landscape)").matches);
   const location = useLocation();
+
+  document.documentElement.style.setProperty('--selection-color', colors['Selection']);
+  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
+  document.documentElement.style.setProperty('--highlightP-color', colors['Wave']['Principle']);
+  document.documentElement.style.setProperty('--highlightPe-color', colors['Wave']['Perspective']);
+  document.documentElement.style.setProperty('--highlightD-color', colors['Wave']['Dimension']);
+  document.documentElement.style.setProperty('--component-bookmark-color', colors['CBookmark']);
+  document.documentElement.style.setProperty('--bookmark-cs-color', colors['CSBookmark']);
 
   function adjustVH() {
     const vh = window.innerHeight * 0.01;

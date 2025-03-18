@@ -16,7 +16,8 @@ import PDFWatermark from '../assets/images/map/pdf-watermark-pagesize.png';
 import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
-import { getLabelsTexts } from '../utils/DataExtraction.js';
+import { getLabelsTexts, getModeTexts } from '../utils/DataExtraction.js';
+import { replaceHighlightsPlaceholders} from '../utils/TextFormatting.js';
 import '../styles/pages/Map2Page.css';
 
 const Map2Page = () => {
@@ -32,10 +33,13 @@ const Map2Page = () => {
     mapProjectName,
     setMapProjectName,
     setFirstUse,
+    iconsMap
   } = useContext(StateContext);
 
   const labelsTexts = getLabelsTexts(language, "map");
   const compassTexts = getLabelsTexts(language, "compass");
+  const instruction = getModeTexts("map", language).Instruction;
+  
   const [limitExceeded, setLimitExceeded] = useState(false);
   const [currentComponent, setCurrentComponent] = useState();
   const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
@@ -60,9 +64,6 @@ const Map2Page = () => {
       setShowInstruction(true);
     }
   }, [mapComponents, setShowInstruction]);
-
-  document.documentElement.style.setProperty('--gray-color', colors['Gray']);
-  document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
 
   // Reset state and UI elements
   const resetState = useCallback(() => {
@@ -508,11 +509,9 @@ const Map2Page = () => {
 
       
       {showInstruction && 
-        <>
-          <div className='instruction'>
-            Click on any wave
-          </div>
-        </>
+        <div className='instruction-container'>
+          {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}
+        </div>
       }
 
       {!showExplanation && !showInstruction && (
