@@ -1,12 +1,10 @@
 :root {
     --component-bookmark-color: #e5007e; /* Default color */
-    --component-bookmark-hover-color: #e5007e; /* Default color */
     --text-color: #ffffff; /* Default color */
     --image-color: transparent; /* Default color */
     --highlightP-color: transparent; /* Default color */
     --highlightPe-color: transparent; /* Default color */
     --gray-color: #841321; /* Default color */
-    --gray-hover-color: #841321; /* Default color */
 }
 
 /* Text Container */
@@ -216,7 +214,7 @@
 .l2-bookmark-button:hover,
 .l2-bookmark-button:active {
     border-color: var(--text-color); /* Change border color on hover */
-    background-color:  rgba(255, 255, 255, 0.2);
+    background-color: color-mix(in srgb, var(--text-color) 10%, transparent);
 }
   
 .l2-bookmark-button.active {
@@ -225,7 +223,7 @@
 
 .l2-bookmark-button.active:hover,
 .l2-bookmark-button.active:active {
-    background-color: var(--component-bookmark-hover-color); /* Active state background color */
+    background-color: rgba(255, 207, 80, 0.8); /* Active state background color */
 }
   
 .l2-bookmark-icon {

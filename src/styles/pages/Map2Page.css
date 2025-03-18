@@ -1,6 +1,5 @@
 :root {
     --gray-color: #ffffff; /* Default color */
-    --gray-hover-color: #000000;
 }
 
 /* Text Container */
@@ -24,7 +23,7 @@
     resize: none;
     margin-bottom: 0;
     border: var(--button-border) solid var(--gray-color);
-    border-radius: 1.2vh;
+    border-radius: 10px;
     background-color: white;
     cursor: pointer;
     overflow-y: hidden; /* Hides the scrollbar */
@@ -73,7 +72,7 @@
     color: var(--text-color); /* Uses the inherited variable */
     resize: none;
     margin-bottom: 0;
-    border-radius: 1vh;
+    border-radius: 8px;
     border: none;
     cursor: pointer;
     padding: 2.5vh;
@@ -86,8 +85,8 @@
     color: white; /* Uses the inherited variable */
     margin-bottom: 0;
     line-height: 2.5vh;
-    border-radius: 1vh;
-    border: 0.1vh solid var(--gray-hover-color);
+    border-radius: 8px;
+    border: 1px solid rgba(151, 151, 150, 0.5);
     cursor: pointer;
     padding: 2.5vh;
 }

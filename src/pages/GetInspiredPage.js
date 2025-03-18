@@ -183,13 +183,7 @@ const GetInspiredPage = () => {
 
   const handleCarouselSearch = useCallback(() => {
     setDropdownOpen(false);
-    if(searchLogicRef.current === 'CAROUSEL') {
-      setMode('get-inspired');
-      modeRef.current = 'get-inspired';
-      setSearchLogic('OR');
-      searchLogicRef.current = 'OR';
-      setResultsNumber(-1);
-    } else {
+    if(searchLogicRef.current !== 'CAROUSEL') {
       setMode('get-inspired-carousel');
       modeRef.current = 'get-inspired-carousel';
 
@@ -202,13 +196,7 @@ const GetInspiredPage = () => {
   
   const handleSavedCaseStudiesSearch = useCallback(() => {
     setDropdownOpen(false);
-    if(searchLogicRef.current === 'SAVED') {
-      setMode('get-inspired');
-      modeRef.current = 'get-inspired';
-      setSearchLogic('OR');
-      searchLogicRef.current = 'OR';
-      setResultsNumber(-1);
-    } else {
+    if(searchLogicRef.current !== 'SAVED') {
       setMode('get-inspired-carousel');
       modeRef.current = 'get-inspired-carousel';
       setSearchLogic('SAVED');

@@ -31,7 +31,7 @@
 
 .menu-button:hover,
 .menu-button:active {
-    background-color: #f0f0f0;
+    background-color: rgba(0, 0, 0, 0.1);;
 }
 
 .menu-button.active {
@@ -94,18 +94,13 @@
 
 .circle-button.active:hover,
 .circle-button.active:active { 
-    background-color: #f5f5f5; /* White stroke for active or hover states */
+    background-color: rgba(0, 0, 0, 0.1); /* White stroke for active or hover states */
 }
 
 
 .circle-button:hover, 
 .circle-button:active {
-    background-color: #f5f5f5; /* White stroke for active or hover states */
-}
-
-.circle-button:hover .home-icon , 
-.circle-button:active .home-icon  {
-    background-color: white; /* White stroke for active or hover states */
+    background-color: rgba(0, 0, 0, 0.1); /* White stroke for active or hover states */
 }
 
 .circle-button.active:hover .home-icon , 
@@ -186,7 +181,7 @@
 
 .menu-study-instructions:hover,
 .menu-study-instructions:active {
-    background-color: #f0f0f0;
+    background-color: rgba(214, 11, 81, 0.1);
 }
 
 /* Message Box */
@@ -199,7 +194,7 @@
     margin: 0;
     width: 53vh;
     background-color: white;
-    border-radius: 2vh;
+    border-radius: 20px;
     border: var(--button-border) solid #d60b51; /* Add a light grey border */
     text-align: center;
     z-index: 100;
@@ -239,7 +234,7 @@
 
 .menu-got-it-button:hover,
 .menu-got-it-button:active {
-    color: var(--gray-hover-color);
+    color: rgba(151, 151, 150, 0.5);
 }
 
 .menu-message-question {
@@ -320,7 +315,7 @@
 /* Change icon color on hover */
 .menu-arrow-button:hover .menu-arrow-icon,
 .menu-arrow-button:active .menu-arrow-icon {
-    fill: var(--gray-hover-color); /* Change fill color on hover */
+    fill: rgba(151, 151, 150, 0.5); /* Change fill color on hover */
 }
 
 .menu-arrow-icon {

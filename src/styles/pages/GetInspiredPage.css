@@ -25,7 +25,7 @@
     width: calc(var(--container-width) - 5vh);
     height: calc(var(--container-height) - 5vh);
     padding: 2.5vh;
-    border-radius: 1.2vh;
+    border-radius: 10px;
     background: linear-gradient(to bottom right, #9797b1 25%, #d4d4df 80%);
     overflow: hidden;
     color: white;
@@ -88,7 +88,7 @@
     height: 3.5vh;
     line-height: 3.5vh; /* Make line height equal to the height of the box */
     opacity: 70%;
-    border-radius: 0.5vh;
+    border-radius: 5px;
     font-size: 1.6vh;
 }
 
@@ -135,7 +135,7 @@
 
 .gi-bookmark-button.active:hover,
 .gi-bookmark-button.active:active {
-    background-color: var(--bookmark-cs-hover-color); /* Active state background color */
+    background-color: rgba(242, 145, 0, 0.8); /* Active state background color */
 }
  
 .gi-bookmark-icon {
@@ -152,7 +152,7 @@
     background-color: transparent;
     border: 0 solid transparent; /* Set initial border to transparent */
     cursor: pointer;
-    position: fixed;
+    position: absolute;
     top: 50%;
     display: flex; /* Ensures button content (icon) is properly aligned */
     align-items: center;
@@ -180,7 +180,7 @@
 /* Change icon color on hover */
 .gi-arrow-button:hover .gi-arrow-icon,
 .gi-arrow-button:active .gi-arrow-icon {
-    fill: var(--gray-hover-color); /* Change fill color on hover */
+    fill: rgba(151, 151, 150, 0.5); /* Change fill color on hover */
 }
 
 .gi-arrow-icon {
@@ -273,7 +273,7 @@
 
 .gi-logic-button:hover,
 .gi-logic-button:active {
-    background-color: #d1d4d5; /* Darkened version of the original background color */
+    background-color: rgba(255, 255, 255, 0.3); /* Darkened version of the original background color */
 }
 
 .gi-logic-button.active {
@@ -303,7 +303,7 @@
 
 .gi-search-button:hover,
 .gi-search-button:active {
-    background-color: var(--selection-hover-color); /* Darkened version of the original background color */
+    background-color: rgba(230, 0, 126, 0.8); /* Darkened version of the original background color */
 }
 
 .gi-back-to-filters-button {
@@ -323,7 +323,7 @@
 }
 
 .gi-back-to-filters-button:hover {
-    background-color: #cbb6c3;
+    background-color: rgba(181, 158, 172, 0.8);
 }
 
 /* Dropdown Menu */
@@ -358,20 +358,22 @@
     border-radius: 50px;
     cursor: pointer;
     width: 16vh; /* Set an explicit width */
-    height: calc(var(--button-height) + 0.4vh); /* Set an explicit height */
+    height: calc(var(--button-height) + 0.8vh); /* Set an explicit height */
     padding: 0;
-    margin-left: -0.5%;
+    margin-top: 1%;
+    margin-left: -1%;
     box-sizing: border-box;
     outline: none;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--gray-color);
+    background-color: white;
     gap: 0.5vh;
 }
 
 .gi-show-bookmarks-container:hover {
-    background-color: var(--bookmark-cs-hover-color);;
+    background-color: rgba(242, 145, 0, 0.8);
     color: white;
 }
 
@@ -395,13 +397,9 @@
 }
 
 .gi-show-bookmarks-container.active {
-    border: var(--button-border) solid var(--bookmark-cs-color);
+    border: var(--button-border) solid #dedede;
     background-color: var(--bookmark-cs-color); /* Active state background color */
     color: white;
-}
-
-.gi-show-bookmarks-container.active:hover {
-    background-color: var(--bookmark-cs-hover-color); /* Active state background color */
 }
 
 .gi-show-bookmarks-container.active .gi-bookmark-icon {
@@ -415,20 +413,22 @@
     border-radius: 50px;
     cursor: pointer;
     width: 16vh; /* Set an explicit width */
-    height: calc(var(--button-height) + 0.4vh); /* Set an explicit height */
+    height: calc(var(--button-height) + 0.8vh); /* Set an explicit height */
     padding: 0;
-    margin-left: -0.05vh;
+    margin-top: 1%;
+    margin-left: -1%;
     box-sizing: border-box;
     outline: none;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: white;
     color: var(--gray-color);
     gap: 0.5vh;
 }
 
 .gi-show-carousel-container:hover {
-    background-color: var(--gray-hover-color);
+    background-color: rgba(151, 151, 150, 0.8);
     color: white;
 }
 
@@ -439,13 +439,9 @@
 }
 
 .gi-show-carousel-container.active {
-    border: var(--button-border) solid var(--gray-color);
+    border: var(--button-border) solid #dedede;
     background-color: var(--gray-color); /* Active state background color */
     color: white;
-}
-
-.gi-show-carousel-container.active:hover {
-    background-color: var(--gray-hover-color); /* Active state background color */
 }
 
 /* Arrow and dropdown content */
@@ -473,7 +469,7 @@
 }
 
 .gi-dropdown-arrow-icon:hover {
-    fill: var(--gray-hover-color); /* Set default color for the bookmark */
+    fill: rgba(151, 151, 150, 0.5); /* Set default color for the bookmark */
 }
 
 .gi-dropdown-content {
@@ -487,7 +483,7 @@
     width: 20vh;
     border: none;
     height: calc(var(--button-height) + 0.2vh);
-    border-radius: 1vh;
+    border-radius: 1px;
 }
   
 /* Bold text */

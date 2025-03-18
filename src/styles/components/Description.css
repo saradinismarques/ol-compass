@@ -90,7 +90,7 @@
     margin-top: 5vh; /* Space between buttons */
     width: 15vh;
     height: 5vh;
-    border: 0.3vh solid #274893;
+    border: var(--button-border) solid #274893;
     border-radius: 100px;
     cursor: pointer;
     text-decoration: none; /* Ensure links have no underline */
@@ -103,5 +103,5 @@
 
 .description-start-button:hover,
 .description-start-button:active {
-    background-color: #f0f0f0;
+    background-color: rgba(39, 72, 147, 0.1);
 }
