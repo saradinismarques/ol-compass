@@ -70,6 +70,12 @@ const GetInspiredPage = () => {
   useEffect(() => {
     if(giComponents.length === 0)
       setShowInstruction(true);
+    else {
+      setFirstUse(prevState => ({
+        ...prevState, // Keep all existing attributes
+        "get-inspired": false   // Update only 'home'
+      }));
+    }
   }, [giComponents, setShowInstruction]);
 
   document.documentElement.style.setProperty('--search-menu-width', language === "pt" ? "38vh" : "35vh");
@@ -86,10 +92,6 @@ const GetInspiredPage = () => {
   }, [savedCaseStudies]);
 
   const handleCompassClick = (code) => {
-    setFirstUse(prevState => ({
-      ...prevState, // Keep all existing attributes
-      "get-inspired": false   // Update only 'home'
-    }));
     // Reset components if on these modes 
     if(searchLogicRef.current === 'SAVED' || searchLogicRef.current === 'CAROUSEL') {
       setShowInstruction(true);
@@ -116,6 +118,7 @@ const GetInspiredPage = () => {
 
   const searchCaseStudies = useCallback((searchedComponents) => {
     let allCaseStudies;
+    setShowInstruction(false);
 
     if(searchLogicRef.current === 'SAVED')
       allCaseStudies = savedCaseStudiesRef.current;
@@ -186,7 +189,7 @@ const GetInspiredPage = () => {
       setShowInstruction(false);
       searchCaseStudies(null);
     }
-  }, [searchCaseStudies, setShowInstruction, setMode, setResultsNumber, setSearchLogic]);
+  }, [searchCaseStudies, setShowInstruction, setMode, setSearchLogic]);
   
   const handleSavedCaseStudiesSearch = useCallback(() => {
     setDropdownOpen(false);
@@ -197,7 +200,7 @@ const GetInspiredPage = () => {
       searchLogicRef.current = 'SAVED';  
       searchCaseStudies(null);
     }
-  }, [searchCaseStudies, setMode, setResultsNumber, setSearchLogic]);
+  }, [searchCaseStudies, setMode, setSearchLogic]);
 
   const handleNext = useCallback(() => {
     if (currentIndex < caseStudies.length - 1) {
@@ -364,10 +367,12 @@ const GetInspiredPage = () => {
             )}
 
             {!showInstruction && resultsNumber === 0 && (
-              <div className="instruction">
-                {searchLogic === 'SAVED' 
-                ? labelsTexts["no-saved-cs"]
-                : labelsTexts["no-filters-cs"]}
+              <div className="instruction-container">
+                <div className='instruction'>
+                  {searchLogic === 'SAVED' 
+                  ? labelsTexts["no-saved-cs"]
+                  : labelsTexts["no-filters-cs"]}
+                </div>
               </div>
             )}
   

@@ -62,6 +62,12 @@ const Map2Page = () => {
     if(mapComponents.length === 0) {
       setCurrentComponent();
       setShowInstruction(true);
+    } else {
+      setShowInstruction(false);
+      setFirstUse(prevState => ({
+        ...prevState, // Keep all existing attributes
+        "map": false   // Update only 'home'
+      }));
     }
   }, [mapComponents, setShowInstruction]);
 
@@ -72,11 +78,7 @@ const Map2Page = () => {
 
   // Trigger compass action
   const handleCompassClick = (code, label, paragraph, type) => {
-    setFirstUse(prevState => ({
-      ...prevState, // Keep all existing attributes
-      "map": false   // Update only 'home'
-    }));
-    setShowInstruction(false);
+   
     if(code) {
       setMapComponents(prevComponents => {
         const exists = prevComponents.some(component => component.code === code);
@@ -514,7 +516,7 @@ const Map2Page = () => {
         </div>
       }
 
-      {!showExplanation && !showInstruction && (
+      {!showExplanation && mapComponents.length > 0 && (
         <>
           <div className='m2-text-container'>
             <textarea
