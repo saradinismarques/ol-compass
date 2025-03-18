@@ -34,6 +34,8 @@ export const State = ({ children }) => {
         }), []
       );
 
+    const [showStudyInstruction, setShowStudyInstruction] = useState(false);
+    
     const [firstUse, setFirstUse] = useState(initialFirstUse);
 
     // Learn
@@ -128,7 +130,9 @@ export const State = ({ children }) => {
                 setCurrentGIComponents,
                 randomComponents,
                 setRandomComponents,
-                iconsMap
+                iconsMap,
+                showStudyInstruction,
+                setShowStudyInstruction,
                 // Add other global states here as needed
             }}
         >

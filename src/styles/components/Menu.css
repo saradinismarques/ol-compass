@@ -20,7 +20,7 @@
     cursor: pointer;
     text-decoration: none; /* Ensure links have no underline */
     font-family: 'Manrope', sans-serif;
-    font-size: 2.2vh;
+    font-size: 2.1vh;
     font-weight: 600;
     color: #5d5d5d;
     display: inline-flex;
@@ -169,7 +169,7 @@
     cursor: pointer;
     text-decoration: none; /* Ensure links have no underline */
     font-family: 'Manrope', sans-serif;
-    font-size: 2vh;
+    font-size: 2.1vh;
     font-weight: 700;
     color: #d60b51;
     display: inline-flex;
@@ -192,7 +192,7 @@
     transform: translate(-50%, -50%);
     padding: 4vh 6vh;
     margin: 0;
-    width: 53vh;
+    width: 49vh;
     background-color: white;
     border-radius: 20px;
     border: var(--button-border) solid #d60b51; /* Add a light grey border */
@@ -210,7 +210,7 @@
 
 .menu-message-text.bold {
    font-size: 2.1vh;
-   font-weight: 600; /* Adjust as needed */
+   font-weight:600; /* Adjust as needed */
 }
 
 .menu-message-text.blue {
@@ -220,9 +220,8 @@
 }
 
 .menu-got-it-button {
-    margin-top: 0.5vh;
-    padding-top: 2vh;
-    font-size: 2.2vh;
+    margin-top: 0.2vh;
+    font-size: 2.1vh;
     font-weight: 200;
     background-color: transparent; /* Use 'transparent' instead of 'none' */
     color: var(--gray-color);

@@ -16,11 +16,12 @@ const Menu = () => {
     setFirstUse,
     showExplanation,
     setShowExplanation,
-    setShowInstruction
+    setShowInstruction,
+    showStudyInstruction,
+    setShowStudyInstruction
   } = useContext(StateContext);
 
   const labelsTexts = getLabelsTexts(language, "menu");
-  const [showStudyInstruction, setShowStudyInstruction] = useState(false);
   const location = useLocation();
   const currentPath = location.pathname;
   const navigate = useNavigate(); // Initialize the navigate function
