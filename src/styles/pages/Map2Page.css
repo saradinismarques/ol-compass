@@ -38,7 +38,7 @@
 }
 
 .m2-components-textarea-container.right {
-    right: calc(var(--left-space) + var(--container-width) / 2 + 1vh);
+    right: calc(var(--left-space) + (var(--container-width) - 1vh) / 2 + 1vh);
 }
 
 .m2-components-textarea {
@@ -59,8 +59,8 @@
 }
 
 .m2-component-textarea {
-    width: calc(var(--container-width) / 2 - 0.5vh - 2*2.5vh);
-    height: calc(var(--container-height) / 4 - 0.75vh - 2*2.5vh);
+    width: calc((var(--container-width) - 1vh) / 2 - 2*2.5vh);
+    height: calc((var(--container-height) - 3vh) / 4 - 2*2.5vh);
     line-height: 2.5vh;
     font-family: "Bitter", serif;
     font-size: 1.9vh;
@@ -76,8 +76,8 @@
 }
 
 .m2-empty-card {
-    width: calc(var(--container-width) / 2 - 0.5vh - 2*2.5vh - 0.2vh);
-    height: calc(var(--container-height) / 4 - 0.75vh - 2*2.5vh - 0.2vh);
+    width: calc((var(--container-width) - 1vh) / 2 - 2*2.5vh - 2px);
+    height: calc((var(--container-height) - 3vh) / 4  - 2*2.5vh - 2px);
     color: white; /* Uses the inherited variable */
     margin-bottom: 0;
     line-height: 2.5vh;
