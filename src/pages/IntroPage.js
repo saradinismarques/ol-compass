@@ -17,7 +17,6 @@ const IntroPage = () => {
         setLanguage,
         opacityCounter,
         setOpacityCounter,
-        randomComponents,
         firstUse,
         setFirstUse,
         setRandomComponents
@@ -26,11 +25,13 @@ const IntroPage = () => {
     const introTexts = getIntroTexts(language);
     const labelsTexts = getLabelsTexts(language, "intro");
     const [frame, setFrame] = useState(0);
-    const navigate = useNavigate(); // Initialize the navigate function
     const [isHoverLeft, setIsHoverLeft] = useState(false);
     const [isHoverRight, setIsHoverRight] = useState(false);
     const [cursorType, setCursorType] = useState("default");
     const [showSkipButtons, setShowSkipButtons] = useState(true);
+    const [clickLocked, setClickLocked] = useState(false);
+
+    const navigate = useNavigate(); // Initialize the navigate function
 
     const showSkipButtonsRef = useRef(showSkipButtons);
     const frameRef = useRef(frame);
@@ -58,11 +59,6 @@ const IntroPage = () => {
         frameRef.current = frame;
     }, [frame]);
 
-    useEffect(() => {
-        console.log("Frame updated:", frame);
-    }, [frame]);
-    
-
     // Placeholder-to-Counter mapping
     const countersMap = {
         "[COUNTER-P]": opacityCounter['Principle'] + 1,
@@ -76,7 +72,6 @@ const IntroPage = () => {
     // Handlers
     const handleNext = useCallback(() => {
         if(frameRef.current === 3 && !firstUseRef.current['intro']) {
-            console.log("NEXT");
             setFrame(7);
             frameRef.current = 7; // Update the ref
         } else {
@@ -107,10 +102,13 @@ const IntroPage = () => {
             handleNext()
         else if (e.key === 'ArrowDown' || e.key === 'ArrowLeft') 
             handlePrev()
-    }, []);
+    }, [handleNext, handlePrev]);
 
     // useCallback ensures handleClick doesn't change unless its dependencies do
     const handleClick = useCallback((e) => {
+        if (clickLocked) return;
+        setClickLocked(true);
+        
         let clickPositionX, clickPositionY;
         // Determine whether it's a mouse click or touch event
         if (e.type === "click") {
@@ -135,7 +133,8 @@ const IntroPage = () => {
         } else {
             handlePrev();
         }
-    }, [handleNext, handlePrev]);
+        setTimeout(() => setClickLocked(false), 300); // Prevent spamming
+    }, [handleNext, handlePrev, clickLocked]);
 
     useEffect(() => {
         const handleMouseMove = (e) => {            
@@ -228,7 +227,7 @@ const IntroPage = () => {
                 return newState;
             });
         }
-    }, [frame]);
+    }, [frame, setFirstUse]);
     
     // Define the action based on the current state
     const actionMap = {
@@ -272,33 +271,27 @@ const IntroPage = () => {
     // Determine the text to display based on the current state
     const getDisplayText = () => {
         if (frame === 0) {
-            const title = introTexts.Title;
             return (
                 <div className="i-title-container">
-                    <div className='i-welcome'>WELCOME TO THE</div>
-                    <div className='i-title'>OL-in-One Compass</div>
+                    {introTexts.Frame0}
                 </div>
             );
-            return <>{replaceBolds(title, "i-title-container", "i-welcome", "i-title")}</>;
         } else if (frame === 1) {
-            const introDef = introTexts.IntroDef;
             return (
                 <div className='i-explanation-container'>
-                    <div className='i-explanation'>AA</div>
+                    {introTexts.Frame1}
                 </div>
             );
         } else if (frame === 2) {
-            const introWho = introTexts.IntroWho;
             return (
                 <div className='i-explanation-container'>
-                    <div className='i-explanation'>BB</div>
+                    {introTexts.Frame2}
                 </div>
             );
         } else if (frame === 3) {
-            const introSubject = introTexts.IntroSubject;
             return (
                 <div className='i-explanation-container'>
-                    <div className='i-explanation'>CC</div>
+                    {introTexts.Frame3}
                 </div>
             );
         } else if (frame === 4) {
@@ -311,10 +304,10 @@ const IntroPage = () => {
                 frameRef.current = 5;
                 timeoutRef.current = null; // Reset after execution
             }, 50*7);
-            const defineP = introTexts.DefineP;
+
             return (
                 <div className="i-text-container">
-                    <div className='i-text colored'>DD</div>
+                    {introTexts.Frame4}
                 </div>
             );
         } else if (frame === 5) {
@@ -327,11 +320,10 @@ const IntroPage = () => {
                 frameRef.current = 6;
                 timeoutRef.current = null; // Reset after execution
             }, 50*7);
-            const clarifyP = introTexts.ClarifyP;
+            
             return (
                 <div className="i-text-container">
-                    <div className='i-text'>DD</div>
-                    <div className='i-text colored'>EE</div>
+                    {introTexts.Frame5}
                 </div>
             );
         } else if(frame === 6) {
@@ -341,70 +333,59 @@ const IntroPage = () => {
             if (timeoutRef.current)
                 clearTimeout(timeoutRef.current);
             timeoutRef.current = setTimeout(() => {
-                console.log("UPDATE TIMEOUT");
                 setFrame(7);
                 frameRef.current = 7;
                 timeoutRef.current = null; // Reset after execution
             }, 50*10);
+            
             return (
                 <div className="i-text-container">
-                    <div className='i-text'>DD</div>
-                    <div className='i-text'>EE</div>
-                    <div className='i-text colored'>FF</div>
+                    {introTexts.Frame6}
                 </div>
             );
         } else if(frame === 7) {
-            const clarifyPe = introTexts.ClarifyPe;
             return (
                 <div className="i-text-container">
-                    <div className='i-text'>DD</div>
-                    <div className='i-text'>EE</div>
-                    <div className='i-text'>FF</div>
+                    {introTexts.Frame7}
                 </div>
             );
         } else if(frame === 8) {
-            const defineD = introTexts.DefineD;
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             return (
                 <div className="i-text-container">
-                    <div className='i-text colored'>GG</div>
+                    {introTexts.Frame8}
                 </div>
             );
         } else if(frame === 9) {
-            const clarifyD = introTexts.ClarifyD;
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             return (
                 <div className="i-text-container">
-                    <div className='i-text colored'>HH</div>
+                    {introTexts.Frame9}
                 </div>
             );
         } else if(frame === 10) {
-            const clarifyD = introTexts.ClarifyD;
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             return (
                 <div className="i-text-container">
-                    <div className='i-text colored'>II</div>
+                    {introTexts.Frame10}
                 </div>
             );
         } else if(frame === 11) {
-            const clarifyD = introTexts.ClarifyD;
             return (
                 <div className="i-text-container">
-                    <div className='i-text'>KK</div>
+                    {introTexts.Frame11}
                 </div>
             );
         } else if(frame === 12) {
-            const clarifyD = introTexts.ClarifyD;
             return (
                 <div className="i-text-container">
-                    <div className='i-text'>LL</div>
+                    {introTexts.Frame12}
                 </div>
             );
         } else if(frame === 13) {
-            const clarifyD = introTexts.ClarifyD;
             return (
                 <div className="i-explanation-container">
-                    <div className='i-explanation'>MM</div>
+                    {introTexts.Frame13}
                 </div>
             );
         } else if(frame === 14) {
@@ -412,17 +393,15 @@ const IntroPage = () => {
                 setRandomComponents(['P2', 'P3', 'P4', 'P6', 'Pe1', 'Pe4', 'Pe5', 'Pe7', 'D3', 'D5', 'D7', 'D8', 'D10']);
             }, 1000); // Delay for each button (3 seconds between each)
 
-            const clarifyD = introTexts.ClarifyD;
             return (
                 <div className="i-explanation-container">
-                    <div className='i-explanation'>NN</div>
+                    {introTexts.Frame14}
                 </div>
             );
         } else if(frame === 15) {
-            const clarifyD = introTexts.ClarifyD;
             return (
                 <div className="i-explanation-container">
-                    <div className='i-explanation'>OO</div>
+                    {introTexts.Frame15}
                 </div>
             );
         }

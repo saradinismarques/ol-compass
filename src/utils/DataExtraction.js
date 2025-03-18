@@ -113,16 +113,22 @@ export function getIntroTexts(language) {
         // If a match is found, return the data; otherwise, return null or a default value
         if (item) {
             return {
-                Title: item["TITLE (Frame 00)"],
-                IntroDef: item["INTRO_DEF (Frame 01)"],
-                IntroWho: item["INTRO_WHO IS BEHIND (Frame 02)"],
-                IntroSubject: item["INTRO_SUBJECT (Frame 03)"],
-                DefineP: item["define_P (Frame 04)"],
-                ClarifyP: item["clarify_P (Frame 05)"],
-                DefinePe: item["define_Pe (Frame 06)"],
-                ClarifyPe: item["clarify_Pe (Frame 07)"],
-                DefineD: item["define_D (Frame 08)"],
-                ClarifyD: item["clarify_D (Frame 09)"],
+                Frame0: item["Frame 0"],
+                Frame1: item["Frame 1"],
+                Frame2: item["Frame 2"],
+                Frame3: item["Frame 3"],
+                Frame4: item["Frame 4"],
+                Frame5: item["Frame 5"],
+                Frame6: item["Frame 6"],
+                Frame7: item["Frame 7"],
+                Frame8: item["Frame 8"],
+                Frame9: item["Frame 9"],
+                Frame10: item["Frame 10"],
+                Frame11: item["Frame 11"],
+                Frame12: item["Frame 12"],
+                Frame13: item["Frame 13"],
+                Frame14: item["Frame 14"],
+                Frame15: item["Frame 15"],
             };
         }
 
