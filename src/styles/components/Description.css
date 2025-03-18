@@ -9,7 +9,7 @@
     top: 50vh; /* Position item 50% from the top */
     left: 50vw; 
     transform: translate(-50%, -50%);
-    width: 75vh;
+    width: 85vh;
     text-align: center;
     color: #274893;
     z-index: 30; /* Adjust the z-index */
@@ -22,9 +22,7 @@
 }
 
 .description-text {
-    width: 75vh;
-    transform: translateX(50%);
-    margin-top: -4vh;
+    margin-top: 1vh;
     font-size: 3.2vh;
     line-height: 1.3;
     font-weight: 500;

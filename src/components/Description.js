@@ -27,9 +27,9 @@ const Description = ({ mode }) => {
   return (
     <div className='description-container'>
       {mode !== 'home' &&
-        <p className='description-headline'>
-          {description.Headline}
-        </p>
+        <>
+          {replaceLineBreaks(description.Headline, "description-headline")}
+        </>
       }
       {/* Available */}
       {description.Text !== '/' && 
