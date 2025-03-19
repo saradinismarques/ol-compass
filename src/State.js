@@ -37,7 +37,12 @@ export const State = ({ children }) => {
     const [showStudyInstruction, setShowStudyInstruction] = useState(false);
     
     const [firstUse, setFirstUse] = useState(initialFirstUse);
-
+   
+    const allComponents = [
+        'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
+        'Pe1', 'Pe2', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'Pe7',
+        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10',
+    ];
     // Learn
     const [savedComponents, setSavedComponents] = useState([]);
     const [learnComponent, setLearnComponent] = useState(null);
@@ -60,22 +65,23 @@ export const State = ({ children }) => {
     const [mapComponents, setMapComponents] = useState([]);
     const [mapProjectName, setMapProjectName] = useState('');
     const [mapCurrentType, setMapCurrentType] = useState('Principle');
-    // Home
+    const [mapAllComponents, setMapAllComponents] = useState(
+        allComponents.reduce((acc, code) => {
+          acc[code] = ""; // Default value is an empty string
+          return acc;
+        }, {})
+    );
+    
     const initialTypeState = useMemo(
         () => ({
         "Principle": false,
         "Perspective": false,
-        "mDimension": false,
+        "Dimension": false,
         }), []
     );
-
     const [typeComplete, setTypeComplete] = useState(initialTypeState);
 
-    const allComponents = [
-        'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
-        'Pe1', 'Pe2', 'Pe3', 'Pe4', 'Pe5', 'Pe6', 'Pe7',
-        'D1', 'D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10',
-    ];
+
 
     // Icons
     const iconsMap = {
@@ -147,7 +153,9 @@ export const State = ({ children }) => {
                 mapCurrentType,
                 setMapCurrentType,
                 typeComplete,
-                setTypeComplete
+                setTypeComplete,
+                mapAllComponents,
+                setMapAllComponents
                 // Add other global states here as needed
             }}
         >

@@ -37,7 +37,9 @@ const Map2Page = () => {
     mapCurrentType,
     setMapCurrentType,
     typeComplete,
-    setTypeComplete
+    setTypeComplete,
+    mapAllComponents,
+    setMapAllComponents
   } = useContext(StateContext);
 
   const labelsTexts = getLabelsTexts(language, "map");
@@ -151,7 +153,7 @@ const Map2Page = () => {
         } else {
           componentExists = false;
           // Add new component with default values
-          const newComponent = { code, label, paragraph, type, text: "" };
+          const newComponent = { code, label, paragraph, type, text: mapAllComponents[code] };
           const updatedComponents = [...prevComponents, newComponent];
       
           return updatedComponents;
@@ -213,6 +215,11 @@ const Map2Page = () => {
   
       // Update the state with the new array
       setMapComponents(updatedComponents);
+
+      setMapAllComponents(prev => ({
+        ...prev,
+        [code]: e.target.value,
+      }));
     }
   };
 
@@ -451,73 +458,85 @@ const Map2Page = () => {
   };
 
   const addTextareas = async(pdf) => {
-    // First section for the first 5 components
-    if (mapComponents.length > 0) {
+    const groupedComponents = {
+      Principle: [],
+      Perspective: [],
+      Dimension: [],
+    };
+  
+    // Group components by type
+    mapComponents.forEach((component) => {
+      if (groupedComponents[component.type]) {
+        groupedComponents[component.type].push(component);
+      }
+    });
+
+    // Extract first and second components of each type
+    const firstSection = [
+      groupedComponents.Principle[0],
+      groupedComponents.Perspective[0],
+      groupedComponents.Dimension[0]
+    ].filter(Boolean); // Remove undefined values
+
+    const secondSection = [
+      groupedComponents.Principle[1],
+      groupedComponents.Perspective[1],
+      groupedComponents.Dimension[1]
+    ].filter(Boolean);
+    
+    // Render first section
+    if (firstSection.length > 0) {
       await renderToCanvas(
         <>
-          {mapComponents.map((component, id) => (
-            (id % 2 === 0) && (
+          {firstSection.map((component, id) => (
+            <div
+              key={id}
+              className="m2-components-textarea-pdf"
+              style={{ '--text-color': colors['Text'][component.type] }}
+            >
+              <div className='m2-textarea-label-pdf'>{component.label}</div>
               <div
-                key={id} 
-                className="m2-components-textarea-pdf"
+                className="m2-component-textarea-pdf"
                 style={{
-                  '--text-color': colors['Text'][component.type], // Define CSS variable
+                  '--text-color': colors['Text'][component.type],
+                  backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
                 }}
               >
-                <div className='m2-textarea-label-pdf'>
-                  {component.label}
-                </div>
-
-                <div
-                  className="m2-component-textarea-pdf"
-                  style={{
-                    '--text-color': colors['Text'][component.type], // Define CSS variable
-                    backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
-                  }}
-                >
-                  {component.text}
-                </div>
+                {component.text}
               </div>
-            )
+            </div>
           ))}
         </>,
         pdf, 27.5, 23, 0.9
       );
     }
 
-    // Second section for the first 5 components
-    if (mapComponents.length > 1) {
+    // Render second section
+    if (secondSection.length > 0) {
       await renderToCanvas(
         <>
-          {mapComponents.map((component, id) => (
-            (id % 2 !== 0) && (
+          {secondSection.map((component, id) => (
+            <div
+              key={id}
+              className="m2-components-textarea-pdf"
+              style={{ '--text-color': colors['Text'][component.type] }}
+            >
+              <div className='m2-textarea-label-pdf'>{component.label}</div>
               <div
-                key={id} 
-                className="m2-components-textarea-pdf"
+                className="m2-component-textarea-pdf"
                 style={{
-                  '--text-color': colors['Text'][component.type], // Define CSS variable
+                  '--text-color': colors['Text'][component.type],
+                  backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
                 }}
               >
-                <div className='m2-textarea-label-pdf'>
-                  {component.label}
-                </div>
-
-                <div
-                  className="m2-component-textarea-pdf"
-                  style={{
-                    '--text-color': colors['Text'][component.type], // Define CSS variable
-                    backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
-                  }}
-                >
-                  {component.text}
-                </div>
+                {component.text}
               </div>
-            )
+            </div>
           ))}
         </>,
         pdf, 223, 23, 0.9
       );
-    } 
+    }
   };
 
   const addIconDefinitionsTextareas = async(pdf, type) => {
