@@ -222,7 +222,9 @@
     top: var(--top-space);
     left: 40vw;
     transform: translate(-50%, -50%);
-    font-size: 2.5vh;
+    width: 50vh;
+    text-align: center;
+    font-size: 2.2vh;
     color: red;
 }
 

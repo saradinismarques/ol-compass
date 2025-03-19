@@ -65,7 +65,6 @@ const Map2Page = () => {
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
-  const [tooltipColor, setTooltipColor] = useState('black');
   let tooltipTimeout = null;
   
   const navigate = useNavigate(); // Initialize the navigate function
@@ -195,6 +194,7 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
+    setLimitExceeded(false);
   };
 
   // Update individual component text field
@@ -206,6 +206,7 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
+    setLimitExceeded(false);
 
     if(mapCurrentType !== type) 
       return;
@@ -231,6 +232,14 @@ const Map2Page = () => {
   };
 
   const handleComponentClick = (e, type) => {
+    setMissingText(prevState => ({
+      ...prevState,
+      ProjectName: false, // Set to true if all Principles have text
+      Principle: false, // Set to true if all Principles have text
+      Perspective: false, // Set to true if all Principles have text
+      Dimension: false, // Set to true if all Principles have text
+    }));
+    setLimitExceeded(false);
     if(mapCurrentType !== type) {
       clearTimeout(tooltipTimeout);
 
@@ -258,12 +267,21 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
+    setLimitExceeded(false);
     if(mapCurrentType !== type) 
       return;
     setCurrentComponent(code); // Update the currentComponent state with the code of the focused textarea
   };
 
   const handleWhatButtonsChange = (e, type) => {
+    setMissingText(prevState => ({
+      ...prevState,
+      ProjectName: false, // Set to true if all Principles have text
+      Principle: false, // Set to true if all Principles have text
+      Perspective: false, // Set to true if all Principles have text
+      Dimension: false, // Set to true if all Principles have text
+    }));
+    setLimitExceeded(false);
     if(mapCurrentType === type)
       return;
     if(type === 'Perspective' && !typeComplete['Principle']) {
@@ -1039,7 +1057,7 @@ const Map2Page = () => {
 
           {limitExceeded &&
             <div className='m2-limit-exceed-message'>
-              {labelsTexts["max-6-elements"]}
+              {labelsTexts["You can select max 2 waves; to select a new one deselect one of those already selected"]}
             </div>
           }
         </>
