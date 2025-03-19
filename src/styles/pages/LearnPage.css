@@ -146,17 +146,7 @@
 }
 
 /* Images */
-.l-image-container {
-    position: fixed;
-    overflow: hidden; /* To prevent any overflow issues */
-    top: 6vh;
-    right: 28vw;
-    z-index: 10;
-    opacity: 40%;
-    border-radius: 50%; /* Make the container circular */
-    width: 32vh; /* Set the desired width */
-    height: 32vh; 
-}
+c
 
 @media (max-aspect-ratio: 16/9) {
     /* Your styles for smaller screens go here */

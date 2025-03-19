@@ -765,6 +765,7 @@ const Map2Page = () => {
                           style={{
                             '--text-color': colors['Text'][component.type],
                             backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                            cursor: mapCurrentType !== 'Principle' ? 'default' : 'pointer',
                           }}
                           type="text"
                           placeholder={
@@ -811,6 +812,7 @@ const Map2Page = () => {
                           style={{
                             '--text-color': colors['Text'][component.type],
                             backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                            cursor: mapCurrentType !== 'Perspective' ? 'default' : 'pointer',
                           }}
                           type="text"
                           placeholder={
@@ -859,6 +861,7 @@ const Map2Page = () => {
                           style={{
                             '--text-color': colors['Text'][component.type],
                             backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
+                            cursor: mapCurrentType !== 'Dimension' ? 'default' : 'pointer',
                           }}
                           type="text"
                           placeholder={

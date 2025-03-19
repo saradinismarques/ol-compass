@@ -9,7 +9,7 @@
     top: calc(var(--top-space-2) + 2.5vh); 
     left: calc(var(--left-space-3) - 1.9vh);
     z-index: 30;
-    width: 40vh;
+    width: 50vh;
     font-weight: 400;
     display: flex;
     flex-direction: column; /* Stack buttons vertically */
@@ -35,7 +35,7 @@
 }
 
 .l2-question {
-    font-size: 1.8vh;
+    font-size: 2.3vh;
     font-weight: 400;
     overflow-y: auto; /* Hide overflow initially */
     color: var(--text-color); 
@@ -229,6 +229,23 @@
     stroke: var(--text-color);
     stroke-width: calc(var(--button-border) - 0.5px);
     margin-right: -0.01vh;
+}
+
+/* Images */
+.l2-image-container {
+    position: fixed;
+    overflow: hidden; /* To prevent any overflow issues */
+    bottom: 3vh;
+    right: 3vh;
+    z-index: 80;
+    border-radius: 50%; /* Make the container circular */
+}
+
+.l2-image {
+    width: 34vh; /* Set the desired width */
+    height: 34vh; /* Maintain the aspect ratio */
+    opacity: 100%;
+    z-index: 10;
 }
 
 
