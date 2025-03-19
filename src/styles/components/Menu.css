@@ -1,7 +1,7 @@
 /* Left Menu Container */
 .left-menu {
     position: fixed;
-    top: 12vh;
+    top: 10vh;
     left: var(--left-space-2);
     display: flex;
     flex-direction: column;

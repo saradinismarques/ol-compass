@@ -88,7 +88,7 @@ const GetInspiredPage = () => {
   
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((title) => {
-    return savedCaseStudies.length !== 0 && savedCaseStudies.some(item => item.title === title);
+    return savedCaseStudiesRef.current.length !== 0 && savedCaseStudiesRef.current.some(item => item.title === title);
   }, [savedCaseStudies]);
 
   const handleCompassClick = (code) => {
@@ -288,7 +288,7 @@ const GetInspiredPage = () => {
       bookmark: !currentCaseStudy.bookmark,
     });
 
-    if(searchLogicRef.current === 'SAVED')
+    if(searchLogicRef.current === 'SAVED') 
       searchCaseStudies(null);
   };  
 
@@ -346,7 +346,7 @@ const GetInspiredPage = () => {
                 <h1 className="gi-title">{currentCaseStudy.title}</h1>
                 <p className="gi-description">{currentCaseStudy.description}</p>
                 {/* <p>{height}</p> */}
-                <p className="gi-credits">{labelsTexts["credits"]}</p>
+                <p className="gi-credits">{labelsTexts["credits"]}: {currentCaseStudy.credits}</p>
   
                 <div className='gi-boxes-container'>
                 <div className='gi-box-row'>

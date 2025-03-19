@@ -6,10 +6,10 @@
 /* Text Container */
 .l2-text-buttons-container {
     position: fixed;
-    top: var(--top-space-2); 
+    top: calc(var(--top-space-2) + 2.5vh); 
     left: calc(var(--left-space-3) - 1.9vh);
     z-index: 30;
-    width: 43vh;
+    width: 40vh;
     font-weight: 400;
     display: flex;
     flex-direction: column; /* Stack buttons vertically */
@@ -35,11 +35,10 @@
 }
 
 .l2-question {
-    font-size: 2.3vh;
+    font-size: 1.8vh;
     font-weight: 400;
     overflow-y: auto; /* Hide overflow initially */
-    color: #444343; 
-    opacity: 0.6;
+    color: var(--text-color); 
 }
 
 .l2-question.bold {
@@ -50,13 +49,13 @@
 .l2-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
-    fill: #444343; /* Set default color for the bookmark */
+    fill: var(--text-color); /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
-    stroke: #444343;
+    stroke: var(--text-color);
     stroke-width: 0;
     padding-right: 1vh;
     position: relative;
-    top: 0.4vh;
+    top: 0vh;
     opacity: 0.6;
 }
 
@@ -68,7 +67,7 @@
 
 .l2-button:hover .l2-arrow-icon,
 .l2-button:active  .l2-arrow-icon {
-    fill: var(--gray-color); /* Change fill color on hover */
+    fill: color-mix(in srgb, var(--text-color) 80%, transparent); /* Change fill color on hover */
 }
 
 /* Text Styles */
@@ -104,7 +103,7 @@
 
 .l2-example-number {
    font-weight: 400;
-   color: #444343; 
+   color: var(--text-color); 
 }
 
 .l2-example-number.bold {
@@ -139,14 +138,14 @@
 
 .l2-example-arrow:hover .l2-example-arrow-icon,
 .l2-example-arrow:active  .l2-example-arrow-icon {
-    fill: var(--gray-color); /* Change fill color on hover */
+    fill: color-mix(in srgb, var(--text-color) 80%, transparent); /* Change fill color on hover */ /* Change fill color on hover */
 }
 
 .l2-example-arrow-icon {
     width: 2.5vh;
     height: 2.5vh;
-    fill: #444343; /* Set default color for the bookmark */
-    stroke: #444343;
+    fill: var(--text-color); /* Set default color for the bookmark */
+    stroke: var(--text-color);
     stroke-width: 0;
 }
 
@@ -170,7 +169,7 @@
     align-items: center; /* Center them vertically */
     z-index: 30;
     position: fixed;
-    width: var(--container-width); /* Ensures it always takes full width */
+    width: calc(var(--container-width) - 2vh); /* Ensures it always takes full width */
     top: var(--top-space);
     right: var(--left-space);
     transform: translateY(-50%);
@@ -228,7 +227,7 @@
     fill: none; /* Set default color for the bookmark */
     transition: fill 0.2s ease, stroke 0.2s ease;
     stroke: var(--text-color);
-    stroke-width: var(--button-border);
+    stroke-width: calc(var(--button-border) - 0.5px);
     margin-right: -0.01vh;
 }
 

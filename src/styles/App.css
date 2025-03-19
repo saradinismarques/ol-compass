@@ -60,7 +60,7 @@ body {
 }
 
 .instruction {
-    font-size: 2.7vh;
+    font-size: 2.5vh;
     font-weight: 300;
     color: var(--gray-color);
 }

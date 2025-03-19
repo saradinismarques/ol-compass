@@ -23,7 +23,8 @@ const Learn2Page = () => {
     setLearnComponent,
     savedComponents,
     setSavedComponents,
-    iconsMap
+    iconsMap,
+    firstUse
   } = useContext(StateContext);
 
   const labelsTexts = getLabelsTexts(language, "learn");
@@ -44,7 +45,7 @@ const Learn2Page = () => {
 
   useEffect(() => {
     activeButtonRef.current = activeButton;
-}, [activeButton]);
+  }, [activeButton]);
 
   const resetState = useCallback(() => {
     navigate('/home');
@@ -55,11 +56,6 @@ const Learn2Page = () => {
   }, [savedComponents]);
 
   const handleCompassClick = (data) => {
-    setFirstUse(prevState => ({
-      ...prevState, // Keep all existing attributes
-      learn: false   // Update only 'home'
-    }));
-
     if (data === null) 
       return;
 
@@ -104,8 +100,11 @@ const Learn2Page = () => {
     setCurrentLinks(null);
 
     document.documentElement.style.setProperty('--text-color', colors['Text'][type]);
-    document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);
-  
+    document.documentElement.style.setProperty('--wave-color', colors['Wave'][type]);  
+    setFirstUse(prevState => ({
+      ...prevState, // Keep all existing attributes
+      learn: false   // Update only 'home'
+    })); 
     setShowInstruction(false);
   };
 
