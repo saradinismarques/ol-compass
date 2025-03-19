@@ -181,54 +181,50 @@ export function replaceUnderlines(text, currentConcept, onClickHandler) {
 };
 
 export function replaceBoldsHighlights(text, textStyle, boldStyle, italicStyle, hPStyle, hPeStyle) {
-    const parseText = (input) => {
-        const tagRegex = /(<(b|i|hP|hPe)>(.*?)<\/\2>)/g;
-        let elements = [];
-        let lastIndex = 0;
-        
-        input.replace(tagRegex, (match, fullMatch, tag, content, offset) => {
-            // Push plain text before the match
-            if (lastIndex < offset) {
-                elements.push(input.slice(lastIndex, offset));
-            }
-            
-            // Recursively parse nested content
-            let parsedContent = parseText(content);
-            
-            // Wrap parsed content in appropriate tag components
-            let component;
-            switch (tag) {
-                case 'b':
-                    component = <span key={offset} className={boldStyle}>{parsedContent}</span>;
-                    break;
-                case 'i':
-                    component = <span key={offset} className={italicStyle} style={{ fontStyle: "italic" }}>{parsedContent}</span>;
-                    break;
-                case 'hP':
-                    component = <span key={offset} className={hPStyle}>{parsedContent}</span>;
-                    break;
-                case 'hPe':
-                    component = <span key={offset} className={hPeStyle}>{parsedContent}</span>;
-                    break;
-                default:
-                    component = parsedContent;
-            }
-            
-            elements.push(component);
-            lastIndex = offset + fullMatch.length;
-        });
-        
-        // Push remaining plain text after the last match
-        if (lastIndex < input.length) {
-            elements.push(input.slice(lastIndex));
-        }
-        
-        return elements;
-    };
-
     return (
-        <div style={{ display: "inline" }} className={textStyle}>
-            {parseText(text)}
+        <div style={{ display: "inline" }}>
+            {text
+                .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||")
+                .replace(/<i>(.*?)<\/i>/g, "||I||$1||I||")
+                .replace(/<hP>(.*?)<\/hP>/g, "||HP||$1||HP||")
+                .replace(/<hPe>(.*?)<\/hPe>/g, "||HPE||$1||HPE||")
+                .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|I\|\|.*?\|\|I\|\||\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\|)/g)
+                .map((part, index) => {
+                    const uniqueKey = `${Date.now()}-${index}-${text}`; // Unique key based on timestamp and index
+                    if (part.startsWith("||B||")) {
+                        return (
+                            <span key={uniqueKey} className={boldStyle} style={{ display: "inline" }}>
+                                {part.replace(/\|\|B\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    if (part.startsWith("||I||")) {
+                        return (
+                            <span key={uniqueKey} className={italicStyle} style={{ display: "inline", fontStyle: "italic" }}>
+                                {part.replace(/\|\|I\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    if (part.startsWith("||HP||")) {
+                        return (
+                            <span key={uniqueKey} className={hPStyle} style={{ display: "inline" }}>
+                                {part.replace(/\|\|HP\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    if (part.startsWith("||HPE||")) {
+                        return (
+                            <span key={uniqueKey} className={hPeStyle} style={{ display: "inline" }}>
+                                {part.replace(/\|\|HPE\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    return (
+                        <span key={uniqueKey} className={textStyle} style={{ display: "inline" }}>
+                            {part}
+                        </span>
+                    );
+                })}
         </div>
     );
 }

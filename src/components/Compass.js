@@ -125,6 +125,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
             code: component.code,
             title,
             paragraph: component.paragraph,
+            paragraph_extended: component.paragraph_extended,
             type: component.type,
           };
         

@@ -88,6 +88,7 @@ const Learn2Page = () => {
       code,
       title,
       paragraph,
+      paragraph_extended,
       type,
       wbc_links = null,
       region_feature = null,
@@ -110,7 +111,7 @@ const Learn2Page = () => {
         type,
         bookmark: getBookmarkState(code),
         ...(type === 'Principle'
-          ? { wbc_links, region_feature, country_e1, ce1_links, country_e2, ce2_links }
+          ? { paragraph_extended, wbc_links, region_feature, country_e1, ce1_links, country_e2, ce2_links }
           : { example_1, example_2, e1_codes, e2_codes }),
       };
   
@@ -137,10 +138,16 @@ const Learn2Page = () => {
     // Define button text mappings
     const buttonTexts = {
       0: {
-        0: replaceBoldsHighlights(
-          componentRef.current.paragraph,
-          'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
-        ),
+        0: {
+          paragraph: replaceBoldsHighlights(
+            componentRef.current.paragraph,
+            'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          ),
+          paragraph_extended: replaceBoldsHighlights(
+            componentRef.current.paragraph_extended,
+            'l2-text extended', 'l2-text bold', 'l2-text italic', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          ), // Assuming this is the extended paragraph you want to return
+        },
         1: replaceBolds(
             labelsTexts["question-1-principles"], 
             null, 'l2-question', 'l2-question bold'),
@@ -196,6 +203,18 @@ const Learn2Page = () => {
           null, 'l2-question', 'l2-question bold'),
       },
     };
+
+   // If buttonIndex is 0, return both paragraphs as separate elements
+  if (buttonIndex === 0 && activeButtonRef.current === 0) {
+    const result = buttonTexts[0]?.[0];
+    return (
+      <div>
+        <div>{result.paragraph}</div>
+        <div className='l2-extended-container'>{result.paragraph_extended}</div>
+      </div>
+    );
+  }
+  
     return buttonTexts[activeButtonRef.current]?.[buttonIndex] || null;
   };
   
