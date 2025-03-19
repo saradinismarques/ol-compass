@@ -30,6 +30,15 @@
     font-weight: 400;
 }
 
+.m2-project-name-textarea.missing {
+    color: #e9524b; /* Set placeholder color to white */
+    border: var(--button-border) solid #e9524b;
+}
+
+.m2-project-name-textarea.missing::placeholder {
+    color: #e9524b; /* Set placeholder color to white */
+}
+
 .m2-text-below-container {
     position: fixed;
     top: var(--top-space); 
@@ -93,6 +102,12 @@
 .m2-what-button.active {
     color: var(--text-color);
     background-color: var(--background-color);
+}
+
+.m2-what-button.missing {
+    color: #e9524b;
+    border: var(--button-border) solid #e9524b;
+    background-color: white;
 }
 
 .m2-what-button.active:hover {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef, useContext } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useContext, useMemo } from 'react';
 import Compass from '../components/Compass';
 import CompassIcon from '../components/CompassIcon.js'
 import Menu from '../components/Menu';
@@ -48,6 +48,17 @@ const Map2Page = () => {
   const [currentComponent, setCurrentComponent] = useState();
   const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
   const [isGenerating, setIsGenerating] = useState(false);
+  
+  const initialMissingText = useMemo(
+      () => ({
+      "ProjectName": false,
+      "Principle": false,
+      "Perspective": false,
+      "mDimension": false,
+      }), []
+  );
+  const [missingText, setMissingText] = useState(initialMissingText);
+  
   const navigate = useNavigate(); // Initialize the navigate function
 
   const componentsRef = useRef(mapComponents);
@@ -81,7 +92,6 @@ const Map2Page = () => {
       }));
     }
     if (dimensions.length > 0 && dimensions.every(principle => principle.text.length > 0)) {
-      console.log("TRUE");
       setTypeComplete(prevState => ({
         ...prevState,
         Dimension: true, // Set to true if all Principles have text
@@ -110,6 +120,14 @@ const Map2Page = () => {
 
   // Trigger compass action
   const handleCompassClick = (code, label, paragraph, type) => {
+    setMissingText(prevState => ({
+      ...prevState,
+      ProjectName: false, // Set to true if all Principles have text
+      Principle: false, // Set to true if all Principles have text
+      Perspective: false, // Set to true if all Principles have text
+      Dimension: false, // Set to true if all Principles have text
+    }));
+    
     let componentExists;
     if(code) {
       setMapComponents(prevComponents => {
@@ -165,10 +183,24 @@ const Map2Page = () => {
   // Update form state
   const handleProjectNameChange = (e) => {
     setMapProjectName(e.target.value);
+    setMissingText(prevState => ({
+      ...prevState,
+      ProjectName: false, // Set to true if all Principles have text
+      Principle: false, // Set to true if all Principles have text
+      Perspective: false, // Set to true if all Principles have text
+      Dimension: false, // Set to true if all Principles have text
+    }));
   };
 
   // Update individual component text field
   const handleComponentChange = (e, code) => {
+    setMissingText(prevState => ({
+      ...prevState,
+      ProjectName: false, // Set to true if all Principles have text
+      Principle: false, // Set to true if all Principles have text
+      Perspective: false, // Set to true if all Principles have text
+      Dimension: false, // Set to true if all Principles have text
+    }));
     if (e.target.value.length < 130) {
       // Create a new array with the updated component
       let updatedComponents = mapComponents.map((component) => {
@@ -185,6 +217,13 @@ const Map2Page = () => {
   };
 
   const handleFocus = (code) => {
+    setMissingText(prevState => ({
+      ...prevState,
+      ProjectName: false, // Set to true if all Principles have text
+      Principle: false, // Set to true if all Principles have text
+      Perspective: false, // Set to true if all Principles have text
+      Dimension: false, // Set to true if all Principles have text
+    }));
     setCurrentComponent(code); // Update the currentComponent state with the code of the focused textarea
   };
 
@@ -217,6 +256,42 @@ const Map2Page = () => {
 
   // PDF Generation Functions
   const handleDownloadPDF = async () => {
+    let somethingMissing = false;
+
+    const principles = mapComponents.filter(component => component.type === 'Principle');
+    const perspectives = mapComponents.filter(component => component.type === 'Perspective');
+    const dimensions = mapComponents.filter(component => component.type === 'Dimension');
+
+    if(mapProjectName.length === 0) {
+      setMissingText(prevState => ({
+        ...prevState,
+        ProjectName: true, // Set to true if all Principles have text
+      }));
+      somethingMissing = true;
+    } 
+    if(principles <= 0 || principles.some(principle => principle.text.length === 0)) {
+      setMissingText(prevState => ({
+        ...prevState,
+        Principle: true, // Set to true if all Principles have text
+      }));
+    }
+    if(perspectives <= 0 || perspectives.some(principle => principle.text.length === 0)) {
+      setMissingText(prevState => ({
+        ...prevState,
+        Perspective: true, // Set to true if all Principles have text
+      }));
+      somethingMissing = true;
+    }
+    if(dimensions <= 0 || dimensions.some(principle => principle.text.length === 0)) {
+      setMissingText(prevState => ({
+        ...prevState,
+        Dimension: true, // Set to true if all Principles have text
+      }));
+      somethingMissing = true;
+    }
+    if(somethingMissing)
+      return;
+
     const pageWidth = 297; // mm
     const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
 
@@ -590,7 +665,7 @@ const Map2Page = () => {
         <>
           <div className='m2-text-container'>
             <textarea
-                className="m2-project-name-textarea" 
+                className={`m2-project-name-textarea ${missingText["ProjectName"] ? "missing": ""}`}
                 type="text" 
                 placeholder={labelsTexts["inster-map-title"]}
                 value={mapProjectName} 
@@ -606,7 +681,7 @@ const Map2Page = () => {
           </div>
           <div className='m2-what-buttons-container'>
             <button 
-              className={`m2-what-button ${mapCurrentType === 'Principle' ? "active" : ""}`}
+              className={`m2-what-button ${mapCurrentType === 'Principle' ? "active" : ""} ${missingText["Principle"] ? "missing": ""}`}
               style={{
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
@@ -616,7 +691,7 @@ const Map2Page = () => {
               {labelsTexts["what"]}
             </button>
             <button 
-              className={`m2-what-button ${mapCurrentType === 'Perspective' ? "active" : ""} ${typeComplete['Principle'] ? "" : "disabled"}`}
+              className={`m2-what-button ${mapCurrentType === 'Perspective' ? "active" : ""} ${typeComplete['Principle'] ? "" : "disabled"} ${missingText["Perspective"] ? "missing": ""}`}
               style={{
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
@@ -626,7 +701,7 @@ const Map2Page = () => {
               {labelsTexts["from-what-angle"]}
             </button>
             <button 
-              className={`m2-what-button ${mapCurrentType === 'Dimension' ? "active" : ""}  ${typeComplete['Perspective'] ? "" : "disabled"}`}
+              className={`m2-what-button ${mapCurrentType === 'Dimension' ? "active" : ""}  ${typeComplete['Perspective'] ? "" : "disabled"} ${missingText["Dimension"] ? "missing": ""}`}
               style={{
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
@@ -682,7 +757,7 @@ const Map2Page = () => {
                           onFocus={() => handleFocus(component.code)}
                           onChange={(e) => handleComponentChange(e, component.code)}
                           spellCheck="false"
-                          disabled={window.innerWidth > 1300 ? false : true}
+                          disabled={mapCurrentType !== 'Principle'}
                         />
                       </>
                     ) : (
@@ -692,6 +767,7 @@ const Map2Page = () => {
                 );
               })}
             </div>
+            {/* Perspectives */}
             <div className="m2-components-textarea-row">
               {Array.from({ length: 2 }).map((_, id) => {
                 const component = findComponentByType(id, 'Perspective'); // Get the corresponding component if it exists
@@ -727,7 +803,7 @@ const Map2Page = () => {
                           onFocus={() => handleFocus(component.code)}
                           onChange={(e) => handleComponentChange(e, component.code)}
                           spellCheck="false"
-                          disabled={window.innerWidth > 1300 ? false : true}
+                          disabled={mapCurrentType !== 'Perspective'}
                         />
                       </>
                     ) : (
@@ -739,6 +815,7 @@ const Map2Page = () => {
                 );
               })}
             </div>
+            {/* Dimensions */}
             <div className="m2-components-textarea-row">
               {Array.from({ length: 2 }).map((_, id) => {
                 const component = findComponentByType(id, 'Dimension'); // Get the corresponding component if it exists
@@ -774,7 +851,7 @@ const Map2Page = () => {
                           onFocus={() => handleFocus(component.code)}
                           onChange={(e) => handleComponentChange(e, component.code)}
                           spellCheck="false"
-                          disabled={window.innerWidth > 1300 ? false : true}
+                          disabled={mapCurrentType !== 'Dimension'}
                         />
                       </>
                     ) : (

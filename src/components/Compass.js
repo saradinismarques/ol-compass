@@ -204,8 +204,10 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       let limit = false;
 
       // Want to add a new one
-      if(selectedComponents.length === 8 && !selectedComponents.includes(component.code))
-        limit = true;
+      if(!selectedComponents.includes(component.code)) {
+        if(selectedComponents.filter(code => getType(code) === component.type).length >= 2)
+          limit = true;
+      }
 
       setSelectedComponents(prevComponents => {
         const newComponents = prevComponents.includes(component.code)
@@ -323,6 +325,32 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
 
     // If the label doesn't match the expected pattern, return it unchanged
     return label;
+  }
+
+  function getType(code) {
+    // Define a mapping of prefixes to their corresponding full names
+    const prefixMap = {
+        "D": "Dimension",
+        "Pe": "Perspective",
+        "P": "Principle"
+    };  
+  
+    // Use a regular expression to capture the prefix and the number
+    const regex = /^([A-Za-z]+)(\d+)$/;
+    const match = code.match(regex);
+  
+    if (match) {
+        const prefix = match[1];
+  
+        // Find the corresponding full name for the prefix
+        const type = prefixMap[prefix];
+  
+        if (type) {
+            return type;
+        }
+    }
+    // If the label doesn't match the expected pattern, return it unchanged
+    return code;
   }
 
   function getCorrespondingConcepts(concepts, code) {
