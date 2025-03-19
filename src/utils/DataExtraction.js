@@ -353,12 +353,13 @@ function getLinksData(language) {
             code: item["P-ID"],
             label: labelsMap[item["P-ID"]] || "", // Get label from map
             paragraph: item["P-GEN"],
-            wbc_links: item["WBC-P_links"] ? item["WBC-P_links"].split(",").map(link => link.trim()) : [], // Convert to array
-            region_feature: item["REGION+FEATURE (WBC)"],
-            country_e1: item["COUNTRY-E1 (Ce1)"],
-            ce1_links: item["Ce1-Pe_links"] ? item["Ce1-Pe_links"].split(",").map(link => link.trim()) : [], // Convert to array
-            country_e2: item["COUNTRY-E2 (Ce2)"],
-            ce2_links: item["Ce2-Pe_links"] ? item["Ce2-Pe_links"].split(",").map(link => link.trim()) : [], // Convert to array
+            paragraph_extended: item["P-GEN-continue"],
+            wbc_links: item["WBF-P_links"] ? item["WBF-P_links"].split(",").map(link => link.trim()) : [], // Convert to array
+            region_feature: item["WATER BODY + FEATURE (WBF)"],
+            country_e1: item["COUNTRY-E1"],
+            ce1_links: item["E1-Pe_link"] ? item["E1-Pe_link"].split(",").map(link => link.trim()) : [], // Convert to array
+            country_e2: item["COUNTRY-E2"],
+            ce2_links: item["E2-Pe_link"] ? item["E2-Pe_link"].split(",").map(link => link.trim()) : [], // Convert to array
             tooltip: tooltipsMap[item["P-ID"]] || "",
             type: getType(item["P-ID"])
         }));
