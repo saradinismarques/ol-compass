@@ -199,6 +199,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       
       if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "map-2") {
+      if(currentType !== component.type)
+        return;
       let limit = false;
 
       // Want to add a new one
@@ -239,21 +241,24 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     if(mode.startsWith("get-started") || mode === "learn-2")
       return;
 
-    // Clear any existing timeout to avoid overlaps
-    clearTimeout(tooltipTimeout);
+    if(mode === "map-2" && currentType !== component.type)
+      return;
+    else {// Clear any existing timeout to avoid overlaps
+      clearTimeout(tooltipTimeout);
 
-    // Set a timeout to delay the appearance of the tooltip by 1 second
-    tooltipTimeout = setTimeout(() => {
-      if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
-        setTooltipPos({ x: e.clientX, y: e.clientY });
-        setTooltipText(component.tooltip);
-        setTooltipColor(colors['Text'][component.type])
-        setTooltipVisible(true);
-      }
-    }, 500); // 1-second delay
+      // Set a timeout to delay the appearance of the tooltip by 1 second
+      tooltipTimeout = setTimeout(() => {
+        if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
+          setTooltipPos({ x: e.clientX, y: e.clientY });
+          setTooltipText(component.tooltip);
+          setTooltipColor(colors['Text'][component.type])
+          setTooltipVisible(true);
+        }
+      }, 500); // 1-second delay
+    }
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (component) => {
     setHoveredId(null);
 
     if(mode.startsWith("get-started") || mode === "learn-2")
@@ -262,10 +267,13 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
     clearTimeout(tooltipTimeout);
 
-    // Set the cancellation flag to prevent tooltip from showing
-    setTooltipVisible(false);
-    setTooltipColor('black'); // Clear the tooltip text
-    setTooltipText(""); // Clear the tooltip text
+    if(mode === "map-2" && currentType !== component.type)
+      return;
+    else {// Set the cancellation flag to prevent tooltip from showing
+      setTooltipVisible(false);
+      setTooltipColor('black'); // Clear the tooltip text
+      setTooltipText(""); // Clear the tooltip text
+    }
   };
 
   // Memoize handleKeyDown to avoid creating a new reference on each render

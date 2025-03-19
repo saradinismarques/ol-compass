@@ -78,7 +78,29 @@
     color: white;
     border: none;
     font-size: 1.5vh;
-    font-weight: 200;
+    font-weight: 300;
+}
+
+.m2-what-button.disabled {
+    background-color: rgba(151, 151, 150, 0.5);
+}
+
+.m2-what-button.disabled:hover {
+    cursor: default;
+    background-color: rgba(151, 151, 150, 0.5);
+}
+
+.m2-what-button.active {
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.m2-what-button.active:hover {
+    background-color: color-mix(in srgb, var(--background-color) 70%, transparent);;
+}
+
+.m2-what-button:hover {
+    background-color: rgba(151, 151, 150, 0.3);
 }
 
 .m2-step-text-container {
@@ -115,8 +137,10 @@
     right: var(--left-space);
 }
 
-.m2-components-textarea-container.right {
-    right: calc(var(--left-space) + (var(--container-width) - 1vh) / 2 + 1vh);
+.m2-components-textarea-row {
+    display: flex;  /* Enables flexbox */
+    gap: 1vh;       /* Space between boxes */
+    justify-content: center; /* Aligns boxes to the center */
 }
 
 .m2-components-textarea {

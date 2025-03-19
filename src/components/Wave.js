@@ -33,6 +33,12 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     else if(mode.startsWith("intro") || mode === "home" 
     || showExplanation || compassType === "icon")
       return 'default';
+    else if(mode === "map-2") {
+      if(currentType === component.type)
+        return 'pointer';
+      else
+        return 'default';
+    }
     return 'pointer';
   }
 
@@ -76,8 +82,10 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
 
   const getWaveFill = () => {
     if(compassType === "default") {
+      if(showExplanation)
+        return colors['Wave'][component.type];
       // Learn 2.0
-      if(hoveredId === component.code)
+      if(hoveredId === component.code && mode !== "map-2")
         return colors['Wave'][component.type];
       else if (mode === "learn-2" && currentLinks !== null) {
           if(getType(selectedComponents) === 'Principle' && getType(component.code) === 'Principle')
@@ -87,6 +95,16 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Map
       if(mode === "map")
         return "transparent";
+      if(mode === "map-2") {
+        if(currentType === 'Principle' && component.type === 'Principle')
+          return colors['Wave'][component.type];
+        else if(currentType === 'Perspective' && (component.type === 'Principle' ||component.type === 'Perspective'))
+          return colors['Wave'][component.type];
+        else if(currentType === 'Dimension')
+          return colors['Wave'][component.type];
+        else
+          return '#dededd';
+      }
       return colors['Wave'][component.type];
     } else if(compassType === "draggable") {
       return colors['Wave'][component.type];
@@ -110,6 +128,16 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
           if(currentLinks.includes(component.code) && selectedComponents !== component.code)
             return "#b84854"; // Return gradient reference if conditions are met
         } 
+      }
+      if(mode === "map-2") {
+        if(currentType === 'Principle' && component.type === 'Principle')
+          return colors['Label'][component.type];
+        else if(currentType === 'Perspective' && (component.type === 'Principle' ||component.type === 'Perspective'))
+          return colors['Label'][component.type];
+        else if(currentType === 'Dimension')
+          return colors['Label'][component.type];
+        else
+          return '#AAAAA9';
       }
       return colors['Label'][component.type];
     } else if(compassType === "draggable") {
@@ -326,8 +354,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(mode === "map-2") {
         if (selectedComponents.includes(component.code)) 
           return 1;
-        if (hoveredId === component.code) 
-            return 0.8;
+        if(currentType === component.type)
+          if (hoveredId === component.code) 
+              return 0.8;
         return 0.3;
       }
       if(mode === "map-2-pdf") {
@@ -476,8 +505,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(mode === "map-2") {
         if (selectedComponents.includes(component.code)) 
           return 1;
-        if (hoveredId === component.code) 
-            return 0.8;
+        if(currentType === component.type)
+          if (hoveredId === component.code) 
+              return 0.8;
         return 0.7;
       }
       if(mode === "map-2-pdf") {

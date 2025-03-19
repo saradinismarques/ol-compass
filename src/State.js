@@ -59,6 +59,17 @@ export const State = ({ children }) => {
     // Map 2
     const [mapComponents, setMapComponents] = useState([]);
     const [mapProjectName, setMapProjectName] = useState('');
+    const [mapCurrentType, setMapCurrentType] = useState('Principle');
+    // Home
+    const initialTypeState = useMemo(
+        () => ({
+        "Principle": false,
+        "Perspective": false,
+        "mDimension": false,
+        }), []
+    );
+
+    const [typeComplete, setTypeComplete] = useState(initialTypeState);
 
     const allComponents = [
         'P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7',
@@ -133,6 +144,10 @@ export const State = ({ children }) => {
                 iconsMap,
                 showStudyInstruction,
                 setShowStudyInstruction,
+                mapCurrentType,
+                setMapCurrentType,
+                typeComplete,
+                setTypeComplete
                 // Add other global states here as needed
             }}
         >
