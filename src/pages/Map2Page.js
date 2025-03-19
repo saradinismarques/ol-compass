@@ -74,6 +74,19 @@ const Map2Page = () => {
         Principle: true, // Set to true if all Principles have text
       }));
     }
+    if (perspectives.length > 0 && perspectives.every(principle => principle.text.length > 0)) {
+      setTypeComplete(prevState => ({
+        ...prevState,
+        Perspective: true, // Set to true if all Principles have text
+      }));
+    }
+    if (dimensions.length > 0 && dimensions.every(principle => principle.text.length > 0)) {
+      console.log("TRUE");
+      setTypeComplete(prevState => ({
+        ...prevState,
+        Dimension: true, // Set to true if all Principles have text
+      }));
+    }
   }, [mapComponents, setTypeComplete]);
 
 
@@ -97,12 +110,13 @@ const Map2Page = () => {
 
   // Trigger compass action
   const handleCompassClick = (code, label, paragraph, type) => {
-   
+    let componentExists;
     if(code) {
       setMapComponents(prevComponents => {
         const exists = prevComponents.some(component => component.code === code);
       
         if (exists && !showExplanation) {
+          componentExists = true;
           // Remove component if it already exists
           const updatedComponents = prevComponents.filter(component => component.code !== code);
       
@@ -114,25 +128,33 @@ const Map2Page = () => {
           }, 0); // Ensuring it runs after the state update
           return updatedComponents;
         } else if (exists && showExplanation) {
+          componentExists = true;
           return prevComponents;
         } else {
+          componentExists = false;
           // Add new component with default values
           const newComponent = { code, label, paragraph, type, text: "" };
           const updatedComponents = [...prevComponents, newComponent];
       
-          // Focus the last added textarea
-          setTimeout(() => {
-            textareaRefs.current[updatedComponents.length - 1]?.focus();
-          }, 0); // Ensuring it runs after the state update
-          setCurrentComponent(code)
-      
           return updatedComponents;
         }
       });
-      setTypeComplete(prevState => ({
-        ...prevState,
-        [type]: false, // Set to true if all Principles have text
-      }));
+
+      if(!componentExists) {
+        setTimeout(() => {
+          if (textareaRefs.current[code]) {
+            textareaRefs.current[code].focus();
+          }
+        }, 0);
+        // Focus the last added textarea
+       
+        setCurrentComponent(code)
+
+        setTypeComplete(prevState => ({
+          ...prevState,
+          [type]: false, // Set to true if all Principles have text
+        }));
+      }
       setLimitExceeded(false);
     } else {
       setLimitExceeded(true);
@@ -645,7 +667,7 @@ const Map2Page = () => {
                         )}
                         <textarea
                           className="m2-component-textarea"
-                          ref={(el) => (textareaRefs.current[id] = el)}
+                          ref={(el) => (textareaRefs.current[component.code] = el)}
                           style={{
                             '--text-color': colors['Text'][component.type],
                             backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
@@ -690,7 +712,7 @@ const Map2Page = () => {
                         )}
                         <textarea
                           className="m2-component-textarea"
-                          ref={(el) => (textareaRefs.current[id+2] = el)}
+                          ref={(el) => (textareaRefs.current[component.code] = el)}
                           style={{
                             '--text-color': colors['Text'][component.type],
                             backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
@@ -711,7 +733,6 @@ const Map2Page = () => {
                     ) : (
                       <div 
                         className="m2-empty-card"
-                        ref={(el) => (textareaRefs.current[id] = el)}
                       ></div>
                     )}
                   </div>
@@ -738,7 +759,7 @@ const Map2Page = () => {
                         )}
                         <textarea
                           className="m2-component-textarea"
-                          ref={(el) => (textareaRefs.current[id+4] = el)}
+                          ref={(el) => (textareaRefs.current[component.code] = el)}
                           style={{
                             '--text-color': colors['Text'][component.type],
                             backgroundColor: `rgba(${hexToRgb(colors['Wave'][component.type])}, 0.3)`,
@@ -759,7 +780,6 @@ const Map2Page = () => {
                     ) : (
                       <div 
                         className="m2-empty-card"
-                        ref={(el) => (textareaRefs.current[id+2] = el)}
                       ></div>
                     )}
                   </div>

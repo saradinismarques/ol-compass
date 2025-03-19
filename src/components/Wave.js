@@ -20,7 +20,8 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     allComponents,
     opacityCounter,
     savedComponents,
-    randomComponents
+    randomComponents,
+    typeComplete,
   } = useContext(StateContext);
       
   const waveWidth = size/2.6;
@@ -98,9 +99,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(mode === "map-2") {
         if(currentType === 'Principle' && component.type === 'Principle')
           return colors['Wave'][component.type];
-        else if(currentType === 'Perspective' && (component.type === 'Principle' ||component.type === 'Perspective'))
+        else if((currentType === 'Perspective' && (component.type === 'Principle' || component.type === 'Perspective')) || (typeComplete['Perspective'] && component.type === 'Perspective'))
           return colors['Wave'][component.type];
-        else if(currentType === 'Dimension')
+        else if(currentType === 'Dimension' || (typeComplete['Dimension'] && component.type === 'Dimension'))
           return colors['Wave'][component.type];
         else
           return '#dededd';
@@ -132,9 +133,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(mode === "map-2") {
         if(currentType === 'Principle' && component.type === 'Principle')
           return colors['Label'][component.type];
-        else if(currentType === 'Perspective' && (component.type === 'Principle' ||component.type === 'Perspective'))
+        else if((currentType === 'Perspective' && (component.type === 'Principle' || component.type === 'Perspective')) || (typeComplete['Perspective'] && component.type === 'Perspective'))
           return colors['Label'][component.type];
-        else if(currentType === 'Dimension')
+        else if(currentType === 'Dimension' || (typeComplete['Dimension'] && component.type === 'Dimension'))
           return colors['Label'][component.type];
         else
           return '#AAAAA9';
