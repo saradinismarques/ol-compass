@@ -69,7 +69,6 @@ const Map2Page = () => {
 
     // Update typeComplete['Principle'] only if all principles have text
     if (principles.length > 0 && principles.every(principle => principle.text.length > 0)) {
-      console.log(principles);
       setTypeComplete(prevState => ({
         ...prevState,
         Principle: true, // Set to true if all Principles have text
@@ -113,7 +112,6 @@ const Map2Page = () => {
               textareaRefs.current[updatedComponents.length - 1]?.focus();
             }
           }, 0); // Ensuring it runs after the state update
-          setCurrentComponent(mapComponents[mapComponents.length-1].code)
           return updatedComponents;
         } else if (exists && showExplanation) {
           return prevComponents;
@@ -148,16 +146,35 @@ const Map2Page = () => {
   };
 
   // Update individual component text field
-  const handleComponentChange = (e, index) => {
-    if(e.target.value.length < 130) {
-      let updatedComponents = [...mapComponents];
-      updatedComponents[index] = { ...updatedComponents[index], text: e.target.value };
+  const handleComponentChange = (e, code) => {
+    if (e.target.value.length < 130) {
+      // Create a new array with the updated component
+      let updatedComponents = mapComponents.map((component) => {
+        if (component.code === code) {
+          // Update the text of the component with the matching code
+          return { ...component, text: e.target.value };
+        }
+        return component; // Return other components unchanged
+      });
+  
+      // Update the state with the new array
       setMapComponents(updatedComponents);
     }
   };
 
   const handleFocus = (code) => {
     setCurrentComponent(code); // Update the currentComponent state with the code of the focused textarea
+  };
+
+  const handleWhatButtonsChange = (type) => {
+    if(mapCurrentType === type)
+      return;
+    if(type === 'Perspective' && !typeComplete['Principle'])
+      return;
+    if(type === 'Dimension' && !typeComplete['Perspective'])
+      return;
+
+    setMapCurrentType(type);
   };
 
   const hexToRgb = (hex) => {
@@ -572,6 +589,7 @@ const Map2Page = () => {
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
               }}
+              onClick={() => handleWhatButtonsChange('Principle')}
             >
               {labelsTexts["what"]}
             </button>
@@ -581,6 +599,7 @@ const Map2Page = () => {
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
               }}
+              onClick={() => handleWhatButtonsChange('Perspective')}
             >
               {labelsTexts["from-what-angle"]}
             </button>
@@ -590,6 +609,7 @@ const Map2Page = () => {
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
               }}
+              onClick={() => handleWhatButtonsChange('Dimension')}
             >
               {labelsTexts["how"]}
             </button>
@@ -638,7 +658,7 @@ const Map2Page = () => {
                           }
                           value={component.text}
                           onFocus={() => handleFocus(component.code)}
-                          onChange={(e) => handleComponentChange(e, id)}
+                          onChange={(e) => handleComponentChange(e, component.code)}
                           spellCheck="false"
                           disabled={window.innerWidth > 1300 ? false : true}
                         />
@@ -655,7 +675,7 @@ const Map2Page = () => {
                 const component = findComponentByType(id, 'Perspective'); // Get the corresponding component if it exists
                 return (
                   <div
-                    key={id}
+                    key={id+2}
                     className="m2-components-textarea"
                     style={{
                       '--text-color': component ? colors['Text'][component.type] : 'transparent',
@@ -683,13 +703,16 @@ const Map2Page = () => {
                           }
                           value={component.text}
                           onFocus={() => handleFocus(component.code)}
-                          onChange={(e) => handleComponentChange(e, id+2)}
+                          onChange={(e) => handleComponentChange(e, component.code)}
                           spellCheck="false"
                           disabled={window.innerWidth > 1300 ? false : true}
                         />
                       </>
                     ) : (
-                      <div className="m2-empty-card"></div>
+                      <div 
+                        className="m2-empty-card"
+                        ref={(el) => (textareaRefs.current[id] = el)}
+                      ></div>
                     )}
                   </div>
                 );
@@ -700,7 +723,7 @@ const Map2Page = () => {
                 const component = findComponentByType(id, 'Dimension'); // Get the corresponding component if it exists
                 return (
                   <div
-                    key={id}
+                    key={id+4}
                     className="m2-components-textarea"
                     style={{
                       '--text-color': component ? colors['Text'][component.type] : 'transparent',
@@ -728,13 +751,16 @@ const Map2Page = () => {
                           }
                           value={component.text}
                           onFocus={() => handleFocus(component.code)}
-                          onChange={(e) => handleComponentChange(e, id+4)}
+                          onChange={(e) => handleComponentChange(e, component.code)}
                           spellCheck="false"
                           disabled={window.innerWidth > 1300 ? false : true}
                         />
                       </>
                     ) : (
-                      <div className="m2-empty-card"></div>
+                      <div 
+                        className="m2-empty-card"
+                        ref={(el) => (textareaRefs.current[id+2] = el)}
+                      ></div>
                     )}
                   </div>
                 );
