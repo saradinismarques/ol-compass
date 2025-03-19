@@ -61,6 +61,13 @@ const Map2Page = () => {
   );
   const [missingText, setMissingText] = useState(initialMissingText);
   
+  // Tooltip
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipText, setTooltipText] = useState('');
+  const [tooltipColor, setTooltipColor] = useState('black');
+  let tooltipTimeout = null;
+  
   const navigate = useNavigate(); // Initialize the navigate function
 
   const componentsRef = useRef(mapComponents);
@@ -170,10 +177,6 @@ const Map2Page = () => {
        
         setCurrentComponent(code)
 
-        setTypeComplete(prevState => ({
-          ...prevState,
-          [type]: false, // Set to true if all Principles have text
-        }));
       }
       setLimitExceeded(false);
     } else {
@@ -195,7 +198,7 @@ const Map2Page = () => {
   };
 
   // Update individual component text field
-  const handleComponentChange = (e, code) => {
+  const handleComponentChange = (e, code, type) => {
     setMissingText(prevState => ({
       ...prevState,
       ProjectName: false, // Set to true if all Principles have text
@@ -203,6 +206,10 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
+
+    if(mapCurrentType !== type) 
+      return;
+
     if (e.target.value.length < 130) {
       // Create a new array with the updated component
       let updatedComponents = mapComponents.map((component) => {
@@ -223,7 +230,27 @@ const Map2Page = () => {
     }
   };
 
-  const handleFocus = (code) => {
+  const handleComponentClick = (e, type) => {
+    if(mapCurrentType !== type) {
+      clearTimeout(tooltipTimeout);
+
+      // Set a timeout to delay the appearance of the tooltip by 1 second
+      tooltipTimeout = setTimeout(() => {
+          setTooltipPos({ x: e.clientX, y: e.clientY });
+
+          if(type === "Principle")
+            setTooltipText(labelsTexts["tooltip-what"]);
+          else if(type === "Perspective")
+            setTooltipText(labelsTexts["tooltip-from-angle"]);
+          else if(type === "Dimension")
+            setTooltipText(labelsTexts["tooltip-how"]);
+          setTooltipVisible(true);
+      }, 0); // 1-second delay
+      return;
+    }
+  }
+
+  const handleFocus = (code, type) => {
     setMissingText(prevState => ({
       ...prevState,
       ProjectName: false, // Set to true if all Principles have text
@@ -231,17 +258,36 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
+    if(mapCurrentType !== type) 
+      return;
     setCurrentComponent(code); // Update the currentComponent state with the code of the focused textarea
   };
 
-  const handleWhatButtonsChange = (type) => {
+  const handleWhatButtonsChange = (e, type) => {
     if(mapCurrentType === type)
       return;
-    if(type === 'Perspective' && !typeComplete['Principle'])
-      return;
-    if(type === 'Dimension' && !typeComplete['Perspective'])
-      return;
+    if(type === 'Perspective' && !typeComplete['Principle']) {
+      clearTimeout(tooltipTimeout);
 
+      // Set a timeout to delay the appearance of the tooltip by 1 second
+      tooltipTimeout = setTimeout(() => {
+          setTooltipPos({ x: e.clientX, y: e.clientY });
+          setTooltipText(labelsTexts["tooltip-previous-steps"]);
+          setTooltipVisible(true);
+      }, 0); // 1-second delay
+      return;
+    } 
+    if(type === 'Dimension' && !typeComplete['Perspective']) {
+      clearTimeout(tooltipTimeout);
+
+      // Set a timeout to delay the appearance of the tooltip by 1 second
+      tooltipTimeout = setTimeout(() => {
+          setTooltipPos({ x: e.clientX, y: e.clientY });
+          setTooltipText(labelsTexts["tooltip-previous-steps"]);
+          setTooltipVisible(true);
+      }, 0); // 1-second delay
+      return;
+    }
     setMapCurrentType(type);
   };
 
@@ -253,6 +299,7 @@ const Map2Page = () => {
     let b = bigint & 255;
     return `${r}, ${g}, ${b}`; // Return as "r, g, b"
   };
+
   const findComponentByType = (index, type) => {
     // Filter components that match the given type
     const filteredComponents = mapComponents.filter(component => component.type === type);
@@ -261,8 +308,48 @@ const Map2Page = () => {
     return filteredComponents[index] || null;
   };  
 
+  // Other Components
+  const TooltipMap = ({ text, position }) => (
+    <div
+      style={{
+        position: 'fixed',
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+        transform: 'translate(-50%, -110%)', // Adjusts the position above the button
+        zIndex: 1000,
+        backgroundColor: '#acaaaa', // Tooltip background color
+        color: 'white', // Tooltip text color
+        padding: '1vh', // Padding inside the tooltip
+        borderRadius: '0.5vh', // Rounded corners
+        fontFamily: 'Manrope',
+        fontSize: '2vh',
+        fontWeight: '400',
+        width: `${text.length * 0.65}vh`, // Dynamic width based on text length
+        pointerEvents: 'none', // Prevents tooltip from interfering with hover
+        opacity: 0.9
+      }}
+    >
+      {text}
+      {/* Tooltip pointer */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '100%', // Positions pointer below the tooltip box
+          left: '50%',
+          marginLeft: '-1vh', // Centers the pointer
+          width: '0',
+          height: '0',
+          borderLeft: '1vh solid transparent',
+          borderRight: '1vh solid transparent',
+          borderTop: '2vh solid #acaaaa', // Matches tooltip background
+          opacity: 0.9
+        }}
+      />
+    </div>
+  );
+
   // PDF Generation Functions
-  const handleDownloadPDF = async () => {
+  const handleDownloadPDF = async (e) => {
     let somethingMissing = false;
 
     const principles = mapComponents.filter(component => component.type === 'Principle');
@@ -296,8 +383,17 @@ const Map2Page = () => {
       }));
       somethingMissing = true;
     }
-    if(somethingMissing)
+    if(somethingMissing) {
+      clearTimeout(tooltipTimeout);
+
+      // Set a timeout to delay the appearance of the tooltip by 1 second
+      tooltipTimeout = setTimeout(() => {
+          setTooltipPos({ x: e.clientX, y: e.clientY });
+          setTooltipText(labelsTexts["tooltip-download"]);
+          setTooltipVisible(true);
+      }, 0); // 1-second delay
       return;
+    }
 
     const pageWidth = 297; // mm
     const pageHeight = (9 / 16) * pageWidth; // mm for 16:9
@@ -705,7 +801,8 @@ const Map2Page = () => {
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
               }}
-              onClick={() => handleWhatButtonsChange('Principle')}
+              onClick={(e) => handleWhatButtonsChange(e, 'Principle')}
+              onMouseLeave={() => {setTooltipVisible(false)}}
             >
               {labelsTexts["what"]}
             </button>
@@ -715,7 +812,8 @@ const Map2Page = () => {
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
               }}
-              onClick={() => handleWhatButtonsChange('Perspective')}
+              onClick={(e) => handleWhatButtonsChange(e, 'Perspective')}
+              onMouseLeave={() => {setTooltipVisible(false)}}
             >
               {labelsTexts["from-what-angle"]}
             </button>
@@ -725,7 +823,8 @@ const Map2Page = () => {
                 '--text-color': colors['Text'][mapCurrentType],
                 '--background-color': colors['Wave'][mapCurrentType],
               }}
-              onClick={() => handleWhatButtonsChange('Dimension')}
+              onClick={(e) => handleWhatButtonsChange(e, 'Dimension')}
+              onMouseLeave={() => {setTooltipVisible(false)}}
             >
               {labelsTexts["how"]}
             </button>
@@ -760,7 +859,7 @@ const Map2Page = () => {
                           </div>
                         )}
                         <textarea
-                          className="m2-component-textarea"
+                          className={`m2-component-textarea ${mapCurrentType !== 'Principle'? 'disabled' : ''}`}
                           ref={(el) => (textareaRefs.current[component.code] = el)}
                           style={{
                             '--text-color': colors['Text'][component.type],
@@ -774,10 +873,11 @@ const Map2Page = () => {
                               : `Why does your project have ${component.label}?`
                           }
                           value={component.text}
-                          onFocus={() => handleFocus(component.code)}
-                          onChange={(e) => handleComponentChange(e, component.code)}
+                          onFocus={() => handleFocus(component.code, component.type)}
+                          onChange={(e) => handleComponentChange(e, component.code, component.type)}
+                          onClick={(e) => handleComponentClick(e, component.type)}
+                          onMouseLeave={() => {setTooltipVisible(false)}}
                           spellCheck="false"
-                          disabled={mapCurrentType !== 'Principle'}
                         />
                       </>
                     ) : (
@@ -807,7 +907,7 @@ const Map2Page = () => {
                           </div>
                         )}
                         <textarea
-                          className="m2-component-textarea"
+                          className={`m2-component-textarea ${mapCurrentType !== 'Perspective'? 'disabled' : ''}`}
                           ref={(el) => (textareaRefs.current[component.code] = el)}
                           style={{
                             '--text-color': colors['Text'][component.type],
@@ -821,10 +921,11 @@ const Map2Page = () => {
                               : `Why does your project have ${component.label}?`
                           }
                           value={component.text}
-                          onFocus={() => handleFocus(component.code)}
-                          onChange={(e) => handleComponentChange(e, component.code)}
+                          onFocus={() => handleFocus(component.code, component.type)}
+                          onChange={(e) => handleComponentChange(e, component.code, component.type)}
+                          onClick={(e) => handleComponentClick(e, component.type)}
+                          onMouseLeave={() => {setTooltipVisible(false)}}
                           spellCheck="false"
-                          disabled={mapCurrentType !== 'Perspective'}
                         />
                       </>
                     ) : (
@@ -856,7 +957,7 @@ const Map2Page = () => {
                           </div>
                         )}
                         <textarea
-                          className="m2-component-textarea"
+                          className={`m2-component-textarea ${mapCurrentType !== 'Dimension'? 'disabled' : ''}`}
                           ref={(el) => (textareaRefs.current[component.code] = el)}
                           style={{
                             '--text-color': colors['Text'][component.type],
@@ -870,10 +971,11 @@ const Map2Page = () => {
                               : `Why does your project have ${component.label}?`
                           }
                           value={component.text}
-                          onFocus={() => handleFocus(component.code)}
-                          onChange={(e) => handleComponentChange(e, component.code)}
+                          onFocus={() => handleFocus(component.code, component.type)}
+                          onChange={(e) => handleComponentChange(e, component.code, component.type)}
+                          onClick={(e) => handleComponentClick(e, component.type)}
+                          onMouseLeave={() => {setTooltipVisible(false)}}
                           spellCheck="false"
-                          disabled={mapCurrentType !== 'Dimension'}
                         />
                       </>
                     ) : (
@@ -886,12 +988,19 @@ const Map2Page = () => {
               })}
             </div>
           </div>
+          
+          {tooltipVisible && 
+            <TooltipMap 
+              text={tooltipText} 
+              position={tooltipPos} 
+            />
+          }
 
           {mapComponents.length > 0 &&
             <>
               <button 
               className={`m2-download-pdf-button ${isGenerating === true ? 'no-hover' : ''}`}
-              onClick={handleDownloadPDF}
+              onClick={(e) => handleDownloadPDF(e)}
               disabled={isGenerating === true} // Disable the button while generating
               style={{
                   background: isGenerating === true 
@@ -906,6 +1015,7 @@ const Map2Page = () => {
               }}
               onMouseLeave={(e) => {
                 if (!isGenerating) e.target.style.backgroundColor = 'white';
+                setTooltipVisible(false);
               }}
               >
                 {isGenerating !== 'Error' 

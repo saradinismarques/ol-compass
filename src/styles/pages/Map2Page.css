@@ -129,10 +129,10 @@
 }
 
 .m2-step-text {
-    font-size: 1.3vh;
+    font-size: 1.5vh;
     font-weight: 300;
     color: var(--gray-color); 
-    margin-bottom: 0.5vh;
+    margin-bottom: 0.3vh;
 }
 
 .m2-what-components {
@@ -211,6 +211,10 @@
 
 .m2-component-textarea:focus {
     outline: 2px solid var(--text-color); /* Change outline to a blue color */
+}  
+
+.m2-component-textarea.disabled:focus {
+    outline: 0px solid var(--text-color); /* Change outline to a blue color */
 }  
 
 .m2-limit-exceed-message {

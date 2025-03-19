@@ -25,7 +25,7 @@ const CompassIcon = ({ mode, currentType }) => {
   useEffect(() => {
     // Function to update height on window resize
     const handleResize = () => {
-      if(mode === "map")
+      if(mode !== "map")
         setSize(initialSize);
     };
     // Add event listener for resize
@@ -69,7 +69,7 @@ const CompassIcon = ({ mode, currentType }) => {
     else if(mode === "get-started-search")
       return { x: window.innerWidth * 0.105 + window.innerHeight * 0.049/2, y: window.innerHeight * 0.21 };
     else if(mode === "learn-2")
-      return { x: window.innerWidth * 0.11 + window.innerHeight * 0.195/2, y: window.innerHeight * 0.205 };
+      return { x: window.innerWidth * 0.11 + window.innerHeight * 0.195/2 + 1, y: window.innerHeight * 0.19 };
   };
 
   const center = getCenter();

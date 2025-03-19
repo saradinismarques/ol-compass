@@ -36,7 +36,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     setShowExplanation, 
     setShowInstruction, 
     colors, 
-    language
+    language,
+    typeComplete
   } = useContext(StateContext);
 
   const components = getComponents(language, mode, compassType, size);
@@ -51,6 +52,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   // Tooltip
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipMapVisible, setTooltipMapVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
   const [tooltipColor, setTooltipColor] = useState('black');
   
@@ -72,7 +74,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   }, [resetCompass]);
 
   // Handlers
-  const handleClick = (component) => {
+  const handleClick = (e, component) => {
     if (mode.startsWith("intro") || mode === "home" || mode === "map" || showExplanation) 
       return;
     
@@ -199,8 +201,32 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       
       if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "map-2") {
-      if(currentType !== component.type)
+      if(currentType !== component.type) {
+        clearTimeout(tooltipTimeout);
+        const mapTexts = getLabelsTexts(language, "map");
+
+        // Set a timeout to delay the appearance of the tooltip by 1 second
+        tooltipTimeout = setTimeout(() => {
+          if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
+            setTooltipPos({ x: e.clientX, y: e.clientY });
+            
+            if(component.type === 'Principle')
+              setTooltipText(mapTexts["tooltip-what"]);
+            else if(component.type === 'Perspective' && !typeComplete['Principle'])
+              setTooltipText(mapTexts["tooltip-previous-steps"]);
+            else if(component.type === 'Perspective' && typeComplete['Principle'])
+              setTooltipText(mapTexts["tooltip-from-angle"]);
+            else if(component.type === 'Dimension' && !typeComplete['Perspective'])
+              setTooltipText(mapTexts["tooltip-previous-steps"]);
+            else if(component.type === 'Dimension' && typeComplete['Perspective'])
+              setTooltipText(mapTexts["tooltip-how"]);
+
+            setTooltipMapVisible(true);
+          }
+        }, 0); // 1-second delay
         return;
+      }
+        
       let limit = false;
 
       // Want to add a new one
@@ -243,7 +269,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     if(mode.startsWith("get-started") || mode === "learn-2")
       return;
 
-    if(mode === "map-2" && currentType !== component.type)
+    if(mode === "map-2" && currentType !== component.type) 
       return;
     else {// Clear any existing timeout to avoid overlaps
       clearTimeout(tooltipTimeout);
@@ -269,9 +295,11 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
     clearTimeout(tooltipTimeout);
 
-    if(mode === "map-2" && currentType !== component.type)
-      return;
-    else {// Set the cancellation flag to prevent tooltip from showing
+    if(mode === "map-2" && currentType !== component.type) {
+      setTooltipMapVisible(false);
+      setTooltipColor('black'); // Clear the tooltip text
+      setTooltipText(""); // Clear the tooltip text;
+    } else {// Set the cancellation flag to prevent tooltip from showing
       setTooltipVisible(false);
       setTooltipColor('black'); // Clear the tooltip text
       setTooltipText(""); // Clear the tooltip text
@@ -454,6 +482,45 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     </div>
   );
 
+  const TooltipMap = ({ text, position }) => (
+    <div
+      style={{
+        position: 'fixed',
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+        transform: 'translate(-50%, -110%)', // Adjusts the position above the button
+        zIndex: 1000,
+        backgroundColor: '#acaaaa', // Tooltip background color
+        color: 'white', // Tooltip text color
+        padding: '1vh', // Padding inside the tooltip
+        borderRadius: '0.5vh', // Rounded corners
+        fontFamily: 'Manrope',
+        fontSize: '2vh',
+        fontWeight: '400',
+        width: `${text.length * 0.65}vh`, // Dynamic width based on text length
+        pointerEvents: 'none', // Prevents tooltip from interfering with hover
+        opacity: 0.9
+      }}
+    >
+      {text}
+      {/* Tooltip pointer */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '100%', // Positions pointer below the tooltip box
+          left: '50%',
+          marginLeft: '-1vh', // Centers the pointer
+          width: '0',
+          height: '0',
+          borderLeft: '1vh solid transparent',
+          borderRight: '1vh solid transparent',
+          borderTop: '2vh solid #acaaaa', // Matches tooltip background
+          opacity: 0.9
+        }}
+      />
+    </div>
+  );
+
   return (
     <>       
       <div
@@ -472,7 +539,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
                 left: mode === "map-2-pdf" ? '28px' : '',
                 
               }}
-              onClick={() => handleClick(component)}
+              onClick={(e) => handleClick(e, component)}
               onMouseEnter={(e) => handleMouseEnter(e, component)}
               onMouseLeave={() => handleMouseLeave(component)}
           >
@@ -492,8 +559,14 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         ))}
       </div>
   
-      {!showExplanation && (mode === "learn" || mode === "contribute" || mode === "map-2" || mode.startsWith("get-inspired")) && tooltipVisible && 
+      {!showExplanation && (mode === "learn" || mode === "contribute" || mode === "map-2" || mode.startsWith("get-inspired")) && tooltipVisible && !tooltipMapVisible && 
         <Tooltip 
+          text={tooltipText} 
+          position={tooltipPos} 
+        />
+      }
+      {!showExplanation && mode === "map-2" && tooltipMapVisible && 
+        <TooltipMap 
           text={tooltipText} 
           position={tooltipPos} 
         />
