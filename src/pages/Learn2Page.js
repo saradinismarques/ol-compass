@@ -31,7 +31,6 @@ const Learn2Page = () => {
     savedComponents,
     setSavedComponents,
     iconsMap,
-    firstUse
   } = useContext(StateContext);
 
   const labelsTexts = getLabelsTexts(language, "learn");
@@ -58,7 +57,7 @@ const Learn2Page = () => {
     learnComponent === null
       ? null
       : learnComponent.code === 'P1'
-      ? P2Image
+      ? P1Image
       : learnComponent.code === 'P2'
       ? P2Image
       : learnComponent.code === 'P3'
@@ -140,7 +139,7 @@ const Learn2Page = () => {
       0: {
         0: replaceBoldsHighlights(
           componentRef.current.paragraph,
-          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         1: replaceBolds(
             labelsTexts["question-1-principles"], 
@@ -155,7 +154,7 @@ const Learn2Page = () => {
           </span>,
         1: replaceBoldsHighlights(
           componentRef.current.region_feature,
-          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         2: replaceBolds(
           labelsTexts["question-2-principles"], 
@@ -170,7 +169,7 @@ const Learn2Page = () => {
           null, 'l2-question', 'l2-question bold'),
         2: replaceBoldsHighlights(
           componentRef.current.country_e1,
-          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text highlightP', 'l2-text highlightPe'
         ),
       },
       3: {
@@ -182,7 +181,7 @@ const Learn2Page = () => {
           null, 'l2-question', 'l2-question bold'),
         2: replaceBoldsHighlights(
           componentRef.current.country_e2,
-          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text highlightP', 'l2-text highlightPe'
         ),
       },
       null: {
@@ -206,7 +205,7 @@ const Learn2Page = () => {
       0: {
         0: replaceBoldsHighlights(
           componentRef.current.paragraph,
-          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text highlightP', 'l2-text highlightPe'
         ),
         1: <span className='l2-question'>
             {labelsTexts["question-1-others"]}
@@ -218,7 +217,7 @@ const Learn2Page = () => {
           </span>,
         1: replaceBoldsHighlights(
           componentRef.current.example_1,
-          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text highlightP', 'l2-text highlightPe'
         ),
       },
       2: {
@@ -227,7 +226,7 @@ const Learn2Page = () => {
           </span>,
         1: replaceBoldsHighlights(
           componentRef.current.example_2,
-          'l2-text', 'l2-text bold', 'l2-text underline', 'l2-text highlightP', 'l2-text highlightPe'
+          'l2-text', 'l2-text bold', 'l2-text italic', 'l2-text highlightP', 'l2-text highlightPe'
         ),
       },
       null: {
@@ -335,7 +334,7 @@ const Learn2Page = () => {
         {showExplanation && 
           <Description mode={'learn'} />
         }
-        {showInstruction && 
+        {!showExplanation && showInstruction && 
           <>
             <div className='instruction-container'>
               {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}

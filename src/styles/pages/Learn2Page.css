@@ -28,7 +28,7 @@
 }
 
 .l2-text {
-    font-size: 3.3vh;
+    font-size: 3.2vh;
     font-weight: 400;
     color: var(--text-color); 
     font-family: "Bitter", serif;
@@ -75,8 +75,8 @@
     font-weight: 600;
 }
 
-.l2-text.underline {
-    text-decoration: underline;
+.l2-text.italic {
+    font-style: italic;
 }
 
 .l2-text.highlightP {
@@ -235,8 +235,8 @@
 .l2-image-container {
     position: fixed;
     overflow: hidden; /* To prevent any overflow issues */
-    bottom: 3vh;
-    right: 3vh;
+    bottom: 2vh;
+    right: 2vh;
     z-index: 80;
     border-radius: 50%; /* Make the container circular */
 }

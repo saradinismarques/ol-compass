@@ -378,9 +378,6 @@ function getLinksData(language) {
                 code: item["Pe-ID"],
                 label: labelsMap[item["Pe-ID"]] || "", // Get label from map
                 paragraph: item["What-PAR"],
-                diff_code: item["Diff-from"],
-                diff_label: labelsMap[item["Diff-from"]] || "",
-                diff_paragraph: item["Diff-from-PAR"],
                 example_1: item["Example 1"],
                 example_2: item["Example 2"],
                 e1_codes: [Py1],   // Single P code with "y1"

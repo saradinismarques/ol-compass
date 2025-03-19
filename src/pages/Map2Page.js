@@ -787,8 +787,7 @@ const Map2Page = () => {
         <Description mode="map" />
       }
 
-      
-      {showInstruction && 
+      {!showExplanation && showInstruction &&
         <div className='instruction-container'>
           {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}
         </div>

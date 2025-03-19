@@ -180,11 +180,12 @@ export function replaceUnderlines(text, currentConcept, onClickHandler) {
     });
 };
 
-export function replaceBoldsHighlights(text, textStyle, boldStyle, hPStyle, hPeStyle) {
+export function replaceBoldsHighlights(text, textStyle, boldStyle, italicStyle, hPStyle, hPeStyle) {
     return (
         <div style={{ display: "inline" }}>
             {text
                 .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||")
+                .replace(/<i>(.*?)<\/i>/g, "||I||$1||I||")
                 .replace(/<hP>(.*?)<\/hP>/g, "||HP||$1||HP||")
                 .replace(/<hPe>(.*?)<\/hPe>/g, "||HPE||$1||HPE||")
                 .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|I\|\|.*?\|\|I\|\||\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\|)/g)
@@ -194,6 +195,13 @@ export function replaceBoldsHighlights(text, textStyle, boldStyle, hPStyle, hPeS
                         return (
                             <span key={uniqueKey} className={boldStyle} style={{ display: "inline" }}>
                                 {part.replace(/\|\|B\|\|/g, "")}
+                            </span>
+                        );
+                    }
+                    if (part.startsWith("||I||")) {
+                        return (
+                            <span key={uniqueKey} className={italicStyle} style={{ display: "inline", fontStyle: "italic" }}>
+                                {part.replace(/\|\|I\|\|/g, "")}
                             </span>
                         );
                     }

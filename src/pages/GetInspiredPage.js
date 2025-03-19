@@ -325,7 +325,7 @@ const GetInspiredPage = () => {
         <Description mode={'get-inspired'} />
       }
 
-      {showInstruction && 
+      {!showExplanation && showInstruction && 
         <div className='instruction-container'>
           {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}
         </div>
