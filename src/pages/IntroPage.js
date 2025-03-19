@@ -303,7 +303,7 @@ const IntroPage = () => {
                 setFrame(5);
                 frameRef.current = 5;
                 timeoutRef.current = null; // Reset after execution
-            }, 50*7);
+            }, 300);
 
             return (
                 <div className="i-text-container">
@@ -319,7 +319,7 @@ const IntroPage = () => {
                 setFrame(6);
                 frameRef.current = 6;
                 timeoutRef.current = null; // Reset after execution
-            }, 50*7);
+            }, 300);
             
             return (
                 <div className="i-text-container">
@@ -336,7 +336,7 @@ const IntroPage = () => {
                 setFrame(7);
                 frameRef.current = 7;
                 timeoutRef.current = null; // Reset after execution
-            }, 50*10);
+            }, 300);
             
             return (
                 <div className="i-text-container">

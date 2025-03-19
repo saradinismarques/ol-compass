@@ -12,7 +12,7 @@ const HomePage = () => {
   return (
     <>
       <Compass 
-        mode="default"
+        mode="home"
         position="fixed" 
       /> 
       {!showStudyInstruction &&

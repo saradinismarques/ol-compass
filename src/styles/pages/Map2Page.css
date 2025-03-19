@@ -30,10 +30,88 @@
     font-weight: 400;
 }
 
+.m2-text-below-container {
+    position: fixed;
+    top: var(--top-space); 
+    right: var(--left-space); 
+    text-align: center;
+}
+
+/* Text below */
+.m2-project-name-text-below {
+    margin-top: calc(var(--button-height)/2 + 2*var(--button-border));
+    width: calc(var(--container-width) - 2vh - 2*var(--button-border));
+    height: 8vh;
+    padding: 1.5vh;
+    padding-top: 1vh;
+    border-radius: 5px;
+    background: linear-gradient(to bottom, #f2f2f2 15%, #ffffff 80%);
+    overflow: hidden;
+    font-size: 1.8vh;
+    text-align: left;
+    font-weight: 300;
+    color: rgba(151, 151, 150, 0.5);
+}
+
+/* What buttons and text */
+.m2-what-buttons-container {
+    position: fixed;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: var(--container-width);
+    top: calc(var(--top-space) + 13.5vh); 
+    right: var(--left-space); 
+    display: flex;  /* Enables flexbox */
+    gap: 1vh;  /* Adds spacing between buttons */
+}
+
+.m2-what-button {
+    flex: 1;  /* Makes all buttons take equal width */
+    text-align: center;
+    justify-content: center;
+    display: flex; 
+    padding: 0.5vh;  /* Optional: Better button sizing */
+    border-radius: 100px;
+    cursor: pointer;
+    background-color: rgba(151, 151, 150, 0.5);
+    color: white;
+    border: none;
+    font-size: 1.5vh;
+    font-weight: 200;
+}
+
+.m2-step-text-container {
+    position: fixed;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    width: var(--container-width);
+    top: calc(var(--top-space) + 17vh); 
+    right: var(--left-space); 
+}
+
+.m2-step-text {
+    font-size: 1.3vh;
+    font-weight: 300;
+    color: var(--gray-color); 
+    margin-bottom: 0.5vh;
+}
+
+.m2-what-components {
+    font-size: 1.75vh;
+    font-weight: 300;
+    color: var(--gray-color); 
+}
+
+.m2-what-components.bold {
+    font-weight: 600;
+}
+
 /* Components Text Areas */
 .m2-components-textarea-container {
     position: fixed;
-    top: var(--top-space-2);
+    bottom: calc(-1vh + 100vh - (var(--top-space-2) + var(--container-height)));
     right: var(--left-space);
 }
 
@@ -60,7 +138,7 @@
 
 .m2-component-textarea {
     width: calc((var(--container-width) - 1vh) / 2 - 2*2.5vh);
-    height: calc((var(--container-height) - 3vh) / 4 - 2*2.5vh);
+    height: 10vh;
     line-height: 2.5vh;
     font-family: "Bitter", serif;
     font-size: 1.9vh;
@@ -77,7 +155,7 @@
 
 .m2-empty-card {
     width: calc((var(--container-width) - 1vh) / 2 - 2*2.5vh - 2px);
-    height: calc((var(--container-height) - 3vh) / 4  - 2*2.5vh - 2px);
+    height: calc(10vh - 2px);
     color: white; /* Uses the inherited variable */
     margin-bottom: 0;
     line-height: 2.5vh;

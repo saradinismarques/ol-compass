@@ -73,7 +73,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
 
   // Handlers
   const handleClick = (component) => {
-    if (mode.startsWith("intro") || mode === "default" || mode === "map" || showExplanation) 
+    if (mode.startsWith("intro") || mode === "home" || mode === "map" || showExplanation) 
       return;
     
     if (mode === "learn") {
@@ -230,7 +230,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   };
   
   const handleMouseEnter = (e, component) => {
-    if (mode.startsWith("intro") || mode === "default" || showExplanation) 
+    if (mode.startsWith("intro") || mode === "home" || showExplanation) 
       return;
 
     setHoveredId(component.code);

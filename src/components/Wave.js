@@ -30,7 +30,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
   const getCursor = () => {
     if(compassType === "icon")
       return 'default';
-    else if(mode.startsWith("intro") || mode === "default" 
+    else if(mode.startsWith("intro") || mode === "home" 
     || showExplanation || compassType === "icon")
       return 'default';
     return 'pointer';
@@ -249,6 +249,10 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if(showInstruction && hoveredId !== component.code && mode !== "map-2-pdf" && mode === 'learn-2') 
         return 0.3;
       
+      // Home 
+      if(mode === "home") 
+        return 0.3;
+
       // Learn 
       if(mode === "learn") {
         if(selectedComponents.length === 0)
@@ -303,7 +307,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else if(hoveredId === component.code) 
           return 0.8;
         else
-          return 0.2;
+          return 0.3;
       }
       // Contribute
       if(mode === "contribute") {
@@ -391,6 +395,11 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       // Explanation Page
       if(showExplanation && mode !== "map-2-pdf")
         return 1;
+
+      // Home 
+      if(mode === "home") 
+        return 0.7;
+
       // Learn 
       if(mode === "learn") {
         if(selectedComponents.length === 0)

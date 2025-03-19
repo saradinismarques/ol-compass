@@ -17,7 +17,7 @@ import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
 import { getLabelsTexts, getModeTexts } from '../utils/DataExtraction.js';
-import { replaceHighlightsPlaceholders} from '../utils/TextFormatting.js';
+import { replaceHighlightsPlaceholders, replaceBolds } from '../utils/TextFormatting.js';
 import '../styles/pages/Map2Page.css';
 
 const Map2Page = () => {
@@ -529,10 +529,34 @@ const Map2Page = () => {
                 disabled={window.innerWidth > 1300 ? false : true}
             ></textarea>
           </div>
-          
+          <div className='m2-text-below-container'>
+            <div className='m2-project-name-text-below'>
+              {labelsTexts["text-below"]}
+            </div>
+          </div>
+          <div className='m2-what-buttons-container'>
+            <button className='m2-what-button'>
+              {labelsTexts["what"]}
+            </button>
+            <button className='m2-what-button'>
+              {labelsTexts["from-what-angle"]}
+            </button>
+            <button className='m2-what-button'>
+              {labelsTexts["how"]}
+            </button>
+          </div>
+          <div className='m2-step-text-container'>
+            <div className='m2-step-text'>
+              {labelsTexts["step"]} 1
+            </div>
+              {replaceBolds(
+                labelsTexts["what-principles"], 
+                null, 'm2-what-components', 'm2-what-components bold')}
+          </div>
+
           {/* First section for the first 5 components */}
           <div className="m2-components-textarea-container right">
-            {Array.from({ length: 4 }).map((_, id) => {
+            {Array.from({ length: 3 }).map((_, id) => {
               const component = mapComponents[id*2]; // Get the corresponding component if it exists
               return (
                 <div
@@ -579,7 +603,7 @@ const Map2Page = () => {
 
           {/* Second section for components with id > 4 */}
           <div className="m2-components-textarea-container">
-            {Array.from({ length: 4 }).map((_, id) => {
+            {Array.from({ length: 3 }).map((_, id) => {
               const component = mapComponents[id*2+1]; // Get the corresponding component if it exists
               return (
                 <div
