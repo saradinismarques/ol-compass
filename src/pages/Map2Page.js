@@ -803,7 +803,6 @@ const Map2Page = () => {
                 value={mapProjectName} 
                 onChange={handleProjectNameChange}
                 spellCheck="false"
-                disabled={window.innerWidth > 1300 ? false : true}
             ></textarea>
           </div>
           <div className='m2-text-below-container'>
