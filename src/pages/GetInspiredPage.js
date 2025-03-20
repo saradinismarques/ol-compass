@@ -76,7 +76,7 @@ const GetInspiredPage = () => {
         "get-inspired": false   // Update only 'home'
       }));
     }
-  }, [giComponents, setShowInstruction]);
+  }, [giComponents, setShowInstruction, setFirstUse]);
 
   document.documentElement.style.setProperty('--search-font-size', language === "pt" ? "1.15vh" : "1.5vh");
   document.documentElement.style.setProperty('--logic-font-size', language === "pt" ? "1.5vh" : "1.6vh");
@@ -88,7 +88,7 @@ const GetInspiredPage = () => {
   // Wrap getBookmarkState in useCallback
   const getBookmarkState = useCallback((title) => {
     return savedCaseStudiesRef.current.length !== 0 && savedCaseStudiesRef.current.some(item => item.title === title);
-  }, [savedCaseStudies]);
+  }, []);
 
   const handleCompassClick = (code) => {
     // Reset components if on these modes 

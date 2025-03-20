@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react';
+import React, { useContext, useEffect, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as GoBackIcon } from '../assets/icons/go-back-icon.svg'; // Adjust the path as necessary
@@ -68,7 +68,7 @@ const Menu = () => {
       }, 4000); // 5 seconds delay
       return () => clearTimeout(timer); // Cleanup the timer on unmount
     }
-  }, [firstUse, activeButton]); // Depend on firstUserVariable
+  }, [firstUse, activeButton, setShowStudyInstruction]); // Depend on firstUserVariable
   
   const handleShowStudyInstruction = (value) => {
     if(firstUse["home"])

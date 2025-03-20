@@ -119,7 +119,7 @@ const Map2Page = () => {
         "map": false   // Update only 'home'
       }));
     }
-  }, [mapComponents, setShowInstruction]);
+  }, [mapComponents, setShowInstruction, setFirstUse]);
 
   // Reset state and UI elements
   const resetState = useCallback(() => {

@@ -17,7 +17,7 @@ export const State = ({ children }) => {
     document.documentElement.style.setProperty('--gray-color', colors['Gray']);
     document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
   
-    const [language, setLanguage] = useState('pt');
+    const [language, setLanguage] = useState('en');
 
     const [showExplanation, setShowExplanation] = useState(true);
     const [showInstruction, setShowInstruction] = useState(false);
