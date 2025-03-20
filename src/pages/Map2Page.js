@@ -26,8 +26,6 @@ const Map2Page = () => {
     language,
     showExplanation,
     setShowExplanation,
-    showInstruction,
-    setShowInstruction,
     mapComponents,
     setMapComponents,
     mapProjectName,
@@ -111,15 +109,13 @@ const Map2Page = () => {
   useEffect(() => {
     if(mapComponents.length === 0) {
       setCurrentComponent();
-      setShowInstruction(true);
     } else {
-      setShowInstruction(false);
       setFirstUse(prevState => ({
         ...prevState, // Keep all existing attributes
         "map": false   // Update only 'home'
       }));
     }
-  }, [mapComponents, setShowInstruction, setFirstUse]);
+  }, [mapComponents, setFirstUse]);
 
   // Reset state and UI elements
   const resetState = useCallback(() => {
@@ -796,14 +792,8 @@ const Map2Page = () => {
       {showExplanation && 
         <Description mode="map" />
       }
-
-      {!showExplanation && showInstruction &&
-        <div className='instruction-container'>
-          {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}
-        </div>
-      }
-
-      {!showExplanation && mapComponents.length > 0 && (
+      
+      {!showExplanation && (
         <>
           <div className='m2-text-container'>
             <textarea

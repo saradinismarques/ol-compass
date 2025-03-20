@@ -18,8 +18,10 @@ const Description = ({ mode }) => {
 
   const handleStartButton = useCallback(() => {
     setShowExplanation(false);
-    if(firstUse[mode])
+    if(firstUse[mode] && mode !== 'map')
       setShowInstruction(true);
+    else
+      setShowInstruction(false);
   }, [firstUse, setShowExplanation, setShowInstruction, mode]);
 
   document.documentElement.style.setProperty('--headline-font-size', language === "pt" ? "5.6vh" : "6vh");
