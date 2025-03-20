@@ -2,25 +2,25 @@
   {
     "#MODE-LABEL": "HOME",
     "#headline": "/",
-    "#text": "The OL-in-One Compass has a wide variety <br> of uses, for many targets and purposes. <br> What do you wanna try out?",
+    "#text": "O 'OL-in-One Compass' tem uma grande variedade <br> de usos, para muitos alvos e propósitos. <br> O que gostarias de experimentar?",
     "#instruction": "/"
   },
   {
     "#MODE-LABEL": "LEARN",
-    "#headline": "Get familiar with the key <br> lenses of Ocean Literacy",
-    "#text": "Use this mode to explore each <br> OL Principle, Perspective and Dimension <br> at varying levels of depths. Let your <br> interest and curiosity guide you!",
-    "#instruction": "Click on any wave ([WAVE-I]) to find out more about OL <hP>Principles</hP>, <hPe>Perspectives</hPe> and <hD>Dimension</hD>."
+    "#headline": "Familiariza-te com as principais <br> lentes da Literacia Oceânica",
+    "#text": "Usa este modo para explorar cada <br> Princípio, Perspectiva e Dimensão da OL <br> em diferentes níveis de profundidade. Deixa o teu <br> interesse e curiosidade guiarem-te!",
+    "#instruction": "Clica em qualquer onda ([WAVE-I]) para saber mais sobre os <hP>Princípios</hP>, <hPe>Perspectivas</hPe> e <hD>Dimensões</hD> da OL."
   },
   {
     "#MODE-LABEL": "GET INSPIRED",
-    "#headline": "Find Ocean Literacy relevant <br> resources and case-studies",
-    "#text": "Use this mode to learn about diverse <br> sea-/water-related activities, media and projects <br>  in terms of the OL Principle(s), Perpective(s) and <br> Dimensions(s) they address.",
-    "#instruction": "Select the waves ([WAVE-I]) relevant for your search. Once done click on ‘Search’ or press ‘Enter’. <br><br> Use the switch in the Search bar to narrow or broaden your search."
+    "#headline": "Encontra recursos e casos <br> de estudo relevantes para <br> a Literacia Oceânica",
+    "#text": "Usa este modo para aprender sobre diversas atividades, meios de comunicação e projetos relacionados com o mar/águas, em termos do(s) Princípio(s), Perspectiva(s) <br> e Dimensõe(s) da OL que abordam.",
+    "#instruction": "Seleciona as ondas ([WAVE-I]) relevantes para a tua pesquisa. Quando terminares, clica em ‘Pesquisar’ ou pressiona ‘Enter’. <br><br> Usa os butões na barra de pesquisa para afinar ou alargar a tua pesquisa."
   },
   {
     "#MODE-LABEL": "MAP",
-    "#headline": "Design/analyse an activity <br> or project in OL terms",
-    "#text": "Use this mode for retrospective analysis <br> or brainstorming of sea-/water-related activities <br> in terms of their OL outcome, and get an <br> instantaneous visual report to share it.",
-    "#instruction": "<hP>What</hP> is/are the <hP>key Ocean trait(s)</hP> that your activity/project convey? What <hPe>angle(s)</hPe> does it adopt? <hD>How</hD>? Fostering which <hD>kind(s) of learning</hD>? <br><br> Select the most relevant waves accordingly."
+    "#headline": "Desenha/analisa uma atividade <br> ou projeto em termos da OL",
+    "#text": "Usa este modo para análise retrospectiva ou para ter ideias de atividades relacionadas com o mar/águas <br> em termos dos seus resultados na OL, e obtém um <br> relatório visual instantâneo para partilhar.",
+    "#instruction": "<hP>O que</hP> é/são o(s) <hP>traço(s) chave do Oceano</hP> que a tua atividade/projeto transmite(m)? Que <hPe>ângulo(s)</hPe> adota? <hD>Como</hD>? Promovendo que <hD>tipos de aprendizagem</hD>? <br><br> Seleciona as ondas mais relevantes de acordo com a resposta a estas perguntas."
   }
 ]

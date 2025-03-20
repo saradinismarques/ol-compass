@@ -56,7 +56,7 @@ body {
     position: fixed;
     top: 30.5vh;
     left: var(--left-space-3);
-    width: 30vh;
+    width: 33.5vh;
 }
 
 .instruction {
@@ -93,7 +93,7 @@ body {
 }
 
 .text-icon.wave {
-    margin-bottom: -0.5vh;
+    margin-bottom: -1vh;
 }
 
 /* .text-icon.wave-space {

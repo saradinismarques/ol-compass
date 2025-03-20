@@ -1,6 +1,5 @@
 :root {
-    --selection-color: #e5007e; /* Default color */
-    --gray-color: #e5007e; /* Default color */
+    --headline-font-size: 6vh;
 }
 
 /* Description Container */
@@ -16,7 +15,7 @@
 }
 
 .description-headline {
-    font-size: 6vh; /* Smaller size for h2 */
+    font-size: var(--headline-font-size); /* Smaller size for h2 */
     font-weight: 600;
     font-family: "Bitter", serif;
 }

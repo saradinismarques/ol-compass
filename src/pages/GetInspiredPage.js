@@ -78,7 +78,6 @@ const GetInspiredPage = () => {
     }
   }, [giComponents, setShowInstruction]);
 
-  
   document.documentElement.style.setProperty('--search-font-size', language === "pt" ? "1.15vh" : "1.5vh");
   document.documentElement.style.setProperty('--logic-font-size', language === "pt" ? "1.5vh" : "1.6vh");
 
