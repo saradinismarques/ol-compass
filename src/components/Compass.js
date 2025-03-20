@@ -45,6 +45,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
 
   // State of clicks and hovers
   const [hoveredId, setHoveredId] = useState(null);
+  const [mapLimit, setMapLimit] = useState(false);
    
   // Determine which components and setter to use based on mode
   const [selectedComponents, setSelectedComponents] = useState(stateSaved || []);
@@ -60,10 +61,15 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   let tooltipTimeout = null;
 
   const hoveredIdRef = useRef(hoveredId);
+  const mapLimitRef = useRef(hoveredId);
   
   useEffect(() => {
       hoveredIdRef.current = hoveredId;
   }, [hoveredId]);
+
+  useEffect(() => {
+    mapLimitRef.current = mapLimit;
+}, [mapLimit]);
 
   // Effect to handle reset
   useEffect(() => {
@@ -202,9 +208,11 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       
       if (onButtonClick) onButtonClick(component.code);
     } else if(mode === "map-2") {
+      
+      const mapTexts = getLabelsTexts(language, "map");
+      
       if(currentType !== component.type) {
         clearTimeout(tooltipTimeout);
-        const mapTexts = getLabelsTexts(language, "map");
 
         // Set a timeout to delay the appearance of the tooltip by 1 second
         tooltipTimeout = setTimeout(() => {
@@ -228,29 +236,44 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         return;
       }
         
-      let limit = false;
-
       // Want to add a new one
       if(!selectedComponents.includes(component.code)) {
-        if(selectedComponents.filter(code => getType(code) === component.type).length >= 2)
-          limit = true;
+        if(selectedComponents.filter(code => getType(code) === component.type).length >= 2) {
+          setMapLimit(true);
+          mapLimitRef.current = true;
+        } else {
+          setMapLimit(false);
+          mapLimitRef.current = false;
+        }
+      }
+
+      if(mapLimitRef.current) {
+        // Set a timeout to delay the appearance of the tooltip by 1 second
+        tooltipTimeout = setTimeout(() => {
+          if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
+            setTooltipPos({ x: e.clientX, y: e.clientY });
+            setTooltipText(mapTexts["tooltip-maximum-waves"]);
+            setTooltipMapVisible(true);
+          }
+        }, 0); // 1-second delay
       }
 
       setSelectedComponents(prevComponents => {
         const newComponents = prevComponents.includes(component.code)
           ? prevComponents.filter(code => code !== component.code) // Remove ID if already clicked
-          : (!limit ? [...prevComponents, component.code] : prevComponents); // Add ID if not already clicked and under the limit
+          : (!mapLimitRef.current ? [...prevComponents, component.code] : prevComponents); // Add ID if not already clicked and under the limit
         
         return newComponents;
       });
 
       // Run onButtonClick after updating the components list
       if (onButtonClick) {
-        if (!limit) {
+        if (!mapLimitRef.current) {
           onButtonClick(
             component.code,
             component.label,
             cleanText(component.paragraph),
+            component.map_question,
             component.type
           );
         } else {
@@ -296,15 +319,12 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
     // Clear the tooltip timeout to prevent it from showing if mouse leaves
     clearTimeout(tooltipTimeout);
 
-    if(mode === "map-2" && currentType !== component.type) {
       setTooltipMapVisible(false);
       setTooltipColor('black'); // Clear the tooltip text
       setTooltipText(""); // Clear the tooltip text;
-    } else {// Set the cancellation flag to prevent tooltip from showing
       setTooltipVisible(false);
       setTooltipColor('black'); // Clear the tooltip text
       setTooltipText(""); // Clear the tooltip text
-    }
   };
 
   // Memoize handleKeyDown to avoid creating a new reference on each render

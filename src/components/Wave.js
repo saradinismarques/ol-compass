@@ -544,6 +544,9 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     else if (mode === "intro-13" || mode === "intro-14" || mode === "intro-15" || mode === "intro-16") 
       return "";
     // Explanation Page
+    if(mode === "home") {
+      return "";
+    }
     if(showExplanation && !mode.startsWith("intro") && mode !== "map-2-pdf") {
       return "";
     }

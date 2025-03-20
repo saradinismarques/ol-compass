@@ -123,7 +123,7 @@ const Map2Page = () => {
   }, [navigate]);
 
   // Trigger compass action
-  const handleCompassClick = (code, label, paragraph, type) => {
+  const handleCompassClick = (code, label, paragraph, question, type) => {
     setMissingText(prevState => ({
       ...prevState,
       ProjectName: false, // Set to true if all Principles have text
@@ -155,7 +155,7 @@ const Map2Page = () => {
         } else {
           componentExists = false;
           // Add new component with default values
-          const newComponent = { code, label, paragraph, type, text: mapAllComponents[code] };
+          const newComponent = { code, label, paragraph, question, type, text: mapAllComponents[code] };
           const updatedComponents = [...prevComponents, newComponent];
       
           return updatedComponents;
@@ -321,16 +321,6 @@ const Map2Page = () => {
     // Return the first or second matching component, if it exists
     return filteredComponents[index] || null;
   };  
-
-  const getTextareaPlaceholder = (label, type) => {
-    let text;
-    if(type === 'Principle') text = labelsTexts["placeholder-principles"]
-    else if(type === 'Perspetive') text = labelsTexts["placeholder-perspectives"]
-    else if(type === 'Dimension') text = labelsTexts["placeholder-dimensions"]
-
-    console.log(label);
-    return text.replace(/\[P-LABEL\]/g, label);
-  }
 
   // Other Components
   const TooltipMap = ({ text, position }) => (
@@ -842,11 +832,21 @@ const Map2Page = () => {
           </div>
           <div className='m2-step-text-container'>
             <div className='m2-step-text'>
-              {labelsTexts["step"]} 1
+            <div className='m2-step-text'>
+              {labelsTexts["step"]} {mapCurrentType === "Principle" ? 1 : mapCurrentType === "Perspective" ? 2 : 3}
             </div>
-              {replaceBolds(
-                labelsTexts["what-principles"], 
-                null, 'm2-what-components', 'm2-what-components bold')}
+
+            </div>
+            {replaceBolds(
+              mapCurrentType === "Principle"
+                ? labelsTexts["what-principles"]
+                : mapCurrentType === "Perspective"
+                ? labelsTexts["what-perspectives"]
+                : labelsTexts["what-dimensions"], 
+              null, 
+              'm2-what-components', 
+              'm2-what-components bold'
+            )}
           </div>
 
           {/* Principles */}
@@ -878,7 +878,7 @@ const Map2Page = () => {
                             cursor: mapCurrentType !== 'Principle' ? 'default' : 'pointer',
                           }}
                           type="text"
-                          placeholder={getTextareaPlaceholder(component.label, component.type)}
+                          placeholder={component.question}
                           value={component.text}
                           onFocus={() => handleFocus(component.code, component.type)}
                           onChange={(e) => handleComponentChange(e, component.code, component.type)}
@@ -922,11 +922,7 @@ const Map2Page = () => {
                             cursor: mapCurrentType !== 'Perspective' ? 'default' : 'pointer',
                           }}
                           type="text"
-                          placeholder={
-                            language === 'pt'
-                              ? `Por que é que o teu projeto tem ${component.label}?`
-                              : `Why does your project have ${component.label}?`
-                          }
+                          placeholder={component.question}
                           value={component.text}
                           onFocus={() => handleFocus(component.code, component.type)}
                           onChange={(e) => handleComponentChange(e, component.code, component.type)}
@@ -972,11 +968,7 @@ const Map2Page = () => {
                             cursor: mapCurrentType !== 'Dimension' ? 'default' : 'pointer',
                           }}
                           type="text"
-                          placeholder={
-                            language === 'pt'
-                              ? `Por que é que o teu projeto tem ${component.label}?`
-                              : `Why does your project have ${component.label}?`
-                          }
+                          placeholder={component.question}
                           value={component.text}
                           onFocus={() => handleFocus(component.code, component.type)}
                           onChange={(e) => handleComponentChange(e, component.code, component.type)}
@@ -1042,12 +1034,6 @@ const Map2Page = () => {
                 : `${Math.round(downloadProgress)}% ${language === 'pt' ? 'Completo' : 'Complete'}`}
               </p> 
             </>
-          }
-
-          {limitExceeded &&
-            <div className='m2-limit-exceed-message'>
-              {labelsTexts["tooltip-maximum-waves"]}
-            </div>
           }
         </>
       )}

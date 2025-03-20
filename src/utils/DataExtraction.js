@@ -382,6 +382,7 @@ function getLinksData(language) {
             label: labelsMap[item["P-ID"]] || "", // Get label from map
             paragraph: item["P-GEN"],
             paragraph_extended: item["P-GEN-continue"],
+            map_question: item["MAP-question"],
             wbc_links: item["WBF-P_links"] ? item["WBF-P_links"].split(",").map(link => link.trim()) : [], // Convert to array
             region_feature: item["WATER BODY + FEATURE (WBF)"],
             country_e1: item["COUNTRY-E1"],
@@ -407,6 +408,7 @@ function getLinksData(language) {
                 code: item["Pe-ID"],
                 label: labelsMap[item["Pe-ID"]] || "", // Get label from map
                 paragraph: item["What-PAR"],
+                map_question: item["MAP-question"],
                 example_1: item["Example 1"],
                 example_2: item["Example 2"],
                 e1_codes: [Py1],   // Single P code with "y1"
@@ -432,6 +434,7 @@ function getLinksData(language) {
                 code: item["D-ID"],
                 label: labelsMap[item["D-ID"]] || "", // Get label from map
                 paragraph: item["What-PAR"],
+                map_question: item["MAP-question"],
                 diff_code: item["Diff-from"],
                 diff_label: labelsMap[item["Diff-from"]] || "",
                 diff_paragraph: item["Diff-from-PAR"],
