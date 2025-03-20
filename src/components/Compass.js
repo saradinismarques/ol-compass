@@ -245,6 +245,9 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
           setMapLimit(false);
           mapLimitRef.current = false;
         }
+      } else {
+        setMapLimit(false);
+        mapLimitRef.current = false;
       }
 
       if(mapLimitRef.current) {
@@ -265,6 +268,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         
         return newComponents;
       });
+
+      console.log(mapLimitRef.current);
 
       // Run onButtonClick after updating the components list
       if (onButtonClick) {
