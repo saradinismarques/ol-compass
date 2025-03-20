@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } 
 import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import { getIntroTexts, getLabelsTexts } from '../utils/DataExtraction.js';
-import { replaceBoldsBreaks, replaceBoldsBreaksPlaceholders, replaceBoldsItalicBreaks, replaceHighlightsBoldsPlaceholders } from '../utils/TextFormatting.js';
+import { replaceBoldsBreaks, replaceBoldsBreaksPlaceholders, replaceBoldsItalicBreaks, replaceHighlightsBoldsPlaceholdersItalics, replaceHighlightsBoldsPlaceholders } from '../utils/TextFormatting.js';
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import Frame11Image from '../assets/images/intro/frame-11.png';
@@ -66,6 +66,10 @@ const IntroPage = () => {
         "[COUNTER-D]": opacityCounter['Dimension'] + 1,
     };
     
+    document.documentElement.style.setProperty('--highlightP-color-intro', colors['Intro Text']['Principle']);
+    document.documentElement.style.setProperty('--highlightPe-color-intro', colors['Intro Text']['Perspective']);
+    document.documentElement.style.setProperty('--highlightD-color-intro', colors['Intro Text']['Dimension']);
+
     // Handlers
     const handleNext = useCallback(() => {
         if(frameRef.current === 3 && !firstUseRef.current['intro']) {
@@ -328,44 +332,41 @@ const IntroPage = () => {
             }, 300);
             return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame6, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } else if(frame === 7) {
-            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame6, "i-text-container", "i-text", "i-text", countersMap)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame7, "i-text-container", "i-text", "i-text", countersMap)}</>;
         } else if(frame === 8) {
-            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             return (
                 <div className="i-text-container">
-                    {replaceHighlightsBoldsPlaceholders(introTexts.Frame8, 'i-text', 'i-text hP', 'i-text hPe', 'i-text hD', null)}
+                    {replaceHighlightsBoldsPlaceholders(introTexts.Frame8, 'i-text', 'i-text bold', 'i-text hP', 'i-text hPe', 'i-text hD', null)}
                 </div>
             );
         } else if(frame === 9) {
-            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             return (
                 <div className="i-text-container">
-                    {introTexts.Frame9}
+                    {replaceHighlightsBoldsPlaceholders(introTexts.Frame9, 'i-text', 'i-text bold', 'i-text hP', 'i-text hPe', 'i-text hD', null)}
                 </div>
             );
         } else if(frame === 10) {
-            document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             return (
                 <div className="i-text-container">
-                    {introTexts.Frame10}
+                    {replaceHighlightsBoldsPlaceholders(introTexts.Frame10, 'i-text', 'i-text bold', 'i-text hP', 'i-text hPe', 'i-text hD', null)}
                 </div>
             );
         } else if(frame === 11) {
             return (
                 <div className="i-text-container">
-                    {introTexts.Frame11}
+                    {replaceBoldsItalicBreaks(introTexts.Frame11, 'i-text', 'i-text bold', 'i-text italic')}
                 </div>
             );
         } else if(frame === 12) {
             return (
                 <div className="i-text-container">
-                    {introTexts.Frame12}
+                    {replaceHighlightsBoldsPlaceholdersItalics(introTexts.Frame12, 'i-text', 'i-text bold', 'i-text hP', 'i-text hPe', 'i-text hD', 'i-text hP italic', 'i-text hPe italic', 'i-text hD italic', null)}
                 </div>
             );
         } else if(frame === 13) {
             return (
                 <div className="i-explanation-container">
-                    {introTexts.Frame13}
+                    {replaceBoldsItalicBreaks(introTexts.Frame13, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         } else if(frame === 14) {
@@ -375,13 +376,13 @@ const IntroPage = () => {
 
             return (
                 <div className="i-explanation-container">
-                    {introTexts.Frame14}
+                    {replaceBoldsItalicBreaks(introTexts.Frame14, 'i-explanation', 'i-explanation bold italic', 'i-explanation italic')}
                 </div>
             );
         } else if(frame === 15) {
             return (
                 <div className="i-explanation-container">
-                    {introTexts.Frame15}
+                    {replaceBoldsItalicBreaks(introTexts.Frame15, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         }

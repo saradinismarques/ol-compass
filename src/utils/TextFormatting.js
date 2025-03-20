@@ -322,8 +322,9 @@ export function replaceHighlightsPlaceholders(text, textStyle, hPStyle, hPeStyle
                                             </span>
                                         );
                                     }
-                                    if (iconsMap[part]) {
-                                        return <React.Fragment key={uniquePartKey}>{iconsMap[part]}</React.Fragment>;
+                                    if (iconsMap) {
+                                        if(iconsMap[part]) 
+                                            return <React.Fragment key={uniquePartKey}>{iconsMap[part]}</React.Fragment>;
                                     }
                                     
                                     return (
@@ -339,7 +340,7 @@ export function replaceHighlightsPlaceholders(text, textStyle, hPStyle, hPeStyle
     );
 }
 
-export function replaceHighlightsBoldsPlaceholders(text, textStyle, hPStyle, hPeStyle, hDStyle, iconsMap) {
+export function replaceHighlightsBoldsPlaceholders(text, textStyle, boldStyle, hPStyle, hPeStyle, hDStyle, iconsMap) {
     return (
         <div style={{ display: "block" }}>
             {text
@@ -352,11 +353,11 @@ export function replaceHighlightsBoldsPlaceholders(text, textStyle, hPStyle, hPe
                     const uniqueKey = `${Date.now()}-${index}`; // Unique key based on timestamp and index
                     
                     return (
-                        <p key={uniqueKey} style={{ margin: "2vh 0", display: "block" }}> {/* Adds space between paragraphs */}
+                        <p key={uniqueKey} style={{ margin: "-0.8vh 0", display: "block" }}> {/* Adds space between paragraphs */}
                             {paragraph
                                 .split(/(\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\||\|\|HD\|\|.*?\|\|HD\|\||\|\|BOLD\|\|.*?\|\|BOLD\|\||\[[A-Z-]+\])/g) // Split placeholders and icons
                                 .map((part, index2) => {
-                                    const uniquePartKey = `${uniqueKey}-${index2}`; // Unique key for each part
+                                    const uniquePartKey = `${uniqueKey}-${index2}-${text}`; // Unique key for each part
 
                                     if (part.startsWith("||HP||")) {
                                         return (
@@ -381,13 +382,14 @@ export function replaceHighlightsBoldsPlaceholders(text, textStyle, hPStyle, hPe
                                     }
                                     if (part.startsWith("||BOLD||")) {
                                         return (
-                                            <b key={uniquePartKey} style={{ display: "inline" }}>
+                                            <span key={uniquePartKey} className={boldStyle} style={{ display: "inline" }}>
                                                 {part.replace(/\|\|BOLD\|\|/g, "")}
-                                            </b>
+                                            </span>
                                         );
                                     }
-                                    if (iconsMap[part]) {
-                                        return <React.Fragment key={uniquePartKey}>{iconsMap[part]}</React.Fragment>;
+                                    if(iconsMap) { 
+                                        if (iconsMap[part]) 
+                                            return <React.Fragment key={uniquePartKey}>{iconsMap[part]}</React.Fragment>;
                                     }
                                     
                                     return (
@@ -421,9 +423,9 @@ export function replaceBoldsBreaks(text, textStyle, boldStyle) {
 
                                     if (part.startsWith("||BOLD||")) {
                                         return (
-                                            <b key={uniquePartKey} className={boldStyle} style={{ display: "inline" }}>
+                                            <span key={uniquePartKey} className={boldStyle} style={{ display: "inline" }}>
                                                 {part.replace(/\|\|BOLD\|\|/g, "")}
-                                            </b>
+                                            </span>
                                         );
                                     }
                                     
@@ -432,6 +434,73 @@ export function replaceBoldsBreaks(text, textStyle, boldStyle) {
                                             {part}
                                         </span>
                                     );
+                                })}
+                        </p>
+                    );
+                })}
+        </div>
+    );
+}
+
+export function replaceHighlightsBoldsPlaceholdersItalics (
+    text, 
+    textStyle, 
+    boldStyle, 
+    hPStyle, 
+    hPeStyle, 
+    hDStyle, 
+    ihPStyle, 
+    ihPeStyle, 
+    ihDStyle, 
+    iconsMap
+) {
+    return (
+        <div style={{ display: "block" }}>
+            {text
+                .replace(/<hP>(.*?)<\/hP>/g, "||HP||$1||HP||") // Highlight P
+                .replace(/<hPe>(.*?)<\/hPe>/g, "||HPE||$1||HPE||") // Highlight Pe
+                .replace(/<hD>(.*?)<\/hD>/g, "||HD||$1||HD||") // Highlight D
+                .replace(/<ihP>(.*?)<\/ihP>/g, "||IHP||$1||IHP||") // Italic Highlight P
+                .replace(/<ihPe>(.*?)<\/ihPe>/g, "||IHPE||$1||IHPE||") // Italic Highlight Pe
+                .replace(/<ihD>(.*?)<\/ihD>/g, "||IHD||$1||IHD||") // Italic Highlight D
+                .replace(/<b>(.*?)<\/b>/g, "||BOLD||$1||BOLD||") // Bold
+                .split(/<br>/g) // Split by <br> to create paragraphs
+                .map((paragraph, index) => {
+                    const uniqueKey = `${Date.now()}-${index}`; // Unique key
+                    
+                    return (
+                        <p key={uniqueKey} style={{ margin: "-0.8vh 0", display: "block" }}>
+                            {paragraph
+                                .split(/(\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\||\|\|HD\|\|.*?\|\|HD\|\||\|\|IHP\|\|.*?\|\|IHP\|\||\|\|IHPE\|\|.*?\|\|IHPE\|\||\|\|IHD\|\|.*?\|\|IHD\|\||\|\|BOLD\|\|.*?\|\|BOLD\|\||\[[A-Z-]+\])/g) // Split placeholders and icons
+                                .map((part, index2) => {
+                                    const uniquePartKey = `${uniqueKey}-${index2}-${text}`; // Unique key for each part
+
+                                    if (part.startsWith("||HP||")) {
+                                        return <span key={uniquePartKey} className={hPStyle}>{part.replace(/\|\|HP\|\|/g, "")}</span>;
+                                    }
+                                    if (part.startsWith("||HPE||")) {
+                                        return <span key={uniquePartKey} className={hPeStyle}>{part.replace(/\|\|HPE\|\|/g, "")}</span>;
+                                    }
+                                    if (part.startsWith("||HD||")) {
+                                        return <span key={uniquePartKey} className={hDStyle}>{part.replace(/\|\|HD\|\|/g, "")}</span>;
+                                    }
+                                    if (part.startsWith("||IHP||")) {
+                                        return <span key={uniquePartKey} className={ihPStyle}>{part.replace(/\|\|IHP\|\|/g, "")}</span>;
+                                    }
+                                    if (part.startsWith("||IHPE||")) {
+                                        return <span key={uniquePartKey} className={ihPeStyle}>{part.replace(/\|\|IHPE\|\|/g, "")}</span>;
+                                    }
+                                    if (part.startsWith("||IHD||")) {
+                                        return <span key={uniquePartKey} className={ihDStyle}>{part.replace(/\|\|IHD\|\|/g, "")}</span>;
+                                    }
+                                    if (part.startsWith("||BOLD||")) {
+                                        return <span key={uniquePartKey} className={boldStyle}>{part.replace(/\|\|BOLD\|\|/g, "")}</span>;
+                                    }
+                                    if (iconsMap && iconsMap[part]) {
+                                        return <React.Fragment key={uniquePartKey}>{iconsMap[part]}</React.Fragment>;
+                                    }
+                                    
+                                    return <span key={uniquePartKey} className={textStyle}>{part}</span>;
                                 })}
                         </p>
                     );

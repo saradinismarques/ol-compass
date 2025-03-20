@@ -7,14 +7,14 @@
     "Frame 4": "<b> [COUNTER-P] Principles </b>",
     "Frame 5": "[COUNTER-P] Principles <br> <b> [COUNTER-Pe] Perspectives</b>",
     "Frame 6": "[COUNTER-P] Principles <br> [COUNTER-Pe] Perspectives <br> <b> [COUNTER-D] Dimensions</b>",
-    "Frame 7": "Principles <br> Perspectives <br> Dimensions",
+    "Frame 7": "[COUNTER-P] Principles <br> [COUNTER-Pe] Perspectives <br> [COUNTER-D] Dimensions",
     "Frame 8": "OL Principles<br> summarize the<br> <b>7</b> <hP>essential traits</hP><br> of the Ocean,<br> clarifying why<br> it is the most<br> vital ecosystem<br> on Earth.",
-    "Frame 9": "OL Perspectives<br> encompass the<br> <b>7 main</b> <hPe>angles</Pe><br> from which the<br> Ocean’s many<br> facets can be<br> understood and<br> put in context.",
-    "Frame 10": "OL Dimensions<br> outline the <b>10<br> main</b> <hD>ways of<br> learning</hD> about<br> <hD>and reconnecting</hD><br> with the Ocean.",
+    "Frame 9": "OL Perspectives<br> encompass the<br> <b>7 main</b> <hPe>angles</hPe><br> from which the<br> Ocean’s many<br> facets can be<br> understood and<br> put in context.",
+    "Frame 10": "OL Dimensions<br> outline the <b>10</b><br> <b>main</b> <hD>ways of </hD> <br> <hD>learning</hD> about<br> <hD>and reconnecting</hD><br> with the Ocean.",
     "Frame 11": "This layered view<br> does not reflect any<br> hierarchy, but simply<br> results from OL’s<br> evolution over time.",
-    "Frame 12": "Nonetheless,<br> it is useful to think<br> of <P>OL Principles</P>,<br> <Pe>Perspectives</Pe> and<br> <D>Dimensions</D> in<br> integrated ways,<br> for instance in terms<br> of <hP>what</hP>, <hPe>from what<br> angle</hPe>, and <hD>how</hD>.",
+    "Frame 12": "Nonetheless,<br> it is useful to think<br> of <hP>OL Principles</hP>,<br> <hPe>Perspectives</hPe> and<br> <hD>Dimensions</hD> in<br> integrated ways,<br> for instance in terms<br> of <ihP>what</ihP>, <ihPe>from what</ihPe> <br> <ihPe> angle</ihPe>, and <ihD>how</ihD>.",
     "Frame 13": "An expanded view of OL suggests to go beyond ad hoc “OL activities”,<br> considering instead the OL <b>outcome</b> that <i>any</i> sea-related activity<br> might, intentionally or unintentionally, produce.",
-    "Frame 14": "Thinking with OL Principles, Perspectives and Dimensions<br> thus becomes a way to <ib>be intentional</ib> about pursuing OL outcomes,<br> capturing and communicating their many facets.",
+    "Frame 14": "Thinking with OL Principles, Perspectives and Dimensions<br> thus becomes a way to <b>be intentional</b> about pursuing OL outcomes,<br> capturing and communicating their many facets.",
     "Frame 15": "Ready to try out<br> “OL thinking & doing”?"
   }
 ]

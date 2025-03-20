@@ -1,5 +1,8 @@
 :root {
     --intro-text-color: #000000; /* Default color */
+    --highlightP-color-intro:
+    --highlightPe-color-intro:
+    --highlightD-color-intro:
 }
 
 /* Title (Frame 00) */
@@ -36,11 +39,12 @@
     color: #274893;  
     z-index: 30; 
     font-family: "Bitter", serif;
+    width: 120vh;
 }
 
 .i-explanation {
     font-size: 3.5vh;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.4;
 }
 
@@ -81,19 +85,35 @@
 }
 
 .i-text.hP {
-    color: var(--highlightP-color);;
+    color: var(--highlightP-color-intro);
 }
 
 .i-text.hPe {
-    color: var(--highlightPe-color);
+    color: var(--highlightPe-color-intro);
 }
 
 .i-text.hD {
-    color: var(--highlightD-color);
+    color: var(--highlightD-color-intro);
 }
 
 .i-text.bold {
     font-weight: 600;
+}
+
+.i-text.italic {
+    font-style: italic;
+}
+
+.i-text.bold.hP {
+    color: var(--highlightP-color);
+}
+
+.i-text.bold.hPe {
+    color: var(--highlightPe-color);
+}
+
+.i-text.bold.hD {
+    color: var(--highlightD-color);
 }
 
 .i-text.colored {
