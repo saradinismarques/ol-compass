@@ -8,7 +8,7 @@ import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; //
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
-import { replaceHighlightsPlaceholders} from '../utils/TextFormatting.js';
+import { replaceHighlightsPlaceholders, replaceItalic } from '../utils/TextFormatting.js';
 import '../styles/pages/GetInspiredPage.css';
 
 const GetInspiredPage = () => {
@@ -343,7 +343,7 @@ const GetInspiredPage = () => {
                 </button>
   
                 <h1 className="gi-title">{currentCaseStudy.title}</h1>
-                <p className="gi-description">{currentCaseStudy.description}</p>
+                <p>{replaceItalic(currentCaseStudy.description, 'gi-description', 'gi-description italic')}</p>
                 {/* <p>{height}</p> */}
                 <p className="gi-credits">{labelsTexts["credits"]}: {currentCaseStudy.credits}</p>
   

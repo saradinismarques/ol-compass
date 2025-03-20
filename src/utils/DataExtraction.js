@@ -3,6 +3,7 @@ import enLabelsData from '../data/static/en/en-labels-texts.json';
 import enIntroTexts from '../data/static/en/en-intro-texts.json'
 import enModesTexts from '../data/static/en/en-modes-texts.json'
 import enTooltipsTexts from '../data/content/en/en-tooltips-texts.json'
+import enComponentsCodes from '../data/content/en/en-components-codes.json';
 import enGetStartedData from '../data/content/en/en-get-started-data.json';
 import enLearnData from '../data/content/en/en-learn-data.json';
 import enLinksPrinciples from '../data/content/en/en-links-principles.json';
@@ -14,6 +15,7 @@ import ptLabelsData from '../data/static/pt/pt-labels-texts.json';
 import ptIntroTexts from '../data/static/pt/pt-intro-texts.json'
 import ptModesTexts from '../data/static/pt/pt-modes-texts.json'
 import ptTooltipsTexts from '../data/content/pt/pt-tooltips-texts.json'
+import ptComponentsCodes from '../data/content/pt/pt-components-codes.json';
 import ptLearnData from '../data/content/pt/pt-learn-data.json';
 import ptLinksPrinciples from '../data/content/pt/pt-links-principles.json';
 import ptLinksPerspectives from '../data/content/pt/pt-links-perspectives.json';
@@ -177,14 +179,14 @@ export function getTypeTooltip(language) {
 
         // Filter only the required labels
         const filteredData = lanTooltipsTexts.filter(item =>
-            ["PRINCIPLES", "PERSPECTIVES", "DIMENSIONS"].includes(item["#label"])
+            ["PRINCIPLES", "PERSPECTIVES", "DIMENSIONS"].includes(item["#ID/ELEMENT"])
         );
 
         // Convert to the required format
         const result = {
-            Principle: filteredData.find(item => item["#label"] === "PRINCIPLES")?.["#TOOLTIP"],
-            Perspective: filteredData.find(item => item["#label"] === "PERSPECTIVES")?.["#TOOLTIP"],
-            Dimension: filteredData.find(item => item["#label"] === "DIMENSIONS")?.["#TOOLTIP"]
+            Principle: filteredData.find(item => item["#ID/ELEMENT"] === "PRINCIPLES")?.["#TOOLTIP"],
+            Perspective: filteredData.find(item => item["#ID/ELEMENT"] === "PERSPECTIVES")?.["#TOOLTIP"],
+            Dimension: filteredData.find(item => item["#ID/ELEMENT"] === "DIMENSIONS")?.["#TOOLTIP"]
         };
 
         return result;
@@ -211,21 +213,21 @@ export function getDefaultData(language) {
 
         // Create a map of labels from learnData for easy lookup
         const tooltipsMap = lanTooltipsTexts.reduce((acc, item) => {
-            acc[item["#label"]] = item["#TOOLTIP"];
+            acc[item["#ID/ELEMENT"]] = item["#TOOLTIP TEXT"];
             return acc;
         }, {});
 
-        let lanLearnData;
-        if(language === "en") lanLearnData = enLearnData;
-        else if(language === "pt") lanLearnData = ptLearnData;
-        else lanLearnData = enLearnData;
+        let lanComponentsCodes;
+        if(language === "en") lanComponentsCodes = enComponentsCodes;
+        else if(language === "pt") lanComponentsCodes = ptComponentsCodes;
+        else lanComponentsCodes = enComponentsCodes;
 
         // Process the JSON data
-        const result = lanLearnData.map(item => ({
-            code: item["#code"],
-            label: item["#label"],
-            tooltip: tooltipsMap[item["#code"]] || "",
-            type: getType(item['#code'])
+        const result = lanComponentsCodes.map(item => ({
+            code: item["ID"],
+            label: item["LABEL"],
+            tooltip: tooltipsMap[item["ID"]] || "",
+            type: getType(item['ID'])
         }));
 
         // Organize into three parts by Type
@@ -284,7 +286,7 @@ export function getLearnData(language) {
 
         // Create a map of labels from learnData for easy lookup
         const tooltipsMap = lanTooltipsTexts.reduce((acc, item) => {
-            acc[item["#label"]] = item["#TOOLTIP"];
+            acc[item["#ID/ELEMENT"]] = item["#TOOLTIP TEXT"];
             return acc;
         }, {});
 
@@ -329,18 +331,18 @@ function getLinksData(language) {
 
         // Create a map of labels from learnData for easy lookup
         const tooltipsMap = lanTooltipsTexts.reduce((acc, item) => {
-            acc[item["#label"]] = item["#TOOLTIP"];
+            acc[item["#ID/ELEMENT"]] = item["#TOOLTIP TEXT"];
             return acc;
         }, {});
 
-        let lanLearnData;
-        if(language === "en") lanLearnData = enLearnData;
-        else if(language === "pt") lanLearnData = ptLearnData;
-        else lanLearnData = enLearnData;
+        let lanComponentsCodes;
+        if(language === "en") lanComponentsCodes = enComponentsCodes;
+        else if(language === "pt") lanComponentsCodes = ptComponentsCodes;
+        else lanComponentsCodes = enComponentsCodes;
 
         // Create a map of labels from learnData for easy lookup
-        const labelsMap = lanLearnData.reduce((acc, item) => {
-            acc[item["#code"]] = item["#label"];
+        const labelsMap = lanComponentsCodes.reduce((acc, item) => {
+            acc[item["ID"]] = item["LABEL"];
             return acc;
         }, {});
 
@@ -491,16 +493,16 @@ export function getGetInspiredData(language) {
 
         // Function to extract components and return the case study object
         const result = lanGetInspiredData.map(item => ({
-            title: item["Title"],
+            title: item["PROJECT"],
             collection: item["Collection"],
             mainTarget: item["Main Target"],
             age: item["Age"],
             time: item["Time"],
-            type: item["Type"],
+            type: item["SubType"],
             languages: item["Laguage(s)"],
             year: item["Year"],
-            description: item["Description"],
-            credits: item["Author, Country"],
+            description: item["DESCR-SHORT"],
+            credits: item["Author"],
             components: Object.keys(item).filter(key => item[key] === 'Y')
         }));
         return result;

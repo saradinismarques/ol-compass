@@ -1,0 +1,98 @@
+[
+    {
+      "ID": "P1",
+      "LABEL": "ONE WHOLE"
+    },
+    {
+      "ID": "P2",
+      "LABEL": "EARTH-SHAPER"
+    },
+    {
+      "ID": "P3",
+      "LABEL": "CLIMATE REGULATOR"
+    },
+    {
+      "ID": "P4",
+      "LABEL": "LIFE-ENABLER"
+    },
+    {
+      "ID": "P5",
+      "LABEL": "GREATLY DIVERSE"
+    },
+    {
+      "ID": "P6",
+      "LABEL": "INTERCONNECTED WITH HUMANS"
+    },
+    {
+      "ID": "P7",
+      "LABEL": "LARGELY UNEXPLORED"
+    },
+    {
+      "ID": "Pe1",
+      "LABEL": "SCIENCE"
+    },
+    {
+      "ID": "Pe2",
+      "LABEL": "HISTORY"
+    },
+    {
+      "ID": "Pe3",
+      "LABEL": "GEOGRAPHY"
+    },
+    {
+      "ID": "Pe4",
+      "LABEL": "GENDER EQUALITY"
+    },
+    {
+      "ID": "Pe5",
+      "LABEL": "VALUE"
+    },
+    {
+      "ID": "Pe6",
+      "LABEL": "CULTURE"
+    },
+    {
+      "ID": "Pe7",
+      "LABEL": "SUSTAINABILITY"
+    },
+    {
+      "ID": "D1",
+      "LABEL": "KNOWLEDGE"
+    },
+    {
+      "ID": "D2",
+      "LABEL": "COMMUNICATION"
+    },
+    {
+      "ID": "D3",
+      "LABEL": "BEHAVIOR"
+    },
+    {
+      "ID": "D4",
+      "LABEL": "ATTITUDE"
+    },
+    {
+      "ID": "D5",
+      "LABEL": "AWARENESS"
+    },
+    {
+      "ID": "D6",
+      "LABEL": "ACTIVISM"
+    },
+    {
+      "ID": "D7",
+      "LABEL": "EMOCEANS"
+    },
+    {
+      "ID": "D8",
+      "LABEL": "EXPERIENCE"
+    },
+    {
+      "ID": "D9",
+      "LABEL": "ADAPTIVE CAPACITY"
+    },
+    {
+      "ID": "D10",
+      "LABEL": "TRUST & TRANSPARENCY"
+    }
+  ]

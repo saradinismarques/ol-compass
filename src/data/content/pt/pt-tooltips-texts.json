@@ -1,110 +1,234 @@
 [
   {
-    "#label": "PRINCIPLES",
-    "#TOOLTIP": "As macrocaracterísticas do Oceano que todos devem conhecer"
+    "#ID/ELEMENT": "REPLAY INTRO",
+    "#TOOLTIP TEXT": "Click to replay the introduction",
+    "HOMEPAGE": "Y",
+    "LEARN": "N",
+    "GET INSPIRED": "N",
+    "MAP": "N"
   },
   {
-    "#label": "PERSPECTIVES",
-    "#TOOLTIP": "As lentes através das quais as atividades oceânicas podem ser compreendidas"
+    "#ID/ELEMENT": "STUDY INSTRUCTIONS",
+    "#TOOLTIP TEXT": "Click to recall the Study instructions",
+    "HOMEPAGE": "Y",
+    "LEARN": "Y",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "DIMENSIONS",
-    "#TOOLTIP": "As diferentes formas de promover a Literacia do Oceano"
+    "#ID/ELEMENT": "PRINCIPLES",
+    "#TOOLTIP TEXT": "The macro-features of the Ocean that everyone should know about. #WHAT?",
+    "HOMEPAGE": "N",
+    "LEARN": "Y",
+    "GET INSPIRED": "N",
+    "MAP": "N"
   },
   {
-    "#label": "P1",
-    "#TOOLTIP": "O Oceano é um sistema único e interligado, com características diversas."
+    "#ID/ELEMENT": "PERSPECTIVES",
+    "#TOOLTIP TEXT": "The many ANGLES from which Ocean knowledge can be explored and put in context.",
+    "HOMEPAGE": "N",
+    "LEARN": "Y",
+    "GET INSPIRED": "N",
+    "MAP": "N"
   },
   {
-    "#label": "P2",
-    "#TOOLTIP": "O Oceano molda as paisagens e os ecossistemas da Terra ao longo do tempo."
+    "#ID/ELEMENT": "DIMENSIONS",
+    "#TOOLTIP TEXT": "The different ways of learning about and reconnecting with the Ocean. #HOW?",
+    "HOMEPAGE": "N",
+    "LEARN": "Y",
+    "GET INSPIRED": "N",
+    "MAP": "N"
   },
   {
-    "#label": "P3",
-    "#TOOLTIP": "O Oceano regula o clima e o tempo à escala global."
+    "#ID/ELEMENT": "P1",
+    "#TOOLTIP TEXT": "The Ocean is one big, interconnected system with diverse features.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "P4",
-    "#TOOLTIP": "O Oceano torna a vida na Terra possível ao fornecer condições essenciais."
+    "#ID/ELEMENT": "P2",
+    "#TOOLTIP TEXT": "The Ocean shapes Earth's landscapes and ecosystems over time.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "P5",
-    "#TOOLTIP": "O Oceano sustenta uma vasta variedade de ecossistemas e formas de vida."
+    "#ID/ELEMENT": "P3",
+    "#TOOLTIP TEXT": "The Ocean regulates climate and weather on a global scale.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "P6",
-    "#TOOLTIP": "O Oceano e os seres humanos estão profundamente ligados de múltiplas formas."
+    "#ID/ELEMENT": "P4",
+    "#TOOLTIP TEXT": "The Ocean makes life on Earth possible by providing essential conditions.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "P7",
-    "#TOOLTIP": "O Oceano permanece maioritariamente inexplorado, guardando muitos mistérios."
+    "#ID/ELEMENT": "P5",
+    "#TOOLTIP TEXT": "The Ocean supports a vast variety of ecosystems and life forms.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe1",
-    "#TOOLTIP": "Observar o Oceano através de métodos científicos para compreender os seus processos."
+    "#ID/ELEMENT": "P6",
+    "#TOOLTIP TEXT": "The Ocean and humans are deeply linked in multiple ways.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe2",
-    "#TOOLTIP": "Considerar perspetivas históricas sobre as interações entre humanos e o Oceano."
+    "#ID/ELEMENT": "P7",
+    "#TOOLTIP TEXT": "The Ocean remains mostly unexplored, holding many mysteries.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe3",
-    "#TOOLTIP": "Analisar características e desafios oceânicos sob uma perspetiva geográfica."
+    "#ID/ELEMENT": "Pe1",
+    "#TOOLTIP TEXT": "Looking at the Ocean through scientific methods to understand its processes.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe4",
-    "#TOOLTIP": "Perceber como o género influencia o acesso e o uso dos recursos oceânicos."
+    "#ID/ELEMENT": "Pe2",
+    "#TOOLTIP TEXT": "Considering historical perspectives on human-ocean interactions.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe5",
-    "#TOOLTIP": "Compreender diferentes valores e perspetivas nas decisões relacionadas com o Oceano."
+    "#ID/ELEMENT": "Pe3",
+    "#TOOLTIP TEXT": "Examining oceanic features and issues through a geographic lens.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe6",
-    "#TOOLTIP": "Explorar tradições culturais e conhecimentos ligados ao Oceano."
+    "#ID/ELEMENT": "Pe4",
+    "#TOOLTIP TEXT": "Seeing how gender influences access to and use of ocean resources.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe7",
-    "#TOOLTIP": "Enquadrar a sustentabilidade oceânica em termos ambientais, económicos e sociais."
+    "#ID/ELEMENT": "Pe5",
+    "#TOOLTIP TEXT": "Understanding different values and perspectives in ocean-related decisions.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D1",
-    "#TOOLTIP": "Conhecer temas relacionados com o Oceano e as suas interconexões."
+    "#ID/ELEMENT": "Pe6",
+    "#TOOLTIP TEXT": "Exploring cultural traditions and knowledge tied to the Ocean.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D2",
-    "#TOOLTIP": "Comunicar conhecimentos sobre o Oceano com colegas e comunidades."
+    "#ID/ELEMENT": "Pe7",
+    "#TOOLTIP TEXT": "Framing ocean sustainability in terms of environmental, economic, and social factors.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D3",
-    "#TOOLTIP": "Adotar comportamentos e tomar decisões que impactam a sustentabilidade oceânica."
+    "#ID/ELEMENT": "D1",
+    "#TOOLTIP TEXT": "Knowing about ocean-related topics and their interconnections.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D4",
-    "#TOOLTIP": "Desenvolver atitudes e preocupações em relação aos desafios oceânicos."
+    "#ID/ELEMENT": "D2",
+    "#TOOLTIP TEXT": "Communicating ocean knowledge with peers and communities.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D5",
-    "#TOOLTIP": "Estar consciente dos desafios relacionados com o Oceano e da sua importância."
+    "#ID/ELEMENT": "D3",
+    "#TOOLTIP TEXT": "Engaging in behaviors and decisions that impact ocean sustainability.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D6",
-    "#TOOLTIP": "Participar em ativismo e advocacia para a conservação do Oceano."
+    "#ID/ELEMENT": "D4",
+    "#TOOLTIP TEXT": "Developing attitudes and concerns regarding ocean-related issues.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D7",
-    "#TOOLTIP": "Viver conexões emocionais com o Oceano e as suas mudanças."
+    "#ID/ELEMENT": "D5",
+    "#TOOLTIP TEXT": "Being aware of ocean-related challenges and their significance.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D8",
-    "#TOOLTIP": "Interagir com o Oceano fisicamente ou virtualmente para criar ligações."
+    "#ID/ELEMENT": "D6",
+    "#TOOLTIP TEXT": "Participating in activism and advocacy for ocean conservation.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D9",
-    "#TOOLTIP": "Adaptar-se às mudanças e desafios oceânicos com resiliência."
+    "#ID/ELEMENT": "D7",
+    "#TOOLTIP TEXT": "Experiencing emotional connections to the Ocean and its changes.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D10",
-    "#TOOLTIP": "Confiar e avaliar a transparência da informação relacionada com o Oceano."
+    "#ID/ELEMENT": "D8",
+    "#TOOLTIP TEXT": "Engaging with the Ocean physically or virtually to build connections.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
+  },
+  {
+    "#ID/ELEMENT": "D9",
+    "#TOOLTIP TEXT": "Adapting to ocean changes and challenges with resilience.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
+  },
+  {
+    "#ID/ELEMENT": "D10",
+    "#TOOLTIP TEXT": "Trusting and evaluating transparency in ocean-related information.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   }
 ]

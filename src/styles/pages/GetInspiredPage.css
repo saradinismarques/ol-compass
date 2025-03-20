@@ -47,6 +47,10 @@
     margin-top: -0.6vh;
     font-family: "Bitter", serif;
 }
+
+.gi-description.italic {
+    font-style: italic;
+}
   
 .gi-credits {
     font-size: 1.8vh;
@@ -267,7 +271,7 @@
 
 .gi-search-button {
     position: relative;
-    left: var(--search-button-left);
+    left: -6%;
     color: white;
     border: none;
     height: calc(var(--button-height) + 0.5vh);

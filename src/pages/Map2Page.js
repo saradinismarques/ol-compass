@@ -326,6 +326,16 @@ const Map2Page = () => {
     return filteredComponents[index] || null;
   };  
 
+  const getTextareaPlaceholder = (label, type) => {
+    let text;
+    if(type === 'Principle') text = labelsTexts["placeholder-principles"]
+    else if(type === 'Perspetive') text = labelsTexts["placeholder-perspectives"]
+    else if(type === 'Dimension') text = labelsTexts["placeholder-dimensions"]
+
+    console.log(label);
+    return text.replace(/\[P-LABEL\]/g, label);
+  }
+
   // Other Components
   const TooltipMap = ({ text, position }) => (
     <div
@@ -883,11 +893,7 @@ const Map2Page = () => {
                             cursor: mapCurrentType !== 'Principle' ? 'default' : 'pointer',
                           }}
                           type="text"
-                          placeholder={
-                            language === 'pt'
-                              ? `Por que é que o teu projeto tem ${component.label}?`
-                              : `Why does your project have ${component.label}?`
-                          }
+                          placeholder={getTextareaPlaceholder(component.label, component.type)}
                           value={component.text}
                           onFocus={() => handleFocus(component.code, component.type)}
                           onChange={(e) => handleComponentChange(e, component.code, component.type)}

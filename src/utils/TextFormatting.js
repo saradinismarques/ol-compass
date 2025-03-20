@@ -42,6 +42,29 @@ export function replaceBolds (text, containerStyle, textStyle, boldStyle) {
     );
 };
 
+export function replaceItalic (text, textStyle, italicStyle) {
+    // Regex to match text between <b> and </b> tags
+    const parts = text.split(/(<i>.*?<\/i>)/g); // Split by <b>...</b> while keeping the tags in the array
+
+    return (
+        <div>
+            {parts.map((part, index) => {
+                if (part.startsWith('<i>') && part.endsWith('</i>')) {
+                    // Remove the <b> and </b> tags, render the content as bold
+                    return (
+                        <span key={index} className={italicStyle}>
+                            {part.replace('<i>', '').replace('</i>', '')}
+                        </span>
+                    );
+                } else {
+                    // Render non-bold text as plain text (no new line)
+                    return <span key={index} className={textStyle}>{part}</span>;
+                }
+            })}
+        </div>
+    );
+};
+
 // Replace placeholders with values from countersMap
 const replacePlaceholdersWithCounters = (text, map) => {
     return text.replace(/\[[A-Z-a-z]+\]/g, (match) => {

@@ -1,110 +1,234 @@
 [
   {
-    "#label": "PRINCIPLES",
-    "#TOOLTIP": "The macro-features of the Ocean that everyone should know about"
+    "#ID/ELEMENT": "REPLAY INTRO",
+    "#TOOLTIP TEXT": "Click to replay the introduction",
+    "HOMEPAGE": "Y",
+    "LEARN": "N",
+    "GET INSPIRED": "N",
+    "MAP": "N"
   },
   {
-    "#label": "PERSPECTIVES",
-    "#TOOLTIP": "The lenses from which Ocean activities can be understood"
+    "#ID/ELEMENT": "STUDY INSTRUCTIONS",
+    "#TOOLTIP TEXT": "Click to recall the Study instructions",
+    "HOMEPAGE": "Y",
+    "LEARN": "Y",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "DIMENSIONS",
-    "#TOOLTIP": "The different ways of nurturing Ocean Literacy"
+    "#ID/ELEMENT": "PRINCIPLES",
+    "#TOOLTIP TEXT": "The macro-features of the Ocean that everyone should know about. #WHAT?",
+    "HOMEPAGE": "N",
+    "LEARN": "Y",
+    "GET INSPIRED": "N",
+    "MAP": "N"
   },
   {
-    "#label": "P1",
-    "#TOOLTIP": "The Ocean is one big, interconnected system with diverse features."
+    "#ID/ELEMENT": "PERSPECTIVES",
+    "#TOOLTIP TEXT": "The many ANGLES from which Ocean knowledge can be explored and put in context.",
+    "HOMEPAGE": "N",
+    "LEARN": "Y",
+    "GET INSPIRED": "N",
+    "MAP": "N"
   },
   {
-    "#label": "P2",
-    "#TOOLTIP": "The Ocean shapes Earth's landscapes and ecosystems over time."
+    "#ID/ELEMENT": "DIMENSIONS",
+    "#TOOLTIP TEXT": "The different ways of learning about and reconnecting with the Ocean. #HOW?",
+    "HOMEPAGE": "N",
+    "LEARN": "Y",
+    "GET INSPIRED": "N",
+    "MAP": "N"
   },
   {
-    "#label": "P3",
-    "#TOOLTIP": "The Ocean regulates climate and weather on a global scale."
+    "#ID/ELEMENT": "P1",
+    "#TOOLTIP TEXT": "The Ocean is one big, interconnected system with diverse features.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "P4",
-    "#TOOLTIP": "The Ocean makes life on Earth possible by providing essential conditions."
+    "#ID/ELEMENT": "P2",
+    "#TOOLTIP TEXT": "The Ocean shapes Earth's landscapes and ecosystems over time.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "P5",
-    "#TOOLTIP": "The Ocean supports a vast variety of ecosystems and life forms."
+    "#ID/ELEMENT": "P3",
+    "#TOOLTIP TEXT": "The Ocean regulates climate and weather on a global scale.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "P6",
-    "#TOOLTIP": "The Ocean and humans are deeply linked in multiple ways."
+    "#ID/ELEMENT": "P4",
+    "#TOOLTIP TEXT": "The Ocean makes life on Earth possible by providing essential conditions.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "P7",
-    "#TOOLTIP": "The Ocean remains mostly unexplored, holding many mysteries."
+    "#ID/ELEMENT": "P5",
+    "#TOOLTIP TEXT": "The Ocean supports a vast variety of ecosystems and life forms.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe1",
-    "#TOOLTIP": "Looking at the Ocean through scientific methods to understand its processes."
+    "#ID/ELEMENT": "P6",
+    "#TOOLTIP TEXT": "The Ocean and humans are deeply linked in multiple ways.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe2",
-    "#TOOLTIP": "Considering historical perspectives on human-ocean interactions."
+    "#ID/ELEMENT": "P7",
+    "#TOOLTIP TEXT": "The Ocean remains mostly unexplored, holding many mysteries.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe3",
-    "#TOOLTIP": "Examining oceanic features and issues through a geographic lens."
+    "#ID/ELEMENT": "Pe1",
+    "#TOOLTIP TEXT": "Looking at the Ocean through scientific methods to understand its processes.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe4",
-    "#TOOLTIP": "Seeing how gender influences access to and use of ocean resources."
+    "#ID/ELEMENT": "Pe2",
+    "#TOOLTIP TEXT": "Considering historical perspectives on human-ocean interactions.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe5",
-    "#TOOLTIP": "Understanding different values and perspectives in ocean-related decisions."
+    "#ID/ELEMENT": "Pe3",
+    "#TOOLTIP TEXT": "Examining oceanic features and issues through a geographic lens.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe6",
-    "#TOOLTIP": "Exploring cultural traditions and knowledge tied to the Ocean."
+    "#ID/ELEMENT": "Pe4",
+    "#TOOLTIP TEXT": "Seeing how gender influences access to and use of ocean resources.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "Pe7",
-    "#TOOLTIP": "Framing ocean sustainability in terms of environmental, economic, and social factors."
+    "#ID/ELEMENT": "Pe5",
+    "#TOOLTIP TEXT": "Understanding different values and perspectives in ocean-related decisions.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D1",
-    "#TOOLTIP": "Knowing about ocean-related topics and their interconnections."
+    "#ID/ELEMENT": "Pe6",
+    "#TOOLTIP TEXT": "Exploring cultural traditions and knowledge tied to the Ocean.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D2",
-    "#TOOLTIP": "Communicating ocean knowledge with peers and communities."
+    "#ID/ELEMENT": "Pe7",
+    "#TOOLTIP TEXT": "Framing ocean sustainability in terms of environmental, economic, and social factors.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D3",
-    "#TOOLTIP": "Engaging in behaviors and decisions that impact ocean sustainability."
+    "#ID/ELEMENT": "D1",
+    "#TOOLTIP TEXT": "Knowing about ocean-related topics and their interconnections.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D4",
-    "#TOOLTIP": "Developing attitudes and concerns regarding ocean-related issues."
+    "#ID/ELEMENT": "D2",
+    "#TOOLTIP TEXT": "Communicating ocean knowledge with peers and communities.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D5",
-    "#TOOLTIP": "Being aware of ocean-related challenges and their significance."
+    "#ID/ELEMENT": "D3",
+    "#TOOLTIP TEXT": "Engaging in behaviors and decisions that impact ocean sustainability.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D6",
-    "#TOOLTIP": "Participating in activism and advocacy for ocean conservation."
+    "#ID/ELEMENT": "D4",
+    "#TOOLTIP TEXT": "Developing attitudes and concerns regarding ocean-related issues.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D7",
-    "#TOOLTIP": "Experiencing emotional connections to the Ocean and its changes."
+    "#ID/ELEMENT": "D5",
+    "#TOOLTIP TEXT": "Being aware of ocean-related challenges and their significance.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D8",
-    "#TOOLTIP": "Engaging with the Ocean physically or virtually to build connections."
+    "#ID/ELEMENT": "D6",
+    "#TOOLTIP TEXT": "Participating in activism and advocacy for ocean conservation.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D9",
-    "#TOOLTIP": "Adapting to ocean changes and challenges with resilience."
+    "#ID/ELEMENT": "D7",
+    "#TOOLTIP TEXT": "Experiencing emotional connections to the Ocean and its changes.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   },
   {
-    "#label": "D10",
-    "#TOOLTIP": "Trusting and evaluating transparency in ocean-related information."
+    "#ID/ELEMENT": "D8",
+    "#TOOLTIP TEXT": "Engaging with the Ocean physically or virtually to build connections.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
+  },
+  {
+    "#ID/ELEMENT": "D9",
+    "#TOOLTIP TEXT": "Adapting to ocean changes and challenges with resilience.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
+  },
+  {
+    "#ID/ELEMENT": "D10",
+    "#TOOLTIP TEXT": "Trusting and evaluating transparency in ocean-related information.",
+    "HOMEPAGE": "N",
+    "LEARN": "N",
+    "GET INSPIRED": "Y",
+    "MAP": "Y"
   }
 ]

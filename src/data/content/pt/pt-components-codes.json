@@ -1,0 +1,98 @@
+[
+    {
+      "ID": "P1",
+      "LABEL": "UM ÚNICO"
+    },
+    {
+      "ID": "P2",
+      "LABEL": "MOLDADOR DA TERRA"
+    },
+    {
+      "ID": "P3",
+      "LABEL": "REGULADOR CLIMÁTICO"
+    },
+    {
+      "ID": "P4",
+      "LABEL": "ORIGEM DA VIDA"
+    },
+    {
+      "ID": "P5",
+      "LABEL": "GRANDE DIVERSIDADE"
+    },
+    {
+      "ID": "P6",
+      "LABEL": "INTERLIGAÇÃO HUMANA"
+    },
+    {
+      "ID": "P7",
+      "LABEL": "POUCO EXPLORADO"
+    },
+    {
+      "ID": "Pe1",
+      "LABEL": "CIÊNCIA"
+    },
+    {
+      "ID": "Pe2",
+      "LABEL": "HISTÓRIA"
+    },
+    {
+      "ID": "Pe3",
+      "LABEL": "GEOGRAFIA"
+    },
+    {
+      "ID": "Pe4",
+      "LABEL": "IGUALDADE DE GÉNERO"
+    },
+    {
+      "ID": "Pe5",
+      "LABEL": "VALOR"
+    },
+    {
+      "ID": "Pe6",
+      "LABEL": "CULTURA"
+    },
+    {
+      "ID": "Pe7",
+      "LABEL": "SUSTENTABILIDADE"
+    },
+    {
+      "ID": "D1",
+      "LABEL": "CONHECIMENTO"
+    },
+    {
+      "ID": "D2",
+      "LABEL": "COMUNICAÇÃO"
+    },
+    {
+      "ID": "D3",
+      "LABEL": "COMPORTAMENTO"
+    },
+    {
+      "ID": "D4",
+      "LABEL": "ATITUDE"
+    },
+    {
+      "ID": "D5",
+      "LABEL": "CONSCIÊNCIA"
+    },
+    {
+      "ID": "D6",
+      "LABEL": "ATIVISMO"
+    },
+    {
+      "ID": "D7",
+      "LABEL": "LIGAÇÃO EMOCIONAL"
+    },
+    {
+      "ID": "D8",
+      "LABEL": "EXPERIÊNCIA"
+    },
+    {
+      "ID": "D9",
+      "LABEL": "ADAPTAÇÃO"
+    },
+    {
+      "ID": "D10",
+      "LABEL": "CONFIANÇA & TRANSPARÊNCIA"
+    }
+  ]
