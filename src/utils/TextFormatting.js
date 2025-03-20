@@ -252,26 +252,26 @@ export function replaceBoldsHighlights(text, textStyle, boldStyle, italicStyle, 
     );
 }
 
-export function replaceBoldsColoredBreaks(text, textStyle, boldStyle, colorStyle) {
+export function replaceBoldsItalicBreaks(text, textStyle, boldStyle, italicStyle) {
     return (
         <div style={{ display: "block" }}>
             {text
                 .replace(/<br>\s*<br>/g, "||DOUBLE_BR||") // Replace double line breaks first
                 .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||") // Mark <b> tags
-                .replace(/<c>(.*?)<\/c>/g, "||C||$1||C||") // Mark <c> tags
+                .replace(/<i>(.*?)<\/i>/g, "||I||$1||I||") // Mark <c> tags
                 .split(/(?:\|\|DOUBLE_BR\|\|)/g) // Now properly split only on double line breaks
                 .map((section, sectionIndex) => (
                     <div key={`section-${sectionIndex}`} style={{ marginBottom: "4vh" }}> {/* Bigger space for double breaks */}
                         {section.split(/<br>/g).map((paragraph, paragraphIndex) => (
                             <p key={`paragraph-${sectionIndex}-${paragraphIndex}`} style={{ marginBottom: "-2vh" }}> {/* Normal space for single break */}
                                 {paragraph
-                                    .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|C\|\|.*?\|\|C\|\|)/g) // Handle bold & colored text
+                                    .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|I\|\|.*?\|\|I\|\|)/g) // Handle bold & colored text
                                     .map((part, index) => {
                                         if (part.startsWith("||B||")) {
                                             return <span key={index} className={boldStyle}>{part.replace(/\|\|B\|\|/g, "")}</span>;
                                         }
-                                        if (part.startsWith("||C||")) {
-                                            return <span key={index} className={colorStyle}>{part.replace(/\|\|C\|\|/g, "")}</span>;
+                                        if (part.startsWith("||I||")) {
+                                            return <span key={index} className={italicStyle}>{part.replace(/\|\|I\|\|/g, "")}</span>;
                                         }
                                         return <span key={index} className={textStyle}>{part}</span>;
                                     })}
@@ -324,6 +324,107 @@ export function replaceHighlightsPlaceholders(text, textStyle, hPStyle, hPeStyle
                                     }
                                     if (iconsMap[part]) {
                                         return <React.Fragment key={uniquePartKey}>{iconsMap[part]}</React.Fragment>;
+                                    }
+                                    
+                                    return (
+                                        <span key={uniquePartKey} className={textStyle} style={{ display: "inline" }}>
+                                            {part}
+                                        </span>
+                                    );
+                                })}
+                        </p>
+                    );
+                })}
+        </div>
+    );
+}
+
+export function replaceHighlightsBoldsPlaceholders(text, textStyle, hPStyle, hPeStyle, hDStyle, iconsMap) {
+    return (
+        <div style={{ display: "block" }}>
+            {text
+                .replace(/<hP>(.*?)<\/hP>/g, "||HP||$1||HP||") // Replace <hP> with markers
+                .replace(/<hPe>(.*?)<\/hPe>/g, "||HPE||$1||HPE||") // Replace <hPe> with markers
+                .replace(/<hD>(.*?)<\/hD>/g, "||HD||$1||HD||") // Replace <hD> with markers
+                .replace(/<b>(.*?)<\/b>/g, "||BOLD||$1||BOLD||") // Replace <b> with markers
+                .split(/<br>/g) // Split text by <br> tags to create separate paragraphs
+                .map((paragraph, index) => {
+                    const uniqueKey = `${Date.now()}-${index}`; // Unique key based on timestamp and index
+                    
+                    return (
+                        <p key={uniqueKey} style={{ margin: "2vh 0", display: "block" }}> {/* Adds space between paragraphs */}
+                            {paragraph
+                                .split(/(\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\||\|\|HD\|\|.*?\|\|HD\|\||\|\|BOLD\|\|.*?\|\|BOLD\|\||\[[A-Z-]+\])/g) // Split placeholders and icons
+                                .map((part, index2) => {
+                                    const uniquePartKey = `${uniqueKey}-${index2}`; // Unique key for each part
+
+                                    if (part.startsWith("||HP||")) {
+                                        return (
+                                            <span key={uniquePartKey} className={hPStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|HP\|\|/g, "")}
+                                            </span>
+                                        );
+                                    }
+                                    if (part.startsWith("||HPE||")) {
+                                        return (
+                                            <span key={uniquePartKey} className={hPeStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|HPE\|\|/g, "")}
+                                            </span>
+                                        );
+                                    }
+                                    if (part.startsWith("||HD||")) {
+                                        return (
+                                            <span key={uniquePartKey} className={hDStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|HD\|\|/g, "")}
+                                            </span>
+                                        );
+                                    }
+                                    if (part.startsWith("||BOLD||")) {
+                                        return (
+                                            <b key={uniquePartKey} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|BOLD\|\|/g, "")}
+                                            </b>
+                                        );
+                                    }
+                                    if (iconsMap[part]) {
+                                        return <React.Fragment key={uniquePartKey}>{iconsMap[part]}</React.Fragment>;
+                                    }
+                                    
+                                    return (
+                                        <span key={uniquePartKey} className={textStyle} style={{ display: "inline" }}>
+                                            {part}
+                                        </span>
+                                    );
+                                })}
+                        </p>
+                    );
+                })}
+        </div>
+    );
+}
+
+export function replaceBoldsBreaks(text, textStyle, boldStyle) {
+    return (
+        <div style={{ display: "block" }}>
+            {text
+                .replace(/<b>(.*?)<\/b>/g, "||BOLD||$1||BOLD||") // Replace <b> with markers
+                .split(/<br>/g) // Split text by <br> tags to create separate paragraphs
+                .map((paragraph, index) => {
+                    const uniqueKey = `${Date.now()}-${index}`; // Unique key for each paragraph
+
+                    return (
+                        <p key={uniqueKey} style={{ margin: "2vh 0", display: "block" }}> 
+                            {paragraph
+                                .split(/(\|\|BOLD\|\|.*?\|\|BOLD\|\|)/g) // Split bold placeholders
+                                .map((part, index2) => {
+                                    const uniquePartKey = `${uniqueKey}-${index2}`; 
+
+                                    if (part.startsWith("||BOLD||")) {
+                                        return (
+                                            <b key={uniquePartKey} className={boldStyle} style={{ display: "inline" }}>
+                                                {part.replace(/\|\|BOLD\|\|/g, "")}
+                                            </b>
+                                        );
                                     }
                                     
                                     return (

@@ -1,5 +1,5 @@
 :root {
-   --menu-message-text-font: 2.1vh;
+   --menu-message-text-font: 1.9vh;
 }
 /* Left Menu Container */
 .left-menu {
@@ -196,7 +196,8 @@
     transform: translate(-50%, -50%);
     padding: 4vh 6vh;
     margin: 0;
-    width: 49vh;
+    width: 78vh;
+    line-height: 1.4;
     background-color: white;
     border-radius: 20px;
     border: var(--button-border) solid #d60b51; /* Add a light grey border */
@@ -213,14 +214,11 @@
 }
 
 .menu-message-text.bold {
-   font-size: 2.1vh;
    font-weight:600; /* Adjust as needed */
 }
 
-.menu-message-text.blue {
-    font-size: 2.1vh;
-    color: #1ca7e4;
-    font-weight: 600; /* Adjust as needed */
+.menu-message-text.italic {
+    font-style: italic;
 }
 
 .menu-got-it-button {

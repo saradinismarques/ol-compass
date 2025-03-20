@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } 
 import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import { getIntroTexts, getLabelsTexts } from '../utils/DataExtraction.js';
-import { replaceBolds, replaceBoldsBreaksPlaceholders } from '../utils/TextFormatting.js';
+import { replaceBoldsBreaks, replaceBoldsBreaksPlaceholders, replaceBoldsItalicBreaks, replaceHighlightsBoldsPlaceholders } from '../utils/TextFormatting.js';
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import Frame11Image from '../assets/images/intro/frame-11.png';
@@ -270,25 +270,25 @@ const IntroPage = () => {
         if (frame === 0) {
             return (
                 <div className="i-title-container">
-                    {introTexts.Frame0}
+                    {replaceBoldsBreaks(introTexts.Frame0, 'i-welcome', 'i-title')}
                 </div>
             );
         } else if (frame === 1) {
             return (
                 <div className='i-explanation-container'>
-                    {introTexts.Frame1}
+                    {replaceBoldsItalicBreaks(introTexts.Frame1, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         } else if (frame === 2) {
             return (
                 <div className='i-explanation-container'>
-                    {introTexts.Frame2}
+                    {replaceBoldsItalicBreaks(introTexts.Frame2, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         } else if (frame === 3) {
             return (
                 <div className='i-explanation-container'>
-                    {introTexts.Frame3}
+                    {replaceBoldsItalicBreaks(introTexts.Frame3, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         } else if (frame === 4) {
@@ -302,11 +302,7 @@ const IntroPage = () => {
                 timeoutRef.current = null; // Reset after execution
             }, 300);
 
-            return (
-                <div className="i-text-container">
-                    {introTexts.Frame4}
-                </div>
-            );
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame4, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } else if (frame === 5) {
             startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
@@ -318,11 +314,7 @@ const IntroPage = () => {
                 timeoutRef.current = null; // Reset after execution
             }, 300);
             
-            return (
-                <div className="i-text-container">
-                    {introTexts.Frame5}
-                </div>
-            );
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame5, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } else if(frame === 6) {
             startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
@@ -334,23 +326,14 @@ const IntroPage = () => {
                 frameRef.current = 7;
                 timeoutRef.current = null; // Reset after execution
             }, 300);
-            
-            return (
-                <div className="i-text-container">
-                    {introTexts.Frame6}
-                </div>
-            );
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame6, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
         } else if(frame === 7) {
-            return (
-                <div className="i-text-container">
-                    {introTexts.Frame7}
-                </div>
-            );
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame6, "i-text-container", "i-text", "i-text", countersMap)}</>;
         } else if(frame === 8) {
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             return (
                 <div className="i-text-container">
-                    {introTexts.Frame8}
+                    {replaceHighlightsBoldsPlaceholders(introTexts.Frame8, 'i-text', 'i-text hP', 'i-text hPe', 'i-text hD', null)}
                 </div>
             );
         } else if(frame === 9) {

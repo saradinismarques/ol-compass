@@ -6,7 +6,7 @@ import { StateContext } from "../State";
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { useNavigate } from 'react-router-dom';
 import { getLabelsTexts, getButtonTooltip } from '../utils/DataExtraction.js';
-import { replaceBoldsColoredBreaks } from '../utils/TextFormatting.js';
+import { replaceBoldsItalicBreaks } from '../utils/TextFormatting.js';
 import '../styles/components/Menu.css';
 
 const Menu = () => {
@@ -196,9 +196,9 @@ const Menu = () => {
           <div className="menu-message-question">
             {labelsTexts["study-instructions"]}
           </div>
-          {replaceBoldsColoredBreaks(
+          {replaceBoldsItalicBreaks(
             labelsTexts["study-instructions-text"],
-          'menu-message-text', 'menu-message-text bold', 'menu-message-text blue')}
+          'menu-message-text', 'menu-message-text bold', 'menu-message-text italic')}
           <button 
             className="menu-got-it-button" 
             onClick={() => handleShowStudyInstruction(false)}
