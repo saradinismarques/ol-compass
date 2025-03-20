@@ -69,7 +69,7 @@
     justify-content: center;
     align-items: center;
     width: var(--container-width);
-    top: calc(var(--top-space) + 13.5vh); 
+    top: 12.5vh; 
     right: var(--left-space); 
     display: flex;  /* Enables flexbox */
     gap: 1vh;  /* Adds spacing between buttons */
@@ -124,7 +124,7 @@
     justify-content: center;
     align-items: center;
     width: var(--container-width);
-    top: calc(var(--top-space) + 17vh); 
+    top: 16vh; 
     right: var(--left-space); 
 }
 
@@ -132,7 +132,7 @@
     font-size: 1.5vh;
     font-weight: 300;
     color: var(--gray-color); 
-    margin-bottom: 0.3vh;
+    margin-bottom: 0vh;
 }
 
 .m2-what-components {
@@ -177,10 +177,10 @@
 
 .m2-component-textarea {
     width: calc((var(--container-width) - 1vh) / 2 - 2*2.5vh);
-    height: 10vh;
+    height: 13vh;
     line-height: 2.5vh;
     font-family: "Bitter", serif;
-    font-size: 1.9vh;
+    font-size: 1.8vh;
     font-weight: 500;
     color: var(--text-color); /* Uses the inherited variable */
     resize: none;
@@ -194,7 +194,7 @@
 
 .m2-empty-card {
     width: calc((var(--container-width) - 1vh) / 2 - 2*2.5vh - 2px);
-    height: calc(10vh - 2px);
+    height: calc(13vh - 2px);
     color: white; /* Uses the inherited variable */
     margin-bottom: 0;
     line-height: 2.5vh;
@@ -287,20 +287,18 @@
 }
 
 .m2-component-textarea-pdf {
-    width: 160px;
-    height: 73px;
+    width: 165px;
+    height: 95px;
     line-height: 18px;
     font-family: "Bitter", serif;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--text-color); /* Uses the inherited variable */
-    resize: none;
     margin-bottom: 0;
     border-radius: 7px;
-    border: none;
-    cursor: pointer;
     padding: 18px;
-    overflow-y: hidden; /* Hides the scrollbar */
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
 }
 
 /* Definitions (PDF) */

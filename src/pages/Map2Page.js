@@ -805,11 +805,6 @@ const Map2Page = () => {
                 spellCheck="false"
             ></textarea>
           </div>
-          <div className='m2-text-below-container'>
-            <div className='m2-project-name-text-below'>
-              {labelsTexts["text-below"]}
-            </div>
-          </div>
           <div className='m2-what-buttons-container'>
             <button 
               className={`m2-what-button ${mapCurrentType === 'Principle' ? "active" : ""} ${missingText["Principle"] ? "missing": ""}`}

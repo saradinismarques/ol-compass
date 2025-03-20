@@ -34,9 +34,10 @@
     "yup-lets-start": "SIM, VAMOS COMEÇAR!"
   },
   "learn": {
-    "question-0": "Em resumo",
-    "question-1-principles": "Como se aplica ao <b>Oceano Atlântico</b>?",
-    "question-2-principles": "Como se aplica a <b>Portugal</b>?",
+    "example": "EXEMPLO",
+    "question-0": "Em poucas palavras",
+    "question-1-principles": "Como é que o <b>Oceano Atlântico</b> o exemplifica?",
+    "question-2-principles": "Como é que <b>Portugal</b> o exemplifica?",
     "question-1-others": "Como pode ser aplicado na prática?"
   },
   "get-inspired": {

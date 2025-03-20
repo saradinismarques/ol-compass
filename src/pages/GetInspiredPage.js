@@ -334,7 +334,7 @@ const GetInspiredPage = () => {
         <>
           <div className='gi-text-container'>
             {resultsNumber > 0 && (
-              <div className="gi-card-container">
+              <div className={`gi-card-container ${mode === "get-inspired" ? 'disabled' : ''}`}>
                 <button
                   onClick={toggleBookmark}
                   className={`gi-bookmark-button ${currentCaseStudy.bookmark ? 'active' : ''}`}
@@ -378,16 +378,16 @@ const GetInspiredPage = () => {
             {/* Navigation Arrows */}
             {(currentIndex > 0 && resultsNumber > 0) && (
               <button
-                className={`gi-arrow-button left ${resultsNumber === 0 ? "disabled" : ""}`}
+                className={`gi-arrow-button left ${mode === 'get-inspired'? "disabled" : ""}`}
                 onClick={handlePrev}
               >
                 <Arrow2Icon className='gi-arrow-icon' />
               </button>
             )}
-  
+
             {(currentIndex < caseStudies.length - 1 && resultsNumber > 0) && (
               <button
-                className={`gi-arrow-button right ${resultsNumber === 0 ? "disabled" : ""}`}
+                className={`gi-arrow-button right ${mode === 'get-inspired' ? "disabled" : ""}`}
                 onClick={handleNext}
               >
                 <Arrow2Icon className='gi-arrow-icon' />
@@ -395,7 +395,7 @@ const GetInspiredPage = () => {
             )}
             </div>
   
-            <div className='gi-results-container'>
+            <div className={`gi-results-container ${mode === 'get-inspired' ? "disabled" : ""}`}>
               {resultsNumber !== -1 && (
                 <p className={`gi-results`}>
                   <span className='gi-bold-text'>{resultsNumber}</span>&nbsp;{labelsTexts["results"]}
@@ -403,6 +403,12 @@ const GetInspiredPage = () => {
               )}
             </div>
 
+            {mode === "get-inspired" && !showInstruction &&
+              <div className='gi-instruction-container'>
+                {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}
+              </div>
+            }
+  
             <div className={`gi-search-container`}>
               <div className="gi-search-logic-menu">
                 <div className="gi-logic-button-background">

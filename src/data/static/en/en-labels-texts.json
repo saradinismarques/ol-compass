@@ -34,9 +34,10 @@
       "yup-lets-start": "YUP, LET'S START!"
     },
     "learn": {
+      "example": "EXAMPLE",
       "question-0": "In short",
-      "question-1-principles": "How does it apply to the <b>Atlantic Ocean</b>?",
-      "question-2-principles": "How does it apply to <b>Portugal</b>?",
+      "question-1-principles": "How does the <b>Atlantic Ocean</b> exemplify it?",
+      "question-2-principles": "How does <b>Portugal</b> exemplify it?",
       "question-1-others": "How can it be applied in practice?"
     },
     "get-inspired": {

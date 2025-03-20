@@ -17,7 +17,7 @@
   },
   {
     "#ID/ELEMENT": "PRINCIPLES",
-    "#TOOLTIP TEXT": "The macro-features of the Ocean that everyone should know about. #WHAT?",
+    "#TOOLTIP TEXT": "The macro-features of the Ocean that everyone should know about.",
     "HOMEPAGE": "N",
     "LEARN": "Y",
     "GET INSPIRED": "N",
@@ -33,7 +33,7 @@
   },
   {
     "#ID/ELEMENT": "DIMENSIONS",
-    "#TOOLTIP TEXT": "The different ways of learning about and reconnecting with the Ocean. #HOW?",
+    "#TOOLTIP TEXT": "The different ways of learning about and reconnecting with the Ocean.",
     "HOMEPAGE": "N",
     "LEARN": "Y",
     "GET INSPIRED": "N",

@@ -25,6 +25,10 @@
     position: relative;
 }
 
+.gi-card-container.disabled {
+    opacity: 0.3;
+}
+
 .gi-no-results {
     position: relative;
     top: 8vh;
@@ -53,15 +57,27 @@
 }
   
 .gi-credits {
-    font-size: 1.8vh;
+    font-size: 1.5vh;
     font-weight: 200;
     position: absolute;  /* Absolute positioning within the container */
-    bottom: 14.8vh;        
+    bottom: 15.2vh;        
 }
 
 .gi-boxes-container {
     position: absolute;
     bottom: 3.6vh;  
+}
+
+.gi-instruction-container {
+    position: fixed;
+    top: 30.5vh;
+    left: calc(var(--left-space-3) + var(--container-width) /2);
+    background: white;
+    border: var(--button-border) solid var(--gray-color);
+    width: 33.5vh;
+    border-radius: 5px;
+    padding: 2vh;
+    transform: translateX(-50%);
 }
 
 /* Boxes Section */
@@ -151,7 +167,7 @@
 
 .gi-arrow-button.disabled {
     pointer-events: none;
-    opacity: 60%;
+    opacity: 30%;
 }
 
 /* Left arrow button */
@@ -188,6 +204,10 @@
     right: calc(var(--left-space) + var(--container-width)/2);
     display: flex;
     align-items: center; /* Center them vertically */
+}
+
+.gi-results-container.disabled {
+    opacity: 0.3;
 }
 
 .gi-results {

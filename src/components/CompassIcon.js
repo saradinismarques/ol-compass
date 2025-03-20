@@ -103,10 +103,11 @@ const CompassIcon = ({ mode, currentType }) => {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         zIndex: 1000,
-        backgroundColor: colors['Gray Hover'], // Tooltip background color
-        color: 'white', // Tooltip text color
+        backgroundColor: 'white', // Tooltip background color
+        color: colors["Text"][currentType], // Tooltip text color
         padding: '1vh', // Padding inside the tooltip
         borderRadius: '0.5vh', // Rounded corners
+        border: `0.3vh solid ${colors["Text"][currentType]}`,
         fontFamily: 'Manrope',
         fontWeight: '500',
         fontSize: '1.8vh',

@@ -408,6 +408,7 @@ const Learn2Page = () => {
                       >
                         <Arrow2Icon className='l2-example-arrow-icon' />
                       </button>
+                      <span className='l2-example-number'>{labelsTexts["example"]}&nbsp;</span>
                       <span className='l2-example-number bold'>{activeButton - 1}</span>
                       <span className='l2-example-number'> / 2</span>
                       <button
@@ -449,7 +450,8 @@ const Learn2Page = () => {
                     >
                       <Arrow2Icon className='l2-example-arrow-icon' />
                     </button>
-                    <span className='l2-example-number bold'>{activeButton}</span>
+                    <span className='l2-example-number'>{labelsTexts["example"]}&nbsp;</span>
+                      <span className='l2-example-number bold'>{activeButton}</span>
                     <span className='l2-example-number'> / 2</span>
                     <button
                       className={`l2-example-arrow right ${activeButton === 2 ? "disabled" : ""}`}
