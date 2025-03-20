@@ -184,9 +184,34 @@ export function getTypeTooltip(language) {
 
         // Convert to the required format
         const result = {
-            Principle: filteredData.find(item => item["#ID/ELEMENT"] === "PRINCIPLES")?.["#TOOLTIP"],
-            Perspective: filteredData.find(item => item["#ID/ELEMENT"] === "PERSPECTIVES")?.["#TOOLTIP"],
-            Dimension: filteredData.find(item => item["#ID/ELEMENT"] === "DIMENSIONS")?.["#TOOLTIP"]
+            Principle: filteredData.find(item => item["#ID/ELEMENT"] === "PRINCIPLES")?.["#TOOLTIP TEXT"],
+            Perspective: filteredData.find(item => item["#ID/ELEMENT"] === "PERSPECTIVES")?.["#TOOLTIP TEXT"],
+            Dimension: filteredData.find(item => item["#ID/ELEMENT"] === "DIMENSIONS")?.["#TOOLTIP TEXT"]
+        };
+
+        return result;
+    } catch (error) {
+        console.error("Error processing JSON:", error);
+        throw error;
+    }
+}
+
+export function getButtonTooltip(language) {
+    try {
+        let lanTooltipsTexts;
+        if(language === "en") lanTooltipsTexts = enTooltipsTexts;
+        else if(language === "pt") lanTooltipsTexts = ptTooltipsTexts;
+        else lanTooltipsTexts = enTooltipsTexts;
+
+        // Filter only the required labels
+        const filteredData = lanTooltipsTexts.filter(item =>
+            ["REPLAY INTRO", "STUDY INSTRUCTIONS"].includes(item["#ID/ELEMENT"])
+        );
+
+        // Convert to the required format
+        const result = {
+            ReplayIntro: filteredData.find(item => item["#ID/ELEMENT"] === "REPLAY INTRO")?.["#TOOLTIP TEXT"],
+            StudyInstructions: filteredData.find(item => item["#ID/ELEMENT"] === "STUDY INSTRUCTIONS")?.["#TOOLTIP TEXT"],
         };
 
         return result;

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useCallback } from 'react';
+import React, { useContext, useEffect, useCallback, useState  } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ReactComponent as HomeIcon } from '../assets/icons/home-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as GoBackIcon } from '../assets/icons/go-back-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import { ReactComponent as ArrowIcon } from '../assets/icons/arrow-icon.svg'; // Adjust the path as necessary
 import { useNavigate } from 'react-router-dom';
-import { getLabelsTexts } from '../utils/DataExtraction.js';
+import { getLabelsTexts, getButtonTooltip } from '../utils/DataExtraction.js';
 import { replaceBoldsColoredBreaks } from '../utils/TextFormatting.js';
 import '../styles/components/Menu.css';
 
@@ -27,6 +27,13 @@ const Menu = () => {
   const navigate = useNavigate(); // Initialize the navigate function
 
   document.documentElement.style.setProperty('--menu-message-text-font', language === "pt" ? "1.98vh" : "2.1vh");
+
+  // Tooltip
+  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipText, setTooltipText] = useState('');
+  let tooltipTimeout = null;
+  const buttonTooltips = getButtonTooltip(language);
 
   // Determine the active button based on the current path
   const getActiveButton = (path) => {
@@ -127,8 +134,61 @@ const Menu = () => {
       navigate('/map2');
     } else if(activeButton === "map2") 
       return;
-    }, [navigate, setShowInstruction, setShowExplanation, activeButton, firstUse]);
+  }, [navigate, setShowInstruction, setShowExplanation, activeButton, firstUse]);
 
+  const handleMouseEnter = (e, text) => {
+    console.log(text);
+    clearTimeout(tooltipTimeout);
+
+      // Set a timeout to delay the appearance of the tooltip by 1 second
+      tooltipTimeout = setTimeout(() => {
+          setTooltipPos({ x: e.clientX, y: e.clientY });
+          setTooltipText(text);
+          setTooltipVisible(true);
+      }, 0); // 1-second delay
+      return;
+  };
+
+  // Other Components
+  const Tooltip = ({ text, position }) => (
+    <div
+      style={{
+        position: 'fixed',
+        top: `${position.y}px`,
+        left: `${position.x}px`,
+        transform: 'translate(-50%, -110%)', // Adjusts the position above the button
+        zIndex: 1000,
+        backgroundColor: '#acaaaa', // Tooltip background color
+        color: 'white', // Tooltip text color
+        padding: '1vh', // Padding inside the tooltip
+        borderRadius: '0.5vh', // Rounded corners
+        fontFamily: 'Manrope',
+        fontSize: '2vh',
+        fontWeight: '400',
+        width: `${text.length * 0.65}vh`, // Dynamic width based on text length
+        pointerEvents: 'none', // Prevents tooltip from interfering with hover
+        opacity: 0.9
+      }}
+    >
+      {text}
+      {/* Tooltip pointer */}
+      <div
+        style={{
+          position: 'fixed',
+          top: '100%', // Positions pointer below the tooltip box
+          left: '50%',
+          marginLeft: '-1vh', // Centers the pointer
+          width: '0',
+          height: '0',
+          borderLeft: '1vh solid transparent',
+          borderRight: '1vh solid transparent',
+          borderTop: '2vh solid #acaaaa', // Matches tooltip background
+          opacity: 0.9
+        }}
+      />
+    </div>
+  );
+    
   return (
     <div>
        {showStudyInstruction && (
@@ -159,6 +219,8 @@ const Menu = () => {
       <Link
         to="/"
         className={`circle-button go-back ${activeButton === 'intro-page' ? 'active' : ''}`}
+        onMouseEnter={(e) => {handleMouseEnter(e, buttonTooltips.ReplayIntro)}}
+        onMouseLeave={() => {setTooltipVisible(false)}}
       >
         <GoBackIcon 
           className="go-back-icon" 
@@ -168,6 +230,8 @@ const Menu = () => {
         <button 
           className='menu-study-instructions'
           onClick={() => handleShowStudyInstruction(true)}
+          onMouseEnter={(e) => {handleMouseEnter(e, buttonTooltips.StudyInstructions)}}
+          onMouseLeave={() => {setTooltipVisible(false)}}
         >
             {labelsTexts["study-instructions"]}
         </button>
@@ -240,6 +304,12 @@ const Menu = () => {
         <div className='guideline-9'></div>
         <div className='guideline-10'></div>
         <div className='guideline-11'></div> */}
+        {tooltipVisible && 
+          <Tooltip 
+            text={tooltipText} 
+            position={tooltipPos} 
+          />
+        }
         {/*  (menuExpanded || activeButton === 'map') && 
           <Link
             to="/map"
