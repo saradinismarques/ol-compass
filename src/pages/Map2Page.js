@@ -559,15 +559,15 @@ const Map2Page = () => {
         pdf, 87.4, 19, 0.83
     );
     
-    if(text === 'RECAP')
-      await addTextareas(pdf);
-    else if(text !== 'OVERVIEW')
+    if(text === 'RECAP' || text === 'OVERVIEW')
+      await addTextareas(pdf, text);
+    else 
       await addIconDefinitionsTextareas(pdf, type);
 
     pdf.addImage(PDFWatermark, "PNG", 0, 0, pageWidth, pageHeight);
   };
 
-  const addTextareas = async(pdf) => {
+  const addTextareas = async(pdf, text) => {
     const groupedComponents = {
       Principle: [],
       Perspective: [],
@@ -593,9 +593,20 @@ const Map2Page = () => {
       groupedComponents.Perspective[1],
       groupedComponents.Dimension[1]
     ].filter(Boolean);
-    
+
+    if (text === 'OVERVIEW') {
+      await renderToCanvas(
+        <>
+          <p style={{opacity: 0}}>
+            OVERVIEW
+          </p>
+        </>,
+        pdf, 27.5, 23, 0.9
+      );
+    }
+
     // Render first section
-    if (firstSection.length > 0) {
+    if (firstSection.length > 0 && text !== 'OVERVIEW') {
       await renderToCanvas(
         <>
           {firstSection.map((component, id) => (
@@ -622,7 +633,7 @@ const Map2Page = () => {
     }
 
     // Render second section
-    if (secondSection.length > 0) {
+    if (secondSection.length > 0 && text !== 'OVERVIEW') {
       await renderToCanvas(
         <>
           {secondSection.map((component, id) => (
