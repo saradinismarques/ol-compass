@@ -295,7 +295,7 @@ export function replaceHighlightsPlaceholders(text, textStyle, hPStyle, hPeStyle
                     const uniqueKey = `${Date.now()}-${index}`; // Unique key based on timestamp and index
                     
                     return (
-                        <p key={uniqueKey} style={{ margin: "2vh 0", display: "block" }}> {/* Adds space between paragraphs */}
+                        <p key={uniqueKey} style={{ margin: "0 0", display: "block" }}> {/* Adds space between paragraphs */}
                             {paragraph
                                 .split(/(\|\|HP\|\|.*?\|\|HP\|\||\|\|HPE\|\|.*?\|\|HPE\|\||\|\|HD\|\|.*?\|\|HD\|\||\[[A-Z-]+\])/g) // Split placeholders and icons
                                 .map((part, index2) => {

@@ -194,10 +194,10 @@
     top: 50vh;
     left: 50vw;
     transform: translate(-50%, -50%);
-    padding: 4vh 6vh;
+    padding: 3vh 5vh;
     margin: 0;
-    width: 78vh;
-    line-height: 1.4;
+    width: 90vh;
+    line-height: 2.8vh;
     background-color: white;
     border-radius: 20px;
     border: var(--button-border) solid #d60b51; /* Add a light grey border */

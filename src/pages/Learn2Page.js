@@ -13,7 +13,7 @@ import P6Image from '../assets/images/learn-2/P6.png';
 import P7Image from '../assets/images/learn-2/P7.png';
 import { ReactComponent as BookmarkIcon } from '../assets/icons/bookmark-icon.svg';
 import { StateContext } from "../State";
-import { replaceBoldsHighlights, replaceBolds, replaceHighlightsPlaceholders} from '../utils/TextFormatting.js';
+import { replaceBoldsHighlights, replaceBolds, replaceHighlightsPlaceholders, replaceLineBreaks} from '../utils/TextFormatting.js';
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { getModeTexts, getLabelsTexts } from '../utils/DataExtraction.js';
 import '../styles/pages/Learn2Page.css';
