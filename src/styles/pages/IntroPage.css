@@ -1,8 +1,8 @@
 :root {
     --intro-text-color: #000000; /* Default color */
-    --highlightP-color-intro:
-    --highlightPe-color-intro:
-    --highlightD-color-intro:
+    --highlightP-color-intro: #000000;
+    --highlightPe-color-intro: #000000;
+    --highlightD-color-intro: #000000;
 }
 
 /* Title (Frame 00) */
