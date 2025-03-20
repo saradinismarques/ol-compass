@@ -66,9 +66,6 @@ const IntroPage = () => {
         "[COUNTER-D]": opacityCounter['Dimension'] + 1,
     };
     
-    document.documentElement.style.setProperty('--gray-color', colors['Gray']);
-    document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
-
     // Handlers
     const handleNext = useCallback(() => {
         if(frameRef.current === 3 && !firstUseRef.current['intro']) {

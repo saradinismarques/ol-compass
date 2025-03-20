@@ -1,30 +1,31 @@
 import colorPalletData from '../data/static/color-pallete-data.json'
-import enLabelsData from '../data/static/en/labels-texts.json';
-import enIntroTexts from '../data/static/en/intro-texts.json'
-import enModesTexts from '../data/static/en/modes-texts.json'
-import enTooltipsTexts from '../data/content/en/tooltips-texts.json'
-import enGetStartedData from '../data/content/en/get-started-data.json';
-import enLearnData from '../data/content/en/learn-data.json';
-import enLinksPrinciples from '../data/content/en/links-principles.json';
-import enLinksPerspectives from '../data/content/en/links-perspectives.json';
-import enLinksDimensions from '../data/content/en/links-dimensions.json';
-import enConceptsData from '../data/content/en/concepts-data.json';
-import enGetInspiredData from '../data/content/en/get-inspired-data.json';
-import ptIntroTexts from '../data/static/pt/intro-texts.json'
-import ptModesTexts from '../data/static/pt/modes-texts.json'
-import ptTooltipsTexts from '../data/content/pt/tooltips-texts.json'
-import ptLearnData from '../data/content/pt/learn-data.json';
-import ptLinksPrinciples from '../data/content/pt/links-principles.json';
-import ptLinksPerspectives from '../data/content/pt/links-perspectives.json';
-import ptLinksDimensions from '../data/content/pt/links-dimensions.json';
-import ptGetInspiredData from '../data/content/pt/get-inspired-data.json';
+import enLabelsData from '../data/static/en/en-labels-texts.json';
+import enIntroTexts from '../data/static/en/en-intro-texts.json'
+import enModesTexts from '../data/static/en/en-modes-texts.json'
+import enTooltipsTexts from '../data/content/en/en-tooltips-texts.json'
+import enGetStartedData from '../data/content/en/en-get-started-data.json';
+import enLearnData from '../data/content/en/en-learn-data.json';
+import enLinksPrinciples from '../data/content/en/en-links-principles.json';
+import enLinksPerspectives from '../data/content/en/en-links-perspectives.json';
+import enLinksDimensions from '../data/content/en/en-links-dimensions.json';
+import enConceptsData from '../data/content/en/en-concepts-data.json';
+import enGetInspiredData from '../data/content/en/en-get-inspired-data.json';
+import ptLabelsData from '../data/static/pt/pt-labels-texts.json';
+import ptIntroTexts from '../data/static/pt/pt-intro-texts.json'
+import ptModesTexts from '../data/static/pt/pt-modes-texts.json'
+import ptTooltipsTexts from '../data/content/pt/pt-tooltips-texts.json'
+import ptLearnData from '../data/content/pt/pt-learn-data.json';
+import ptLinksPrinciples from '../data/content/pt/pt-links-principles.json';
+import ptLinksPerspectives from '../data/content/pt/pt-links-perspectives.json';
+import ptLinksDimensions from '../data/content/pt/pt-links-dimensions.json';
+import ptGetInspiredData from '../data/content/pt/pt-get-inspired-data.json';
 
 // Static
 export const getLabelsTexts = (language, section) => {
     try {
         let lanLabelsData;
         if(language === "en") lanLabelsData = enLabelsData;
-        else if(language === "pt") lanLabelsData = enLabelsData;
+        else if(language === "pt") lanLabelsData = ptLabelsData;
         else lanLabelsData = enLabelsData;
 
         // Attempt to retrieve the section from the JSON data

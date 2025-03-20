@@ -238,9 +238,10 @@
     border: var(--button-border) solid black;
     border-radius: 100px;
     background-color: white;
-    font-size: 2.1vh;
+    font-size: var(--download-pdf-button-font-size);
     font-weight: 500;
-    width: 40vh;
+    padding-left: 2vh;
+    padding-right: 2vh;
     color: black;
     display: flex; /* Add Flexbox */
     align-items: center; /* Center vertically */

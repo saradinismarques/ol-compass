@@ -503,8 +503,8 @@ const Map2Page = () => {
 
       // Save the final merged PDF
       const fileName = mapProjectName.length !== 0 ? 
-        `Visual_Report_${mapProjectName.replace(/ /g, "_")}.pdf` : 
-        `Visual_Report.pdf`;
+        `${labelsTexts["visual-report"]}_${mapProjectName.replace(/ /g, "_")}.pdf` : 
+        `${labelsTexts["visual-report"]}.pdf`;
 
       // Using FileSaver.js to trigger the download in a more reliable way
       saveAs(mergedPdf, fileName);
@@ -1056,7 +1056,7 @@ const Map2Page = () => {
 
           {limitExceeded &&
             <div className='m2-limit-exceed-message'>
-              {labelsTexts["You can select max 2 waves; to select a new one deselect one of those already selected"]}
+              {labelsTexts["tooltip-maximum-waves"]}
             </div>
           }
         </>

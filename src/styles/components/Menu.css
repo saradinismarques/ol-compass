@@ -1,3 +1,6 @@
+:root {
+   --menu-message-text-font: 2.1vh;
+}
 /* Left Menu Container */
 .left-menu {
     position: fixed;
@@ -161,7 +164,8 @@
     bottom: var(--top-space);
     left: var(--left-space-2); 
     transform: translateY(50%);
-    width: 27vh;
+    padding-left: 2vh;
+    padding-right: 2vh;
     height: calc(var(--button-height) + 1.5*var(--button-border));
     border: var(--button-border) solid #d60b51;
     background-color: white;
@@ -202,7 +206,7 @@
 }
 
 .menu-message-text {
-   font-size: 2.1vh;
+   font-size: var(--menu-message-text-font);
    font-weight: 300;
    margin: 0;
    color: #c22934;
@@ -249,7 +253,8 @@
     font-size: 1.8vh;
     font-weight: 500;
     height: 1vh;
-    width: 20vh;
+    padding-left: 2vh;
+    padding-right: 2vh;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -78,9 +78,9 @@ const GetInspiredPage = () => {
     }
   }, [giComponents, setShowInstruction]);
 
-  document.documentElement.style.setProperty('--search-menu-width', language === "pt" ? "38vh" : "35vh");
-  document.documentElement.style.setProperty('--logic-buttons-width', language === "pt" ? "24.5vh" : "22.3vh");
-  document.documentElement.style.setProperty('--search-button-left', language === "pt" ? "-6.7%" : "-6%");
+  
+  document.documentElement.style.setProperty('--search-font-size', language === "pt" ? "1.15vh" : "1.5vh");
+  document.documentElement.style.setProperty('--logic-font-size', language === "pt" ? "1.5vh" : "1.6vh");
 
   const resetState = useCallback(() => {
       navigate('/home');

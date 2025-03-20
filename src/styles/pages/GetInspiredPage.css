@@ -1,7 +1,6 @@
 :root {
-    --search-menu-width: 35vh; /* Default color */
-    --logic-buttons-width: 22.3vh; /* Default color */
-    --search-button-left: -6%; /* Default color */
+    --search-font-size: 1.5vh; /* Default color */
+    --logic-font-size: 1.6vh; /* Default color */
 }
 
 /* Text Container */
@@ -251,7 +250,7 @@
     color: #7a7a79;
     font-family: 'Manrope', sans-serif;
     font-weight: 600;
-    font-size: 1.6vh;
+    font-size: var(--logic-font-size);
     outline: none;
     flex: 0 1 auto; /* Allow buttons to shrink and grow */   
     min-width: 8vh;
@@ -279,7 +278,7 @@
     cursor: pointer;
     font-family: 'Manrope', sans-serif;
     font-weight: 500;
-    font-size: 1.5vh;
+    font-size: var(--search-font-size);
     background-color: var(--selection-color);
     border-radius: 0 50px 50px 0; /* Rounded on the right side */
     z-index: 10;

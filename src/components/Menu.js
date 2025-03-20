@@ -26,6 +26,8 @@ const Menu = () => {
   const currentPath = location.pathname;
   const navigate = useNavigate(); // Initialize the navigate function
 
+  document.documentElement.style.setProperty('--menu-message-text-font', language === "pt" ? "1.98vh" : "2.1vh");
+
   // Determine the active button based on the current path
   const getActiveButton = (path) => {
     switch (path) {
@@ -167,7 +169,7 @@ const Menu = () => {
           className='menu-study-instructions'
           onClick={() => handleShowStudyInstruction(true)}
         >
-            STUDY INSTRUCTIONS
+            {labelsTexts["study-instructions"]}
         </button>
       }
       {!menuExpanded &&

@@ -1,0 +1,78 @@
+{
+  "menu": {
+    "lets": "Vou",
+    "learn": "APRENDER",
+    "get-inspired": "INSPIRAR-ME",
+    "map": "MAPEAR",
+    "study-instructions": "INSTRUÇÕES DO ESTUDO",
+    "study-instructions-text": "Este estudo tem como objetivo fazer com que teste as funções ‘<b>APRENDER</b>’, ‘<b>INSPIRAR-ME</b>’ e ‘<b>MAPEAR</b>’ em <b>2 ETAPAS</b>. <br><br> <b>ETAPA 1 (5’): COMPREENDER CADA FUNÇÃO</b> <br> Obtenha uma visão geral das três funções, explorando-as rapidamente uma após a outra na ordem listada. É necessário <b>dizer em voz alta o que a função dada faz</b> antes de passar para a próxima. <br><br> <b>ETAPA 2 (15’): ATIVIDADE RELACIONADA COM OL</b> <br> Passe algum tempo a aprofundar o seu conhecimento sobre OL com o <b>objetivo final de mapear uma atividade didática relacionada com OL</b> <c>que tenha realizado.</c> <br> Pode navegar livremente pelas funções. <br><br> NB Não é necessário absorver o máximo de informação possível, apenas navegar pelo conhecimento sobre OL com base na sua curiosidade e interesses.<br><br> Se se sentir preso, pode pedir-nos ajuda. <br><b>Por favor, pense sempre em voz alta</b>, e divirta-se!",
+    "ok-got-it": "Ok, percebi!"
+  },
+  "description": {
+    "start": "INICIAR",
+    "continue": "CONTINUAR"
+  },
+  "compass": {
+    "P": "Princípio",
+    "Pe": "Perspectiva",
+    "D": "Dimensão",
+    "Principle": "PRINCÍPIOS",
+    "Perspective": "PERSPECTIVAS",
+    "Dimension": "DIMENSÕES"
+  },
+  "intro": {
+    "walk-me-through-it": "VER PASSO A PASSO",
+    "skip-introduction": "SALTAR INTRODUÇÃO",
+    "only-2-minutes": "só leva 2 minutos!",
+    "timeline-2005": "OL como integração 'azul' dos currículos escolares",
+    "timeline-2017": "OL como inovação em ‘educação & cultura para a sustentabilidade’",
+    "timeline-2022": "OL como chave para a cidadania marinha",
+    "questions-what": "O QUÊ",
+    "questions-do-you-want": "QUERO APRENDER/FALAR SOBRE O OCEANO?",
+    "questions-from-what-angle": "DE QUE ÂNGULO",
+    "questions-how": "COMO",
+    "yup-lets-start": "SIM, VAMOS COMEÇAR!"
+  },
+  "learn": {
+    "question-0": "Em resumo",
+    "question-1-principles": "Como se aplica ao <b>Oceano Atlântico</b>?",
+    "question-2-principles": "Como se aplica a <b>Portugal</b>?",
+    "question-1-others": "Como pode ser aplicado na prática?"
+  },
+  "get-inspired": {
+    "credits": "Créditos",
+    "no-saved-cs": "Ainda não guardou casos de estudo. Pressione o ícone de marcador para guardar um caso de estudo.",
+    "no-filters-cs": "Não foram encontrados casos de estudo com esses filtros. Tente usar outros.",
+    "results": "resultados",
+    "at-least-one": "PELO MENOS 1",
+    "all": "TODOS",
+    "search": "PESQUISAR",
+    "back-to-filters": "VOLTAR AO MODO COM FILTROS",
+    "show-saved": "GUARDADOS",
+    "show-all": "MOSTRAR TODOS"
+  },
+  "map": {
+    "overview": "VISÃO GERAL",
+    "recap": "RESUMO",
+    "inster-map-title": "Inserir título do mapa",
+    "download-visual-report": "FEITO! DESCARREGAR RELATÓRIO VISUAL",
+    "error-generating-pdf": "Erro ao gerar PDF :(",
+    "complete": "Completo",
+    "try-again": "TENTAR NOVAMENTE",
+    "visual-report": "Relatorio_Visual",
+    "text-below": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.",
+    "what": "O QUÊ?",
+    "from-what-angle": "DE QUE ÂNGULO?",
+    "how": "COMO?",
+    "step": "PASSO",
+    "what-principles": "<b> Que princípio(s) chave(s) </b> a sua atividade/ideia transmite?",
+    "what-perspectives": "<b> Que perspectiva(s) chave(s) </b> a sua atividade/ideia transmite?",
+    "what-dimensions": "<b> Que dimensão(s) chave(s) </b> a sua atividade/ideia transmite?",
+    "tooltip-previous-steps": "Será desbloqueado assim que completar a(s) etapa(s) anterior(es)",
+    "tooltip-maximum-waves": "Pode selecionar no máximo 2 ondas; para selecionar uma nova, desselecione uma das já selecionadas",
+    "tooltip-what": "Clique em ‘O QUÊ?’ para editar",
+    "tooltip-from-angle": "Clique em ‘DE QUE ÂNGULO?’ para editar",
+    "tooltip-how": "Clique em ‘COMO?’ para editar",
+    "tooltip-download": "Complete e insira o título primeiro"
+  }
+}
