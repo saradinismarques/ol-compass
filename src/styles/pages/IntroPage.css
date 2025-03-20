@@ -9,7 +9,7 @@
 .i-title-container {
     position: absolute;
     top: 47vh; /* Position item 50% from the top */
-    left: 60vw; 
+    left: 56.7vw; 
     transform: translate(-50%, -50%);
     text-align: center; /* Center the text inside the element */
     color: #274893;   
@@ -208,6 +208,7 @@
     outline: none; /* Optional: Remove outline on focus */
     padding: 1vh;
     width: 30vh;
+    pointer-events: none;
 }
 
 .i-skip-button:hover, .i-skip-button:active {
@@ -298,7 +299,7 @@
 .i-frame-11-container {
     position: fixed;
     top: 56vh;
-    left: 37.5vw;
+    left: 37.35vw;
     z-index: 40;
     display: flex; /* Use flexbox for layout */
     align-items: center; /* Align items vertically */

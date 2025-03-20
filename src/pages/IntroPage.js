@@ -59,12 +59,22 @@ const IntroPage = () => {
         frameRef.current = frame;
     }, [frame]);
 
-    // Placeholder-to-Counter mapping
-    const countersMap = {
-        "[COUNTER-P]": opacityCounter['Principle'] + 1,
-        "[COUNTER-Pe]": opacityCounter['Perspective'] + 1,
-        "[COUNTER-D]": opacityCounter['Dimension'] + 1,
-    };
+    useEffect(() => {
+        if (frame === 14) {
+            if (timeoutRef.current) clearInterval(timeoutRef.current); // Clear any previous intervals
+    
+            let toggle = false; // Track which set to use
+            timeoutRef.current = setInterval(() => {
+                setRandomComponents(toggle 
+                    ? ['P2', 'P3', 'P4', 'P6', 'Pe1', 'Pe4', 'Pe5', 'Pe7', 'D3', 'D5', 'D7', 'D8', 'D10']
+                    : ['P1', 'P3', 'P5', 'P6', 'Pe3', 'Pe4', 'Pe6', 'D1', 'D3', 'D4', 'D6', 'D8']
+                );
+                toggle = !toggle; // Switch for next interval
+            }, 1200); // Change every second
+    
+            return () => clearInterval(timeoutRef.current); // Cleanup when frame changes
+        }
+    }, [frame]); // Runs only when `frame` changes
     
     document.documentElement.style.setProperty('--highlightP-color-intro', colors['Intro Text']['Principle']);
     document.documentElement.style.setProperty('--highlightPe-color-intro', colors['Intro Text']['Perspective']);
@@ -73,8 +83,8 @@ const IntroPage = () => {
     // Handlers
     const handleNext = useCallback(() => {
         if(frameRef.current === 3 && !firstUseRef.current['intro']) {
-            setFrame(7);
-            frameRef.current = 7; // Update the ref
+            setFrame(8);
+            frameRef.current = 8; // Update the ref
         } else {
             setFrame((prevFrame) => {
                 const newFrame = prevFrame + 1 <= maxFrame ? prevFrame + 1 : maxFrame;
@@ -85,7 +95,7 @@ const IntroPage = () => {
     }, [maxFrame]);
     
     const handlePrev = useCallback(() => {
-        if(frameRef.current === 7) {
+        if(frameRef.current === 8) {
             setFrame(3)
             frameRef.current = 3; // Update the ref
         } else {
@@ -124,7 +134,7 @@ const IntroPage = () => {
         const screenHeight = window.innerHeight;
         const ignoreHeight = (15 / 100) * screenHeight; // Convert 6vh to pixels
         
-        if (clickPositionX > screenWidth / 2 && (frameRef.current === maxFrame-1 || frameRef.current === 4 || frameRef.current === 5 || frameRef.current === 6)) 
+        if (clickPositionX > screenWidth / 2 && (frameRef.current === maxFrame-1 || frameRef.current === 4 || frameRef.current === 5 || frameRef.current === 6 || frameRef.current === 7)) 
             return; // Ignore movement in the first 6vh
         
         if (clickPositionY < ignoreHeight) return; // Ignore clicks/touches in the first 6vh
@@ -151,11 +161,11 @@ const IntroPage = () => {
             const isLeft = e.clientX < screenWidth / 2;
             const isRight = e.clientX >= screenWidth / 2;
 
-            if (isLeft && (frameRef.current === 0 || frameRef.current === 4 || frameRef.current === 5 || frameRef.current === 6)) { 
+            if (isLeft && (frameRef.current === 0 || frameRef.current === 4 || frameRef.current === 5 || frameRef.current === 6 || frameRef.current === 7)) { 
                 setCursorType("default");
                 return; // Ignore movement in the first 6vh
             }
-            if (isRight && (frameRef.current === maxFrame-1 || frameRef.current === 4 || frameRef.current === 5 || frameRef.current === 6)) { 
+            if (isRight && (frameRef.current === maxFrame-1 || frameRef.current === 4 || frameRef.current === 5 || frameRef.current === 6 || frameRef.current === 7)) { 
                 setCursorType("default");
                 return; // Ignore movement in the first 6vh
             }
@@ -179,11 +189,11 @@ const IntroPage = () => {
     useEffect(() => {  
         const isComplete =
             (frameRef.current === 0 || frameRef.current === 1 || frameRef.current === 2 || frameRef.current === 3) ||
-            (frameRef.current === 7 || frameRef.current === 8 || frameRef.current === 9 || frameRef.current === 10 || 
+            (frameRef.current === 8 || frameRef.current === 9 || frameRef.current === 10 || 
             frameRef.current === 11 || frameRef.current === 12 || frameRef.current === 13 || frameRef.current === 14 ||
             frameRef.current === 15 || frameRef.current === 16);
         
-        if (isComplete && !showSkipButtons && frameRef.current !== 4 && frameRef.current !== 5 && frameRef.current !== 6) {
+        if (isComplete && !showSkipButtons && frameRef.current !== 4 && frameRef.current !== 5 && frameRef.current !== 6 && frameRef.current !== 7) {
             setListenersActive(true);
         } else {
             setListenersActive(false);
@@ -218,7 +228,7 @@ const IntroPage = () => {
     }, [frame, navigate]); // Trigger navigation when state changes to 6
 
     useEffect(() => {
-        if (frameRef.current === 7) {
+        if (frameRef.current === 8) {
             setFirstUse(prevState => {
                 const newState = {
                     ...prevState, // Keep all existing attributes
@@ -296,7 +306,6 @@ const IntroPage = () => {
                 </div>
             );
         } else if (frame === 4) {
-            startOpacityCounter('Principle');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Principle']);
             if (timeoutRef.current) 
                 clearTimeout(timeoutRef.current);
@@ -304,11 +313,10 @@ const IntroPage = () => {
                 setFrame(5);
                 frameRef.current = 5;
                 timeoutRef.current = null; // Reset after execution
-            }, 300);
+            }, 1200);
 
-            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame4, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame4, "i-text-container", "i-text", "i-text colored", null)}</>;
         } else if (frame === 5) {
-            startOpacityCounter('Perspective');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Perspective']);
             if (timeoutRef.current) 
                 clearTimeout(timeoutRef.current);
@@ -316,11 +324,10 @@ const IntroPage = () => {
                 setFrame(6);
                 frameRef.current = 6;
                 timeoutRef.current = null; // Reset after execution
-            }, 300);
+            }, 1200);
             
-            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame5, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame5, "i-text-container", "i-text", "i-text colored", null)}</>;
         } else if(frame === 6) {
-            startOpacityCounter('Dimension');
             document.documentElement.style.setProperty('--intro-text-color', colors['Intro Text']['Dimension']);
             
             if (timeoutRef.current)
@@ -329,10 +336,18 @@ const IntroPage = () => {
                 setFrame(7);
                 frameRef.current = 7;
                 timeoutRef.current = null; // Reset after execution
-            }, 300);
-            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame6, "i-text-container", "i-text", "i-text colored", countersMap)}</>;
+            }, 1200);
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame6, "i-text-container", "i-text", "i-text colored", null)}</>;
         } else if(frame === 7) {
-            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame7, "i-text-container", "i-text", "i-text", countersMap)}</>;
+            if (timeoutRef.current) 
+                clearTimeout(timeoutRef.current);
+            timeoutRef.current = setTimeout(() => {
+                setFrame(8);
+                frameRef.current = 8;
+                timeoutRef.current = null; // Reset after execution
+            }, 1200);
+
+            return <>{replaceBoldsBreaksPlaceholders(introTexts.Frame7, "i-text-container", "i-text", "i-text", null)}</>;
         } else if(frame === 8) {
             return (
                 <div className="i-text-container">
@@ -370,10 +385,6 @@ const IntroPage = () => {
                 </div>
             );
         } else if(frame === 14) {
-            setTimeout(() => {
-                setRandomComponents(['P2', 'P3', 'P4', 'P6', 'Pe1', 'Pe4', 'Pe5', 'Pe7', 'D3', 'D5', 'D7', 'D8', 'D10']);
-            }, 1000); // Delay for each button (3 seconds between each)
-
             return (
                 <div className="i-explanation-container">
                     {replaceBoldsItalicBreaks(introTexts.Frame14, 'i-explanation', 'i-explanation bold italic', 'i-explanation italic')}
@@ -460,13 +471,13 @@ const IntroPage = () => {
             }
             {!showSkipButtons &&
             <>
-                {frame !== 0 && frame !== 4 && frame !== 5 && frame !== 6 && (
+                {frame !== 0 && frame !== 4 && frame !== 5 && frame !== 6 && frame !== 7 && (
                     <button className={`i-arrow-button left ${isHoverLeft ? "hover" : ""}`}>
                         <Arrow2Icon className="i-arrow-icon" />
                     </button>
                 )}
 
-                {frame !== maxFrame-1 && frame !== 4 && frame !== 5 && frame !== 6 && (
+                {frame !== maxFrame-1 && frame !== 4 && frame !== 5 && frame !== 6 && frame !== 7 && (
                     <button className={`i-arrow-button right ${isHoverRight ? "hover" : ""}`}>
                         <Arrow2Icon className="i-arrow-icon" />
                     </button>

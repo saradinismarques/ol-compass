@@ -219,21 +219,15 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
       if (mode === "intro-0" || mode === "intro-1" || mode === "intro-2" || mode === "intro-3")
         return 0.2;
       else if (mode === "intro-4") {
-        if(component.type === "Principle") 
-          if(allComponents.indexOf(component.code) <= opacityCounter['Principle'])
+        if(component.type === "Principle")
             return 1;
-          else
-            return 0.2;
-        else 
+        else
           return 0.2;
       } else if (mode === "intro-5") {
         if(component.type === "Principle")
           return 0.2;
         else if(component.type === "Perspective")
-          if(allComponents.indexOf(component.code) <= opacityCounter['Perspective']+7)
-            return 1;
-          else
-            return 0.2;
+          return 1;
         else
           return 0.2;
       } else if (mode === "intro-6") {
@@ -242,10 +236,7 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
         else if(component.type === "Perspective")
           return 0.2;
         else 
-          if(allComponents.indexOf(component.code) <= opacityCounter['Dimension']+14)
-            return 1;
-          else
-            return 0.2;
+          return 1;
       } else if (mode === "intro-7") {
         return 1;
       } else if(mode === "intro-8") {
