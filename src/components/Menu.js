@@ -72,7 +72,7 @@ const Menu = () => {
     if ((firstUse["home"] && activeButton === 'home')) {
       const timer = setTimeout(() => {
         setShowStudyInstruction(true);
-      }, 4000); // 5 seconds delay
+      }, 1000); // 5 seconds delay
       return () => clearTimeout(timer); // Cleanup the timer on unmount
     }
   }, [firstUse, activeButton, setShowStudyInstruction]); // Depend on firstUserVariable
