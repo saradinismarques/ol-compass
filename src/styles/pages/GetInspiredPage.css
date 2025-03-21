@@ -78,6 +78,9 @@
     border-radius: 5px;
     padding: 2vh;
     transform: translateX(-50%);
+    color: var(--gray-color);
+    font-size: 2.5vh;
+    font-weight: 300;
 }
 
 /* Boxes Section */

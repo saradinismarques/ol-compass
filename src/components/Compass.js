@@ -55,6 +55,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipMapVisible, setTooltipMapVisible] = useState(false);
   const [tooltipText, setTooltipText] = useState('');
+  const [tooltipMapText, setTooltipMapText] = useState('');
   const [tooltipColor, setTooltipColor] = useState('black');
   
   // Declare a timeout variable to store the reference to the timeout
@@ -220,15 +221,15 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
             setTooltipPos({ x: e.clientX, y: e.clientY });
             
             if(component.type === 'Principle')
-              setTooltipText(mapTexts["tooltip-what"]);
+              setTooltipMapText(mapTexts["tooltip-what"]);
             else if(component.type === 'Perspective' && !typeComplete['Principle'])
-              setTooltipText(mapTexts["tooltip-previous-steps"]);
+              setTooltipMapText(mapTexts["tooltip-previous-steps"]);
             else if(component.type === 'Perspective' && typeComplete['Principle'])
-              setTooltipText(mapTexts["tooltip-from-angle"]);
+              setTooltipMapText(mapTexts["tooltip-from-angle"]);
             else if(component.type === 'Dimension' && !typeComplete['Perspective'])
-              setTooltipText(mapTexts["tooltip-previous-steps"]);
+              setTooltipMapText(mapTexts["tooltip-previous-steps"]);
             else if(component.type === 'Dimension' && typeComplete['Perspective'])
-              setTooltipText(mapTexts["tooltip-how"]);
+              setTooltipMapText(mapTexts["tooltip-how"]);
 
             setTooltipMapVisible(true);
           }
@@ -255,7 +256,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
         tooltipTimeout = setTimeout(() => {
           if (hoveredIdRef.current === component.code) {  // Check if the tooltip was not cancelled
             setTooltipPos({ x: e.clientX, y: e.clientY });
-            setTooltipText(mapTexts["tooltip-maximum-waves"]);
+            setTooltipMapText(mapTexts["tooltip-maximum-waves"]);
             setTooltipMapVisible(true);
           }
         }, 0); // 1-second delay
@@ -311,7 +312,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
           setTooltipColor(colors['Text'][component.type])
           setTooltipVisible(true);
         }
-      }, 500); // 1-second delay
+      }, 800); // 1-second delay
     }
   };
 
@@ -326,9 +327,8 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
 
       setTooltipMapVisible(false);
       setTooltipColor('black'); // Clear the tooltip text
-      setTooltipText(""); // Clear the tooltip text;
+      setTooltipMapText(""); // Clear the tooltip text;
       setTooltipVisible(false);
-      setTooltipColor('black'); // Clear the tooltip text
       setTooltipText(""); // Clear the tooltip text
   };
 
@@ -340,6 +340,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       setTooltipPos({ x: 0, y: 0 });
       setTooltipVisible(false);
       setTooltipColor('black');
+      setTooltipMapText('');
       setTooltipText('');
       setShowExplanation(true); // Reset to initial state when the page changes
       setShowInstruction(false);
@@ -593,7 +594,7 @@ const Compass = ({ mode, position, onButtonClick, resetState, resetCompass, curr
       }
       {!showExplanation && mode === "map-2" && tooltipMapVisible && 
         <TooltipMap 
-          text={tooltipText} 
+          text={tooltipMapText} 
           position={tooltipPos} 
         />
       }

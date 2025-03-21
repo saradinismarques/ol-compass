@@ -44,6 +44,7 @@
     "credits": "Créditos",
     "no-saved-cs": "Ainda não guardou casos de estudo. Pressione o ícone de marcador para guardar um caso de estudo.",
     "no-filters-cs": "Não foram encontrados casos de estudo com esses filtros. Tente usar outros.",
+    "press-search": "Pressione 'Pesquisar' para recarregar",
     "results": "resultados",
     "at-least-one": "PELO MENOS 1",
     "all": "TODOS",
@@ -51,6 +52,7 @@
     "back-to-filters": "VOLTAR AO MODO COM FILTROS",
     "show-saved": "GUARDADOS",
     "show-all": "MOSTRAR TODOS"
+    
   },
   "map": {
     "overview": "VISÃO GERAL",

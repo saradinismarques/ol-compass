@@ -292,6 +292,8 @@ const GetInspiredPage = () => {
   };  
 
   const handleSearchLogicChange = useCallback((mode) => {
+      setMode('get-inspired');
+      modeRef.current = 'get-inspired';
     if(mode === "AND") {
       setSearchLogic('AND');
       searchLogicRef.current = 'AND';
@@ -405,7 +407,7 @@ const GetInspiredPage = () => {
 
             {mode === "get-inspired" && !showInstruction &&
               <div className='gi-instruction-container'>
-                {replaceHighlightsPlaceholders(instruction, 'instruction', 'instruction highlightP', 'instruction highlightPe', 'instruction highlightD', iconsMap)}
+                {labelsTexts["press-search"]}
               </div>
             }
   
