@@ -17,7 +17,7 @@ import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
 import { getLabelsTexts, getModeTexts } from '../utils/DataExtraction.js';
-import { replaceHighlightsPlaceholders, replaceBolds } from '../utils/TextFormatting.js';
+import { replaceHighlightsPlaceholders, replaceBolds, replaceLineBreaks } from '../utils/TextFormatting.js';
 import '../styles/pages/Map2Page.css';
 
 const Map2Page = () => {
@@ -848,16 +848,15 @@ const Map2Page = () => {
             </div>
 
             </div>
-            {replaceBolds(
-              mapCurrentType === "Principle"
-                ? labelsTexts["what-principles"]
-                : mapCurrentType === "Perspective"
-                ? labelsTexts["what-perspectives"]
-                : labelsTexts["what-dimensions"], 
-              null, 
-              'm2-what-components', 
-              'm2-what-components bold'
-            )}
+            <div className='m2-what-components'>
+              {replaceLineBreaks(
+                mapCurrentType === "Principle"
+                  ? labelsTexts["what-principles"]
+                  : mapCurrentType === "Perspective"
+                  ? labelsTexts["what-perspectives"]
+                  : labelsTexts["what-dimensions"])} 
+            </div>
+              
           </div>
 
           {/* Principles */}
