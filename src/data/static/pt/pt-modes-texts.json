@@ -2,25 +2,25 @@
   {
     "#MODE-LABEL": "HOME",
     "#headline": "/",
-    "#text": "O 'OL-in-One Compass' tem uma grande variedade <br> de usos, para muitos alvos e propósitos. <br> O que gostarias de experimentar?",
+    "#text": "O OL-in-One Compass tem uma grande variedade<br> de usos, para diversos públicos e propósitos.<br> O que quer experimentar?",
     "#instruction": "/"
   },
   {
     "#MODE-LABEL": "LEARN",
-    "#headline": "Familiariza-te com as principais <br> lentes da Literacia Oceânica",
-    "#text": "Usa este modo para explorar cada <br> Princípio, Perspectiva e Dimensão da OL <br> em diferentes níveis de profundidade. Deixa o teu <br> interesse e curiosidade guiarem-te!",
-    "#instruction": "Clica em qualquer onda ([WAVE-I]) para saber mais sobre os <hP>Princípios</hP>, <hPe>Perspectivas</hPe> e <hD>Dimensões</hD> da OL."
+    "#headline": "Explore as muitas facetas<br> da Cultura Oceânica",
+    "#text": "Use este modo para explorar cada<br> Princípio, Perspetiva e Dimensão da OL<br> em vários níveis de profundidade.<br> Deixe a sua curiosidade guiar você!",
+    "#instruction": "Descubra mais sobre os Princípios, Perspectivas e Dimensões específicos da OL clicando no respetivo ícone de onda ([WAVE-I])."
   },
   {
     "#MODE-LABEL": "GET INSPIRED",
-    "#headline": "Encontra recursos e casos <br> de estudo relevantes para <br> a Literacia Oceânica",
-    "#text": "Usa este modo para aprender sobre diversas atividades, meios de comunicação e projetos relacionados com o mar/águas, em termos do(s) Princípio(s), Perspectiva(s) <br> e Dimensõe(s) da OL que abordam.",
-    "#instruction": "Seleciona as ondas ([WAVE-I]) relevantes para a tua pesquisa. Quando terminares, clica em ‘Pesquisar’ ou pressiona ‘Enter’. <br><br> Usa os butões na barra de pesquisa para afinar ou alargar a tua pesquisa."
+    "#headline": "Navegue por recursos e estudos de caso<br> com relevância para a Cultura Oceânica",
+    "#text": "Use este modo para conhecer uma ampla gama de<br> atividades, mídias e projetos relacionados ao mar/água<br> em termos dos Princípios, Perspetivas<br> e Dimensões da OL que abordam.",
+    "#instruction": "Selecione as ondas ([WAVE-I])<br> relevantes para a sua pesquisa.<br> Depois, clique em ‘Pesquisar’<br> ou prima ‘Enter’.<br> <br>Use o interruptor na barra de pesquisa<br> para restringir ou expandir a sua pesquisa."
   },
   {
     "#MODE-LABEL": "MAP",
-    "#headline": "Desenha/analisa uma atividade <br> ou projeto em termos da OL",
-    "#text": "Usa este modo para análise retrospectiva ou para ter ideias de atividades relacionadas com o mar/águas <br> em termos dos seus resultados na OL, e obtém um <br> relatório visual instantâneo para partilhar.",
+    "#headline": "Analise uma atividade/recurso<br> em termos do seu potencial para a Cultura Oceânica",
+    "#text": "Use este modo para refletir sobre uma atividade,<br> recurso ou projeto em relação aos Princípios,<br> Perspetivas e Dimensões da OL com os quais se alinha.",
     "#instruction": "<hP>O que</hP> é/são o(s) <hP>traço(s) chave do Oceano</hP> que a tua atividade/projeto transmite(m)? Que <hPe>ângulo(s)</hPe> adota? <hD>Como</hD>? Promovendo que <hD>tipos de aprendizagem</hD>? <br><br> Seleciona as ondas mais relevantes de acordo com a resposta a estas perguntas."
   }
 ]

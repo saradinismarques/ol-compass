@@ -16,7 +16,6 @@ import ptIntroTexts from '../data/static/pt/pt-intro-texts.json'
 import ptModesTexts from '../data/static/pt/pt-modes-texts.json'
 import ptTooltipsTexts from '../data/content/pt/pt-tooltips-texts.json'
 import ptComponentsCodes from '../data/content/pt/pt-components-codes.json';
-import ptLearnData from '../data/content/pt/pt-learn-data.json';
 import ptLinksPrinciples from '../data/content/pt/pt-links-principles.json';
 import ptLinksPerspectives from '../data/content/pt/pt-links-perspectives.json';
 import ptLinksDimensions from '../data/content/pt/pt-links-dimensions.json';
@@ -317,7 +316,7 @@ export function getLearnData(language) {
 
         let lanLearnData;
         if(language === "en") lanLearnData = enLearnData;
-        else if(language === "pt") lanLearnData = ptLearnData;
+        else if(language === "pt") lanLearnData = enLearnData;
         else lanLearnData = enLearnData;
 
         // Process the JSON data

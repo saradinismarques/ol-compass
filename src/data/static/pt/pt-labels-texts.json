@@ -5,7 +5,7 @@
     "get-inspired": "INSPIRAR-ME",
     "map": "MAPEAR",
     "study-instructions": "INSTRUÇÕES DO ESTUDO",
-    "study-instructions-text": "Este estudo tem como objetivo fazer com que teste as funções ‘<b>APRENDER</b>’, ‘<b>INSPIRAR-ME</b>’ e ‘<b>MAPEAR</b>’ em <b>2 ETAPAS</b>. <br><br> <b>ETAPA 1 (5’): COMPREENDER CADA FUNÇÃO</b> <br> Obtenha uma visão geral das três funções, explorando-as rapidamente uma após a outra na ordem listada. É necessário <b>dizer em voz alta o que a função dada faz</b> antes de passar para a próxima. <br><br> <b>ETAPA 2 (15’): ATIVIDADE RELACIONADA COM OL</b> <br> Passe algum tempo a aprofundar o seu conhecimento sobre OL com o <b>objetivo final de mapear uma atividade didática relacionada com OL</b> <c>que tenha realizado.</c> <br> Pode navegar livremente pelas funções. <br><br> NB Não é necessário absorver o máximo de informação possível, apenas navegar pelo conhecimento sobre OL com base na sua curiosidade e interesses.<br><br> Se se sentir preso, pode pedir-nos ajuda. <br><b>Por favor, pense sempre em voz alta</b>, e divirta-se!",
+    "study-instructions-text": "Este estudo consiste em <b>2 partes</b>.<br><br> <b>PARTE 1 (12’): EXPANDA O SEU CONHECIMENTO SOBRE OL</b><br> Imagine que acedeu à plataforma para expandir ou aperfeiçoar a sua compreensão de OL.<br> Para isso, irá explorar conteúdos nas funções <b>APRENDER</b> e <b>INSPIRAR-ME</b>.<br> Comece por <b>APRENDER</b>, mas depois sinta-se à vontade para navegar entre as funções como desejar.<br> <br> O objetivo <i>não</i> é ler o máximo possível, mas sim decidir o que explorar e com que profundidade,<br> seguindo a sua curiosidade e interesses.<br> <br> <b>PARTE 2 (12’): ANALISE UMA ATIVIDADE/RECURSO RELACIONADO COM OL</b><br> Agora, imagine que pretende analisar uma atividade ou recurso que utiliza ou utilizou,<br> focando-se nos principais Princípios, Perspectivas e Dimensões de OL que aborda.<br> <br> Para isso, utilizará a função <b>MAPEAR</b> (embora possa voltar às outras funções se necessário).<br> O estudo termina quando concluir a análise, descarregar o <b>relatório visual</b> e revê-lo.<br> <br> <b>MUITO IMPORTANTE</b>: Por favor, <b>pense em voz alta</b>, comentando o que está a ver,<br> o que está a pensar, o que espera que aconteça e quaisquer decisões que tome.<br>",
     "ok-got-it": "Ok, percebi!"
   },
   "description": {
@@ -66,9 +66,9 @@
     "from-what-angle": "DE QUE ÂNGULO?",
     "how": "COMO?",
     "step": "PASSO",
-    "what-principles": "<b> Que princípio(s) chave(s) </b> a sua atividade/ideia transmite?",
-    "what-perspectives": "<b> Que perspectiva(s) chave(s) </b> a sua atividade/ideia transmite?",
-    "what-dimensions": "<b> Que dimensão(s) chave(s) </b> a sua atividade/ideia transmite?",
+    "what-principles": "Que Princípio(s) fundamental(is) a sua atividade/ideia transmite no final?",
+    "what-perspectives": "Que Perspectiva(s) fundamental(is) a sua atividade/ideia adota ou expressa?",
+    "what-dimensions": "Que Dimensão(ões) fundamental(is) a sua atividade/ideia promove?",
     "tooltip-previous-steps": "Será desbloqueado assim que completar a(s) etapa(s) anterior(es)",
     "tooltip-maximum-waves": "Pode selecionar no máximo 2 ondas; para selecionar uma nova, desselecione uma das já selecionadas",
     "tooltip-what": "Clique em ‘O QUÊ?’ para editar",

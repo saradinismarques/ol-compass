@@ -136,7 +136,7 @@
 }
 
 .m2-what-components {
-    font-size: 1.75vh;
+    font-size: 1.5vh;
     font-weight: 300;
     color: var(--gray-color); 
 }
@@ -309,7 +309,7 @@
 }
 
 .m2-definition-title {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--title-color);
     padding: 2px;
     padding-left: 5px;

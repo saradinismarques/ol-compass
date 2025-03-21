@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo, useRef, useContext } 
 import { useNavigate } from 'react-router-dom';
 import Compass from '../components/Compass.js';
 import { getIntroTexts, getLabelsTexts } from '../utils/DataExtraction.js';
-import { replaceBoldsBreaks, replaceBoldsBreaksPlaceholders, replaceBoldsItalicBreaks, replaceHighlightsBoldsPlaceholdersItalics, replaceHighlightsBoldsPlaceholders } from '../utils/TextFormatting.js';
+import { replaceBoldsBreaks, replaceBoldsBreaksPlaceholders, replaceBoldsItalicBreaks1, replaceBoldsItalicBreaks2, replaceHighlightsBoldsPlaceholdersItalics, replaceHighlightsBoldsPlaceholders } from '../utils/TextFormatting.js';
 import { ReactComponent as Arrow2Icon } from '../assets/icons/arrow2-icon.svg'; // Adjust the path as necessary
 import { StateContext } from "../State";
 import Frame11Image from '../assets/images/intro/frame-11.png';
@@ -290,19 +290,19 @@ const IntroPage = () => {
         } else if (frame === 1) {
             return (
                 <div className='i-explanation-container'>
-                    {replaceBoldsItalicBreaks(introTexts.Frame1, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
+                    {replaceBoldsItalicBreaks1(introTexts.Frame1, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         } else if (frame === 2) {
             return (
                 <div className='i-explanation-container'>
-                    {replaceBoldsItalicBreaks(introTexts.Frame2, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
+                    {replaceBoldsItalicBreaks1(introTexts.Frame2, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         } else if (frame === 3) {
             return (
                 <div className='i-explanation-container'>
-                    {replaceBoldsItalicBreaks(introTexts.Frame3, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
+                    {replaceBoldsItalicBreaks1(introTexts.Frame3, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         } else if (frame === 4) {
@@ -369,7 +369,7 @@ const IntroPage = () => {
         } else if(frame === 11) {
             return (
                 <div className="i-text-container">
-                    {replaceBoldsItalicBreaks(introTexts.Frame11, 'i-text', 'i-text bold', 'i-text italic')}
+                    {replaceBoldsItalicBreaks2(introTexts.Frame11, 'i-text', 'i-text bold', 'i-text italic')}
                 </div>
             );
         } else if(frame === 12) {
@@ -381,19 +381,19 @@ const IntroPage = () => {
         } else if(frame === 13) {
             return (
                 <div className="i-explanation-container">
-                    {replaceBoldsItalicBreaks(introTexts.Frame13, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
+                    {replaceBoldsItalicBreaks2(introTexts.Frame13, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         } else if(frame === 14) {
             return (
                 <div className="i-explanation-container">
-                    {replaceBoldsItalicBreaks(introTexts.Frame14, 'i-explanation', 'i-explanation bold italic', 'i-explanation italic')}
+                    {replaceBoldsItalicBreaks2(introTexts.Frame14, 'i-explanation', 'i-explanation bold italic', 'i-explanation italic')}
                 </div>
             );
         } else if(frame === 15) {
             return (
                 <div className="i-explanation-container">
-                    {replaceBoldsItalicBreaks(introTexts.Frame15, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
+                    {replaceBoldsItalicBreaks2(introTexts.Frame15, 'i-explanation', 'i-explanation bold', 'i-explanation italic')}
                 </div>
             );
         }

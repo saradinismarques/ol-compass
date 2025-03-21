@@ -1,11 +1,11 @@
 [
     {
       "ID": "P1",
-      "LABEL": "UM ÚNICO"
+      "LABEL": "UM TODO"
     },
     {
       "ID": "P2",
-      "LABEL": "MOLDADOR DA TERRA"
+      "LABEL": "MOLDE DA TERRA"
     },
     {
       "ID": "P3",
@@ -13,19 +13,19 @@
     },
     {
       "ID": "P4",
-      "LABEL": "ORIGEM DA VIDA"
+      "LABEL": "FACILITADOR DA VIDA"
     },
     {
       "ID": "P5",
-      "LABEL": "GRANDE DIVERSIDADE"
+      "LABEL": "ALTAMENTE DIVERSO"
     },
     {
       "ID": "P6",
-      "LABEL": "INTERLIGAÇÃO HUMANA"
+      "LABEL": "INTERLIGADO COM OS HUMANOS"
     },
     {
       "ID": "P7",
-      "LABEL": "POUCO EXPLORADO"
+      "LABEL": "MAIORITARIAMENTE INEXPLORADO"
     },
     {
       "ID": "Pe1",
@@ -73,7 +73,7 @@
     },
     {
       "ID": "D5",
-      "LABEL": "CONSCIÊNCIA"
+      "LABEL": "CONSCIENCIALIZAÇÃO"
     },
     {
       "ID": "D6",
@@ -89,10 +89,10 @@
     },
     {
       "ID": "D9",
-      "LABEL": "ADAPTAÇÃO"
+      "LABEL": "CAPACIDADE DE ADAPTAÇÃO"
     },
     {
       "ID": "D10",
-      "LABEL": "CONFIANÇA & TRANSPARÊNCIA"
+      "LABEL": "CONFIANÇA E TRANSPARÊNCIA"
     }
   ]

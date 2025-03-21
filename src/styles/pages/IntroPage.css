@@ -39,7 +39,7 @@
     color: #274893;  
     z-index: 30; 
     font-family: "Bitter", serif;
-    width: 120vh;
+    width: 100vw;
 }
 
 .i-explanation {
@@ -271,6 +271,7 @@
     position: fixed;
     top: 55vh;
     left: 50vw;
+    margin-top: 3vh;
     transform: translateX(-50%);
     z-index: 30;
     display: flex;

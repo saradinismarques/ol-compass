@@ -252,7 +252,69 @@ export function replaceBoldsHighlights(text, textStyle, boldStyle, italicStyle, 
     );
 }
 
-export function replaceBoldsItalicBreaks(text, textStyle, boldStyle, italicStyle) {
+export function replaceBoldsItalicBreaks1(text, textStyle, boldStyle, italicStyle) {
+    return (
+        <div style={{ display: "block" }}>
+            {text
+                .replace(/<br>\s*<br>/g, "||DOUBLE_BR||") // Replace double line breaks first
+                .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||") // Mark <b> tags
+                .replace(/<i>(.*?)<\/i>/g, "||I||$1||I||") // Mark <c> tags
+                .split(/(?:\|\|DOUBLE_BR\|\|)/g) // Now properly split only on double line breaks
+                .map((section, sectionIndex) => (
+                    <div key={`section-${sectionIndex}`} style={{ marginBottom: "-4vh" }}> {/* Bigger space for double breaks */}
+                        {section.split(/<br>/g).map((paragraph, paragraphIndex) => (
+                            <p key={`paragraph-${sectionIndex}-${paragraphIndex}`} style={{ marginBottom: "-2vh" }}> {/* Normal space for single break */}
+                                {paragraph
+                                    .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|I\|\|.*?\|\|I\|\|)/g) // Handle bold & colored text
+                                    .map((part, index) => {
+                                        if (part.startsWith("||B||")) {
+                                            return <span key={index} className={boldStyle}>{part.replace(/\|\|B\|\|/g, "")}</span>;
+                                        }
+                                        if (part.startsWith("||I||")) {
+                                            return <span key={index} className={italicStyle}>{part.replace(/\|\|I\|\|/g, "")}</span>;
+                                        }
+                                        return <span key={index} className={textStyle}>{part}</span>;
+                                    })}
+                            </p>
+                        ))}
+                    </div>
+                ))}
+        </div>
+    );
+}
+
+export function replaceBoldsItalicBreaks2(text, textStyle, boldStyle, italicStyle) {
+    return (
+        <div style={{ display: "block" }}>
+            {text
+                .replace(/<br>\s*<br>/g, "||DOUBLE_BR||") // Replace double line breaks first
+                .replace(/<b>(.*?)<\/b>/g, "||B||$1||B||") // Mark <b> tags
+                .replace(/<i>(.*?)<\/i>/g, "||I||$1||I||") // Mark <c> tags
+                .split(/(?:\|\|DOUBLE_BR\|\|)/g) // Now properly split only on double line breaks
+                .map((section, sectionIndex) => (
+                    <div key={`section-${sectionIndex}`} style={{ marginBottom: "-4.5vh" }}> {/* Bigger space for double breaks */}
+                        {section.split(/<br>/g).map((paragraph, paragraphIndex) => (
+                            <p key={`paragraph-${sectionIndex}-${paragraphIndex}`} style={{ marginBottom: "-3vh" }}> {/* Normal space for single break */}
+                                {paragraph
+                                    .split(/(\|\|B\|\|.*?\|\|B\|\||\|\|I\|\|.*?\|\|I\|\|)/g) // Handle bold & colored text
+                                    .map((part, index) => {
+                                        if (part.startsWith("||B||")) {
+                                            return <span key={index} className={boldStyle}>{part.replace(/\|\|B\|\|/g, "")}</span>;
+                                        }
+                                        if (part.startsWith("||I||")) {
+                                            return <span key={index} className={italicStyle}>{part.replace(/\|\|I\|\|/g, "")}</span>;
+                                        }
+                                        return <span key={index} className={textStyle}>{part}</span>;
+                                    })}
+                            </p>
+                        ))}
+                    </div>
+                ))}
+        </div>
+    );
+}
+
+export function replaceBoldsItalicBreaks3(text, textStyle, boldStyle, italicStyle) {
     return (
         <div style={{ display: "block" }}>
             {text

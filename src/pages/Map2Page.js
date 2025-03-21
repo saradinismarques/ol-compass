@@ -559,9 +559,9 @@ const Map2Page = () => {
         pdf, 87.4, 19, 0.83
     );
     
-    if(text === 'RECAP' || text === 'OVERVIEW')
+    if(text === labelsTexts["recap"] || text === labelsTexts["overview"])
       await addTextareas(pdf, text);
-    else 
+    if (text !== labelsTexts["recap"] && text !== labelsTexts["overview"])
       await addIconDefinitionsTextareas(pdf, type);
 
     pdf.addImage(PDFWatermark, "PNG", 0, 0, pageWidth, pageHeight);
@@ -594,7 +594,7 @@ const Map2Page = () => {
       groupedComponents.Dimension[1]
     ].filter(Boolean);
 
-    if (text === 'OVERVIEW') {
+    if (text === labelsTexts["overview"]) {
       await renderToCanvas(
         <>
           <p style={{opacity: 0}}>
@@ -606,7 +606,7 @@ const Map2Page = () => {
     }
 
     // Render first section
-    if (firstSection.length > 0 && text !== 'OVERVIEW') {
+    if (firstSection.length > 0 && text !== labelsTexts["overview"]) {
       await renderToCanvas(
         <>
           {firstSection.map((component, id) => (
@@ -633,7 +633,7 @@ const Map2Page = () => {
     }
 
     // Render second section
-    if (secondSection.length > 0 && text !== 'OVERVIEW') {
+    if (secondSection.length > 0 && text !== labelsTexts["overview"]) {
       await renderToCanvas(
         <>
           {secondSection.map((component, id) => (
@@ -741,7 +741,7 @@ const Map2Page = () => {
     const scale = 5; // max = 10
 
     // Wait for the next frame to ensure the component is fully rendered
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
     const canvas = await html2canvas(container, { scale: scale, logging: true, backgroundColor: null });
     root.unmount(); // Clean up the root
