@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useMemo, useState, useEffect } from 'react';
 import { getColorPallete } from './utils/DataExtraction.js'; 
 import { ReactComponent as WaveIcon } from './assets/icons/wave-icon.svg'; // Adjust the path as necessary
 import { ReactComponent as ArrowIcon } from './assets/icons/arrow-icon.svg'; // Adjust the path as necessary
@@ -17,8 +17,12 @@ export const State = ({ children }) => {
     document.documentElement.style.setProperty('--gray-color', colors['Gray']);
     document.documentElement.style.setProperty('--gray-hover-color', colors['Gray Hover']);
   
-    const [language, setLanguage] = useState('pt');
+    const [language, setLanguage] = useState(() => localStorage.getItem("language") || "en");
 
+    useEffect(() => {
+        localStorage.setItem("language", language);
+    }, [language]);
+    
     const [showExplanation, setShowExplanation] = useState(true);
     const [showInstruction, setShowInstruction] = useState(false);
 
