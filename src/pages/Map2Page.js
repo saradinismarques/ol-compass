@@ -199,7 +199,7 @@ const Map2Page = () => {
     if(mapCurrentType !== type) 
       return;
 
-    if (e.target.value.length < 130) {
+    if (e.target.value.length < 120) {
       // Create a new array with the updated component
       let updatedComponents = mapComponents.map((component) => {
         if (component.code === code) {

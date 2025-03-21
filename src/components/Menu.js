@@ -66,14 +66,14 @@ const Menu = () => {
   const activeButton = getActiveButton(currentPath);
   const menuExpanded = (activeButton === 'home' || showExplanation);
 
-  useEffect(() => {
-    if ((firstUse["home"] && activeButton === 'home')) {
-      const timer = setTimeout(() => {
-        setShowStudyInstruction(true);
-      }, 1000); // 5 seconds delay
-      return () => clearTimeout(timer); // Cleanup the timer on unmount
-    }
-  }, [firstUse, activeButton, setShowStudyInstruction]); // Depend on firstUserVariable
+  // useEffect(() => {
+  //   if ((firstUse["home"] && activeButton === 'home')) {
+  //     const timer = setTimeout(() => {
+  //       setShowStudyInstruction(true);
+  //     }, 1000); // 5 seconds delay
+  //     return () => clearTimeout(timer); // Cleanup the timer on unmount
+  //   }
+  // }, [firstUse, activeButton, setShowStudyInstruction]); // Depend on firstUserVariable
   
   const handleShowStudyInstruction = (value) => {
     if(firstUse["home"])
@@ -224,7 +224,7 @@ const Menu = () => {
           className="go-back-icon" 
         />
       </Link>
-      {(!firstUse["home"] || activeButton !== 'home') &&
+      {/* {(!firstUse["home"] || activeButton !== 'home') &&
         <button 
           className='menu-study-instructions'
           onClick={() => handleShowStudyInstruction(true)}
@@ -233,7 +233,7 @@ const Menu = () => {
         >
             {labelsTexts["study-instructions"]}
         </button>
-      }
+      } */}
       {!menuExpanded &&
           <>
           <div className='menu-arrow-container'>
