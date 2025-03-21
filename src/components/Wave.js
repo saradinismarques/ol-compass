@@ -15,8 +15,6 @@ const Wave = ({ compassType, component, currentType, size, mode, selectedCompone
     language,
     showExplanation,
     showInstruction,
-    allComponents,
-    opacityCounter,
     savedComponents,
     randomComponents,
     typeComplete,

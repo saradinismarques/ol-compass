@@ -252,8 +252,8 @@
 }
 
 .l2-image {
-    width: 34vh; /* Set the desired width */
-    height: 34vh; /* Maintain the aspect ratio */
+    width: 28vh; /* Set the desired width */
+    height: 28vh; /* Maintain the aspect ratio */
     opacity: 100%;
     z-index: 10;
 }

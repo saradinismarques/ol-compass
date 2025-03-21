@@ -16,7 +16,6 @@ const IntroPage = () => {
         language,
         setLanguage,
         opacityCounter,
-        setOpacityCounter,
         firstUse,
         setFirstUse,
         setRandomComponents
@@ -74,7 +73,7 @@ const IntroPage = () => {
     
             return () => clearInterval(timeoutRef.current); // Cleanup when frame changes
         }
-    }, [frame]); // Runs only when `frame` changes
+    }, [frame, setRandomComponents]); // Runs only when `frame` changes
     
     document.documentElement.style.setProperty('--highlightP-color-intro', colors['Intro Text']['Principle']);
     document.documentElement.style.setProperty('--highlightPe-color-intro', colors['Intro Text']['Perspective']);
@@ -263,21 +262,6 @@ const IntroPage = () => {
 
     // Determine the action based on the current state
     const mode = actionMap[frameRef.current];
-
-    // Function to sequentially light up "Principle" buttons
-    function startOpacityCounter(type) {
-        if ((type === 'Principle' && opacityCounter[type] >= maxCounters.Principle) ||
-            (type === 'Perspective' && opacityCounter[type] >= maxCounters.Perspective) ||
-            (type === 'Dimension' && opacityCounter[type] >= maxCounters.Dimension)) 
-            return;
-        
-        setTimeout(() => {
-            setOpacityCounter({
-                ...opacityCounter,
-                [type]: opacityCounter[type] + 1
-            });
-        }, 300); // Delay for each button (3 seconds between each)
-    }
 
     // Determine the text to display based on the current state
     const getDisplayText = () => {

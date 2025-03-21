@@ -26,8 +26,6 @@ const Menu = () => {
   const currentPath = location.pathname;
   const navigate = useNavigate(); // Initialize the navigate function
 
-  document.documentElement.style.setProperty('--menu-message-text-font', language === "pt" ? "1.98vh" : "2.1vh");
-
   // Tooltip
   const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 });
   const [tooltipVisible, setTooltipVisible] = useState(false);

@@ -301,7 +301,7 @@ const GetInspiredPage = () => {
       setSearchLogic('OR');
       searchLogicRef.current = 'OR';
     }
-  }, [setSearchLogic]);
+  }, [setSearchLogic, setMode]);
 
   const handleBackFiltering = () => {
     setShowInstruction(true);

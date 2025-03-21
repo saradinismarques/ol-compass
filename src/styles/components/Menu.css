@@ -1,6 +1,3 @@
-:root {
-   --menu-message-text-font: 1.9vh;
-}
 /* Left Menu Container */
 .left-menu {
     position: fixed;
@@ -206,7 +203,7 @@
 }
 
 .menu-message-text {
-   font-size: var(--menu-message-text-font);
+   font-size: 2.1vh;
    font-weight: 300;
    margin: 0;
    color: #c22934;

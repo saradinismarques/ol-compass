@@ -16,8 +16,8 @@ import PDFWatermark from '../assets/images/map/pdf-watermark-pagesize.png';
 import { createRoot } from 'react-dom/client';
 import { useNavigate } from 'react-router-dom';
 import { saveAs } from 'file-saver';
-import { getLabelsTexts, getModeTexts } from '../utils/DataExtraction.js';
-import { replaceHighlightsPlaceholders, replaceBolds, replaceLineBreaks } from '../utils/TextFormatting.js';
+import { getLabelsTexts } from '../utils/DataExtraction.js';
+import { replaceLineBreaks } from '../utils/TextFormatting.js';
 import '../styles/pages/Map2Page.css';
 
 const Map2Page = () => {
@@ -31,7 +31,6 @@ const Map2Page = () => {
     mapProjectName,
     setMapProjectName,
     setFirstUse,
-    iconsMap,
     mapCurrentType,
     setMapCurrentType,
     typeComplete,
@@ -42,9 +41,7 @@ const Map2Page = () => {
 
   const labelsTexts = getLabelsTexts(language, "map");
   const compassTexts = getLabelsTexts(language, "compass");
-  const instruction = getModeTexts("map", language).Instruction;
   
-  const [limitExceeded, setLimitExceeded] = useState(false);
   const [currentComponent, setCurrentComponent] = useState();
   const [downloadProgress, setDownloadProgress] = useState(0); // State to trigger re-renders
   const [isGenerating, setIsGenerating] = useState(false);
@@ -173,10 +170,7 @@ const Map2Page = () => {
         setCurrentComponent(code)
 
       }
-      setLimitExceeded(false);
-    } else {
-      setLimitExceeded(true);
-    }
+    } 
     setShowExplanation(false);
   };
 
@@ -190,7 +184,6 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
-    setLimitExceeded(false);
   };
 
   // Update individual component text field
@@ -202,7 +195,6 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
-    setLimitExceeded(false);
 
     if(mapCurrentType !== type) 
       return;
@@ -235,7 +227,6 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
-    setLimitExceeded(false);
     if(mapCurrentType !== type) {
       clearTimeout(tooltipTimeout);
 
@@ -263,7 +254,6 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
-    setLimitExceeded(false);
     if(mapCurrentType !== type) 
       return;
     setCurrentComponent(code); // Update the currentComponent state with the code of the focused textarea
@@ -277,7 +267,6 @@ const Map2Page = () => {
       Perspective: false, // Set to true if all Principles have text
       Dimension: false, // Set to true if all Principles have text
     }));
-    setLimitExceeded(false);
     if(mapCurrentType === type)
       return;
     if(type === 'Perspective' && !typeComplete['Principle']) {
