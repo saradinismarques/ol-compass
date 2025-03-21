@@ -288,11 +288,11 @@
 }
 
 .m2-component-textarea-pdf {
-    width: 165px;
-    height: 95px;
+    width: 170px;
+    height: 100px;
     line-height: 18px;
     font-family: "Bitter", serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     color: var(--text-color); /* Uses the inherited variable */
     margin-bottom: 0;
