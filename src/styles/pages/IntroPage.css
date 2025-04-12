@@ -208,7 +208,6 @@
     outline: none; /* Optional: Remove outline on focus */
     padding: 1vh;
     width: 30vh;
-    pointer-events: none;
 }
 
 .i-skip-button:hover, .i-skip-button:active {
