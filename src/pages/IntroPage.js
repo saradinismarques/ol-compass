@@ -27,7 +27,7 @@ const IntroPage = () => {
     const [isHoverLeft, setIsHoverLeft] = useState(false);
     const [isHoverRight, setIsHoverRight] = useState(false);
     const [cursorType, setCursorType] = useState("default");
-    const [showSkipButtons, setShowSkipButtons] = useState(true);
+    const [showSkipButtons, setShowSkipButtons] = useState(false);
     const [clickLocked, setClickLocked] = useState(false);
 
     const navigate = useNavigate(); // Initialize the navigate function
